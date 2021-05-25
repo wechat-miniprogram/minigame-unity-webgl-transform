@@ -16,4 +16,5 @@
 
 ## 小游戏研发助手
 开发者也可以通过“研发助手号”直接与小游戏团队进行技术交流
+
   <image src='../image/issueandcontact2.jpg' width="200"/>
