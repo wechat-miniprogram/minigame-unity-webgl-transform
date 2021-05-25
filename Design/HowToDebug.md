@@ -54,7 +54,7 @@ python3 -m pip install brotli
 其中：
 * 必须：appid 为 小游戏的Appid
 * 必须：游戏资源CDN为首包资源所在的HTTP或CDN目录
-* 可选：视频url 用来作为初始加载阶段的封面视频，视频格式请参考[视频规范](Design/video.md)
+* 可选：视频url 用来作为初始加载阶段的封面视频，视频格式请参考[视频规范](video.md)
 * 可选：AB包CDN地址为StreamingAssets目录的上一级注意末尾加`/`,若没有用到AB包则不需要填
 生成目录下 webgl目录为游戏对应的webgl版本，minigame目录为转化后的小游戏代码。
 
@@ -78,7 +78,7 @@ python3 -m pip install brotli
 * Android版本必须>=7.0.19
 * iOS版本必须>=7.0.18
 * 基础库版本必须>=2.14.0
-具体支持情况参考[支持平台](Design/SupportedPlatform.md)
+具体支持情况参考[支持平台](SupportedPlatform.md)
 
 2. 为什么运行时出现奇怪的“Maximun call stack size exceeded.RangeError”或“Not Impletemented: Class::FromIL2CPPType”？
  Unity WebGL 首包资源data文件含有metadata，如果data资源包和wasm对不上会有各种问题，尤其在**浏览器**运行时需清理IndexedDB中的缓存。
