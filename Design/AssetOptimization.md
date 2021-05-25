@@ -3,6 +3,7 @@
 
 ## 工具入口
 菜单栏-微信小游戏-资源优化工具
+
 ![入口](../image/asset-optimization/entrance.png)
 
 ## 工具介绍
@@ -20,14 +21,17 @@
 - 禁用readable：关闭readable
 - 禁用mipmap：关闭mipmap
 - 优化maxsize：勾选后，可选择优化maxsize的方式
+  
 ![maxsize](../image/asset-optimization/change-max-size.png)
+
 其中，自动减半根据当前纹理尺寸，将maxsize设置为纹理宽高最大值的一半。
 - change texture format: 勾选后可修改纹理压缩格式
+  
 ![textureformat](../image/asset-optimization/change-format.png)
 
-3. 区域3: 筛选列表展示结果
-4. 区域4: 列表总览
-5. 区域5: 资源列表
+1. 区域3: 筛选列表展示结果
+2. 区域4: 列表总览
+3. 区域5: 资源列表
 支持一键全选、按资源名搜索
 6. 区域6: 引用查找
 选中一个资源，查找资源被引用关系

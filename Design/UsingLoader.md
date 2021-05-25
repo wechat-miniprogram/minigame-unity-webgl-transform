@@ -26,6 +26,7 @@ Unity Loader是在微信小游戏环境加载Unity WebGL游戏的加载与适配
 这部分配置表示使用Unity Loader插件进行游戏加载，开发者无需手动修改
 
 首次使用时，会提示添加插件，按提示添加即可
+
 <image src="../image/addPlugin.png">
 
 ## 三、配置Unity Loader功能
@@ -34,7 +35,9 @@ Unity Loader是在微信小游戏环境加载Unity WebGL游戏的加载与适配
 由于Unity WebGL启动加载需要一定时间，因此需要使用视频或图片等内容作为过渡以留住玩家。Unity Loader默认使用视频+进度信息呈现，开发者可以自定义封面视频，可参考[启动Loader视频规范](video.md)进行配置。
 界面有以下两种
 1. 使用coverview渲染进度（默认方式）
-   <image src="/image/coverview_loading.png" height="500">
+  
+   <image src="../image/coverview_loading.png" height="500">
+
    这种方式的优势在于可以覆盖因首帧逻辑过重，导致启动过程中可能出现的黑屏，等游戏画面真正出现时再隐藏启动界面
    支持参数
    ```js
@@ -55,7 +58,9 @@ Unity Loader是在微信小游戏环境加载Unity WebGL游戏的加载与适配
    > backgroundImage需要注意图片宽高不可超过2048，否则无法显示
    > 使用coverview需要基础库版本>=2.16.1，插件已做兼容，若不支持，降级为使用离屏canvas渲染进度的方式
 2. 使用离屏canvas渲染进度
-   <image src="/image/default_loading.jpg" height="500" />
+
+   <image src="../image/default_loading.jpg" height="500" />
+
     支持参数
     ```js
     let managerConfig = {
