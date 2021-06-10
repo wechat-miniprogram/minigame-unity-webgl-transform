@@ -25,7 +25,9 @@ Addressable提供了以下能力：
 > 内容打包：Addressable系统自动管理了所有复杂的依赖连接，所以即使资源移动了或是重新命名了，系统依然能够高效地找到准确的依赖进行打包。当你需要将打包的资源从本地移到服务器上面，Addressable系统也能轻松做到，几乎不需要任何代价。
 
 ### 2.2 相对于AssetsBundles的优势
-Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需要做不少的工作：标识Asset、组织Bundle、编译、Load/Unload、依赖关系以及后期维护的复杂工作。新一代的Addressable正是对这些痛点做了不少改进，开发者只需要将Asset设置为addressable然后加载即可，[功能强大并且学习曲线变得平滑](https://docs.google.com/document/d/1hPLNLdrF0qAvjEJTpKf-cuO_d4FCV0H2cqBeP1Zo6mA/edit)。
+Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需要做不少的工作：标识Asset、组织Bundle、编译、Load/Unload、依赖关系以及后期维护的复杂工作。新一代的Addressable正是对这些痛点做了不少改进，开发者只需要将Asset设置为addressable然后加载即可，[功能强大并且学习曲线变得平滑]
+(https://docs.google.com/document/d/1hPLNLdrF0qAvjEJTpKf-cuO_d4FCV0H2cqBeP1Zo6mA/edit)。
+
 <image src='../image/addressable7.png' width="600"/>
 
 
@@ -68,16 +70,19 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
     }
 ```
 选择分组，设置分组属性如下：
+
 <image src='../image/addressable8.png' width="800"/>
 
 如果我们仅将场景作为分组，其中静态摆放的物件不单独设置为Addressable也会一并打包到场景所在bundle。那么，这是会产生一个问题：两个场景都使用同样资源是否产生冗余？答案是肯定的！！
 那么，如何消除冗余呢？当我们Adressable面板的Tools-->Analyze进行分析时，可看到以下内容：
+
 <image src='../image/addressable9.png' width="800"/>
 此时，我们应将这些冗余的内容单独进行设置为Addressable。而更为简单的做法是：选中“Check Duplicate Bundle Dependencies”，点击“Fixed Selected Rules”，工具会自动将冗余项逐个设置为Addressable。
 
 
 ### 3.2.2 物件动态加载
 除了静态场景外，我们还会经常动态实例化(Instantiate)或在内存中创建资源对象。比如：
+
 <image src='../image/addressable3.png' width="600"/>
 ```
 public class LoadAssetScript : MonoBehaviour

@@ -10,7 +10,7 @@ python3 -m pip install brotli
 
 ## 二、Unity导出WebGL
 
-1. 下载 [Unity插件](http://res.wx.qq.com/wechatgame/product/webpack/userupload/wasm_plugin/minigame.unitypackage), 并导入至游戏项目中
+1. 下载 [Unity插件](https://res.wx.qq.com/wechatgame/product/webpack/userupload/wasm_plugin/minigame.unitypackage), 并导入至游戏项目中
 
 2. 添加需要导出的scene
    
