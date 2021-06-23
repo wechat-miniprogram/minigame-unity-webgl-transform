@@ -28,6 +28,7 @@
   - [首场景启动优化](Design/FirstSceneOptimization.md)
   - [启动留存数据上报统计](Design/ReportStartupStat.md)
   - [代码分包](Design/WasmSplit.md)
+  - [使用水印保护代码包安全](Design/wasmWaterMark.md)
 
 - 运行性能
 
