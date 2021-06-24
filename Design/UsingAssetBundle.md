@@ -79,8 +79,9 @@ public static void Build()
   AssetBundle ab = www.assetBundle;
   ```
 
-界面如下
-<image src="../image/assetbundle/assetbundle-scene.png" width="600" />
+  界面如下
+  
+  <image src="../image/assetbundle/assetbundle-scene.png" width="600" />
 
 按钮从上往下加载方式分别为使用`UnityWebRequestAssetBundle.GetAssetBundle`, `UnityWebRequest`, `WWW.LoadFromCacheOrDownload`, `WWW`。
 
