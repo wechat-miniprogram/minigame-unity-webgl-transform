@@ -7,6 +7,25 @@
   已添加水印的wasm游戏，若遭遇恶意人员扒包抄袭，平台可通过水印准确检测出游戏的原作者，并处罚恶意抄袭人员
   
 ### 使用方式:
+插件依赖[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)1.05.2104251 RC 及以上，稳定版 1.05.2105100 及以上
+
+#### 添加插件
+
+> 部分示意图可能有出入，请升级微信开发者工具版本
+
+打开拓展设置，找到水印工具，添加插件
+
+<image src="../image/wasmsplit/extension-panel.png" width="600" />
+
+<image src="../image/watermark/panel.png" width="600" />
+
+<image src="../image/watermark/add.png" width="600" />
+
+#### 使用插件
+  在目录树上方工具栏找到水印工具icon，点击显示水印插件面板
+
+  <image src="../image/watermark/icon.png" width="400" />
+
   项目首次使用插件默认会启用打水印功能。
 
   插件检测并展示项目中的wasm文件，开发者自行决定是否需要上传并打水印。

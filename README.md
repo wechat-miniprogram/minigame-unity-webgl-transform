@@ -25,7 +25,7 @@
   - [启动流程与时序](Design/Startup.md)
   - [使用 Loader 进行游游戏加载](Design/UsingLoader.md)
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
-  - [使用 AssetBundle](Design/UsingAssetBundle.md)
+  - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
   - [首场景启动优化](Design/FirstSceneOptimization.md)
   - [启动留存数据上报统计](Design/ReportStartupStat.md)
   - [代码分包](Design/WasmSplit.md)
