@@ -96,7 +96,15 @@ StartCoroutine(UnityWebRequestLoad(string.Format("http://127.0.0.1:8080/Streamin
 }));
 ```
 
-## 二、AssetBundle下载API内存分析
+## 二、在小游戏中使用AssetBundle
+
+小游戏因其平台特殊性，需要保证加载速度，因此我们在底层对bundle文件做了缓存，开发者无须自己实现缓存。
+
+游戏逻辑还是按照未缓存需要从网络下载去编写，插件底层会判断是否已有缓存。若未缓存则缓存此bundle；若已缓存，则返回缓存文件，实际不会发起网络请求。
+
+可参见[资源缓存与淘汰](UsingLoader.md)
+
+## 三、AssetBundle下载API内存分析
 
 加载的bundle文件大小为5403162字节
 ```bash
@@ -113,7 +121,7 @@ StartCoroutine(UnityWebRequestLoad(string.Format("http://127.0.0.1:8080/Streamin
 
 **因此需要注意业务中不要使用已淘汰的WWW类，尤其WWW.LoadFromCacheOrDownload，当bundle数量多时，会浪费不少内存。**
 
-## 三、参考资料
+## 四、参考资料
 1. Introduction to Asset Bundles
   https://learn.unity.com/tutorial/introduction-to-asset-bundles#6028bab6edbc2a750bf5b8a7
 2. Unity WebGL Memory Optimization: Part Deux
