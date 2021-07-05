@@ -1,5 +1,9 @@
 # 转换案例
 
+文档为使用Unity WebGL适配小游戏方案的部分上线游戏。
+> 转换案例目的是分享学习，若作者认为不适合分享，请联系小游戏研发助手删除。
+> 如开发者希望分享案例，也可通过小游戏开发助手添加。
+
 ## TrashDash
 
 <image src='../image/showcase2.png' width="200"/>
@@ -35,6 +39,12 @@ EndlessRunnerSampleGame](https://github.com/Unity-Technologies/EndlessRunnerSamp
 
 《2048圆球冲冲冲》是一款创意的3D版本2048小游戏，游戏中，我们需要通过射击数字圆球，让相同的数字圆球进行碰撞即可，现在就让我们一起来试试吧！
 
+## 动感消除
+<image src='../image/showcase12.png' width="200"/>
+
+《动感消除》是一款2D三消类游戏，可爱的画风与丰富的消除玩法规则，必然让你爱不释手。玩家通过消除方块，合成道具，完成关卡目标，通过不同的游戏模式。
+
+
 ## 极度漂移3D
 <image src='../image/showcase11.png' width="200"/>
 
@@ -54,3 +64,7 @@ EndlessRunnerSampleGame](https://github.com/Unity-Technologies/EndlessRunnerSamp
 <image src='../image/showcase6.png' width="200"/>
 
 《AirStrike》是一款休闲类3D飞行游戏，丰富的关卡设计与战机造型， 模拟真实的飞行体验与环境，紧张刺激的敌我空战让玩家沉浸其中。
+
+
+
+
