@@ -21,8 +21,24 @@ EndlessRunnerSampleGame](https://github.com/Unity-Technologies/EndlessRunnerSamp
 
 ## 翡翠大师
 <image src='../image/showcase8.png' width="200"/>
+
 《翡翠大师》是一款模拟经营游戏，玩家将体验到富有风险的翡翠原石选石过程，通过切石，设计，抛光的流程获得精美的翡翠雕刻成品，让自己的翡翠珍宝展馆发展壮大，熠熠生辉；在得到成就感的同时收获相关的翡翠知识。
 
+
+## 生存天才
+<image src='../image/showcase9.png' width="200"/>
+
+《生存天才》是一款创意的生存冒险小游戏，通过不断战斗、采集才能渡过饥荒与躲过危机，小游戏简介 迷你饥荒，生存冒险，你能坚持多久？
+
+## 2048圆球冲冲冲
+<image src='../image/showcase10.png' width="200"/>
+
+《2048圆球冲冲冲》是一款创意的3D版本2048小游戏，游戏中，我们需要通过射击数字圆球，让相同的数字圆球进行碰撞即可，现在就让我们一起来试试吧！
+
+## 极度漂移3D
+<image src='../image/showcase11.png' width="200"/>
+
+《极度漂移3D》是一款的3D赛车游戏，由[extreme-drift](https://assetstore.unity.com/packages/templates/systems/extreme-drift-88601)项目适配转换。精美的赛车造型、多样的赛道选择，配合玩家熟练的操作体验到漂移的乐趣。
 
 ## Match3
 <image src='../image/showcase5.png' width="200"/>
