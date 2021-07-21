@@ -22,7 +22,7 @@ def main(cpuprofile_file, symbol_file):
     all_md5s = []
     with open(cpuprofile_file) as f:
         profile_text = f.read()
-        for k, v in symbol_map.iteritems():
+        for k, v in symbol_map.items():
             count += 1
             strip_name = []
             for p in v.split('_'):
