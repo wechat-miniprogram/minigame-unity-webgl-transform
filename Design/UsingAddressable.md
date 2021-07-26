@@ -39,17 +39,21 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 ### 3.1 从首包开始
 首包资源应该只包含首屏所需资源，比如Splash界面以及对应文案。
 <image src='../image/addressable2.png' width="800"/>
-精简场景使用zip压缩后3M左右最佳，不应超过5M。
 首屏资源需要注意：
 > 1. 导出场景不要勾选任何其他场景
 > 2. 不要打包字体文件，字体往往压缩率很低。
 > 3. 通过Addressable检查Bultin分组，特别注意不要随意放置资源到Resources目录，该目录将无条件被打包到首包中。
-> 4. 上线前使用专业版剔除Unity Splash资源
+
+通常，Unity首资源包的压缩率是比较高的，因为大多数Unity built资源是以文本形式存在。开发者应尽量减少首资源包压缩后大小，以zip压缩后体积为准，3M左右最佳，不应超过5M。
+
+部署首资源包需要注意：
+> 1. 使用“小游戏分包”时，小游戏底层会自动进行压缩减少网络传输。
+> 2. 使用“CDN”时，务必在服务器对txt后缀开启“gzip”。
 
 
 ### 3.2 资源按需加载
 #### 3.2.1 场景动态加载
-如前所述，我们构建时仅选择了splash场景，那么主场景（如大厅/战斗等）该如何加载？此时我们可以**将每个场景单独作为Addressable分组**，在用到的时候才下载该场景包。
+如前所述，我们构建时仅选择了splash/loading场景，那么主场景（如大厅/战斗等）该如何加载？此时我们可以**将每个场景单独作为Addressable分组**，在用到的时候才下载该场景包。
 <image src='../image/addressable5.png' width="800"/>
 
 使用Addressables.LoadSceneAsync可以动态加载场景与获取加载进度：
@@ -84,7 +88,8 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 除了静态场景外，我们还会经常动态实例化(Instantiate)或在内存中创建资源对象。比如：
 
 <image src='../image/addressable3.png' width="600"/>
-```
+
+``` C#
 public class LoadAssetScript : MonoBehaviour
 {
     public GameObject somePrefab;
@@ -126,42 +131,94 @@ public class LoadAssetScript : MonoBehaviour
 ```
 同时，对应的Prefab在editor中需设置为Addressable，并重新为somePrefab赋值。
 
-### 3.2.3 Resources.Load改造
-使用这种方式加载资源，通常需要再Asset或其子目录下创建Resources的文件夹，然后使用类似这种方式加载：
-```
-       TextAsset text = Resources.Load<TextAsset>("MyConfig");
-       XmlDocument xmlDoc = new XmlDocument();
-       xmlDoc.LoadXml(text.text);
-```
-然而，Resources目录的内容都会被打包进首包资源，对于小游戏来说是**不推荐使用的方式**。
-开发者在Addressable的default中能看到所有这些资源，我们需要将这些资源设置为“Addressable”，Unity将自动移动到“Resources_Moved”目录。
-加载代码改写成：
-```
-        var handle = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<TextAsset>("MyConfig");
-        handle.Completed += (obj) => 
-        {
-            var text = obj.Result;
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.LoadXml(text.text);
-            ...
-        }
-```
-
-
-### 3.2.4 Addressable编译与部署
-默认情况下，当编译Addressable资源时会输出到Library/com.unity.addressables/，项目发布为WebGL或转换为小游戏时Unity会自动拷贝Bundle文件到最终的生成目录下。我们只需要将对应的StreammingAssets上传到对应的CDN服务器即可。
-
-### 3.2.5 资源预加载
-<image src='../image/addressable10.png' width="700"/>
-我们可以根据资源的加载时序以及重要程度，修改game.js文件填写预加载资源列表。小游戏加载框架将利用网络空闲期进行资源预加载。
-
-
-## 四、总结
+### 3.3 小结
 Unity WebGL转换的小游戏普遍存在首包资源较大的情况，而新Address提供了非常好的资源管理流程。我们建议开发者：
 > 1. 精简首场景，首包资源中确保只包含轻量的首屏以及依赖资源
 > 2. 延迟加载，避免业务逻辑需要全量资源的情况，设计上尽量按需加载
 > 3. 资源拆分，利用Addressable进行更灵活和细粒度的拆解
 > 4. 预加载，根据优先级设置需要预加载的分包，利用网络空闲期
+
+
+## 四、如何优雅地异步加载
+
+### 4.1 最基本的异步回调
+``` C#
+private void TextureHandle_Completed(AsyncOperationHandle<Texture2D> handle) {
+    if (handle.Status == AsyncOperationStatus.Succeeded) {
+        Texture2D result = handle.Result;
+        // The texture is ready for use.
+    }
+}
+
+void Start() {
+    AsyncOperationHandle<Texture2D> textureHandle = Addressables.LoadAsset<Texture2D>("mytexture");
+    textureHandle.Completed += TextureHandle_Completed;
+}
+
+``` 
+
+### 4.2 使用协程
+``` C#
+public IEnumerator Start() {
+    AsyncOperationHandle<Texture2D> handle = Addressables.LoadAssetAsync<Texture2D>("mytexture");
+
+    //if the handle is done, the yield return will still wait a frame, but we can skip that with an IsDone check
+    if(!handle.IsDone)
+        yield return handle;
+
+    if (handle.Status == AsyncOperationStatus.Succeeded) {
+        Texture2D texture = handle.Result;
+        // The texture is ready for use.
+        // ...
+    // Release the asset after its use:
+        Addressables.Release(handle);
+    }
+}
+```
+
+### 4.3 使用await
+``` C#
+public async Start() {
+    AsyncOperationHandle<Texture2D> handle = Addressables.LoadAssetAsync<Texture2D>("mytexture");
+    await handle.Task;
+    // The task is complete. Be sure to check the Status is successful before storing the Result.
+}
+```
+
+
+## 五、旧系统资源改造
+资源系统迁移可参考Unity官方文档[Upgrading to the Addressables system](https://docs.unity3d.com/Packages/com.unity.addressables@1.18/manual/AddressableAssetsMigrationGuide.html#the-assetbundles-method)
+## 5.1 Resource改造
+使用这种方式加载资源，通常需要再Asset或其子目录下创建Resources的文件夹，然后使用类似这种方式加载：
+
+``` C#
+       TextAsset text = Resources.Load<TextAsset>("MyConfig");
+```
+然而，Resources目录的内容都会被打包进首包资源，对于小游戏来说是**不推荐使用的方式**。
+开发者在Addressable的default中能看到所有这些资源，我们需要将这些资源设置为“Addressable”，Unity将自动移动到“Resources_Moved”目录。
+加载代码改写成：
+``` C#
+        var handle = Addressables.LoadAssetAsync<TextAsset>("MyConfig");
+        if(!handle.IsDone) yield return handle;
+         // 加载完成回调
+         if (handle.Status == AsyncOperationStatus.Succeeded) {
+            var gameObject = hanle.Result;
+         }
+```
+
+## 5.2 AssetsBundle迁移
+当打开Addressables Groups时，Unity提供了将所有AssetsBundle迁移到Addressable Asset Groups的功能。
+
+
+## 六、部署
+### 6.1  Addressable编译与部署
+默认情况下，当编译Addressable资源时会输出到Library/com.unity.addressables/，项目发布为WebGL或转换为小游戏时Unity会自动拷贝Bundle文件到最终的生成目录下。我们只需要将对应的StreammingAssets上传到对应的CDN服务器即可。
+
+### 6.2 资源预加载
+<image src='../image/addressable10.png' width="700"/>
+我们可以根据资源的加载时序以及重要程度，修改game.js文件填写预加载资源列表。小游戏加载框架将利用网络空闲期进行资源预加载。
+ 
+
 
 ### 五、参考资料
 1. Addressable Asset System for Unity (Overview)
