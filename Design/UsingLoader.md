@@ -83,22 +83,9 @@ let managerConfig = {
 ```
 - 若手动将`loadDataPackageFromSubpackage`改为false，需要将webgl目录下的资源包上传到CDN，并将CDN地址填写到game.js`DATA_CDN`字段
 - 同样的，若手动将`loadDataPackageFromSubpackage`改为true，需要将webgl目录下的资源包copy到minigame/data-package下
-### 3.3 预加载资源
-为了充分利用网络带宽，在网络空闲时，比如下载完小游戏分包和首包资源后，可以预加载游戏需要用到的AB包。
-``` js
-let managerConfig = {
-  /* 省略其他配置 */
 
-  /** 
-   * 假设: AB包打包到 path1/StreamingAssets/WebGL这个目录下; STREAMING_CDN是以path1为根路径上传到服务器的CDN地址
-   */
-  // 需要在网络空闲时预加载的资源，支持如下形式的路径。
-  preloadDataList: [
-    // '$STREAM_CDN/StreamingAssets/WebGL/textures_8d265a9dfd6cb7669cdb8b726f0afb1e',
-    // '/WebGL/sounds_97cd953f8494c3375312e75a29c34fc2'
-  ],
-}
-```
+### 3.3 预加载资源
+ 为了充分利用网络带宽，在网络空闲时可预下载游戏需要用到的AB包。详细配置请参考[使用预下载功能](UsingPreload.md)。
 
 ### 3.4 资源缓存与淘汰策略
 #### 资源缓存

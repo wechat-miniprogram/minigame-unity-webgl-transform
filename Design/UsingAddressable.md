@@ -214,10 +214,8 @@ public async Start() {
 ### 6.1  Addressable编译与部署
 默认情况下，当编译Addressable资源时会输出到Library/com.unity.addressables/，项目发布为WebGL或转换为小游戏时Unity会自动拷贝Bundle文件到最终的生成目录下。我们只需要将对应的StreammingAssets上传到对应的CDN服务器即可。
 
-### 6.2 资源预加载
-<image src='../image/addressable10.png' width="700"/>
-我们可以根据资源的加载时序以及重要程度，修改game.js文件填写预加载资源列表。小游戏加载框架将利用网络空闲期进行资源预加载。
- 
+### 6.2 资源预下载
+ 为了充分利用网络带宽，在网络空闲时可预下载游戏需要用到的AB包。详细配置请参考[使用预下载功能](UsingPreload.md)。
 
 
 ### 五、参考资料

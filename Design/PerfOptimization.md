@@ -26,7 +26,7 @@ Unity WebGL导出形式相对于原生APP应用，需要开发者更关注性能
 更多信息请参考：
   * [提升Unity WebGL游戏启动速度](StartupOptimization.md)
   * [首场景启动优化](FirstSceneOptimization.md)
-  * [代码分包](WasmSplit.md)
+  * [使用代码分包工具](WasmSplit.md)
  
 ### 3.2 资源按需加载
 * 尽量避免在各级Resource包含资源，该目录将被直接打包在首资源包
@@ -36,7 +36,8 @@ Unity WebGL导出形式相对于原生APP应用，需要开发者更关注性能
 
 更多信息请阅读:
 *  [使用Addressable进行资源按需加载](UsingAddressable.md)
-
+*  [使用 AssetBundle 进行资源按需加载](UsingAssetBundle.md)
+*  [使用预下载功能](UsingPreload.md)
 
 ### 3.3 资源处理建议
 * 贴图maxsize尽量不超过1024，小游戏环境适当降低画质

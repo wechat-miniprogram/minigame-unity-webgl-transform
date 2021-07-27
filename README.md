@@ -26,13 +26,13 @@
   - [使用 Loader 进行游游戏加载](Design/UsingLoader.md)
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
+  - [使用预下载功能](Design/UsingPreload.md)
   - [首场景启动优化](Design/FirstSceneOptimization.md)
+  - [使用代码分包工具](Design/WasmSplit.md)
   - [启动留存数据上报统计](Design/ReportStartupStat.md)
-  - [代码分包](Design/WasmSplit.md)
   - [使用水印保护代码包安全](Design/wasmWaterMark.md)
 
 - 运行性能
-
   - [使用 Android CPU Profiler 性能调优](Design/AndroidProfile.md)
   - [使用 Unity Profiler 性能调优](Design/UnityProfiler.md)
   - [音频适配优化](Design/AudioOptimization.md)
