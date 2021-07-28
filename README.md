@@ -1,22 +1,41 @@
 # Unity WebGL 小游戏适配方案(公测)
 
-欢迎使用 Unity WebGL 小游戏适配(转换)方案，本方案设计目的是**降低 Unity 游戏转换到微信小游戏的开发成本**。开发者无需更换 Unity 引擎工作流与重写核心代码的情况下，将原有游戏项目适配到微信小游戏。
+欢迎使用 Unity WebGL 小游戏适配(转换)方案，本方案设计目的是**降低 Unity 游戏转换到微信小游戏的开发成本**。基于WebAssembly技术，开发者无需更换 Unity 引擎工作流与重写核心代码的情况下，将原有游戏项目适配到微信小游戏。
+ 
+## 方案特点
+* 保持原引擎工具链与技术栈
+* 无需重写游戏核心逻辑，支持大部分第三方插件
+* 由转换工具与微信小游戏运行环境保证适配兼容，保持较高还原度
+* 微信小游戏平台能力以C# SDK方式提供给开发者，快速对接平台开放能力
+<br>
+<br>
 
-# 文档总览
+## 转换案例
+<image src='image/showcase11.png' width="200"/>
 
-概述
+- [更多转换案例](Design/ShowCase.md)
+<br>
+<br>
 
-- [方案概述](Design/Summary.md)
-- [支持平台](Design/SupportedPlatform.md)
-- [转换案例](Design/ShowCase.md)
+## 安装与使用
 
-工具指引
+下载 [Unity插件](https://res.wx.qq.com/wechatgame/product/webpack/userupload/wasm_plugin/minigame.unitypackage), 并导入至游戏项目中。
 
-- [方案兼容性评估](Design/Evaluation.md)
-- [快速开始：转换工具导出微信小游戏](Design/Transform.md)
+> 已验证Unity版本：2018.3/2018.4LTS、2019.2/2019.4LTS. 安装时选择WebGL组件。
+> 如果你用的是Big Sur版本的Mac系统，并且Unity 版本小于 2019.4.14, 则需另外安装 python3，并安装brotli 命令如下: python3 -m pip install brotli
+
+[快速开始：转换工具导出微信小游戏](Design/Transform.md)
+<br>
+<br>
+
+ 
+## 文档总览
+方案概述与兼容性
+- [技术原理与流程](Design/Summary.md)
+- [兼容性评估](Design/Evaluation.md)
+- [更多转换案例](Design/ShowCase.md)
 
 性能优化
-
 - [性能优化总览](Design/PerfOptimization.md)
 - [性能评估标准](Design/PerfMeasure.md)
 - 启动性能
