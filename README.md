@@ -7,14 +7,9 @@
 * 无需重写游戏核心逻辑，支持大部分第三方插件
 * 由转换工具与微信小游戏运行环境保证适配兼容，保持较高还原度
 * 微信小游戏平台能力以C# SDK方式提供给开发者，快速对接平台开放能力
-<br>
-<br>
+
 
 ## 转换案例
-
-
-
-
 | 极度漂移3D | 网吧模拟器 | 翡翠大师小游戏 | 就差一刀 |
 | --- | --- | --- | --- |
 | <image src='image/showcase11.png' width="200"/> | <image src='image/showcase1.png' width="200"/> |  <image src='image/showcase8.png' width="200"/>| <image src='image/showcase7.png' width="200"/> |
