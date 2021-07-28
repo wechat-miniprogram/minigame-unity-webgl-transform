@@ -15,8 +15,6 @@
 | <image src='image/showcase11.png' width="200"/> | <image src='image/showcase1.png' width="200"/> |  <image src='image/showcase8.png' width="200"/>| <image src='image/showcase7.png' width="200"/> |
 
 - [更多转换案例](Design/ShowCase.md)
-<br>
-<br>
 
 ## 安装与使用
 
@@ -26,9 +24,6 @@
 > 如果你用的是Big Sur版本的Mac系统，并且Unity 版本小于 2019.4.14, 则需另外安装 python3，并安装brotli 命令如下: python3 -m pip install brotli
 
 [快速开始：转换工具导出微信小游戏](Design/Transform.md)
-<br>
-<br>
-
  
 ## 文档总览
 方案概述与兼容性
