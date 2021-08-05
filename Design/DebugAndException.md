@@ -23,18 +23,61 @@
 - Debug Symbols: Yes
 - Development Build: No
 
-### Enable Exception
+### Enable Exceptions
 BuildSettings->Player Settings->Publish Settings->Enable Exceptions
 选项表示Unity引擎捕捉哪种级别的异常
 <image src='../image/debugexception1.png'/>
-None：不捕捉任何异常，引擎或业务代码导致的异常都会抛出到WASM，并导致程序Crash。 该选项性能最高，但必须保证游戏不使用任何异常，try catch也失效无法捕捉任何异常。
+**什么是异常级别？ 简单来说，就是确定哪些异常由引擎捕捉，未被捕捉的异常将抛给WASM虚拟机，最终会导致VM结束。**
 
-Explicitly Thrown Exceptions Only：业务代码级别的异常将被引擎捕捉，此时try catch也是生效的，如果非致命异常(不在关键路径上)，逻辑代码可以继续。
-推荐选择，因为鲁棒性最好，很难保证所有业务代码和第三方插件都不使用异常。
+以代码为例
+``` C#
+        // 程序捕捉异常
+        try
+        {
+            GameObject go = null;
+            Debug.Log(go.name);
+        }
+        catch (Exception ex)
+        {
+            Debug.Log(ex);
+        }
 
-Full Without Stacktrace：捕捉引擎和业务代码级别的所有异常，但异常抛出时不带完整的堆栈信息。
+        // 程序未捕捉异常
+        GameObject go2 = null;
+        Debug.Log(go2.name);
+```
+这段代码有两处异常： 1. 程序捕捉并打印的异常，  2.程序未捕捉异常
 
-Full With Stacktrace：捕捉引擎和业务代码的所有异常，且抛出异常时附带完整的堆栈信息。
+**None**：
+
+异常捕捉：不捕捉任何异常，引擎或业务代码导致的异常都会抛出到WASM，并导致程序Crash。 该选项性能最高，但必须保证游戏不使用任何异常，**try catch也无法捕捉任何异常**。从下图看到程序在第1个Exception产生时已终止，代码是无法catch该异常的。
+
+异常信息：取决于虚拟机，在开发者工具有出现详细堆栈，在真机环境则无。
+<image src='../image/debugexception9.png'/>
+
+
+**Explicitly Thrown Exceptions Only**：
+
+异常捕捉： 游戏代码的异常将被捕捉，如果非致命异常(不在关键路径上)，逻辑代码可以继续。try catch有效。
+
+异常信息：Debug.Log等函数等与未捕捉异常可输出简要的异常信息。
+<image src='../image/debugexception8.png'/>
+
+
+**Full Without Stacktrace**：
+
+异常捕捉： 同"Explicitly Thrown Exceptions Only", 且引擎runtime也会增加异常捕捉。
+
+异常信息： Debug.Log等函数与未捕捉异常都只有输出简要的异常信息。
+<image src='../image/debugexception7.png'/>
+
+
+**Full With Stacktrace**：
+
+异常捕捉： 同"Full Without Stacktrace"
+
+异常信息：  Debug.Log等函数得到完整的堆栈，未捕捉异常只有简要的异常信息。
+<image src='../image/debugexception6.png'/>
 
 注意：
 > None性能最高，但此模式必须保证游戏代码(包括第三方插件)不使用异常，一旦命中异常即使catch也无效，会直接导致程序终止。Explicitly Thrown Exceptions Only是几种选择中鲁棒性和信息提示较为均衡的，推荐发布使用。Full With Stacktrace会严重影响性能，切忌在发布版本中使用。
