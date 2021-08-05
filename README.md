@@ -41,6 +41,7 @@
   - [使用 Loader 进行游游戏加载](Design/UsingLoader.md)
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
+  - [资源服务器部署注意事项](Design/DataCDN.md)
   - [使用预下载功能](Design/UsingPreload.md)
   - [首场景启动优化](Design/FirstSceneOptimization.md)
   - [使用代码分包工具](Design/WasmSplit.md)

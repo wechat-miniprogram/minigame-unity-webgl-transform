@@ -37,14 +37,13 @@ Full Without Stacktrace：捕捉引擎和业务代码级别的所有异常，但
 Full With Stacktrace：捕捉引擎和业务代码的所有异常，且抛出异常时附带完整的堆栈信息。
 
 注意：
-> None性能最高，但此模式必须保证游戏代码(包括第三方插件)不使用异常，一旦命中异常及时Catch也无效，会直接导致程序终止。Explicitly Thrown Exceptions Only是几种选择中鲁棒性和信息提示较为均衡的，推荐发布使用。Full With Stacktrace会严重影响性能，切忌在发布版本中使用。
+> None性能最高，但此模式必须保证游戏代码(包括第三方插件)不使用异常，一旦命中异常即使catch也无效，会直接导致程序终止。Explicitly Thrown Exceptions Only是几种选择中鲁棒性和信息提示较为均衡的，推荐发布使用。Full With Stacktrace会严重影响性能，切忌在发布版本中使用。
 
 ### Debug Symbols
 BuildSettings->Player Settings->Publish Settings->DebugSymbols
 
 <image src='../image/debugexception3.png'/>
 Debug Symbols将产生函数id与函数名之间的映射关系，使用文本方式打开即可。 通常我们从异常log中找到函数id，此时可通过该文件找到C#源代码中的函数名。
-
 
 ### Development Build
 <image src='../image/debugexception2.png'/>
