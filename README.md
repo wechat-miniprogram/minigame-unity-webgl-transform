@@ -62,6 +62,9 @@
 - [排行榜与微信关系数据](Design/OpenData.md)
 - [后端服务指引](Design/BackendServiceStartup.md)
 
+调试与异常
+- [错误调试与异常排查](Design/DebugAndException.md)
+
 问题反馈
 
 - [问题反馈与联系我们](Design/IssueAndContact.md)
