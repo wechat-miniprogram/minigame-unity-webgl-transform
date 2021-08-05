@@ -47,13 +47,13 @@ BuildSettings->Player Settings->Publish Settings->Enable Exceptions
         GameObject go2 = null;
         Debug.Log(go2.name);
 ```
-这段代码有两处异常： 1. 程序捕捉并打印的异常，  2.程序未捕捉异常
+这段代码有两处异常： 1. 程序捕捉的异常，  2.程序未捕捉异常(通常是问题所在)
 
 **None**：
 
 异常捕捉：不捕捉任何异常，引擎或业务代码导致的异常都会抛出到WASM，并导致程序Crash。 该选项性能最高，但必须保证游戏不使用任何异常，**try catch也无法捕捉任何异常**。从下图看到程序在第1个Exception产生时已终止，代码是无法catch该异常的。
 
-异常信息：取决于虚拟机，在开发者工具有出现详细堆栈，在真机环境则无。
+异常信息：取决于虚拟机，在开发者工具有出现详细堆栈函数ID，在真机环境则无。
 <image src='../image/debugexception9.png'/>
 
 
@@ -61,7 +61,7 @@ BuildSettings->Player Settings->Publish Settings->Enable Exceptions
 
 异常捕捉： 游戏代码的异常将被捕捉，如果非致命异常(不在关键路径上)，逻辑代码可以继续。try catch有效。
 
-异常信息：Debug.Log等函数等与未捕捉异常可输出简要的异常信息。
+异常信息：Debug.Log等函数等与程序未捕捉异常可输出简要的异常信息，无堆栈信息。
 <image src='../image/debugexception8.png'/>
 
 
@@ -69,7 +69,7 @@ BuildSettings->Player Settings->Publish Settings->Enable Exceptions
 
 异常捕捉： 同"Explicitly Thrown Exceptions Only", 且引擎runtime也会增加异常捕捉。
 
-异常信息： Debug.Log等函数与未捕捉异常都只有输出简要的异常信息。
+异常信息： Debug.Log等函数与程序未捕捉异常都只有输出简要的异常信息，无堆栈信息。
 <image src='../image/debugexception7.png'/>
 
 
@@ -77,7 +77,7 @@ BuildSettings->Player Settings->Publish Settings->Enable Exceptions
 
 异常捕捉： 同"Full Without Stacktrace"
 
-异常信息：  Debug.Log等函数得到完整的堆栈，未捕捉异常只有简要的异常信息。
+异常信息：  Debug.Log等函数得到完整的堆栈，程序未捕捉异常有最浅层堆栈函数名。
 <image src='../image/debugexception6.png'/>
 
 注意：
@@ -91,7 +91,7 @@ Debug Symbols将产生函数id与函数名之间的映射关系，使用文本�
 
 ### Development Build
 <image src='../image/debugexception2.png' width="800"/>
-Development Build会在异常产生时直接附带完整的函数名，无需通过Symbols文件即可找到对应C#源代码的函数。但此选项将会
+Development Build会在异常产生时直接附带完整的函数名，与"Full With Stacktrace"类似，且程序未捕捉异常也有详细堆栈。该选项产生的代码体积较大，且对性能有较大影响。
 
 
 
