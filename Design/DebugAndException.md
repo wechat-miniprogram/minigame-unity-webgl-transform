@@ -67,7 +67,8 @@ BuildSettings->Player Settings->Publish Settings->Enable Exceptions
 
 **Full Without Stacktrace**：
 
-异常捕捉： 同"Explicitly Thrown Exceptions Only", 且引擎runtime也会增加异常捕捉。
+异常捕捉： 同"Explicitly Thrown Exceptions Only", 且引擎还会增加额外的底层异常检查，比如”Null References
+Out of Bounds Array accesses“。
 
 异常信息： Debug.Log等函数与程序未捕捉异常都只有输出简要的异常信息，无堆栈信息。
 <image src='../image/debugexception7.png'/>
