@@ -1,2 +1,16 @@
 .DS_Store
 **/.DS_Store
+*.meta
+/Demo/Ranking/.vs/
+/Demo/Ranking/Logs/
+/Demo/Ranking/obj/
+/Demo/Ranking/Packages/
+/Demo/Ranking/.vsconfig
+/Demo/Ranking/Temp/
+/Demo/Ranking/Assembly-CSharp.csproj
+/Demo/Ranking/ProjectSettings/
+/Demo/Ranking/Library/
+/Demo/Ranking/Assembly-CSharp-Editor.csproj
+/Demo/Ranking/Mischief.MDV.Editor.csproj
+/Demo/Ranking/Ranking.sln
+/.idea/

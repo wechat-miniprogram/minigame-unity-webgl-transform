@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
+    <title>Unity WebGL Player | Ranking</title>
+    <style>
+        *{border:0;margin:0;padding:0}
+    </style>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+        var storage = {};
+        function getStorageValue(key, defaultValue){
+            var v = storage[key];
+            if(v === null){
+                return defaultValue;
+            }
+            if(typeof v!== 'undefined'){
+                return v;
+            }
+            return defaultValue;
+        }
+        var WXWASMSDK = {
+            WXInitializeSDK(){
+                gameInstance.SendMessage("WXSDKManagerHandler",'Inited', 200);
+            },
+            VibrateShort: function (s, f, c) {},
+            VibrateLong: function (s, f, c) {},
+            WXStorageSetIntSync: function (key, value) {
+                storage[key] = value;
+            },
+            WXStorageGetIntSync: function (key, defaultValue) {
+                return getStorageValue(key, defaultValue);
+            },
+            WXStorageSetFloatSync: function (key, value) {
+                storage[key] = value;
+            },
+            WXStorageGetFloatSync: function (key, defaultValue) {
+                return getStorageValue(key, defaultValue);
+            },
+            WXStorageSetStringSync: function (key, value) {
+                storage[key] = value;
+            },
+            WXStorageGetStringSync: function (key, defaultValue) {
+                return getStorageValue(key, defaultValue || '');
+            },
+            WXStorageDeleteAllSync: function () {
+                storage = {};
+            },
+            WXStorageDeleteKeySync: function (key) {
+                delete storage[key];
+            },
+            WXStorageHasKeySync: function (key) {
+                return typeof storage[key] === 'undefined';
+            },
+            WXLogin: function (s, f, c) {},
+            WXCheckSession: function (s, f, c) {},
+            WXAuthorize: function (scope, s, f, c) {},
+            WXGetUserInfo: function (withCredentials, lang, s, f, c) {},
+            WXGetSystemLanguage: function(){},
+            WXGetSystemInfo: function(s,f,c){},
+            WXGetSystemInfoSync: function(){
+                return "";
+            },
+            WXCreateUserInfoButton: function(x, y, width, height, lang, withCredentials){},
+            WXUserInfoButtonShow: function(id){},
+            WXUserInfoButtonDestroy: function(id){},
+            WXUserInfoButtonHide: function(id){},
+            WXUserInfoButtonOffTap: function(id){},
+            WXUserInfoButtonOnTap: function(id){},
+            WXUpdateShareMenu: function ( conf, s, f, c) {},
+            WXShowShareMenu: function ( conf, s, f, c) {},
+            WXHideShareMenu: function ( conf, s, f, c) {},
+            WXShareAppMessage: function ( conf ) {},
+            WXSetMessageToFriendQuery: function (num ) {},
+            WXOnShareAppMessage: function (conf,isPromise) {},
+            WXOnShareAppMessageResolve: function ( conf ) {},
+            WXOnShareTimeline: function ( conf, needCallback ) {},
+            WXOnAddToFavorites: function ( conf, needCallback ) {},
+            WXOffShareTimeline: function ( ) {},
+            WXOffShareAppMessage: function ( ) {},
+            WXOffAddToFavorites: function ( ) {},
+            WXGetShareInfo: function (conf, s, f, c) {},
+            WXAuthPrivateMessage: function (conf, s, f, c) {},
+            WXCreateBannerAd: function (conf) {
+                return Math.random().toString(32);
+            },
+            WXCreateRewardedVideoAd: function (conf) {
+                return Math.random().toString(32);
+            },
+            WXCreateInterstitialAd: function (conf) {
+                return Math.random().toString(32);
+            },
+            WXCreateGridAd: function (conf) {},
+            WXCreateCustomAd: function (conf) {},
+            WXADStyleChange: function (id,key,value) {},
+            WXShowAd: function (id) {},
+            WXHideAd: function (id) {},
+            WXADGetStyleValue: function (id,key) {},
+            WXADDestroy: function (id) {},
+            WXADLoad: function (id,succ,fail) {},
+            WXGetLaunchOptionsSync: function () {},
+            WXToTempFilePathSync: function (conf) {},
+            WXGetUserDataPath: function () {},
+            WXWriteFileSync: function (filePath, data, encoding) {},
+            WXCreateFixedBottomMiddleBannerAd: function (adUnitId, adIntervals, height) {
+                return Math.random().toString(32);
+            },
+            WXReportGameStart:function(){},
+            WXSetGameStage: function() {},
+            WXReportGameStageCostTime: function(costTime, extJsonStr) {},
+            WXReportGameStageError: function(errorType, errStr, extJsonStr) {},
+            WXWriteLog: function(str) {},
+            WXWriteWarn: function(str) {},
+            WXHideLoadingPage: function() {},
+            WXPreloadConcurrent: function() {},
+            WXSetUserCloudStorage:function(){},
+            WXCreateInnerAudioContext:function(){
+                return Math.random().toString(32);
+            },
+            WXInnerAudioContextSetBool:function(){},
+            WXInnerAudioContextSetString:function(){},
+            WXInnerAudioContextSetFloat:function(){},
+            WXInnerAudioContextGetFloat:function(){},
+            WXInnerAudioContextGetBool:function(){},
+            WXInnerAudioContextPlay:function(){},
+            WXInnerAudioContextPause:function(){},
+            WXInnerAudioContextStop:function(){},
+            WXInnerAudioContextDestroy:function(){},
+            WXInnerAudioContextSeek:function(){},
+            WXInnerAudioContextAddListener:function(id,key){
+                if(key==="onCanplay"){
+                    setTimeout(function(){
+                        gameInstance.SendMessage("WXSDKManagerHandler",'OnAudioCallback',JSON.stringify({
+                            callbackId:id,
+                            errMsg:key
+                        }));
+                    },100)
+                }
+            },
+            WXInnerAudioContextRemoveListener:function(){},
+            WXPreDownloadAudios:function(paths,id){
+                gameInstance.SendMessage("WXSDKManagerHandler",'WXPreDownloadAudiosCallback',JSON.stringify({
+                    callbackId:id.toString(),
+                    errMsg:"0"
+                }));
+            },
+            WXCreateVideo:function(){
+                return Math.random().toString(32);
+            },
+            WXVideoPlay:function(){},
+            WXVideoAddListener:function(){},
+            WXVideoDestroy:function(){},
+            WXVideoExitFullScreen:function(){},
+            WXVideoPause:function(){},
+            WXVideoRequestFullScreen:function (){},
+            WXVideoSeek:function(){},
+            WXVideoStop:function(){},
+            WXVideoRemoveListener:function(){},
+            WXShowOpenData:function(){},
+            WXDownloadTexture(id,type,callback){
+                var Infos = {
+                    "Texture":GameGlobal.TextureConfig,
+                    "SpriteAtlas":GameGlobal.SpriteAtlasConfig,
+                    "NoTPOTTexture":GameGlobal.NotPotTextureConfig
+                }[type];
+                if(!Infos[id]){
+                    return console.error(type + "映射id 不存在",id);
+                }
+                var path = Infos[id].p;
+                var cid = type+"_"+id;
+                if(downloadedTextures[cid]){
+                    if(downloadedTextures[cid].data){
+                        callback();
+                    }else{
+                        console.error(type + "映射id data 不存在！",id);
+                    }
+                }else if(downloadingTextures[cid]){
+                    downloadingTextures[cid].push(callback);
+                }else{
+                    downloadingTextures[cid] = [callback];
+                    textureHandler.downloadFile(id,type,GameGlobal.AUDIO_PREFIX.replace(/\/$/,'')+'/'+path.replace(/\\/g,'/'));
+                }
+            },
+            WXShowKeyboard(){},
+            WXUpdateKeyboard(){},
+            WXHideKeyboard(){},
+            WXGetNetworkType(){},
+            WXSetKeepScreenOn(){}
+        };
+        var downloadedTextures = {};
+        var downloadingTextures = {};
+        var textureHandler = {
+            downloadFile(textureId,type,prefix){
+                var url = prefix+'.png';
+                var cid = type+"_"+textureId;
+                var image = new Image();
+                image.src = url;
+                image.onload = function () {
+                    downloadedTextures[cid] = {
+                        data:image
+                    };
+                    if(downloadingTextures[cid] instanceof Array){
+                        downloadingTextures[cid].forEach(v=>v());
+                    }else{
+                        downloadingTextures[cid]();
+                    }
+                    delete downloadingTextures[cid];
+                };
+                image.onerror = function(){
+                    console.error(url+" 下载失败！");
+                }
+            }
+        };
+
+        var GameGlobal = {
+            TextureConfig:{},
+            SpriteAtlasConfig:{},
+            NotPotTextureConfig:{},
+            DownloadedTextures: downloadedTextures,
+            AUDIO_PREFIX:"./Assets/"
+        };
+    </script>
+    <script src="./texture-config.js"></script>
+    <script>
+        var gameInstance = UnityLoader.instantiate("gameContainer", "Build/webgl.json");
+    </script>
+</head>
+
+<body>
+<div id="gameContainer" style="width: 960px; height: 600px; margin: auto"></div>
+<script>
+    document.addEventListener('DOMContentLoaded',function(){
+        var div = document.getElementById('gameContainer');
+        div.style.width = window.innerWidth+"px";
+        div.style.height = window.innerHeight+"px";
+    });
+</script>
+</body>
+
+</html>

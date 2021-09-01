@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958f46b6ca6d6440b590cbfa69e1103, type: 3}
+  m_Name: MiniGameConfig
+  m_EditorClassIdentifier: 
+  ProjectConf:
+    projectName: "\u6392\u884C\u699C\u6D4B\u8BD5"
+    Appid: wxe5a48f1ed5f544b7
+    CDN: 
+    assetLoadType: 1
+    VideoUrl: 
+    DST: /Users/liangyizhou/work/github/minigame-unity-webgl-transform/Demo/Ranking/MiniGame
+    StreamCDN: 
+    AssetsUrl: 
+    MemorySize: 256
+    preloadFiles: 
+    Orientation: 0
+  SDKOptions:
+    UseAudioApi: 0
+    UseFriendRelation: 1
+    UseCompressedTexture: 0
+  CompileOptions:
+    DevelopBuild: 0
+    AutoProfile: 0
+    ScriptOnly: 0
+  CompressTexture:
+    SourceDirs: []
+    QualityList: []
+    FlareDirList: []
+    PVRTCFirstList: []
+    TextureRes: 
+    SpriteRes: 
+    NotPotTextureRes: 
+    LazyLoadNotPot: 0
+    OnlyAstc: 0
+    TooManyFiles: 0
