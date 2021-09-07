@@ -38,20 +38,32 @@ EndlessRunnerSampleGame](https://github.com/Unity-Technologies/EndlessRunnerSamp
 
 在这个绝地世界中，最强的枪神一颗子弹就能解决一个敌人！玩家控制绝地枪神，穿越敌人的枪林弹雨拯救人质
 
-## 飞车乱斗
-<image src='../image/showcase17.png' width="200"/>
-
-来体验一把速度与激情吧！
-
 ## 拯救花园
 <image src='../image/showcase14.png' width="200"/>
 
 当你醒来发现拥有了一个自己的花园，但却缺乏生机，快动动手指划出线条，引导水管把水送到杯中，收集星星和金币，让花园更加生机盎然。
 
 ## 解救公主殿下
+<image src='../image/showcase22.png' width="200"/>
+
+一款非常经典的竞技类游戏，游戏内玩家可以选择不同的角色，在迷宫中冒险并找到公主殿下，玩家可以展开多人竞技吗，磨炼自身的技术，注意的是每个关卡都有着无数的敌人，感兴趣的还不快快下载解救公主殿下游戏尝试一下啦。
+
+## 不要惹蚂蚁
+<image src='../image/showcase20.png' width="200"/>
+
+养成战斗类小游戏。
+
+
+## 盖楼我最强之打工人
+<image src='../image/showcase18.png' width="200"/>
+
+一款轻松解压的模拟经营游戏，每天只需要在空闲时间打开游戏，世界上知名的建筑就会在你手中呈现，快来体验吧！
+
+
+## 飞车乱斗
 <image src='../image/showcase17.png' width="200"/>
 
-是一款非常经典的竞技类游戏，游戏内玩家可以选择不同的角色，在迷宫中冒险并找到公主殿下，玩家可以展开多人竞技吗，磨炼自身的技术，注意的是每个关卡都有着无数的敌人，感兴趣的还不快快下载解救公主殿下游戏尝试一下啦。
+来体验一把速度与激情吧！
 
 ## 拯救史莱姆
 <image src='../image/showcase15.png' width="200"/>
@@ -73,6 +85,15 @@ EndlessRunnerSampleGame](https://github.com/Unity-Technologies/EndlessRunnerSamp
 
 《动感消除》是一款2D三消类游戏，可爱的画风与丰富的消除玩法规则，必然让你爱不释手。玩家通过消除方块，合成道具，完成关卡目标，通过不同的游戏模式。
 
+##  找茬对对碰之找茬达人
+<image src='../image/showcase19.png' width="200"/>
+
+一款能让你恢复视力的游戏。
+
+## 小灰灰历险记
+<image src='../image/showcase21.png' width="200"/>
+
+不会吧！！！这么多同学都在玩~
 
 ## 极度漂移3D
 <image src='../image/showcase11.png' width="200"/>
