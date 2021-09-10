@@ -290,7 +290,7 @@ namespace WeChatWASM
         {
             if (useFriendRelation)
             {
-                PlayerSettings.WebGL.emscriptenArgs = "-s EXTRA_EXPORTED_RUNTIME_METHODS=['GL','ccall'] -s FORCE_FILESYSTEM=1 -s DISABLE_EXCEPTION_CATCHING=0 -03";
+                PlayerSettings.WebGL.emscriptenArgs = "-s EXTRA_EXPORTED_RUNTIME_METHODS=['GL','ccall'] -s FORCE_FILESYSTEM=1 -03";
             }
             else
             {

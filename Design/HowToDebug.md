@@ -59,7 +59,7 @@ python3 -m pip install brotli
 生成目录下 webgl目录为游戏对应的webgl版本，minigame目录为转化后的小游戏代码。
 
 注意：
-* 将生成目录下的`webgl/ProjectName.data.unityweb.bin.txt`上传至“游戏资源CDN”。您的CDN最好支持gzip压缩txt文件，这样能减少网络传输数据和时间。
+* 将生成目录下的`webgl/ProjectName.data.unityweb.bin.txt`上传至“游戏资源CDN”。您的CDN最好支持Brotli或gzip压缩txt文件，这样能减少网络传输数据和时间。
 * 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权，具体可参考[使用Loader进行游游戏加载](UsingLoader.md)
 * 使用AssetsBundle时，请将资源上传到“AB包CDN地址”
 

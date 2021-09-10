@@ -33,7 +33,7 @@
 
 注意：
 * 若首包资源加载方式选择'小游戏分包'，会根据生成的wasm代码包和首包资源大小是否超过20M，若超过还是会使用CDN加载，参考[使用Loader进行游游戏加载](UsingLoader.md)
-* 若首包资源加载方式选择'CDN'，将生成目录下的`webgl/ProjectName.data.unityweb.bin.txt`上传至“游戏资源CDN”。您的CDN最好支持gzip压缩txt文件，这样能减少网络传输数据和时间。
+* 若首包资源加载方式选择'CDN'，将生成目录下的`webgl/ProjectName.data.unityweb.bin.txt`上传至“游戏资源CDN”。您的CDN最好支持Brotli或gzip压缩txt文件，这样能减少网络传输数据和时间。
 * 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权，具体可参考[使用Loader进行游游戏加载](UsingLoader.md)
 * 使用AssetsBundle时，请将资源上传到“AB包CDN地址”
 
