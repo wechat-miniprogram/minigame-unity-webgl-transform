@@ -54,6 +54,7 @@
   - [音频适配优化](Design/AudioOptimization.md)
   - [压缩纹理优化](Design/CompressedTexture.md)
   - [资源优化工具与建议](Design/AssetOptimization.md)
+  - [iOS高性能模式beta](Design/iOSOptimization.md)
 
 能力适配
 
