@@ -25,9 +25,10 @@
 
 这里替换纹理后在导出目录会生成一个Assets目录，需要将该目录放到CDN的对应目录， 其对应的是你填写的"Assets目录对应CDN地址" ，比如你填写的地址为 https://wx.qq.com/data/Assets/ 
 ，那么小游戏需要展示图片的时候就会自动去该目录下载对应图片。
-<image src="../image/edwindow.png" width="600"/>  
+<image src="../image/edwindow.png" width="600"/>    
 
-导出后的纹理所在目录：
+导出后的纹理所在目录：  
+
 ![avatar](../image/assets2.png)
 
 ### 4、导出游戏
