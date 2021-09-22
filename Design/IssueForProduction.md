@@ -9,6 +9,7 @@
 
 ## 用户反馈日志
 数据入口：MP平台-用户反馈
+
 当玩家游戏中出现问题时，进行功能反馈将会提交“用户反馈日志“，开发者可以在后台下载到对应数据：
 <image src='../image/issueforproduction1.png' width="800"/>
 <image src='../image/issueforproduction2.png' width="800"/>
