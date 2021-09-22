@@ -18,7 +18,7 @@ MonoBehaviour:
     CDN: 
     assetLoadType: 1
     VideoUrl: 
-    DST: /Users/liangyizhou/work/github/minigame-unity-webgl-transform/Demo/Ranking/MiniGame
+    DST: /Users/liangyizhou/work/mini-game/r9
     StreamCDN: 
     AssetsUrl: 
     MemorySize: 256
