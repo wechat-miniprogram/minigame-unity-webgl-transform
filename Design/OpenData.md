@@ -38,3 +38,6 @@ wx.onMessage(data => {
 [绘制引擎](https://wechat-miniprogram.github.io/minigame-canvas-engine/)，可以参看对应使用文档来绘制页面。而开放域的业务逻辑开发与普通小游戏的开放数据的开发没有差异，可以查看[官网](https://developers.weixin.qq.com/minigame/dev/guide/open-ability/open-data.html)做进一步了解。
 
  ![avatar](../image/o3.png)
+ 
+### 5、示例DEMO
+可以参考[Demo/Ranking/Assets](../Demo/Ranking/Assets)下面的Unity工程，对应导出的小游戏在[Demo/Ranking/MiniGame/minigame](../Demo/Ranking/MiniGame/minigame)下。
