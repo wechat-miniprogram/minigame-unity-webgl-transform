@@ -64,7 +64,8 @@
 - [后端服务指引](Design/BackendServiceStartup.md)
 
 调试与异常
-- [错误调试与异常排查](Design/DebugAndException.md)
+- [开发错误调试与排查](Design/DebugAndException.md)
+- [现网错误日志上报与排查](Design/IssueForProduction.md)
 
 问题反馈
 
