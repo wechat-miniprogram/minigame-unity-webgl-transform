@@ -10,9 +10,9 @@
 
 
 ## 转换案例
-| 极度漂移3D | 网吧模拟器 | 翡翠大师小游戏 | 就差一刀 |
+| 地铁跑酷 | 网吧模拟器 | 翡翠大师小游戏 | 就差一刀 |
 | --- | --- | --- | --- |
-| <image src='image/showcase11.png' width="200"/> | <image src='image/showcase1.png' width="200"/> |  <image src='image/showcase8.png' width="200"/>| <image src='image/showcase7.png' width="200"/> |
+| <image src='image/showcase23.png' width="230"/> | <image src='image/showcase1.png' width="200"/> |  <image src='image/showcase8.png' width="200"/>| <image src='image/showcase7.png' width="200"/> |
 
 - [更多转换案例](Design/ShowCase.md)
 
@@ -20,7 +20,7 @@
 
 下载 [Unity插件](https://res.wx.qq.com/wechatgame/product/webpack/userupload/wasm_plugin/minigame.unitypackage), 并导入至游戏项目中。
 
-> 已验证Unity版本：2018、2019、2020、2021（请尽量使用LTS，推荐Unity2020.3）. 安装时选择WebGL组件。
+> 已验证Unity版本：2018、2019、2020、2021（请尽量使用LTS）. 安装时选择WebGL组件。
 > 如果你用的是Big Sur版本的Mac系统，并且Unity 版本小于 2019.4.14, 则需另外安装 python3，并安装brotli 命令如下: python3 -m pip install brotli
 
 [快速开始：转换工具导出微信小游戏](Design/Transform.md)
