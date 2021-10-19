@@ -1,4 +1,4 @@
-# Unity WebGL 小游戏适配方案(公测)
+# Unity WebGL 微信小游戏适配方案(公测)
 
 欢迎使用 Unity WebGL 小游戏适配(转换)方案，本方案设计目的是**降低 Unity 游戏转换到微信小游戏的开发成本**。基于WebAssembly技术，无需更换Unity引擎与重写核心代码的情况下将原有游戏项目适配到微信小游戏。
  
@@ -63,6 +63,7 @@
 - [输入法适配](Design/InputAdaptation.md)
 - [排行榜与微信关系数据](Design/OpenData.md)
 - [后端服务指引](Design/BackendServiceStartup.md)
+- [网络通信适配](Design/UsingNetworking.md)
 
 调试与异常
 - [开发错误调试与排查](Design/DebugAndException.md)
