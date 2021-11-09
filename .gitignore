@@ -1,6 +1,5 @@
 .DS_Store
 **/.DS_Store
-*.meta
 /Demo/Ranking/.vs/
 /Demo/Ranking/Logs/
 /Demo/Ranking/obj/

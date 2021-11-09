@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 725cbe2a9115042dd9325350fac25b03
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: ZiZhiQuXiMaiTi
+  fontNames:
+  - ZiZhiQuXiMaiTi
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 0c526ac5dc2fb4efd94c01d1616a25fb, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
