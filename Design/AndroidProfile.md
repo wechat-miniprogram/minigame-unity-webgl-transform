@@ -26,7 +26,7 @@
 注意：
 1. 编译版本仅当导出Development或勾选Profiling-funcs时才能在函数堆栈中看到可读函数名。由于Development对性能有较大影响，建议只勾选Profiling-funcs。
 2. 复杂游戏勾选Profiling-funcs会导致代码包体较大，那么不要使用此选项。此时得到的Profile中函数为数字ID，有两种做法进行解读：
-    2.1 通过webgl导出目录下的symbols文件对照映射
-    2.2 通过[替换脚本](../tools/update_v8_wasm_profile.py)对cpuprofile进行自动映射到真实函数。使用方式：python update_v8_wasm_profile.py $cpuprofile $symbol
+    - 2.1 通过webgl导出目录下的symbols文件对照映射
+    - 2.2 通过[替换脚本](../tools/update_v8_wasm_profile.py)对cpuprofile进行自动映射到真实函数。使用方式：python update_v8_wasm_profile.py $cpuprofile $symbol
 
    
