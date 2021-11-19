@@ -34,11 +34,18 @@ namespace WeChatWASM
        {
            old="var IDBFS",
            newStr="var IDBFS = GameGlobal.unityNamespace.IDBFS"
-       },new Rule()
+       },
+       new Rule()
        {
-           old="var FS",
-           newStr="var FS = GameGlobal.unityNamespace.FS"
-       },new Rule()
+           old=@"return WebAssembly\.instantiate *\(binary *, *info\)",
+           newStr="if(Module[\"wasmBin\"]){return WebAssembly.instantiate(Module[\"wasmBin\"], info);}return WebAssembly.instantiate(Module[\"wasmPath\"], info)"
+       },
+       new Rule()
+       {
+           old="var FS *=",
+           newStr="var FS = GameGlobal.unityNamespace.FS="
+       },
+       new Rule()
        {
            old=@"t\.clientX *- *canvasRect\.left",
            newStr="(t.clientX - canvasRect.left) * window._ScaleRate"
@@ -70,11 +77,8 @@ namespace WeChatWASM
        {
            old="if *\\(!\\(Module\\[\"wasmMemory\"\\]",
            newStr="if(!Module.IsWxGame && !(Module[\"wasmMemory\"]"
-       },new Rule()
-       {
-           old=@"return WebAssembly\.instantiate *\(binary *, *info\)",
-           newStr="if(Module[\"wasmBin\"]){return WebAssembly.instantiate(Module[\"wasmBin\"], info);}return WebAssembly.instantiate(Module[\"wasmPath\"], info)"
-       },new Rule()
+       },
+       new Rule()
        {
            old=@"function *getBinary *\( *\) *{",
            newStr="function getBinary() {return;"
@@ -165,7 +169,113 @@ namespace WeChatWASM
       new Rule(){
           old = @"_emscripten_webgl_create_context\(\) *{",
           newStr="_emscripten_webgl_create_context(){setTimeout(function(){WXWASMSDK.canvasContext && WXWASMSDK.canvasContext._triggerCallback();},0);"
-      }
+      },
+      new Rule(){
+          old = "throw\"abort",
+          newStr = "if(Module.IsWxGame)window.WXWASMSDK.WXUncaughtException(true);else throw\"abort"
+      },
+#if UNITY_2020
+       new Rule()
+       {
+           old="FileSystem_Initialize\\(\\) *{",
+           newStr="FileSystem_Initialize(){if (!Module.indexedDB) return;"
+       },
+       new Rule()
+       {
+           old="_JS_FileSystem_Sync\\(\\) *{",
+           newStr="_JS_FileSystem_Sync(){if (!Module.indexedDB) return;"
+       },
+       new Rule()
+       {
+           old="Module.SystemInfo.hasWebGL",
+           newStr="1"
+       },
+       new Rule()
+       {
+           old="Module.SystemInfo",
+           newStr="UnityLoader.SystemInfo"
+       },
+       new Rule()
+       {
+            old=@"GetStreamingAssetsURL\(buffer, *bufferSize\) *{",
+            newStr="GetStreamingAssetsURL(buffer,bufferSize){if(Module.IsWxGame) Module.streamingAssetsUrl=GameGlobal.unityNamespace.STREAMING_CDN + \"StreamingAssets\";"
+       },
+
+#endif
+#if UNITY_2021
+            new Rule()
+       {
+           old="Module.SystemInfo.hasWebGL",
+           newStr="1"
+       },
+       new Rule()
+       {
+           old="if *\\(buffer.buffer *=== *HEAP8.buffer",
+           newStr="if (!Module.IsWxGame && buffer.buffer === HEAP8.buffer"
+       },
+       new Rule()
+       {
+           old="return ext.getSupportedProfiles\\(",
+           newStr="return Module.IsWxGame ? false:ext.getSupportedProfiles("
+       },
+       new Rule()
+       {
+           old="function UTF8ToString",
+           newStr="function Pointer_stringify(ptr){return UTF8ToString(ptr)}function UTF8ToString"
+       },
+       new Rule()
+       {
+           old=@"var result *= *WebAssembly\.instantiate *\(binary *, *info\)",
+           newStr="if(Module[\"wasmBin\"]){return WebAssembly.instantiate(Module[\"wasmBin\"], info);}return WebAssembly.instantiate(Module[\"wasmPath\"], info)"
+       },
+
+       new Rule()
+       {
+           old="if *\\(readAsync",
+           newStr="if (readAsync && !Module.IsWxGame"
+       },
+         new Rule()
+       {
+           old="return ver",
+           newStr="if(Module.IsWxGame)return gl;return ver"
+       },
+       new Rule()
+       {
+           old="Module.SystemInfo",
+           newStr="UnityLoader.SystemInfo"
+       },
+       new Rule()
+       {
+           old="FileSystem_Initialize\\(\\) *{",
+           newStr="FileSystem_Initialize(){if (!Module.indexedDB) return;"
+       },
+        new Rule()
+       {
+           old="return JSEvents.lastGamepadState",
+           newStr="return Module.IsWxGame ? 0 : JSEvents.lastGamepadState"
+       },
+       new Rule()
+       {
+           old="fs.sync\\(false\\)",
+           newStr="if(Module.IsWxGame)return;fs.sync(false)"
+       },
+       new Rule()
+       {
+           old=@"function *getBinary *\(file *\) *{",
+           newStr="function getBinary(file) {return;"
+       },
+       new Rule()
+       {
+            old=@"GetStreamingAssetsURL\(buffer, *bufferSize\) *{",
+            newStr="GetStreamingAssetsURL(buffer,bufferSize){if(Module.IsWxGame) Module.streamingAssetsUrl=GameGlobal.unityNamespace.STREAMING_CDN + \"StreamingAssets\";"
+       },
+       new Rule()
+       {
+
+           old="abort\\(\"randomDevice\"\\)",           
+           newStr="if(Module.IsWxGame)return Math.random()*256|0;abort(\"randomDevice\")"
+       }
+#endif
     };
     }
 

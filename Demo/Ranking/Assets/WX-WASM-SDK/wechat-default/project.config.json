@@ -42,6 +42,10 @@
       {
         "type": "folder",
         "value": ".plugincache"
+      },
+      {
+        "type": "file",
+        "value": ".symbols.unityweb"
       }
     ]
   },

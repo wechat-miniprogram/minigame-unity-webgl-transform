@@ -40,6 +40,8 @@ checkVersion().then(enable => {
       ],
     };
     
+    // JS堆栈能显示更完整
+    Error.stackTraceLimit = Infinity;
     // 是否使用coverview作为启动页
     let USE_COVER_VIEW
     if (canUseCoverview()) {
@@ -51,9 +53,11 @@ checkVersion().then(enable => {
       managerConfig = {
         ...managerConfig,
         useCoverView: true,
+	      // callmain结束后立即隐藏封面视频
+	      hideAfterCallmain: $HIDE_AFTER_CALLMAIN, 
         loadingPageConfig: {
           // 背景图或背景视频，两者都填时，先展示背景图，视频可播放后，播放视频
-          backgroundImage: 'images/background.jpg', // 不使用默认背景图可将此图片删除
+          backgroundImage: '$BACKGROUND_IMAGE', // 不使用默认背景图可将此图片删除
           backgroundVideo: '$LOADING_VIDEO_URL',
           // 以下是默认值
           totalLaunchTime: 15000, // 默认总启动耗时，即加载动画默认播放时间，可根据游戏实际情况进行调整

@@ -48,7 +48,6 @@ namespace WeChatWASM
         private static extern void GetUnityCacheDetailCallback(string str);
 
         public static int index = 1;
-        private bool hasCheckPlatform = false;
         private static string sceneName = "";
         private static Camera cam;
         private static long allMemory = 0;
@@ -758,7 +757,7 @@ namespace WeChatWASM
             stObject.url = obj.name;
             stObject.format = obj.GetType().Name;
             stObject.name = obj.name;
-            stObject.cpuMemory = UnityEngine.Profiling.Profiler.GetRuntimeMemorySize(obj);
+            stObject.cpuMemory = UnityEngine.Profiling.Profiler.GetRuntimeMemorySizeLong(obj);
             objList.Add(stObject);
             allMemory += stObject.cpuMemory;
         }

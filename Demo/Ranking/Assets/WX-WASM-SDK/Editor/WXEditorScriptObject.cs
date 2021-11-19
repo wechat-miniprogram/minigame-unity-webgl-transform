@@ -39,6 +39,18 @@ namespace WeChatWASM
         /// </summary>
         public string StreamCDN = "";
         /// <summary>
+        /// bundle的hash长度
+        /// </summary>
+        public int bundleHashLength = 32;
+        /// <summary>
+        /// 路径中包含什么标识符表示下载bundle，需要自动缓存
+        /// </summary>
+        public string bundlePathIdentifier = "StreamingAssets;";
+        /// <summary>
+        /// 排除路径下指定类型文件不缓存
+        /// </summary>
+        public string bundleExcludeExtensions = "json;";
+        /// <summary>
         /// Assets目录对应CDN地址
         /// </summary>
         public string AssetsUrl = "";
@@ -48,6 +60,10 @@ namespace WeChatWASM
         /// </summary>
         public int MemorySize = 256;
 
+        /// <summary>
+        /// callmain完成后是否立即隐藏加载封面
+        /// </summary>
+        public bool HideAfterCallMain = true;
 
         /// <summary>
         /// 预下载列表
@@ -58,6 +74,11 @@ namespace WeChatWASM
         /// 游戏方向
         /// </summary>
         public WXScreenOritation Orientation = WXScreenOritation.Portrait;
+
+        /// <summary>
+        /// 启动视频封面图/背景图
+        /// </summary>
+        public string bgImageSrc = "Assets/WX-WASM-SDK/wechat-default/images/background.jpg";
 
     }
 
@@ -75,6 +96,10 @@ namespace WeChatWASM
         public string SpriteRes;
         public string NotPotTextureRes;
         /// <summary>
+        /// 导出的图片存放路径
+        /// </summary>
+        public string DstDir;
+        /// <summary>
         /// 非POT的图片也会做懒加载
         /// </summary>
         public bool LazyLoadNotPot = false;
@@ -89,7 +114,7 @@ namespace WeChatWASM
         public bool TooManyFiles = false;
     }
 
-        [Serializable]
+    [Serializable]
     public class SDKOptions
     {
         /// <summary>
@@ -121,6 +146,10 @@ namespace WeChatWASM
         /// Scripts Only Build
         /// </summary>
         public bool ScriptOnly = false;
+        /// <summary>
+		/// Profiling Funcs
+		/// </summary>
+        public bool profilingFuncs = false;
     }
 
     [Serializable]
@@ -135,6 +164,8 @@ namespace WeChatWASM
         /// </summary>
         public int Quality = 65;
     }
+
+    
 
     public enum WXScreenOritation
     {
@@ -151,6 +182,11 @@ namespace WeChatWASM
         /// 压缩纹理配置
         /// </summary>
         public CompressTexture CompressTexture;
+        /// <summary>
+        /// 小游戏里会预先加载的key
+        /// </summary>
+        public List<string> PlayerPrefsKeys = new List<string>();
     }
+
 
 }

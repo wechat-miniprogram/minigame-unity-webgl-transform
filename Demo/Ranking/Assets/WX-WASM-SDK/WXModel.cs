@@ -435,6 +435,21 @@ namespace WeChatWASM
     }
 
     /// <summary>
+    /// https://developers.weixin.qq.com/minigame/dev/api/file/FileSystemManager.mkdir.html
+    /// </summary>
+    public class MkdirParam : WXBaseActionParam<WXTextResponse>
+    {
+        /// <summary>
+        /// 创建的目录路径 (本地路径)
+        /// </summary>
+        public string dirPath;
+        /// <summary>
+        /// 是否在递归创建该目录的上级目录后再创建该目录。如果对应的上级目录已经存在，则不创建该上级目录。如 dirPath 为 a/b/c/d 且 recursive 为 true，将创建 a 目录，再在 a 目录下创建 b 目录，以此类推直至创建 a/b/c 目录下的 d 目录。
+        /// </summary>
+        public bool recursive = false;
+    }
+
+    /// <summary>
     /// https://developers.weixin.qq.com/minigame/dev/api/file/FileSystemManager.copyFile.html
     /// </summary>
     public class CopyFileParam : WXBaseActionParam<WXTextResponse>
@@ -685,6 +700,25 @@ namespace WeChatWASM
 
     }
 
+    public class WriteFileStringParam : WXBaseActionParam<WXTextResponse>
+    {
+        /// <summary>
+        /// 要写入的文件路径 (本地路径)
+        /// </summary>
+        public string filePath;
+        /// <summary>
+        /// 要写入的二进制数据
+        /// </summary>
+        public string data;
+        /// <summary>
+        /// 指定写入文件的字符编码
+        /// </summary>
+        public string encoding = "utf8";
+
+    }
+
+
+
     public class ReadFileParam : WXBaseActionParam<WXReadFileResponse>
     {
         /// <summary>
@@ -861,6 +895,141 @@ namespace WeChatWASM
         /// 视频是否显示在游戏画布之下
         /// </summary>
         public bool underGameView;
+    }
+
+
+    public class WXClipboardParam : WXBaseActionParam<WXTextResponse>
+    {
+        public string data;
+    }
+
+    public class WXClipboardResponse : WXTextResponse
+    {
+        public string data;
+    }
+
+    public enum WXToastIcon {
+        /// <summary>
+        /// 显示成功图标，此时 title 文本最多显示 7 个汉字长度
+        /// </summary>
+        success,
+        /// <summary>
+        /// 显示失败图标，此时 title 文本最多显示 7 个汉字长度
+        /// </summary>
+        error,
+        /// <summary>
+        /// 显示加载图标，此时 title 文本最多显示 7 个汉字长度
+        /// </summary>
+        loading,
+        /// <summary>
+        /// 不显示图标，此时 title 文本最多可显示两行
+        /// </summary>
+        none
+    }
+
+    public class WXShowToastParam : WXBaseActionParam<WXTextResponse>
+    {
+        /// <summary>
+        /// 提示的内容
+        /// </summary>
+        public string title;
+        /// <summary>
+        /// 图标
+        /// </summary>
+        public WXToastIcon icon = WXToastIcon.success;
+        /// <summary>
+        /// 提示的延迟时间
+        /// </summary>
+        public int duration = 1500;
+        /// <summary>
+        /// 是否显示透明蒙层，防止触摸穿透
+        /// </summary>
+        public bool mask = false;
+
+    }
+
+    public class WXModalResponse : WXTextResponse
+    {
+        /// <summary>
+        /// editable 为 true 时，用户输入的文本
+        /// </summary>
+        public string content;
+        /// <summary>
+        /// 为 true 时，表示用户点击了确定按钮
+        /// </summary>
+        public bool confirm;
+        /// <summary>
+        /// 为 true 时，表示用户点击了取消（用于 Android 系统区分点击蒙层关闭还是点击取消按钮关闭）
+        /// </summary>
+        public bool cancel;
+    }
+
+    public class WXShowModalParam : WXBaseActionParam<WXModalResponse>
+    {
+        /// <summary>
+        /// 提示的内容
+        /// </summary>
+        public string title;
+        /// <summary>
+        /// 提示的内容
+        /// </summary>
+        public string content;
+        /// <summary>
+        /// 是否显示取消按钮
+        /// </summary>
+        public bool showCancel = true;
+        /// <summary>
+        /// 取消按钮的文字，最多 4 个字符	
+        /// </summary>
+        public string cancelText = "取消";
+        /// <summary>
+        /// 	取消按钮的文字颜色，必须是 16 进制格式的颜色字符串
+        /// </summary>
+        public string cancelColor = "#000000";
+        /// <summary>
+        /// 确认按钮的文字，最多 4 个字符
+        /// </summary>
+        public string confirmText = "确定";
+        /// <summary>
+        /// 确认按钮的文字颜色，必须是 16 进制格式的颜色字符串
+        /// </summary>
+        public string confirmColor = "#576B95";
+        /// <summary>
+        /// 是否显示输入框
+        /// </summary>
+        public bool editable = false;
+        /// <summary>
+        /// 显示输入框时的提示文本
+        /// </summary>
+        public string placeholderText;
+    }
+
+    public class WXShowLoadingParam : WXBaseActionParam<WXTextResponse>
+    {
+        /// <summary>
+        /// 提示的内容
+        /// </summary>
+        public string title;
+        /// <summary>
+        /// 是否显示透明蒙层，防止触摸穿透
+        /// </summary>
+        public bool mask = false;
+
+    }
+
+    public class WXRequestSubscribeSystemMessageResponse : WXTextResponse
+    {
+        /// <summary>
+        /// 系统订阅消息类型，值为"accept"、"reject"、"ban"，"accept", "" 表示用户同意订阅该类型对应的模板消息，"reject"表示用户拒绝订阅该类型对应的模板消息，"ban"表示已被后台封禁, ""表示没有调用该类型请求。例如 { errMsg: "requestSubscribeSystemMessage:ok", SYS_MSG_TYPE_INTERACTIVE: "accept" } 表示用户同意订阅'SYS_MSG_TYPE_INTERACTIVE'这条消息
+        /// </summary>
+        public string SYS_MSG_TYPE_INTERACTIVE;
+        public string SYS_MSG_TYPE_RANK;
+    }
+
+    public class WXRequestSubscribeSystemMessageParam : WXBaseActionParam<WXRequestSubscribeSystemMessageResponse>
+    {
+        public string[] msgTypeList;
+
     }
 
 }

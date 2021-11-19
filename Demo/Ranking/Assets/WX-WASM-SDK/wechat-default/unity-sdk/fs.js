@@ -25,7 +25,7 @@ export default {
             fs.accessSync(filePath);
             return "access:ok";
         }catch (e) {
-            console.error(e);
+           // console.error(e);
             return e.message;
         }
     },
@@ -76,6 +76,33 @@ export default {
         fs.writeFile({
             filePath,
             data:data.buffer,
+            encoding,
+            ...response.handleTextLongBack(s,f,c)
+        })
+    },
+    WXWriteStringFile(filePath,data,encoding,s,f,c){
+        const fs = wx.getFileSystemManager();
+        fs.writeFile({
+            filePath,
+            data,
+            encoding,
+            ...response.handleTextLongBack(s,f,c)
+        })
+    },
+    WXAppendFile(filePath,data,encoding,s,f,c){
+        const fs = wx.getFileSystemManager();
+        fs.appendFile({
+            filePath,
+            data:data.buffer,
+            encoding,
+            ...response.handleTextLongBack(s,f,c)
+        })
+    },
+    WXAppendStringFile(filePath,data,encoding,s,f,c){
+        const fs = wx.getFileSystemManager();
+        fs.appendFile({
+            filePath,
+            data,
             encoding,
             ...response.handleTextLongBack(s,f,c)
         })
@@ -139,5 +166,22 @@ export default {
     WXShareFileBuffer(buffer,offset,callbackId){
         buffer.set(new Uint8Array(tempCacheObj[callbackId]),offset);
         delete tempCacheObj[callbackId];
+    },
+    WXMkdir(dirPath,recursive,s,f,c){
+        const fs = wx.getFileSystemManager();
+        fs.mkdir({
+            dirPath,
+            recursive:Boolean(recursive),
+            ...response.handleText(s,f,c)
+        });
+    },
+    WXMkdirSync(dirPath,recursive){
+        try{
+            const fs = wx.getFileSystemManager();
+            fs.mkdirSync(dirPath,Boolean(recursive));
+            return "mkdir:ok";
+        }catch (e) {
+            return e.message;
+        }
     }
 }

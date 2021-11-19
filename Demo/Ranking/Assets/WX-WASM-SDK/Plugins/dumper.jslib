@@ -1,20 +1,36 @@
 mergeInto(LibraryManager.library, {
   DumpUICallback: function (str) {
-    GameGlobal.monkeyCallback(Pointer_stringify(str));
+    if(typeof GameGlobal!='undefined'){
+      GameGlobal.monkeyCallback(_WXPointer_stringify_adaptor(str));
+    }
   },
   GetScreenSizeCallback: function(width, height){
-    GameGlobal.monkeyCallback([width, height]);
+    if(typeof GameGlobal!='undefined'){
+      GameGlobal.monkeyCallback([width, height]);
+    }
   },
   GetUnityVersionCallback: function(version){
-    GameGlobal.monkeyCallback(Pointer_stringify(version));
+    if(typeof GameGlobal!='undefined'){
+      GameGlobal.monkeyCallback(_WXPointer_stringify_adaptor(version));
+    }
+
   },
   GetUnityFrameRateCallback: function(rate){
-    GameGlobal.monkeyCallback(rate)
+    if(typeof GameGlobal!='undefined'){
+      GameGlobal.monkeyCallback(rate)
+    }
+
   },
   GetUnityCacheDetailCallback: function(str) {
-    GameGlobal.monkeyCallback(Pointer_stringify(str));
+    if(typeof GameGlobal!='undefined'){
+      GameGlobal.monkeyCallback(_WXPointer_stringify_adaptor(str));
+    }
+
   },
   SetUnityUIType: function(str){
-    GameGlobal.UnityUIType = Pointer_stringify(str);
+    if(typeof GameGlobal!='undefined'){
+      GameGlobal.UnityUIType = _WXPointer_stringify_adaptor(str);
+    }
+
   },
 });

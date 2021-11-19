@@ -9,18 +9,13 @@ using LitJson;
 namespace WeChatWASM
 {
 
-    public class TextureSize
-    {
-        public int width;
-        public int height;
-    }
-
     public class WXTextureData4Js
     {
         public string p;
         public int w;
         public int h;
     }
+
 
     public class WXNotPotTextureData4Js
     {
@@ -34,8 +29,9 @@ namespace WeChatWASM
         public bool isAstcOnly;
         public bool lazyLoad;
         public List<QualityOptions> qualityList;
-        public List<WXTextureData4Js> textureList;
-        public List<WXTextureData4Js> noPotList;
+        public List<WXTextureData> textureList;
+        public List<WXTextureData> noPotList;
+        public List<WXTextureData> spriteAtlasList;
     }
 
 
@@ -43,172 +39,266 @@ namespace WeChatWASM
     public static class WXTextureManager
     {
 
-        public static readonly string RecoverAssetsPath = "Assets/WX-WASM-SDK/Editor/TextureRecoverConfig.asset";
 
         public static int[] potList = { 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096 };
 
         public static ArrayList textureList;
         public static WXEditorScriptObject miniGameConf;
-        public static Dictionary<int, TextureSize> textureSizeList;
-        public static List<WXFormatItem> textureFormatList; //用于恢复
+        public static Dictionary<int, WXTextureData> textureDataList;
+        public static Dictionary<int, WXTextureData> textureAtlasDataList;
 
-        public static List<WXFormatItem> noPotFormatList; //用于恢复
         public static ArrayList noPotList; //用于非POT图片的替换
-        public static Dictionary<int, TextureSize> noPotSizeList;
+        public static Dictionary<int, WXTextureData> noPotDataList;
+        public static WXTextureCacheObject wxTextureCacheObject;
 
+        public static ArrayList textureAtlasList;
 
-        public static void Start()
-        {
+        public static Dictionary<string, WXTextureData> noPotCachedPath2ObjMap;
+        public static Dictionary<int, string> noPotCachedId2PathMap;
+
+        public static string textureDstDir; //纹理的导出目录
+
+        public static void Init() {
 
             miniGameConf = UnityUtil.GetEditorConf();
-
-            if (string.IsNullOrEmpty(miniGameConf.ProjectConf.DST))
-            {
-                Debug.LogError("请先设置导出目录！");
-                return;
-            }
+            wxTextureCacheObject = UnityUtil.GetTextureCacheConf();
 
             textureList = new ArrayList();
-            textureSizeList = new Dictionary<int, TextureSize>();
-            textureFormatList = new List<WXFormatItem>();
+            textureDataList = new Dictionary<int, WXTextureData>();
 
             noPotList = new ArrayList();
-            noPotSizeList = new Dictionary<int, TextureSize>();
-            noPotFormatList = new List<WXFormatItem>();
+            noPotDataList = new Dictionary<int, WXTextureData>();
 
-            PicCompressor.ClearFailedTask();
+            textureAtlasList = new ArrayList();
+            textureAtlasDataList = new Dictionary<int, WXTextureData>();
 
-            try
-            {
-                WXSpriteAtlasManager.Start();
-
-                FindTexture();
-
-                SavePathList();
-                ManageTextures();
-
-                if (miniGameConf.CompressTexture.LazyLoadNotPot)
-                {
-                    ManageNoPot();
-                }
-
-                WXSpriteAtlasManager.SaveManagedResult(WXSpriteAtlasManager.GetManagedSpriteDatas());
-
-                SaveManagedResult();
-
-
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError(e);
-                SavePathList();
-            }
-
-            PicCompressor.SaveFailedTask();
-
-
-            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-
-
-            if (miniGameConf.CompressTexture.TooManyFiles)
-            {
-
-                CreateJSTask();
-
-            }
-            else {
-                DoGenerateImage();
-            }
+            textureDstDir = string.IsNullOrEmpty(miniGameConf.CompressTexture.DstDir) ? miniGameConf.ProjectConf.DST : miniGameConf.CompressTexture.DstDir;
 
 
         }
 
 
+        public static void Start()
+        {
+
+
+#if UNITY_EDITOR_WIN
+#if UNITY_2020_1_OR_NEWER
+            if (VersionControlSettings.mode == "Hidden Meta Files") {
+                UnityEngine.Debug.LogError("VersionControlSettings.mode 不能设置为 Hidden Meta Files，请设置为Visible Meta Files");
+                return;
+            }
+#else
+            if (UnityEditor.EditorSettings.externalVersionControl == "Hidden Meta Files") {
+                UnityEngine.Debug.LogError("externalVersionControl 不能设置为 Hidden Meta Files，请设置为Visible Meta Files");
+                return;
+            }
+#endif
+#endif
+            Init();
+            WXSpriteAtlasManager.Init();
+
+
+
+
+            if (string.IsNullOrEmpty(miniGameConf.ProjectConf.DST))
+            {
+                UnityEngine.Debug.LogError("请先设置导出目录！");
+                return;
+            }
+
+
+
+            InitCacheObject();
+
+            WXSpriteAtlasManager.Start();
+
+            FindTexture();
+
+            
+
+            ManageTextures();
+
+            ManageTextureAltas();
+
+            if (miniGameConf.CompressTexture.LazyLoadNotPot)
+            {
+                ManageNoPot();
+            }
+
+            WXSpriteAtlasManager.SaveManagedResult();
+
+            SaveManagedResult();
+
+            AssetDatabase.Refresh();
+
+            CreateJSTask();
+
+            if (!miniGameConf.CompressTexture.TooManyFiles)
+            {
+                DoGenerateImage();
+
+            }
+
+
+        }
+
+        private static void InitCacheObject() {
+
+            noPotCachedPath2ObjMap = new Dictionary<string, WXTextureData>();
+            noPotCachedId2PathMap = new Dictionary<int, string>();
+
+            if (wxTextureCacheObject.noPotList!=null)
+                foreach (var item in wxTextureCacheObject.noPotList)
+                {
+                    noPotCachedPath2ObjMap.Add(item.path , item);
+                    noPotCachedId2PathMap.Add(item.id -1 , item.path);
+                }
+
+            if (wxTextureCacheObject.textureAtlasList != null)
+                foreach (var item in wxTextureCacheObject.textureAtlasList) {
+                    FileInfo fin = new FileInfo(item.path);
+                    if (fin.LastWriteTime.ToString() == item.lastWriteTime)
+                    {
+                        WXSpriteAtlasManager.AddPath2SpriteList(item.path,item.id);
+
+                        textureAtlasDataList.Add(item.id-1, item);
+
+                        WXSpriteAtlasManager.spriteAtlasMap.Add(item.id, item.path);
+
+                        WXSpriteAtlasManager.textureDataList.Add(item.id, item);
+                    }
+                       
+                }
+
+        }
+
+        public static string ReplaceMetaFormat(string path, string text, string targetType) {
+            if (Regex.IsMatch(text, @"(buildTarget: WebGL[\s\S]*?textureFormat:) (-\d{1,2}|\d{1,2})([\s\S]*?overridden:) \d"))
+            {
+
+                text = Regex.Replace(text,
+                    @"(buildTarget: WebGL[\s\S]*?textureFormat:) (-\d{1,2}|\d{1,2})([\s\S]*?overridden:) \d",
+                    @"$1 " + targetType + "$3 1");
+
+            }
+            else if (Regex.IsMatch(text, @"(((\s*)-(?:[^-]*?)? buildTarget:)(?: DefaultTexturePlatform)([\s\S]*?textureFormat: )(?:-\d{1,2}|\d{1,2})([\s\S]*?overridden:)(?: \d)([\s\S]*?[^\s])(?=\3[^\s]))"))
+            {
+
+                text = Regex.Replace(text,
+                    @"(((\s*)-(?:[^-]*?)? buildTarget:)(?: DefaultTexturePlatform)([\s\S]*?textureFormat: )(?:-\d{1,2}|\d{1,2})([\s\S]*?overridden:)(?: \d)([\s\S]*?[^\s])(?=\3[^\s]))",
+                    @"$1$2 WebGL$4 " + targetType + "$5 1$6");
+            }
+            else if (!Regex.IsMatch(text, @"\bplatformSettings:") && Regex.IsMatch(text, @"\btextureFormat: (?:-?\d{1,2})"))
+            {
+#if UNITY_2019_1_OR_NEWER
+                text = Regex.Replace(text, @"\btextureFormat: (?:-?\d{1,2})", "$0\n" +
+                    @"  platformSettings:
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: " + targetType + @"
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0"
+                    );
+#else
+               text = Regex.Replace(text, @"\btextureFormat: (?:-?\d{1,2})","$0\n" +
+                    @"  platformSettings:
+  - serializedVersion: 2
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: "+targetType+@"
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    androidETC2FallbackOverride: 0"
+                    );
+#endif
+            }
+            else {
+
+                UnityEngine.Debug.LogError("文件："+path+ " 的格式有误，请手动勾选 override for WEBGL 然后再重试！");
+
+            }
+            return text;
+        }
+
+
         public static void CreateJSTask() {
 
-            var list1 = new List<WXTextureData4Js>();
+            var list1 = new List<WXTextureData>();
 
-            if (textureList != null && textureList.Count > 0)
+            foreach (var item in textureDataList) {
+                list1.Add(item.Value);
+            }
+
+            foreach (var item in textureAtlasDataList) {
+                list1.Add(item.Value);
+            }
+
+            var list2 = new List<WXTextureData>();
+
+
+            foreach (var item in noPotDataList)
             {
-                for (int i = 0; i < textureList.Count; i++)
-                {
-
-                    var size = textureSizeList[i];
-
-                    list1.Add(new WXTextureData4Js()
-                    {
-                        p = textureList[i].ToString(),
-                        w = size.width,
-                        h = size.height
-                    });
-
-                }
+                list2.Add(item.Value);
             }
 
 
-            var list2 = new List<WXTextureData4Js>();
-
-
-
-            if (noPotList != null && noPotList.Count > 0)
-            {
-                for (int i = 0; i < noPotList.Count; i++)
-                {
-
-                    var size = noPotSizeList[i];
-
-                    list2.Add(new WXTextureData4Js()
-                    {
-                        p = noPotList[i].ToString(),
-                        w = size.width,
-                        h = size.height
-                    });
-                }
-                
-            }
 
             var conf = new JSTaskConf()
             {
-                dst = miniGameConf.ProjectConf.DST,
+                dst = textureDstDir,
                 dataPath = Application.dataPath,
                 isAstcOnly = miniGameConf.CompressTexture.OnlyAstc,
                 lazyLoad = miniGameConf.CompressTexture.LazyLoadNotPot,
                 qualityList = miniGameConf.CompressTexture.QualityList,
                 textureList = list1,
-                noPotList = list2
+                noPotList = list2,
+                spriteAtlasList = WXSpriteAtlasManager.spriteAtlasList
             };
+
+
 
             File.WriteAllText(Application.dataPath+ "/WX-WASM-SDK/Editor/Node/conf.js", "module.exports = "+JsonMapper.ToJson(conf));
 
-            Debug.LogWarning("请安装 Nodejs 然后进入WX-WASM-SDK/Editor/Node 目录用命令行，执行 ’node compressor.js‘ 来命令生成纹理。");
+            if (miniGameConf.CompressTexture.TooManyFiles)
+            {
+                UnityEngine.Debug.LogError("最后一步请安装 Nodejs 然后进入WX-WASM-SDK/Editor/Node 目录用命令行，执行 ’node compress_all.js‘ 或 ’node compress_astc_only.js‘ 命令来生成纹理。");
+
+            }
+
+
 
         }
 
         public static void DoGenerateImage()
         {
 
-            for (int i = 0; i < textureList.Count; i++)
+            foreach (var item in textureDataList)
             {
-                string p = (string)textureList[i];
-
-                var backupPath = Path.Combine(miniGameConf.ProjectConf.DST, "backup", p);
-
-                TextureSize textureSize = textureSizeList[i];
-
-                GenerateImage(p, backupPath, textureSize.width, textureSize.height);
+                GenerateImage(item.Value);
             }
 
-            for (int i = 0; i < noPotList.Count; i++)
+            foreach (var item in textureAtlasDataList)
             {
-                string p = (string)noPotList[i];
-
-                var backupPath = Path.Combine(miniGameConf.ProjectConf.DST, "backup", p);
-
-                TextureSize textureSize = noPotSizeList[i];
-
-                GenerateImagePNG(p, backupPath, textureSize.width, textureSize.height);
+                GenerateImage(item.Value);
             }
-            
+
+            foreach (var item in noPotDataList)
+            {
+                GenerateImagePNG(item.Value);
+            }
+
         }
 
         public static void FindTexture()
@@ -224,7 +314,7 @@ namespace WeChatWASM
                 bool isBad = false;
                 var path = AssetDatabase.GUIDToAssetPath(guid);
 
-                if (WXSpriteAtlasManager.spriteList.Contains(path))
+                if (WXSpriteAtlasManager.PathIsInSpriteAtlas(path))
                 {
                     continue;
                 }
@@ -237,14 +327,14 @@ namespace WeChatWASM
 
                 if (Regex.IsMatch(path.ToLower(), @"(\.psd$)"))
                 {
-                    Debug.LogWarning(path + " psd 文件可能会导致转换失败，请避免使用该格式并注意查看是否正常展示。");
+                    UnityEngine.Debug.LogWarning(path + " psd 文件可能会导致转换失败，请避免使用该格式并注意查看是否正常展示。");
 
                     // isBad = true;
                 }
 
                 if (Regex.IsMatch(path.ToLower(), @"(\.tif$)"))
                 {
-                    Debug.LogWarning(path + " tif 文件可能会导致转换失败，请避免使用该格式并注意查看是否正常展示。");
+                    UnityEngine.Debug.LogWarning(path + " tif 文件可能会导致转换失败，请避免使用该格式并注意查看是否正常展示。");
 
                     //  isBad = true;
                 }
@@ -252,7 +342,7 @@ namespace WeChatWASM
 
                 if (Regex.IsMatch(path.ToLower(), @"(\.gif$)"))
                 {
-                    Debug.LogWarning(path + " gif 文件不支持压缩纹理！");
+                    UnityEngine.Debug.LogWarning(path + " gif 文件不支持压缩纹理！");
 
                     isBad = true;
                 }
@@ -267,15 +357,22 @@ namespace WeChatWASM
 
                 if (texture.isReadable)
                 {
-                    Debug.LogWarning(path + " readable 文件不支持压缩纹理！请尝试去掉readable。");
+                    UnityEngine.Debug.LogWarning(path + " readable 文件不支持压缩纹理！请尝试去掉readable。");
 
                     isBad = true;
                 }
 
+                
+
                 TextureImporter texImport = AssetImporter.GetAtPath(path) as TextureImporter;
+
                 if (texImport == null)
                 {
                     continue;
+                }
+
+                if (texImport.textureShape == TextureImporterShape.TextureCube) {
+                    isBad = true;
                 }
 
                 var tips = texImport.GetPlatformTextureSettings(BuildTarget.WebGL.ToString());
@@ -288,88 +385,156 @@ namespace WeChatWASM
                 if (texImport.textureType == TextureImporterType.NormalMap || texImport.textureType == TextureImporterType.Lightmap)
                 {
 
-                    Debug.LogWarning("图片 ：" + path + " NormalMap或者Lightmap暂不支持压缩纹理。");
-                    switch (tips.format)
-                    {
-                        case TextureImporterFormat.DXT5:
-                        case TextureImporterFormat.DXT5Crunched:
-                        case (TextureImporterFormat)(-1):
-                            tips.format = TextureImporterFormat.RGBA32;
-                            tips.overridden = true;
-                            texImport.SetPlatformTextureSettings(tips);
-                            AssetDatabase.ImportAsset(path);
-                            break;
-                    }
-                    continue;
+                    UnityEngine.Debug.LogWarning("图片 ：" + path + " NormalMap或者Lightmap暂不支持压缩纹理。");
+                    isBad = true;
+                }
+                else if (!string.IsNullOrEmpty(texImport.spritePackingTag)) {
+
+                    isBad = true;
+                    UnityEngine.Debug.LogError("图片 ：" + path + " 使用了spritePacker，请改为使用sprite atlas！否则不能使用压缩纹理！");
                 }
 
 
-                if (System.Array.IndexOf(potList, texture.width) == -1 || System.Array.IndexOf(potList, texture.height) == -1)
+                if (!isBad && texture.width == 8 && texture.height == 8 && miniGameConf.CompressTexture.LazyLoadNotPot)
                 {
-                    Debug.LogWarning("图片 ：" + path + " 的宽高不是2的幂，因此不会被转化为压缩纹理！请改为POT或者使用图集！");
+                    //之前替换过的非POT图
+                    if (noPotCachedPath2ObjMap.ContainsKey(path))
+                    {
+                        FileInfo fin = new FileInfo(path);
+                        var item = noPotCachedPath2ObjMap[path];
+                        if (fin.LastWriteTime.ToString() == item.lastWriteTime)
+                        {
+                            noPotDataList.Add(item.id - 1, item);
+                            continue;
+                        }
+                    }
+                }
+
+
+                if (!isBad && (System.Array.IndexOf(potList, texture.width) == -1 || System.Array.IndexOf(potList, texture.height) == -1))
+                {
+                    UnityEngine.Debug.LogWarning("图片 ：" + path + " 的宽高不是2的幂，因此不会被转化为压缩纹理！请改为POT或者使用图集！");
 
                     if (miniGameConf.CompressTexture.LazyLoadNotPot && !noPotList.Contains(path))
                     {
-                        noPotList.Add(path);
+                        var index = noPotList.Add(path);
+                        var newIndex  = index;
+                        while (noPotDataList.ContainsKey(newIndex) || noPotCachedId2PathMap.ContainsKey(newIndex)) {
+                            newIndex++;
+                        }
 
-                        noPotFormatList.Add(new WXFormatItem()
-                        {
-                            path = path,
-                            format = tips.format
-                        });
-                        var index = noPotList.IndexOf(path);
-
-                        noPotSizeList.Add(index, new TextureSize()
+                        noPotDataList.Add(newIndex, new WXTextureData()
                         {
                             width = texture.width,
-                            height = texture.height
+                            height = texture.height,
+                            dataHash = texture.imageContentsHash.ToString().Substring(0,8),
+                            path = path,
+                            id = newIndex
+
                         });
 
+                        continue;
+
+                    }
+                    else { 
+                        isBad = true;
                     }
 
-
-                    continue;
                 }
+
+
 
 
                 if (isBad)
                 {
 
                     // 移动端不支持DXT压缩纹理就不要跑到那个分支去了
+                    var backupPath = Path.Combine(textureDstDir, "backup", path);
+
+                    UnityUtil.CreateDir(new DirectoryInfo(backupPath).Parent.ToString());
+
+                    File.Copy(path+".meta",backupPath+".meta",true);
 
                     if (tips.format == TextureImporterFormat.DXT1 || tips.format == TextureImporterFormat.DXT1Crunched || (tips.format == (TextureImporterFormat)(-1) && Regex.IsMatch(path.ToLower(), @"(\.jpg|\.jpeg$)")))
                     {
-                        tips.format = TextureImporterFormat.RGB24;
+                        
+                        var text = File.ReadAllText(path + ".meta");
+                        text = ReplaceMetaFormat(path, text, "7");
+                        File.WriteAllText(path+".meta", text);
+                        
+                        /*
+                        tips.format = TextureImporterFormat.RGB16;
                         tips.overridden = true;
                         texImport.SetPlatformTextureSettings(tips);
+
                         AssetDatabase.ImportAsset(path);
+                        */
+                        
                     }
                     else if (tips.format == TextureImporterFormat.DXT5 || tips.format == TextureImporterFormat.DXT5Crunched || (tips.format == (TextureImporterFormat)(-1) && !Regex.IsMatch(path.ToLower(), @"(\.jpg|\.jpeg$)")))
                     {
-                        tips.format = TextureImporterFormat.RGBA32;
+                        /*
+                        tips.format = TextureImporterFormat.ARGB16;
                         tips.overridden = true;
                         texImport.SetPlatformTextureSettings(tips);
                         AssetDatabase.ImportAsset(path);
+                        */
+                        var text = File.ReadAllText(path + ".meta");
+                        text = ReplaceMetaFormat(path, text,
+                            texImport.textureType == TextureImporterType.NormalMap || texImport.textureType == TextureImporterType.Lightmap ? "4" : "2");
+                        File.WriteAllText(path + ".meta", text);
+                        
                     }
 
                     continue;
                 }
 
-                if (!textureList.Contains(path))
+
+                var isTextureAtlas = false;
+                foreach (string dir in miniGameConf.CompressTexture.FlareDirList)
                 {
-                    textureList.Add(path);
-                    var index = textureList.IndexOf(path);
-                    textureSizeList.Add(index, new TextureSize()
+                    if (path.Replace("\\", "/").IndexOf(dir) > -1)
                     {
+                        isTextureAtlas = true;
+                    }
+                }
+
+                
+                if (isTextureAtlas || texImport.spritesheet.Length > 0) {
+
+                    var index = textureAtlasList.Add(path);
+                    var newIndex = index;
+                    while (textureAtlasDataList.ContainsKey(newIndex))
+                    {
+                        newIndex++;
+                    }
+
+                    textureAtlasDataList.Add(newIndex, new WXTextureData() {
+
                         width = texture.width,
-                        height = texture.height
+                        height = texture.height,
+                        dataHash = texture.imageContentsHash.ToString().Substring(0, 8),
+                        path = path
                     });
 
-                    textureFormatList.Add(new WXFormatItem()
+                    continue;
+                }
+
+
+                if (!textureList.Contains(path))
+                {
+                    
+                    var index = textureList.Add(path);
+                    textureDataList.Add(index, new WXTextureData()
                     {
-                        path = path,
-                        format = tips.format
+
+                        width = texture.width,
+                        height = texture.height,
+                        dataHash = texture.imageContentsHash.ToString().Substring(0, 8),
+                        path = path
+
                     });
+
 
                 }
 
@@ -384,31 +549,28 @@ namespace WeChatWASM
         public static string GetManagedTextureDatas()
         {
 
-            Dictionary<int, WXTextureData4Js> textureNanagedList = new Dictionary<int, WXTextureData4Js>();
+            Dictionary<int, WXTextureData4Js> textureManagedList = new Dictionary<int, WXTextureData4Js>();
 
 
 
-            if (textureList != null && textureList.Count > 0)
+            if (textureList != null)
             {
                 for (int i = 0; i < textureList.Count; i++)
                 {
 
+                    var data = textureDataList[i];
 
-                    var assstPath = textureList[i].ToString();
-
-                    var id = i + 1; //都加了1避免0
-
-                    var size = textureSizeList[i];
-
-                    textureNanagedList.Add(id, new WXTextureData4Js()
+                    textureManagedList.Add(data.id, new WXTextureData4Js()
                     {
-                        p = Regex.Replace(assstPath, @"^Assets(\\|\/)", ""),
-                        w = size.width,
-                        h = size.height
+                        p = data.pathHash + "/" + data.fileName + "." + data.dataHash,
+                        w = data.width,
+                        h = data.height
                     });
                 }
-                return JsonMapper.ToJson(textureNanagedList);
+
+                return JsonMapper.ToJson(textureManagedList);
             }
+
             return "";
 
         }
@@ -416,145 +578,70 @@ namespace WeChatWASM
         public static string GetManagedNotPOTDatas()
         {
 
-            Dictionary<int, WXNotPotTextureData4Js> textureNanagedList = new Dictionary<int, WXNotPotTextureData4Js>();
-
-            if (noPotList != null && noPotList.Count > 0)
+            
+            if (noPotDataList.Count>0)
             {
-                for (int i = 0; i < noPotList.Count; i++)
+                Dictionary<int, WXNotPotTextureData4Js> textureManagedList = new Dictionary<int, WXNotPotTextureData4Js>();
+                foreach (var item in noPotDataList)
                 {
-
-
-                    var assstPath = noPotList[i].ToString();
-
-                    var id = i + 1; //都加了1避免0
-
-
-                    textureNanagedList.Add(id, new WXNotPotTextureData4Js()
+                    var data = item.Value;
+                    textureManagedList.Add(data.id, new WXNotPotTextureData4Js()
                     {
-                        p = Regex.Replace(assstPath, @"^Assets(\\|\/)", "")
+                        p = data.pathHash + "/" + data.fileName + "." + data.dataHash
                     });
                 }
-                return JsonMapper.ToJson(textureNanagedList);
+                return JsonMapper.ToJson(textureManagedList);
             }
+
             return "";
+
 
         }
 
 
+
         public static void Recover()
         {
-            miniGameConf = UnityUtil.GetEditorConf();
 
-            var dst = miniGameConf.ProjectConf.DST;
+            UnityEngine.Debug.Log("开始恢复");
+            Init();
+
+
+            var dst = textureDstDir;
             if (string.IsNullOrEmpty(dst))
             {
-                Debug.LogError("请先选择导出目录！");
-                return;
-            }
-
-            var conf = WXEditorWindow.LoadTextureRecoverConf();
-
-            if (conf.textureList == null)
-            {
-                conf.textureList = new List<WXFormatItem>();
-            }
-            if (conf.spriteList == null)
-            {
-                conf.spriteList = new List<WXFormatItem>();
-            }
-            if (conf.noPotList == null)
-            {
-                conf.noPotList = new List<WXFormatItem>();
-            }
-
-            if (conf.textureList.Count == 0 && conf.spriteList.Count == 0 && conf.noPotList.Count == 0)
-            {
-                Debug.LogWarning("恢复信息为空，无需恢复。");
+                UnityEngine.Debug.LogError("请先选择导出目录！");
                 return;
             }
 
 
 
-            var list = new[] { conf.textureList, conf.spriteList, conf.noPotList };
 
-            for (var i = 0; i < list.Length; i++)
-            {
-
-                var recoverSuccessList = new ArrayList();
-                foreach (WXFormatItem item in list[i])
-                {
-                    var p = item.path;
-                    var backupPath = Path.Combine(dst, "backup", p);
-
-                    if (!File.Exists(backupPath))
-                    {
-                        Debug.LogWarning("文件：" + backupPath + "已经不存在！");
-                        continue;
-                    }
-                    if (File.Exists(p))
-                    {
-                        File.Delete(p);
-                    }
-                    File.Move(backupPath, p);
-
-                    TextureImporter texImport = AssetImporter.GetAtPath(p) as TextureImporter;
+            UnityUtil.CopyDir(Path.Combine(dst, "backup", "Assets"), Application.dataPath);
 
 
-                    if (texImport == null)
-                    {
-                        continue;
-                    }
 
 
-                    var setting = texImport.GetPlatformTextureSettings(BuildTarget.WebGL.ToString());
-
-                    setting.overridden = true;
-
-                    setting.format = item.format;
-
-                    texImport.SetPlatformTextureSettings(setting);
-
-                    AssetDatabase.ImportAsset(p);
-
-                    recoverSuccessList.Add(item);
-
-                }
-
-                foreach (WXFormatItem item in recoverSuccessList)
-                {
-                    list[i].Remove(item);
-                }
-
-
-            }
-
-
-            WXSpriteAtlasManager.Recover();
-
-            EditorUtility.SetDirty(conf);
+            //WXSpriteAtlasManager.Recover();
 
             miniGameConf.CompressTexture.NotPotTextureRes = "";
             miniGameConf.CompressTexture.TextureRes = "";
             miniGameConf.CompressTexture.SpriteRes = "";
 
+            wxTextureCacheObject = UnityUtil.GetTextureCacheConf();
+            wxTextureCacheObject.noPotList = null;
+            wxTextureCacheObject.textureAtlasList = null;
+            wxTextureCacheObject.textureList = null;
+
+
             EditorUtility.SetDirty(miniGameConf);
+            EditorUtility.SetDirty(wxTextureCacheObject);
             AssetDatabase.SaveAssets();
-
+            AssetDatabase.Refresh();
+            UnityEngine.Debug.Log("结束恢复！");
         }
 
-        public static void SavePathList()
-        {
 
-            var conf = WXEditorWindow.LoadTextureRecoverConf();
-            conf.textureList = textureFormatList;
-            conf.spriteList = WXSpriteAtlasManager.textureFormatList;
-            conf.noPotList = noPotFormatList;
-
-            EditorUtility.SetDirty(conf);
-            AssetDatabase.SaveAssets();
-
-
-        }
 
         public static void SaveManagedResult()
         {
@@ -563,64 +650,117 @@ namespace WeChatWASM
             conf.CompressTexture.TextureRes = GetManagedTextureDatas();
             conf.CompressTexture.NotPotTextureRes = GetManagedNotPOTDatas();
 
+            var potCacheList = new List<WXTextureData>();
+            foreach (var item in textureDataList) {
+                potCacheList.Add(item.Value);
+            }
+            
+
+
+            var noPotCacheList = new List<WXTextureData>();
+            foreach (var item in noPotDataList)
+            {
+                noPotCacheList.Add(item.Value);
+            }
+
+            var atlasList = new List<WXTextureData>();
+            foreach (var item in textureAtlasDataList)
+            {
+                atlasList.Add(item.Value);
+            }
+
+            wxTextureCacheObject.textureList = potCacheList;
+            wxTextureCacheObject.noPotList = noPotCacheList;
+            wxTextureCacheObject.textureAtlasList = atlasList;
+
+
             EditorUtility.SetDirty(conf);
+            EditorUtility.SetDirty(wxTextureCacheObject);
             AssetDatabase.SaveAssets();
 
         }
 
-
-        public static void GenerateImage(string src, string backupPath, int width, int height)
+        public static void CompressImageCallback(string pngPath, string filePrefix, int width, int height, bool needMin)
         {
 
+            if (!File.Exists(filePrefix + ".astc.txt"))
+            {
+                PicCompressor.CompressASTC(pngPath, filePrefix + ".astc");
+            }
 
-            src = src.Replace("\\", "/");
-            var fileName = src.Substring(src.LastIndexOf("/") + 1);
-            var dstDir = Path.Combine(miniGameConf.ProjectConf.DST, WXEditorWindow.webglDir, src.Substring(0, src.LastIndexOf("/"))).Replace("\\", "/");
+            if (!miniGameConf.CompressTexture.OnlyAstc)
+            {
 
+                if (!File.Exists(filePrefix + ".pkm.txt"))
+                {
+                    PicCompressor.CompressETC2(pngPath, filePrefix + ".pkm");
+                }
 
+                if (width == height && !File.Exists(filePrefix + ".pvr.txt"))
+                {
+                    PicCompressor.CompressPVRTC(pngPath, filePrefix + ".pvr");
+                }
 
-            var pngPath = Path.Combine(dstDir, fileName + ".png");
-
-
-
-            PicCompressor.CompressPNG(backupPath, pngPath, width, height, () => {
-
-                 PicCompressor.CompressASTC(pngPath, Path.Combine(dstDir, fileName + ".astc"));
-                
-                 if (!miniGameConf.CompressTexture.OnlyAstc)
-                 {
-                     PicCompressor.CompressETC2(pngPath, Path.Combine(dstDir, fileName + ".pkm"));
-                     if (width == height)
-                     {
-                         PicCompressor.CompressPVRTC(pngPath, Path.Combine(dstDir, fileName + ".pvr"));
-                     }
-
-                     PicCompressor.CompressMinPNG(pngPath);
-                 }
-                
-            });
-
+                if (needMin)
+                {
+                    PicCompressor.CompressMinPNG(pngPath);
+                }
+            }
 
         }
 
-
-        public static void GenerateImagePNG(string src, string backupPath, int width, int height)
+        public static void GenerateImage(WXTextureData data)
         {
 
+            var fileMd5 = data.dataHash;
+            var src = data.path.Replace("\\", "/");
+            var dirMd5 = data.pathHash;
 
-            src = src.Replace("\\", "/");
-            var fileName = src.Substring(src.LastIndexOf("/") + 1);
-            var dstDir = Path.Combine(miniGameConf.ProjectConf.DST, WXEditorWindow.webglDir, src.Substring(0, src.LastIndexOf("/"))).Replace("\\", "/");
+            var fileName = data.fileName;
+            var dstDir = Path.Combine(textureDstDir, WXEditorWindow.webglDir, "Assets", dirMd5).Replace("\\", "/");
+            var filePrefix = dstDir + "/" + fileName + "." + fileMd5;
+            var backupPath = Path.Combine(textureDstDir, "backup", data.path).Replace("\\", "/");
 
-            var pngPath = Path.Combine(dstDir, fileName + ".png");
+            var pngPath = filePrefix+".png";
 
+            if (File.Exists(pngPath))
+            {
+                CompressImageCallback(pngPath, filePrefix, data.width, data.height, false);
+            }
+            else {
+                PicCompressor.CompressPNG(backupPath, pngPath, data.width, data.height, () => {
 
+                    CompressImageCallback(pngPath, filePrefix, data.width, data.height, true);
 
-            PicCompressor.CompressPNG(backupPath, pngPath, width, height, () => {
+                });
+            }
 
-                PicCompressor.CompressMinPNG(pngPath);
+        }
 
-            });
+        public static void GenerateImagePNG(WXTextureData data)
+        {
+
+            var fileMd5 = data.dataHash;
+            var src = data.path.Replace("\\", "/");
+            var dirMd5 = data.pathHash;
+
+            var fileName = data.fileName;
+            var dstDir = Path.Combine(textureDstDir, WXEditorWindow.webglDir, "Assets", dirMd5).Replace("\\", "/");
+            var filePrefix = dstDir + "/" + fileName + "." + fileMd5;
+
+            var pngPath = filePrefix + ".png";
+
+            var backupPath = Path.Combine(textureDstDir, "backup", data.path).Replace("\\", "/");
+
+            if (!File.Exists(pngPath)) {
+
+                PicCompressor.CompressPNG(backupPath, pngPath, data.width, data.height, () => {
+
+                    PicCompressor.CompressMinPNG(pngPath);
+
+                });
+
+            }
 
         }
 
@@ -632,103 +772,209 @@ namespace WeChatWASM
 
             if (noPotList.Count >= 255 * 255)
             {
-                Debug.LogError("您的非POT图片数超出了限制！！");
+                UnityEngine.Debug.LogError("您的非POT图片数超出了限制！！");
                 return;
             }
+            
+            foreach (var item in noPotDataList) {
 
-            // 执行替换图片逻辑
-            for (int i = 0; i < noPotList.Count; i++)
-            {
-
-                string p = (string)noPotList[i];
-
-                var backupPath = Path.Combine(miniGameConf.ProjectConf.DST, "backup", p);
-
-
-                if (File.Exists(backupPath))
-                {
-                    File.Delete(backupPath);
+                if (!string.IsNullOrEmpty(item.Value.lastWriteTime)) {
+                    continue;
                 }
+
+                string p = item.Value.path;
+
+                var text = File.ReadAllText(p + ".meta");
+
+                var backupPath = Path.Combine(textureDstDir, "backup", p);
 
                 UnityUtil.CreateDir(new DirectoryInfo(backupPath).Parent.ToString());
 
-                File.Copy(p, backupPath);
+                File.Copy(p, backupPath, true);
+                File.Copy(p + ".meta", backupPath + ".meta", true);
 
-                TextureImporter texImport = AssetImporter.GetAtPath(p) as TextureImporter;
+                text = ReplaceMetaFormat(p, text, "10");
+                text = Regex.Replace(text, @"(isReadable: )\d", @"$1 0");
+                text = Regex.Replace(text, @"(enableMipMap: )\d", @"$1 0");
 
-                var setting = texImport.GetPlatformTextureSettings(BuildTarget.WebGL.ToString());
-
-                setting.format = TextureImporterFormat.DXT1;
-
-                texImport.SetPlatformTextureSettings(setting);
-
-                texImport.isReadable = false;
-                texImport.mipmapEnabled = false;
-
-                AssetDatabase.ImportAsset(p);
-
+                File.WriteAllText(p + ".meta", text);
 
                 Texture2D texture2D;
 
-                var isFlare = false;
-                foreach (string flareDir in miniGameConf.CompressTexture.FlareDirList)
-                {
-                    if (p.Replace("\\", "/").IndexOf(flareDir) > -1)
-                    {
-                        isFlare = true;
-                    }
-                }
+                var tx = AssetDatabase.LoadAssetAtPath(p, typeof(Texture2D)) as Texture2D;
 
 
                 byte[] bytes;
 
-                if (texImport.spritesheet.Length == 0 && !isFlare)
-                {
+                int id = item.Value.id + 1; //这里加1是为了避免0
 
-                    int id = i + 1; //这里加1是为了避免0
+                var onePlace = id % 255;
+                var tenPlace = id / 255;
 
-                    var onePlace = id % 255;
-                    var tenPlace = id / 255;
-
-                    texture2D = new Texture2D(8, 8, TextureFormat.RGB565, false);
+                texture2D = new Texture2D(8, 8, TextureFormat.RGB565, false);
 
 
-                    bytes = new byte[texture2D.GetRawTextureData().Length];
+                bytes = new byte[texture2D.GetRawTextureData().Length];
 
-                    bytes[0] = (byte)onePlace;
-                    bytes[1] = (byte)tenPlace;
+                bytes[0] = (byte)onePlace;
+                bytes[1] = (byte)tenPlace;
 
-                    texture2D.LoadRawTextureData(bytes);
+                texture2D.LoadRawTextureData(bytes);
 
-                    texture2D.Apply();
+                int width = tx.width;
+                int height = tx.height;
+                string dataHash = tx.imageContentsHash.ToString().Substring(0, 8);
 
-                    File.WriteAllBytes(p, texture2D.EncodeToPNG());
+                texture2D.Apply();
 
-                }
-                else
-                {
+                File.WriteAllBytes(p, texture2D.EncodeToPNG());
+                FileInfo fi = new FileInfo(p);
 
-                    // 图集
-                    Debug.LogError("图片使用了图集，需要将其改成POT尺寸的图片：" + p);
-
-                }
-
+                SaveCacheInfo(item.Value.id,
+                    new WXTextureData()
+                    {
+                        width = width,
+                        height = height,
+                        dataHash = dataHash,
+                        lastWriteTime = fi.LastWriteTime.ToString(),
+                        id = id,
+                        path = p
+                    },
+                    "NOPOT"
+                );
 
             }
 
-            /*
 
-            for (int i = 0; i < noPotList.Count; i++)
+
+        }
+
+        public static void SaveCacheInfo(int id,  WXTextureData item, string type) {
+
+            var path = item.path.Replace("\\", "/");
+            var fileName = path.Substring(path.LastIndexOf("/") + 1);
+            fileName = fileName.Substring(0, fileName.LastIndexOf("."));
+            var srcDir = path.Substring(0, path.LastIndexOf("/"));
+            var dirMd5 = UnityUtil.GetMd5Str(srcDir).Substring(0, 8);
+            var list = textureDataList;
+            if (type == "NOPOT") {
+                list = noPotDataList;
+            } else if (type == "ATLAS") {
+                list = textureAtlasDataList;
+            }
+
+            item.pathHash = dirMd5;
+            item.fileName = fileName;
+            item.path = path;
+
+            list[id].height = item.height;
+            list[id].width = item.width;
+            list[id].fileName = item.fileName;
+            list[id].path = item.path;
+            list[id].id = item.id;
+            list[id].lastWriteTime = item.lastWriteTime;
+            list[id].pathHash = item.pathHash;
+            list[id].dataHash = item.dataHash;
+
+        }
+
+
+        public static void ManageTextureAltas() {
+            // 最多按255*255=65025 张图片算
+
+            if (textureAtlasList.Count >= 255 * 255)
             {
-                string p = (string)noPotList[i];
-
-                var backupPath = Path.Combine(miniGameConf.ProjectConf.DST, "backup", p);
-
-                TextureSize textureSize = noPotSizeList[i];
-
-                GenerateImagePNG(p, backupPath, textureSize.width, textureSize.height);
+                UnityEngine.Debug.LogError("您的图集数超出了限制！！");
+                return;
             }
-            */
+
+
+
+            // 执行替换图片逻辑
+            for (int i = 0; i < textureAtlasList.Count; i++)
+            {
+
+                string p = (string)textureAtlasList[i];
+
+
+                var tx = AssetDatabase.LoadAssetAtPath(p, typeof(Texture2D)) as Texture2D;
+
+                var text = File.ReadAllText(p + ".meta");
+
+                var backupPath = Path.Combine(textureDstDir, "backup", p);
+
+
+                UnityUtil.CreateDir(new DirectoryInfo(backupPath).Parent.ToString());
+
+                File.Copy(p, backupPath, true);
+                File.Copy(p + ".meta", backupPath + ".meta", true);
+
+
+
+                text = ReplaceMetaFormat(p, text, "10");
+
+                text = Regex.Replace(text, @"(isReadable: )\d", @"$1 0");
+                text = Regex.Replace(text, @"(enableMipMap: )\d", @"$1 0");
+
+                File.WriteAllText(p + ".meta", text);
+
+                Texture2D texture2D;
+                byte[] bytes;
+
+
+                
+                texture2D = new Texture2D(tx.width, tx.height, TextureFormat.RGBA4444, false);
+
+                bytes = new byte[texture2D.GetRawTextureData().Length];
+
+                var id = WXSpriteAtlasManager.AddPath2SpriteList(p);
+
+                var r = id / (16 * 16);
+                var g = (id / 16) % 16;
+                var b = id % 16;
+
+                texture2D.LoadRawTextureData(bytes);
+
+                texture2D.SetPixel(0, 0, new Color()
+                {
+                    r = (float)r / 15,
+                    g = (float)g / 15,
+                    b = (float)b / 15
+                });
+
+
+                
+
+                int width = tx.width;
+                int height = tx.height;
+                string dataHash = tx.imageContentsHash.ToString().Substring(0, 8);
+
+                texture2D.Apply();
+
+                
+
+                File.WriteAllBytes(p, texture2D.EncodeToPNG());
+                FileInfo fi = new FileInfo(p);
+
+                SaveCacheInfo(i,
+                    new WXTextureData
+                {
+
+                    width = width,
+                    height = height,
+                    dataHash = dataHash,
+                    lastWriteTime = fi.LastWriteTime.ToString(),
+                    id = id,
+                    path = p
+                },
+                    "ATLAS"
+                );
+
+                WXSpriteAtlasManager.spriteAtlasMap.Add(id, p);
+
+                WXSpriteAtlasManager.textureDataList.Add(id, textureAtlasDataList[i]);
+
+            }
         }
 
         public static void ManageTextures()
@@ -739,141 +985,174 @@ namespace WeChatWASM
 
             if (textureList.Count >= 255 * 255)
             {
-                Debug.LogError("您的图片数超出了限制！！");
+                UnityEngine.Debug.LogError("您的图片数超出了限制！！");
                 return;
             }
 
+            var textureCachePath2CacheObjectMap = new Dictionary<string, int>();
+            wxTextureCacheObject = UnityUtil.GetTextureCacheConf();
+            if (wxTextureCacheObject.textureList != null)
+                for (var i = 0; i < wxTextureCacheObject.textureList.Count; i++)
+                {
 
+                    textureCachePath2CacheObjectMap.Add(wxTextureCacheObject.textureList[i].path, i);
 
-            // 执行替换图片逻辑
+                }
+
+            Dictionary<int, string> placeholderId2PathMap = new Dictionary<int, string>();
+            Dictionary<string, int> path2PlaceholderIdMap = new Dictionary<string, int>();
+            List<string> cachedPathList = new List<string>();
+
+            //先把调整次序，避免cache的id乱了
+            for (int i = 0; i < textureList.Count; i++)
+            {
+                string p = (string)textureList[i];
+                if (!textureCachePath2CacheObjectMap.ContainsKey(p)) {
+                    int newIndex = i;
+                    while (placeholderId2PathMap.ContainsKey(newIndex)) {
+                        newIndex++;
+                    }
+                    path2PlaceholderIdMap.Add(p,newIndex);
+                    placeholderId2PathMap.Add(newIndex, p);
+                    continue;
+                }
+                var index = textureCachePath2CacheObjectMap[p];
+                var item = wxTextureCacheObject.textureList[index];
+                FileInfo fin = new FileInfo(p);
+                if ( fin.LastWriteTime.ToString() == item.lastWriteTime)
+                {
+                    var itemRealId = item.id - 1;
+                    cachedPathList.Add(p);
+                    //说明是已经处理过的，不用再替换和生成纹理
+                    if (itemRealId == i)
+                    {
+                        path2PlaceholderIdMap[p] = i;
+                        placeholderId2PathMap[i] = p;
+                    }
+                    else if (placeholderId2PathMap.ContainsKey(itemRealId))
+                    {
+                        //id被前面的图给占用了
+                        var tmpPath = placeholderId2PathMap[itemRealId];
+                        path2PlaceholderIdMap[p] = itemRealId;
+                        placeholderId2PathMap[itemRealId] = p;
+
+                        int newIndex = i;
+                        while (placeholderId2PathMap.ContainsKey(newIndex))
+                        {
+                            newIndex++;
+                        }
+
+                        path2PlaceholderIdMap[tmpPath] = newIndex;
+                        placeholderId2PathMap[newIndex] = tmpPath;
+                        
+                    }
+                    else {
+                        path2PlaceholderIdMap[p] = itemRealId;
+                        placeholderId2PathMap[itemRealId] = p;
+                    }
+
+                }
+                else {
+                    path2PlaceholderIdMap[p] = i;
+                    placeholderId2PathMap[i] = p;
+
+                }
+
+            }
+        
+
+                // 执行替换图片逻辑
             for (int i = 0; i < textureList.Count; i++)
             {
 
                 string p = (string)textureList[i];
 
-                var backupPath = Path.Combine(miniGameConf.ProjectConf.DST, "backup", p);
 
+                if (cachedPathList.IndexOf(p)>-1) {
+                    //说明是已经处理过的，不用再替换和生成纹理
+                    var index = textureCachePath2CacheObjectMap[p];
+                    var item = wxTextureCacheObject.textureList[index];
+                    SaveCacheInfo(i, item, "POT");
+                    continue;
 
-                if (File.Exists(backupPath))
-                {
-                    File.Delete(backupPath);
                 }
+
+                var tx = AssetDatabase.LoadAssetAtPath(p, typeof(Texture2D)) as Texture2D;
+
+
+                var text = File.ReadAllText(p + ".meta");
+
+                var backupPath = Path.Combine(textureDstDir, "backup", p);
+
 
                 UnityUtil.CreateDir(new DirectoryInfo(backupPath).Parent.ToString());
 
-                File.Copy(p, backupPath);
+                File.Copy(p, backupPath, true);
+                File.Copy(p + ".meta", backupPath + ".meta", true);
 
-                TextureImporter texImport = AssetImporter.GetAtPath(p) as TextureImporter;
+                
 
-                var setting = texImport.GetPlatformTextureSettings(BuildTarget.WebGL.ToString());
+                text = ReplaceMetaFormat(p, text, "10");
 
-                setting.format = TextureImporterFormat.DXT1;
+                text = Regex.Replace(text, @"(isReadable: )\d", @"$1 0");
+                text = Regex.Replace(text, @"(enableMipMap: )\d", @"$1 0");
 
-                texImport.SetPlatformTextureSettings(setting);
-
-                texImport.isReadable = false;
-                texImport.mipmapEnabled = false;
-
-                AssetDatabase.ImportAsset(p);
-
-                TextureSize textureSize = textureSizeList[i];
+                File.WriteAllText(p + ".meta", text);
 
                 Texture2D texture2D;
 
-                var isFlare = false;
-                foreach (string flareDir in miniGameConf.CompressTexture.FlareDirList)
-                {
-                    if (p.Replace("\\", "/").IndexOf(flareDir) > -1)
-                    {
-                        isFlare = true;
-                    }
-                }
-
-
                 byte[] bytes;
 
-                if (texImport.spritesheet.Length == 0 && !isFlare)
-                {
 
-                    int id = i + 1; //这里加1是为了避免0
+                int id = path2PlaceholderIdMap[p] + 1; //这里加1是为了避免0
 
-                    var onePlace = id % 255;
-                    var tenPlace = id / 255;
+                var onePlace = id % 255;
+                var tenPlace = id / 255;
 
-                    texture2D = new Texture2D(4, 4, TextureFormat.RGB565, false);
+                texture2D = new Texture2D(4, 4, TextureFormat.RGB565, false);
 
 
-                    bytes = new byte[texture2D.GetRawTextureData().Length];
+                bytes = new byte[texture2D.GetRawTextureData().Length];
 
-                    bytes[0] = (byte)onePlace;
-                    bytes[1] = (byte)tenPlace;
+                bytes[0] = (byte)onePlace;
+                bytes[1] = (byte)tenPlace;
 
-                    texture2D.LoadRawTextureData(bytes);
 
-                }
-                else
-                {
 
-                    // 图集
-                    var tx = AssetDatabase.LoadAssetAtPath(p, typeof(Texture2D)) as Texture2D;
+                texture2D.LoadRawTextureData(bytes);
 
-                    texture2D = new Texture2D(tx.width, tx.height, TextureFormat.RGBA4444, false);
-
-                    bytes = new byte[texture2D.GetRawTextureData().Length];
-
-                    WXSpriteAtlasManager.spriteList.Add(p);
-
-                    var id = WXSpriteAtlasManager.spriteList.IndexOf(p) + 1;
-
-                    WXSpriteAtlasManager.spriteAtlasMap.Add(id, p);
-
-                    WXSpriteAtlasManager.textureSizeList.Add(id, new TextureSize()
-                    {
-                        width = textureSize.width,
-                        height = textureSize.height
-                    });
-
-                    var r = id / (16 * 16);
-                    var g = (id / 16) % 16;
-                    var b = id % 16;
-
-                    texture2D.LoadRawTextureData(bytes);
-
-                    texture2D.SetPixel(0, 0, new Color()
-                    {
-                        r = (float)r / 15,
-                        g = (float)g / 15,
-                        b = (float)b / 15
-                    });
-
-                }
-
+                int width = tx.width;
+                int height = tx.height;
+                string dataHash = tx.imageContentsHash.ToString().Substring(0, 8);
 
                 texture2D.Apply();
 
+                
+
                 File.WriteAllBytes(p, texture2D.EncodeToPNG());
+                FileInfo fi = new FileInfo(p);
+                
 
+                SaveCacheInfo(i, new WXTextureData
+                {
+
+                    width = width,
+                    height = height,
+                    dataHash = dataHash,
+                    lastWriteTime = fi.LastWriteTime.ToString(),
+                    id = id,
+                    path = p
+
+                }, "POT"
+                );
             }
 
-            /*
-
-            for (int i = 0; i < textureList.Count; i++)
-            {
-                string p = (string)textureList[i];
-
-                var backupPath = Path.Combine(miniGameConf.ProjectConf.DST, "backup", p);
-
-                TextureSize textureSize = textureSizeList[i];
-
-                GenerateImage(p, backupPath, textureSize.width, textureSize.height);
-            }
-            */
         }
 
 
         public static string[] GetWorkingFolders()
         {
-
+            miniGameConf = UnityUtil.GetEditorConf();
             string[] folders = { "Assets" };
 
             if (miniGameConf.CompressTexture.SourceDirs.Count > 0)
@@ -890,7 +1169,7 @@ namespace WeChatWASM
 
             if (!Directory.Exists(srcPath))
             {
-                Debug.LogError("文件夹不存在！");
+                UnityEngine.Debug.LogError("文件夹不存在！");
                 return;
             }
             try

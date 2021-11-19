@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System;
 using LitJson;
 using System.Collections.Generic;
+using UnityEngine.Scripting;
 
 namespace WeChatWASM
 {
@@ -377,25 +378,16 @@ namespace WeChatWASM
 #endif
         private static extern string WXDataContextPostMessage(string msg);
 
-#if UNITY_WEBGL && !UNITY_EDITOR
+#if UNITY_WEBGL
         [DllImport("__Internal")]
+#endif
         private static extern void WXShowOpenData(IntPtr id, int x, int y, int width, int height);
-#else
-        void WXShowOpenData(IntPtr id, int x, int y, int width, int height)
-        {
-            Debug.Log("已展示排行榜，具体显示请在开发者工具中体验。");
-        }
-#endif
 
-#if UNITY_WEBGL && !UNITY_EDITOR
+
+#if UNITY_WEBGL
         [DllImport("__Internal")]
-        private static extern void WXHideOpenData();
-#else
-        void WXHideOpenData()
-        {
-            Debug.Log("已关闭排行榜，具体显示请在开发者工具中体验。");
-        }
 #endif
+        private static extern void WXHideOpenData();
 
 #if UNITY_WEBGL
         [DllImport("__Internal")]
@@ -522,7 +514,7 @@ namespace WeChatWASM
 #endif
         private static extern string WXCreateVideo(string conf);
 
-        
+
 
 
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -545,12 +537,125 @@ namespace WeChatWASM
 
         [DllImport("__Internal")]
         private static extern uint WXGetDynamicMemorySize();
+
+        [DllImport("__Internal")]
+        private static extern void WXLogManagerDebug(string str);
+
+        [DllImport("__Internal")]
+        private static extern void WXLogManagerInfo(string str);
+
+        [DllImport("__Internal")]
+        private static extern void WXLogManagerLog(string str);
+
+        [DllImport("__Internal")]
+        private static extern void WXLogManagerWarn(string str);
+
+        [DllImport("__Internal")]
+        private static extern void WXSetClipboardData(string str,string s,string f,string c);
+
+        [DllImport("__Internal")]
+        private static extern void WXGetClipboardData(string s,string f,string c);
+
+        [DllImport("__Internal")]
+        private static extern void WXShowToast(string title,string icon,int duration,bool mask, string s, string f, string c);
+
+        [DllImport("__Internal")]
+        private static extern void WXHideToast(string s,string f,string c);
+
+        [DllImport("__Internal")]
+        private static extern void WXShowModal(string conf,string s,string f,string c);
+
+        [DllImport("__Internal")]
+        private static extern void WXShowLoading(string conf,string s,string f,string c);
+
+        [DllImport("__Internal")]
+        private static extern void WXHideLoading(string s,string f,string c);
+
+        [Preserve]
+        [DllImport("__Internal")]
+        private static extern void WXPointer_stringify_adaptor();
+
+        [DllImport("__Internal")]
+        private static extern void WXRequestSubscribeSystemMessage(string list, string s, string f, string c);
+
 #else
         private static uint WXGetTotalMemorySize() { return 0; }
         private static uint WXGetTotalStackSize() { return 0; }
         private static uint WXGetStaticMemorySize() { return 0; }
         private static uint WXGetDynamicMemorySize() { return 0; }
+
+        private static void WXLogManagerDebug(string str) {
+            Debug.Log(str);
+        }
+
+        private static void WXLogManagerInfo(string str)
+        {
+            Debug.Log(str);
+        }
+
+        private static void WXLogManagerLog(string str)
+        {
+            Debug.Log(str);
+        }
+
+        private static void WXLogManagerWarn(string str)
+        {
+            Debug.LogWarning(str);
+        }
+
+        private static void WXSetClipboardData(string str,string s,string f,string c)
+        {
+            
+        }
+
+        private static void WXGetClipboardData(string s, string f, string c)
+        {
+
+        }
+
+        private static void WXShowToast(string title,string icon,int duration,bool mask, string s, string f, string c) {
+
+        }
+
+        private static void WXHideToast(string s, string f, string c) {
+        }
+
+        private static void WXShowModal(string conf,string s, string f, string c)
+        {
+        }
+
+        private static void WXShowLoading(string conf, string s, string f, string c)
+        {
+        }
+
+        private static void WXHideLoading(string s, string f, string c)
+        {
+        }
+
+        private static void WXRequestSubscribeSystemMessage(string list, string s, string f, string c) { }
+
+
+
+
 #endif
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern bool WXIsCloudTest();
+#else
+        private static bool WXIsCloudTest() { return false; }
+#endif
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern void WXUncaughtException();
+#else
+        private static void WXUncaughtException() {; }
+#endif
+
+
+        
+
 
         #region JS回调
 
@@ -562,6 +667,10 @@ namespace WeChatWASM
         public void TextResponseCallback(string msg)
         {
             WXCallBackHandler.InvokeResponseCallback<WXTextResponse>(msg);
+        }
+
+        public void ClipboardResponseCallback(string msg) {
+            WXCallBackHandler.InvokeResponseCallback<WXClipboardResponse>(msg);
         }
 
         public void TextResponseLongCallback(string msg)
@@ -629,23 +738,25 @@ namespace WeChatWASM
         }
 
 
+        public void ModalResponseCallback(string msg) {
+            WXCallBackHandler.InvokeResponseCallback<WXModalResponse>(msg);
+        }
+
         public void ADOnErrorCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXADErrorResponse>(msg);
-            var ad = WXBaseAd.Dict[res.callbackId];
-            if (ad != null)
+            if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
-                ad.onErrorAction?.Invoke(res);
+                WXBaseAd.Dict[res.callbackId].onErrorAction?.Invoke(res);
             }
         }
 
         public void ADOnLoadCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXBaseResponse>(msg);
-            var ad = WXBaseAd.Dict[res.callbackId];
-            if (ad != null)
+            if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
-                ad.onLoadActon?.Invoke();
+                WXBaseAd.Dict[res.callbackId].onLoadActon?.Invoke();
             }
         }
 
@@ -653,9 +764,10 @@ namespace WeChatWASM
         public void ADOnResizeCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXADResizeResponse>(msg);
-            var ad = (IWXAdResizable)WXBaseAd.Dict[res.callbackId];
-            if (ad != null)
+            
+            if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
+                var ad = (IWXAdResizable)WXBaseAd.Dict[res.callbackId];
                 ad.OnResizeCallback(res);
             }
         }
@@ -663,10 +775,11 @@ namespace WeChatWASM
         public void ADOnVideoCloseCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXRewardedVideoAdOnCloseResponse>(msg);
-            var ad = (IWXAdVideoCloseable)WXBaseAd.Dict[res.callbackId];
+            
 
-            if (ad != null)
+            if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
+                var ad = (IWXAdVideoCloseable)WXBaseAd.Dict[res.callbackId];
                 ad.OnCloseCallback(res);
             }
         }
@@ -674,10 +787,11 @@ namespace WeChatWASM
         public void ADOnCloseCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXBaseResponse>(msg);
-            var ad = (IWXADCloseable)WXBaseAd.Dict[res.callbackId];
+            
 
-            if (ad != null)
+            if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
+                var ad = (IWXADCloseable)WXBaseAd.Dict[res.callbackId];
                 ad.OnCloseCallback();
             }
         }
@@ -770,23 +884,33 @@ namespace WeChatWASM
         public void OnAudioCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXBaseResponse>(msg);
-            var audio = WXInnerAudioContext.Dict[res.callbackId];
-            audio._HandleCallBack(res.errMsg);
+            
+            if (WXInnerAudioContext.Dict.ContainsKey(res.callbackId)) {
+                var audio = WXInnerAudioContext.Dict[res.callbackId];
+                audio._HandleCallBack(res.errMsg);
+            }
+            
         }
 
         public void WXPreDownloadAudiosCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXBaseResponse>(msg);
             int.TryParse(res.callbackId, out int id);
-            var action = PreDownloadAudiosAction[id];
-            action.Invoke(res.errMsg == "0" ? 0 : 1);
+            if (PreDownloadAudiosAction.ContainsKey(id)) {
+                var action = PreDownloadAudiosAction[id];
+                action.Invoke(res.errMsg == "0" ? 0 : 1);
+            }
+
         }
 
         public void OnVideoCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXVideoCallback>(msg);
-            var video = WXVideo._Dict[res.callbackId];
-            video._HandleCallBack(res);
+            if (WXVideo._Dict.ContainsKey(res.callbackId)) {
+                var video = WXVideo._Dict[res.callbackId];
+                video._HandleCallBack(res);
+            }
+
         }
 
 
@@ -805,11 +929,11 @@ namespace WeChatWASM
 
 
 
-        #endregion
+#endregion
 
 
 
-        #region 初始化SDK
+#region 初始化SDK
         public void InitSDK(Action<int> callback)
         {
 
@@ -824,9 +948,9 @@ namespace WeChatWASM
 
 
 
-        #endregion
+#endregion
 
-        #region 振动
+#region 振动
 
         public void VibrateShort(Action<WXTextResponse> succCallback = null, Action<WXTextResponse> failCallback = null, Action<WXTextResponse> compCallback = null)
         {
@@ -842,10 +966,10 @@ namespace WeChatWASM
 
 
 
-        #endregion
+#endregion
 
 
-        #region 本地存储
+#region 本地存储
         // 更多关于存储的隔离策略和清理策略说明可以查看这里 https://developers.weixin.qq.com/minigame/dev/guide/base-ability/storage.html
 
         /*
@@ -942,11 +1066,11 @@ namespace WeChatWASM
             return WXStorageHasKeySync(key);
         }
 
-        #endregion
+#endregion
 
 
 
-        #region 登录
+#region 登录
 
         public void Login(Action<WXLoginResponse> succCallback = null, Action<WXLoginResponse> failCallback = null, Action<WXLoginResponse> compCallback = null)
         {
@@ -967,10 +1091,10 @@ namespace WeChatWASM
             WXAuthorize(scope, WXCallBackHandler.Add(succCallback), WXCallBackHandler.Add(failCallback), WXCallBackHandler.Add(compCallback));
         }
 
-        #endregion
+#endregion
 
 
-        #region 用户信息
+#region 用户信息
 
         public void GetUserInfo(bool withCredentials, string lang, Action<WXUserInfoResponse> succCallback, Action<WXUserInfoResponse> failCallback, Action<WXUserInfoResponse> compCallback = null)
         {
@@ -991,10 +1115,10 @@ namespace WeChatWASM
         }
 
 
-        #endregion
+#endregion
 
 
-        #region 系统
+#region 系统
 
 
         public string GetSystemLanguage()
@@ -1055,10 +1179,10 @@ namespace WeChatWASM
         }
 
 
-        #endregion
+#endregion
 
 
-        #region 分享转发
+#region 分享转发
 
         private Action<Action<WXShareAppMessageParam>> onShareAppMessageCallback;
         private Action onShareTimelineCallback;
@@ -1184,10 +1308,10 @@ namespace WeChatWASM
             }
             WXAuthPrivateMessage(JsonUtility.ToJson(param), WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
         }
-        #endregion
+#endregion
 
 
-        #region 广告
+#region 广告
 
         public WXBannerAd CreateBannerAd(WXCreateBannerAdParam param)
         {
@@ -1294,10 +1418,10 @@ namespace WeChatWASM
             WXADLoad(id, succ, fail);
         }
 
-        #endregion
+#endregion
 
 
-        #region 生命周期
+#region 生命周期
 
         private Action<WXOnShowResponse> onShowAction;
 
@@ -1345,10 +1469,10 @@ namespace WeChatWASM
             return res;
         }
 
-        #endregion
+#endregion
 
 
-        #region 开放数据域，排行榜这一类
+#region 开放数据域，排行榜这一类
 
         public void OpenDataContextPostMessage(string msg)
         {
@@ -1380,9 +1504,9 @@ namespace WeChatWASM
         }
 
 
-        #endregion
+#endregion
 
-        #region 输入法
+#region 输入法
 
         Action<string> onKeyboardInputAction;
 
@@ -1462,9 +1586,9 @@ namespace WeChatWASM
             }
         }
 
-        #endregion
+#endregion
 
-        #region 游戏上报
+#region 游戏上报
 
         public void ReportGameStart()
         {
@@ -1511,10 +1635,10 @@ namespace WeChatWASM
             WXReportUserBehaviorBranchAnalytics(branchId, branchDim, eventType);
         }
 
-        #endregion
+#endregion
 
 
-        #region 触摸事件
+#region 触摸事件
 
         private Action<TouchEvent> onTouchStartAction;
 
@@ -1574,20 +1698,20 @@ namespace WeChatWASM
                 onTouchMoveAction -= action;
             }
         }
-        #endregion
+#endregion
 
-        #region 音频
+#region 音频
         public WXInnerAudioContext CreateInnerAudioContext(InnerAudioContextParam param = null)
         {
             if (param == null)
             {
                 param = new InnerAudioContextParam();
             }
-            #if UNITY_WEBGL && !UNITY_EDITOR
+#if UNITY_WEBGL && !UNITY_EDITOR
             var id = WXCreateInnerAudioContext(param.src, param.loop, param.startTime, param.autoplay, param.volume, param.playbackRate, param.needDownload);
             return new WXInnerAudioContext(id, param);
 
-            #endif
+#endif
             var rd = UnityEngine.Random.Range(0f, 1000000f);
             var id2 = rd.ToString() + param.src;
             return new WXInnerAudioContext(id2, param);
@@ -1604,9 +1728,9 @@ namespace WeChatWASM
             WXPreDownloadAudios(string.Join(",", pathList), num);
         }
 
-        #endregion
+#endregion
 
-        #region 视频
+#region 视频
         public WXVideo CreateVideo(WXCreateVideoParam param)
         {
 
@@ -1619,9 +1743,9 @@ namespace WeChatWASM
             var id2 = rd.ToString() + param.src;
             return new WXVideo(id2, param);
         }
-        #endregion
+#endregion
 
-        #region 虚拟支付
+#region 虚拟支付
 
 
         public void RequestMidasPayment(RequestMidasPaymentParam param)
@@ -1668,16 +1792,16 @@ namespace WeChatWASM
         {
             WXSetKeepScreenOn(param.keepScreenOn, WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
         }
-        #endregion
+#endregion
 
-        #region 跳转
+#region 跳转
         public void ExitMiniProgram(WXBaseActionParam<WXTextResponse> param)
         {
             WXExitMiniProgram(WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
         }
-        #endregion
+#endregion
 
-        #region 性能
+#region 性能
         public uint GetTotalMemorySize()
         {
             return WXGetTotalMemorySize();
@@ -1702,10 +1826,10 @@ namespace WeChatWASM
             var staticMem = WXGetStaticMemorySize() / 1024 / 1024;
             Debug.Log(string.Format("WebGL Memory - Total: {0}MB, Dynamic: {1}MB, Static: {2}MB", total, dynamic, staticMem));
         }
-        #endregion
+#endregion
 
 
-        #region 客服消息
+#region 客服消息
         public void OpenCustomerServiceConversation(CustomerServiceConversationParam param = null)
         {
             if (param == null)
@@ -1714,8 +1838,104 @@ namespace WeChatWASM
             }
             WXOpenCustomerServiceConversation(JsonUtility.ToJson(param),WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
         }
+#endregion
+
+#region 用户日志(MP后台可下载的用户日志)
+
+        public void LogManagerDebug(string str)
+        {
+            WXLogManagerDebug(str);
+        }
+
+        public void LogManagerInfo(string str)
+        {
+            WXLogManagerInfo(str);
+        }
+
+        public void LogManagerLog(string str)
+        {
+            WXLogManagerLog(str);
+        }
+
+        public void LogManagerWarn(string str)
+        {
+            WXLogManagerWarn(str);
+        }
+#endregion
+
+#region 云测试
+        public bool IsCloudTest()
+        {
+            return WXIsCloudTest();
+        }
+#endregion
+
+#region 异常上报
+        public void UncaughtException()
+        {
+            WXUncaughtException();
+        }
         #endregion
 
+
+        #region 剪切板
+
+        public void SetClipboardData(WXClipboardParam param)
+        {
+            WXSetClipboardData(param.data,WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
+        public void GetClipboardData(WXBaseActionParam<WXClipboardResponse> param)
+        {
+            WXGetClipboardData(WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+        #endregion
+
+
+        #region 交互
+
+        public void ShowToast(WXShowToastParam param)
+        {
+            WXShowToast(param.title,param.icon.ToString(),param.duration,param.mask, WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
+
+
+        public void HideToast(WXBaseActionParam<WXTextResponse> param)
+        {
+            WXHideToast(WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
+
+        public void ShowModal(WXShowModalParam param)
+        {
+            WXShowModal(JsonUtility.ToJson(param), WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
+        public void ShowLoading(WXShowLoadingParam param)
+        {
+            WXShowLoading(JsonUtility.ToJson(param), WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
+
+        public void HideLoading(WXBaseActionParam<WXTextResponse> param)
+        {
+            WXHideLoading(WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
+        #endregion
+
+        /*
+        #region 订阅
+        public void RequestSubscribeSystemMessage(WXRequestSubscribeSystemMessageParam param)
+        {
+            WXRequestSubscribeSystemMessage(string.Join(",",param.msgTypeList), WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+        #endregion
+        */
     }
+
+
+
 }
 

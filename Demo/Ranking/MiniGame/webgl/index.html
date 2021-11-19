@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
+    <meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <title>Unity WebGL Player | Ranking</title>
     <style>
         *{border:0;margin:0;padding:0}
@@ -188,7 +188,9 @@
             WXUpdateKeyboard(){},
             WXHideKeyboard(){},
             WXGetNetworkType(){},
-            WXSetKeepScreenOn(){}
+            WXSetKeepScreenOn(){},
+            WXIsCloudTest(){ return false;},
+	    WXUncaughtException(){},
         };
         var downloadedTextures = {};
         var downloadingTextures = {};
@@ -230,7 +232,7 @@
 </head>
 
 <body>
-<div id="gameContainer" style="width: 960px; height: 600px; margin: auto"></div>
+<div id="gameContainer" style="width:100%; height:100%; margin: auto"></div>
 <script>
     document.addEventListener('DOMContentLoaded',function(){
         var div = document.getElementById('gameContainer');

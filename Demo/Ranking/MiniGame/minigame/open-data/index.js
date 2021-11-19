@@ -192,10 +192,11 @@ const Mod = {
     },
     getStyle() {
         const {width, height} = this.conf;
+        //todo 这里元素的宽度高度最好都根据传过来的宽度和高度按比例做计算缩放，这样在不同尺寸的手机上才不会显得尺寸不对
         let style = {
             container: {
-                width,
-                height,
+                width:width,
+                height:height,
                 backgroundColor: "#0c626e"
             },
             header: {

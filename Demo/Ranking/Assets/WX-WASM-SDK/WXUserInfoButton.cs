@@ -62,7 +62,10 @@ namespace WeChatWASM
         public void Destroy()
         {
             WXUserInfoButtonDestroy(instanceId);
-            Dict.Remove(instanceId);
+            if (Dict.ContainsKey(instanceId)) {
+                Dict.Remove(instanceId);
+            }
+            
         }
 
         /// <summary>

@@ -9,6 +9,8 @@ namespace WeChatWASM
         public WXEditorScriptObject config;
         public string tempPath = "";
 
+
+        /*
         [MenuItem("微信小游戏 / 包体瘦身--压缩纹理 / 设置PVRTC优先目录")]
         public static void Open()
         {
@@ -18,7 +20,7 @@ namespace WeChatWASM
             //win.maxSize = new Vector2(400, 200);
             win.Show();
 
-        }
+        }*/
 
         public void LoadData()
         {

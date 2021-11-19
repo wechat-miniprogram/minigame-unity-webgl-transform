@@ -3,11 +3,14 @@ import response from "./response";
 let needRenderOpenData = false;
 let textureId= '';
 let runningTaskId = 0;
+let textureObject;
 function createTextureByImgObject(){
     var webgl = GameGlobal.manager.gameInstance.Module.GL.currentContext.GLctx;
     let openDataContext = wx.getOpenDataContext();
     let sharedCanvas = openDataContext.canvas;
-    var textureObject = webgl.createTexture();
+    if(!textureObject){
+        textureObject = webgl.createTexture();
+    }
     webgl.bindTexture(webgl.TEXTURE_2D, textureObject);
     webgl.texImage2D(webgl.TEXTURE_2D, 0, webgl.RGBA, webgl.RGBA, webgl.UNSIGNED_BYTE, sharedCanvas);
     webgl.texParameteri(webgl.TEXTURE_2D, webgl.TEXTURE_MIN_FILTER, webgl.LINEAR);
@@ -26,14 +29,15 @@ export default {
         runningTaskId = taskId; //这里保存一个id是为了避免两次
         let openDataContext = wx.getOpenDataContext();
         let sharedCanvas = openDataContext.canvas;
-        sharedCanvas.width = width/window.devicePixelRatio;
-        sharedCanvas.height = height/window.devicePixelRatio;
+        sharedCanvas.width = width;
+        sharedCanvas.height = height;
         openDataContext.postMessage({
             type:"WXRender",
-            x: x/window.devicePixelRatio,
-            y: y/window.devicePixelRatio,
-            width: width/window.devicePixelRatio,
-            height:  height/window.devicePixelRatio
+            x: x,
+            y: y,
+            width: width,
+            height:  height,
+            devicePixelRatio:window.devicePixelRatio
         });
         const manager = GameGlobal.manager;
         needRenderOpenData = true;
@@ -56,6 +60,7 @@ export default {
         sharedCanvas.width = 10;
         sharedCanvas.height = 10;
         manager.gameInstance.Module.GL.textures[textureId] = createTextureByImgObject();
+        textureObject = null;
     },
     WXSetUserCloudStorage(list,s,f,c){
         wx.setUserCloudStorage({

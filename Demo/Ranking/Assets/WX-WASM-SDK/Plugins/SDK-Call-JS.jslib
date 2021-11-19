@@ -1,4 +1,10 @@
 mergeInto(LibraryManager.library, {
+    WXPointer_stringify_adaptor:function(str){
+        if(typeof Pointer_stringify=='undefined'){
+            return UTF8ToString(str);
+        }
+        return Pointer_stringify(str);
+    },
     glGenTextures: function (n, textures) {
         for (var i = 0; i < n; i++) {
             var texture = GLctx.createTexture();
@@ -13,6 +19,10 @@ mergeInto(LibraryManager.library, {
             window._lastTextureId = id;
             HEAP32[textures + i * 4 >> 2] = id
         }
+    },
+    glBindTexture:function(target, texture) {
+        window._lastBoundTexture = texture;
+        GLctx.bindTexture(target, texture ? GL.textures[texture] : null)
     },
     glGetString:function(name_) {
         if (GL.stringCache[name_]) return GL.stringCache[name_];
@@ -62,7 +72,6 @@ mergeInto(LibraryManager.library, {
     },
     glCompressedTexImage2D: function (target, level, internalFormat, width, height, border, imageSize, data) {
         var lastTid = window._lastTextureId;
-
         function compressedImage2D(rawData, w, h) {
             var format = 0;
             var dataOffset = 16;
@@ -93,6 +102,9 @@ mergeInto(LibraryManager.library, {
         }
 
         function renderTexture(id, imageType) {
+            if(!GL.textures[lastTid]){
+                return;
+            }
             var cid = imageType + "_" + id;
             var _data = GameGlobal.DownloadedTextures[cid].data;
             var info = {
@@ -100,13 +112,17 @@ mergeInto(LibraryManager.library, {
                 "SpriteAtlas":GameGlobal.SpriteAtlasConfig,
                 "NoTPOTTexture":GameGlobal.NotPotTextureConfig
             }[imageType][id];
-            GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[lastTid]);
+            var tid = lastTid;
+              if(!GL.textures[tid]){
+                return;
+              }
+            GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[tid]);
             if(!GameGlobal.TextureCompressedFormat || (GameGlobal.TextureCompressedFormat == 'pvr' && info.w !== info.h ) || imageType ==="NoTPOTTexture"){
                 texImage2D(_data);
             }else{
                 compressedImage2D(_data, info.w, info.h);
             }
-            GLctx.bindTexture(GLctx.TEXTURE_2D, null);
+            GLctx.bindTexture(GLctx.TEXTURE_2D, window._lastBoundTexture ? GL.textures[window._lastBoundTexture] : null);
 
         }
 
@@ -154,12 +170,12 @@ mergeInto(LibraryManager.library, {
 
         var matchId = getMatchId();
         if (matchId != -1) {
-            var imageType = "SpriteAtlas";
-            if(width === 4 && height === 4){
-                imageType = "Texture";
-            }else if(width === 8 && height === 8){
-                imageType = "NoTPOTTexture";
-            }
+           var imageType = "SpriteAtlas";
+           if (width === 4 && height === 4) {
+             imageType = "Texture"
+           } else if (width === 8 && height === 8) {
+             imageType = "NoTPOTTexture"
+           }
             if (GameGlobal.DownloadedTextures[matchId] && GameGlobal.DownloadedTextures[matchId].data) {
                 renderTexture(matchId, imageType)
             } else {
@@ -177,31 +193,31 @@ mergeInto(LibraryManager.library, {
         GLctx["compressedTexImage2D"](target, level, internalFormat, width, height, border, data ? HEAPU8.subarray(data, data + imageSize) : null)
     },
     WXInitializeSDK: function (version) {
-        window.WXWASMSDK.WXInitializeSDK(Pointer_stringify(version));
+        window.WXWASMSDK.WXInitializeSDK(_WXPointer_stringify_adaptor(version));
     },
     WXVibrateShort: function (s, f, c) {
-        window.WXWASMSDK.VibrateShort(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.VibrateShort(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXVibrateLong: function (s, f, c) {
-        window.WXWASMSDK.VibrateLong(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.VibrateLong(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXStorageSetIntSync: function (key, value) {
-        window.WXWASMSDK.WXStorageSetIntSync(Pointer_stringify(key), value);
+        window.WXWASMSDK.WXStorageSetIntSync(_WXPointer_stringify_adaptor(key), value);
     },
     WXStorageGetIntSync: function (key, defaultValue) {
-        return window.WXWASMSDK.WXStorageGetIntSync(Pointer_stringify(key), defaultValue);
+        return window.WXWASMSDK.WXStorageGetIntSync(_WXPointer_stringify_adaptor(key), defaultValue);
     },
     WXStorageSetFloatSync: function (key, value) {
-        window.WXWASMSDK.WXStorageSetFloatSync(Pointer_stringify(key), value);
+        window.WXWASMSDK.WXStorageSetFloatSync(_WXPointer_stringify_adaptor(key), value);
     },
     WXStorageGetFloatSync: function (key, defaultValue) {
-        return window.WXWASMSDK.WXStorageGetFloatSync(Pointer_stringify(key), defaultValue);
+        return window.WXWASMSDK.WXStorageGetFloatSync(_WXPointer_stringify_adaptor(key), defaultValue);
     },
     WXStorageSetStringSync: function (key, value) {
-        window.WXWASMSDK.WXStorageSetStringSync(Pointer_stringify(key), Pointer_stringify(value));
+        window.WXWASMSDK.WXStorageSetStringSync(_WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(value));
     },
     WXStorageGetStringSync: function (key, defaultValue) {
-        var returnStr = window.WXWASMSDK.WXStorageGetStringSync(Pointer_stringify(key), Pointer_stringify(defaultValue));
+        var returnStr = window.WXWASMSDK.WXStorageGetStringSync(_WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(defaultValue));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
@@ -211,22 +227,22 @@ mergeInto(LibraryManager.library, {
         window.WXWASMSDK.WXStorageDeleteAllSync();
     },
     WXStorageDeleteKeySync: function (key) {
-        window.WXWASMSDK.WXStorageDeleteKeySync(Pointer_stringify(key));
+        window.WXWASMSDK.WXStorageDeleteKeySync(_WXPointer_stringify_adaptor(key));
     },
     WXStorageHasKeySync: function (key) {
-        return window.WXWASMSDK.WXStorageHasKeySync(Pointer_stringify(key));
+        return window.WXWASMSDK.WXStorageHasKeySync(_WXPointer_stringify_adaptor(key));
     },
     WXLogin: function (s, f, c) {
-        window.WXWASMSDK.WXLogin(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXLogin(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXCheckSession: function (s, f, c) {
-        window.WXWASMSDK.WXCheckSession(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXCheckSession(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXAuthorize: function (scope, s, f, c) {
-        window.WXWASMSDK.WXAuthorize(Pointer_stringify(scope), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXAuthorize(_WXPointer_stringify_adaptor(scope), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXGetUserInfo: function (withCredentials, lang, s, f, c) {
-        window.WXWASMSDK.WXGetUserInfo(withCredentials, Pointer_stringify(lang), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXGetUserInfo(withCredentials, _WXPointer_stringify_adaptor(lang), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXGetSystemLanguage: function () {
         var returnStr = window.WXWASMSDK.WXGetSystemLanguage();
@@ -236,7 +252,7 @@ mergeInto(LibraryManager.library, {
         return buffer;
     },
     WXGetSystemInfo: function (s, f, c) {
-        window.WXWASMSDK.WXGetSystemInfo(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXGetSystemInfo(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXGetSystemInfoSync: function () {
         var returnStr = window.WXWASMSDK.WXGetSystemInfoSync();
@@ -246,53 +262,53 @@ mergeInto(LibraryManager.library, {
         return buffer;
     },
     WXCreateUserInfoButton: function (x, y, width, height, lang, withCredentials) {
-        var returnStr = window.WXWASMSDK.WXCreateUserInfoButton(x, y, width, height, Pointer_stringify(lang), withCredentials);
+        var returnStr = window.WXWASMSDK.WXCreateUserInfoButton(x, y, width, height, _WXPointer_stringify_adaptor(lang), withCredentials);
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXUserInfoButtonShow: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonShow(Pointer_stringify(id));
+        window.WXWASMSDK.WXUserInfoButtonShow(_WXPointer_stringify_adaptor(id));
     },
     WXUserInfoButtonDestroy: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonDestroy(Pointer_stringify(id));
+        window.WXWASMSDK.WXUserInfoButtonDestroy(_WXPointer_stringify_adaptor(id));
     },
     WXUserInfoButtonHide: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonHide(Pointer_stringify(id));
+        window.WXWASMSDK.WXUserInfoButtonHide(_WXPointer_stringify_adaptor(id));
     },
     WXUserInfoButtonOffTap: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonOffTap(Pointer_stringify(id));
+        window.WXWASMSDK.WXUserInfoButtonOffTap(_WXPointer_stringify_adaptor(id));
     },
     WXUserInfoButtonOnTap: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonOnTap(Pointer_stringify(id));
+        window.WXWASMSDK.WXUserInfoButtonOnTap(_WXPointer_stringify_adaptor(id));
     },
     WXUpdateShareMenu: function (conf, s, f, c) {
-        window.WXWASMSDK.WXUpdateShareMenu(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXUpdateShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXShowShareMenu: function (conf, s, f, c) {
-        window.WXWASMSDK.WXShowShareMenu(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXShowShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXHideShareMenu: function (conf, s, f, c) {
-        window.WXWASMSDK.WXHideShareMenu(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXHideShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXShareAppMessage: function (conf) {
-        window.WXWASMSDK.WXShareAppMessage(Pointer_stringify(conf));
+        window.WXWASMSDK.WXShareAppMessage(_WXPointer_stringify_adaptor(conf));
     },
     WXSetMessageToFriendQuery: function (num) {
         return window.WXWASMSDK.WXSetMessageToFriendQuery(num);
     },
     WXOnShareAppMessage: function (conf, isPromise) {
-        return window.WXWASMSDK.WXOnShareAppMessage(Pointer_stringify(conf), isPromise);
+        return window.WXWASMSDK.WXOnShareAppMessage(_WXPointer_stringify_adaptor(conf), isPromise);
     },
     WXOnShareAppMessageResolve: function (conf) {
-        return window.WXWASMSDK.WXOnShareAppMessageResolve(Pointer_stringify(conf));
+        return window.WXWASMSDK.WXOnShareAppMessageResolve(_WXPointer_stringify_adaptor(conf));
     },
     WXOnShareTimeline: function (conf, needCallback) {
-        return window.WXWASMSDK.WXOnShareTimeline(Pointer_stringify(conf), needCallback);
+        return window.WXWASMSDK.WXOnShareTimeline(_WXPointer_stringify_adaptor(conf), needCallback);
     },
     WXOnAddToFavorites: function (conf, needCallback) {
-        return window.WXWASMSDK.WXOnAddToFavorites(Pointer_stringify(conf), needCallback);
+        return window.WXWASMSDK.WXOnAddToFavorites(_WXPointer_stringify_adaptor(conf), needCallback);
     },
     WXOffShareTimeline: function () {
         return window.WXWASMSDK.WXOffShareTimeline();
@@ -304,63 +320,63 @@ mergeInto(LibraryManager.library, {
         return window.WXWASMSDK.WXOffAddToFavorites();
     },
     WXGetShareInfo: function (conf, s, f, c) {
-        window.WXWASMSDK.WXGetShareInfo(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXGetShareInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXAuthPrivateMessage: function (conf, s, f, c) {
-        window.WXWASMSDK.WXAuthPrivateMessage(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXAuthPrivateMessage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXCreateBannerAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateBannerAd(Pointer_stringify(conf));
+        var returnStr = window.WXWASMSDK.WXCreateBannerAd(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXCreateRewardedVideoAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateRewardedVideoAd(Pointer_stringify(conf));
+        var returnStr = window.WXWASMSDK.WXCreateRewardedVideoAd(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXCreateInterstitialAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateInterstitialAd(Pointer_stringify(conf));
+        var returnStr = window.WXWASMSDK.WXCreateInterstitialAd(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXCreateGridAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateGridAd(Pointer_stringify(conf));
+        var returnStr = window.WXWASMSDK.WXCreateGridAd(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXCreateCustomAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateCustomAd(Pointer_stringify(conf));
+        var returnStr = window.WXWASMSDK.WXCreateCustomAd(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXADStyleChange: function (id, key, value) {
-        window.WXWASMSDK.WXADStyleChange(Pointer_stringify(id), Pointer_stringify(key), value);
+        window.WXWASMSDK.WXADStyleChange(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), value);
     },
     WXShowAd: function (id, s, f) {
-        window.WXWASMSDK.WXShowAd(Pointer_stringify(id), Pointer_stringify(s), Pointer_stringify(f));
+        window.WXWASMSDK.WXShowAd(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f));
     },
     WXHideAd: function (id, s, f) {
-        window.WXWASMSDK.WXHideAd(Pointer_stringify(id), Pointer_stringify(s), Pointer_stringify(f));
+        window.WXWASMSDK.WXHideAd(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f));
     },
     WXADGetStyleValue: function (id, key) {
-        window.WXWASMSDK.WXADGetStyleValue(Pointer_stringify(id), Pointer_stringify(key));
+        window.WXWASMSDK.WXADGetStyleValue(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
     },
     WXADDestroy: function (id) {
-        window.WXWASMSDK.WXADDestroy(Pointer_stringify(id));
+        window.WXWASMSDK.WXADDestroy(_WXPointer_stringify_adaptor(id));
     },
     WXADLoad: function (id, succ, fail) {
-        window.WXWASMSDK.WXADLoad(Pointer_stringify(id), Pointer_stringify(succ), Pointer_stringify(fail));
+        window.WXWASMSDK.WXADLoad(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(succ), _WXPointer_stringify_adaptor(fail));
     },
     WXGetLaunchOptionsSync: function () {
         var returnStr = window.WXWASMSDK.WXGetLaunchOptionsSync();
@@ -370,7 +386,7 @@ mergeInto(LibraryManager.library, {
         return buffer;
     },
     WXToTempFilePathSync: function (conf) {
-        var returnStr = window.WXWASMSDK.WXToTempFilePathSync(Pointer_stringify(conf));
+        var returnStr = window.WXWASMSDK.WXToTempFilePathSync(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
@@ -384,21 +400,21 @@ mergeInto(LibraryManager.library, {
         return buffer;
     },
     WXWriteFileSync: function (filePath, data, encoding) {
-        var returnStr = window.WXWASMSDK.WXWriteFileSync(Pointer_stringify(filePath), Pointer_stringify(data), Pointer_stringify(encoding));
+        var returnStr = window.WXWASMSDK.WXWriteFileSync(_WXPointer_stringify_adaptor(filePath), _WXPointer_stringify_adaptor(data), _WXPointer_stringify_adaptor(encoding));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXCreateFixedBottomMiddleBannerAd: function (adUnitId, adIntervals, height) {
-        var returnStr = window.WXWASMSDK.WXCreateFixedBottomMiddleBannerAd(Pointer_stringify(adUnitId), adIntervals, height);
+        var returnStr = window.WXWASMSDK.WXCreateFixedBottomMiddleBannerAd(_WXPointer_stringify_adaptor(adUnitId), adIntervals, height);
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXDataContextPostMessage: function (msg) {
-        window.WXWASMSDK.WXDataContextPostMessage(Pointer_stringify(msg));
+        window.WXWASMSDK.WXDataContextPostMessage(_WXPointer_stringify_adaptor(msg));
     },
     WXShowOpenData: function (id, x, y, width, height) {
         window.WXWASMSDK.WXShowOpenData(id, x, y, width, height);
@@ -407,23 +423,23 @@ mergeInto(LibraryManager.library, {
         window.WXWASMSDK.WXHideOpenData();
     },
     WXUpdateKeyboard: function (value, s, f, c) {
-        window.WXWASMSDK.WXUpdateKeyboard(Pointer_stringify(value), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXUpdateKeyboard(_WXPointer_stringify_adaptor(value), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXShowKeyboard: function (conf, s, f, c) {
-        window.WXWASMSDK.WXShowKeyboard(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXShowKeyboard(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXHideKeyboard: function (s, f, c) {
-        window.WXWASMSDK.WXHideKeyboard(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXHideKeyboard(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXSetUserCloudStorage: function (list, s, f, c) {
         window.WXWASMSDK.WXSetUserCloudStorage(
-            Pointer_stringify(list),
-            Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+            _WXPointer_stringify_adaptor(list),
+            _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXRemoveUserCloudStorage: function (list, s, f, c) {
         window.WXWASMSDK.WXRemoveUserCloudStorage(
-            Pointer_stringify(list),
-            Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+            _WXPointer_stringify_adaptor(list),
+            _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXReportGameStart: function () {
         window.WXWASMSDK.WXReportGameStart();
@@ -432,197 +448,228 @@ mergeInto(LibraryManager.library, {
         window.WXWASMSDK.WXSetGameStage(stageType);
     },
     WXReportGameStageCostTime: function(totalMs, extJsonStr) {
-        window.WXWASMSDK.WXReportGameStageCostTime(totalMs, Pointer_stringify(extJsonStr));
+        window.WXWASMSDK.WXReportGameStageCostTime(totalMs, _WXPointer_stringify_adaptor(extJsonStr));
     },
     WXReportGameStageError: function(errorType, errStr, extJsonStr) {
-        window.WXWASMSDK.WXReportGameStageError(errorType, Pointer_stringify(errStr), Pointer_stringify(extJsonStr));
+        window.WXWASMSDK.WXReportGameStageError(errorType, _WXPointer_stringify_adaptor(errStr), _WXPointer_stringify_adaptor(extJsonStr));
     },
     WXWriteLog: function (str) {
-        window.WXWASMSDK.WXWriteLog(Pointer_stringify(str))
+        window.WXWASMSDK.WXWriteLog(_WXPointer_stringify_adaptor(str))
     },
     WXWriteWarn: function (str) {
-        window.WXWASMSDK.WXWriteWarn(Pointer_stringify(str))
+        window.WXWASMSDK.WXWriteWarn(_WXPointer_stringify_adaptor(str))
     },
     WXPreloadConcurrent: function (count) {
         window.WXWASMSDK.WXPreloadConcurrent(count);
     },
     WXAccessFileSync: function (path) {
-        var returnStr = window.WXWASMSDK.WXAccessFileSync(Pointer_stringify(path));
+        var returnStr = window.WXWASMSDK.WXAccessFileSync(_WXPointer_stringify_adaptor(path));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXAccessFile: function (path, s, f, c) {
-        return window.WXWASMSDK.WXAccessFile(Pointer_stringify(path), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        return window.WXWASMSDK.WXAccessFile(_WXPointer_stringify_adaptor(path), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXCopyFileSync: function (srcPath, destPath) {
-        var returnStr = window.WXWASMSDK.WXCopyFileSync(Pointer_stringify(srcPath), Pointer_stringify(destPath));
+        var returnStr = window.WXWASMSDK.WXCopyFileSync(_WXPointer_stringify_adaptor(srcPath), _WXPointer_stringify_adaptor(destPath));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXCopyFile: function (srcPath, destPath, s, f, c) {
-        return window.WXWASMSDK.WXCopyFile(Pointer_stringify(srcPath), Pointer_stringify(destPath), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        return window.WXWASMSDK.WXCopyFile(_WXPointer_stringify_adaptor(srcPath), _WXPointer_stringify_adaptor(destPath), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXUnlinkSync: function (filePath) {
-        var returnStr = window.WXWASMSDK.WXUnlinkSync(Pointer_stringify(filePath));
+        var returnStr = window.WXWASMSDK.WXUnlinkSync(_WXPointer_stringify_adaptor(filePath));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXUnlink: function (filePath, s, f, c) {
-        return window.WXWASMSDK.WXUnlink(Pointer_stringify(filePath), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        return window.WXWASMSDK.WXUnlink(_WXPointer_stringify_adaptor(filePath), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXReportUserBehaviorBranchAnalytics: function (branchId, branchDim, eventType) {
-        window.WXWASMSDK.WXReportUserBehaviorBranchAnalytics(Pointer_stringify(branchId), Pointer_stringify(branchDim), eventType);
+        window.WXWASMSDK.WXReportUserBehaviorBranchAnalytics(_WXPointer_stringify_adaptor(branchId), _WXPointer_stringify_adaptor(branchDim), eventType);
     },
     WXCallFunction: function (name, data, conf, s, f, c) {
-        window.WXWASMSDK.WXCallFunction(Pointer_stringify(name), Pointer_stringify(data), Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXCallFunction(_WXPointer_stringify_adaptor(name), _WXPointer_stringify_adaptor(data), _WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXCallFunctionInit: function (conf) {
-        window.WXWASMSDK.WXCallFunctionInit(Pointer_stringify(conf));
+        window.WXWASMSDK.WXCallFunctionInit(_WXPointer_stringify_adaptor(conf));
     },
     WXCreateInnerAudioContext: function (src, loop, startTime, autoplay, volume, playbackRate, needDownload) {
-        var returnStr = window.WXWASMSDK.WXCreateInnerAudioContext(Pointer_stringify(src), loop, startTime, autoplay, volume, playbackRate, needDownload);
+        var returnStr = window.WXWASMSDK.WXCreateInnerAudioContext(_WXPointer_stringify_adaptor(src), loop, startTime, autoplay, volume, playbackRate, needDownload);
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXInnerAudioContextSetBool: function (id, k, v) {
-        window.WXWASMSDK.WXInnerAudioContextSetBool(Pointer_stringify(id), Pointer_stringify(k), v);
+        window.WXWASMSDK.WXInnerAudioContextSetBool(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k), v);
     },
     WXInnerAudioContextSetString: function (id, k, v) {
-        window.WXWASMSDK.WXInnerAudioContextSetString(Pointer_stringify(id), Pointer_stringify(k), Pointer_stringify(v));
+        window.WXWASMSDK.WXInnerAudioContextSetString(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k), _WXPointer_stringify_adaptor(v));
     },
     WXInnerAudioContextSetFloat: function (id, k, v) {
-        window.WXWASMSDK.WXInnerAudioContextSetFloat(Pointer_stringify(id), Pointer_stringify(k), v);
+        window.WXWASMSDK.WXInnerAudioContextSetFloat(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k), v);
     },
     WXInnerAudioContextGetFloat: function (id, k) {
-        return window.WXWASMSDK.WXInnerAudioContextGetFloat(Pointer_stringify(id), Pointer_stringify(k));
+        return window.WXWASMSDK.WXInnerAudioContextGetFloat(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k));
     },
     WXInnerAudioContextGetBool: function (id, k) {
-        return window.WXWASMSDK.WXInnerAudioContextGetBool(Pointer_stringify(id), Pointer_stringify(k));
+        return window.WXWASMSDK.WXInnerAudioContextGetBool(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k));
     },
     WXInnerAudioContextPlay: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextPlay(Pointer_stringify(id));
+        window.WXWASMSDK.WXInnerAudioContextPlay(_WXPointer_stringify_adaptor(id));
     },
     WXInnerAudioContextStop: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextStop(Pointer_stringify(id));
+        window.WXWASMSDK.WXInnerAudioContextStop(_WXPointer_stringify_adaptor(id));
     },
     WXInnerAudioContextPause: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextPause(Pointer_stringify(id));
+        window.WXWASMSDK.WXInnerAudioContextPause(_WXPointer_stringify_adaptor(id));
     },
     WXInnerAudioContextDestroy: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextDestroy(Pointer_stringify(id));
+        window.WXWASMSDK.WXInnerAudioContextDestroy(_WXPointer_stringify_adaptor(id));
     },
     WXInnerAudioContextSeek: function (id, position) {
-        window.WXWASMSDK.WXInnerAudioContextSeek(Pointer_stringify(id), position);
+        window.WXWASMSDK.WXInnerAudioContextSeek(_WXPointer_stringify_adaptor(id), position);
     },
     WXInnerAudioContextAddListener: function (id, key) {
-        window.WXWASMSDK.WXInnerAudioContextAddListener(Pointer_stringify(id), Pointer_stringify(key));
+        window.WXWASMSDK.WXInnerAudioContextAddListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
     },
     WXInnerAudioContextRemoveListener: function (id, key) {
-        window.WXWASMSDK.WXInnerAudioContextRemoveListener(Pointer_stringify(id), Pointer_stringify(key));
+        window.WXWASMSDK.WXInnerAudioContextRemoveListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
     },
     WXPreDownloadAudios: function (paths, id) {
-        window.WXWASMSDK.WXPreDownloadAudios(Pointer_stringify(paths), id);
+        window.WXWASMSDK.WXPreDownloadAudios(_WXPointer_stringify_adaptor(paths), id);
     },
     WXCreateVideo: function(conf){
-        var returnStr = window.WXWASMSDK.WXCreateVideo(Pointer_stringify(conf));
+        var returnStr = window.WXWASMSDK.WXCreateVideo(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
     WXVideoPlay: function(id){
-        window.WXWASMSDK.WXVideoPlay(Pointer_stringify(id));
+        window.WXWASMSDK.WXVideoPlay(_WXPointer_stringify_adaptor(id));
     },
     WXVideoAddListener: function(id,key){
-        window.WXWASMSDK.WXVideoAddListener(Pointer_stringify(id), Pointer_stringify(key));
+        window.WXWASMSDK.WXVideoAddListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
     },
     WXVideoDestroy: function(id){
-        window.WXWASMSDK.WXVideoDestroy(Pointer_stringify(id));
+        window.WXWASMSDK.WXVideoDestroy(_WXPointer_stringify_adaptor(id));
     },
     WXVideoExitFullScreen: function(id){
-        window.WXWASMSDK.WXVideoExitFullScreen(Pointer_stringify(id));
+        window.WXWASMSDK.WXVideoExitFullScreen(_WXPointer_stringify_adaptor(id));
     },
     WXVideoPause: function(id){
-        window.WXWASMSDK.WXVideoPause(Pointer_stringify(id));
+        window.WXWASMSDK.WXVideoPause(_WXPointer_stringify_adaptor(id));
     },
     WXVideoRequestFullScreen:function(id,direction){
-        window.WXWASMSDK.WXVideoRequestFullScreen(Pointer_stringify(id),direction);
+        window.WXWASMSDK.WXVideoRequestFullScreen(_WXPointer_stringify_adaptor(id),direction);
     },
     WXVideoSeek:function(id,time){
-        window.WXWASMSDK.WXVideoSeek(Pointer_stringify(id),time);
+        window.WXWASMSDK.WXVideoSeek(_WXPointer_stringify_adaptor(id),time);
     },
     WXVideoStop:function(id){
-       window.WXWASMSDK.WXVideoStop(Pointer_stringify(id));
+       window.WXWASMSDK.WXVideoStop(_WXPointer_stringify_adaptor(id));
     },
     WXVideoRemoveListener:function(id,key){
-        window.WXWASMSDK.WXVideoRemoveListener(Pointer_stringify(id), Pointer_stringify(key));
+        window.WXWASMSDK.WXVideoRemoveListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
     },
     WXRequestMidasPayment:function(conf, s, f, c){
-        window.WXWASMSDK.WXRequestMidasPayment(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXRequestMidasPayment(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXRequestMidasFriendPayment:function(conf, s, f, c){
-        window.WXWASMSDK.WXRequestMidasFriendPayment(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXRequestMidasFriendPayment(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXHideLoadingPage: function() {
-        window.WXWASMSDK.WXHideLoadingPage()
+        window.WXWASMSDK && window.WXWASMSDK.WXHideLoadingPage()
     },
     WXGetNetworkType:function(s, f, c){
-        window.WXWASMSDK.WXGetNetworkType(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXGetNetworkType(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXSetKeepScreenOn:function(b,s, f, c){
-        window.WXWASMSDK.WXSetKeepScreenOn(b,Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXSetKeepScreenOn(b,_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXExitMiniProgram:function(s, f, c){
-         window.WXWASMSDK.WXExitMiniProgram(Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+         window.WXWASMSDK.WXExitMiniProgram(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXWriteFile:function(filePath, data, dataLength, encoding, s, f, c){
         window.WXWASMSDK.WXWriteFile(
-            Pointer_stringify(filePath),
+            _WXPointer_stringify_adaptor(filePath),
             HEAPU8.slice(data,dataLength+data),
-            Pointer_stringify(encoding),
-            Pointer_stringify(s),
-            Pointer_stringify(f),
-            Pointer_stringify(c)
+            _WXPointer_stringify_adaptor(encoding),
+            _WXPointer_stringify_adaptor(s),
+            _WXPointer_stringify_adaptor(f),
+            _WXPointer_stringify_adaptor(c)
+        )
+    },
+    WXWriteStringFile:function (filePath,data,encoding, s, f, c){
+        window.WXWASMSDK.WXWriteStringFile(
+            _WXPointer_stringify_adaptor(filePath),
+            _WXPointer_stringify_adaptor(data),
+            _WXPointer_stringify_adaptor(encoding),
+            _WXPointer_stringify_adaptor(s),
+            _WXPointer_stringify_adaptor(f),
+            _WXPointer_stringify_adaptor(c)
+        )
+    },
+    WXAppendFile:function(filePath, data, dataLength, encoding, s, f, c){
+        window.WXWASMSDK.WXAppendFile(
+            _WXPointer_stringify_adaptor(filePath),
+            HEAPU8.slice(data,dataLength+data),
+            _WXPointer_stringify_adaptor(encoding),
+            _WXPointer_stringify_adaptor(s),
+            _WXPointer_stringify_adaptor(f),
+            _WXPointer_stringify_adaptor(c)
+        )
+    },
+    WXAppendStringFile:function (filePath,data,encoding, s, f, c){
+        window.WXWASMSDK.WXAppendStringFile(
+            _WXPointer_stringify_adaptor(filePath),
+            _WXPointer_stringify_adaptor(data),
+            _WXPointer_stringify_adaptor(encoding),
+            _WXPointer_stringify_adaptor(s),
+            _WXPointer_stringify_adaptor(f),
+            _WXPointer_stringify_adaptor(c)
         )
     },
     WXWriteBinFileSync:function(filePath, data, dataLength, encoding){
         return window.WXWASMSDK.WXWriteBinFileSync(
-            Pointer_stringify(filePath),
+            _WXPointer_stringify_adaptor(filePath),
             HEAPU8.slice(data,dataLength+data),
-            Pointer_stringify(encoding)
+            _WXPointer_stringify_adaptor(encoding)
         )
     },
     WXReadFile:function(filePath, encoding,callbackId){
         window.WXWASMSDK.WXReadFile(
-            Pointer_stringify(filePath),
-            Pointer_stringify(encoding),
-            Pointer_stringify(callbackId)
+            _WXPointer_stringify_adaptor(filePath),
+            _WXPointer_stringify_adaptor(encoding),
+            _WXPointer_stringify_adaptor(callbackId)
         );
     },
     WXReadBinFileSync:function(filePath){
         return window.WXWASMSDK.WXReadFileSync(
-            Pointer_stringify(filePath)
+            _WXPointer_stringify_adaptor(filePath)
         );
     },
     WXReadFileSync:function(filePath, encoding){
-        return window.WXWASMSDK.WXReadFileSync(
-            Pointer_stringify(filePath),
-            Pointer_stringify(encoding)
-        );
+        var returnStr = window.WXWASMSDK.WXReadFileSync( _WXPointer_stringify_adaptor(filePath), _WXPointer_stringify_adaptor(encoding) );
+        var bufferSize = lengthBytesUTF8(returnStr) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(returnStr, buffer, bufferSize);
+        return buffer;
     },
     WXShareFileBuffer:function(offset,callbackId){
         window.WXWASMSDK.WXShareFileBuffer(
             HEAPU8,
             offset,
-            Pointer_stringify(callbackId)
+            _WXPointer_stringify_adaptor(callbackId)
         )
     },
     WXGetTotalMemorySize: function() {
@@ -643,7 +690,78 @@ mergeInto(LibraryManager.library, {
         }
     },
     WXOpenCustomerServiceConversation:function(conf, s, f, c){
-        window.WXWASMSDK.WXOpenCustomerServiceConversation(Pointer_stringify(conf), Pointer_stringify(s), Pointer_stringify(f), Pointer_stringify(c));
+        window.WXWASMSDK.WXOpenCustomerServiceConversation(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXLogManagerDebug:function(str){
+        window.WXWASMSDK.WXLogManagerDebug(
+            _WXPointer_stringify_adaptor(str)
+        );
+    },
+    WXLogManagerInfo:function(str){
+        window.WXWASMSDK.WXLogManagerInfo(
+            _WXPointer_stringify_adaptor(str)
+        );
+    },
+    WXLogManagerLog:function(str){
+        window.WXWASMSDK.WXLogManagerLog(
+            _WXPointer_stringify_adaptor(str)
+        );
+    },
+    WXLogManagerWarn:function(str){
+        window.WXWASMSDK.WXLogManagerWarn(
+            _WXPointer_stringify_adaptor(str)
+        );
+    },
+    WXIsCloudTest:function(){
+        return window.WXWASMSDK.WXIsCloudTest();
+    },
+    WXUncaughtException: function() {
+       window.WXWASMSDK.WXUncaughtException(false);
+    },
+    WXPreLoadShortAudio:function(s){
+        window.WXWASMSDK.WXPreLoadShortAudio(_WXPointer_stringify_adaptor(s));
+    },
+    WXStopOthersAndPlay:function(audio,loop,volume){
+        window.WXWASMSDK.WXStopOthersAndPlay(_WXPointer_stringify_adaptor(audio),loop,volume);
+    },
+    WXShortAudioPlayerStop:function(audio){
+        window.WXWASMSDK.WXShortAudioPlayerStop(_WXPointer_stringify_adaptor(audio));
+    },
+    WXShortAudioPlayerDestroy:function(audio){
+        window.WXWASMSDK.WXShortAudioPlayerDestroy(_WXPointer_stringify_adaptor(audio));
+    },
+    WXSetClipboardData:function(str, s, f, c){
+        window.WXWASMSDK.WXSetClipboardData(_WXPointer_stringify_adaptor(str), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXGetClipboardData:function( s, f, c){
+        window.WXWASMSDK.WXGetClipboardData(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXShowToast:function( title, icon, duration, mask,  s,  f,  c){
+        window.WXWASMSDK.WXShowToast(_WXPointer_stringify_adaptor(title),_WXPointer_stringify_adaptor(icon),duration,mask,_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXHideToast:function(s,  f,  c){
+        window.WXWASMSDK.WXHideToast(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXShowModal:function( conf, s,  f,  c){
+        window.WXWASMSDK.WXShowModal(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXShowLoading:function( conf, s,  f,  c){
+        window.WXWASMSDK.WXShowLoading(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXHideLoading:function(s,  f,  c){
+        window.WXWASMSDK.WXHideLoading(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXMkdir:function(dirPath, recursive, s,  f,  c){
+        window.WXWASMSDK.WXMkdir(_WXPointer_stringify_adaptor(dirPath), recursive, _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXMkdirSync: function (dirPath, recursive) {
+        var returnStr = window.WXWASMSDK.WXMkdirSync(_WXPointer_stringify_adaptor(dirPath),recursive);
+        var bufferSize = lengthBytesUTF8(returnStr) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(returnStr, buffer, bufferSize);
+        return buffer;
+    },
+    WXRequestSubscribeSystemMessage: function(list,s,f,c){
+            window.WXWASMSDK.WXHideLoading(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     }
-
 });

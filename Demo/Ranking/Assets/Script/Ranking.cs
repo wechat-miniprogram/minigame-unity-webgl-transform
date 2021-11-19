@@ -1,15 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using WeChatWASM;
 
 public class Ranking : MonoBehaviour
 {
     public Button ShowButton;
+    public Button GoButton;
     public Button CloseButton;
+    /// <summary>
+    /// 这个仅仅是为了占位，用透明图是为了排行榜还没展示出来前展示底部内容
+    /// </summary>
     public RawImage RankBody;
     public GameObject RankingBox;
+
 
     void Start()
     {
@@ -30,9 +36,16 @@ public class Ranking : MonoBehaviour
             WX.ShowOpenData(RankBody.texture, (int)p.x, Screen.height-(int)p.y, (int)RankBody.rectTransform.rect.width, (int)RankBody.rectTransform.rect.height);
         });
 
+
+
         CloseButton.onClick.AddListener(()=> {
             RankingBox.SetActive(false);
             WX.HideOpenData();
+        });
+
+
+        GoButton.onClick.AddListener(()=> {
+            SceneManager.LoadScene(1);
         });
     }
 

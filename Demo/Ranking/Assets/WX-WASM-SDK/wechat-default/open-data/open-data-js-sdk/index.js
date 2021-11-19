@@ -13,7 +13,6 @@ export default {
                 isDestroyed = true;
                 return Layout.clearAll();
             }else if(data.type === "WXRender"){
-                Layout.updateViewPort(data);
                 Layout.repaint();
                 if(isDestroyed){
                     isDestroyed = false;

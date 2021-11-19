@@ -17,8 +17,14 @@ import pay from "./pay";
 import fix from "./fix";
 import canvasContext from "./canvas-context";
 import video from "./video";
+import logger from "./logger";
+import shortAudio from "./short-audio";
+import toast from "./toast";
 
 const unityVersion = "2019.4.28f1c1";
+GameGlobal.unityNamespace = GameGlobal.unityNamespace || {};
+GameGlobal.unityNamespace.unityVersion = unityVersion;
+
 window._ScaleRate = 1;
 //兼容unity低版本高清屏的问题
 if(unityVersion && unityVersion.split('.').slice(0,2).join('')<'20193'){
@@ -86,6 +92,9 @@ const WXWASMSDK = {
     ...texture,
     ...pay,
     ...video,
+    ...logger,
+    ...shortAudio,
+    ...toast,
     canvasContext
 
 };

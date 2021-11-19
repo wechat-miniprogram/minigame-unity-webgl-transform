@@ -20,11 +20,11 @@ checkVersion().then(enable => {
     }).default
     
     let managerConfig = {
-      DATA_FILE_MD5: "f9c55e689b7fd1e7",
-      CODE_FILE_MD5: "f8a4293c67fa1e2c",
+      DATA_FILE_MD5: "188cdbd54f8b7ae5",
+      CODE_FILE_MD5: "619b20a9e252371c",
       GAME_NAME: "webgl",
       APPID: "wxe5a48f1ed5f544b7",
-      DATA_FILE_SIZE: "6265787",
+      DATA_FILE_SIZE: "6314109",
       LOADING_VIDEO_URL: "",
       DATA_CDN: "",
       AUDIO_PREFIX: "",
@@ -40,6 +40,8 @@ checkVersion().then(enable => {
       ],
     };
     
+    // JS堆栈能显示更完整
+    Error.stackTraceLimit = Infinity;
     // 是否使用coverview作为启动页
     let USE_COVER_VIEW
     if (canUseCoverview()) {
@@ -51,6 +53,8 @@ checkVersion().then(enable => {
       managerConfig = {
         ...managerConfig,
         useCoverView: true,
+	      // callmain结束后立即隐藏封面视频
+	      hideAfterCallmain: true, 
         loadingPageConfig: {
           // 背景图或背景视频，两者都填时，先展示背景图，视频可播放后，播放视频
           backgroundImage: 'images/background.jpg', // 不使用默认背景图可将此图片删除

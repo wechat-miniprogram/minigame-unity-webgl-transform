@@ -23,6 +23,9 @@ namespace WeChatWASM.MDV
 
             var ext = Path.GetExtension( path ).ToLower();
 
+            // 未知原因可能导致丢失样式，手动赋值下
+            SkinLight = AssetDatabase.LoadAssetAtPath<GUISkin>("Assets/WX-WASM-SDK/UnityMarkdownViewer/Editor/Skin/MarkdownViewerSkin.guiskin");
+            SkinDark = AssetDatabase.LoadAssetAtPath<GUISkin>("Assets/WX-WASM-SDK/UnityMarkdownViewer/Editor/Skin/MarkdownSkinQS.guiskin");
             if( mExtensions.Contains( ext ) )
             {
                 mViewer = new MarkdownViewer( Preferences.DarkSkin ? SkinDark : SkinLight, path, content );

@@ -1,3 +1,5 @@
+const PreLoadKeys = "$PreLoadKeys"; //Unity插件会替换这里，不要改这里
+
 const storage = {
     _cacheData:{}, //缓存数据，避免同步操作带来的卡顿
     _handleList:[], //io队列，避免时序问题和同时大量的io操作
@@ -93,9 +95,28 @@ const storage = {
             this.isRunning = false;
             this._doRun();
         }
-
+    },
+    init(){
+        if(Array.isArray(PreLoadKeys) && PreLoadKeys.length>0){
+            const key = PreLoadKeys.shift();
+            wx.getStorage({
+                key,
+                success(res){
+                    storage._cacheData[key] = res.data;
+                    storage.init();
+                },
+                fail(){
+                    storage._cacheData[key] = null;
+                    storage.init();
+                }
+            });
+        }
     }
 };
+
+setTimeout(()=>{
+    storage.init();
+},0);
 
 export default {
     /*
@@ -127,5 +148,5 @@ export default {
     },
     WXStorageHasKeySync(key){
         return storage.getData(key,'') !== '';
-    },
+    }
 }

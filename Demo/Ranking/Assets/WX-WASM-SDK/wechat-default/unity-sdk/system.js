@@ -239,5 +239,18 @@ export default {
             ...JSON.parse(conf),
             ...response.handleText(s,f,c)
         })
+    },
+
+    /*剪切板*/
+    WXSetClipboardData(data,s, f, c){
+        wx.setClipboardData({
+            data,
+            ...response.handleText(s,f,c)
+        });
+    },
+    WXGetClipboardData(s, f, c){
+        wx.getClipboardData({
+            ...response.handleClipboard(s,f,c)
+        })
     }
 }

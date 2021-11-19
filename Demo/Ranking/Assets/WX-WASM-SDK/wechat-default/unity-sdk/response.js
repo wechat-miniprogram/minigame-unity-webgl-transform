@@ -93,11 +93,68 @@ export default {
         if(!id){
             return false;
         }
-
         moduleHelper.send('LoginResponseCallback', JSON.stringify({
             callbackId:id,
             code:res.code || '',
             errMsg:res.errMsg || ''
+        }));
+    },
+    handleClipboard(s,f,c){
+        const self = this;
+        return {
+            success(res){
+                self.clipboardFormat(s,res);
+            },
+            fail(res){
+                self.clipboardFormat(f,res);
+            },
+            complete(res){
+                self.clipboardFormat(c,res);
+            }
+        }
+    },
+    clipboardFormat(id,res){
+        if(!id){
+            return false;
+        }
+        moduleHelper.send('ClipboardResponseCallback', JSON.stringify({
+            callbackId:id,
+            data:res.data || '',
+            errCode:res.errCode || '',
+            errMsg:res.errMsg || ''
+        }));
+    },
+    handle(formatFunc,s,f,c){
+        return {
+            success(res){
+                if(!s){
+                    return false;
+                }
+                formatFunc(s,res);
+            },
+            fail(res){
+                if(!f){
+                    return false;
+                }
+                formatFunc(f,res);
+            },
+            complete(res){
+                if(!c){
+                    return false;
+                }
+                formatFunc(c,res);
+            }
+        }
+    },
+    modalFormat(id,res){
+        if(!id){
+            return false;
+        }
+        moduleHelper.send('ModalResponseCallback', JSON.stringify({
+            callbackId:id,
+            content:res.content || '',
+            confirm:res.confirm,
+            cancel:res.cancel
         }));
     },
     handleUserInfo(s,f,c){
@@ -205,12 +262,17 @@ export default {
         }
     },
     networkTypeFormat(id,res){
-        if(!id){
-            return false;
-        }
+
         moduleHelper.send('GetNetworkTypeCallback', JSON.stringify({
             callbackId:id,
             ...res
         }));
     },
+    subscribeSystemMessageFormat(id,res){
+        moduleHelper.send('RequestSubscribeSystemMessageCallback', JSON.stringify({
+            callbackId:id,
+            errMsg:res.errMsg || '',
+            errCode:res.errCode
+        }));
+    }
 };

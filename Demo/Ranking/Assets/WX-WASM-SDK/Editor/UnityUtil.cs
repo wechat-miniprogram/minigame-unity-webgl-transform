@@ -118,21 +118,34 @@ namespace WeChatWASM
             return t2;
         }
 
-        public static string BuildFileMd5(string filename)
+        public static string GetMd5Str(byte[] bytes)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            string t2 = BitConverter.ToString(md5.ComputeHash(bytes), 4, 8);
+            t2 = t2.Replace("-", "");
+
+            t2 = t2.ToLower();
+
+            return t2;
+        }
+
+        public static string BuildFileMd5(string filename, int length = 16)
         {
             string filemd5 = null;
             try
             {
                 var fileStream = File.OpenRead(filename);
                 var md5 = MD5.Create();
-                var fileMD5Bytes = md5.ComputeHash(fileStream);//计算指定Stream 对象的哈希值                                     
+                var fileMD5Bytes = md5.ComputeHash(fileStream);//计算指定Stream 对象的哈希值
                 filemd5 = BitConverter.ToString(fileMD5Bytes).Replace("-", "").ToLower();
+                fileStream.Close();
+
             }
             catch (Exception ex)
             {
                 Debug.LogError(ex);
             }
-            return filemd5.Substring(8, 16);
+            return filemd5.Substring(8, length);
         }
 
         public static void DelectDir(string srcPath)
@@ -177,12 +190,50 @@ namespace WeChatWASM
             return;
         }
 
+        public static void CopyDir(string srcPath, string destPath) {
+            if (!Directory.Exists(srcPath))
+            {
+                return;
+            }
+            DirectoryInfo dir = new DirectoryInfo(srcPath);
+            FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();  //获取目录下（不包含子目录）的文件和子目录
+            foreach (FileSystemInfo i in fileinfo)
+            {
+                if (i is DirectoryInfo)     //判断是否文件夹
+                {
+                    if (!Directory.Exists(destPath + "/" + i.Name))
+                    {
+                        Directory.CreateDirectory(destPath + "/" + i.Name);   //目标目录下不存在此文件夹即创建子文件夹
+                    }
+                    CopyDir(i.FullName, destPath + "/" + i.Name);    //递归调用复制子文件夹
+                }
+                else
+                {
+                    File.Copy(i.FullName, destPath + "/" + i.Name, true);      //不是文件夹即复制文件，true表示可以覆盖同名文件
+                    File.Delete(i.FullName);
+                }
+            }
+        }
+
         public static WXEditorScriptObject GetEditorConf() {
-            var config = AssetDatabase.LoadAssetAtPath("Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset", typeof(WXEditorScriptObject)) as WXEditorScriptObject;
+            var path = "Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset";
+            var config = AssetDatabase.LoadAssetAtPath(path, typeof(WXEditorScriptObject)) as WXEditorScriptObject;
             if (config == null)
             {
-                AssetDatabase.CreateAsset(EditorWindow.CreateInstance<WXEditorScriptObject>(), "Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset");
-                config = AssetDatabase.LoadAssetAtPath("Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset", typeof(WXEditorScriptObject)) as WXEditorScriptObject;
+                AssetDatabase.CreateAsset(EditorWindow.CreateInstance<WXEditorScriptObject>(), path);
+                config = AssetDatabase.LoadAssetAtPath(path, typeof(WXEditorScriptObject)) as WXEditorScriptObject;
+            }
+            return config;
+        }
+
+        public static WXTextureCacheObject GetTextureCacheConf()
+        {
+            var path = "Assets/WX-WASM-SDK/Editor/TextureCacheConfig.asset";
+            var config = AssetDatabase.LoadAssetAtPath(path, typeof(WXTextureCacheObject)) as WXTextureCacheObject;
+            if (config == null)
+            {
+                AssetDatabase.CreateAsset(EditorWindow.CreateInstance<WXTextureCacheObject>(), path);
+                config = AssetDatabase.LoadAssetAtPath(path, typeof(WXTextureCacheObject)) as WXTextureCacheObject;
             }
             return config;
         }

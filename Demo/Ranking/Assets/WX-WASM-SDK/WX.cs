@@ -379,7 +379,7 @@ namespace WeChatWASM
         /// 同步版本获取系统信息,Unity的Application.platform返回的是WebGLPlayer区分不了平台，可以通过这个api来区分平台
         /// </summary>
         /// <param name="param">回调函数，回调参数可参考 https://developers.weixin.qq.com/minigame/dev/api/base/system/system-info/wx.getSystemInfo.html </param>
-        /// 
+        ///
         public static WXSystemInfo GetSystemInfoSync()
         {
             return WXSDKManagerHandler.Instance.GetSystemInfoSync();
@@ -587,7 +587,7 @@ namespace WeChatWASM
         ///     {
         ///         //拉取的广告可能跟设置的不一样，需要动态调整位置
         ///         banner.style.top = sysInfo.windowHeight - res.height;
-        ///     }); 
+        ///     });
         /// </example>
         public static WXBannerAd CreateBannerAd(WXCreateBannerAdParam param)
         {
@@ -924,15 +924,15 @@ namespace WeChatWASM
         /// InnerAudioContext 实例，可通过 WX.CreateInnerAudioContext 接口获取实例。注意，音频播放过程中，可能被系统中断，可通过 WX.OnAudioInterruptionBegin、WX.OnAudioInterruptionEnd事件来处理这种情况。详见：https://developers.weixin.qq.com/minigame/dev/api/media/audio/InnerAudioContext.html
         /// </summary>
         /// <example>
-                //var music = WX.CreateInnerAudioContext(new InnerAudioContextParam() {
-                //    src = "Assets/Audio/Chill_1.wav",
-                //    needDownload = true //表示等下载完之后再播放，便于后续复用，无延迟
-                //});
-                //music.OnCanplay(() =>
-                //{
-                //    Debug.Log("OnCanplay");
-                //    music.Play();
-                //});
+        //var music = WX.CreateInnerAudioContext(new InnerAudioContextParam() {
+        //    src = "Assets/Audio/Chill_1.wav",
+        //    needDownload = true //表示等下载完之后再播放，便于后续复用，无延迟
+        //});
+        //music.OnCanplay(() =>
+        //{
+        //    Debug.Log("OnCanplay");
+        //    music.Play();
+        //});
         /// </example>
         public static WXInnerAudioContext CreateInnerAudioContext(InnerAudioContextParam param = null)
         {
@@ -946,26 +946,26 @@ namespace WeChatWASM
         /// <param name="action">全部音频下载完成后回调，返回码为0表示下载完成</param>
         ///<example>
         ///     string[] a = { "Assets/Audio/0.wav", "Assets/Audio/1.wav" };
-                //        WX.PreDownloadAudios(a, (code) =>
-                //            {
-                //                Debug.Log("Downloaded" + code);
-                //                if (code == 0)
-                //                {
-                //                    var music0 = WX.CreateInnerAudioContext(new InnerAudioContextParam()
-                //                    {
-                //                        src = "Assets/Audio/0.wav"
-                //                    });
-                //        music0.Play();
+        //        WX.PreDownloadAudios(a, (code) =>
+        //            {
+        //                Debug.Log("Downloaded" + code);
+        //                if (code == 0)
+        //                {
+        //                    var music0 = WX.CreateInnerAudioContext(new InnerAudioContextParam()
+        //                    {
+        //                        src = "Assets/Audio/0.wav"
+        //                    });
+        //        music0.Play();
 
-                //                    var music1 = WX.CreateInnerAudioContext(new InnerAudioContextParam()
-                //                    {
-                //                        src = "Assets/Audio/1.wav"
-                //                    });
-                //        music1.Play();
-                //                }
-                //});
+        //                    var music1 = WX.CreateInnerAudioContext(new InnerAudioContextParam()
+        //                    {
+        //                        src = "Assets/Audio/1.wav"
+        //                    });
+        //        music1.Play();
+        //                }
+        //});
         /// </example>
-        public static void PreDownloadAudios(string[] pathList,Action<int> action)
+        public static void PreDownloadAudios(string[] pathList, Action<int> action)
         {
             WXSDKManagerHandler.Instance.PreDownloadAudios(pathList, action);
         }
@@ -981,13 +981,19 @@ namespace WeChatWASM
             return WXSDKManagerHandler.Instance.CreateVideo(param);
         }
 
+
+        /// <summary>
+        /// 适合几秒d短音频播放
+        /// </summary>
+        public static WXShortAudioPlayer ShortAudioPlayer = WXShortAudioPlayer.Instance;
+
         #endregion
 
 
         #region 虚拟支付
 
         /// <summary>
-        /// 发起米大师支付, 详见 https://developers.weixin.qq.com/minigame/dev/api/midas-payment/wx.requestMidasPayment.html 
+        /// 发起米大师支付, 详见 https://developers.weixin.qq.com/minigame/dev/api/midas-payment/wx.requestMidasPayment.html
         /// </summary>
         /// <param name="param"></param>
         public static void RequestMidasPayment(RequestMidasPaymentParam param) {
@@ -1120,6 +1126,142 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.OpenCustomerServiceConversation(param);
         }
         #endregion
+
+
+        #region 调试
+        /// <summary>
+        /// 写 debug 日志，同 https://developers.weixin.qq.com/minigame/dev/api/base/debug/LogManager.debug.html
+        /// </summary>
+        /// <param name="str"></param>
+        public static void LogManagerDebug(string str) {
+            WXSDKManagerHandler.Instance.LogManagerDebug(str);
+        }
+
+        /// <summary>
+        /// 写 info 日志，同 https://developers.weixin.qq.com/minigame/dev/api/base/debug/LogManager.info.html
+        /// </summary>
+        /// <param name="str"></param>
+        public static void LogManagerInfo(string str)
+        {
+            WXSDKManagerHandler.Instance.LogManagerInfo(str);
+        }
+
+
+        /// <summary>
+        /// 写 log 日志，同 https://developers.weixin.qq.com/minigame/dev/api/base/debug/LogManager.log.html
+        /// </summary>
+        /// <param name="str"></param>
+        public static void LogManagerLog(string str)
+        {
+            WXSDKManagerHandler.Instance.LogManagerLog(str);
+        }
+
+
+        /// <summary>
+        /// 写 warn 日志，同 https://developers.weixin.qq.com/minigame/dev/api/base/debug/LogManager.warn.html
+        /// </summary>
+        /// <param name="str"></param>
+        public static void LogManagerWarn(string str)
+        {
+            WXSDKManagerHandler.Instance.LogManagerWarn(str);
+        }
+
+        #endregion
+
+        #region 云测试
+        /// <summary>
+		/// 是否小游戏云测试环境
+		/// </summary>
+        public static bool IsCloudTest()
+        {
+            return WXSDKManagerHandler.Instance.IsCloudTest();
+        }
+        #endregion
+
+        public static void UncaughtException()
+        {
+            WXSDKManagerHandler.Instance.UncaughtException();
+        }
+
+
+        #region 剪切板
+        /// <summary>
+        /// 设置系统剪贴板的内容。调用成功后，会弹出 toast 提示"内容已复制"，持续 1.5s ，详见 https://developers.weixin.qq.com/minigame/dev/api/device/clipboard/wx.setClipboardData.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void SetClipboardData(WXClipboardParam param) {
+            WXSDKManagerHandler.Instance.SetClipboardData(param);
+        }
+
+        /// <summary>
+        /// 获取系统剪贴板的内容, 详见 https://developers.weixin.qq.com/minigame/dev/api/device/clipboard/wx.getClipboardData.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void GetClipboardData(WXBaseActionParam<WXClipboardResponse> param)
+        {
+            WXSDKManagerHandler.Instance.GetClipboardData(param);
+        }
+        #endregion
+
+        #region 交互
+        /// <summary>
+        /// 显示消息提示框,详见  https://developers.weixin.qq.com/minigame/dev/api/ui/interaction/wx.showToast.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void ShowToast(WXShowToastParam param) {
+            WXSDKManagerHandler.Instance.ShowToast(param);
+        }
+
+        /// <summary>
+        /// 隐藏消息提示框,详见  https://developers.weixin.qq.com/minigame/dev/api/ui/interaction/wx.showToast.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void HideToast(WXBaseActionParam<WXTextResponse> param)
+        {
+            WXSDKManagerHandler.Instance.HideToast(param);
+        }
+
+
+        /// <summary>
+        /// 显示模态对话框，详见 https://developers.weixin.qq.com/minigame/dev/api/ui/interaction/wx.showModal.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void ShowModal(WXShowModalParam param)
+        {
+            WXSDKManagerHandler.Instance.ShowModal(param);
+        }
+
+        /// <summary>
+        /// 显示 loading 提示框。需主动调用 wx.hideLoading 才能关闭提示框,详见 https://developers.weixin.qq.com/minigame/dev/api/ui/interaction/wx.showLoading.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void ShowLoading(WXShowLoadingParam param) {
+            WXSDKManagerHandler.Instance.ShowLoading(param);
+        }
+
+        /// <summary>
+        /// 隐藏 loading 提示框,详见  https://developers.weixin.qq.com/minigame/dev/api/ui/interaction/wx.hideLoading.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void HideLoading(WXBaseActionParam<WXTextResponse> param)
+        {
+            WXSDKManagerHandler.Instance.HideLoading(param);
+        }
+
+        #endregion
+
+        /*
+        #region 订阅
+        /// <summary>
+        /// 调起小游戏系统订阅消息界面，返回用户订阅消息的操作结果。当用户勾选了订阅面板中的“总是保持以上选择，不再询问”时，模板消息会被添加到用户的小游戏设置页，通过 WX.GetSetting 接口可获取用户对相关模板消息的订阅状态,详见 https://developers.weixin.qq.com/minigame/dev/api/open-api/subscribe-message/wx.requestSubscribeSystemMessage.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void RequestSubscribeSystemMessage(WXRequestSubscribeSystemMessageParam param) {
+            WXSDKManagerHandler.Instance.RequestSubscribeSystemMessage(param);
+        }
+        #endregion
+        */
+        
     }
 }
 

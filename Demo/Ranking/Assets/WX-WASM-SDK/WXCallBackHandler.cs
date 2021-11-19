@@ -102,7 +102,7 @@ namespace WeChatWASM
             {
                 WXUserInfoResponse res = JsonUtility.FromJson<WXUserInfoResponse>(str);
                 var id = res.callbackId;
-                if (WXUserInfoButton.Dict[id] != null)
+                if (WXUserInfoButton.Dict.ContainsKey(id))
                 {
                     res.userInfo = JsonUtility.FromJson<WXUserInfo>(res.userInfoRaw);
                     var button = WXUserInfoButton.Dict[id];

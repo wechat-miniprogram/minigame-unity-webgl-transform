@@ -84,14 +84,14 @@ namespace WeChatWASM
                 // tga就是直接翻转的
                 p.StartInfo.Arguments = "convert \"" +
     src + "[0]"
-    + "\" -quality " + quality + " -resize \"" + width + "x" + height + "!\" \"" +
+    + "\" -channel RGBA -separate -quality " + quality + " -resize " + width + "x" + height + "! -combine \"" +
     dstPath + "\"";
             }
             else
             {
                 p.StartInfo.Arguments = "convert \"" +
-    src +  "[0]" 
-    + "\" -quality " + quality + " -flip -resize \"" + width + "x" + height + "!\" \"" +
+    src +  "[0]"
+    + "\" -channel RGBA -separate -quality " + quality + " -flip -resize " + width + "x" + height + "! -combine \"" +
     dstPath + "\"";
             }
 
@@ -138,7 +138,7 @@ namespace WeChatWASM
                 Debug.LogError(e);
                 sempore.Release();
             }
-            
+
             p.BeginErrorReadLine();
             p.BeginOutputReadLine();
             if (action == null)
@@ -226,7 +226,10 @@ namespace WeChatWASM
 
             //UnityUtil.CreateDir(new DirectoryInfo(dstPath).Parent.ToString());
             sempore.WaitOne();
-
+            if (string.IsNullOrEmpty(ASTCPath))
+            {
+                ASTCPath = GetASTCPath();
+            }
             var p = new System.Diagnostics.Process();
             p.StartInfo.FileName = ASTCPath;
             p.StartInfo.UseShellExecute = false;

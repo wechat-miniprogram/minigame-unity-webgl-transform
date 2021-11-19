@@ -9,11 +9,11 @@ namespace WeChatWASM
         public WXEditorScriptObject config;
         public string tempPath = "";
 
-        [MenuItem("微信小游戏 / 包体瘦身--压缩纹理 / 设置Flare纹理目录")]
+        [MenuItem("微信小游戏 / 包体瘦身--压缩纹理 / 设置Flare或NGUI图集或SpriteRender纹理目录")]
         public static void Open()
         {
 
-            var win = GetWindow(typeof(WXTextureFlareWindow), false, "设置Flare纹理目录", true);//创建窗口
+            var win = GetWindow(typeof(WXTextureFlareWindow), false, "设置Flare或NGUI图集或SpriteRender纹理目录", true);//创建窗口
             win.minSize = new Vector2(800, 300);
             //win.maxSize = new Vector2(400, 200);
             win.Show();
@@ -55,7 +55,7 @@ namespace WeChatWASM
             labelStyle.margin.top = 10;
             labelStyle.margin.bottom = 10;
 
-            GUILayout.Label("设置Flare纹理目录, 使用flare效果时需要设置改目录，才能启用压缩纹理，注意flare的纹理需要单独放在一个目录里。", labelStyle);
+            GUILayout.Label("设置Flare或NGUI图集纹理目录, 使用flare或NGUI图集效果时需要设置该目录，才能启用压缩纹理。\r\n注意flare的纹理或NGUI图集需要单独放在一个目录里。", labelStyle);
 
             GUIStyle pathButtonStyle = new GUIStyle(GUI.skin.button);
             pathButtonStyle.fontSize = 12;

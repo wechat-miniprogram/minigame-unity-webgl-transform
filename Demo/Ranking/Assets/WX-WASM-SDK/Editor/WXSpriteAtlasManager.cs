@@ -1,5 +1,4 @@
-﻿
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -14,8 +13,32 @@ using UnityEngine.U2D;
 namespace WeChatWASM
 {
     public class WXSpriteData {
-        public string atlasPath;
         public Rect rect;
+        public int width;
+        public Color[] colors;
+    }
+
+    public class WXSpriteAtlasCachedDataItem {
+        public int id;
+        public int width;
+        public int height;
+        public string dataHash;
+    }
+
+    public class WXSpriteAtlasCachedSprite{
+        public int id;
+        public string path;
+        public string hash;
+    }
+
+    public class WXSpriteAtlasCacheData
+    {
+
+        public string altasHash;
+        public string pathHash;
+        public WXSpriteAtlasCachedSprite[] sprites;
+        public WXSpriteAtlasCachedDataItem[] datas;
+
     }
 
     public class WXSpriteAtlasManager
@@ -23,13 +46,24 @@ namespace WeChatWASM
 
 
         public static Dictionary<int, string> spriteAtlasMap;
-        public static ArrayList spriteList;
-        public static Dictionary<int, TextureSize> textureSizeList;
-        public static List<WXFormatItem> textureFormatList; //用于恢复
+        private static Dictionary<int, string> spriteList; // 这个是单图的
+        public static List<WXTextureData> spriteAtlasList; // 这个是图集的
+        public static Dictionary<int, WXTextureData> textureDataList;
         public static WXEditorScriptObject miniGameConf;
+        public static Dictionary<string, WXSpriteData> spriteDataList;
+
+        public static void Init() {
+
+            spriteList = new Dictionary<int, string>();
+            spriteAtlasList = new List<WXTextureData>();
+            spriteAtlasMap = new Dictionary<int, string>();
+            textureDataList = new Dictionary<int, WXTextureData>();
+            spriteDataList = new Dictionary<string, WXSpriteData>();
+        }
 
         public static void Start()
         {
+            
             miniGameConf = UnityUtil.GetEditorConf();
 
             SpriteAtlasUtility.PackAllAtlases(BuildTarget.WebGL);
@@ -37,10 +71,20 @@ namespace WeChatWASM
             var list = AssetDatabase.FindAssets("t:spriteatlas", WXTextureManager.GetWorkingFolders());
 
 
-            spriteList = new ArrayList();
-            spriteAtlasMap = new Dictionary<int, string>();
-            textureSizeList = new Dictionary<int, TextureSize>();
-            textureFormatList = new List<WXFormatItem>();
+            var cachedPath = new ArrayList();
+
+            foreach (string guid in list)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+
+                var isCacheAvailable = HandleSpriteAtlasCache(path);
+
+                if (isCacheAvailable)
+                {
+                    cachedPath.Add(path);
+                }
+
+            }
 
 
             foreach (string guid in list)
@@ -48,7 +92,20 @@ namespace WeChatWASM
 
                 var path = AssetDatabase.GUIDToAssetPath(guid);
 
+                if (cachedPath.IndexOf(path) !=-1) {
+                    continue;
+                }
+
+
                 SpriteAtlas spriteAtlas = AssetDatabase.LoadAssetAtPath(path, typeof(SpriteAtlas)) as SpriteAtlas;
+
+                Sprite[] sprites = new Sprite[spriteAtlas.spriteCount];
+                spriteAtlas.GetSprites(sprites);
+
+
+                var backupPath = Path.Combine(WXTextureManager.textureDstDir, "backup", path);
+                UnityUtil.CreateDir(new DirectoryInfo(backupPath).Parent.ToString());
+                File.Copy(path, backupPath, true);
 
                 TextureImporterPlatformSettings tips = spriteAtlas.GetPlatformSettings(BuildTarget.WebGL.ToString());
                 tips.overridden = true;
@@ -66,13 +123,7 @@ namespace WeChatWASM
                 spriteAtlas.SetPackingSettings(sps);
 
 
-                FileInfo fi = new FileInfo(Path.Combine(miniGameConf.ProjectConf.DST, WXEditorWindow.webglDir, path));
 
-                UnityUtil.CreateDir(fi.DirectoryName);
-
-
-                Sprite[] sprites = new Sprite[spriteAtlas.spriteCount];
-                spriteAtlas.GetSprites(sprites);
 
                 var pathList = new string[sprites.Length];
                 var i = 0;
@@ -92,8 +143,19 @@ namespace WeChatWASM
                         texImport.isReadable = true;
                         AssetDatabase.ImportAsset(spritePath);
                     }
+                    var key = AssetDatabase.GetAssetPath(s.texture);
+                    spriteDataList.Add(key,new WXSpriteData() {
+
+                        rect = GetRect(SpriteUtility.GetSpriteUVs(s, false),s.texture.width, s.texture.height),
+                        width = s.texture.width,
+                        colors = s.texture.GetPixels()
+                        
+                    });
+
                 }
 
+                var cacheData = new WXSpriteAtlasCacheData();
+                cacheData.sprites = new WXSpriteAtlasCachedSprite[sprites.Length];
 
                 foreach (Sprite s in sprites) {
 
@@ -102,32 +164,37 @@ namespace WeChatWASM
                         continue;
                     }
                     pathList[i] = spritePath;
-                    if (spriteList.Contains(spritePath))
+                    if (spriteList.ContainsValue(spritePath))
                     {
-                        Debug.LogError("图片：" + spritePath + " 被多个图集重复使用了！这是不允许的，请修正！");
+                        UnityEngine.Debug.LogError("图片：" + spritePath + " 被多个图集重复使用了！这是不允许的，请修正！");
                         continue;
                     }
 
-                    spriteList.Add(spritePath);
+
+                    var index = AddPath2SpriteList(spritePath);
 
                     TextureImporter texImport = AssetImporter.GetAtPath(spritePath) as TextureImporter;
 
                     var t = texImport.GetPlatformTextureSettings(BuildTarget.WebGL.ToString());
+                    
+                    ReplaceTexture(spritePath, index);
 
-                    textureFormatList.Add(new WXFormatItem()
+                    AssetDatabase.ImportAsset(spritePath);
+
+                    cacheData.sprites[i] = new WXSpriteAtlasCachedSprite()
                     {
+                        id = index,
                         path = spritePath,
-                        format = t.format
-                    });
-
-                    var index = spriteList.IndexOf(spritePath);
-                    ReplaceTexture(spritePath, index + 1); //避免0的id
+                        hash = s.texture.imageContentsHash.ToString()
+                    };
 
                     i++;
-
+                    
                 }
 
-                AssetDatabase.Refresh();
+                
+
+                AssetDatabase.Refresh();  //需要刷新一边，不然获取的key会有问题
 
                 SpriteAtlasUtility.PackAtlases(new SpriteAtlas[] { spriteAtlas }, BuildTarget.WebGL);
 
@@ -140,7 +207,8 @@ namespace WeChatWASM
                 tips.format = TextureImporterFormat.RGBA32;
                 spriteAtlas.SetPlatformSettings(tips);
 
-                GeneratePNG(path, fi.DirectoryName, pathList);
+                GeneratePNG(path, cacheData);
+
 
                 tips.format = TextureImporterFormat.DXT1;
                 spriteAtlas.SetPlatformSettings(tips);
@@ -148,15 +216,151 @@ namespace WeChatWASM
 
                 sats.readable = false;
                 spriteAtlas.SetTextureSettings(sats);
+
+                //AssetDatabase.ImportAsset(path);
+
+
+                var cacheText = File.ReadAllText(path);
+                cacheText = Regex.Replace(cacheText, @"(m_TextureFormat:) \d{1,2}", @"$1 10");
+
+                cacheData.altasHash = UnityUtil.GetMd5Str(cacheText);
+
+                var cacheConfPath = Path.Combine(WXTextureManager.textureDstDir, "spriteAtlas", path + ".json");
+                UnityUtil.CreateDir(new DirectoryInfo(cacheConfPath).Parent.ToString());
+                File.WriteAllText(cacheConfPath, JsonMapper.ToJson(cacheData));
+
             }
 
         }
 
-        public static void SaveManagedResult(string result)
+        public static int AddPath2SpriteList(string path) {
+            int i = 1; //从1开始避免0
+            while (true) {
+                if (!spriteList.ContainsKey(i)) {
+                    spriteList.Add(i,path);
+                    return i;
+                }
+                i++;
+            }
+        }
+
+        public static void AddPath2SpriteList(string path,int id)
+        {
+
+            spriteList.Add(id, path);
+
+        }
+
+        public static bool PathIsInSpriteAtlas(string path) {
+            return spriteList.ContainsValue(path);
+        }
+
+        public static bool HandleSpriteAtlasCache(string path) {
+            var cachePath = Path.Combine(WXTextureManager.textureDstDir, "spriteAtlas", path + ".json");
+            if (!File.Exists(cachePath))
+            {
+                return false;
+            }
+
+            SpriteAtlas spriteAtlas = AssetDatabase.LoadAssetAtPath(path, typeof(SpriteAtlas)) as SpriteAtlas;
+
+            Sprite[] sprites = new Sprite[spriteAtlas.spriteCount];
+            spriteAtlas.GetSprites(sprites);
+
+            var isAvailable = true;
+            var cacheData = JsonMapper.ToObject<WXSpriteAtlasCacheData>(File.ReadAllText(cachePath));
+            if (cacheData.sprites.Length !=sprites.Length) {
+                isAvailable =  false;
+            }
+
+            var spriteAtlasMd5 = UnityUtil.GetMd5Str(File.ReadAllText(path));
+            if (spriteAtlasMd5 != cacheData.altasHash) {
+                isAvailable = false;
+            }
+
+            var spriteHashes = new string[cacheData.sprites.Length];
+            var spritePaths = new string[cacheData.sprites.Length];
+            for (var i=0;i<spriteHashes.Length;i++) {
+                spriteHashes[i] = cacheData.sprites[i].hash;
+                spritePaths[i] = cacheData.sprites[i].path;
+            }
+
+            foreach (var sprite in sprites) {
+                if (ArrayUtility.IndexOf(spriteHashes, sprite.texture.imageContentsHash.ToString())==-1) {
+                    isAvailable = false;
+                    break;
+                }
+            }
+
+
+
+            if (!isAvailable)
+            {
+
+                foreach (var sprite in sprites)
+                {
+                    var index = ArrayUtility.IndexOf(spriteHashes, sprite.texture.imageContentsHash.ToString());
+                    if (index != -1)
+                    {
+                        var texturePath = Path.Combine(WXTextureManager.textureDstDir, "backup", spritePaths[index]);
+                        if (!File.Exists(texturePath))
+                        {
+                            Debug.LogError("恢复文件已丢失，请手动还原图片：" + spritePaths[index]);
+                        }
+                        else
+                        {
+                            File.Copy(texturePath, spritePaths[index], true);
+                            File.Delete(texturePath);
+                        }
+                    }
+                }
+
+                File.Delete(cachePath);
+
+            }
+            else {
+
+                for (var i=0; i<cacheData.datas.Length; i++) {
+
+                    var data = cacheData.datas[i];
+
+                    spriteAtlasMap.Add(data.id, path.Replace(".spriteatlas", "_" + i + ".png"));
+
+                    var item = new WXTextureData()
+                    {
+
+                        width = data.width,
+                        height = data.height,
+                        fileName = spriteAtlas.name + "_" + i,
+                        dataHash = data.dataHash,
+                        pathHash = cacheData.pathHash,
+                        path = ""
+
+                    };
+
+                    textureDataList.Add(data.id, item);
+
+                    spriteAtlasList.Add(item);
+
+                }
+
+                
+
+                foreach (var item in cacheData.sprites) {
+                    AddPath2SpriteList(item.path,item.id); //就是为了占位，不要让别的图把这个id占了
+                }
+            }
+
+            
+
+            return isAvailable;
+        }
+
+        public static void SaveManagedResult()
         {
 
             var conf = UnityUtil.GetEditorConf();
-            conf.CompressTexture.SpriteRes = result;
+            conf.CompressTexture.SpriteRes = GetManagedSpriteDatas();
 
             EditorUtility.SetDirty(conf);
             AssetDatabase.SaveAssets();
@@ -171,10 +375,11 @@ namespace WeChatWASM
             if (spriteAtlasMap.Count>0) {
                 var result = new Dictionary<int, WXTextureData4Js>();
                 foreach (var item in spriteAtlasMap) {
+                    var data = textureDataList[item.Key];
                     result.Add(item.Key, new WXTextureData4Js() {
-                        p = Regex.Replace(item.Value, @"^Assets(\\|\/)", ""),
-                        w = textureSizeList[item.Key].width,
-                        h = textureSizeList[item.Key].height
+                        p = string.Format("{0}/{1}.{2}",data.pathHash,data.fileName,data.dataHash),
+                        w = textureDataList[item.Key].width,
+                        h = textureDataList[item.Key].height
                     });
                 }
 
@@ -183,7 +388,6 @@ namespace WeChatWASM
             return "";
 
         }
-
 
         public static void SaveSpriteAtlasKey(SpriteAtlas spriteAtlas, string path) {
             var txs = GetPreviewTexture(spriteAtlas);
@@ -200,28 +404,13 @@ namespace WeChatWASM
 
                 spriteAtlasMap.Add((int)id, path.Replace(".spriteatlas", "_"+i+".png"));
 
-                textureSizeList.Add((int)id, new TextureSize()
+                textureDataList.Add((int)id, new WXTextureData()
                 {
                     width = tx.width,
                     height = tx.height
                 });
 
 
-            }
-
-        }
-
-        public static void Recover() {
-            var list = AssetDatabase.FindAssets("t:spriteatlas", WXTextureManager.GetWorkingFolders());
-
-            foreach (string guid in list)
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                SpriteAtlas spriteAtlas = AssetDatabase.LoadAssetAtPath(path, typeof(SpriteAtlas)) as SpriteAtlas;
-                TextureImporterPlatformSettings tips = spriteAtlas.GetPlatformSettings(BuildTarget.WebGL.ToString());
-                tips.overridden = true;
-                tips.format = TextureImporterFormat.RGBA32;
-                spriteAtlas.SetPlatformSettings(tips);
             }
 
         }
@@ -277,7 +466,46 @@ namespace WeChatWASM
             return atlasTextures;
         }
 
-        public static void GeneratePNG(string spriteAtlasPath, string dirPath, string[] spriteList)
+        public static void CompressPNGCallback(string filePrefix, bool needPvr, bool needMin) {
+
+
+            if (!File.Exists(filePrefix + ".astc.txt")) {
+                PicCompressor.CompressASTC(filePrefix + ".png", filePrefix + ".astc");
+            }
+            
+
+            if (!WXTextureManager.miniGameConf.CompressTexture.OnlyAstc)
+            {
+                if (!File.Exists(filePrefix + ".pkm.txt")) {
+                    PicCompressor.CompressETC2(filePrefix + ".png", filePrefix + ".pkm");
+                }
+                
+                if (needPvr && !File.Exists(filePrefix + ".pvr.txt"))
+                {
+                    PicCompressor.CompressPVRTC(filePrefix + ".png", filePrefix + ".pvr");
+                }
+                if (needMin) {
+                    PicCompressor.CompressMinPNG(filePrefix + ".png");
+                }
+                
+            }
+
+        }
+
+        public static int GetIdByAtlasPath(string path, int index) {
+
+            foreach (var item in spriteAtlasMap) {
+                if (item.Value == path.Replace(".spriteatlas", "_" + index + ".png"))
+                {
+                    return item.Key;
+                }
+            }
+            UnityEngine.Debug.LogError("SpriteAtlas查找Id失败");
+            return 0;
+
+        }
+
+        public static void GeneratePNG(string spriteAtlasPath, WXSpriteAtlasCacheData cacheData)
         {
 
             SpriteAtlas spriteAtlas = AssetDatabase.LoadAssetAtPath(spriteAtlasPath, typeof(SpriteAtlas)) as SpriteAtlas;
@@ -287,6 +515,10 @@ namespace WeChatWASM
             Sprite[] sprites = new Sprite[spriteAtlas.spriteCount];
             spriteAtlas.GetSprites(sprites);
 
+            cacheData.datas = new WXSpriteAtlasCachedDataItem[atlasTextures.Length];
+
+            
+            /*
             foreach (string spritePath in spriteList)
             {
                 if (string.IsNullOrEmpty(spritePath)) {
@@ -311,9 +543,15 @@ namespace WeChatWASM
                 texImport.SetPlatformTextureSettings(tips);
             }
             //这里要重新导入一遍是因替换回来了黑图
-            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            //AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+            */
+            var spriteAtlasDir = spriteAtlasPath.Substring(0, spriteAtlasPath.LastIndexOf("/"));
+            var dirMd5 = UnityUtil.GetMd5Str(spriteAtlasDir).Substring(0, 8);
+
+            cacheData.pathHash = dirMd5;
 
             for (int i=0; i<atlasTextures.Length; i++) {
+
                 var tx = atlasTextures[i];
                 var texture2D = new Texture2D(tx.width, tx.height, TextureFormat.RGBA32, false);
 
@@ -329,59 +567,123 @@ namespace WeChatWASM
                         continue;
                     }
 
-                    var suvs = SpriteUtility.GetSpriteUVs(s,false);
+                    //var suvs = SpriteUtility.GetSpriteUVs(s,false);
 
-                    var sTx = s.texture;
-                    var sRect = GetRect(suvs,sTx.width,sTx.height);
+                    //var sTx = s.texture;
+                    var key = AssetDatabase.GetAssetPath(s.texture);
+                    var sRect = spriteDataList[key].rect;
+                    var width = spriteDataList[key].width;
+
                     var uvs = SpriteUtility.GetSpriteUVs(s, true);
                     var dstRect = GetRect(uvs,tx.width,tx.height);
 
                     int hd = (int)dstRect.y;
                     int wd = (int)dstRect.x;
 
+                    var colors = spriteDataList[key].colors;
 
-                    for(int hs = 0; hs< sRect.height; hs++)
+                    for (int hs = 0; hs< sRect.height; hs++)
                     {
 
                         for (int ws = 0; ws < sRect.width; ws++)
                         {
-                            var color = sTx.GetPixel(ws+ (int)sRect.x, hs+ (int)sRect.y);
+                            //var color = sTx.GetPixel(ws+ (int)sRect.x, hs+ (int)sRect.y);
+                            var index = (hs + (int)sRect.y) * width + ws + (int)sRect.x;
+                            if (index >= colors.Length) {
+                                //todo 可能会有问题，后面观察一下
+                                break;
+                            }
+                            var color = colors[index];
+                            
+                            
                             texture2D.SetPixel(wd+ws,hd+hs,color);
 
                         }
+
                     }
 
+                    spriteDataList.Remove(key);
 
                 }
 
 
                 texture2D.Apply();
-                string tmpPath = string.Format("{0}/{1}_{2}.tmp.png", dirPath, spriteAtlas.name, i);
-                File.WriteAllBytes(tmpPath, texture2D.EncodeToPNG());
-                string pngPath = string.Format("{0}/{1}_{2}.png", dirPath, spriteAtlas.name, i);
-                bool needPvr = tx.width == tx.height;
-                PicCompressor.CompressPNG(tmpPath, pngPath + ".png", tx.width, tx.height,()=> {
 
 
-                    PicCompressor.CompressASTC(pngPath + ".png", pngPath + ".astc");
+                var dataMd5 = UnityUtil.GetMd5Str(texture2D.GetRawTextureData()).Substring(0,8);
+                spriteAtlasPath = spriteAtlasPath.Replace("\\", "/");
 
-                    if (!WXTextureManager.miniGameConf.CompressTexture.OnlyAstc)
+                var dstDir = Path.Combine(WXTextureManager.textureDstDir, WXEditorWindow.webglDir, "Assets", dirMd5).Replace("\\", "/");
+                var tmpDir = Path.Combine(WXTextureManager.textureDstDir, "spriteAtlas", dirMd5).Replace("\\", "/");
+
+                
+                var tmpPath = string.Format("{0}/{1}_{2}.{3}.png", tmpDir, spriteAtlas.name, i, dataMd5);
+                string filePrefix = string.Format("{0}/{1}_{2}.{3}", dstDir, spriteAtlas.name, i, dataMd5);
+                string pngPath = filePrefix + ".png";
+
+                UnityUtil.CreateDir(dstDir);
+                UnityUtil.CreateDir(tmpDir);
+
+                var altasId = GetIdByAtlasPath(spriteAtlasPath,i);
+
+                textureDataList[altasId].dataHash = dataMd5;
+                textureDataList[altasId].pathHash = dirMd5;
+                textureDataList[altasId].fileName = spriteAtlas.name+"_"+i;
+                textureDataList[altasId].width = tx.width;
+                textureDataList[altasId].height = tx.height;
+
+
+                cacheData.datas[i] = new WXSpriteAtlasCachedDataItem()
+                {
+                    width = tx.width,
+                    height = tx.height,
+                    dataHash = dataMd5,
+                    id = altasId
+                };
+
+
+                if (!File.Exists(tmpPath))
+                {
+                    File.WriteAllBytes(tmpPath, texture2D.EncodeToPNG());
+                }
+
+
+                if (!WXTextureManager.miniGameConf.CompressTexture.TooManyFiles)
+                {
+
+                    bool needPvr = tx.width == tx.height;
+                    if (!File.Exists(pngPath))
                     {
-                        PicCompressor.CompressETC2(pngPath + ".png", pngPath + ".pkm");
-                        if (needPvr)
+                        PicCompressor.CompressPNG(tmpPath, pngPath, tx.width, tx.height, () =>
                         {
-                            PicCompressor.CompressPVRTC(pngPath + ".png", pngPath + ".pvr");
-                        }
-
-                        PicCompressor.CompressMinPNG(pngPath + ".png");
+                            CompressPNGCallback(filePrefix, needPvr,true);
+                        });
                     }
+                    else
+                    {
+                        CompressPNGCallback(filePrefix, needPvr, true);
+                    }
+                }
+                else {
 
-                    File.Delete(tmpPath);
+                    spriteAtlasList.Add(new WXTextureData()
+                    {
+                        width = tx.width,
+                        height = tx.height,
+                        dataHash = dataMd5,
+                        fileName = spriteAtlas.name+"_"+i,
+                        pathHash = dirMd5,
+                        path = ""
 
-                });
+                    });
+
+                }
+
+
 
             }
 
+            /*
 
             foreach (string spritePath in spriteList)
             {
@@ -392,9 +694,10 @@ namespace WeChatWASM
                 File.Move(spritePath, backupPath);
                 File.Delete(spritePath);
                 File.Move(backupPath + ".r", spritePath);
+
             }
 
-
+            */
 
         }
 
@@ -405,7 +708,7 @@ namespace WeChatWASM
 
             if (id > 16 * 16 * 16)
             {
-                Debug.LogError("Sprite Atlas 包含的图片太多！不能多于4096张图！");
+                UnityEngine.Debug.LogError("Sprite Atlas 包含的图片太多！不能多于4096张图！");
                 return;
             }
 
@@ -505,7 +808,7 @@ namespace WeChatWASM
             }
 
 
-            var backupPath = Path.Combine(miniGameConf.ProjectConf.DST, "backup", path);
+            var backupPath = Path.Combine(WXTextureManager.textureDstDir, "backup", path);
 
             if (File.Exists(backupPath))
             {
@@ -522,8 +825,6 @@ namespace WeChatWASM
 
             File.WriteAllBytes(path, texture2D.EncodeToPNG());
 
-            //TextureImporter texImport = AssetImporter.GetAtPath(path) as TextureImporter;
-            //texImport.isReadable = false;
 
         }
 
