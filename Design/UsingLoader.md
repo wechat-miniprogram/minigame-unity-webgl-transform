@@ -90,18 +90,19 @@ let managerConfig = {
 ### 3.4 资源缓存与淘汰策略
 #### 资源缓存
 首包资源和wasm代码会自动缓存。
-使用bundle时，插件也会做缓存处理，但插件需根据下载文件名进行处理，因此需要注意:
 
-1. bundle文件名不可重名，否则同名文件无法使用缓存
-2. bundle名需要带上md5 [BuildAssetBundleOptions.AppendHashToAssetBundleName](https://docs.unity3d.com/ScriptReference/BuildAssetBundleOptions.AppendHashToAssetBundleName.html)，以便清理掉该文件的旧缓存
-3. bundle存放路径需要包含StreamingAssets这个path（一般addressable默认打包会放在StreamingAssets/aa/WebGL/WebGL/这个目录下），或者文件名包含.bundle，才能启用缓存
+#### assetbundle缓存
+如果请求URL包含StreamingAssets，则插件判定为是在下载assetbundle文件，会自动进行缓存提升二次启动速度。
+所以需要自动缓存的文件，可放到StreamingAssets目录下。
+
+但请注意以下几点：
+1. 文件名需要带上hash [BuildAssetBundleOptions.AppendHashToAssetBundleName](https://docs.unity3d.com/ScriptReference/BuildAssetBundleOptions.AppendHashToAssetBundleName.html)，以便清理掉该文件的旧缓存。默认32位长度，如果游戏可通过导出选项中`Bundle名中Hash长度`来自定义。比如游戏自己计算了crc，可将`Bundle名中Hash长度`设置为crc长度。
+2. 配置到不自动缓存文件类型中的文件，不会自动缓存，默认值是json，比如addressable打包后生成StreamingAssets/aa/WebGL/catalog.json，这个文件不会自动缓存。
 
 #### 资源淘汰
 由于缓存目录最大不可超过200M，在下载资源包、下载AB包时，若剩余空间不足以缓存，会进行缓存淘汰。目前规则比较简单，如下：
 1. 如果所需空间过大，超过最大限制：下载完成后不缓存文件，也不执行清理逻辑，直接返回下载内容。
 2. 清理部分文件可以缓存新文件：按最近使用时间从前往后排序清理，直到清理出所需空间。
-
-> 因为文件解压只能解压到用户目录，所以，若压缩文件过大，无法解压到用户目录时，会返回失败。
  
 
 ### 3.5 其他可配置参看
