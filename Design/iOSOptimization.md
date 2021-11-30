@@ -10,6 +10,7 @@
 ## 性能提升
 ### CPU消耗
 通过多款游戏项目，我们得到实际游戏项目的CPU占用如下图所示：
+
 <image src='../image/iosoptimization3.png' width="500"/>
 
 我们得到以下结论：
