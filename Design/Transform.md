@@ -19,23 +19,24 @@
 其中：
 1. 必须
 - 游戏appid：小游戏的appid
-- 游戏资源CDN：首包资源加载方式选择CDN时，需要提供游戏首包资源所在HTTP或CDN地址
+- 游戏资源CDN：游戏资源所在HTTP或CDN地址
+- 导出路径：转换后文件目录
 2. 可选
 - 小游戏项目名：开发者工具中展示的小游戏项目名
 - 首包资源加载方式：CDN-使用CDN下载首包资源；小游戏分包-使用小游戏代码分包下载资源
-- AB包CDN地址：用到AB包时需要，地址为StreamingAssets目录的上一级目录
 - 加载阶段视频URL：启动需要一定耗时，在启动加载时会循环播放这段视频，视频格式请参考[视频规范](video.md)
-- Assets目录对应CDN地址：使用压缩纹理时，生成的webgl目录下会包含Assets目录，填写Assets目录对应CDN地址
-- 游戏内存大小：playersetting中memorysize
-- 游戏方向：游戏是横屏还是竖屏
+- 启动背景/视频封面图：启动阶段背景图片；如果配置了加载阶段视频URL，则作为视频封面。
+- 游戏方向：游戏是横屏还是竖屏，可选值参考[deviceOrientation](https://developers.weixin.qq.com/minigame/dev/reference/configuration/app.html)
+- 不自动缓存文件类型：游戏资源CDN下不自动缓存的文件类型，具体参见[AssetBundle缓存]](UsingLoader.md)
+- Bundle名中Hash长度：自定义AssetBundle名中Hash长度用于缓存控制，具体参见[AssetBundle缓存](UsingLoader.md)
+- 预下载列表：网络空闲时预下载的资源，[使用预下载](UsingPreload.md)
+- SDK功能选项：[好友关系链](OpenData.md) [音频优化](AudioOptimization.md)
+- 调试编译选项
 
-生成目录下 webgl目录为游戏对应的webgl版本，minigame目录为转化后的小游戏代码。
+转换完成后，参照[资源部署与缓存](DataCDN.md)章节进行资源部署，并了解启动Loader在加载资源时的缓存逻辑。
 
 注意：
-* 若首包资源加载方式选择'小游戏分包'，会根据生成的wasm代码包和首包资源大小是否超过20M，若超过还是会使用CDN加载，参考[使用Loader进行游游戏加载](UsingLoader.md)
-* 若首包资源加载方式选择'CDN'，将生成目录下的`webgl/ProjectName.data.unityweb.bin.txt`上传至“游戏资源CDN”。您的CDN最好支持Brotli或gzip压缩txt文件，这样能减少网络传输数据和时间。
 * 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权，具体可参考[使用Loader进行游游戏加载](UsingLoader.md)
-* 使用AssetsBundle时，请将资源上传到“AB包CDN地址”
 
 至此，可以在[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)打开转化后的小游戏进行预览。
  
