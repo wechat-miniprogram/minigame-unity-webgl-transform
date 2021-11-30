@@ -27,7 +27,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 - DOM：浏览器页面元素，Cavas等。在小游戏环境中并不存在DOM，但依然会存在一些基本消耗，比如小游戏公共库，Canvas画布等。典型地，***小游戏公共库约占用内存100~150MB，Canvas 画布与设备物理分辨率相关***，比如iPhone 11 Promax占用约80MB。
 
-- Unity Heap: 用于存储所有状态、托管的对象和本机对象以及当前加载的资源和场景的内存。举例，游戏逻辑分配的C#对象等托管内存，以及Unity管理的AssetBundle对象、场景结构等本机内存。一般情况下建议200MB左右为宜，***不要超过300MB，切忌产生跳跃峰值***。
+- Unity Heap: 用于存储所有状态、托管的对象和本机对象以及当前加载的资源和场景的内存。举例，游戏逻辑分配的C#对象等托管内存，以及Unity管理的AssetBundle对象、场景结构等本机内存。具体占用通过WX.LogUnityHeapMem打印到控制台。
 
 - Asset Data: 原生APP通常不会有这类内存，AssetData需要文件的同步读写能力，但浏览器环境并不支持。Emscripten使用[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)模拟Linux/POSIX接口，***代价是占用与文件同等大小的内存***。
 
@@ -79,8 +79,11 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 
 ### 4.3 Unity Heap
-- 问题原因：Unity Heap是用于存储所有状态、托管的对象和本机对象，往往由于场景过大或由于业务原因造成瞬间内存峰值。***请切记，Heap是只增不减且存在内存碎片的。***
-- 解决办法：避免同一时刻使用过多内存，比如场景过大、AssetBundle体积太大、单帧分配的对象过多等内存峰值。
+- 问题原因：Unity Heap是用于存储所有状态、托管的对象和本机对象，往往由于场景过大或由于业务原因造成瞬间内存峰值。***由于Unity WebGL在单首帧内无法GC***，单帧内瞬间的内存使用非常容易造成crash。同时，***Heap是只增不减且存在内存碎片的。***
+ 解决办法: 1. 避免场景过大导致瞬间峰值
+          2. 避免过大的AssetBUndle导致瞬间峰值
+          3. 避免单帧内分配过多的对象
+          4. 建议200MB左右为宜，***不要超过300MB，切忌产生跳跃峰值***，
 
 
 ### 4.4 首资源包与AssetBundle内存
