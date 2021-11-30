@@ -33,7 +33,7 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 ### 内存限制
 高性能模式下，iOS低端机(6s/7/8等)2G RAM记性的内存限制为1G，高端机(7P/8P/iPhoneX/XSAMX/11等)3G以上内存机型的内存限制为1.4G，因此开发者务必保证内存峰值不超过该数值。
 
-建议开发者根据指引[优化Unity WebGL的内存](Design/OptimizationMemory.md)
+建议开发者根据指引[优化Unity WebGL的内存](OptimizationMemory.md)，如[压缩纹理优化](Design/CompressedTexture.md)等方式。
 
 ### 代码体积限制
 高性能模式下，WASM代码将被编译并优化，需要占用更多的编译消耗与内存。如果未进行优化前，可以明显感受到启动开始阶段（如启动前1分钟内）设备发烫。
