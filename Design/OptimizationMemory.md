@@ -31,7 +31,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 - Asset Data: 原生APP通常不会有这类内存，AssetData需要文件的同步读写能力，但浏览器环境并不支持。Emscripten使用[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)模拟Linux/POSIX接口，***代价是占用与文件同等大小的内存***。
 
-- AssetBundles: 上图的AssetBundles指的是下载时产生WebHttpRequest的临时内存，并非AB在Native内存的占用。***当包体较大或网络并发较大时，下载容易产生内存峰值，虽然为临时内存缺很可能突破OOM阈值导致Crash***。
+- AssetBundles: 此处指的是下载时产生WebHttpRequest的临时内存，并非AB在Native内存的占用。***当包体较大或网络并发较大时，下载容易产生内存峰值，虽然为临时内存缺很可能突破OOM阈值导致Crash***。
 
 - WebAudio：Unity将音频传递给容器（浏览器或小游戏）后，播放音频时将占用的内存。目前自带音频系统存在较大内存和性能问题，Unity2021之前不支持内存压缩音频，因此音频加载后将被完整解压，***非压缩音频会导致极大内存占用***。
 
@@ -63,14 +63,14 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 <image src='../image/optimizationMemory5.png' width="1080"/>
 
 ### 四、内存优化方案
-以iOS为例，一款代码大小为30MB的游戏占用内存为：
+以iOS为例，一款代码(导出目录/webgl/Build/xxx.code.unityweb或code.wasm)大小为30MB的游戏占用内存为：
 小游戏基础库(130MB) + Cavnas(70MB) + 编译内存(300MB) + Unity Heap(托管内存 + Native内存) + Gfx显存 + 音频 + 胶水层。
 
 假如游戏需要支持低档机型，将内存控制到1G以内，业务侧(Unity Heap, Gfx显存，音频，胶水层)需控制在500MB左右。我们此处给出转换游戏中最容易遇到的内存问题与解决方案，如果开发者遇到内存问题时请逐个排查优化。
 
 
 ### 4.1 WebAssembly编译代码内存
-- 问题原因：Unity WebGL将所有代码(引擎、业务代码、第三方插件)编译WebAssembly，运行时需进行编译。在部分系统如iOS，此部分内存占用非常大（如30MB未压缩代码需300MB运行时编译内存）。
+- 问题原因：Unity WebGL将所有代码(引擎、业务代码、第三方插件)编译为跨平台的WebAssembly二进制代码，运行时需进行编译执行。编译所占用内存占用非常大（如在iOS系统，30MB未压缩代码需300MB运行时编译内存）。
 - 解决办法：[使用代码分包工具](Design/WasmSplit.md)能降低原编译代码内存50%以上。 
 
 ### 4.2 GPU纹理内存
