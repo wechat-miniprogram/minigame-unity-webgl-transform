@@ -11,11 +11,12 @@
 Unity制作的[
 EndlessRunnerSampleGame](https://github.com/Unity-Technologies/EndlessRunnerSampleGame)的小游戏适配。 一款有趣的跑酷类游戏，控制一条勇敢的街头猫，沿着一个大城市的街道跑步，沿途收集鱼骨和沙丁鱼罐头，同时避开各种致命的障碍和怪物。
 
-## 网吧模拟器
+## 我叫MT2
 
-<image src='../image/showcase1.png' width="200"/>
+<image src='../image/showcase24.png' width="200"/>
 
-由成都品游科技有限公司（Papa Box）开发的模拟经营向的游戏。一款挂机模拟经营类的休闲游戏。玩家将会作为一名网吧老板誓要濒临破产的网吧经营为一个奢华的网咖，玩家需要通过宣传推广，购置机器，雇佣员工等手段将网吧做大做强。
+## 我叫MT2
+由乐动卓越研发的精美3D手游，延续了传统《我叫MT》的经典特色。钓鱼挖矿，外域探险玩法都将为您呈现独一无二的掌中魔幻世界！
 
 ## 就差一刀
 
