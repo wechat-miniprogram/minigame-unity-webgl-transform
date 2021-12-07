@@ -71,11 +71,11 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 ### 4.1 WebAssembly编译代码内存
 - 问题原因：Unity WebGL将所有代码(引擎、业务代码、第三方插件)编译为跨平台的WebAssembly二进制代码，运行时需进行编译执行。编译所占用内存占用非常大（如在iOS系统，30MB未压缩代码需300MB运行时编译内存）。
-- 解决办法：[使用代码分包工具](Design/WasmSplit.md)能降低原编译代码内存50%以上。 
+- 解决办法：[使用代码分包工具](WasmSplit.md)能降低原编译代码内存50%以上。 
 
 ### 4.2 GPU纹理内存
 - 问题原因：Unity 2021才开始支持移动平台的压缩纹理，使用RGBA、DXT等纹理格式将导致巨大的内存开销与运行时解压消耗。
-- 解决办法：[压缩纹理优化](Design/CompressedTexture.md)能最大程度地减少内存与解压开销。
+- 解决办法：[压缩纹理优化](CompressedTexture.md)能最大程度地减少内存与解压开销。
 
 
 ### 4.3 Unity Heap
@@ -84,7 +84,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
           2. 避免过大的AssetBUndle导致瞬间峰值
           3. 避免单帧内分配过多的对象
           4. 建议200MB左右为宜，***不要超过300MB，切忌产生跳跃峰值***，
-
+          5. 重度游戏建议使用WX.LogUnityHeapMem查看Dynamic峰值，填写MiniGameConfig.asset中的内存为该值。
 
 ### 4.4 首资源包与AssetBundle内存
 - 问题原因：首资源包永远占用内存且无法释放；首资源包和AssetBundle自带的cache机制都会使用Emscripten使用[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)，应避免使用。
