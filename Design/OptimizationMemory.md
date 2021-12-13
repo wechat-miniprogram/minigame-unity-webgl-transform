@@ -97,6 +97,12 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 - 问题原因：Unity2021之前不支持内存压缩音频，因此音频加载后将被完整解压，***非压缩音频会导致极大内存占用***。
 - 解决办法：使用小游戏SDK[音频适配优化](AudioOptimization.md)。
 
+### 4.6 其他常见优化手段
+[性能优化，进无止境-内存篇（上）](https://blog.uwa4d.com/archives/optimzation_memory_1.html)
+[性能优化，进无止境-内存篇（下）](https://blog.uwa4d.com/archives/optimzation_memory_2.html)
+[全面理解Unity加载和内存管理](https://gameinstitute.qq.com/community/detail/100741)
+[Unity加载和内存管理](https://zentia.github.io/2018/04/11/AssetBundle/)
+
 ## 五、QA
 1. 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
 
