@@ -40,7 +40,10 @@ public static void Build()
   else
   {
       AssetBundle ab = (request.downloadHandler as DownloadHandlerAssetBundle).assetBundle;
+      // ab.LoadAsset
+      ab.Unload(false);
   }
+  request.Dispose();
   ```
 - UnityWebRequest
   ```c#
@@ -54,7 +57,10 @@ public static void Build()
   } else
   {
       AssetBundle ab = handler.assetBundle
+      // ab.LoadAsset
+      ab.Unload(false);
   }
+  www.Dispose();
   ```
 - WWW.LoadFromCacheOrDownload
   ```c#
@@ -66,6 +72,9 @@ public static void Build()
       yield break;
   }
   AssetBundle ab = www.assetBundle;
+  // ab.LoadAsset
+  ab.Unload(false);
+  www.Dispose();
   ```
 - WWW
   ```c#
@@ -77,6 +86,8 @@ public static void Build()
       yield break;
   }
   AssetBundle ab = www.assetBundle;
+  ab.Unload(false);
+  www.Dispose();
   ```
 
   界面如下
