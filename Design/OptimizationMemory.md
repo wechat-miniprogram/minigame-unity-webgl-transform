@@ -41,7 +41,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 
 ## 三、内存查看工具
-开发者可由系统进程、JavaScript Heap等方面去分析和查看游戏内存。
+开发者可由系统进程、UnityHeap、JavaScript Heap等方面去分析和查看游戏内存。
 
 ### 3.1 进程总内存
 查看总内存时，我们需要先确定监控的小游戏进程名称：
@@ -56,6 +56,23 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 使用[Perfdog](https://perfdog.qq.com)选择对应的设置-进程名，即可看到相关性能数据，iOS设备应以紫色的XcodeMemory为准。
 <image src='../image/optimizationMemory4.png' width="1080"/>
 
+### 3.2 UnityHeap
+开发体、体验版小游戏默认会在左上角呈现PerformenceStats, 开发者可通过改面板了解性能数值.
+<image src='../image/optimizationMemory6.jpg' width="1080"/>
+每项指标有三个数值：当前帧、最小值、最大值
+
+- MonoUsedSize: 托管堆(如C#业务逻辑)当前的内存使用量
+- MonoHeap：托管堆的内存使用峰值
+- Graphic：GPU显存使用量(部分Unity版本存在BUG)
+- TotalReserverdMemory：本机堆(Native)内存分配峰值
+- TotalUnusedReserverdMemory：本机堆(Native)空闲内存值
+- TotalAllocatedMemory：本机堆(Native)当前的内存使用量
+- TotalMemorySize: UnityHeap总预分配内存大小
+- DynamicMemory：UnityHeap当前使用量
+开发者尤其需要关注MonoHeap、TotalReserverdMemory、DynamicMemory这三项数值。如果游戏中有C原生代码(如lua)分配的内存，则需单独统计，该部分内存包括在DynamicMemory但并不包含在托管堆和本机堆。
+
+
+
 ### 3.2 JavaScript Heap
 由于Unity WebGL是托管在浏览器环境中，因此JavaScript Heap包含了大部分（并非全部）我们关注的内存， 通常我们可以使用浏览器自带的内存工具。 
 #### FireFox Memory(PC)
@@ -64,7 +81,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 ### 四、内存优化方案
 以iOS为例，一款代码(导出目录/webgl/Build/xxx.code.unityweb或code.wasm)大小为30MB的游戏占用内存为：
-小游戏基础库(130MB) + Cavnas(70MB) + 编译内存(300MB) + Unity Heap(托管内存 + Native内存) + Gfx显存 + 音频 + 胶水层。
+小游戏基础库(130MB) + Cavnas(70MB) + 编译内存(300MB) + UnityHeap(托管内存 + Native内存 + C原生代码内存) + Gfx显存 + 音频 + JavaScript内存(通常<100MB)。
 
 假如游戏需要支持低档机型，将内存控制到1G以内，业务侧(Unity Heap, Gfx显存，音频，胶水层)需控制在500MB左右。我们此处给出转换游戏中最容易遇到的内存问题与解决方案，如果开发者遇到内存问题时请逐个排查优化。
 

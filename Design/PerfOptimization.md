@@ -56,6 +56,7 @@ Unity WebGL导出形式相对于原生APP应用，需要开发者更关注性能
 * 使用微信音频接口对Unity音频进行改造优化
   
 更多信息请阅读:
+*  [优化Unity WebGL的内存](OptimizationMemory.md)
 *  [压缩纹理优化](CompressedTexture.md)
 *  [Unity WebGL内存原理详解](https://gameinstitute.qq.com/community/detail/112321)
 *  [音频适配优化](AudioOptimization.md)
