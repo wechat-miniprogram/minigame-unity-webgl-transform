@@ -70,7 +70,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 - TotalMemorySize: UnityHeap总预分配内存大小
 - DynamicMemory：UnityHeap当前使用量
 开发者尤其需要关注MonoHeap、TotalReserverdMemory、DynamicMemory这三项数值。如果游戏中有C原生代码(如lua)分配的内存，则需单独统计，该部分内存包括在DynamicMemory但并不包含在托管堆和本机堆。
-
+  
 
 
 ### 3.2 JavaScript Heap
