@@ -201,6 +201,14 @@ var symbolText = fs.readFileSync(process.argv[3], { encoding: "utf8" });
 
 function parseSymbol(symbolText) {
   var symbolMap = new Map();
+  try {
+    var symbols = JSON.parse(symbolText);
+    console.log("json symbols");
+    Object.entries(symbols).forEach(function (value) {
+      symbolMap.set(value[0], value[1]);
+    });
+    return symbolMap;
+  } catch (e) {}
   var startLine = "var debugSymbols = {";
   var start = symbolText.indexOf(startLine);
   start += startLine.length;
@@ -240,14 +248,16 @@ function replaceWithSymbol(src, symbolMap, regex) {
   // console.log("to replace symbol:", src, regex);
   var output = "";
   var start = 0;
+  var matched = false;
   for (;;) {
     var d = res.next();
     if (d.value) {
+      matched = true;
       var s = symbolMap.get(d.value[1]);
       // console.log("to replace:", d.value, s, start);
       if (s) {
         output += src.substr(start, d.value.index - start);
-        output += s + ":wasm-function[" + d.value[1] + "]";
+        output += s + " wasm-function[" + d.value[1] + "]";
       } else {
         output += src.substr(start, d.value.index - start);
         output += d.value[0];
@@ -259,17 +269,26 @@ function replaceWithSymbol(src, symbolMap, regex) {
       break;
     }
   }
-  return output;
+  return { output: output, matched: matched };
 }
 
-var output = replaceWithSymbol(
+var res = replaceWithSymbol(
   exceptionText,
   symbolMap,
   /j(\d+):wasm-function\[\d+]/g
 );
-output = replaceWithSymbol(
-  output,
-  symbolMap,
-  /<anonymous>:wasm-function\[(\d+)\]/g
-);
-console.log(output);
+if (!res.matched) {
+  res = replaceWithSymbol(
+    exceptionText,
+    symbolMap,
+    /j(\d+) \(wasm-function\[\d+]/g
+  );
+}
+if (!res.matched) {
+  res = replaceWithSymbol(
+    exceptionText,
+    symbolMap,
+    /<anonymous>:wasm-function\[(\d+)\]/g
+  );
+}
+console.log(res.output);
