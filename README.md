@@ -46,7 +46,7 @@
   - [首场景启动优化](Design/FirstSceneOptimization.md)
   - [使用代码分包工具](Design/WasmSplit.md)
   - [启动留存数据上报统计](Design/ReportStartupStat.md)
-  - [使用水印保护代码包安全](Design/wasmWaterMark.md)
+
 
 - 运行性能
   - [使用 Android CPU Profiler 性能调优](Design/AndroidProfile.md)
@@ -55,7 +55,7 @@
   - [音频适配优化](Design/AudioOptimization.md)
   - [压缩纹理优化](Design/CompressedTexture.md)
   - [资源优化工具与建议](Design/AssetOptimization.md)
-  - [iOS高性能模式beta](Design/iOSOptimization.md)
+  - [iOS高性能模式](Design/iOSOptimization.md)
 
 能力适配
 
@@ -65,7 +65,8 @@
 - [排行榜与微信关系数据](Design/OpenData.md)
 - [后端服务指引](Design/BackendServiceStartup.md)
 - [网络通信适配](Design/UsingNetworking.md)
-
+- [使用水印保护代码包安全](Design/wasmWaterMark.md)
+  
 调试与异常
 - [开发错误调试与排查](Design/DebugAndException.md)
 - [现网错误日志上报与排查](Design/IssueForProduction.md)
