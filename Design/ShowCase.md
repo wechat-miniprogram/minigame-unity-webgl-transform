@@ -60,6 +60,12 @@
 
 来呀，画个飞机，battle呀
 
+## 拳拳大乱斗正版
+<image src='../image/showcase31.png' width="200"/>
+
+全民拳拳大乱斗，是一款派对竞技的多人游戏，像香肠派对，糖豆人，人类一败涂地软体物理的对战休闲游戏。快来和好朋友一起玩吧！
+
+
 ## 开心解绳子
 <image src='../image/showcase30.png' width="200"/>
 
