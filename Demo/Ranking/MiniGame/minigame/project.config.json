@@ -18,18 +18,23 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
     "useMultiFrameRuntime": true,
-    "useApiHook": false,
+    "useApiHook": true,
+    "useApiHostProcess": true,
     "babelSetting": {
-      "ignore": ["webgl.wasm.framework.unityweb.js"],
+      "ignore": [
+        "webgl.wasm.framework.unityweb.js"
+      ],
       "disablePlugins": [],
       "outputPath": ""
     },
     "useIsolateContext": true,
-    "useCompilerModule": true,
-    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
-    "packNpmRelationList": []
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "showES6CompileOption": false
   },
   "compileType": "game",
   "libVersion": "2.17.0",
@@ -51,11 +56,9 @@
   },
   "condition": {
     "search": {
-      "current": -1,
       "list": []
     },
     "conversation": {
-      "current": -1,
       "list": []
     },
     "game": {
@@ -63,7 +66,6 @@
       "list": []
     },
     "miniprogram": {
-      "current": -1,
       "list": []
     }
   }

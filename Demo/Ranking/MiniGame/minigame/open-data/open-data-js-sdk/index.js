@@ -1,4 +1,4 @@
-import Layout from './minigame-canvas-engine/index';
+let Layout = requirePlugin('Layout').default;
 //绘制引擎文档可以参考  https://wechat-miniprogram.github.io/minigame-canvas-engine/
 let isDestroyed = true; //是否已经被销毁
 
