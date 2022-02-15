@@ -57,7 +57,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 <image src='../image/optimizationMemory4.png' width="1080"/>
 
 ### 3.2 UnityHeap
-开发体、体验版小游戏默认会在左上角呈现PerformenceStats, 开发者可通过改面板了解性能数值.
+开发者可通过WeChatWASM.WX.OpenProfileStats()显示性能面板(注意：提审版本请勿显示).
 <image src='../image/optimizationMemory6.jpg' width="1080"/>
 每项指标有三个数值：当前帧、最小值、最大值
 
