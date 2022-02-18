@@ -59,6 +59,7 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 2. 使用高性能模式下，游戏本身是否需要做修改？  
    - 业务代码无需做任何调整，普通模式与高性能模式可以无缝切换。
    - 网络服务器(如CDN或CGI)必须允许跨域，否则会出现网络失败的情况，比如让CGI返回头设置Access-Control-Allow-Origin：*，对于还有自定义请求头的，还需设置Access-Control-Allow-Methods：OPTIONS，HEAD，GET，和 Access-Control-Allow-Headers：该次请求的自定义请求头字段。
+   如果设置了自定义返回头，后端CGI需要支持OPTIONS请求，否则客户端会收不到数据。
 
 3. 为什么开启了高性能模式，游戏启动很烫？
    - 请参考本文前面部分，如果未使用代码分包的情况下JIT编译优化将耗费大量性能
