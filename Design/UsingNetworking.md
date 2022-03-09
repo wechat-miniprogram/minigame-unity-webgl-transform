@@ -83,11 +83,15 @@ socket.SendAsync(bytes);
 // 关闭连接
 socket.CloseAsync();
 ```
+使用此插件需要对WebSocket.jslib做两处修改：
+1. instance.ws.onmessage函数中删除"else if (ev.data instanceof Blob)"判断分支
+2. WebSocketSend函数中"HEAPU8"改为"buffer"
 
 ### 服务端
 
 如果服务端使用 TCP 接入，则需要使用 WSS<-->TCP 的代理层。解决方案也很多，比如使用 Ngnix 做反向代理，也可以使用集成的代理服务器, 对于后者开发中可以使用
 [websockify-js](https://github.com/novnc/websockify-js)/[websockify](https://github.com/novnc/websockify)
+
 
 ## 注意事项
 
