@@ -26,6 +26,9 @@ stageType取值范围：[200,10000]
 ``` C#
       WX.ReportGameStageCostTime(int costTime, string extJsonStr)
 ```
+costTime为阶段耗时，如不关心可填0
+extJsonStr为阶段额外信息，可填""
+
 **3. 游戏完成所有加载时上报**
 
 当游戏完成所有加载阶段，进入核心玩法时(如进入新手引导或大厅)调用
@@ -38,6 +41,15 @@ stageType取值范围：[200,10000]
 ```
 errorType取值：[0,10000]
 
+示例：
+``` C#
+      // 假设Loading场景中A资源完成为200, 需要知道完成的留存率
+      WX.SetGameStage(200);
+      WX.ReportGameStageCostTime(0, "");
+      
+      // 所有加载完成，玩家可以交互(如休闲游戏已进入核心玩法、MMO游戏进入创角时), 需要知道留存率
+      WX.ReportGameStart(0, "");
+```
 
 ## 三、获取数据统计
 数据报表包含Unity Loader自动上报与开发者自定义阶段。关注总体流失漏斗以确定需要优化的方向，同时分阶段的耗时分布有利于帮助我们分析该阶段的对应耗时的用户占比。
