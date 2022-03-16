@@ -18,9 +18,9 @@
 
 | 能力 |Android参考机型  |iOS参考机型  |
 | --- | --- |--- |
-| 高档 |小米10 |iPhone11|
-| 中档 |VIVOX21 |iPhoneX|
-| 低档 |OPPO R9S |iPhone7|
+| 高档 |⼩⽶10(⾼通骁⻰865) |iPhone11|
+| 中档 |VIVO S7(⾼通骁⻰765G) 红米k30|iPhoneX|
+| 低档 |OPPO r9s(通骁⻰625) |iPhone7/8|
  
 
 ### 评测工具
