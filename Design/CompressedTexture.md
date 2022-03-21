@@ -19,7 +19,7 @@
 因为Mac上的隐私安全问题，使用mac的用户需要先授权，使用window的用户跳过这步。点击"微信小游戏"->"MacOS脚本授权",进行授权，直到不报错为止。若授权后还是报错，则需重启unity后再点授权。
 
 ### 3、打bundle文件
-如果使用了bundle文件，要先打好AB或AB包。注意不要开启crc对bundle进行校验。切纹理格式不要使用RGBA Crunched DXT5或RGB Crunched DXT1格式，但可以使用RGBA Compressed DXT5等其他格式。
+如果使用了bundle文件，要先打好AB或AB包。注意不要开启crc对bundle进行校验。且纹理格式不要使用RGBA Crunched DXT5或RGB Crunched DXT1格式，但可以使用RGBA Compressed DXT5等其他格式。
 
 ### 4、导出游戏
 点击"微信小游戏"->"转换小游戏" 打开转换小游戏弹窗，点击左下角的"导出WEBGL并转化为小游戏"按钮等待导出游戏即可
