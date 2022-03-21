@@ -32,7 +32,8 @@
 
 ![avatar](../image/cm-texture1.png)
 
-
+### 6、上传CDN
+对应的资源应该选用webgl-min目录下的资源，比如webgl-min里的Assets目录，StreamingAssets目录，和xxx.webgl.data.unityweb.bin.txt 这些文件，应将其上传至CDN对应目录才能正确展示。
 
 ## QA:
 
