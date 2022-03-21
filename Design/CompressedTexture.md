@@ -32,7 +32,10 @@
 
 ![avatar](../image/cm-texture1.png)
 
-### 6、上传CDN
+### 6、根据提示用NodeJs生成纹理
+进入WX-WASM-SDK/Editor/Node 目录用命令行，执行 ’node compress_astc_only.js‘ (开发阶段使用，只生成部分格式纹理) 或 ’node compress_all.js‘（上线时候使用，生成全部格式纹理） 命令来生成纹理。
+
+### 7、上传CDN
 对应的资源应该选用webgl-min目录下的资源，比如webgl-min里的Assets目录，StreamingAssets目录，和xxx.webgl.data.unityweb.bin.txt 这些文件，应将其上传至CDN对应目录才能正确展示。
 
 ## QA:
