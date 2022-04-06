@@ -34,5 +34,5 @@ Unity的BuildTarget支持WebGL平台，WebGL导出包是基于WebAssembly技术�
 ### 调优体验
 转换工具能帮助开发者快速转换原有Unity项目，然而对于优质的小游戏我们还需要更多的体验调优以取得良好的上线表现。
 关于调优请参考文档：
-- [性能优化总览](Design/PerfOptimization.md)
-- [性能评估标准](Design/PerfMeasure.md)
+- [性能优化总览](PerfOptimization.md)
+- [性能评估标准](PerfMeasure.md)
