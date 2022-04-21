@@ -59,8 +59,13 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 
 2. 使用高性能模式下，游戏本身是否需要做修改？  
    - 业务代码无需做任何调整，普通模式与高性能模式可以无缝切换。
-   - 网络服务器(如CDN或CGI)必须允许跨域，否则会出现网络失败的情况，比如让CGI返回头设置Access-Control-Allow-Origin：*，对于还有自定义请求头的，还需设置Access-Control-Allow-Methods：OPTIONS，HEAD，GET，和 Access-Control-Allow-Headers：该次请求的自定义请求头字段。
-   如果设置了自定义返回头，后端CGI需要支持OPTIONS请求，否则客户端会收不到数据。
+   - 资源跨域问题：添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源：该示例包括常见的请求标头，并允许 GET、POST 或 OPTIONS 方法：
+```json
+"Access-Control-Allow-Credentials": "true",
+"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time",
+"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+"Access-Control-Allow-Origin": "*",
+```
 
 3. 卡在启动封面无法启动
    - 右上角打开调试，重启小游戏，点三次下方的Unity logo打开vconsole
