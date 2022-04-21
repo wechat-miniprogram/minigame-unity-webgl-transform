@@ -84,7 +84,7 @@ socket.SendAsync(bytes);
 socket.CloseAsync();
 ```
 使用此插件需要对WebSocket.jslib做两处修改：
-1. instance.ws.onmessage函数中删除"else if (ev.data instanceof Blob)"判断分支
+1. instance.ws.onmessage函数将分支"else if (ev.data instanceof Blob)"挪到最后
 2. WebSocketSend函数中"HEAPU8"改为"buffer"
 
 ### 服务端
@@ -99,20 +99,14 @@ socket.CloseAsync();
 
 网络请求必须[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。在 mp.weixin.qq.com 后台，**_开发-开发管理-开发设置-服务器域名_**进行设置。如果是 HTTP 请求请设置到 request 合法域名，Websocket 请求请设置到 socket 合法域名。
 
-### 跨域
+### 跨域(iOS高性能模式)
 
 为了在 WebGL 中访问跨域 Web 资源，您尝试访问的服务器需要使用跨源资源共享 (CORS) 对此跨域 Web 资源进行授权。
-
-如果您尝试使用 UnityWebRequest 来访问内容，但远程服务器未正确设置或配置 CORS，浏览器控制台中将显示如下错误：
-
-> Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://myserver.com/.This can be fixed by moving the resource to the same domain or enabling CORS.
-
 添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源：该示例包括常见的请求标头，并允许 GET、POST 或 OPTIONS 方法：
 
 ```json
- "Access-Control-Allow-Credentials": "true",
- "Access-Control-Allow-Headers": "Accept, X-Access-Token,
-X-Application-Name, > X-Request-Sent-Time",
+"Access-Control-Allow-Credentials": "true",
+"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time",
 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 "Access-Control-Allow-Origin": "*",
 ```
@@ -124,4 +118,4 @@ X-Application-Name, > X-Request-Sent-Time",
 UnityWebSocket 的 jslib 里有 Blob 类型的处理，由于小游戏环境没有 Blob，故会报错
 
 可以修改下`UnityWebSocket/Assets/UnityWebSocket/Plugins/WebGL/WebSocket.jslib`里的`onmessage`，
-删掉`else if (ev.data instanceof Blob)`这个逻辑分支，或者挪到最后
+`else if (ev.data instanceof Blob)`这个逻辑分支挪到最后
