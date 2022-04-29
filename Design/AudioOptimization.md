@@ -1,5 +1,5 @@
 # 音频优化
-由于导出成WEBGL的游戏，音频处理上存在一定的性能损耗，建议直接调用SDK中的音频API直接控制播放，能达到不错效果。
+由于导出成WEBGL的游戏，音频处理上存在一定的性能损耗，建议直接调用SDK中的音频API直接控制播放，能达到不错效果。使用微信音频API后音频无需再监听onAudioInterruptionBegin，onAudioInterruptionEnd事件，插件会自动处理。
 ## API使用
 ### 长音频的使用
 代码如下，可参考[微信开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/audio/InnerAudioContext.html),其中src为音频地址，可填本地路径如 Assets/xx.wav，运行时会自动和配置的音频地址前缀做拼接得到最终线上地址。注意长音频使用时，音频对象是不还被缓存的，需要直接缓存音频对象（就是WX.CreateInnerAudioContext的对象需要自己缓存），不然每次都会重新加载。
