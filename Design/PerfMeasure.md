@@ -24,6 +24,8 @@
  
 
 指标与测量方法
+
+Unity小游戏的启动可参考[启动流程与时序](Startup.md)
 |   |定义|测量方法|
 | --- | --- |--- |
 | 首资源包 | 游戏首个data资源文件|位于导出目录/webgl/md5.webgl.data.unityweb.bin.txt, CDN使用gzip压缩
