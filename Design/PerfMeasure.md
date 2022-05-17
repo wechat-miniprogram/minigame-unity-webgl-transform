@@ -14,7 +14,7 @@
 ## 评测标准细则
 
 ### 性能基线
-评测小游戏性能首先需要确定性能基线, 即先确定机型设备条件。根据目前小游戏玩家机型情况建议以下机型:
+机型档位
 
 | 能力 |Android参考机型  |iOS参考机型  |
 | --- | --- |--- |
@@ -23,10 +23,12 @@
 | 低档 |OPPO r9s(通骁⻰625) |iPhone7/8|
  
 
-
+指标与测量方法
 |   |定义|测量方法|
 | --- | --- |--- |
-| 首资源包 | 游戏首个data资源文件|通常位于导出目录/webgl/md5.webgl.data.unityweb.bin.txt, CDN使用gzip压缩
+| 首资源包 | 游戏首个data资源文件|位于导出目录/webgl/md5.webgl.data.unityweb.bin.txt, CDN使用gzip压缩
+| WASM代码 | 游戏代码压缩包|位于导出目录/minigame/wasmcode/md5.webgl.wasm.code.unityweb.wasm.br, CDN使用gzip压缩
+| 核心资源 |除首资源包外进入游戏核心玩法所需的资源量|业务自定下载，通常为AssetBundle
 | callmain |引擎和首场景(Loading)初始化 |通过timelog,或日志查看“callMain耗时”
 | 游戏初始化完成 |引擎和手场景完成，出现首个业务场景|通过timelog, 或日志查看“游戏启动耗时”
 | 游戏可交互完成 |游戏核心场景完成|业务自定义，典型地：休闲游戏为核心玩法，RPG游戏为创角
@@ -46,7 +48,7 @@
 | --- | --- |
 | 首包资源(gzip压缩后) |<5M |
 | WASM代码(br压缩后) |<5M |
-| 初始核心玩法 |<30MB|
+| 核心玩法资源 |<30MB|
 
 
 ### Android 评测标准
