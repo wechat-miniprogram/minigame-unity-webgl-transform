@@ -56,7 +56,7 @@ namespace WeChatWASM
             labelStyle.margin.top = 10;
             labelStyle.margin.bottom = 10;
 
-            GUILayout.Label("设置压缩质量匹配规则", labelStyle);
+            GUILayout.Label("设置压缩质量匹配规则（如果添加的目录之前已经替换过纹理，需要手动删除之前该目录下生成过的纹理）", labelStyle);
 
             GUIStyle pathButtonStyle = new GUIStyle(GUI.skin.button);
             pathButtonStyle.fontSize = 12;

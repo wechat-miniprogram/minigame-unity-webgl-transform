@@ -163,8 +163,7 @@
             WXDownloadTexture(id,type,callback){
                 var Infos = {
                     "Texture":GameGlobal.TextureConfig,
-                    "SpriteAtlas":GameGlobal.SpriteAtlasConfig,
-                    "NoTPOTTexture":GameGlobal.NotPotTextureConfig
+                    "SpriteAtlas":GameGlobal.SpriteAtlasConfig
                 }[type];
                 if(!Infos[id]){
                     return console.error(type + "映射id 不存在",id);
@@ -188,6 +187,19 @@
             WXUpdateKeyboard(){},
             WXHideKeyboard(){},
             WXGetNetworkType(){},
+            WXCreateGameClubButton() {
+                return Math.random().toString(32);
+            },
+            WXGameClubButtonDestroy() {},
+            WXGameClubButtonHide() {},
+            WXGameClubButtonShow() {},
+            WXGameClubButtonAddListener() {},
+            WXGameClubButtonRemoveListener() {},
+            WXGameClubButtonSetProperty() {},
+            WXGameClubStyleChangeInt() {},
+            WXGameClubStyleChangeStr() {},
+            WXNavigateToMiniProgram() {},
+            WXExitMiniProgram() {},
             WXSetKeepScreenOn(){},
             WXIsCloudTest(){ return false;},
 	    WXUncaughtException(){},
@@ -220,10 +232,10 @@
         var GameGlobal = {
             TextureConfig:{},
             SpriteAtlasConfig:{},
-            NotPotTextureConfig:{},
             DownloadedTextures: downloadedTextures,
-            AUDIO_PREFIX:"./Assets/"
+            AUDIO_PREFIX:"./Assets/Textures/"
         };
+        window._ScaleRate = 1;
     </script>
     <script src="./texture-config.js"></script>
     <script>
@@ -238,6 +250,7 @@
         var div = document.getElementById('gameContainer');
         div.style.width = window.innerWidth+"px";
         div.style.height = window.innerHeight+"px";
+        window.canvas = document.getElementsByTagName('canvas')[0];
     });
 </script>
 </body>

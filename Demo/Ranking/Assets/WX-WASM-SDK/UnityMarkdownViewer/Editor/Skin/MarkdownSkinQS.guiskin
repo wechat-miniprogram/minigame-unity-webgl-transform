@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 1
   m_Script: {fileID: 12001, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: MarkdownSkinQS
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   m_Font: {fileID: 12800000, guid: 72071a12382273a4ea8f246990fcd71e, type: 3}
   m_box:
     m_Name: box

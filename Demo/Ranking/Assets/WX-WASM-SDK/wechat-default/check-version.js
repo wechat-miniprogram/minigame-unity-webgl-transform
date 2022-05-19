@@ -39,9 +39,8 @@ export function canUseCoverview() {
 
 const isH5Renderer = renderer === 'h5'
 const isH5ValidLibVersion = compareVersion(SDKVersion, '2.19.1')
-const systemVersion = (system || '').split(' ')[1] || ''
-const isH5SystemVersionValid = systemVersion && compareVersion(systemVersion, '14.0')
-// 如果是h5，基础库需要>=2.19.1，iOS系统版本需要>=14.0
+// 如果是iOSh5，基础库需要>=2.19.1
+// tips：iOS系统版本需要>=13.4，低于13.4的系统会自动降级因此无需处理；但压缩纹理需要iOS系统版本>=14.0，检测到不支持压缩纹理时会提示升级系统
 GameGlobal.canUseH5Renderer = isH5Renderer && isH5ValidLibVersion
 
 // pc微信版本号不一致，需要>=3.3
@@ -53,7 +52,7 @@ export default () => {
   return new Promise((resolve, reject) => {
     // 微信版本须>=7.0.19，基础库版本>=2.14.0，开发者工具除外
     if (platform !== 'devtools') {
-      if (isPcValid || isMobileValid || (isH5Renderer && (!isH5ValidLibVersion || !isH5SystemVersionValid))) {
+      if (isPcValid || isMobileValid || (isH5Renderer && !isH5ValidLibVersion)) {
         wx.showModal({
           title: '提示',
           content: '当前微信版本过低\n请更新微信后进行游戏',

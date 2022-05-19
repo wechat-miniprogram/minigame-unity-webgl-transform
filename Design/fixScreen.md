@@ -13,7 +13,8 @@
         // 重新计算缩放，让高度占满刘海屏以下的区域
         cs.referenceResolution = new Vector2(cs.referenceResolution.x, cs.referenceResolution.y * (1.0f+py));
 ```
-
+![安全区域](../image/saveArea.png)
+从[systemInfo](https://developers.weixin.qq.com/minigame/dev/api/base/system/wx.getSystemInfo.html) 中获取的安全区域的数值，需要乘以systemInfo中的pixelRatio才为Unity中的大小，而且手机屏幕左上角为（0，0）
 ## 高分辨屏下模糊问题
 因为 Unity 2019.3之前的版本对高分辨屏适配不是很好。会出现画面模糊的情况，所以最好选择`Unity 2019.3`之后的版本来构建你的游戏。如果游戏不能升级版本，也可以引入[SDK](./WX_SDK.md)，在初始化SDK后，SDK会自动对页面做一个兼容适配，避免模糊的问题。
 ```

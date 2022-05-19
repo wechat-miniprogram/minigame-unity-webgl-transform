@@ -27,14 +27,12 @@ checkVersion().then(enable => {
       DATA_FILE_SIZE: "$DATA_FILE_SIZE",
       LOADING_VIDEO_URL: "$LOADING_VIDEO_URL",
       DATA_CDN: "$DEPLOY_URL",
-      AUDIO_PREFIX: "$AUDIO_PREFIX",
-      STREAMING_CDN: "$STREAM_CDN",
       // 资源包是否作为小游戏分包加载
       loadDataPackageFromSubpackage: $LOAD_DATA_FROM_SUBPACKAGE,
     
       // 需要在网络空闲时预加载的资源，支持如下形式的路径
       preloadDataList: [
-        // 'STREAMING_CDN/StreamingAssets/WebGL/textures_8d265a9dfd6cb7669cdb8b726f0afb1e',
+        // 'DATA_CDN/StreamingAssets/WebGL/textures_8d265a9dfd6cb7669cdb8b726f0afb1e',
         // '/WebGL/sounds_97cd953f8494c3375312e75a29c34fc2'
         "$PRELOAD_LIST"
       ],
@@ -70,9 +68,16 @@ checkVersion().then(enable => {
         }
       }
     }
+    managerConfig = {
+    ...managerConfig,
+    contextConfig: {
+     contextType: $WEBGL_VERSION  // 1=>webgl1  2=>webgl2 3=>auto
+    }
+    }
     
     const gameManager = new UnityManager(managerConfig);
     
+    gameManager.assetPath = managerConfig.DATA_CDN + '/Assets';
     gameManager.managerConfig = managerConfig;
     
     gameManager.onModulePrepared(() => {
@@ -83,6 +88,12 @@ checkVersion().then(enable => {
         }
       }
     })
+
+    // 默认上报小游戏实时日志与用户反馈日志
+    gameManager.onLogError = function(err){
+      GameGlobal.realtimeLogManager.error(err)
+      GameGlobal.logmanager.warn(err)
+    }
     gameManager.startGame();
     
     GameGlobal.manager = gameManager;

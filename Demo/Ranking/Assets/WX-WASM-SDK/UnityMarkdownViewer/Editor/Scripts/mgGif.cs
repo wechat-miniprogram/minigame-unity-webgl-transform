@@ -1086,7 +1086,7 @@ namespace MG.GIF
             var n = "2.0";
 #endif
 
-            return $"{v} {e}{s}{b} {n}";
+            return String.Format("{0} {1}{2}{3} {4}", v, e, s, b, n);
         }
     }
 }

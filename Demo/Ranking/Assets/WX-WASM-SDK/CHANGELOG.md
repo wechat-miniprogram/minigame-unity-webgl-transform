@@ -7,6 +7,35 @@ Fixed - 修复问题
 Others - 其他 
 -->
 
+## 2021-12-06
+
+### Added
+* WebGL2.0 增加适配，该特性处于测试阶段
+* 2021增加embedded symbols分离
+* 增加error日志回调
+
+### Fixed
+* 2021 dev 运行报错
+
+## 2021-12-02
+
+### Fixed
+* dev build报错
+* 设备方向无法选中"LandscapeLeft", "LandscapeRight"
+
+## 2021-11-30
+
+### Changed
+* 导出配置调整：统一资源CDN路径配置；配置顺序调整。
+
+### Fixed
+* 低版本C#导致markdownviewer报错'interpolated strings' cannot be used.
+
+## 2021-11-19
+
+### Fixed
+* 更新小游戏模板
+
 ## 2021-11-18
 ### Added
 增加bundle相关导出配置

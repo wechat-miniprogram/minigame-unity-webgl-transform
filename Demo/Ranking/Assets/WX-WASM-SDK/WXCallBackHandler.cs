@@ -67,8 +67,7 @@ namespace WeChatWASM
 
                 var id = res.callbackId;
 
-
-                if (responseHT[id] != null)
+                if (responseHT.ContainsKey(id))
                 {
                     var callback = (Action<T>)responseHT[id];
                     callback(res);
@@ -85,7 +84,7 @@ namespace WeChatWASM
             {
                 WXUserInfoResponse res = JsonUtility.FromJson<WXUserInfoResponse>(str);
                 var id = res.callbackId;
-                if (responseHT[id] != null)
+                if (responseHT.ContainsKey(id))
                 {
                     res.userInfo = JsonUtility.FromJson<WXUserInfo>(res.userInfoRaw);
                     var callback = (Action<WXUserInfoResponse>)responseHT[id];
@@ -119,7 +118,7 @@ namespace WeChatWASM
             {
                 WXSystemInfo res = JsonUtility.FromJson<WXSystemInfo>(str);
                 var id = res.callbackId;
-                if (responseHT[id] != null)
+                if (responseHT.ContainsKey(id))
                 {
                     res.safeArea = JsonUtility.FromJson<WXSafeArea>(res.safeAreaRaw);
                     var callback = (Action<WXSystemInfo>)responseHT[id];

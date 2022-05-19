@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using System;
-using System.IO;  
+using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using LitJson; //LisJson支持vector3等 https://www.cnblogs.com/msxh/p/12541159.html
 using System.Runtime.InteropServices;
@@ -149,7 +146,8 @@ namespace WeChatWASM
             public string zPath = "";
             
             public List<Node> children = new List<Node>();
-            public bool show, enable;
+            public bool show = false;
+            public bool enable = false;
             public bool useless = true;
             public bool visible = false;
             public List<string> components = new List<string>();
@@ -418,10 +416,10 @@ namespace WeChatWASM
             public Vector2 size = new Vector2(0.0f, 0.0f);
             public Vector2 anchorPoint = Vector2.zero; //(用pivot代替锚点)锚点介绍，暂时不适配stretch状态 https://www.cnblogs.com/Fflyqaq/p/12714387.html
             public Rect box;
-            public float centerX;
-            public float centerY;
-            public float anchorX;
-            public float anchorY;
+            public float centerX = 0.0f;
+            public float centerY = 0.0f;
+            public float anchorX = 0.0f;
+            public float anchorY = 0.0f;
             public string originalClassName;
             public float width  = 0.0f;
             public float height  = 0.0f;

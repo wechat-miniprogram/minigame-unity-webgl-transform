@@ -272,7 +272,9 @@ export default {
         moduleHelper.send('RequestSubscribeSystemMessageCallback', JSON.stringify({
             callbackId:id,
             errMsg:res.errMsg || '',
-            errCode:res.errCode
+            errCode:res.errCode,
+            SYS_MSG_TYPE_INTERACTIVE: res.SYS_MSG_TYPE_INTERACTIVE || "",
+            SYS_MSG_TYPE_RANK: res.SYS_MSG_TYPE_RANK || ""
         }));
     }
 };

@@ -98,10 +98,11 @@ namespace WeChatWASM
             }
             EditorGUILayout.Space();
 
-            config.CompressTexture.LazyLoadNotPot = GUILayout.Toggle(config.CompressTexture.LazyLoadNotPot, "懒加载非POT图片", toggleStyle);
-            EditorGUILayout.Space();
 
             config.CompressTexture.OnlyAstc = GUILayout.Toggle(config.CompressTexture.OnlyAstc, "只生成ASTC纹理  （该设置只是方便快速生成纹理验证，还需手动点击”根据ASTC生成ETC2纹理”，切记）", toggleStyle);
+            EditorGUILayout.Space();
+
+            config.CompressTexture.halfSize = GUILayout.Toggle(config.CompressTexture.halfSize, "自动将纹理尺寸减少一半 （能降低内存大小和图片大小，但是可能图片会没那么高清。\r\n 如果之前没有勾选这个又进行过替换，需要先恢复纹理。)", toggleStyle);
             EditorGUILayout.Space();
 
 

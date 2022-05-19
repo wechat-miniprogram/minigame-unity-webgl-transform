@@ -48,23 +48,23 @@ namespace WeChatWASM
        new Rule()
        {
            old=@"t\.clientX *- *canvasRect\.left",
-           newStr="(t.clientX - canvasRect.left) * window._ScaleRate"
+           newStr="(t.clientX - canvasRect.left) * window._ScaleRate * (canvas.width / window.innerWidth / devicePixelRatio)"
        },new Rule()
        {
-           old=@"t\.clientY *- *canvasRect\.top",
-           newStr="(t.clientY - canvasRect.top) * window._ScaleRate"
+           old=@"t\.clientY *- *canvasRect\.top", 
+           newStr="(t.clientY - canvasRect.top) * window._ScaleRate * (canvas.height / window.innerHeight / devicePixelRatio)"
        },new Rule()
        {
            old=@"t\.clientX *- *targetRect\.left",
-           newStr="(t.clientX - targetRect.left) * window._ScaleRate"
+           newStr="(t.clientX - targetRect.left) * window._ScaleRate * (canvas.width / window.innerWidth / devicePixelRatio)"
        },new Rule()
        {
            old=@"t\.clientY *- *targetRect\.top",
-           newStr="(t.clientY - targetRect.top) * window._ScaleRate"
+           newStr="(t.clientY - targetRect.top) * window._ScaleRate * (canvas.height / window.innerHeight / devicePixelRatio)"
        },new Rule()
        {
            old=@"document\.URL",
-           newStr="GameGlobal.unityNamespace.STREAMING_CDN || GameGlobal.unityNamespace.DATA_CDN || \"https://game.weixin.qq.com\""
+           newStr="GameGlobal.unityNamespace.DATA_CDN || \"https://game.weixin.qq.com\""
        },new Rule()
        {
            old=@"canvas\.style\.setProperty *\(",
@@ -174,6 +174,10 @@ namespace WeChatWASM
           old = "throw\"abort",
           newStr = "if(Module.IsWxGame)window.WXWASMSDK.WXUncaughtException(true);else throw\"abort"
       },
+      new Rule(){
+          old = @"console.error\(",
+          newStr = "err("
+      },
 #if UNITY_2020
        new Rule()
        {
@@ -187,27 +191,17 @@ namespace WeChatWASM
        },
        new Rule()
        {
-           old="Module.SystemInfo.hasWebGL",
-           newStr="1"
-       },
-       new Rule()
-       {
            old="Module.SystemInfo",
            newStr="UnityLoader.SystemInfo"
        },
        new Rule()
        {
             old=@"GetStreamingAssetsURL\(buffer, *bufferSize\) *{",
-            newStr="GetStreamingAssetsURL(buffer,bufferSize){if(Module.IsWxGame) Module.streamingAssetsUrl=GameGlobal.unityNamespace.STREAMING_CDN + \"StreamingAssets\";"
+            newStr="GetStreamingAssetsURL(buffer,bufferSize){if(Module.IsWxGame) Module.streamingAssetsUrl=GameGlobal.unityNamespace.DATA_CDN + \"StreamingAssets\";"
        },
 
 #endif
 #if UNITY_2021
-            new Rule()
-       {
-           old="Module.SystemInfo.hasWebGL",
-           newStr="1"
-       },
        new Rule()
        {
            old="if *\\(buffer.buffer *=== *HEAP8.buffer",
@@ -267,13 +261,28 @@ namespace WeChatWASM
        new Rule()
        {
             old=@"GetStreamingAssetsURL\(buffer, *bufferSize\) *{",
-            newStr="GetStreamingAssetsURL(buffer,bufferSize){if(Module.IsWxGame) Module.streamingAssetsUrl=GameGlobal.unityNamespace.STREAMING_CDN + \"StreamingAssets\";"
+            newStr="GetStreamingAssetsURL(buffer,bufferSize){if(Module.IsWxGame) Module.streamingAssetsUrl=GameGlobal.unityNamespace.DATA_CDN + \"StreamingAssets\";"
        },
        new Rule()
        {
 
            old="abort\\(\"randomDevice\"\\)",           
            newStr="if(Module.IsWxGame)return Math.random()*256|0;abort(\"randomDevice\")"
+       },
+       new Rule()
+       {
+           old="!Module\\[\"canvas\"\\].id",
+           newStr="!Module.IsWxGame && !Module[\"canvas\"].id"
+       },
+       new Rule()
+       {
+           old="typeof allocator === \"number\"",
+           newStr="true"
+       },
+       new Rule()
+       {
+           old="typeof slab !== \"number\"",
+           newStr="true"
        }
 #endif
     };

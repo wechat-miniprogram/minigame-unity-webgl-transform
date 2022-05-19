@@ -55,6 +55,7 @@
         var fullscreenButton = document.querySelector("#unity-fullscreen-button");
         var mobileWarning = document.querySelector("#unity-mobile-warning");
 
+        window.canvas = canvas;
         // By default Unity keeps WebGL canvas render target size matched with
         // the DOM size of the canvas element (scaled by window.devicePixelRatio)
         // Set this to false if you want to decouple this synchronization from
@@ -238,7 +239,6 @@
             var Infos = {
                 "Texture":GameGlobal.TextureConfig,
                 "SpriteAtlas":GameGlobal.SpriteAtlasConfig,
-                "NoTPOTTexture":GameGlobal.NotPotTextureConfig
             }[type];
             if(!Infos[id]){
                 return console.error(type + "映射id 不存在",id);
@@ -262,6 +262,19 @@
         WXUpdateKeyboard(){},
         WXHideKeyboard(){},
         WXGetNetworkType(){},
+        WXCreateGameClubButton() {
+            return Math.random().toString(32);
+        },
+        WXGameClubButtonDestroy() {},
+        WXGameClubButtonHide() {},
+        WXGameClubButtonShow() {},
+        WXGameClubButtonAddListener() {},
+        WXGameClubButtonRemoveListener() {},
+        WXNavigateToMiniProgram() {},
+        WXGameClubButtonSetProperty() {},
+        WXGameClubStyleChangeInt() {},
+        WXGameClubStyleChangeStr() {},
+        WXExitMiniProgram() {},
         WXSetKeepScreenOn(){},
         WXIsCloudTest(){ return false;},
         WXUncaughtException(){},
@@ -294,10 +307,10 @@
     var GameGlobal = {
         TextureConfig:{},
         SpriteAtlasConfig:{},
-        NotPotTextureConfig:{},
         DownloadedTextures: downloadedTextures,
-        AUDIO_PREFIX:"./Assets/"
+        AUDIO_PREFIX:"./Assets/Textures/"
     };
+    window._ScaleRate = 1;
 </script>
 <script src="./texture-config.js"></script>
 </body>

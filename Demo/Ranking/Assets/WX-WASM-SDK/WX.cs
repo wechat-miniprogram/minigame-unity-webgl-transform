@@ -1077,6 +1077,14 @@ namespace WeChatWASM
 
         #region 跳转
         /// <summary>
+        /// 跳转小程序，详见 https://developers.weixin.qq.com/minigame/dev/api/navigate/wx.navigateToMiniProgram.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static void NavigateToMiniProgram(WXNavigateToMiniProgramParam param)
+        {
+            WXSDKManagerHandler.Instance.NavigateToMiniProgram(param);
+        }
+        /// <summary>
         /// 退出当前小程序。必须有点击行为才能调用成功。详见 https://developers.weixin.qq.com/minigame/dev/api/navigate/wx.exitMiniProgram.html
         /// </summary>
         /// <param name="param"></param>
@@ -1087,33 +1095,40 @@ namespace WeChatWASM
 
         #region 性能
         /// <summary>
-        /// 获取当前Unity托管堆总内存
+        /// 获取当前UnityHeap总内存(峰值)
         /// </summary>
         public static uint GetTotalMemorySize()
         {
             return WXSDKManagerHandler.Instance.GetTotalMemorySize();
         }
         /// <summary>
-        /// 获取当前Unity托管堆Stack大小
+        /// 获取当前UnityHeap Stack大小
         /// </summary>
         public static uint GetTotalStackSize()
         {
             return WXSDKManagerHandler.Instance.GetTotalStackSize();
         }
         /// <summary>
-        /// 获取当前Unity托管堆静态内存
+        /// 获取当前UnityHeap静态内存
         /// </summary>
         public static uint GetStaticMemorySize()
         {
             return WXSDKManagerHandler.Instance.GetStaticMemorySize();
         }
         /// <summary>
-        /// 获取当前Unity托管堆动态内存
+        /// 获取当前UnityHeap动态内存
         /// </summary>
         public static uint GetDynamicMemorySize()
         {
             return WXSDKManagerHandler.Instance.GetDynamicMemorySize();
         }
+        /// <summary>
+        /// 打印UnityHeap内存
+        /// </summary>
+        public static void LogUnityHeapMem()
+        {
+            WXSDKManagerHandler.Instance.LogUnityHeapMem();
+        }        
         #endregion
 
 
@@ -1248,6 +1263,15 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.HideLoading(param);
         }
 
+        /// <summary>
+        /// 创建游戏圈按钮，详见 https://developers.weixin.qq.com/minigame/dev/api/open-api/game-club/wx.createGameClubButton.html
+        /// </summary>
+        /// <param name="param"></param>
+        public static WXGameClubButton CreateGameClubButton(WXCreateGameClubButtonParam param)
+        {
+            return WXSDKManagerHandler.Instance.CreateGameClubButton(param);
+        }
+
         #endregion
 
         /*
@@ -1261,7 +1285,7 @@ namespace WeChatWASM
         }
         #endregion
         */
-        
+
     }
 }
 

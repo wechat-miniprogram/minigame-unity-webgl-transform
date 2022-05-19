@@ -51,10 +51,14 @@ namespace WeChatWASM
             int quality = 65;
             if (config.CompressTexture.QualityList != null && config.CompressTexture.QualityList.Count > 0)
             {
+                var txDir = WXTextureManager.textureDstDir.Replace("\\", "/");
+                var AssetPath = Application.dataPath;
                 foreach (QualityOptions options in config.CompressTexture.QualityList)
                 {
-                    var p1 = options.Path.Replace("\\", "/");
-                    var p2 = src.Replace("\\", "/");
+
+                    var p1 = options.Path.Replace("\\", "/").Replace(AssetPath,"");
+                    var p2 = src.Replace("\\", "/").Replace(txDir,"");
+
                     if (p2.IndexOf(p1) > -1)
                     {
                         quality = options.Quality;
@@ -84,16 +88,17 @@ namespace WeChatWASM
                 // tga就是直接翻转的
                 p.StartInfo.Arguments = "convert \"" +
     src + "[0]"
-    + "\" -channel RGBA -separate -quality " + quality + " -resize " + width + "x" + height + "! -combine \"" +
+    + "\" -quality " + quality + " -resize " + width + "x" + height + "! PNG32:\"" +
     dstPath + "\"";
             }
             else
             {
                 p.StartInfo.Arguments = "convert \"" +
     src +  "[0]"
-    + "\" -channel RGBA -separate -quality " + quality + " -flip -resize " + width + "x" + height + "! -combine \"" +
+    + "\" -quality " + quality + " -flip -resize " + width + "x" + height + "! PNG32:\"" +
     dstPath + "\"";
             }
+
 
             if (action !=null) {
                 p.EnableRaisingEvents = true;

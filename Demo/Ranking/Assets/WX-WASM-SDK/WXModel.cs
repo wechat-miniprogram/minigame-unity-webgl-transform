@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine.Scripting;
 
 namespace WeChatWASM
 {
@@ -458,6 +459,7 @@ namespace WeChatWASM
         public string destPath;
     }
 
+    [Preserve]
     public class TouchEvent
     {
         /// <summary>
@@ -477,6 +479,7 @@ namespace WeChatWASM
     /// <summary>
     /// 在触控设备上的触摸点。这里已做了适配，左下角为（0，0）。详见 https://developers.weixin.qq.com/minigame/dev/api/base/app/touch-event/Touch.html
     /// </summary>
+    [Preserve]
     public class Touch
     {
         public Int64 identifier;
@@ -1017,6 +1020,125 @@ namespace WeChatWASM
 
     }
 
+    public enum EnvVersion {
+        /// <summary>
+        /// 开发版
+        /// </summary>
+        develop,
+        /// <summary>
+        /// 体验版
+        /// </summary>
+        trial,
+        /// <summary>
+        /// 正式版
+        /// </summary>
+        release
+    }
+
+    /// <summary>
+    /// 跳转小程序参数，https://developers.weixin.qq.com/minigame/dev/api/navigate/wx.navigateToMiniProgram.html
+    /// </summary>
+    public class WXNavigateToMiniProgramParam : WXBaseActionParam<WXTextResponse>
+    {
+        /// <summary>
+        /// 必填，要打开的小程序 appId
+        /// </summary>
+        public string appId;
+        /// <summary>
+        /// 打开的页面路径，如果为空则打开首页。
+        /// </summary>
+        public string path;
+        /// <summary>
+        /// 需要传递给目标小程序的数据
+        /// </summary>
+        public object extraData;
+        public string extraDataRaw; // 该字段不需要传值
+        /// <summary>
+        /// 要打开的小程序版本，默认release
+        /// </summary>
+        public EnvVersion envVersion = EnvVersion.release;
+        /// <summary>
+        /// 小程序链接，当传递该参数后，可以不传 appId 和 path。链接可以通过【小程序菜单】->【复制链接】获取。
+        /// </summary>
+        public string shortLink;
+    }
+
+    public enum GameClubButtonType
+    {
+        /// <summary>
+        /// 可以设置背景色和文本的按钮
+        /// </summary>
+        text,
+        /// <summary>
+        /// 只能设置背景贴图的按钮，背景贴图会直接拉伸到按钮的宽高
+        /// </summary>
+        image
+    }
+    public enum GameClubButtonTextAlign
+    {
+        /// <summary>
+        /// 居左
+        /// </summary>
+        left,
+        /// <summary>
+        /// 居中
+        /// </summary>
+        center,
+        /// <summary>
+        /// 居右
+        /// </summary>
+        right,
+    }
+    public struct GameClubButtonStyle
+    {
+        public int left;
+        public int top;
+        public int width;
+        public int height;
+        public string backgroundColor;
+        public string borderColor;
+        public int borderWidth;
+        public int borderRadius;
+        public string color;
+        public GameClubButtonTextAlign textAlign;
+        public int fontSize;
+        public int lineHeight;
+    }
+    public enum GameClubButtonIcon
+    {
+        green,
+        white,
+        dark,
+        light,
+    }
+    /// <summary>
+    /// 创建游戏圈参数，详见 https://developers.weixin.qq.com/minigame/dev/api/open-api/game-club/wx.createGameClubButton.html
+    /// </summary>
+    public class WXCreateGameClubButtonParam
+    {
+        /// <summary>
+        /// 必填，按钮类型
+        /// </summary>
+        public GameClubButtonType type;
+        /// <summary>
+        /// 按钮上的文本，仅当 type 为 text 时有效
+        /// </summary>
+        public string text;
+        /// <summary>
+        /// 按钮的背景图片，仅当 type 为 image 时有效
+        /// </summary>
+        public string image;
+        /// <summary>
+        /// 必填，按钮的样式
+        /// </summary>
+        public GameClubButtonStyle style;
+        public string styleRaw;
+        /// <summary>
+        /// 必填，游戏圈按钮的图标，仅当 object.type 参数为 image 时有效。
+        /// </summary>
+        public GameClubButtonIcon icon;
+    }
+
     public class WXRequestSubscribeSystemMessageResponse : WXTextResponse
     {
         /// <summary>
@@ -1024,6 +1146,22 @@ namespace WeChatWASM
         /// </summary>
         public string SYS_MSG_TYPE_INTERACTIVE;
         public string SYS_MSG_TYPE_RANK;
+    }
+
+    /// <summary>
+    /// state 值包括'accept'、'reject'、'ban'、'filter'。'accept'表示用户同意订阅该条id对应的模板消息，'reject'表示用户拒绝订阅该条id对应的模板消息，'ban'表示已被后台封禁，'filter'表示该模板因为模板标题同名被后台过滤。例如 {  TemplateId: "zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE", state : "accept"} 表示用户同意订阅zun-LzcQyW-edafCVvzPkK4de2Rllr1fFpw2A_x0oXE这条消息
+    /// </summary>
+    public class WXSubscribeMessageItem {
+        public string TemplateId;
+        public string state;
+    }
+
+    public class WXRequestSubscribeMessageResponse : WXTextResponse
+    {
+        /// <summary>
+        /// 跟官网返回格式不一样，以这里为准
+        /// </summary>
+        public WXSubscribeMessageItem[] resItems;
     }
 
     public class WXRequestSubscribeSystemMessageParam : WXBaseActionParam<WXRequestSubscribeSystemMessageResponse>

@@ -109,15 +109,14 @@ mergeInto(LibraryManager.library, {
             var _data = GameGlobal.DownloadedTextures[cid].data;
             var info = {
                 "Texture":GameGlobal.TextureConfig,
-                "SpriteAtlas":GameGlobal.SpriteAtlasConfig,
-                "NoTPOTTexture":GameGlobal.NotPotTextureConfig
+                "SpriteAtlas":GameGlobal.SpriteAtlasConfig
             }[imageType][id];
             var tid = lastTid;
               if(!GL.textures[tid]){
                 return;
               }
             GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[tid]);
-            if(!GameGlobal.TextureCompressedFormat || (GameGlobal.TextureCompressedFormat == 'pvr' && info.w !== info.h ) || imageType ==="NoTPOTTexture"){
+            if(!GameGlobal.TextureCompressedFormat || (GameGlobal.TextureCompressedFormat == 'pvr' && info.w !== info.h )){
                 texImage2D(_data);
             }else{
                 compressedImage2D(_data, info.w, info.h);
@@ -136,17 +135,7 @@ mergeInto(LibraryManager.library, {
             }
             var id = -1;
             var d = HEAPU8.subarray(data, data + 8);
-            if(width ===8 && height === 8){
-                if ((d[2] | d[3]) === 0) {
-                    id = d[1] * 255 + d[0]
-                } else if ((d[0] | d[1]) === 0) {
-                    id = d[3] * 255 + d[2]
-                }
-                if (GameGlobal.NotPotTextureConfig[id]) {
-                    return id
-                }
-            }
-            else if ((d[2] | d[3]) === 0 && !(width === 4 && height === 4)) {
+            if ((d[2] | d[3]) === 0 && !(width === 4 && height === 4)) {
                 var bitText = d[1].toString(2).padStart(8, "0") + d[0].toString(2).padStart(8, "0");
                 var r = parseInt(bitText.substr(0, 5), 2);
                 var g = parseInt(bitText.substr(5, 6), 2);
@@ -173,8 +162,6 @@ mergeInto(LibraryManager.library, {
            var imageType = "SpriteAtlas";
            if (width === 4 && height === 4) {
              imageType = "Texture"
-           } else if (width === 8 && height === 8) {
-             imageType = "NoTPOTTexture"
            }
             if (GameGlobal.DownloadedTextures[matchId] && GameGlobal.DownloadedTextures[matchId].data) {
                 renderTexture(matchId, imageType)
@@ -547,6 +534,37 @@ mergeInto(LibraryManager.library, {
     WXPreDownloadAudios: function (paths, id) {
         window.WXWASMSDK.WXPreDownloadAudios(_WXPointer_stringify_adaptor(paths), id);
     },
+    WXCreateGameClubButton: function (conf) {
+        var returnStr = window.WXWASMSDK.WXCreateGameClubButton(_WXPointer_stringify_adaptor(conf));
+        var bufferSize = lengthBytesUTF8(returnStr) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(returnStr, buffer, bufferSize);
+        return buffer;
+    },
+    WXGameClubButtonDestroy: function(id) {
+        window.WXWASMSDK.WXGameClubButtonDestroy(_WXPointer_stringify_adaptor(id));
+    },
+    WXGameClubButtonHide: function(id) {
+        window.WXWASMSDK.WXGameClubButtonHide(_WXPointer_stringify_adaptor(id));
+    },
+    WXGameClubButtonShow: function(id) {
+        window.WXWASMSDK.WXGameClubButtonShow(_WXPointer_stringify_adaptor(id));
+    },
+    WXGameClubButtonAddListener: function(id, key) {
+        window.WXWASMSDK.WXGameClubButtonAddListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
+    },
+    WXGameClubButtonRemoveListener: function(id, key) {
+        window.WXWASMSDK.WXGameClubButtonRemoveListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
+    },
+    WXGameClubButtonSetProperty: function(id, key, value) {
+        window.WXWASMSDK.WXGameClubButtonSetProperty(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(value));
+    },
+    WXGameClubStyleChangeInt: function(id, key, value) {
+        window.WXWASMSDK.WXGameClubStyleChangeInt(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), value);
+    },
+    WXGameClubStyleChangeStr: function(id, key, value) {
+        window.WXWASMSDK.WXGameClubStyleChangeStr(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(value));
+    },
     WXCreateVideo: function(conf){
         var returnStr = window.WXWASMSDK.WXCreateVideo(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
@@ -750,6 +768,9 @@ mergeInto(LibraryManager.library, {
     },
     WXHideLoading:function(s,  f,  c){
         window.WXWASMSDK.WXHideLoading(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
+    },
+    WXNavigateToMiniProgram:function(conf, s, f, c) {
+        window.WXWASMSDK.WXNavigateToMiniProgram(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
     },
     WXMkdir:function(dirPath, recursive, s,  f,  c){
         window.WXWASMSDK.WXMkdir(_WXPointer_stringify_adaptor(dirPath), recursive, _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));

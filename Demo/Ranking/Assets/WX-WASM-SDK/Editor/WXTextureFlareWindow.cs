@@ -55,7 +55,7 @@ namespace WeChatWASM
             labelStyle.margin.top = 10;
             labelStyle.margin.bottom = 10;
 
-            GUILayout.Label("设置Flare或NGUI图集纹理目录, 使用flare或NGUI图集效果时需要设置该目录，才能启用压缩纹理。\r\n注意flare的纹理或NGUI图集需要单独放在一个目录里。", labelStyle);
+            GUILayout.Label("设置Flare或NGUI图集纹理目录, 使用flare或NGUI图集效果时需要设置该目录，才能启用压缩纹理。\r\n注意flare的纹理，NGUI图集，SpriteRender需要单独放在一个文件夹里。\r\n如果添加进来之前替换过图片需要先还原。否则会出现黑图。因为这些图替换后都需要保留宽高。", labelStyle);
 
             GUIStyle pathButtonStyle = new GUIStyle(GUI.skin.button);
             pathButtonStyle.fontSize = 12;

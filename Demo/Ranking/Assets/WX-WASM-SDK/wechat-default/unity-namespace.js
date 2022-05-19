@@ -11,6 +11,8 @@ const unityNamespace = {
 
 GameGlobal.WebAssembly = GameGlobal.WXWebAssembly
 GameGlobal.unityNamespace = GameGlobal.unityNamespace || unityNamespace
+GameGlobal.realtimeLogManager = wx.getRealtimeLogManager()
+GameGlobal.logmanager = wx.getLogManager()
 GameGlobal.onCrash = function(error){
   let button = wx.createFeedbackButton({
     type: 'text',

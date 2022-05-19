@@ -514,6 +514,26 @@ namespace WeChatWASM
 #endif
         private static extern string WXCreateVideo(string conf);
 
+#if UNITY_WEBGL
+        [DllImport("__Internal")]
+#endif
+        private static extern void WXNavigateToMiniProgram(string conf,string s,string f,string c);
+
+#if UNITY_WEBGL
+        [DllImport("__Internal")]
+#endif
+        private static extern string WXCreateGameClubButton(string conf);
+
+#if UNITY_WEBGL
+        [DllImport("__Internal")]
+#endif
+        private static extern void WXGameClubStyleChangeInt(string id, string key, int value);
+
+#if UNITY_WEBGL
+        [DllImport("__Internal")]
+#endif
+        private static extern void WXGameClubStyleChangeStr(string id, string key, string value);
+
 
 
 
@@ -605,7 +625,7 @@ namespace WeChatWASM
 
         private static void WXSetClipboardData(string str,string s,string f,string c)
         {
-            
+
         }
 
         private static void WXGetClipboardData(string s, string f, string c)
@@ -654,7 +674,7 @@ namespace WeChatWASM
 #endif
 
 
-        
+
 
 
         #region JS回调
@@ -701,6 +721,16 @@ namespace WeChatWASM
         public void GetNetworkTypeCallback(string msg)
         {
             WXCallBackHandler.InvokeResponseCallback<GetNetworkTypeResponse>(msg);
+        }
+
+        public void RequestSubscribeSystemMessageCallback(string msg)
+        {
+            WXCallBackHandler.InvokeResponseCallback<WXRequestSubscribeSystemMessageResponse>(msg);
+            if (!string.IsNullOrEmpty(msg))
+            {
+                WXRequestSubscribeSystemMessageResponse res = JsonUtility.FromJson<WXRequestSubscribeSystemMessageResponse>(msg);
+
+            }
         }
 
         public void OnShareAppMessageCallback()
@@ -764,7 +794,7 @@ namespace WeChatWASM
         public void ADOnResizeCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXADResizeResponse>(msg);
-            
+
             if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
                 var ad = (IWXAdResizable)WXBaseAd.Dict[res.callbackId];
@@ -775,7 +805,7 @@ namespace WeChatWASM
         public void ADOnVideoCloseCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXRewardedVideoAdOnCloseResponse>(msg);
-            
+
 
             if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
@@ -787,7 +817,7 @@ namespace WeChatWASM
         public void ADOnCloseCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXBaseResponse>(msg);
-            
+
 
             if (WXBaseAd.Dict.ContainsKey(res.callbackId))
             {
@@ -884,12 +914,23 @@ namespace WeChatWASM
         public void OnAudioCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXBaseResponse>(msg);
-            
+
             if (WXInnerAudioContext.Dict.ContainsKey(res.callbackId)) {
                 var audio = WXInnerAudioContext.Dict[res.callbackId];
                 audio._HandleCallBack(res.errMsg);
             }
-            
+
+        }
+
+        public void OnGameClubButtonCallback(string msg)
+        {
+            var res = JsonUtility.FromJson<WXBaseResponse>(msg);
+
+            if (WXGameClubButton.Dict.ContainsKey(res.callbackId)) {
+                var gameClubButton = WXGameClubButton.Dict[res.callbackId];
+                gameClubButton._HandleCallBack(res.errMsg);
+            }
+
         }
 
         public void WXPreDownloadAudiosCallback(string msg)
@@ -929,11 +970,13 @@ namespace WeChatWASM
 
 
 
+
+
 #endregion
 
 
 
-#region 初始化SDK
+        #region 初始化SDK
         public void InitSDK(Action<int> callback)
         {
 
@@ -1710,12 +1753,11 @@ namespace WeChatWASM
 #if UNITY_WEBGL && !UNITY_EDITOR
             var id = WXCreateInnerAudioContext(param.src, param.loop, param.startTime, param.autoplay, param.volume, param.playbackRate, param.needDownload);
             return new WXInnerAudioContext(id, param);
-
-#endif
+#else
             var rd = UnityEngine.Random.Range(0f, 1000000f);
             var id2 = rd.ToString() + param.src;
             return new WXInnerAudioContext(id2, param);
-
+#endif
         }
 
         private static Dictionary<int, Action<int>> PreDownloadAudiosAction = new Dictionary<int, Action<int>>();
@@ -1738,10 +1780,11 @@ namespace WeChatWASM
             var id = WXCreateVideo(JsonUtility.ToJson(param));
             return new WXVideo(id, param);
 
-#endif
+#else
             var rd = UnityEngine.Random.Range(0f, 1000000f);
             var id2 = rd.ToString() + param.src;
             return new WXVideo(id2, param);
+#endif
         }
 #endregion
 
@@ -1795,6 +1838,12 @@ namespace WeChatWASM
 #endregion
 
 #region 跳转
+        public void NavigateToMiniProgram(WXNavigateToMiniProgramParam param)
+        {
+            param.extraDataRaw = JsonUtility.ToJson(param.extraData);
+            WXNavigateToMiniProgram(JsonUtility.ToJson(param), WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
         public void ExitMiniProgram(WXBaseActionParam<WXTextResponse> param)
         {
             WXExitMiniProgram(WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
@@ -1819,17 +1868,20 @@ namespace WeChatWASM
             return WXGetDynamicMemorySize();
         }
 
-        public void LogMem()
+        public void LogUnityHeapMem()
         {
-            var total = GetTotalMemorySize() / 1024 / 1024;
-            var dynamic = WXGetDynamicMemorySize() / 1024 / 1024;
-            var staticMem = WXGetStaticMemorySize() / 1024 / 1024;
-            Debug.Log(string.Format("WebGL Memory - Total: {0}MB, Dynamic: {1}MB, Static: {2}MB", total, dynamic, staticMem));
+            const uint sizeInMB = 1024 * 1024;
+            var total = GetTotalMemorySize() / sizeInMB;
+            var dynamic = WXGetDynamicMemorySize() / sizeInMB;
+            Debug.Log($"WebGL Memory - Total:{total}MB, Dynamic:{dynamic}MB, " +
+                $"MonoUsedSize:{UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong() / sizeInMB}MB," + 
+                $"MonoHeapSize:{UnityEngine.Profiling.Profiler.GetMonoHeapSizeLong() / sizeInMB}MB");
+ 
         }
-#endregion
+        #endregion
 
 
-#region 客服消息
+        #region 客服消息
         public void OpenCustomerServiceConversation(CustomerServiceConversationParam param = null)
         {
             if (param == null)
@@ -1921,6 +1973,29 @@ namespace WeChatWASM
         public void HideLoading(WXBaseActionParam<WXTextResponse> param)
         {
             WXHideLoading(WXCallBackHandler.Add(param.success), WXCallBackHandler.Add(param.fail), WXCallBackHandler.Add(param.complete));
+        }
+
+        public WXGameClubButton CreateGameClubButton(WXCreateGameClubButtonParam param)
+        {
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+            param.styleRaw = JsonUtility.ToJson(param.style);
+            var id = WXCreateGameClubButton(JsonUtility.ToJson(param));
+            return new WXGameClubButton(id, param.style);
+#else
+            var id = UnityEngine.Random.Range(0f, 1000000f).ToString();
+            return new WXGameClubButton(id, param.style);
+#endif
+        }
+
+        public void GameClubStyleChangeInt(string id, string key, int value)
+        {
+            WXGameClubStyleChangeInt(id, key, value);
+        }
+
+        public void GameClubStyleChangeStr(string id, string key, string value)
+        {
+            WXGameClubStyleChangeStr(id, key, value);
         }
 
         #endregion

@@ -94,24 +94,23 @@ namespace WeChatWASM
         public List<string> PVRTCFirstList = new List<string>();
         public string TextureRes;
         public string SpriteRes;
-        public string NotPotTextureRes;
         /// <summary>
         /// 导出的图片存放路径
         /// </summary>
         public string DstDir;
         /// <summary>
-        /// 非POT的图片也会做懒加载
-        /// </summary>
-        public bool LazyLoadNotPot = false;
-        /// <summary>
         /// 若只生成ASTC，还需再点击生成ETC2和PVRTC和压缩的PNG纹理
         /// </summary>
-        public bool OnlyAstc = false;
+        public bool OnlyAstc = true;
 
         /// <summary>
         /// Mac上unity工程太大时容易触发TooManyFiles错误
         /// </summary>
-        public bool TooManyFiles = false;
+        public bool TooManyFiles = true;
+        /// <summary>
+        /// 自动将图片尺寸减小一半
+        /// </summary>
+        public bool halfSize = false;
     }
 
     [Serializable]
@@ -150,6 +149,10 @@ namespace WeChatWASM
 		/// Profiling Funcs
 		/// </summary>
         public bool profilingFuncs = false;
+        /// <summary>
+        /// WebGL2.0
+        /// </summary>
+        public bool Webgl2 = false;
     }
 
     [Serializable]
@@ -165,11 +168,11 @@ namespace WeChatWASM
         public int Quality = 65;
     }
 
-    
+
 
     public enum WXScreenOritation
     {
-        Portrait, Landscape
+        Portrait, Landscape, LandscapeLeft, LandscapeRight
     };
 
     public class WXEditorScriptObject : ScriptableObject

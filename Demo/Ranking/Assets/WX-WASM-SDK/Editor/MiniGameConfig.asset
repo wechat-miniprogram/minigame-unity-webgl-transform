@@ -18,7 +18,7 @@ MonoBehaviour:
     CDN: 
     assetLoadType: 1
     VideoUrl: 
-    DST: /Users/liangyizhou/work/mini-game/r9
+    DST: /Users/liangyizhou/work/mini-game/r6
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -31,13 +31,14 @@ MonoBehaviour:
     bgImageSrc: Assets/WX-WASM-SDK/wechat-default/images/background.jpg
   SDKOptions:
     UseAudioApi: 0
-    UseFriendRelation: 1
+    UseFriendRelation: 0
     UseCompressedTexture: 0
   CompileOptions:
     DevelopBuild: 0
     AutoProfile: 0
     ScriptOnly: 0
     profilingFuncs: 0
+    Webgl2: 0
   CompressTexture:
     SourceDirs: []
     QualityList: []
@@ -45,9 +46,8 @@ MonoBehaviour:
     PVRTCFirstList: []
     TextureRes: 
     SpriteRes: 
-    NotPotTextureRes: 
     DstDir: 
-    LazyLoadNotPot: 0
     OnlyAstc: 0
     TooManyFiles: 0
+    halfSize: 0
   PlayerPrefsKeys: []

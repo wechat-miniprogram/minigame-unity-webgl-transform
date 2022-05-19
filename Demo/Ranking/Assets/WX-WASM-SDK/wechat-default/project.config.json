@@ -44,7 +44,7 @@
         "value": ".plugincache"
       },
       {
-        "type": "file",
+        "type": "suffix",
         "value": ".symbols.unityweb"
       }
     ]

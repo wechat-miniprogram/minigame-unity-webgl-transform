@@ -20,6 +20,8 @@ import video from "./video";
 import logger from "./logger";
 import shortAudio from "./short-audio";
 import toast from "./toast";
+import navigate from "./navigate";
+import gameClub from "./game-club";
 
 const unityVersion = "$unityVersion$";
 GameGlobal.unityNamespace = GameGlobal.unityNamespace || {};
@@ -64,6 +66,13 @@ Object.defineProperty(document.body,'clientWidth',{
     configuarble:true
 });
 
+Object.defineProperty(document,'fullscreenEnabled',{
+    get:function(){
+        return true;
+    },
+    configuarble:true
+});
+
 fix.init();
 
 const WXWASMSDK = {
@@ -95,6 +104,8 @@ const WXWASMSDK = {
     ...logger,
     ...shortAudio,
     ...toast,
+    ...navigate,
+    ...gameClub,
     canvasContext
 
 };

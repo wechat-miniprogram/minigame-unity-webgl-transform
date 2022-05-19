@@ -69,16 +69,16 @@ namespace WeChatWASM
         private bool isWaitingPause = false;
         private bool _isPlaying = false;
 
-        private Action _onPlay;
-        private Action _onPause;
-        private Action _onEnded;
-        private Action<WXVideoTimeUpdate> _onTimeUpdate;
-        private Action<WXVideoProgress> _onProgress;
+        private Action _onPlay = null;
+        private Action _onPause = null;
+        private Action _onEnded = null;
+        private Action<WXVideoTimeUpdate> _onTimeUpdate = null;
+        private Action<WXVideoProgress> _onProgress = null;
         
-        private Action _onError;
-        private Action _onWaiting;
-        private Action _onSeeking;
-        private Action _onSeeked;
+        private Action _onError = null;
+        private Action _onWaiting = null;
+        private Action _onSeeking = null;
+        private Action _onSeeked = null;
 
         private WXCreateVideoParam param;
 

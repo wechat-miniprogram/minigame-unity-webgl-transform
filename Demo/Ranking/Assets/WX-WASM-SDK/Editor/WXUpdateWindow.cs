@@ -3,17 +3,35 @@ using UnityEditor;
 using System.Net;
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace WeChatWASM
 {
     public class UpdateManager {
-        public static string checkUrl = "https://res.wx.qq.com/wechatgame/product/webpack/userupload/wasm_plugin/pluginversion.json";
+        public static string checkUrl = "https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo";
 
         public static string downloadUrl = "";
+
+        [Serializable]
+        public struct InfoStruct {
+            public string url;
+            public string version;
+        }
+        [Serializable]
+        public struct DataStruct {
+
+            public InfoStruct info;
+        }
+
+        public struct VersionRes {
+            public int errcode;
+            public string errmsg;
+
+            public DataStruct data;
+        }
+
         public static bool CheckUpdte()
         {
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(checkUrl + "?time=" + DateTime.Now.ToString("MMddHHmmss"));
+            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(checkUrl);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "GET";
             httpWebRequest.Timeout = 20000;
@@ -24,22 +42,21 @@ namespace WeChatWASM
             httpWebResponse.Close();
             streamReader.Close();
 
-            var pluginConf = JsonUtility.FromJson<WXPluginConf>(responseContent);
+            var res = JsonUtility.FromJson<VersionRes>(responseContent);
 
+            if (res.errcode == 0) {
+                long.TryParse(res.data.info.version, out long onlineVersion);
+                long.TryParse(WXPluginVersion.pluginVersion, out long nowVersion);
 
-            long.TryParse(pluginConf.version, out long onlineVersion);
-            long.TryParse(WXPluginVersion.pluginVersion, out long nowVersion);
-
-            if (onlineVersion > nowVersion)
-            {
-                downloadUrl = pluginConf.filePath;
-                OpenDownloadUrl();
-                return true;
+                if (onlineVersion > nowVersion)
+                {
+                    downloadUrl = res.data.info.url;
+                    OpenDownloadUrl();
+                    return true;
+                }
             }
-            else
-            {
-                return false;
-            }
+            // 请求错误和无更新都不需要下载
+            return false;
         }
         public static void OpenDownloadUrl()
         {

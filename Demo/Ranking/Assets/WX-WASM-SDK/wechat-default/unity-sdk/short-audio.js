@@ -2,7 +2,7 @@ const cacheAudios = {};
 const funs = {
     getFullUrl(v){
         if(!/^https?:\/\//.test(v)){
-            const cdnPath = GameGlobal.manager.managerConfig.AUDIO_PREFIX;
+            const cdnPath = GameGlobal.manager.assetPath;
             v = cdnPath.replace(/\/$/,'') +'/' +v.replace(/^\//,'').replace(/^Assets\//,'');
         }
         return encodeURI(v);

@@ -43,7 +43,7 @@ const mod = {
     },
     getRemoteImageFile(textureId,type,path,width,height){
 
-        if(!GameGlobal.TextureCompressedFormat || (GameGlobal.TextureCompressedFormat == 'pvr' && width != height) || type === "NoTPOTTexture" ){
+        if(!GameGlobal.TextureCompressedFormat || (GameGlobal.TextureCompressedFormat == 'pvr' && width != height)){
             mod.downloadFile(textureId,type,path,width,height)
         }else{
             mod.requestFile(textureId,type,path,width,height);
@@ -78,7 +78,7 @@ const mod = {
         }
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.responseType = 'arraybuffer';
-        xmlhttp.open("GET",encodeURI(GameGlobal.manager.managerConfig.AUDIO_PREFIX.replace(/\/$/,'')+'/'+url),true);
+        xmlhttp.open("GET",encodeURI(GameGlobal.manager.assetPath.replace(/\/$/,'')+'/'+url),true);
         xmlhttp.onload = function(){
             let res = xmlhttp;
             if(res.status === 200){
@@ -95,6 +95,7 @@ const mod = {
                 delete downloadingTextures[cid];
                 delete downloadFailedTextures[cid];
                 delete downloadedTextures[cid].data;
+                /*
                 const fileManager = wx.getFileSystemManager();
                 const tmpFilePath = wx.env.USER_DATA_PATH+"/"+cid+'.txt';
                 fileManager.writeFile({
@@ -107,7 +108,7 @@ const mod = {
                         console.error(err,"压缩纹理保存失败！id:"+textureId);
                         delete GameGlobal.DownloadedTextures[cid]
                     }
-                });
+                }); */
             }else{
                 console.error("压缩纹理下载失败！url:"+url);
                 mod.reTryRemoteImageFile(textureId,type,path,width,height);
@@ -121,7 +122,7 @@ const mod = {
     },
     downloadFile(textureId,type,path,width,height){
 
-        var url = GameGlobal.manager.managerConfig.AUDIO_PREFIX.replace(/\/$/,'')+'/'+path+'.png';
+        var url = GameGlobal.manager.assetPath.replace(/\/$/,'')+'/'+path+'.png';
         var cid = type+"_"+textureId;
 
         var image = wx.createImage();
@@ -153,7 +154,7 @@ const mod = {
         fileManager.readFile({
             filePath,
             success(res){
-                if(!GameGlobal.TextureCompressedFormat || type === "NoTPOTTexture"){
+                if(!GameGlobal.TextureCompressedFormat){
                     var image = wx.createImage();
                     image.src = filePath;
                     image.onload = function () {
@@ -183,8 +184,6 @@ const mod = {
             var path;
             if(type === "Texture"){
                 path = GameGlobal.TextureConfig[textureId].p;
-            }else if(type === "NoTPOTTexture"){
-                path = GameGlobal.NotPotTextureConfig[textureId].p;
             }else{
                 path = GameGlobal.SpriteAtlasConfig[textureId].p;
             }
@@ -211,23 +210,24 @@ export default {
         }
         const Infos = {
             "Texture":GameGlobal.TextureConfig,
-            "SpriteAtlas":GameGlobal.SpriteAtlasConfig,
-            "NoTPOTTexture":GameGlobal.NotPotTextureConfig
+            "SpriteAtlas":GameGlobal.SpriteAtlasConfig
         }[type];
         if(!Infos[id]){
             return console.error(type + "映射id 不存在",id);
         }
-        var path = Infos[id].p;
+        var path = "Textures/"+Infos[id].p;
         var width = Infos[id].w;
         var height = Infos[id].h;
         var cid = type+"_"+id;
+        /*
         if(downloadedTextures[cid]){
             if(downloadedTextures[cid].data){
                 callback();
             }else{
                 mod.readFile(id,type,callback,width,height);
             }
-        }else if(downloadingTextures[cid]){
+        }else */
+        if(downloadingTextures[cid]){
             downloadingTextures[cid].push(callback);
         }else{
             downloadingTextures[cid] = [callback];
@@ -246,7 +246,7 @@ canvasContext.addCreatedListener(()=>{
                     if(res.platform == 'ios'){
                         wx.showModal({
                             title: '提示',
-                            content: "当前微信或系统版本过低，建议您升级至最新版本。",
+                            content: "当前操作系统版本过低，建议您升级至最新版本。",
                         });
                     }
                 }

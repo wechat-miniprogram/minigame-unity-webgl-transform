@@ -47,7 +47,6 @@ namespace WeChatWASM
 
         public static Dictionary<int, string> spriteAtlasMap;
         private static Dictionary<int, string> spriteList; // 这个是单图的
-        public static List<WXTextureData> spriteAtlasList; // 这个是图集的
         public static Dictionary<int, WXTextureData> textureDataList;
         public static WXEditorScriptObject miniGameConf;
         public static Dictionary<string, WXSpriteData> spriteDataList;
@@ -55,7 +54,6 @@ namespace WeChatWASM
         public static void Init() {
 
             spriteList = new Dictionary<int, string>();
-            spriteAtlasList = new List<WXTextureData>();
             spriteAtlasMap = new Dictionary<int, string>();
             textureDataList = new Dictionary<int, WXTextureData>();
             spriteDataList = new Dictionary<string, WXSpriteData>();
@@ -82,6 +80,7 @@ namespace WeChatWASM
                 if (isCacheAvailable)
                 {
                     cachedPath.Add(path);
+
                 }
 
             }
@@ -93,6 +92,7 @@ namespace WeChatWASM
                 var path = AssetDatabase.GUIDToAssetPath(guid);
 
                 if (cachedPath.IndexOf(path) !=-1) {
+                    
                     continue;
                 }
 
@@ -340,7 +340,10 @@ namespace WeChatWASM
 
                     textureDataList.Add(data.id, item);
 
-                    spriteAtlasList.Add(item);
+                    if (!WXTextureManager.miniGameConf.CompressTexture.TooManyFiles)
+                    {
+                        DoGeneratePNG(item);
+                    }
 
                 }
 
@@ -505,6 +508,35 @@ namespace WeChatWASM
 
         }
 
+        public static void DoGeneratePNG(WXTextureData item) {
+
+
+            var dstDir = Path.Combine(WXTextureManager.textureDstDir, WXEditorWindow.webglDir, "Assets/Textures", item.pathHash).Replace("\\", "/");
+            var tmpDir = Path.Combine(WXTextureManager.textureDstDir, "spriteAtlas", item.pathHash).Replace("\\", "/");
+
+
+            var tmpPath = string.Format("{0}/{1}.{2}.png", tmpDir, item.fileName, item.dataHash);
+            string filePrefix = string.Format("{0}/{1}.{2}", dstDir, item.fileName, item.dataHash);
+            string pngPath = filePrefix + ".png";
+            UnityUtil.CreateDir(dstDir);
+
+            bool needPvr = item.width == item.height;
+            if (!File.Exists(pngPath))
+            {
+                PicCompressor.CompressPNG(tmpPath, pngPath, item.width, item.height, () =>
+                {
+                    CompressPNGCallback(filePrefix, needPvr, true);
+                });
+            }
+            else
+            {
+                CompressPNGCallback(filePrefix, needPvr, true);
+            }
+
+
+
+        }
+
         public static void GeneratePNG(string spriteAtlasPath, WXSpriteAtlasCacheData cacheData)
         {
 
@@ -613,15 +645,12 @@ namespace WeChatWASM
                 var dataMd5 = UnityUtil.GetMd5Str(texture2D.GetRawTextureData()).Substring(0,8);
                 spriteAtlasPath = spriteAtlasPath.Replace("\\", "/");
 
-                var dstDir = Path.Combine(WXTextureManager.textureDstDir, WXEditorWindow.webglDir, "Assets", dirMd5).Replace("\\", "/");
                 var tmpDir = Path.Combine(WXTextureManager.textureDstDir, "spriteAtlas", dirMd5).Replace("\\", "/");
 
                 
                 var tmpPath = string.Format("{0}/{1}_{2}.{3}.png", tmpDir, spriteAtlas.name, i, dataMd5);
-                string filePrefix = string.Format("{0}/{1}_{2}.{3}", dstDir, spriteAtlas.name, i, dataMd5);
-                string pngPath = filePrefix + ".png";
 
-                UnityUtil.CreateDir(dstDir);
+               
                 UnityUtil.CreateDir(tmpDir);
 
                 var altasId = GetIdByAtlasPath(spriteAtlasPath,i);
@@ -650,33 +679,7 @@ namespace WeChatWASM
 
                 if (!WXTextureManager.miniGameConf.CompressTexture.TooManyFiles)
                 {
-
-                    bool needPvr = tx.width == tx.height;
-                    if (!File.Exists(pngPath))
-                    {
-                        PicCompressor.CompressPNG(tmpPath, pngPath, tx.width, tx.height, () =>
-                        {
-                            CompressPNGCallback(filePrefix, needPvr,true);
-                        });
-                    }
-                    else
-                    {
-                        CompressPNGCallback(filePrefix, needPvr, true);
-                    }
-                }
-                else {
-
-                    spriteAtlasList.Add(new WXTextureData()
-                    {
-                        width = tx.width,
-                        height = tx.height,
-                        dataHash = dataMd5,
-                        fileName = spriteAtlas.name+"_"+i,
-                        pathHash = dirMd5,
-                        path = ""
-
-                    });
-
+                    DoGeneratePNG(textureDataList[altasId]);
                 }
 
 

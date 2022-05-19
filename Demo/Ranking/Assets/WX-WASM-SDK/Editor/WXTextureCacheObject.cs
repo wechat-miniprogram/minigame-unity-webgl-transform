@@ -19,12 +19,12 @@ namespace WeChatWASM
         //用这个writetime来作为是否被修改的判断 
         public string lastWriteTime;
         public int id;
+        public bool needUnityPng;
     }
 
     public class WXTextureCacheObject: ScriptableObject
     {
         public List<WXTextureData> textureList;
-        public List<WXTextureData> noPotList;
         public List<WXTextureData> textureAtlasList;
     }
 
