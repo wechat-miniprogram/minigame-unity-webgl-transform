@@ -59,7 +59,7 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 
 2. 使用高性能模式下，游戏本身是否需要做修改？  
    - 业务代码无需做任何调整，普通模式与高性能模式可以无缝切换。
-   - 资源跨域问题：添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源：该示例包括常见的请求标头，并允许 GET、POST 或 OPTIONS 方法：
+   - 资源跨域问题：服务器添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源，包括常见的响应头，并允许 GET、POST 或 OPTIONS 方法：
 ```json
 "Access-Control-Allow-Credentials": "true",
 "Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time",
