@@ -1,0 +1,25 @@
+{
+    "deviceOrientation": "$ORIENTATION",
+    "openDataContext": "open-data",
+    "subpackages": [
+        {
+            "name": "wasmcode",
+            "root": "wasmcode/"
+        },
+        {
+            "name": "data-package",
+            "root": "data-package/"
+        }
+    ],
+    "plugins": {
+        "UnityPlugin": {
+            "version": "1.0.51",
+            "provider": "wxe5a48f1ed5f544b7",
+            "contexts": [
+                {
+                    "type": "isolatedContext"
+                }
+            ]
+        }
+    }
+}

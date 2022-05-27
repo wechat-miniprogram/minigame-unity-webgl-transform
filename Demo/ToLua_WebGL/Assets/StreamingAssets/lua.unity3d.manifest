@@ -1,0 +1,25 @@
+ManifestFileVersion: 0
+CRC: 1737182162
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 02f7d4ea0d61db2404696d7ec3ce75e5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/temp/Lua/tolua.lua.bytes
+- Assets/temp/Lua/slot.lua.bytes
+- Assets/temp/Lua/socket.lua.bytes
+- Assets/temp/Lua/Main.lua.bytes
+- Assets/temp/Lua/list.lua.bytes
+- Assets/temp/Lua/typeof.lua.bytes
+- Assets/temp/Lua/ltn12.lua.bytes
+- Assets/temp/Lua/mime.lua.bytes
+- Assets/temp/Lua/event.lua.bytes
+Dependencies: []

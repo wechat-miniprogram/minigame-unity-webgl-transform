@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WX-WASM-SDK-Editor</name>
+    </assembly>
+    <members>
+        <member name="F:WeChatWASM.PicTask.type">
+            <summary>
+            0: png, 1:astc, 2:etc2
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.PicTask.src">
+            <summary>
+            图片路径
+            </summary>
+        </member>
+        <member name="T:WeChatWASM.PicCompressor">
+             <summary>
+             基于ImageMagick的图片处理
+             </summary>
+            
+        </member>
+        <member name="T:WeChatWASM.UnityUtil">
+            工具函数
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.Appid">
+            <summary>
+            游戏appid
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.CDN">
+            <summary>
+            游戏资源CDN
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.VideoUrl">
+            <summary>
+            视频url
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.DST">
+            <summary>
+            导出路径(绝对路径)
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.StreamCDN">
+            <summary>
+            AB包CDN地址
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.AssetsUrl">
+            <summary>
+            Assets目录对应CDN地址
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.MemorySize">
+            <summary>
+            游戏内存大小(MB)
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.Orientation">
+            <summary>
+            游戏方向
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.UseAudioApi">
+            <summary>
+            使用微信音频API
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.UseFriendRelation">
+            <summary>
+            使用好友关系链
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.UseCompressedTexture">
+            <summary>
+            使用压缩纹理替换(beta)
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.PicPath">
+            <summary>
+            替换纹理的图片资源目录
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.DevelopBuild">
+            <summary>
+            Development Build
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.AutoProfile">
+            <summary>
+            Autoconnect Profiler
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.ScriptOnly">
+            <summary>
+            Scripts Only Build
+            </summary>
+        </member>
+        <member name="T:WeChatWASM.WXEditorWindow">
+            <summary>
+            脚本调用的话可修改 Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset配置，然后调用WXEditorWindow 的 DoExport方法导出小游戏
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXEditorWindow.ClearFriendRelationCode">
+            <summary>
+            如果没有使用好友关系链的话，自动删掉无用代码
+            </summary>
+        </member>
+    </members>
+</doc>

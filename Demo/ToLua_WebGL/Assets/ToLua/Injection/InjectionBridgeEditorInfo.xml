@@ -1,0 +1,453 @@
+<Root>
+  <Type Name="AccessingArray">
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void AccessingArray::OnApplicationQuit()" Index="54" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void AccessingArray::OnGUI()" Index="53" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void AccessingArray::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="52" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void AccessingArray::Start()" Index="51" />
+  </Type>
+  <Type Name="AccessingEnum">
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void AccessingEnum::OnApplicationQuit()" Index="104" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void AccessingEnum::OnGUI()" Index="106" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void AccessingEnum::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="105" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void AccessingEnum::Start()" Index="103" />
+  </Type>
+  <Type Name="AccessingLuaVariables">
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void AccessingLuaVariables::OnApplicationQuit()" Index="32" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void AccessingLuaVariables::OnGUI()" Index="34" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void AccessingLuaVariables::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="33" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void AccessingLuaVariables::Start()" Index="31" />
+  </Type>
+  <Type Name="BaseTest">
+    <Method Name="get_PropertyTest" PublishedName="get_PropertyTest" Signature="get_PropertyTest" FullSignature="System.Int32 BaseTest::get_PropertyTest()" Index="259" />
+    <Method Name="set_PropertyTest" PublishedName="set_PropertyTest" Signature="set_PropertyTest-int" FullSignature="System.Void BaseTest::set_PropertyTest(System.Int32)" Index="260" />
+    <Method Name="TestRef" PublishedName="TestRef" Signature="TestRef-int&amp;" FullSignature="System.Int32 BaseTest::TestRef(System.Int32&amp;)" Index="258" />
+  </Type>
+  <Type Name="BaseTestWrap">
+    <Method Name="_CreateBaseTest" PublishedName="_CreateBaseTest" Signature="_CreateBaseTest-IntPtr" FullSignature="System.Int32 BaseTestWrap::_CreateBaseTest(System.IntPtr)" Index="254" />
+    <Method Name="get_PropertyTest" PublishedName="get_PropertyTest" Signature="get_PropertyTest-IntPtr" FullSignature="System.Int32 BaseTestWrap::get_PropertyTest(System.IntPtr)" Index="256" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void BaseTestWrap::Register(LuaInterface.LuaState)" Index="253" />
+    <Method Name="set_PropertyTest" PublishedName="set_PropertyTest" Signature="set_PropertyTest-IntPtr" FullSignature="System.Int32 BaseTestWrap::set_PropertyTest(System.IntPtr)" Index="257" />
+    <Method Name="TestRef" PublishedName="TestRef" Signature="TestRef-IntPtr" FullSignature="System.Int32 BaseTestWrap::TestRef(System.IntPtr)" Index="255" />
+  </Type>
+  <Type Name="CallLuaFunction">
+    <Method Name="CallFunc" PublishedName="CallFunc" Signature="CallFunc" FullSignature="System.Int32 CallLuaFunction::CallFunc()" Index="30" />
+    <Method Name="OnDestroy" PublishedName="OnDestroy" Signature="OnDestroy" FullSignature="System.Void CallLuaFunction::OnDestroy()" Index="29" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void CallLuaFunction::OnGUI()" Index="28" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void CallLuaFunction::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="27" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void CallLuaFunction::Start()" Index="26" />
+  </Type>
+  <Type Name="HelloWorld">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void HelloWorld::Awake()" Index="21" />
+  </Type>
+  <Type Name="LuaInterface_InjectTypeWrap">
+    <Method Name="CheckType" PublishedName="CheckType" Signature="CheckType-IntPtr-int" FullSignature="System.Boolean LuaInterface_InjectTypeWrap::CheckType(System.IntPtr,System.Int32)" Index="3" />
+    <Method Name="get_After" PublishedName="get_After" Signature="get_After-IntPtr" FullSignature="System.Int32 LuaInterface_InjectTypeWrap::get_After(System.IntPtr)" Index="5" />
+    <Method Name="get_Before" PublishedName="get_Before" Signature="get_Before-IntPtr" FullSignature="System.Int32 LuaInterface_InjectTypeWrap::get_Before(System.IntPtr)" Index="6" />
+    <Method Name="get_None" PublishedName="get_None" Signature="get_None-IntPtr" FullSignature="System.Int32 LuaInterface_InjectTypeWrap::get_None(System.IntPtr)" Index="4" />
+    <Method Name="get_Replace" PublishedName="get_Replace" Signature="get_Replace-IntPtr" FullSignature="System.Int32 LuaInterface_InjectTypeWrap::get_Replace(System.IntPtr)" Index="7" />
+    <Method Name="get_ReplaceWithPostInvokeBase" PublishedName="get_ReplaceWithPostInvokeBase" Signature="get_ReplaceWithPostInvokeBase-IntPtr" FullSignature="System.Int32 LuaInterface_InjectTypeWrap::get_ReplaceWithPostInvokeBase(System.IntPtr)" Index="9" />
+    <Method Name="get_ReplaceWithPreInvokeBase" PublishedName="get_ReplaceWithPreInvokeBase" Signature="get_ReplaceWithPreInvokeBase-IntPtr" FullSignature="System.Int32 LuaInterface_InjectTypeWrap::get_ReplaceWithPreInvokeBase(System.IntPtr)" Index="8" />
+    <Method Name="IntToEnum" PublishedName="IntToEnum" Signature="IntToEnum-IntPtr" FullSignature="System.Int32 LuaInterface_InjectTypeWrap::IntToEnum(System.IntPtr)" Index="10" />
+    <Method Name="Push" PublishedName="Push" Signature="Push-IntPtr-InjectType" FullSignature="System.Void LuaInterface_InjectTypeWrap::Push(System.IntPtr,LuaInterface.InjectType)" Index="2" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void LuaInterface_InjectTypeWrap::Register(LuaInterface.LuaState)" Index="1" />
+  </Type>
+  <Type Name="LuaInterface_LuaInjectionStationWrap">
+    <Method Name="_CreateLuaInterface_LuaInjectionStation" PublishedName="_CreateLuaInterface_LuaInjectionStation" Signature="_CreateLuaInterface_LuaInjectionStation-IntPtr" FullSignature="System.Int32 LuaInterface_LuaInjectionStationWrap::_CreateLuaInterface_LuaInjectionStation(System.IntPtr)" Index="12" />
+    <Method Name="CacheInjectFunction" PublishedName="CacheInjectFunction" Signature="CacheInjectFunction-IntPtr" FullSignature="System.Int32 LuaInterface_LuaInjectionStationWrap::CacheInjectFunction(System.IntPtr)" Index="13" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void LuaInterface_LuaInjectionStationWrap::Register(LuaInterface.LuaState)" Index="11" />
+  </Type>
+  <Type Name="LuaProfilerWrap">
+    <Method Name="BeginSample" PublishedName="BeginSample" Signature="BeginSample-IntPtr" FullSignature="System.Int32 LuaProfilerWrap::BeginSample(System.IntPtr)" Index="17" />
+    <Method Name="Clear" PublishedName="Clear" Signature="Clear-IntPtr" FullSignature="System.Int32 LuaProfilerWrap::Clear(System.IntPtr)" Index="15" />
+    <Method Name="EndSample" PublishedName="EndSample" Signature="EndSample-IntPtr" FullSignature="System.Int32 LuaProfilerWrap::EndSample(System.IntPtr)" Index="18" />
+    <Method Name="get_list" PublishedName="get_list" Signature="get_list-IntPtr" FullSignature="System.Int32 LuaProfilerWrap::get_list(System.IntPtr)" Index="19" />
+    <Method Name="GetID" PublishedName="GetID" Signature="GetID-IntPtr" FullSignature="System.Int32 LuaProfilerWrap::GetID(System.IntPtr)" Index="16" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void LuaProfilerWrap::Register(LuaInterface.LuaState)" Index="14" />
+    <Method Name="set_list" PublishedName="set_list" Signature="set_list-IntPtr" FullSignature="System.Int32 LuaProfilerWrap::set_list(System.IntPtr)" Index="20" />
+  </Type>
+  <Type Name="PassStruct">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void PassStruct::Awake()" Index="217" />
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void PassStruct::CallMain()" Index="221" />
+    <Method Name="CheckNullRectType" PublishedName="CheckNullRectType" Signature="CheckNullRectType-IntPtr-int" FullSignature="System.Boolean PassStruct::CheckNullRectType(System.IntPtr,System.Int32)" Index="213" />
+    <Method Name="CheckRectType" PublishedName="CheckRectType" Signature="CheckRectType-IntPtr-int" FullSignature="System.Boolean PassStruct::CheckRectType(System.IntPtr,System.Int32)" Index="212" />
+    <Method Name="CheckRectValue" PublishedName="CheckRectValue" Signature="CheckRectValue-IntPtr-int" FullSignature="UnityEngine.Rect PassStruct::CheckRectValue(System.IntPtr,System.Int32)" Index="211" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils PassStruct::InitLoader()" Index="219" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void PassStruct::OnApplicationQuit()" Index="216" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void PassStruct::OnGUI()" Index="220" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void PassStruct::OnLoadFinished()" Index="218" />
+    <Method Name="PushRect" PublishedName="PushRect" Signature="PushRect-IntPtr-Rect" FullSignature="System.Void PassStruct::PushRect(System.IntPtr,UnityEngine.Rect)" Index="209" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void PassStruct::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="215" />
+    <Method Name="ToRectTable" PublishedName="ToRectTable" Signature="ToRectTable-IntPtr-int" FullSignature="System.Object PassStruct::ToRectTable(System.IntPtr,System.Int32)" Index="214" />
+    <Method Name="ToRectValue" PublishedName="ToRectValue" Signature="ToRectValue-IntPtr-int" FullSignature="UnityEngine.Rect PassStruct::ToRectValue(System.IntPtr,System.Int32)" Index="210" />
+  </Type>
+  <Type Name="ScriptsFromFile">
+    <Method Name="Log" PublishedName="Log" Signature="Log-string-string-LogType" FullSignature="System.Void ScriptsFromFile::Log(System.String,System.String,UnityEngine.LogType)" Index="23" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void ScriptsFromFile::OnApplicationQuit()" Index="25" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void ScriptsFromFile::OnGUI()" Index="24" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void ScriptsFromFile::Start()" Index="22" />
+  </Type>
+  <Type Name="System_Collections_Generic_Dictionary_int_TestAccount_KeyCollectionWrap">
+    <Method Name="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_KeyCollection" PublishedName="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_KeyCollection" Signature="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_KeyCollection-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_KeyCollectionWrap::_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_KeyCollection(System.IntPtr)" Index="76" />
+    <Method Name="CopyTo" PublishedName="CopyTo" Signature="CopyTo-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_KeyCollectionWrap::CopyTo(System.IntPtr)" Index="77" />
+    <Method Name="get_Count" PublishedName="get_Count" Signature="get_Count-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_KeyCollectionWrap::get_Count(System.IntPtr)" Index="79" />
+    <Method Name="GetEnumerator" PublishedName="GetEnumerator" Signature="GetEnumerator-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_KeyCollectionWrap::GetEnumerator(System.IntPtr)" Index="78" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void System_Collections_Generic_Dictionary_int_TestAccount_KeyCollectionWrap::Register(LuaInterface.LuaState)" Index="75" />
+  </Type>
+  <Type Name="System_Collections_Generic_Dictionary_int_TestAccount_ValueCollectionWrap">
+    <Method Name="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_ValueCollection" PublishedName="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_ValueCollection" Signature="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_ValueCollection-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_ValueCollectionWrap::_CreateSystem_Collections_Generic_Dictionary_int_TestAccount_ValueCollection(System.IntPtr)" Index="81" />
+    <Method Name="CopyTo" PublishedName="CopyTo" Signature="CopyTo-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_ValueCollectionWrap::CopyTo(System.IntPtr)" Index="82" />
+    <Method Name="get_Count" PublishedName="get_Count" Signature="get_Count-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_ValueCollectionWrap::get_Count(System.IntPtr)" Index="84" />
+    <Method Name="GetEnumerator" PublishedName="GetEnumerator" Signature="GetEnumerator-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccount_ValueCollectionWrap::GetEnumerator(System.IntPtr)" Index="83" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void System_Collections_Generic_Dictionary_int_TestAccount_ValueCollectionWrap::Register(LuaInterface.LuaState)" Index="80" />
+  </Type>
+  <Type Name="System_Collections_Generic_Dictionary_int_TestAccountWrap">
+    <Method Name="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount" PublishedName="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount" Signature="_CreateSystem_Collections_Generic_Dictionary_int_TestAccount-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::_CreateSystem_Collections_Generic_Dictionary_int_TestAccount(System.IntPtr)" Index="56" />
+    <Method Name="_get_this" PublishedName="_get_this" Signature="_get_this-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::_get_this(System.IntPtr)" Index="57" />
+    <Method Name="_set_this" PublishedName="_set_this" Signature="_set_this-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::_set_this(System.IntPtr)" Index="58" />
+    <Method Name="_this" PublishedName="_this" Signature="_this-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::_this(System.IntPtr)" Index="59" />
+    <Method Name="Add" PublishedName="Add" Signature="Add-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::Add(System.IntPtr)" Index="62" />
+    <Method Name="Clear" PublishedName="Clear" Signature="Clear-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::Clear(System.IntPtr)" Index="63" />
+    <Method Name="ContainsKey" PublishedName="ContainsKey" Signature="ContainsKey-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::ContainsKey(System.IntPtr)" Index="64" />
+    <Method Name="ContainsValue" PublishedName="ContainsValue" Signature="ContainsValue-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::ContainsValue(System.IntPtr)" Index="65" />
+    <Method Name="get_Comparer" PublishedName="get_Comparer" Signature="get_Comparer-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::get_Comparer(System.IntPtr)" Index="72" />
+    <Method Name="get_Count" PublishedName="get_Count" Signature="get_Count-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::get_Count(System.IntPtr)" Index="71" />
+    <Method Name="get_Item" PublishedName="get_Item" Signature="get_Item-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::get_Item(System.IntPtr)" Index="60" />
+    <Method Name="get_Keys" PublishedName="get_Keys" Signature="get_Keys-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::get_Keys(System.IntPtr)" Index="73" />
+    <Method Name="get_Values" PublishedName="get_Values" Signature="get_Values-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::get_Values(System.IntPtr)" Index="74" />
+    <Method Name="GetEnumerator" PublishedName="GetEnumerator" Signature="GetEnumerator-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::GetEnumerator(System.IntPtr)" Index="70" />
+    <Method Name="GetObjectData" PublishedName="GetObjectData" Signature="GetObjectData-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::GetObjectData(System.IntPtr)" Index="66" />
+    <Method Name="OnDeserialization" PublishedName="OnDeserialization" Signature="OnDeserialization-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::OnDeserialization(System.IntPtr)" Index="67" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void System_Collections_Generic_Dictionary_int_TestAccountWrap::Register(LuaInterface.LuaState)" Index="55" />
+    <Method Name="Remove" PublishedName="Remove" Signature="Remove-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::Remove(System.IntPtr)" Index="68" />
+    <Method Name="set_Item" PublishedName="set_Item" Signature="set_Item-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::set_Item(System.IntPtr)" Index="61" />
+    <Method Name="TryGetValue" PublishedName="TryGetValue" Signature="TryGetValue-IntPtr" FullSignature="System.Int32 System_Collections_Generic_Dictionary_int_TestAccountWrap::TryGetValue(System.IntPtr)" Index="69" />
+  </Type>
+  <Type Name="System_Collections_Generic_KeyValuePair_int_TestAccountWrap">
+    <Method Name="_CreateSystem_Collections_Generic_KeyValuePair_int_TestAccount" PublishedName="_CreateSystem_Collections_Generic_KeyValuePair_int_TestAccount" Signature="_CreateSystem_Collections_Generic_KeyValuePair_int_TestAccount-IntPtr" FullSignature="System.Int32 System_Collections_Generic_KeyValuePair_int_TestAccountWrap::_CreateSystem_Collections_Generic_KeyValuePair_int_TestAccount(System.IntPtr)" Index="86" />
+    <Method Name="get_Key" PublishedName="get_Key" Signature="get_Key-IntPtr" FullSignature="System.Int32 System_Collections_Generic_KeyValuePair_int_TestAccountWrap::get_Key(System.IntPtr)" Index="88" />
+    <Method Name="get_Value" PublishedName="get_Value" Signature="get_Value-IntPtr" FullSignature="System.Int32 System_Collections_Generic_KeyValuePair_int_TestAccountWrap::get_Value(System.IntPtr)" Index="89" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void System_Collections_Generic_KeyValuePair_int_TestAccountWrap::Register(LuaInterface.LuaState)" Index="85" />
+    <Method Name="ToString" PublishedName="ToString" Signature="ToString-IntPtr" FullSignature="System.Int32 System_Collections_Generic_KeyValuePair_int_TestAccountWrap::ToString(System.IntPtr)" Index="87" />
+  </Type>
+  <Type Name="TestABLoader">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestABLoader::Awake()" Index="172" />
+    <Method Name="CoLoadBundle" PublishedName="CoLoadBundle" Signature="CoLoadBundle-string-string" FullSignature="System.Collections.IEnumerator TestABLoader::CoLoadBundle(System.String,System.String)" Index="169" />
+    <Method Name="LoadBundles" PublishedName="LoadBundles" Signature="LoadBundles" FullSignature="System.Collections.IEnumerator TestABLoader::LoadBundles()" Index="171" />
+    <Method Name="LoadFinished" PublishedName="LoadFinished" Signature="LoadFinished" FullSignature="System.Collections.IEnumerator TestABLoader::LoadFinished()" Index="170" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestABLoader::OnApplicationQuit()" Index="175" />
+    <Method Name="OnBundleLoad" PublishedName="OnBundleLoad" Signature="OnBundleLoad" FullSignature="System.Void TestABLoader::OnBundleLoad()" Index="176" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestABLoader::OnGUI()" Index="174" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestABLoader::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="173" />
+  </Type>
+  <Type Name="TestAccountWrap">
+    <Method Name="_CreateTestAccount" PublishedName="_CreateTestAccount" Signature="_CreateTestAccount-IntPtr" FullSignature="System.Int32 TestAccountWrap::_CreateTestAccount(System.IntPtr)" Index="91" />
+    <Method Name="get_id" PublishedName="get_id" Signature="get_id-IntPtr" FullSignature="System.Int32 TestAccountWrap::get_id(System.IntPtr)" Index="92" />
+    <Method Name="get_name" PublishedName="get_name" Signature="get_name-IntPtr" FullSignature="System.Int32 TestAccountWrap::get_name(System.IntPtr)" Index="93" />
+    <Method Name="get_sex" PublishedName="get_sex" Signature="get_sex-IntPtr" FullSignature="System.Int32 TestAccountWrap::get_sex(System.IntPtr)" Index="94" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void TestAccountWrap::Register(LuaInterface.LuaState)" Index="90" />
+    <Method Name="set_id" PublishedName="set_id" Signature="set_id-IntPtr" FullSignature="System.Int32 TestAccountWrap::set_id(System.IntPtr)" Index="95" />
+    <Method Name="set_name" PublishedName="set_name" Signature="set_name-IntPtr" FullSignature="System.Int32 TestAccountWrap::set_name(System.IntPtr)" Index="96" />
+    <Method Name="set_sex" PublishedName="set_sex" Signature="set_sex-IntPtr" FullSignature="System.Int32 TestAccountWrap::set_sex(System.IntPtr)" Index="97" />
+  </Type>
+  <Type Name="TestCJson">
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void TestCJson::CallMain()" Index="180" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils TestCJson::InitLoader()" Index="177" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestCJson::OnApplicationQuit()" Index="182" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestCJson::OnGUI()" Index="183" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void TestCJson::OnLoadFinished()" Index="179" />
+    <Method Name="OpenLibs" PublishedName="OpenLibs" Signature="OpenLibs" FullSignature="System.Void TestCJson::OpenLibs()" Index="178" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestCJson::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="181" />
+  </Type>
+  <Type Name="TestCoroutine">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestCoroutine::Awake()" Index="35" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestCoroutine::OnApplicationQuit()" Index="36" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestCoroutine::OnGUI()" Index="38" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestCoroutine::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="37" />
+  </Type>
+  <Type Name="TestCoroutine2">
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void TestCoroutine2::CallMain()" Index="41" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils TestCoroutine2::InitLoader()" Index="39" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestCoroutine2::OnApplicationQuit()" Index="44" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestCoroutine2::OnGUI()" Index="45" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void TestCoroutine2::OnLoadFinished()" Index="40" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestCoroutine2::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="43" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestCoroutine2::Start()" Index="42" />
+  </Type>
+  <Type Name="TestCustomLoader">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestCustomLoader::Awake()" Index="140" />
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void TestCustomLoader::CallMain()" Index="138" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils TestCustomLoader::InitLoader()" Index="137" />
+    <Method Name="Logger" PublishedName="Logger" Signature="Logger-string-string-LogType" FullSignature="System.Void TestCustomLoader::Logger(System.String,System.String,UnityEngine.LogType)" Index="142" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestCustomLoader::OnApplicationQuit()" Index="141" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestCustomLoader::OnGUI()" Index="143" />
+    <Method Name="StartMain" PublishedName="StartMain" Signature="StartMain" FullSignature="System.Void TestCustomLoader::StartMain()" Index="139" />
+  </Type>
+  <Type Name="TestDelegate">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestDelegate::Awake()" Index="109" />
+    <Method Name="Bind" PublishedName="Bind" Signature="Bind-LuaState" FullSignature="System.Void TestDelegate::Bind(LuaInterface.LuaState)" Index="110" />
+    <Method Name="CallLuaFunction" PublishedName="CallLuaFunction" Signature="CallLuaFunction-LuaFunction" FullSignature="System.Void TestDelegate::CallLuaFunction(LuaInterface.LuaFunction)" Index="111" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestDelegate::OnApplicationQuit()" Index="118" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestDelegate::OnGUI()" Index="114" />
+    <Method Name="SafeRelease" PublishedName="SafeRelease" Signature="SafeRelease-LuaFunction&amp;" FullSignature="System.Void TestDelegate::SafeRelease(LuaInterface.LuaFunction&amp;)" Index="116" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestDelegate::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="117" />
+    <Method Name="TestEventListener_OnClick" PublishedName="TestEventListener_OnClick" Signature="TestEventListener_OnClick-LuaFunction-LuaTable-bool" FullSignature="TestEventListener/OnClick TestDelegate::TestEventListener_OnClick(LuaInterface.LuaFunction,LuaInterface.LuaTable,System.Boolean)" Index="112" />
+    <Method Name="TestEventListener_VoidDelegate" PublishedName="TestEventListener_VoidDelegate" Signature="TestEventListener_VoidDelegate-LuaFunction-LuaTable-bool" FullSignature="TestEventListener/VoidDelegate TestDelegate::TestEventListener_VoidDelegate(LuaInterface.LuaFunction,LuaInterface.LuaTable,System.Boolean)" Index="113" />
+    <Method Name="Update" PublishedName="Update" Signature="Update" FullSignature="System.Void TestDelegate::Update()" Index="115" />
+  </Type>
+  <Type Name="TestDelegate.TestEventListener_OnClick_Event">
+    <Method Name="Call" PublishedName="Call" Signature="Call-GameObject" FullSignature="System.Void TestDelegate/TestEventListener_OnClick_Event::Call(UnityEngine.GameObject)" Index="107" />
+  </Type>
+  <Type Name="TestDelegate.TestEventListener_VoidDelegate_Event">
+    <Method Name="Call" PublishedName="Call" Signature="Call-GameObject" FullSignature="System.Void TestDelegate/TestEventListener_VoidDelegate_Event::Call(UnityEngine.GameObject)" Index="108" />
+  </Type>
+  <Type Name="TestEnum">
+    <Method Name="Test" PublishedName="Test" Signature="Test-Space" FullSignature="System.Void TestEnum::Test(UnityEngine.Space)" Index="312" />
+  </Type>
+  <Type Name="TestEventListener">
+    <Method Name="SetOnFinished" PublishedName="SetOnFinished-OnClick" Signature="SetOnFinished-OnClick" FullSignature="System.Void TestEventListener::SetOnFinished(TestEventListener/OnClick)" Index="119" />
+    <Method Name="SetOnFinished" PublishedName="SetOnFinished-VoidDelegate" Signature="SetOnFinished-VoidDelegate" FullSignature="System.Void TestEventListener::SetOnFinished(TestEventListener/VoidDelegate)" Index="120" />
+  </Type>
+  <Type Name="TestEventListenerWrap">
+    <Method Name="get_onClick" PublishedName="get_onClick" Signature="get_onClick-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::get_onClick(System.IntPtr)" Index="124" />
+    <Method Name="get_onClickEvent" PublishedName="get_onClickEvent" Signature="get_onClickEvent-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::get_onClickEvent(System.IntPtr)" Index="126" />
+    <Method Name="get_TestFunc" PublishedName="get_TestFunc" Signature="get_TestFunc-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::get_TestFunc(System.IntPtr)" Index="125" />
+    <Method Name="op_Equality" PublishedName="op_Equality" Signature="op_Equality-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::op_Equality(System.IntPtr)" Index="123" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void TestEventListenerWrap::Register(LuaInterface.LuaState)" Index="121" />
+    <Method Name="set_onClick" PublishedName="set_onClick" Signature="set_onClick-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::set_onClick(System.IntPtr)" Index="127" />
+    <Method Name="set_onClickEvent" PublishedName="set_onClickEvent" Signature="set_onClickEvent-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::set_onClickEvent(System.IntPtr)" Index="129" />
+    <Method Name="set_TestFunc" PublishedName="set_TestFunc" Signature="set_TestFunc-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::set_TestFunc(System.IntPtr)" Index="128" />
+    <Method Name="SetOnFinished" PublishedName="SetOnFinished" Signature="SetOnFinished-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::SetOnFinished(System.IntPtr)" Index="122" />
+    <Method Name="TestEventListener_OnClick" PublishedName="TestEventListener_OnClick" Signature="TestEventListener_OnClick-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::TestEventListener_OnClick(System.IntPtr)" Index="130" />
+    <Method Name="TestEventListener_VoidDelegate" PublishedName="TestEventListener_VoidDelegate" Signature="TestEventListener_VoidDelegate-IntPtr" FullSignature="System.Int32 TestEventListenerWrap::TestEventListener_VoidDelegate(System.IntPtr)" Index="131" />
+  </Type>
+  <Type Name="TestExport">
+    <Method Name="DoClick" PublishedName="DoClick" Signature="DoClick" FullSignature="System.Void TestExport::DoClick()" Index="348" />
+    <Method Name="get_Item" PublishedName="get_Item-char-int" Signature="get_Item-char-int" FullSignature="System.Int32 TestExport::get_Item(System.Char,System.Int32)" Index="317" />
+    <Method Name="get_Item" PublishedName="get_Item-double" Signature="get_Item-double" FullSignature="System.Int32 TestExport::get_Item(System.Double)" Index="320" />
+    <Method Name="get_Item" PublishedName="get_Item-int" Signature="get_Item-int" FullSignature="System.Int32 TestExport::get_Item(System.Int32)" Index="315" />
+    <Method Name="get_Item" PublishedName="get_Item-int-int-int" Signature="get_Item-int-int-int" FullSignature="System.Int32 TestExport::get_Item(System.Int32,System.Int32,System.Int32)" Index="321" />
+    <Method Name="get_Item" PublishedName="get_Item-string" Signature="get_Item-string" FullSignature="System.Int32 TestExport::get_Item(System.String)" Index="319" />
+    <Method Name="get_Number" PublishedName="get_Number" Signature="get_Number" FullSignature="System.Int32 TestExport::get_Number()" Index="313" />
+    <Method Name="set_Item" PublishedName="set_Item-char-int-int" Signature="set_Item-char-int-int" FullSignature="System.Void TestExport::set_Item(System.Char,System.Int32,System.Int32)" Index="318" />
+    <Method Name="set_Item" PublishedName="set_Item-double" Signature="set_Item-double" FullSignature="System.Int32 TestExport::set_Item(System.Double)" Index="322" />
+    <Method Name="set_Item" PublishedName="set_Item-int-int" Signature="set_Item-int-int" FullSignature="System.Void TestExport::set_Item(System.Int32,System.Int32)" Index="316" />
+    <Method Name="set_Number" PublishedName="set_Number" Signature="set_Number-int" FullSignature="System.Void TestExport::set_Number(System.Int32)" Index="314" />
+    <Method Name="Test" PublishedName="Test" Signature="Test" FullSignature="System.Int32 TestExport::Test()" Index="327" />
+    <Method Name="Test33" PublishedName="Test33" Signature="Test33-Action&lt;int&gt;&amp;" FullSignature="System.Int32 TestExport::Test33(System.Action`1&lt;System.Int32&gt;&amp;)" Index="342" />
+    <Method Name="Test" PublishedName="Test-bool" Signature="Test-bool" FullSignature="System.Int32 TestExport::Test(System.Boolean)" Index="328" />
+    <Method Name="TestByteBuffer" PublishedName="TestByteBuffer" Signature="TestByteBuffer-TestBuffer" FullSignature="System.Void TestExport::TestByteBuffer(TestExport/TestBuffer)" Index="323" />
+    <Method Name="Test" PublishedName="Test-char" Signature="Test-char" FullSignature="System.Int32 TestExport::Test(System.Char)" Index="326" />
+    <Method Name="TestCheckParamNumber" PublishedName="TestCheckParamNumber" Signature="TestCheckParamNumber-int[]" FullSignature="System.Int32 TestExport::TestCheckParamNumber(System.Int32[])" Index="344" />
+    <Method Name="TestCheckParamString" PublishedName="TestCheckParamString" Signature="TestCheckParamString-string[]" FullSignature="System.String TestExport::TestCheckParamString(System.String[])" Index="345" />
+    <Method Name="Test" PublishedName="Test-double" Signature="Test-double" FullSignature="System.Int32 TestExport::Test(System.Double)" Index="331" />
+    <Method Name="TestEnum" PublishedName="TestEnum" Signature="TestEnum-Space" FullSignature="System.Int32 TestExport::TestEnum(TestExport/Space)" Index="343" />
+    <Method Name="Test" PublishedName="Test-int" Signature="Test-int" FullSignature="System.Int32 TestExport::Test(System.Int32)" Index="330" />
+    <Method Name="Test" PublishedName="Test-int&amp;" Signature="Test-int&amp;" FullSignature="System.Int32 TestExport::Test(System.Int32&amp;)" Index="332" />
+    <Method Name="Test" PublishedName="Test-int[,]" Signature="Test-int[,]" FullSignature="System.Int32 TestExport::Test(System.Int32[,])" Index="329" />
+    <Method Name="Test" PublishedName="Test-int[]" Signature="Test-int[]" FullSignature="System.Int32 TestExport::Test(System.Int32[])" Index="337" />
+    <Method Name="Test" PublishedName="Test-int-int" Signature="Test-int-int" FullSignature="System.Int32 TestExport::Test(System.Int32,System.Int32)" Index="333" />
+    <Method Name="TestNullable" PublishedName="TestNullable" Signature="TestNullable-Nullable&lt;Vector3&gt;" FullSignature="System.Nullable`1&lt;UnityEngine.Vector3&gt; TestExport::TestNullable(System.Nullable`1&lt;UnityEngine.Vector3&gt;)" Index="349" />
+    <Method Name="Test" PublishedName="Test-object" Signature="Test-object" FullSignature="System.Int32 TestExport::Test(System.Object)" Index="336" />
+    <Method Name="Test" PublishedName="Test-object[]" Signature="Test-object[]" FullSignature="System.Int32 TestExport::Test(System.Object[])" Index="340" />
+    <Method Name="Test" PublishedName="Test-object-string" Signature="Test-object-string" FullSignature="System.Int32 TestExport::Test(System.Object,System.String)" Index="324" />
+    <Method Name="Test" PublishedName="Test-object-string-int" Signature="Test-object-string-int" FullSignature="System.Int32 TestExport::Test(System.Object,System.String,System.Int32)" Index="325" />
+    <Method Name="TestRefGameObject" PublishedName="TestRefGameObject" Signature="TestRefGameObject-GameObject&amp;" FullSignature="System.Void TestExport::TestRefGameObject(UnityEngine.GameObject&amp;)" Index="347" />
+    <Method Name="TestReflection" PublishedName="TestReflection" Signature="TestReflection" FullSignature="System.Void TestExport::TestReflection()" Index="346" />
+    <Method Name="Test" PublishedName="Test-Space" Signature="Test-Space" FullSignature="System.Int32 TestExport::Test(TestExport/Space)" Index="341" />
+    <Method Name="Test" PublishedName="Test-string" Signature="Test-string" FullSignature="System.Int32 TestExport::Test(System.String)" Index="334" />
+    <Method Name="Test" PublishedName="Test-string[]" Signature="Test-string[]" FullSignature="System.Int32 TestExport::Test(System.String[])" Index="338" />
+    <Method Name="Test" PublishedName="Test-string[]-bool" Signature="Test-string[]-bool" FullSignature="System.Int32 TestExport::Test(System.String[],System.Boolean)" Index="339" />
+    <Method Name="Test" PublishedName="Test-string-string" Signature="Test-string-string" FullSignature="System.Int32 TestExport::Test(System.String,System.String)" Index="335" />
+  </Type>
+  <Type Name="TestExport_SpaceWrap">
+    <Method Name="CheckType" PublishedName="CheckType" Signature="CheckType-IntPtr-int" FullSignature="System.Boolean TestExport_SpaceWrap::CheckType(System.IntPtr,System.Int32)" Index="309" />
+    <Method Name="get_World" PublishedName="get_World" Signature="get_World-IntPtr" FullSignature="System.Int32 TestExport_SpaceWrap::get_World(System.IntPtr)" Index="310" />
+    <Method Name="IntToEnum" PublishedName="IntToEnum" Signature="IntToEnum-IntPtr" FullSignature="System.Int32 TestExport_SpaceWrap::IntToEnum(System.IntPtr)" Index="311" />
+    <Method Name="Push" PublishedName="Push" Signature="Push-IntPtr-Space" FullSignature="System.Void TestExport_SpaceWrap::Push(System.IntPtr,TestExport/Space)" Index="308" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void TestExport_SpaceWrap::Register(LuaInterface.LuaState)" Index="307" />
+  </Type>
+  <Type Name="TestExportWrap">
+    <Method Name="_CreateTestExport" PublishedName="_CreateTestExport" Signature="_CreateTestExport-IntPtr" FullSignature="System.Int32 TestExportWrap::_CreateTestExport(System.IntPtr)" Index="277" />
+    <Method Name="_get_this" PublishedName="_get_this" Signature="_get_this-IntPtr" FullSignature="System.Int32 TestExportWrap::_get_this(System.IntPtr)" Index="278" />
+    <Method Name="_set_this" PublishedName="_set_this" Signature="_set_this-IntPtr" FullSignature="System.Int32 TestExportWrap::_set_this(System.IntPtr)" Index="279" />
+    <Method Name="_this" PublishedName="_this" Signature="_this-IntPtr" FullSignature="System.Int32 TestExportWrap::_this(System.IntPtr)" Index="280" />
+    <Method Name="DoClick" PublishedName="DoClick" Signature="DoClick-IntPtr" FullSignature="System.Int32 TestExportWrap::DoClick(System.IntPtr)" Index="293" />
+    <Method Name="get_buffer" PublishedName="get_buffer" Signature="get_buffer-IntPtr" FullSignature="System.Int32 TestExportWrap::get_buffer(System.IntPtr)" Index="298" />
+    <Method Name="get_field" PublishedName="get_field" Signature="get_field-IntPtr" FullSignature="System.Int32 TestExportWrap::get_field(System.IntPtr)" Index="295" />
+    <Method Name="get_Item" PublishedName="get_Item" Signature="get_Item-IntPtr" FullSignature="System.Int32 TestExportWrap::get_Item(System.IntPtr)" Index="281" />
+    <Method Name="get_Number" PublishedName="get_Number" Signature="get_Number-IntPtr" FullSignature="System.Int32 TestExportWrap::get_Number(System.IntPtr)" Index="299" />
+    <Method Name="get_OnClick" PublishedName="get_OnClick" Signature="get_OnClick-IntPtr" FullSignature="System.Int32 TestExportWrap::get_OnClick(System.IntPtr)" Index="296" />
+    <Method Name="get_OnRefEvent" PublishedName="get_OnRefEvent" Signature="get_OnRefEvent-IntPtr" FullSignature="System.Int32 TestExportWrap::get_OnRefEvent(System.IntPtr)" Index="297" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void TestExportWrap::Register(LuaInterface.LuaState)" Index="276" />
+    <Method Name="set_buffer" PublishedName="set_buffer" Signature="set_buffer-IntPtr" FullSignature="System.Int32 TestExportWrap::set_buffer(System.IntPtr)" Index="303" />
+    <Method Name="set_field" PublishedName="set_field" Signature="set_field-IntPtr" FullSignature="System.Int32 TestExportWrap::set_field(System.IntPtr)" Index="300" />
+    <Method Name="set_Item" PublishedName="set_Item" Signature="set_Item-IntPtr" FullSignature="System.Int32 TestExportWrap::set_Item(System.IntPtr)" Index="282" />
+    <Method Name="set_Number" PublishedName="set_Number" Signature="set_Number-IntPtr" FullSignature="System.Int32 TestExportWrap::set_Number(System.IntPtr)" Index="304" />
+    <Method Name="set_OnClick" PublishedName="set_OnClick" Signature="set_OnClick-IntPtr" FullSignature="System.Int32 TestExportWrap::set_OnClick(System.IntPtr)" Index="301" />
+    <Method Name="set_OnRefEvent" PublishedName="set_OnRefEvent" Signature="set_OnRefEvent-IntPtr" FullSignature="System.Int32 TestExportWrap::set_OnRefEvent(System.IntPtr)" Index="302" />
+    <Method Name="Test" PublishedName="Test" Signature="Test-IntPtr" FullSignature="System.Int32 TestExportWrap::Test(System.IntPtr)" Index="284" />
+    <Method Name="Test33" PublishedName="Test33" Signature="Test33-IntPtr" FullSignature="System.Int32 TestExportWrap::Test33(System.IntPtr)" Index="286" />
+    <Method Name="TestByteBuffer" PublishedName="TestByteBuffer" Signature="TestByteBuffer-IntPtr" FullSignature="System.Int32 TestExportWrap::TestByteBuffer(System.IntPtr)" Index="283" />
+    <Method Name="TestChar" PublishedName="TestChar" Signature="TestChar-IntPtr" FullSignature="System.Int32 TestExportWrap::TestChar(System.IntPtr)" Index="285" />
+    <Method Name="TestCheckParamNumber" PublishedName="TestCheckParamNumber" Signature="TestCheckParamNumber-IntPtr" FullSignature="System.Int32 TestExportWrap::TestCheckParamNumber(System.IntPtr)" Index="289" />
+    <Method Name="TestCheckParamString" PublishedName="TestCheckParamString" Signature="TestCheckParamString-IntPtr" FullSignature="System.Int32 TestExportWrap::TestCheckParamString(System.IntPtr)" Index="290" />
+    <Method Name="TestEnum" PublishedName="TestEnum" Signature="TestEnum-IntPtr" FullSignature="System.Int32 TestExportWrap::TestEnum(System.IntPtr)" Index="288" />
+    <Method Name="TestExport_TestBuffer" PublishedName="TestExport_TestBuffer" Signature="TestExport_TestBuffer-IntPtr" FullSignature="System.Int32 TestExportWrap::TestExport_TestBuffer(System.IntPtr)" Index="305" />
+    <Method Name="TestExport_TestRefEvent" PublishedName="TestExport_TestRefEvent" Signature="TestExport_TestRefEvent-IntPtr" FullSignature="System.Int32 TestExportWrap::TestExport_TestRefEvent(System.IntPtr)" Index="306" />
+    <Method Name="TestGeneric" PublishedName="TestGeneric" Signature="TestGeneric-IntPtr" FullSignature="System.Int32 TestExportWrap::TestGeneric(System.IntPtr)" Index="287" />
+    <Method Name="TestNullable" PublishedName="TestNullable" Signature="TestNullable-IntPtr" FullSignature="System.Int32 TestExportWrap::TestNullable(System.IntPtr)" Index="294" />
+    <Method Name="TestRefGameObject" PublishedName="TestRefGameObject" Signature="TestRefGameObject-IntPtr" FullSignature="System.Int32 TestExportWrap::TestRefGameObject(System.IntPtr)" Index="292" />
+    <Method Name="TestReflection" PublishedName="TestReflection" Signature="TestReflection-IntPtr" FullSignature="System.Int32 TestExportWrap::TestReflection(System.IntPtr)" Index="291" />
+  </Type>
+  <Type Name="TestGameObject">
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestGameObject::OnApplicationQuit()" Index="135" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestGameObject::OnGUI()" Index="136" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestGameObject::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="134" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestGameObject::Start()" Index="132" />
+    <Method Name="Update" PublishedName="Update" Signature="Update" FullSignature="System.Void TestGameObject::Update()" Index="133" />
+  </Type>
+  <Type Name="TestInherit">
+    <Method Name="OnDestroy" PublishedName="OnDestroy" Signature="OnDestroy" FullSignature="System.Void TestInherit::OnDestroy()" Index="167" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestInherit::OnGUI()" Index="168" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestInherit::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="166" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestInherit::Start()" Index="165" />
+  </Type>
+  <Type Name="TestInstantiate">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestInstantiate::Awake()" Index="226" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestInstantiate::Start()" Index="227" />
+  </Type>
+  <Type Name="TestInstantiate2">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestInstantiate2::Awake()" Index="228" />
+  </Type>
+  <Type Name="TestInt64">
+    <Method Name="OnDestroy" PublishedName="OnDestroy" Signature="OnDestroy" FullSignature="System.Void TestInt64::OnDestroy()" Index="163" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestInt64::OnGUI()" Index="164" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestInt64::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="162" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestInt64::Start()" Index="161" />
+  </Type>
+  <Type Name="TestLuaStack">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestLuaStack::Awake()" Index="245" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestLuaStack::OnApplicationQuit()" Index="247" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestLuaStack::OnGUI()" Index="251" />
+    <Method Name="OnSendMsg" PublishedName="OnSendMsg" Signature="OnSendMsg" FullSignature="System.Void TestLuaStack::OnSendMsg()" Index="244" />
+    <Method Name="PushLuaError" PublishedName="PushLuaError" Signature="PushLuaError-IntPtr" FullSignature="System.Int32 TestLuaStack::PushLuaError(System.IntPtr)" Index="230" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestLuaStack::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="248" />
+    <Method Name="Test1" PublishedName="Test1" Signature="Test1-IntPtr" FullSignature="System.Int32 TestLuaStack::Test1(System.IntPtr)" Index="229" />
+    <Method Name="Test3" PublishedName="Test3" Signature="Test3-IntPtr" FullSignature="System.Int32 TestLuaStack::Test3(System.IntPtr)" Index="231" />
+    <Method Name="Test4" PublishedName="Test4" Signature="Test4-IntPtr" FullSignature="System.Int32 TestLuaStack::Test4(System.IntPtr)" Index="232" />
+    <Method Name="Test5" PublishedName="Test5" Signature="Test5-IntPtr" FullSignature="System.Int32 TestLuaStack::Test5(System.IntPtr)" Index="233" />
+    <Method Name="Test6" PublishedName="Test6" Signature="Test6-IntPtr" FullSignature="System.Int32 TestLuaStack::Test6(System.IntPtr)" Index="234" />
+    <Method Name="TestAddComponent" PublishedName="TestAddComponent" Signature="TestAddComponent-IntPtr" FullSignature="System.Int32 TestLuaStack::TestAddComponent(System.IntPtr)" Index="240" />
+    <Method Name="TestArgError" PublishedName="TestArgError" Signature="TestArgError-IntPtr" FullSignature="System.Int32 TestLuaStack::TestArgError(System.IntPtr)" Index="236" />
+    <Method Name="TestCo" PublishedName="TestCo" Signature="TestCo-Action" FullSignature="System.Collections.IEnumerator TestLuaStack::TestCo(System.Action)" Index="252" />
+    <Method Name="TestCycle" PublishedName="TestCycle" Signature="TestCycle-IntPtr" FullSignature="System.Int32 TestLuaStack::TestCycle(System.IntPtr)" Index="238" />
+    <Method Name="TestD1" PublishedName="TestD1" Signature="TestD1" FullSignature="System.Void TestLuaStack::TestD1()" Index="249" />
+    <Method Name="TestD2" PublishedName="TestD2" Signature="TestD2" FullSignature="System.Void TestLuaStack::TestD2()" Index="250" />
+    <Method Name="TestMul0" PublishedName="TestMul0" Signature="TestMul0" FullSignature="System.Void TestLuaStack::TestMul0()" Index="242" />
+    <Method Name="TestMul1" PublishedName="TestMul1" Signature="TestMul1" FullSignature="System.Void TestLuaStack::TestMul1()" Index="241" />
+    <Method Name="TestMulStack" PublishedName="TestMulStack" Signature="TestMulStack-IntPtr" FullSignature="System.Int32 TestLuaStack::TestMulStack(System.IntPtr)" Index="243" />
+    <Method Name="TestNull" PublishedName="TestNull" Signature="TestNull-IntPtr" FullSignature="System.Int32 TestLuaStack::TestNull(System.IntPtr)" Index="239" />
+    <Method Name="TestOutOfBound" PublishedName="TestOutOfBound" Signature="TestOutOfBound-IntPtr" FullSignature="System.Int32 TestLuaStack::TestOutOfBound(System.IntPtr)" Index="235" />
+    <Method Name="TestTableInCo" PublishedName="TestTableInCo" Signature="TestTableInCo-IntPtr" FullSignature="System.Int32 TestLuaStack::TestTableInCo(System.IntPtr)" Index="237" />
+    <Method Name="Update" PublishedName="Update" Signature="Update" FullSignature="System.Void TestLuaStack::Update()" Index="246" />
+  </Type>
+  <Type Name="TestLuaThread">
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestLuaThread::OnApplicationQuit()" Index="47" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestLuaThread::OnGUI()" Index="50" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestLuaThread::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="48" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestLuaThread::Start()" Index="46" />
+    <Method Name="Update" PublishedName="Update" Signature="Update" FullSignature="System.Void TestLuaThread::Update()" Index="49" />
+  </Type>
+  <Type Name="TestOutArg">
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestOutArg::OnApplicationQuit()" Index="146" />
+    <Method Name="OnDestroy" PublishedName="OnDestroy" Signature="OnDestroy" FullSignature="System.Void TestOutArg::OnDestroy()" Index="149" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestOutArg::OnGUI()" Index="147" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestOutArg::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="145" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestOutArg::Start()" Index="144" />
+    <Method Name="Update" PublishedName="Update" Signature="Update" FullSignature="System.Void TestOutArg::Update()" Index="148" />
+  </Type>
+  <Type Name="TestOverload">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestOverload::Awake()" Index="350" />
+    <Method Name="Bind" PublishedName="Bind" Signature="Bind-LuaState" FullSignature="System.Void TestOverload::Bind(LuaInterface.LuaState)" Index="351" />
+  </Type>
+  <Type Name="TestPerformance">
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestPerformance::OnApplicationQuit()" Index="224" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestPerformance::OnGUI()" Index="225" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestPerformance::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="223" />
+    <Method Name="Start" PublishedName="Start" Signature="Start" FullSignature="System.Void TestPerformance::Start()" Index="222" />
+  </Type>
+  <Type Name="TestProtoBuffer">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void TestProtoBuffer::Awake()" Index="150" />
+    <Method Name="Bind" PublishedName="Bind" Signature="Bind" FullSignature="System.Void TestProtoBuffer::Bind()" Index="152" />
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void TestProtoBuffer::CallMain()" Index="153" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils TestProtoBuffer::InitLoader()" Index="151" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestProtoBuffer::OnApplicationQuit()" Index="157" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestProtoBuffer::OnGUI()" Index="156" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void TestProtoBuffer::OnLoadFinished()" Index="154" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestProtoBuffer::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="155" />
+  </Type>
+  <Type Name="TestProtolWrap">
+    <Method Name="get_data" PublishedName="get_data" Signature="get_data-IntPtr" FullSignature="System.Int32 TestProtolWrap::get_data(System.IntPtr)" Index="159" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void TestProtolWrap::Register(LuaInterface.LuaState)" Index="158" />
+    <Method Name="set_data" PublishedName="set_data" Signature="set_data-IntPtr" FullSignature="System.Int32 TestProtolWrap::set_data(System.IntPtr)" Index="160" />
+  </Type>
+  <Type Name="TestReflection">
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void TestReflection::CallMain()" Index="197" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils TestReflection::InitLoader()" Index="196" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestReflection::OnApplicationQuit()" Index="201" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestReflection::OnGUI()" Index="202" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void TestReflection::OnLoadFinished()" Index="199" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestReflection::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="200" />
+    <Method Name="TestAction" PublishedName="TestAction" Signature="TestAction" FullSignature="System.Void TestReflection::TestAction()" Index="198" />
+  </Type>
+  <Type Name="TestString">
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void TestString::CallMain()" Index="191" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils TestString::InitLoader()" Index="190" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestString::OnApplicationQuit()" Index="194" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestString::OnGUI()" Index="195" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void TestString::OnLoadFinished()" Index="192" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestString::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="193" />
+  </Type>
+  <Type Name="TestUTF8">
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void TestUTF8::CallMain()" Index="185" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils TestUTF8::InitLoader()" Index="184" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void TestUTF8::OnApplicationQuit()" Index="188" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void TestUTF8::OnGUI()" Index="189" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void TestUTF8::OnLoadFinished()" Index="186" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void TestUTF8::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="187" />
+  </Type>
+  <Type Name="ToLuaInjectionTest">
+    <Method Name="get_PropertyTest" PublishedName="get_PropertyTest" Signature="get_PropertyTest" FullSignature="System.Int32 ToLuaInjectionTest::get_PropertyTest()" Index="261" />
+    <Method Name="Inject" PublishedName="Inject" Signature="Inject-bool-int" FullSignature="System.Void ToLuaInjectionTest::Inject(System.Boolean,System.Int32)" Index="267" />
+    <Method Name="set_PropertyTest" PublishedName="set_PropertyTest" Signature="set_PropertyTest-int" FullSignature="System.Void ToLuaInjectionTest::set_PropertyTest(System.Int32)" Index="262" />
+    <Method Name="TestCoroutine" PublishedName="TestCoroutine" Signature="TestCoroutine-float" FullSignature="System.Collections.IEnumerator ToLuaInjectionTest::TestCoroutine(System.Single)" Index="268" />
+    <Method Name="TestOverload" PublishedName="TestOverload-bool-int" Signature="TestOverload-bool-int" FullSignature="System.Void ToLuaInjectionTest::TestOverload(System.Boolean,System.Int32)" Index="266" />
+    <Method Name="TestOverload" PublishedName="TestOverload-int-bool" Signature="TestOverload-int-bool" FullSignature="System.Void ToLuaInjectionTest::TestOverload(System.Int32,System.Boolean)" Index="264" />
+    <Method Name="TestOverload" PublishedName="TestOverload-int-bool&amp;" Signature="TestOverload-int-bool&amp;" FullSignature="System.Void ToLuaInjectionTest::TestOverload(System.Int32,System.Boolean&amp;)" Index="265" />
+    <Method Name="TestRef" PublishedName="TestRef" Signature="TestRef-int&amp;" FullSignature="System.Int32 ToLuaInjectionTest::TestRef(System.Int32&amp;)" Index="263" />
+  </Type>
+  <Type Name="ToLuaInjectionTestWrap">
+    <Method Name="_CreateToLuaInjectionTest" PublishedName="_CreateToLuaInjectionTest" Signature="_CreateToLuaInjectionTest-IntPtr" FullSignature="System.Int32 ToLuaInjectionTestWrap::_CreateToLuaInjectionTest(System.IntPtr)" Index="270" />
+    <Method Name="get_PropertyTest" PublishedName="get_PropertyTest" Signature="get_PropertyTest-IntPtr" FullSignature="System.Int32 ToLuaInjectionTestWrap::get_PropertyTest(System.IntPtr)" Index="274" />
+    <Method Name="Register" PublishedName="Register" Signature="Register-LuaState" FullSignature="System.Void ToLuaInjectionTestWrap::Register(LuaInterface.LuaState)" Index="269" />
+    <Method Name="set_PropertyTest" PublishedName="set_PropertyTest" Signature="set_PropertyTest-IntPtr" FullSignature="System.Int32 ToLuaInjectionTestWrap::set_PropertyTest(System.IntPtr)" Index="275" />
+    <Method Name="TestCoroutine" PublishedName="TestCoroutine" Signature="TestCoroutine-IntPtr" FullSignature="System.Int32 ToLuaInjectionTestWrap::TestCoroutine(System.IntPtr)" Index="273" />
+    <Method Name="TestOverload" PublishedName="TestOverload" Signature="TestOverload-IntPtr" FullSignature="System.Int32 ToLuaInjectionTestWrap::TestOverload(System.IntPtr)" Index="272" />
+    <Method Name="TestRef" PublishedName="TestRef" Signature="TestRef-IntPtr" FullSignature="System.Int32 ToLuaInjectionTestWrap::TestRef(System.IntPtr)" Index="271" />
+  </Type>
+  <Type Name="UseDictionary">
+    <Method Name="Awake" PublishedName="Awake" Signature="Awake" FullSignature="System.Void UseDictionary::Awake()" Index="98" />
+    <Method Name="BindMap" PublishedName="BindMap" Signature="BindMap-LuaState" FullSignature="System.Void UseDictionary::BindMap(LuaInterface.LuaState)" Index="102" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void UseDictionary::OnApplicationQuit()" Index="99" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void UseDictionary::OnGUI()" Index="101" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void UseDictionary::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="100" />
+  </Type>
+  <Type Name="UseList">
+    <Method Name="CallMain" PublishedName="CallMain" Signature="CallMain" FullSignature="System.Void UseList::CallMain()" Index="204" />
+    <Method Name="InitLoader" PublishedName="InitLoader" Signature="InitLoader" FullSignature="LuaInterface.LuaFileUtils UseList::InitLoader()" Index="203" />
+    <Method Name="OnApplicationQuit" PublishedName="OnApplicationQuit" Signature="OnApplicationQuit" FullSignature="System.Void UseList::OnApplicationQuit()" Index="207" />
+    <Method Name="OnGUI" PublishedName="OnGUI" Signature="OnGUI" FullSignature="System.Void UseList::OnGUI()" Index="208" />
+    <Method Name="OnLoadFinished" PublishedName="OnLoadFinished" Signature="OnLoadFinished" FullSignature="System.Void UseList::OnLoadFinished()" Index="205" />
+    <Method Name="ShowTips" PublishedName="ShowTips" Signature="ShowTips-string-string-LogType" FullSignature="System.Void UseList::ShowTips(System.String,System.String,UnityEngine.LogType)" Index="206" />
+  </Type>
+</Root>

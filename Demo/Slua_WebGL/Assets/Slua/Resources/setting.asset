@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa35f0feac8a2f2459bb9b0f11233a7e, type: 3}
+  m_Name: setting
+  m_EditorClassIdentifier: 
+  eol: 0
+  exportExtensionMethod: 1
+  UnityEngineGeneratePath: Assets/Slua/LuaObject/
+  PrintTrace: 1
+  jitType: 0

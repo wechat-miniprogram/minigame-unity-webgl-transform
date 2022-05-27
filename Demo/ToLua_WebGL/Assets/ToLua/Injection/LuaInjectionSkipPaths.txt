@@ -1,0 +1,7 @@
+Assets/ToLua/Core/
+Assets/ToLua/Injection/
+Assets/ToLua/Misc/
+Assets/ToLua/Reflection/
+Assets/Plugins/
+Assets/ToLua/BaseType/
+Assets/Source/Generate/

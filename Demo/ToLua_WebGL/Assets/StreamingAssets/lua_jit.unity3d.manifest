@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 3637974307
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 571693986785479eb2af588893f63920
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/temp/Lua/jit/p.lua.bytes
+- Assets/temp/Lua/jit/zone.lua.bytes
+- Assets/temp/Lua/jit/dis_arm.lua.bytes
+- Assets/temp/Lua/jit/dis_ppc.lua.bytes
+- Assets/temp/Lua/jit/dis_mipsel.lua.bytes
+- Assets/temp/Lua/jit/dis_mips64el.lua.bytes
+- Assets/temp/Lua/jit/dis_x86.lua.bytes
+- Assets/temp/Lua/jit/dis_arm64.lua.bytes
+- Assets/temp/Lua/jit/bc.lua.bytes
+- Assets/temp/Lua/jit/dis_mips.lua.bytes
+- Assets/temp/Lua/jit/bcsave.lua.bytes
+- Assets/temp/Lua/jit/dis_x64.lua.bytes
+- Assets/temp/Lua/jit/v.lua.bytes
+- Assets/temp/Lua/jit/dis_mips64.lua.bytes
+- Assets/temp/Lua/jit/dump.lua.bytes
+- Assets/temp/Lua/jit/dis_arm64be.lua.bytes
+Dependencies: []

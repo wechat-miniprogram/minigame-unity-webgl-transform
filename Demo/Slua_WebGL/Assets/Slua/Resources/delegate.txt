@@ -1,0 +1,114 @@
+
+
+
+function xx(path,a,b,c)
+	assert(c==4) -- modified by first delegation, it is ref value
+	print(2,path,a,b,c)
+	--multi return for out flag parameter
+	return true,4,"http://www.sineysoft.com",1
+end
+
+
+self={}
+
+function self.func()
+	print("callback from func")
+	return 520
+end
+
+function self.action(a,b)
+	print("callback from action")
+	print(a,b)
+end
+
+function self.actionD()
+	return function(a,b)
+		print("callback from actionD")
+		-- here you can access self
+		print(self,a,b)
+	end
+end
+
+
+function main()
+	
+	Deleg.d=function(path,a,b,c)
+		print(1,path)
+		assert(c==3)
+		--multi return for out flag parameter
+		return true,4,"http://www.sineysoft.com",1
+	end
+
+	-- add handler
+	Deleg.d={"+=",xx}
+
+	Deleg.s=function(path,go)
+		print(path,go.name)
+	end
+
+	-- call delegation
+	Deleg.callD()
+
+	-- remove handler
+	Deleg.d={"-=",xx}
+
+	Deleg.callD()
+
+	-- remove all
+	Deleg.d=nil
+	Deleg.s=nil
+
+	-- call delegation again
+	Deleg.callD()	
+
+
+	Deleg.testFunc( self.func )
+	Deleg.testAction( self.action )
+
+	-- add
+    local callback=self.actionD()
+	Deleg.daction = {"+=",callback}
+	Deleg.callDAction()
+
+	print("delegate removed")
+	
+	-- remove
+	Deleg.daction = {"-=",callback}
+	Deleg.callDAction()
+
+	-- out modifier
+
+	local f = Deleg.getFunc(function(i,s)
+		print(i,s)
+		return true
+	end)
+
+	-- passed as parameter again
+	local f2= Deleg.getFunc(f)
+
+	assert(f==f2)
+
+
+	-- test more than 1 deletegates
+	Deleg.setcallback2(function(a)
+		assert(a==1)
+		print(a)
+	end,
+	function(b)
+		assert(b=="hello")
+		print(b)
+	end
+	)
+
+	Deleg.setcallback2(function(a)
+		assert(a==1)
+		print(a)
+	end,nil)
+
+	Deleg.setcallback2(nil,function(b)
+		assert(b=="hello")
+		print(b)
+	end)
+end
+
+

@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 1220627630
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: lua_cjson.unity3d
+      Dependencies: {}
+    Info_1:
+      Name: lua_jit.unity3d
+      Dependencies: {}
+    Info_2:
+      Name: lua_lpeg.unity3d
+      Dependencies: {}
+    Info_3:
+      Name: lua_misc.unity3d
+      Dependencies: {}
+    Info_4:
+      Name: lua_protobuf.unity3d
+      Dependencies: {}
+    Info_5:
+      Name: lua_socket.unity3d
+      Dependencies: {}
+    Info_6:
+      Name: lua_system.unity3d
+      Dependencies: {}
+    Info_7:
+      Name: lua_unityengine.unity3d
+      Dependencies: {}
+    Info_8:
+      Name: lua_system_injection.unity3d
+      Dependencies: {}
+    Info_9:
+      Name: lua_system_reflection.unity3d
+      Dependencies: {}
+    Info_10:
+      Name: lua.unity3d
+      Dependencies: {}
