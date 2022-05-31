@@ -63,7 +63,7 @@ WX.ShortAudioPlayer.PreLoadAudio(new string[] { "music/LowCrash.wav", "music/Bra
 WX.ShortAudioPlayer.StopOthersAndPlay("music/Brake2.wav", 1.0f,false);
 ```
 ## 导出设置
-勾选使用微信音频API，并填上"Assets目录对应CDN地址"，比如填写的地址为https://wx.qq.com/data/Assets/ ，而API的src地址为 Audio/Chill_1.wav，则最终会请求 https://wx.qq.com/data/Assets/Audio/Chill_1.wav
+勾选使用微信音频API，并填上"游戏资源CDN"，比如填写的地址为https://wx.qq.com/data/ ，而API的src地址为 Assets/Audio/Chill_1.wav，则最终会请求 https://wx.qq.com/data/Assets/Audio/Chill_1.wav
 
  
 ## 将音频文件上传CDN
