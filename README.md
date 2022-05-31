@@ -10,9 +10,9 @@
 
 
 ## 转换案例
-| 地铁跑酷 | 谜题大陆 | 翡翠大师小游戏 | 大侠不哭 |
+| 我叫MT2(回合战斗) | 旅行串串(休闲) | 谜题大陆(SLG) | 热血神剑(MMO) | 
 | --- | --- | --- | --- |
-| <image src='image/showcase23.png' width="220"/> | <image src='image/showcase25.png' width="210"/> |  <image src='image/showcase8.png' width="200"/>| <image src='image/showcase26.png' width="210"/> |
+| <image src='image/showcase34.png' width="240"/> | <image src='image/showcase32.png' width="220"/> |  <image src='image/showcase25.png' width="230"/>| <image src='image/showcase33.png' width="230"/> |
 
 - [更多转换案例](Design/ShowCase.md)
 

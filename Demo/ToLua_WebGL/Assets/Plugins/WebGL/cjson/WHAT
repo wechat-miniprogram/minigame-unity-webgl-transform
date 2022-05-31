@@ -1,0 +1,3 @@
+lua-cjson 2.1.0-luapower from http://www.kyne.com.au/~mark/software/lua-cjson.php (MIT license)
+
+Added option to encode empty tables as arrays and set it as default.

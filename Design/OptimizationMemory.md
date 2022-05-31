@@ -3,7 +3,7 @@
 Unity WebGL游戏通常比普通H5(JS)游戏占用更大的内存，在操作系统的控制策略下超出阈值时非常容易被OOM。
 
 为了提高游戏在中低端机型的稳定性，内存优化极为重要。那么，多大的内存是合理的呢？
-我们建议内存峰值控制在以下范围：
+我们建议内存峰值控制在以下范围([性能评估标准](PerfMeasure.md))：
 1. Android: 低档机 < 1.2G,  中高档机 < 1.5G
 2. iOS: 低档机 < 1G, 中高档机 < 1.4G
 
@@ -74,7 +74,6 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 如果游戏中有C原生代码(如lua)分配的内存，则需单独统计，该部分内存包括在DynamicMemory但并不包含在托管堆和本机堆。
 
-
 ### 3.2 JavaScript Heap
 由于Unity WebGL是托管在浏览器环境中，因此JavaScript Heap包含了大部分（并非全部）我们关注的内存， 通常我们可以使用浏览器自带的内存工具。 
 #### FireFox Memory(PC)
@@ -92,33 +91,42 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 假如游戏需要支持低档机型，将内存控制到1G以内，业务侧(UnityHeap, Gfx显存，音频，JavaScript)需控制在500MB左右。我们此处给出转换游戏中最容易遇到的内存问题与解决方案，如果开发者遇到内存问题时请逐个排查优化。
 
 
-### 4.1 WebAssembly编译代码内存
+### 4.1 WASM代码编译内存
 - 问题原因：Unity WebGL将所有代码(引擎、业务代码、第三方插件)编译为跨平台的WebAssembly二进制代码，运行时需进行编译执行。编译所占用内存占用非常大（如在iOS系统，30MB未压缩代码需300MB运行时编译内存）。
-- 解决办法：[使用代码分包工具](WasmSplit.md)能降低原编译代码内存50%以上。 
+- 解决办法：
+  - 1. [使用代码分包工具](WasmSplit.md)能降低原编译代码内存50%以上。 
+  - 2. 手动删除多余插件，减少不必要的Unity模块引入(如物理、Unity数据统计等)
 
 ### 4.2 GPU纹理内存
 - 问题原因：Unity 2021才开始支持移动平台的压缩纹理，使用RGBA、DXT等纹理格式将导致巨大的内存开销与运行时解压消耗。
-- 解决办法：[压缩纹理优化](CompressedTexture.md)能最大程度地减少内存与解压开销。
-
+- 解决办法：
+  - 1. [压缩纹理优化](CompressedTexture.md)能最大程度地减少内存与解压开销。
+  - 2. 升级引擎至2021使用ASTC压缩纹理
 
 ### 4.3 Unity Heap
 - 问题原因：Unity Heap是用于存储所有状态、托管的对象和本机对象，往往由于场景过大或由于业务原因造成瞬间内存峰值。***由于Unity WebGL在单首帧内无法GC***，单帧内瞬间的内存使用非常容易造成crash。同时，***Heap是只增不减且存在内存碎片的。***
-- 解决办法: 1. 避免场景过大导致瞬间峰值
-          2. 避免过大的AssetBUndle导致瞬间峰值
-          3. 避免单帧内分配过多的对象
-          4. 建议200MB左右为宜，***不要超过300MB，切忌产生跳跃峰值***，
-          5. 重度游戏建议使用WX.LogUnityHeapMem查看Dynamic峰值，填写MiniGameConfig.asset中的内存为该值。
+- 解决办法: 
+  - 1. 转换设置设置合理的初始内存，建议值：休闲游戏256，中度(模拟经营、养成等)512，重度游戏(SLG,MMO)768，必须<1024
+  - 2. 避免场景过大导致瞬间峰值
+  - 3. 避免过大的AssetBUndle导致瞬间峰值
+  - 4. 避免单帧内分配过多的对象
+  - 5. 建议200MB左右为宜，***不要超过300MB，切忌产生跳跃峰值***，
+  - 6. 重度游戏建议使用WX.LogUnityHeapMem查看Dynamic峰值，填写MiniGameConfig.asset中的内存为该值。
+
 
 ### 4.4 首资源包与AssetBundle内存
 - 问题原因：首资源包永远占用内存且无法释放；首资源包和AssetBundle自带的cache机制都会使用Emscripten使用[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)，应避免使用。
-- 解决办法：1. 减少首资源包大小，此部分始终占用内存无法释放, 使用AssetBundle；
-          2. AssetBundle按需加载，及时释放以节省内存；
-          3. AssetBundle使用时被解压占用Unity Native内存，应减少AssetBundle大小；
-          4. 避免使用Unity自带的文件缓存机制， ***首资源包和AssetBundle都不应使用文件Cache***；
+- 解决办法：
+  - 1. 减少首资源包大小，此部分始终占用内存无法释放, 使用AssetBundle；
+  - 2. AssetBundle按需加载，及时释放以节省内存；
+  - 3. AssetBundle使用时被解压占用Unity Native内存，应减少AssetBundle大小；
+  - 4. 避免使用Unity自带的文件缓存机制， ***首资源包和AssetBundle都不应使用文件Cache***；
 
 ### 4.5 音频内存
 - 问题原因：Unity2021之前不支持内存压缩音频，因此音频加载后将被完整解压，***非压缩音频会导致极大内存占用***。
-- 解决办法：使用小游戏SDK[音频适配优化](AudioOptimization.md)。
+- 解决办法：
+   - 1. 使用小游戏SDK[音频适配优化](AudioOptimization.md)。
+   - 2. 避免长音频使用Unity自带Audio系统 
 
 ### 4.6 其他常见优化手段
 - [Unity加载和内存管理](https://zentia.github.io/2018/04/11/AssetBundle/)
@@ -128,6 +136,11 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 
 
 ## 五、QA
-1. 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
+1. Q: 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
 
-不是。游戏占用内存必须以真机环境为准，使用Perfdog（Android or iOS）或 Instruments in Xcode(iOS)测试对应进程的内存占用。Unity Profiler仅能看到Unity Heap相关内存，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+   A: 不是。游戏占用内存必须以真机环境为准，使用Perfdog（Android or iOS）或 Instruments in Xcode(iOS)测试对应进程的内存占用。Unity Profiler仅能看到Unity Heap相关内存，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+
+2. Q: 转换面板设置内存值多少合适？
+   
+   A: 可使用WeChatWASM.WX.OpenProfileStats查看Dynamic项，需要预留略大于游戏Dynamic峰值，避免游戏进行过程中产生内存扩容。建议值：休闲游戏256，中度(模拟经营、养成等)512，重度游戏(SLG,MMO)768，必须<1024。
+   

@@ -1,0 +1,31 @@
+function main()
+	return function (obj)
+		if NewCoroutine.MyMethod == nil then 
+			print("please export the class to lua at first.")
+			return 
+		end
+		print("lua got object", obj)
+		obj:StartCoroutine(function ()
+			while true do 
+				print("**** start new coroutine in coroutine *****")
+				obj:StartCoroutine(function ()
+					print("directly supported lua coroutine. frameCount:", UnityEngine.Time.frameCount)
+					coroutine.yield(nil)
+					print("yield one frame. frameCount:", UnityEngine.Time.frameCount)
+
+					local cs1, cs2, cs3 = coroutine.yield(NewCoroutine.MyMethod("message from lua, run a c# coroutine and wait for 2 seconds", 2, function ()
+						print("run after and invoked by c# coroutine")
+					end))
+					print("csharp coroutine returned values:", cs1, cs2, cs3)
+
+					print("wait for another 3 seconds by UnityEngine.WaitForSeconds")
+					coroutine.yield(UnityEngine.WaitForSeconds(3))
+
+					print("end of lua coroutine")
+				end)
+				coroutine.yield(UnityEngine.WaitForSeconds(10))
+			end
+		end)
+		print("code after StartCoroutine")
+	end
+end
