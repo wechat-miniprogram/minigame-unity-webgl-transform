@@ -3,24 +3,21 @@
 在小游戏中Unity游戏唤不起输入法，需要使用WX_SDK中提供的方法来唤起输入法，并做简单的逻辑修改来适配。
 如下以UGUI的Input组件为例，需要给Input 绑定以下脚本：
 ```
-public class Inputs : MonoBehaviour,IPointerClickHandler,IPointerExitHandler
+public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
 {
     public InputField input;
     public void OnPointerClick(PointerEventData eventData)
     {
-        // 监听点击事件唤起微信输入法
-        WX.ShowKeyboard(new WXShowKeyboardParam()
+        WX.ShowKeyboard(new ShowKeyboardOption()
         {
-            // 这里的参数根据需要自行设置，参见https://developers.weixin.qq.com/minigame/dev/api/ui/keyboard/wx.showKeyboard.html
-            defaultValue = input.text,
+            defaultValue = "xxx",
             maxLength = 20,
-            confirmType="go"
-        }) ;
+            confirmType = "go"
+        });
 
         //绑定回调
         WX.OnKeyboardConfirm(OnConfirm);
         WX.OnKeyboardComplete(OnComplete);
-
 
     }
 
@@ -29,7 +26,7 @@ public class Inputs : MonoBehaviour,IPointerClickHandler,IPointerExitHandler
         // 隐藏输入法
         if (!input.isFocused)
         {
-            WX.HideKeyboard();
+            WX.HideKeyboard(new HideKeyboardOption());
             //删除掉相关事件监听
             WX.OffKeyboardInput(OnInput);
             WX.OffKeyboardConfirm(OnConfirm);
@@ -38,26 +35,26 @@ public class Inputs : MonoBehaviour,IPointerClickHandler,IPointerExitHandler
 
     }
 
-    public void OnInput(string v)
+    public void OnInput(OnKeyboardInputCallbackResult v)
     {
 
         if (input.isFocused)
         {
-            input.text = v;
+            input.text = v.value;
         }
-        
+
     }
 
-    public void OnConfirm(string v)
+    public void OnConfirm(OnKeyboardInputCallbackResult v)
     {
         // 输入法confirm回调
         if (input.isFocused)
         {
-          
+
         }
     }
 
-    public void OnComplete(string v)
+    public void OnComplete(OnKeyboardInputCallbackResult v)
     {
         // 输入法complete回调
         if (input.isFocused)
@@ -69,7 +66,7 @@ public class Inputs : MonoBehaviour,IPointerClickHandler,IPointerExitHandler
 
     void Start()
     {
-        
+
     }
 
 }
