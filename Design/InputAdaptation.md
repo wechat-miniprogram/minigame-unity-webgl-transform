@@ -8,6 +8,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
     public InputField input;
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("ooooo");
         WX.ShowKeyboard(new ShowKeyboardOption()
         {
             defaultValue = "xxx",
@@ -18,7 +19,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         //绑定回调
         WX.OnKeyboardConfirm(OnConfirm);
         WX.OnKeyboardComplete(OnComplete);
-
+        WX.OnKeyboardInput(OnInput);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -37,7 +38,8 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
 
     public void OnInput(OnKeyboardInputCallbackResult v)
     {
-
+        Debug.Log("onInput");
+        Debug.Log(v.value);
         if (input.isFocused)
         {
             input.text = v.value;
@@ -48,19 +50,15 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
     public void OnConfirm(OnKeyboardInputCallbackResult v)
     {
         // 输入法confirm回调
-        if (input.isFocused)
-        {
-
-        }
+        Debug.Log("onConfirm");
+        Debug.Log(v.value);
     }
 
     public void OnComplete(OnKeyboardInputCallbackResult v)
     {
         // 输入法complete回调
-        if (input.isFocused)
-        {
-
-        }
+        Debug.Log("OnComplete");
+        Debug.Log(v.value);
     }
 
 
