@@ -27,7 +27,7 @@
 - 加载阶段视频URL：启动需要一定耗时，在启动加载时会循环播放这段视频，视频格式请参考[视频规范](video.md)
 - 启动背景/视频封面图：启动阶段背景图片；如果配置了加载阶段视频URL，则作为视频封面。
 - 游戏方向：游戏是横屏还是竖屏，可选值参考[deviceOrientation](https://developers.weixin.qq.com/minigame/dev/reference/configuration/app.html)
-- 不自动缓存文件类型：游戏资源CDN下不自动缓存的文件类型，具体参见[AssetBundle缓存]](UsingLoader.md)
+- 不自动缓存文件类型：游戏资源CDN下不自动缓存的文件类型，具体参见[AssetBundle缓存](UsingLoader.md)
 - Bundle名中Hash长度：自定义AssetBundle名中Hash长度用于缓存控制，具体参见[AssetBundle缓存](UsingLoader.md)
 - 预下载列表：网络空闲时预下载的资源，[使用预下载](UsingPreload.md)
 - SDK功能选项：[好友关系链](OpenData.md) [音频优化](AudioOptimization.md)
@@ -41,11 +41,55 @@
 至此，可以在[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)打开转化后的小游戏进行预览。
  
 ## 三、使用脚本集成到自己的构建系统
-如果你希望将导出插件集成到自己的发布流程，想脚本调用的话，可修改 Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset配置，然后调用WXEditorWindow 的 DoExport方法导出小游戏   
+如果你希望将导出插件集成到自己的发布流程，想脚本调用的话，可修改 `Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset`配置，然后调用WXEditorWindow 的 DoExport方法导出小游戏
  ```
  var win = new WXEditorWindow();
  win.DoExport();
  ```
+
+### `MiniGameConfig.asset`支持的配置
+#### 与转换面板配置有对应关系的配置项
+```
+// 基本设置
+Appid -- 小游戏appid
+CDN -- 游戏资源CDN
+projectName -- 小游戏项目名
+Orientation -- 游戏方向
+maxStorage -- 最大内存
+DST -- 导出路径
+// 启动Loader设置
+bgImageSrc -- 背景图/封面图
+VideoUrl -- 加载阶段视频URL
+assetLoadType -- 首包资源加载方式
+bundleExcludeExtensions -- 不自动缓存文件类型
+bundleHashLength -- bundle名中hash长度
+// 预下载
+preloadFiles -- 预下载文件列表
+// SDK功能
+UseFriendRelation -- 使用好友关系链
+UseAudioApi -- 使用微信音频API
+// 调试编译选项
+DevelopBuild -- Development Build
+AutoProfile -- Autoconnect Profiler
+ScriptOnly -- Scripts Only Build
+profilingFuncs -- Profiling Funcs
+Webgl2 -- WebGL2.0
+DeleteStreamingAssets -- DeleteStreamingAssets
+```
+#### 不常用配置
+使用说明参考[Loader配置](UsingLoader.md)
+```
+// 资源加载与缓存
+dataFileSubPrefix: 配置首包资源加载路径
+bundlePathIdentifier: URL中包含特定标识符时需要自动缓存
+defaultReleaseSize: 达到缓存上限时默认额外清理的存储大小
+needCacheTextures: 是否开启纹理缓存
+texturesPath: 纹理存储路径
+texturesHashLength: 纹理中hash长度
+// 启动界面
+loadingBarWidth: 加载进度条宽度
+HideAfterCallMain: 是否初始化完成立即隐藏封面
+```
 
 ## 四、常见问题
 1. 为什么资源或网络请求在打开"vConsole"正常，关闭时下载失败？

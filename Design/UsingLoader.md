@@ -30,51 +30,68 @@ Unity Loader是在微信小游戏环境加载Unity WebGL游戏的加载与适配
 <image src="../image/addPlugin.png">
 
 ## 三、配置Unity Loader功能
-以下配置都在导出的minigame/game.js中
-### 3.1 启动界面
-由于Unity WebGL启动加载需要一定时间，因此需要使用视频或图片等内容作为过渡以留住玩家。Unity Loader默认使用视频+进度信息呈现，开发者可以自定义封面视频，可参考[启动Loader视频规范](video.md)进行配置。
-界面有以下两种
-1. 使用coverview渲染进度（默认方式）
+### 3.1 资源下载
+声明CDN地址
+#### 转换插件相关配置
+
+```
+CDN: cdn地址
+dataFileSubPrefix: 首包资源相对cdn地址的存放目录，默认首包资源放在cdn一级目录
+```
+#### game.js配置
+```js
+DATA_CDN: "$DEPLOY_URL",
+```
+#### unity-namespace.js配置
+```
+dataFileSubPrefix: '$DATA_FILE_SUB_PREFIX', // DATA_CDN + dataFileSubPrefix + datafilename
+```
+### 3.2 启动界面
+由于Unity WebGL启动加载需要一定时间，因此需要使用视频或图片等内容作为过渡以留住玩家。Unity Loader默认使用视频+进度信息呈现，开发者可以自定义封面/视频，可参考[启动Loader视频规范](video.md)进行配置。
   
-   <image src="../image/coverview_loading.png" height="500">
+<image src="../image/coverview_loading.png" height="500">
 
-   这种方式的优势在于可以覆盖因首帧逻辑过重，导致启动过程中可能出现的黑屏，等游戏画面真正出现时再隐藏启动界面
-   支持参数
-   ```js
-   loadingPageConfig: {
-      // 背景图或背景视频，两者都填时，先展示背景图，视频可播放后，播放视频
-      backgroundImage: 'images/background.jpg', // 默认的背景图，可自行替换，支持本地图片和网络图片
-      backgroundVideo: '', // 视频url，需要开发者提供，只支持网络url
-      // 以下是默认值
-      totalLaunchTime: 15000, // 默认总启动耗时，即加载动画默认播放时间，可根据游戏实际情况进行调整
-      textDuration: 1500, // 当downloadingText有多个文案时，每个文案展示时间
-      firstStartText: '首次加载请耐心等待', // 首次启动时提示文案
-      downloadingText: ['正在加载资源'], // 加载阶段循环展示的文案
-      compilingText: '编译中', // 编译阶段文案
-      initText: '初始化中', // 初始化阶段文案
-      completeText: '开始游戏', // 初始化完成
-    }
-   ```
-   > backgroundImage需要注意图片宽高不可超过2048，否则无法显示
-   > 使用coverview需要基础库版本>=2.16.1，插件已做兼容，若不支持，降级为使用离屏canvas渲染进度的方式
-2. 使用离屏canvas渲染进度
+#### 转换插件相关配置
+```
+bgImageSrc: 启动封面图；-- $BACKGROUND_IMAGE
+VideoUrl: 启动视频；-- $LOADING_VIDEO_URL
+HideAfterCallMain: 是否callmain完成后立即隐藏封面；-- $HIDE_AFTER_CALLMAIN
+loadingBarWidth: 加载进度条宽度；-- $LOADING_BAR_WIDTH
+```
 
-   <image src="../image/default_loading.jpg" height="500" />
-
-    支持参数
-    ```js
-    let managerConfig = {
-      // ...省略其他配置
-      LOADING_VIDEO_URL: "", // 视频url
-    }
-    ```
-当基础库>=2.16.1时，默认使用coverview，否则使用离屏canvas
-### 3.2 首包资源加载方式
+#### game.js配置
+```js
+loadingPageConfig: {
+  // 背景图或背景视频，两者都填时，先展示背景图，视频可播放后，播放视频
+  backgroundImage: '$BACKGROUND_IMAGE', // 默认的背景图，可自行替换，支持本地图片和网络图片
+  backgroundVideo: '$LOADING_VIDEO_URL', // 视频url，需要开发者提供，只支持网络url
+  // 以下是默认值
+  barWidth: $LOADING_BAR_WIDTH, // 加载进度条宽度，默认240，加载文案过长时可设置
+  totalLaunchTime: 15000, // 默认总启动耗时，即加载动画默认播放时间，可根据游戏实际情况进行调整
+  textDuration: 1500, // 当downloadingText有多个文案时，每个文案展示时间
+  firstStartText: '首次加载请耐心等待', // 首次启动时提示文案
+  downloadingText: ['正在加载资源'], // 加载阶段循环展示的文案
+  compilingText: '编译中', // 编译阶段文案
+  initText: '初始化中', // 初始化阶段文案
+  completeText: '开始游戏', // 初始化完成
+},
+hideAfterCallmain: $HIDE_AFTER_CALLMAIN, // 是否callmain完成立即隐藏封面
+```
+> backgroundImage需要注意图片宽高不可超过2048，否则无法显示
+> 使用coverview需要基础库版本>=2.16.1，插件已做兼容，若不支持，降级为使用离屏canvas渲染进度的方式
+> hideAfterCallmain: 游戏业务Awake逻辑耗时较高时可能导致出现短暂黑屏，改为false可盖住黑屏，等游戏第一帧渲染时隐藏
+### 3.3 首包资源加载方式
 **加载方式在转换工具导出时就确定好了，开发者一般不需要修改**
-当游戏资源量比较少时，可选择将首包资源作为小游戏分包加载，了解[小游戏分包](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/sub-packages.html)
-wasm代码已是通过代码分包加载，当wasm代码+首包资源>20M时，资源包不可再使用小游戏分包加载。
+当**游戏资源量比较少**时，可选择将首包资源作为小游戏分包加载，了解[小游戏分包](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/sub-packages.html)
+wasm代码已是通过代码分包加载，当**wasm代码+首包资源>20M时，资源包不可再使用小游戏分包加载**。
 当首包资源通过小游戏代码分包下载时，会将首包资源存放在minigame/data-package这个分包下
-相关配置
+
+#### 转换插件相关配置
+```
+assetLoadType: -- $LOAD_DATA_FROM_SUBPACKAGE
+```
+
+#### game.js配置
 ```js
 let managerConfig = {
   /* 省略其他配置 */
@@ -84,43 +101,9 @@ let managerConfig = {
 - 若手动将`loadDataPackageFromSubpackage`改为false，需要将webgl目录下的资源包上传到CDN，并将CDN地址填写到game.js`DATA_CDN`字段
 - 同样的，若手动将`loadDataPackageFromSubpackage`改为true，需要将webgl目录下的资源包copy到minigame/data-package下
 
-### 3.3 预加载资源
- 为了充分利用网络带宽，在网络空闲时可预下载游戏需要用到的AB包。详细配置请参考[使用预下载功能](UsingPreload.md)。
+### 3.4 预加载资源
+为了充分利用网络带宽，在网络空闲时可预下载游戏需要用到的AB包。详细配置请参考[使用预下载功能](UsingPreload.md)。
 
-### 3.4 资源缓存与淘汰策略
-#### 资源缓存
-首包资源和wasm代码会自动缓存。
-
-#### assetbundle缓存
-如果请求URL包含StreamingAssets，则插件判定为是在下载assetbundle文件，会自动进行缓存提升二次启动速度。
-所以需要自动缓存的文件，可放到StreamingAssets目录下。
-
-但请注意以下几点：
-1. 文件名需要带上hash [BuildAssetBundleOptions.AppendHashToAssetBundleName](https://docs.unity3d.com/ScriptReference/BuildAssetBundleOptions.AppendHashToAssetBundleName.html)，以便清理掉该文件的旧缓存。默认32位长度，如果游戏可通过导出选项中`Bundle名中Hash长度`来自定义。比如游戏自己计算了crc，可将`Bundle名中Hash长度`设置为crc长度。
-2. 配置到不自动缓存文件类型中的文件，不会自动缓存，默认值是json，比如addressable打包后生成StreamingAssets/aa/WebGL/catalog.json，这个文件不会自动缓存。
-
-#### 资源淘汰
-由于缓存目录最大不可超过200M，在下载资源包、下载AB包时，若剩余空间不足以缓存，会进行缓存淘汰。目前规则比较简单，如下：
-1. 如果所需空间过大，超过最大限制：下载完成后不缓存文件，也不执行清理逻辑，直接返回下载内容。
-2. 清理部分文件可以缓存新文件：按最近使用时间从前往后排序清理，直到清理出所需空间。
- 
-
-### 3.5 其他可配置参看
-在`game.js`中修改插件配置
-### 基本配置
-```js
-let managerConfig = {
-  DATA_FILE_MD5: "$DATA_MD5", // 转换脚本自动填写，无需关注
-  CODE_FILE_MD5: "$CODE_MD5", // 转换脚本自动填写，无需关注
-  GAME_NAME: "$GAME_NAME", // 转换脚本自动填写，无需关注
-  APPID: "$APP_ID", // 转换脚本自动填写，无需关注
-  DATA_FILE_SIZE: "$DATA_FILE_SIZE", // 资源文件大小，自动填写无需关注
-
-  LOADING_VIDEO_URL: "$LOADING_VIDEO_URL", // 默认加载视频地址
-  DATA_CDN: "$DEPLOY_URL", // 下载资源文件的CDN
-  AUDIO_PREFIX: "$AUDIO_PREFIX", // 音频资源cdn
-  STREAMING_CDN: "$STREAM_CDN", // AB包存放地址，有用到AB包时需要填写
-  
-  loadDataPackageFromSubpackage: $LOAD_DATA_FROM_SUBPACKAGE, // 资源包是否作为小游戏分包加载
-};
-```
+### 3.5 资源缓存与淘汰策略
+loader会自动按一定规则做文件缓存，加快二次启动速度
+详情参考[资源缓存](FileCache.md)
