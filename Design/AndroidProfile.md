@@ -1,4 +1,5 @@
 # 使用Android CPU Profiler性能调优
+0. 转换导出插件勾选"Profiling-funcs", 请勿使用Development(该模式将极大降低性能)。 发布上线版本请务必关闭该选项！
 1. 在Android微信小游戏打开调试进行录制
 
    <image src='../image/androidprofile1.png' width="300"/>
@@ -24,8 +25,8 @@
     <image src='../image/androidprofile4.png' width="700"/> 
 
 注意：
-1. 编译版本仅当导出Development或勾选Profiling-funcs时才能在函数堆栈中看到可读函数名。由于Development对性能有较大影响，建议只勾选Profiling-funcs。
-2. 复杂游戏勾选Profiling-funcs会导致代码包体较大，那么不要使用此选项。此时得到的Profile中函数为数字ID，有两种做法进行解读：
+1. 编译版本仅当导出勾选Profiling-funcs(推荐)或Development时才能在函数堆栈中看到可读函数名。
+2. 特殊情况下，如果游戏勾选Profiling-funcs会导致代码包过大，那么不要使用此选项。此时得到的Profile中函数为数字ID，有两种做法进行解读：
     - 2.1 通过webgl导出目录下的symbols文件对照映射
     - 2.2 通过[替换脚本](../tools/update_v8_wasm_profile.py)对cpuprofile进行自动映射到真实函数。使用方式：python update_v8_wasm_profile.py $cpuprofile $symbol
 
