@@ -6,9 +6,19 @@
 1. Unity Loader插件自动统计了代码包、首包资源、代码编译、引擎与首场景初始化，无需手动上报
 2. 通过C# SDK接口让开发者上报自定义启动阶段，分析每个环节可能存在的流失
 
+## 二、上报广告信息
+为了帮助开发者分析广告渠道的留存数据，达到最好的买量效果，Loader提供了上报广告参数的能力，用于区分**不同广告位/广告类型/素材类型**的数据。
+
+#### 如何上报？
+广告买量时，带上广告相关自定义参数，Loader自动上报
+eg: `adSpaceType=1&adType=1&materialType=1`
+
+- adSpaceType: 广告位类型；一个广告位可以投放不同类型的广告
+- adType: 广告类型；一个广告类型可以投放不同素材
+- materialType: 素材类型
 
 
-## 二、上报自定义阶段
+## 三、上报自定义阶段
 为了详细统计玩家的流失情况以便开发者进行优化，我们拆分了三个部分。
 <image src='../image/reportstartupstat3.png'/>
 其中**自动上报**为Unity Loader自动完成开发者无需关注，但**自定义阶段**与**启动加载完成**需开发者主动调用接口进行上报。详细接口可参考C# SDK中的WX.cs，此处列出关键接口：
@@ -51,7 +61,52 @@ errorType取值：[0,10000]
       WX.ReportGameStart(0, "");
 ```
 
-## 三、获取数据统计
+## 四、获取Loader启动阶段
+从启动时序可以知道Loader启动阶段分为以下五个阶段
+- wasm代码包下载
+- wasm编译
+- 首包资源下载
+- 首包资源读取
+- 引擎初始化(callmain)
+
+当业务侧需要使用Loader启动数据时，可以使用Loader暴露的进度事件上报到自己的系统
+> tips: 目前只支持js调用
+```js
+gameManager.onLaunchProgress = (e) => {
+      // e: LaunchEvent
+      // interface LaunchEvent {
+      //   type: LaunchEventType;
+      //   data: {
+      //     costTimeMs: number; // 阶段耗时
+      //     runTimeMs: number; // 总耗时
+      //     loadDataPackageFromSubpackage: boolean; // 首包资源是否通过小游戏分包加载
+      //     isVisible: boolean; // 当前是否处于前台，onShow/onHide
+      //     useCodeSplit: boolean; // 是否使用代码分包
+      //     isHighPerformance: boolean; // 是否iOS高性能模式
+      //   };
+      // }
+      if (e.type === launchEventType.launchPlugin) {
+
+      }
+      if (e.type === launchEventType.loadWasm) {
+
+      }
+      if (e.type === launchEventType.compileWasm) {
+
+      }
+      if (e.type === launchEventType.loadAssets) {
+
+      }
+      if (e.type === launchEventType.readAssets) {
+
+      }
+      if (e.type === launchEventType.prepareGame) {
+
+      }
+}
+```
+
+## 五、获取数据统计
 数据报表包含Unity Loader自动上报与开发者自定义阶段。关注总体流失漏斗以确定需要优化的方向，同时分阶段的耗时分布有利于帮助我们分析该阶段的对应耗时的用户占比。
 <image src='../image/reportstartupstat1.png'/>
 

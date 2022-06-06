@@ -38,7 +38,7 @@
 注意：
 * 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权，具体可参考[使用Loader进行游游戏加载](UsingLoader.md)
 
-至此，可以在[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)打开转化后的小游戏进行预览。
+至此，可以在[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)导入转换后的`minigame`目录的小游戏工程进行预览。
  
 ## 三、使用脚本集成到自己的构建系统
 如果你希望将导出插件集成到自己的发布流程，想脚本调用的话，可修改 `Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset`配置，然后调用WXEditorWindow 的 DoExport方法导出小游戏
@@ -64,7 +64,7 @@ assetLoadType -- 首包资源加载方式
 bundleExcludeExtensions -- 不自动缓存文件类型
 bundleHashLength -- bundle名中hash长度
 // 预下载
-preloadFiles -- 预下载文件列表
+preloadFiles -- 预下载文件列表，用;分隔
 // SDK功能
 UseFriendRelation -- 使用好友关系链
 UseAudioApi -- 使用微信音频API
@@ -81,8 +81,8 @@ DeleteStreamingAssets -- DeleteStreamingAssets
 ```
 // 资源加载与缓存
 dataFileSubPrefix: 配置首包资源加载路径
-bundlePathIdentifier: URL中包含特定标识符时需要自动缓存
-defaultReleaseSize: 达到缓存上限时默认额外清理的存储大小
+bundlePathIdentifier: URL中包含特定标识符时需要自动缓存，用;分隔
+defaultReleaseSize: 达到缓存上限时默认额外清理的存储大小，用;分隔
 needCacheTextures: 是否开启纹理缓存
 texturesPath: 纹理存储路径
 texturesHashLength: 纹理中hash长度
