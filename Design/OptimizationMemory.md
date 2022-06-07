@@ -77,7 +77,9 @@ UnityHeap非常关键，典型由以下几部分组成：
 游戏左上角显示Performence Stats性能面板
 <image src='../image/optimizationMemory6.jpg' width="600"/>
 
-每项指标有三个数值：当前帧、最小值、最大值
+每项指标有三个数值：当前帧、最小值、最大值。
+
+**通常而言：MonoHeap + NativeReserverd + 原生插件内存 = DynamicMemory， 因此开发者需要关注这几部分内存。**
 
 Unity引擎视角：
 - MonoHeapReserved: 托管堆的内存预留内存
@@ -102,8 +104,6 @@ Unity引擎视角：
 - 白色为预留部分，可被使用 
 - 其他颜色，已被业务使用
 
-
-通常而言：MonoHeap + NativeReserverd + 原生插件内存 = DynamicMemory， 因此开发者需要关注这几部分内存。
 
 
 
