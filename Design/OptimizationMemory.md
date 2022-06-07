@@ -24,14 +24,15 @@ Unity WebGL内存结构可先参考：
 Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器环境，因此游戏内存的分配也是完全托管在这个环境中。
 
 适配在小游戏后，小游戏进程也就成为了“容器”，虽然不再是标准的浏览器，但内存组成结构与上图基本一致，典型游戏的内存占用如下图所示：
+
 <image src='../image/optimizationMemory10.png' width="800"/>
 
 
 - 基础库+Canvas：在小游戏环境中并不存在DOM，但依然会存在一些基本消耗，比如小游戏公共库，Canvas画布等。典型地，***小游戏公共库约占用内存100~150MB，Canvas 画布与设备物理分辨率相关***，比如iPhone 11 Promax占用约80MB。
 
-- Unity Heap: 用于存储所有状态、托管的对象和本机对象以及当前加载的资源和场景的内存。举例，游戏逻辑分配的C#对象等托管内存，以及Unity管理的AssetBundle对象、场景结构等本机内存。
+- Unity Heap: 托管堆、本机堆与原生插件底层内存。举例，游戏逻辑分配的C#对象等托管内存、Unity管理的AssetBundle和场景结构等本机内存、第三方原生插件(如lua)调用的malloc分配。
 
-- WASM编译: WebAssembly需要编译，在Android v8、iOS JavascriptCore中还需要大量内存进行JIT优化
+- WASM编译: 代码编译与运行时指令优化产生的内存，在Android v8、iOS JavascriptCore中还需要大量内存进行JIT优化
 
 - GPU内存：纹理或模型Upload GPU之后的显存占用, 由于Unity2021之前不支持压缩纹理，纹理内存会造成明显膨胀。
 
@@ -135,7 +136,7 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
   - 1. [压缩纹理优化](CompressedTexture.md)能最大程度地减少内存与解压开销。
   - 2. 升级引擎至2021使用ASTC压缩纹理
 
-### 4.3 Unity Heap
+### 4.3 UnityHeap
 - 问题原因：Unity Heap是用于存储所有状态、托管的对象和本机对象，往往由于场景过大或由于业务原因造成瞬间内存峰值。***由于Unity WebGL在单首帧内无法GC***，单帧内瞬间的内存使用非常容易造成crash。同时，***Heap是只增不减且存在内存碎片的。***
 - 解决办法: 
   - 1. 转换设置设置合理的初始内存，建议值：休闲游戏256，中度(模拟经营、养成等)512，重度游戏(SLG,MMO)768，必须<1024
