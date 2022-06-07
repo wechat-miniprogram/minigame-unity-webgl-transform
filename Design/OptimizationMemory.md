@@ -23,21 +23,28 @@ Unity WebGL内存结构可先参考：
 <image src='../image/optimizationMemory1.png' width="1080"/>
 Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器环境，因此游戏内存的分配也是完全托管在这个环境中。
 
-适配在小游戏后，小游戏进程也就成为了容器，虽然不再是标准的浏览器，但内存组成结构与上图基本一致。以下是小游戏环境的注意事项：
+适配在小游戏后，小游戏进程也就成为了“容器”，虽然不再是标准的浏览器，但内存组成结构与上图基本一致，典型游戏的内存占用如下图所示：
+<image src='../image/optimizationMemory10.png' width="800"/>
 
-- DOM：浏览器页面元素，Cavas等。在小游戏环境中并不存在DOM，但依然会存在一些基本消耗，比如小游戏公共库，Canvas画布等。典型地，***小游戏公共库约占用内存100~150MB，Canvas 画布与设备物理分辨率相关***，比如iPhone 11 Promax占用约80MB。
 
-- Unity Heap: 用于存储所有状态、托管的对象和本机对象以及当前加载的资源和场景的内存。举例，游戏逻辑分配的C#对象等托管内存，以及Unity管理的AssetBundle对象、场景结构等本机内存。具体占用通过WX.LogUnityHeapMem打印到控制台。
+- 基础库+Canvas：在小游戏环境中并不存在DOM，但依然会存在一些基本消耗，比如小游戏公共库，Canvas画布等。典型地，***小游戏公共库约占用内存100~150MB，Canvas 画布与设备物理分辨率相关***，比如iPhone 11 Promax占用约80MB。
 
-- Asset Data: 原生APP通常不会有这类内存，AssetData需要文件的同步读写能力，但浏览器环境并不支持。Emscripten使用[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)模拟Linux/POSIX接口，***代价是占用与文件同等大小的内存***。
+- Unity Heap: 用于存储所有状态、托管的对象和本机对象以及当前加载的资源和场景的内存。举例，游戏逻辑分配的C#对象等托管内存，以及Unity管理的AssetBundle对象、场景结构等本机内存。
 
-- AssetBundles: 此处指的是下载时产生WebHttpRequest的临时内存，并非AB在Native内存的占用。***当包体较大或网络并发较大时，下载容易产生内存峰值，虽然为临时内存缺很可能突破OOM阈值导致Crash***。
+- WASM编译: WebAssembly需要编译，在Android v8、iOS JavascriptCore中还需要大量内存进行JIT优化
 
-- WebAudio：Unity将音频传递给容器（浏览器或小游戏）后，播放音频时将占用的内存。目前自带音频系统存在较大内存和性能问题，Unity2021之前不支持内存压缩音频，因此音频加载后将被完整解压，***非压缩音频会导致极大内存占用***。
+- GPU内存：纹理或模型Upload GPU之后的显存占用, 由于Unity2021之前不支持压缩纹理，纹理内存会造成明显膨胀。
 
-- Memory File System: 由于Emscripten的[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)。除了前面提到的Asset Data外，任何需要File.Read/Write同步操作的数据都将占用内存，***通常包括：首资源包、Addressable Cache机制、WWW.LoadFromCacheOrDownload等Cache API。开发者不应使用此类接口。***
+- 音频：Unity将音频传递给容器（浏览器或小游戏）后，播放音频时将占用的内存。目前自带音频系统存在较大内存和性能问题，Unity2021之前不支持内存压缩音频，因此音频加载后将被完整解压，***非压缩音频会导致极大内存占用***。
 
-- Comiled Code: WebAssembly需要编译，在Android v8、iOS JavascriptCore中还需要大量内存进行JIT优化，***开发者应减少非必要第三方插件，使用代码分包能力进行内存控制***。
+- 其他： 
+   - Emscripten使用[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)模拟Linux/POSIX接口，***代价是占用与文件同等大小的内存***。 请勿使用首资源包、Addressable Cache机制、WWW.LoadFromCacheOrDownload等Cache API***
+   - 网络请求造成的浏览器端JS临时内存、垃圾回收
+   - 
+        
+
+
+
 
 
 ## 三、内存查看工具
@@ -48,33 +55,58 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 - Android：WeChat AppBrand1/2
 - iOS:普通模式WeChat、高性能模式(WebContent)
 #### Instruments in Xcode(iOS)
-<image src='../image/optimizationMemory2.png' width="1080"/>
-使用Activity Monitor，选择对应的设备-all processes-捕捉，即可看到所有进程的CPU与内存情况.
-<image src='../image/optimizationMemory3.png' width="1080"/>
+<image src='../image/optimizationMemory2.png' width="800"/>
+
+使用“Activity Monitor”，选择对应的设备-all processes-捕捉，即可看到所有进程的CPU与内存情况.
+<image src='../image/optimizationMemory3.png' width="800"/>
 
 #### Perfdog（Android or iOS）
 使用[Perfdog](https://perfdog.qq.com)选择对应的设置-进程名，即可看到相关性能数据，iOS设备应以紫色的XcodeMemory为准。
-<image src='../image/optimizationMemory4.png' width="1080"/>
+<image src='../image/optimizationMemory4.png' width="800"/>
 
 ### 3.2 UnityHeap
-开发者可通过WeChatWASM.WX.OpenProfileStats()显示性能面板(注意：提审版本请勿显示).
-<image src='../image/optimizationMemory6.jpg' width="1080"/>
+UnityHeap非常关键，典型由以下几部分组成：
+- 托管堆， C#对象托管对象、游戏状态
+- 本机堆， Unity Native产生，引擎内部对象
+- 原生内存，第三方插件（如lua）直接调用malloc产生
+
+分析手段：
+1. 勾选转换面板"ProfilingMemory"
+2. 代码中增加WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
+游戏左上角显示Performence Stats性能面板
+<image src='../image/optimizationMemory6.jpg' width="600"/>
+
 每项指标有三个数值：当前帧、最小值、最大值
 
-- MonoUsedSize: 托管堆(如C#业务逻辑)当前的内存使用量
-- MonoHeap：托管堆的内存使用峰值
-- Graphic：GPU显存使用量(部分Unity版本存在BUG)
-- TotalReserverdMemory：本机堆(Native)内存分配峰值
-- TotalUnusedReserverdMemory：本机堆(Native)空闲内存值
-- TotalAllocatedMemory：本机堆(Native)当前的内存使用量
-- TotalMemorySize: UnityHeap总预分配内存大小
-- DynamicMemory：UnityHeap当前使用量
+Unity引擎视角：
+- MonoHeapReserved: 托管堆的内存预留内存
+- MonoHeap：托管堆(如C#业务逻辑)当前的内存使用量 
+- NativeReserverd：本机堆(Native)内存分配峰值
+- NativeUnused：本机堆(Native)空闲内存值
+- NativeAllocated：本机堆(Native)当前的内存使用量
+  
+  注意：第三方原生插件(如lua)分配内存并未呈现，需开发者自行分析。
 
-开发者尤其需要关注MonoHeap、TotalReserverdMemory、DynamicMemory这三项数值。
+底层分配器视角：
 
-如果游戏中有C原生代码(如lua)分配的内存，则需单独统计，该部分内存包括在DynamicMemory但并不包含在托管堆和本机堆。
+- TotalHeapMemory: UnityHeap总预分配内存大小
+- DynamicMemory：UnityHeap使用上限
+- UsedHeapMemory：UnityHeap真实使用量
+- UnAllocatedMemory：UnityHeap预留量
 
-### 3.2 JavaScript Heap
+<image src='../image/optimizationMemory11.png' width="600"/>
+
+底层分配器：
+- 绿色为空闲内存或碎片，底层分配器会尽量复用
+- 白色为预留部分，可被使用 
+- 其他颜色，已被业务使用
+
+
+通常而言：MonoHeap + NativeReserverd + 原生插件内存 = DynamicMemory， 因此开发者需要关注这几部分内存。
+
+
+
+### 3.3 JavaScript Heap
 由于Unity WebGL是托管在浏览器环境中，因此JavaScript Heap包含了大部分（并非全部）我们关注的内存， 通常我们可以使用浏览器自带的内存工具。 
 #### FireFox Memory(PC)
 #### iOS Safari Timeline(PC or iOS)
