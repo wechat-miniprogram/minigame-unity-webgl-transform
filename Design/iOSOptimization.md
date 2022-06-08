@@ -59,6 +59,8 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 
 2. 使用高性能模式下，游戏本身是否需要做修改？  
    - 业务代码无需做任何调整，普通模式与高性能模式可以无缝切换。
+   - 请检查https的证书是否合法，比如通过在线工具https://myssl.com/ssl.html
+   - 高性能模式下，请不要服务端设置Cookie，游戏端内因为跨域问题会读取不到Cookie
    - 资源跨域问题：服务器添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源，包括常见的响应头，并允许 GET、POST 或 OPTIONS 方法：
 ```json
 "Access-Control-Allow-Credentials": "true",
@@ -66,8 +68,7 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 "Access-Control-Allow-Origin": "*",
 ```
-   - 请检查https的证书是否合法，比如通过在线工具https://myssl.com/ssl.html
-   - 高性能模式下，请不要服务端设置Cookie，游戏端内因为跨域问题会读取不到Cookie
+
 3. 卡在启动封面无法启动
    - 右上角打开调试，重启小游戏，点三次下方的Unity logo打开vconsole
    - 如果出现资源访问失败，但Android和开发者工具却可以下载则参考QA3关于跨域问题
