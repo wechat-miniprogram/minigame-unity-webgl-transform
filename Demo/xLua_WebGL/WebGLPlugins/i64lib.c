@@ -365,9 +365,9 @@ static int int64_tostring(lua_State* L) {
     char temp[72];
 	Integer64 lhs = lua_checkinteger64(L, 1); 
 	if (lhs.type == UInt) {
-		sprintf(temp, "%" PRIu64 "U", lhs.data.u64);
+		sprintf(temp, "%"PRIu64"U", lhs.data.u64);
 	} else {
-		sprintf(temp, "%" PRId64, lhs.data.i64);
+		sprintf(temp, "%"PRId64, lhs.data.i64);
 	}		
     lua_pushstring(L, temp);
     return 1;
@@ -404,9 +404,10 @@ static int uint64_tostring(lua_State* L) {
 	char temp[72];
 	uint64_t n = lua_touint64(L, 1);
 #if ( defined (_WIN32) ||  defined (_WIN64) ) && !defined (__MINGW32__) && !defined (__MINGW64__)
-	sprintf_s(temp, sizeof(temp), "%" PRIu64, n);
+	snprintf(temp, sizeof(temp), "%" PRIu64, n);
 #else
 	snprintf(temp, sizeof(temp), "%" PRIu64, n);
+
 #endif
 	
 	lua_pushstring(L, temp);

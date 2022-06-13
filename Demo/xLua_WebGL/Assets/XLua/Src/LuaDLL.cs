@@ -12,7 +12,6 @@ namespace XLua.LuaDLL
     using System;
     using System.Runtime.InteropServices;
     using System.Text;
-    using UnityEngine;
     using XLua;
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN || XLUA_GENERAL || (UNITY_WSA && !UNITY_EDITOR)
@@ -391,10 +390,8 @@ namespace XLua.LuaDLL
 
         public static void luaL_getmetatable(IntPtr L, string meta)
 		{
-            Debug.Log($"luaL_getmetatable {L}, {meta}");
             xlua_pushasciistring(L, meta);
-            Debug.Log($"lua_rawget");
-            lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
+			lua_rawget(L, LuaIndexes.LUA_REGISTRYINDEX);
 		}
 
         [DllImport(LUADLL, CallingConvention = CallingConvention.Cdecl)]
