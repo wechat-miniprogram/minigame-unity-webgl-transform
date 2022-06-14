@@ -17,6 +17,7 @@ eg: `adSpaceType=1&adType=1&materialType=1`
 - adType: 广告类型；一个广告类型可以投放不同素材
 - materialType: 素材类型
 
+取值范围：1-200; 默认为0
 
 ## 三、上报自定义阶段
 为了详细统计玩家的流失情况以便开发者进行优化，我们拆分了三个部分。

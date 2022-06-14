@@ -119,7 +119,7 @@ StartCoroutine(UnityWebRequestLoad(string.Format("http://127.0.0.1:8080/Streamin
 
 加载的bundle文件大小为5403162字节
 ```bash
--rw-r--r--  1 junkunzhang  TENCENT\Domain Users  5403162  6 22 16:07 image1_751427a66d22b184c95342d556354150
+-rw-r--r--  1  Users  5403162  6 22 16:07 image1_751427a66d22b184c95342d556354150
 ```
 通过加载前后snapshot来对比总内存变化
 - UnityWebRequestAssetBundle.GetAssetBundle/UnityWebRequest/WWW
