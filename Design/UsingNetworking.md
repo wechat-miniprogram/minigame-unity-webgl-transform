@@ -87,6 +87,8 @@ socket.CloseAsync();
 1. instance.ws.onmessage函数将分支"else if (ev.data instanceof Blob)"挪到最后
 2. WebSocketSend函数中"HEAPU8"改为"buffer"
 
+修改版本可参考[WebSocket Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/UnityWebSocket_WebGL)
+
 ### 服务端
 
 如果服务端使用 TCP 接入，则需要使用 WSS<-->TCP 的代理层。解决方案也很多，比如使用 Ngnix 做反向代理，也可以使用集成的代理服务器, 对于后者开发中可以使用
@@ -113,9 +115,3 @@ socket.CloseAsync();
 
 如果是资源云服务器，通常厂商的后台管理支持直接设置不验证跨域。
 
-### ReferenceError: Blob is not define
-
-UnityWebSocket 的 jslib 里有 Blob 类型的处理，由于小游戏环境没有 Blob，故会报错
-
-可以修改下`UnityWebSocket/Assets/UnityWebSocket/Plugins/WebGL/WebSocket.jslib`里的`onmessage`，
-`else if (ev.data instanceof Blob)`这个逻辑分支挪到最后
