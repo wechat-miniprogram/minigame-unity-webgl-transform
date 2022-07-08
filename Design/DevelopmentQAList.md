@@ -12,7 +12,7 @@
 - 方式1：game.js增加代码"wx.setEnableDebug({enableDebug: true})"
 - 方式2：真机环境中，右上角"..."-打开调试-重启小游戏-vconsole
 - 上述方法之后，若启动封面无法打开vconsole, 请点三次下方的"unity logo"
-- 错误日志中的业务代码堆栈分析可参考文档 [开发错误调试与排查](Design/DebugAndException.md)
+- 错误日志中的业务代码堆栈分析可参考文档 [开发错误调试与排查](DebugAndException.md)
 5. Unity PlayerSettings导出选项中使用"brotli"或"gzip", 使用微信开发者工具无法启动游戏
 - 请勿修改PlayerSettings的压缩选项，保持为不压缩
 - 转换工具对代码包自动进行br压缩
