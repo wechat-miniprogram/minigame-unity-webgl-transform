@@ -48,7 +48,9 @@
 8. 显示黑屏，运行提示大量shader编译错误
 - 默认导出未webgl1, 请确认游戏是否依赖webgl2(opengles3.0)
 - 导出选项勾选webgl2实验能力
-  
+9. Unity FMOD音频插件是否支持？
+- 不支持，Unity WebGL在浏览器环境以WebAudio适配，并非原生的FMOD，因此FMOD插件也是不支持的。
+
 ## 平台适配
 1. 文本输入框点击无法输入，没有弹出输入法
 - 请参考小游戏输入法API进行适配
@@ -60,6 +62,12 @@
 - 不行，不提供内嵌webview或跳转的能力
 5. 小游戏是否支持Unity Video
 - 不行，小游戏支持视频播放能力，但暂无法与Unity元素进行融合。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)
+6. 为什么使用Application.targetFrameRate无法限帧率？安卓左上角帧率不对
+- Application.targetFrameRate默认使用timer控制帧率，会导致不平滑，定时不精确
+- 请更换接口WX.SetPreferredFramesPerSecond限制小游戏
+7. Unity Audio音频是否需要使用小游戏音频适配
+- 转换方案已通过WebAudio支持Unity音频，通常无需替换
+- 游戏中BGM等长音频建议使用小游戏音频，因为后者占用的内存更小
 
 
 
