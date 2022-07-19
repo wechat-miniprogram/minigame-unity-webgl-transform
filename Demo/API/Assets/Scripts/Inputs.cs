@@ -53,6 +53,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         // 输入法confirm回调
         Debug.Log("onConfirm");
         Debug.Log(v.value);
+        WX.HideKeyboard(new HideKeyboardOption());
     }
 
     public void OnComplete(OnKeyboardInputCallbackResult v)
@@ -60,6 +61,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         // 输入法complete回调
         Debug.Log("OnComplete");
         Debug.Log(v.value);
+        WX.HideKeyboard(new HideKeyboardOption());
     }
 
 
