@@ -50,6 +50,34 @@
 - 导出选项勾选webgl2实验能力
 9. Unity FMOD音频插件是否支持？
 - 不支持，Unity WebGL在浏览器环境以WebAudio适配，并非原生的FMOD，因此FMOD插件也是不支持的。
+10. Mac 系统下 Unity 构建 WebGL 项目报`Failed running "../il2cppcore/il2cppcore.dll"`错误解决办法
+- 报错原因：Unity 2020及以前（如2019）版本构建 WebGL 仍然需要 Python2 ，而Mac OS 12.3版本起已经不再内置 Python2。
+
+- 一种解决办法：
+
+  （1）前往 python 官网下载对应的 [python2.7.dmg](https://www.python.org/downloads/macos/) 安装包直接进行安装；
+
+  （2）在 Unity 工程目录任意位置创建 `.cs` 脚本文件，内容如下：
+
+  ```c#
+  #if UNITY_EDITOR
+  using UnityEditor;
+  using UnityEditor.Build;
+  using UnityEditor.Build.Reporting;
+  using UnityEngine;
+  
+  public class PreBuildProcessing : IPreprocessBuildWithReport
+  {
+      public int callbackOrder => 1;
+      public void OnPreprocessBuild(BuildReport report)
+      {
+          System.Environment.SetEnvironmentVariable("EMSDK_PYTHON", "/Library/Frameworks/Python.framework/Versions/2.7/bin/python");
+      }
+  }
+  #endif
+  ```
+
+  其中 Python 路径请自行检查，若由步骤（1）方式安装的一般无需改动，至此问题解决。
 
 ## 平台适配
 1. 文本输入框点击无法输入，没有弹出输入法
