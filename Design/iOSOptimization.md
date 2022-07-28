@@ -64,7 +64,8 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
    - 资源跨域问题：服务器添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源，包括常见的响应头，并允许 GET、POST 或 OPTIONS 方法：
 ```json
 "Access-Control-Allow-Credentials": "true",
-"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time",
+"Access-Control-Expose-Headers": "Content-Length, Content-Encoding",
+"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time, Content-Type",
 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 "Access-Control-Allow-Origin": "*",
 ```
