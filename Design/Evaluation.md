@@ -23,15 +23,16 @@ Unity版本支持从2018到最新的2021版本
 | 能力 |是否支持  |解决方案  |
 | --- | --- |--- |
 | Unity基础模块 |支持 |支持动画、物理、AI、UI等基础模块|
-| 渲染管线 |支持 |支持标准渲染管线、URP，但依赖WebGL2.0的特性则不支持|
+| 渲染管线 |支持 |支持标准渲染管线、URP，但依赖WebGL2.0的特性处于Beta测试|
 | 资源加载  | 支持 | Addressable、AssetBundle网络异步加载 |
-| Lua等脚本语言 |支持 |支持标准Lua与常见binding(如xlua, tolua等)， 不支持Luajit。需根据实际游戏在真机验证性能|
-| Unity音频 |支持 |基本能力支持，但建议适配小游戏音频以优化内存
+| Lua脚本 |支持 |支持标准Lua与常见binding(如xlua, tolua等)， 不支持Luajit。需根据实际游戏在真机验证性能|
+| PureTS |支持 | iOS系统需14.5以上, 支持JIT|
+| Unity音频 |支持 |Unity Audio基本能力支持，但支持fmod插件、wwise。长音频建议适配小游戏音频以优化程序内存
 | 第三方插件 |部分支持 |支持大部分插件，C#插件与非平台相关的C原生插件|
-| 网络系统  | 部分支持 |HTTP可使用UnityWebRequest，TCP使用WebSocket通信替代(如开源的UnityWebSocket插件)，暂不支持UDP|
-| 渲染接口 |部分支持 |仅支持WebGL1.0(相当于OpenGLES2.0)，2.0支持正在开发中|
+| 网络系统  | 需调整 |不支持System.Net接口，HTTP使用UnityWebRequest，TCP使用WebSocket通信替代(如开源的UnityWebSocket插件)，UDP使用WX SDK适配|
+| 渲染接口 | 支持 |仅支持WebGL1.0(相当于OpenGLES2.0)，2.0支持处于Beta测试阶段|
 | 多线程  | 不支持 | 删除多线程用法，使用异步等其他替代方式 |
-| 文件API | 不支持 |使用微信小游戏C# SDK适配，缓存大小限制为200MB。玩家存档请使用服务器或云开发；AssetsBundle缓存适配插件已自动支持|
+| 文件API | 需调整 |不支持System.File接口，但可使用微信小游戏WX SDK实现文件存储，大小限制为200MB。玩家存档请使用服务器或云开发；AssetsBundle缓存适配插件已自动支持|
 
 
 
