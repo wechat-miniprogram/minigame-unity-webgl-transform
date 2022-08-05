@@ -65,21 +65,4 @@ AssetBundle和Addressables资源目录。
 
 ### 资源缓存规则
 
-- 首资源包自动缓存
-- wasm代码自动缓存
-- AB和AA特定情况下缓存
-
-需要注意的是AB和AA的缓存规则
-#### AB和AA缓存
-如果请求URL包含StreamingAssets，则插件判定为是在下载bundle文件，会自动进行缓存提升二次启动速度。
-所以需要自动缓存的文件，可放到StreamingAssets目录下。
-
-但请注意以下几点：
-1. 文件名需要带上hash [BuildAssetBundleOptions.AppendHashToAssetBundleName](https://docs.unity3d.com/ScriptReference/BuildAssetBundleOptions.AppendHashToAssetBundleName.html)，以便清理掉该文件的旧缓存。默认32位长度，如果游戏可通过导出选项中`Bundle名中Hash长度`来自定义。比如游戏自己计算了crc，可将`Bundle名中Hash长度`设置为crc长度。
-2. 配置到不自动缓存文件类型中的文件，不会自动缓存，默认值是json，比如addressable打包后生成StreamingAssets/aa/WebGL/catalog.json，这个文件不会自动缓存。
-
-### 资源淘汰规则
-由于缓存目录最大不可超过200M，在下载资源包、下载AB包时，若剩余空间不足以缓存，会进行缓存淘汰。目前规则比较简单，如下：
-1. 如果所需空间过大，超过最大限制：下载完成后不缓存文件，也不执行清理逻辑，直接返回下载内容。
-2. 清理部分文件可以缓存新文件：按最近使用时间从前往后排序清理，直到清理出所需空间。
-3. 如果去除hash后是同名文件（相同路径下同名）：清理掉旧的资源。
+请阅读[资源缓存](FileCache.md)

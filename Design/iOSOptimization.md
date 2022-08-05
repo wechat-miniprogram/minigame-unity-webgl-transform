@@ -71,15 +71,23 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 ```
 
 Q: iOS报错提示未开启gzip/br压缩
+
 <img src='../image/contentencoding_error.png' width="500">
+
 A:可通过微信开发者工具查看Content-Encoding是否为gzip或br
+
 如果有正确压缩，可忽略这个错误。
+
 问题原因：由于跨域获取不到Content-Encoding头
+
 解决办法：增加跨域头部`"Access-Control-Expose-Headers": "Content-Length, Content-Encoding",`
+
 <img src="../image/devtools_network.png" width="500">
 
 Q: 资源下载提示`isTrusted`
+
 <img src='../image/cors_istrusted.png' width='500'>
+
 A: 多半由于跨域问题导致，可通过开发者工具查看对应资源的Response Header是否有跨域头
 
 3. 卡在启动封面无法启动
