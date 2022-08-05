@@ -70,6 +70,18 @@ iOS端小游戏高性能模式目前为Beta版本，适用于遇到iOS环境运�
 "Access-Control-Allow-Origin": "*",
 ```
 
+Q: iOS报错提示未开启gzip/br压缩
+<img src='../image/contentencoding_error.png' width="500">
+A:可通过微信开发者工具查看Content-Encoding是否为gzip或br
+如果有正确压缩，可忽略这个错误。
+问题原因：由于跨域获取不到Content-Encoding头
+解决办法：增加跨域头部`"Access-Control-Expose-Headers": "Content-Length, Content-Encoding",`
+<img src="../image/devtools_network.png" width="500">
+
+Q: 资源下载提示`isTrusted`
+<img src='../image/cors_istrusted.png' width='500'>
+A: 多半由于跨域问题导致，可通过开发者工具查看对应资源的Response Header是否有跨域头
+
 3. 卡在启动封面无法启动
    - 右上角打开调试，重启小游戏，点三次下方的Unity logo打开vconsole
    - 如果出现资源访问失败，但Android和开发者工具却可以下载则参考QA3关于跨域问题
