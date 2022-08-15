@@ -53,15 +53,6 @@
 ```
 `注意` WX.CreateInnerAudioContext 返回的音频对象是可以复用的，就是可以多次调用Play方法播放，但是如果需要多个音频同时播放就要创建多个音频对象了。
 
-### 短音频的使用
-类似于Unity开发者喜欢更改AudioClip的方式来播放短音频，这里可以使用WX.ShortAudioPlayer来播放音频。音频对象会自动被缓存下来。便于后续播放`。（如果这里的方法不适合你的需求，那你还是可以按照长音频的方式来播放短音频。）可以参考如下代码：
-```
-// 这里是播放前预先加载Assets/music目录下的两个音频，来避免后续播放的音频播放延迟
-WX.ShortAudioPlayer.PreLoadAudio(new string[] { "music/LowCrash.wav", "music/Brake2.wav" });
-
-// 在需要播放的适合调用，不要暂停其他短音频，这里会自动停掉其他短音频，只播放这个端音频
-WX.ShortAudioPlayer.StopOthersAndPlay("music/Brake2.wav", 1.0f,false);
-```
 ## 导出设置
 勾选使用微信音频API，并填上"游戏资源CDN"，比如填写的地址为https://wx.qq.com/data/ ，而API的src地址为 Assets/Audio/Chill_1.wav，则最终会请求 https://wx.qq.com/data/Assets/Audio/Chill_1.wav
 
