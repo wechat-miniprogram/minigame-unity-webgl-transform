@@ -58,3 +58,8 @@ defaultReleaseSize: 清理时，默认额外清理的大小，单位Bytes，1MB 
 ## 四、注意项
 1. 文件名需要带上hash [BuildAssetBundleOptions.AppendHashToAssetBundleName](https://docs.unity3d.com/ScriptReference/BuildAssetBundleOptions.AppendHashToAssetBundleName.html)，以便清理掉该文件的旧缓存。默认32位长度，可通过导出选项中`Bundle名中Hash长度`来自定义。比如游戏自己计算了crc，可将`Bundle名中Hash长度`设置为crc长度。
 2. 配置到不自动缓存文件类型中的文件，不会自动缓存，默认值是json，比如addressable打包后生成StreamingAssets/aa/WebGL/catalog.json，这个文件不会自动缓存。
+3. 开发者工具上可以打开文件系统查看缓存文件
+
+缓存文件在usr目录下
+
+<image src='../image/cache_path.png'>

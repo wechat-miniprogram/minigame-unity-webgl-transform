@@ -10,9 +10,9 @@
 
 
 ## 二、适配小游戏
-1. Mac上授权  
-因为Mac上的隐私安全问题，使用mac的用户需要先授权，使用window的用户跳过这步。点击"微信小游戏"->"MacOS脚本授权",进行授权，直到不报错为止。若授权后还是报错，重启unity后再点授权试试。
-2. 选择 点击 微信小游戏 -> 转换小游戏， 填写相应参数，点击`导出WEBGL并转换为小游戏`按钮 ，等待转换完成。
+
+### 2.1 转换小游戏
+顶部菜单栏 点击 微信小游戏 -> 转换小游戏， 填写相应参数，点击`导出WEBGL并转换为小游戏`按钮 ，等待转换完成。
 
 <image src='../image/export.png' width="600"/>
 
@@ -33,12 +33,52 @@
 - SDK功能选项：[好友关系链](OpenData.md) [音频优化](AudioOptimization.md)
 - 调试编译选项
 
+### 2.2 了解转换后目录结构
+在转换完成后，会在导出路径下生成如下目录
+
+```bash
+.
+├── backup
+├── minigame
+└── webgl
+```
+
+- backup为转换工具的资源备份目录
+- minigame为小游戏项目
+- webgl为unity导出为webgl后的资源和代码目录
+
+
+### 2.3 资源部署
 转换完成后，参照[资源部署与缓存](DataCDN.md)章节进行资源部署，并了解启动Loader在加载资源时的缓存逻辑。
 
-注意：
-* 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权，具体可参考[使用Loader进行游游戏加载](UsingLoader.md)
+### 2.4 小游戏预览
+1. 下载小游戏开发者工具
+[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)
 
-至此，可以在[微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)导入转换后的`minigame`目录的小游戏工程进行预览。
+> 需要下载，`稳定版 Stable Build`，非小游戏版！
+
+2. 导入项目
+参考[小游戏快速开始](https://developers.weixin.qq.com/minigame/dev/guide/#%E5%AE%89%E8%A3%85%E5%B9%B6%E5%90%AF%E5%8A%A8%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7)
+
+导入转换后的`minigame`目录
+
+3. 工具预览
+<image src='../image/devtools_preview.png'>
+
+注意：
+> 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权
+
+<image src="../image/addPlugin.png">
+
+**请前往mp后台-能力地图-生产提效包-快适配，开通使用**
+
+<image src='../image/mp_addplugin.png'>
+
+<image src='../image/auth_plugin.png'>
+
+4. 真机预览
+点击**预览**，扫码二维码预览即可。
+
  
 ## 三、使用脚本集成到自己的构建系统
 如果你希望将导出插件集成到自己的发布流程，想脚本调用的话，可修改 `Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset`配置，然后调用WXEditorWindow 的 DoExport方法导出小游戏

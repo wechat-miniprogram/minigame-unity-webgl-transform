@@ -25,16 +25,6 @@ Unity Loader是在微信小游戏环境加载Unity WebGL游戏的加载与适配
 ```
 这部分配置表示使用Unity Loader插件进行游戏加载，开发者无需手动修改
 
-首次使用时，会提示添加插件
-
-<image src="../image/addPlugin.png">
-
-**请前往mp后台-能力地图-生产提效包-快适配，开通使用**
-
-<image src='../image/mp_addplugin.png'>
-
-<image src='../image/auth_plugin.png'>
-
 ## 三、配置Unity Loader功能
 ### 3.1 资源下载
 声明CDN地址
