@@ -81,7 +81,7 @@ loadingPageConfig: {
 
 
 ## 默认效果
-<image src='../image/loading_default.png' width="600">
+<img src='../image/loading_default.png' width="600">
 
 实现默认效果很简单，开发者只需在导出时配置启动素材即可
 
@@ -98,12 +98,12 @@ loadingBarWidth: 加载进度条宽度；-- $LOADING_BAR_WIDTH
 启动loader提供的默认加载界面为了契合不同游戏，做得相对通用，但游戏可能会存在定制启动loading的需求，以达到和游戏更贴近的体验。
 
 - 小游戏表现
-<image src='../image/loading_demo.jpg' width="600">
+<img src='../image/loading_demo.jpg' width="600">
 
 - 设计稿
 设计尺寸：1600*720
 
-<image src='../image/loading_design.jpg' width='600'>
+<img src='../image/loading_design.jpg' width='600'>
 
 - 小游戏配置
 ```js

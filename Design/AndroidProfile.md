@@ -2,7 +2,7 @@
 0. 转换导出插件勾选"Profiling-funcs", 请勿使用Development(该模式将极大降低性能)。 发布上线版本请务必关闭该选项！
 1. 在Android微信小游戏打开调试进行录制
 
-   <image src='../image/androidprofile1.png' width="300"/>
+   <img src='../image/androidprofile1.png' width="300"/>
 
 2. 停止性能数据录制
 
@@ -13,16 +13,16 @@
     录制结束后，Android会生成一份xxx.cpuprofile，该文件格式可以使用chrome进行解析。
 因此我们需要将录制后的文件传输到PC使用chrome进行分析。
 文件路径通常为：Android/data/com.tencent.mm/MicroMsg/appbrand/trace
-<image src='../image/androidprofile2.png' width="300"/>
+<img src='../image/androidprofile2.png' width="300"/>
 
 
 4. 利用PC(Windows/Mac)的chrome加载数据
 
-    <image src='../image/androidprofile3.png' width="500"/>
+    <img src='../image/androidprofile3.png' width="500"/>
 
 5. 使用JavaScriptProfile进行数据分析
    
-    <image src='../image/androidprofile4.png' width="700"/> 
+    <img src='../image/androidprofile4.png' width="700"/> 
 
 注意：
 1. 编译版本仅当导出勾选Profiling-funcs(推荐)或Development时才能在函数堆栈中看到可读函数名。

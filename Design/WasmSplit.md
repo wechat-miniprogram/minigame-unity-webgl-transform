@@ -37,7 +37,7 @@ unity导出小游戏项目后，代码是在一个wasm文件里，经过brotli�
 
 分包工作流如图所示
 
-<image src="../image/wasmsplit/workflow.png">
+<img src="../image/wasmsplit/workflow.png">
 
 如图所示，对于未分包项目，开发者可以在插件里启用分包，然后配置版本信息，这时候会插件会自动开始第一次分包，变成已分包项目
 
@@ -49,16 +49,16 @@ unity导出小游戏项目后，代码是在一个wasm文件里，经过brotli�
 
 通过开发者工具的设置-拓展设置-编辑器自定义拓展，安装 wasmCodeSplit 这个插件（插件后续0.0.6及以下存在部分使用问题，但不影响分包结果，我们会在0.0.7修复相关问题）
 
-<image src="../image/wasmsplit/extension-panel.png">
+<img src="../image/wasmsplit/extension-panel.png">
 
 ### 迭代流程
  
 1. 打开插件开关后，在目录树上的工具栏中，可以看到插件的按钮，如图所示，点击后即可进入插件页：
-<image src="../image/wasmsplit/enable-plugin-1.png">
+<img src="../image/wasmsplit/enable-plugin-1.png">
 
 2. 点击启用代码分包，新导出的小游戏（注：同一游戏从 unity 的不同次导出也认为是新的）会提示输入版本描述，简单输入方便识别版本的描述即可，然后插件会自动进行首次分包
-<image src="../image/wasmsplit/enable-plugin-2.png">
-<image src="../image/wasmsplit/start-split.png">
+<img src="../image/wasmsplit/enable-plugin-2.png">
+<img src="../image/wasmsplit/start-split.png">
 
 
 3. 第一次分包完成后，就可以开始迭代式收集，每一轮迭代流程如下：
@@ -73,7 +73,7 @@ unity导出小游戏项目后，代码是在一个wasm文件里，经过brotli�
 - 点击开发者工具的预览，在真机上跑，有条件的话可以尽量覆盖各种机型(主流品牌)以及平台(Android/iOS)
 - 当插件页显示的收集到增量函数个数相对稳定时，可以点击“我已收集好，继续下一步”
 
-<image src="../image/wasmsplit/code-split-index.png">
+<img src="../image/wasmsplit/code-split-index.png">
 
 随着迭代轮数增多，新增函数会越来越少，这里没有完成收集的标准，建议开发者能回归覆盖游戏的各种启动场景即可（不同进度，二次启动等等），目的是为了延迟依赖剩下的分包的时间
 
@@ -93,7 +93,7 @@ unity导出小游戏项目后，代码是在一个wasm文件里，经过brotli�
 
 因此我们支持了增量分包，可以在二次导出时，通过选择之前已经进行过分包的版本，在之前分包的基础上进行增量分包
 
-<image src="../image/wasmsplit/incremental-split.png">
+<img src="../image/wasmsplit/incremental-split.png">
 
 这里主要是通过symbol文件，按函数签名识别相同函数来实现的，因此需要导出时有symbol文件
 

@@ -11,7 +11,7 @@
 ### CPU消耗
 通过多款游戏项目，我们得到实际游戏项目的CPU占用如下图所示：
 
-<image src='../image/iosoptimization3.png' width="500"/>
+<img src='../image/iosoptimization3.png' width="500"/>
 
 我们得到以下结论：
 - 高性能模式在长期执行过程中CPU明显低于普通模式，后者长期处于高CPU占用因此长期运行容易越来越烫
@@ -29,8 +29,8 @@
 
 分数越高，代表的运行能力越强。
 
-<image src='../image/iosoptimization1.png' width="250"/>
-<image src='../image/iosoptimization2.png' width="250"/>
+<img src='../image/iosoptimization1.png' width="250"/>
+<img src='../image/iosoptimization2.png' width="250"/>
 
 上图分别是iOS端普通模式与高性能模式的得分，可以看到在几个压测示例中高性能模式均明显优于普通模式。
 

@@ -2,12 +2,12 @@
 
 ## 启动加载时序
 Unity WebGL转换的小游戏主要依靠Unity Loader进行初始化，典型的流程如下图所示：
-<image src="../image/launch1.png">
+<img src="../image/launch1.png">
 
 
 
 ## Unity Loader工作流程
-<image src="../image/launch.png">
+<img src="../image/launch.png">
 
 
 关键过程：

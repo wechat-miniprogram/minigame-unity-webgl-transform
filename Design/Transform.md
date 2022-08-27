@@ -4,7 +4,7 @@
 
 添加需要导出的scene
    
-<image src='../image/scene.png' width="600"/>
+<img src='../image/scene.png' width="600"/>
 
 建议仅勾选Loading场景，后续场景使用AssetsBundle/Addressable进行按需加载。
 
@@ -14,7 +14,7 @@
 ### 2.1 转换小游戏
 顶部菜单栏 点击 微信小游戏 -> 转换小游戏， 填写相应参数，点击`导出WEBGL并转换为小游戏`按钮 ，等待转换完成。
 
-<image src='../image/export.png' width="600"/>
+<img src='../image/export.png' width="600"/>
 
 其中：
 1. 必须
@@ -63,18 +63,18 @@
 导入转换后的`minigame`目录
 
 3. 工具预览
-<image src='../image/devtools_preview.png'>
+<img src='../image/devtools_preview.png'>
 
 注意：
 > 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权
 
-<image src="../image/addPlugin.png">
+<img src="../image/addPlugin.png">
 
 **请前往mp后台-能力地图-生产提效包-快适配，开通使用**
 
-<image src='../image/mp_addplugin.png'>
+<img src='../image/mp_addplugin.png'>
 
-<image src='../image/auth_plugin.png'>
+<img src='../image/auth_plugin.png'>
 
 4. 真机预览
 点击**预览**，扫码二维码预览即可。

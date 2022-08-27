@@ -1,7 +1,9 @@
 # Unity WebGL 微信小游戏适配方案(公测)
 
 欢迎使用 Unity WebGL 小游戏适配(转换)方案，本方案设计目的是**降低 Unity 游戏转换到微信小游戏的开发成本**。基于WebAssembly技术，无需更换Unity引擎与重写核心代码的情况下将原有游戏项目适配到微信小游戏。
- 
+
+- 若图片无法显示，请访问[gitee项目地址](https://gitee.com/wechat-minigame/minigame-unity-webgl-transform)
+
 ## 方案特点
 * 保持原引擎工具链与技术栈
 * 无需重写游戏核心逻辑，支持大部分第三方插件
@@ -12,7 +14,7 @@
 ## 转换案例
 | 我叫MT2(回合战斗) | 旅行串串(休闲) | 谜题大陆(SLG) | 热血神剑(MMO) | 
 | --- | --- | --- | --- |
-| <image src='image/showcase34.png' width="240"/> | <image src='image/showcase32.png' width="220"/> |  <image src='image/showcase25.png' width="230"/>| <image src='image/showcase33.png' width="230"/> |
+| <img src='image/showcase34.png' width="240"/> | <img src='image/showcase32.png' width="220"/> |  <img src='image/showcase25.png' width="230"/>| <img src='image/showcase33.png' width="230"/> |
 
 - [更多转换案例](Design/ShowCase.md)
 

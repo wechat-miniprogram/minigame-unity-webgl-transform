@@ -14,7 +14,7 @@
 
 通过timelog开发者可以看到小游戏目前的启动首屏时长：
 
-<image src='../image/startupop1.png' width="400"/>
+<img src='../image/startupop1.png' width="400"/>
 
 要知道各个阶段的含义，我们必要理解[启动流程](Startup.md)
   
@@ -57,7 +57,7 @@ WASM分包的大小会直接影响代码下载时长以及程序初始化编译�
 
 ### 2.3 优化总览
 我们总结下启动时序以及开发者、平台提升启动性能的优化事项：
-<image src='../image/startupop2.png'/>
+<img src='../image/startupop2.png'/>
 
 
 ## 三、常用启动优化技巧

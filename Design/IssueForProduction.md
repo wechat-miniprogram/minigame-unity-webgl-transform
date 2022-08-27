@@ -11,8 +11,8 @@
 数据入口：MP平台-用户反馈
 
 当玩家游戏中出现问题时，进行功能反馈将会提交“用户反馈日志“，开发者可以在后台下载到对应数据：
-<image src='../image/issueforproduction1.png' width="800"/>
-<image src='../image/issueforproduction2.png' width="800"/>
+<img src='../image/issueforproduction1.png' width="800"/>
+<img src='../image/issueforproduction2.png' width="800"/>
 
 该功能需要两个必要条件：
 1. 玩家提交反馈
@@ -31,7 +31,7 @@
 
 [实时日志](https://developers.weixin.qq.com/miniprogram/dev/framework/realtimelog/)为帮助小程序开发者快捷地排查小程序漏洞、定位问题.
 
-<image src='../image/issueforproduction3.png' width="800"/>
+<img src='../image/issueforproduction3.png' width="800"/>
 相对于用户反馈日志，小游戏实时日志**不需要用户反馈行为**。
 
 但需要开发者上报游戏关键节点信息与异常日志。
@@ -41,7 +41,7 @@
 数据入口：MP平台-开发管理-错误日志
 
 微信小游戏框架会在顶层监控到任何**未捕捉的JS异常**。
-<image src='../image/issueforproduction4.png' width="800"/>
+<img src='../image/issueforproduction4.png' width="800"/>
 
 
 使用Unity WebGL转换方案的游戏通常会有这几种错误会产生：

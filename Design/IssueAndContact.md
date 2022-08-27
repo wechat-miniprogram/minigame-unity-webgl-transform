@@ -5,7 +5,7 @@
 ## Git Issue
 开发者遇到BUG或者希望新增特性优先使用[Git Issue](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/issues)，因为这里可以更好进行问题沉淀、讨论与跟踪。
  
-   <image src='../image/issueandcontact1.png'  />
+   <img src='../image/issueandcontact1.png'  />
 
 问题复现尽可能详细，包括以下内容：
 * 操作步骤
@@ -17,4 +17,4 @@
 ## 小游戏研发助手
 开发者也可以通过“研发助手号”直接与小游戏团队进行技术交流
 
-  <image src='../image/issueandcontact2.jpg' width="200"/>
+  <img src='../image/issueandcontact2.jpg' width="200"/>

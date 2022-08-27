@@ -8,7 +8,7 @@
 注意：小游戏环境不支持assetbundle本地加载
 ### 1.1 组织资源
 自行组织资源如何分组，以及各个bundle之间依赖关系，包名相同的资源会打包到一起
-<image src="../image/assetbundle/set-bundlename.png" width="600" />
+<img src="../image/assetbundle/set-bundlename.png" width="600" />
 ### 1.2 AssetBundle打包
 ```c#
 public static void Build()
@@ -92,7 +92,7 @@ public static void Build()
 
   界面如下
   
-  <image src="../image/assetbundle/assetbundle-scene.png" width="600" />
+  <img src="../image/assetbundle/assetbundle-scene.png" width="600" />
 
 按钮从上往下加载方式分别为使用`UnityWebRequestAssetBundle.GetAssetBundle`, `UnityWebRequest`, `WWW.LoadFromCacheOrDownload`, `WWW`。
 
@@ -124,11 +124,11 @@ StartCoroutine(UnityWebRequestLoad(string.Format("http://127.0.0.1:8080/Streamin
 通过加载前后snapshot来对比总内存变化
 - UnityWebRequestAssetBundle.GetAssetBundle/UnityWebRequest/WWW
    这三种加载方式加载前后内存无变化
-   <image src="../image/assetbundle/normal-assetbundle-memory.png" />
+   <img src="../image/assetbundle/normal-assetbundle-memory.png" />
 
 - WWW.LoadFromCacheOrDownload
    加载bundle后内存增加了5403162字节，增加了bundle大小的内存，是因为WWW.LoadFromCacheOrDownload除了会将文件存入IndexDB外，还会存入内存中的UnityCache
-   <image src="../image/assetbundle/assetbundle-unnormal-memory.png" />
+   <img src="../image/assetbundle/assetbundle-unnormal-memory.png" />
 
 **因此需要注意业务中不要使用已淘汰的WWW类，尤其WWW.LoadFromCacheOrDownload，当bundle数量多时，会浪费不少内存。**
 

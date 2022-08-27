@@ -62,4 +62,4 @@ defaultReleaseSize: 清理时，默认额外清理的大小，单位Bytes，1MB 
 
 缓存文件在usr目录下
 
-<image src='../image/cache_path.png'>
+<img src='../image/cache_path.png'>

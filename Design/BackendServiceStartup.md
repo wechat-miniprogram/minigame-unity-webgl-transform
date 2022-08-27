@@ -21,11 +21,11 @@
 
 1. 新建一个云函数的空工程
    云函数可以和前端的游戏逻辑独立创建为不同的项目。当然也可以在同一个项目中(project.config.json 中指定 cloudfunctionRoot，避免云函数代码被业务逻辑代码一同打包发布到外网)，以下示例为独立项目的模式
-   <image src='../image/cf/init-cf-proj.jpg' width="800"/>
-   <image src='../image/cf/cf-overview.png' width="800"/>
+   <img src='../image/cf/init-cf-proj.jpg' width="800"/>
+   <img src='../image/cf/cf-overview.png' width="800"/>
 2. 该小游戏首次使用云开发需要先开通云开发
-   <image src='../image/cf/open-cf.jpg' width="800"/>
-   <image src='../image/cf/cf-free.jpg' width="800"/>
+   <img src='../image/cf/open-cf.jpg' width="800"/>
+   <img src='../image/cf/cf-free.jpg' width="800"/>
 
    > 云开发有一个基本的免费套餐，请求量达到一定上限后需要[配额调整](https://developers.weixin.qq.com/minigame/dev/wxcloud/billing/quota.html)或[申请代金券后更换配额套餐](https://developers.weixin.qq.com/minigame/dev/wxcloud/billing/voucher.html)
 
@@ -84,9 +84,9 @@ exports.main = async (event, context) => {
 4. 部署云函数
 
 - 云函数可以同时存在多个环境（可自定义，如测试环境、生产环境。本示例为"product"），选中需要部署的云函数环境:
-  <image src='../image/cf/choose-env.jpg' width="800"/>
+  <img src='../image/cf/choose-env.jpg' width="800"/>
 - 选中需要部署的云函数(本示例为"msgSecCheck")，点击“创建并部署：云端安装依赖”（本云函数仅依赖了 wx-server-sdk 模块，选云端安装依赖即可；若使用了其他第三方 node 模块，则需要选“创建并部署：所有文件”）
-  <image src='../image/cf/upload-cf.png' width="800"/>
+  <img src='../image/cf/upload-cf.png' width="800"/>
 - 等云函数部署完成(看工具的提示)，Console 可以输入调用云函数代码进行简单测试，或者右键云函数-开启云函数本地调试
 
 ```Javascript

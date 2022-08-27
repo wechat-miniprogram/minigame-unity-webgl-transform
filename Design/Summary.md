@@ -1,7 +1,7 @@
 # Unity WebGL小游戏适配方案概述
 ## 一、技术原理
 
-<image src='../image/summary1.png' width="1080"/>
+<img src='../image/summary1.png' width="1080"/>
 
 Unity的BuildTarget支持WebGL平台，WebGL导出包是基于WebAssembly技术运行在浏览器环境。 
 为了能让导出包运行在微信小游戏环境，我们提供了以下支持：
@@ -12,7 +12,7 @@ Unity的BuildTarget支持WebGL平台，WebGL导出包是基于WebAssembly技术�
 
 ## 二、接入流程
 接入流程主要包含以下几个环节：
-<image src='../image/summary2.png'/>
+<img src='../image/summary2.png'/>
 
 > 注：图中每个环节的人力时间为预计，具体时间因具体项目不同。
 

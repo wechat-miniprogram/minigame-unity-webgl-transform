@@ -4,7 +4,7 @@
 本文描述Unity WebGL游戏运行过程中，如果遇到异常(业务代码、引擎)时开发者应该如何进行调试。
 
 ## 开启代码异常
-<image src='../image/howtodebug1.png' width="600"/>
+<img src='../image/howtodebug1.png' width="600"/>
 
 > 默认情况下，使用“转换插件”这两个选项都已设置完成。
 
@@ -39,7 +39,7 @@ python3 -m pip install brotli
 
 2. 添加需要导出的scene
    
-<image src='../image/scene.png' width="600"/>
+<img src='../image/scene.png' width="600"/>
 
 建议仅勾选Loading场景，后续场景使用AssetsBundle/Addressable进行按需加载。
 
@@ -49,7 +49,7 @@ python3 -m pip install brotli
 因为Mac上的隐私安全问题，使用mac的用户需要先授权，使用window的用户跳过这步。点击"微信小游戏"->"MacOS脚本授权",进行授权，直到不报错为止。若授权后还是报错，重启unity后再点授权试试。
 2. 选择 点击 微信小游戏 -> 转换小游戏， 填写相应参数，点击`导出WEBGL并转换为小游戏`按钮 ，等待转换完成。
 
-<image src='../image/export.png' width="600"/>
+<img src='../image/export.png' width="600"/>
 
 其中：
 * 必须：appid 为 小游戏的Appid

@@ -20,12 +20,12 @@ Unity WebGL内存结构可先参考：
 
 [Unity博客：Unity WebGL 内存：Unity 堆 (Unity WebGL Memory: The Unity Heap)](https://blog.unity.com/technology/unity-webgl-memory-the-unity-heap)
 
-<image src='../image/optimizationMemory1.png' width="1080"/>
+<img src='../image/optimizationMemory1.png' width="1080"/>
 Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器环境，因此游戏内存的分配也是完全托管在这个环境中。
 
 适配在小游戏后，小游戏进程也就成为了“容器”，虽然不再是标准的浏览器，但内存组成结构与上图基本一致，典型游戏的内存占用如下图所示：
 
-<image src='../image/optimizationMemory10.png' width="800"/>
+<img src='../image/optimizationMemory10.png' width="800"/>
 
 
 - 基础库+Canvas：在小游戏环境中并不存在DOM，但依然会存在一些基本消耗，比如小游戏公共库，Canvas画布等。典型地，***小游戏公共库约占用内存100~150MB，Canvas 画布与设备物理分辨率相关***，比如iPhone 11 Promax占用约80MB。
@@ -56,14 +56,14 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 - Android：WeChat AppBrand1/2
 - iOS:普通模式WeChat、高性能模式(WebContent)
 #### Instruments in Xcode(iOS)
-<image src='../image/optimizationMemory2.png' width="800"/>
+<img src='../image/optimizationMemory2.png' width="800"/>
 
 使用“Activity Monitor”，选择对应的设备-all processes-捕捉，即可看到所有进程的CPU与内存情况.
-<image src='../image/optimizationMemory3.png' width="800"/>
+<img src='../image/optimizationMemory3.png' width="800"/>
 
 #### Perfdog（Android or iOS）
 使用[Perfdog](https://perfdog.qq.com)选择对应的设置-进程名，即可看到相关性能数据，iOS设备应以紫色的XcodeMemory为准。
-<image src='../image/optimizationMemory4.png' width="800"/>
+<img src='../image/optimizationMemory4.png' width="800"/>
 
 ### 3.2 UnityHeap
 UnityHeap非常关键，典型由以下几部分组成：
@@ -75,7 +75,7 @@ UnityHeap非常关键，典型由以下几部分组成：
 1. 勾选转换面板"ProfilingMemory"
 2. 代码中增加WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
 游戏左上角显示Performence Stats性能面板
-<image src='../image/optimizationMemory6.jpg' width="600"/>
+<img src='../image/optimizationMemory6.jpg' width="600"/>
 
 每项指标有三个数值：当前帧、最小值、最大值。
 
@@ -97,7 +97,7 @@ Unity引擎视角：
 - UsedHeapMemory：UnityHeap真实使用量
 - UnAllocatedMemory：UnityHeap预留量
 
-<image src='../image/optimizationMemory11.png' width="600"/>
+<img src='../image/optimizationMemory11.png' width="600"/>
 
 底层分配器：
 - 绿色为空闲内存或碎片，底层分配器会尽量复用
@@ -108,7 +108,7 @@ Unity引擎视角：
 由于Unity WebGL是托管在浏览器环境中，因此JavaScript Heap包含了大部分（并非全部）我们关注的内存， 通常我们可以使用浏览器自带的内存工具。 
 #### FireFox Memory(PC)
 #### iOS Safari Timeline(PC or iOS)
-<image src='../image/optimizationMemory5.png' width="1080"/>
+<img src='../image/optimizationMemory5.png' width="1080"/>
 
 ### 四、内存优化方案
 计算公式：

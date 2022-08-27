@@ -28,7 +28,7 @@ Addressable提供了以下能力：
 Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需要做不少的工作：标识Asset、组织Bundle、编译、Load/Unload、依赖关系以及后期维护的复杂工作。新一代的Addressable正是对这些痛点做了不少改进，开发者只需要将Asset设置为addressable然后加载即可，[功能强大并且学习曲线变得平滑]
 (https://docs.google.com/document/d/1hPLNLdrF0qAvjEJTpKf-cuO_d4FCV0H2cqBeP1Zo6mA/edit)。
 
-<image src='../image/addressable7.png' width="600"/>
+<img src='../image/addressable7.png' width="600"/>
 
 
 ### 2.3 在小游戏中使用Addressable Assets System
@@ -38,7 +38,7 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 ## 三、启动优化与资源优化实战
 ### 3.1 从首包开始
 首包资源应该只包含首屏所需资源，比如Splash界面以及对应文案。
-<image src='../image/addressable2.png' width="800"/>
+<img src='../image/addressable2.png' width="800"/>
 首屏资源需要注意：
 > 1. 导出场景不要勾选任何其他场景
 > 2. 不要打包字体文件，字体往往压缩率很低。
@@ -54,7 +54,7 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 ### 3.2 资源按需加载
 #### 3.2.1 场景动态加载
 如前所述，我们构建时仅选择了splash/loading场景，那么主场景（如大厅/战斗等）该如何加载？此时我们可以**将每个场景单独作为Addressable分组**，在用到的时候才下载该场景包。
-<image src='../image/addressable5.png' width="800"/>
+<img src='../image/addressable5.png' width="800"/>
 
 使用Addressables.LoadSceneAsync可以动态加载场景与获取加载进度：
 ```
@@ -75,19 +75,19 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 ```
 选择分组，设置分组属性如下：
 
-<image src='../image/addressable8.png' width="800"/>
+<img src='../image/addressable8.png' width="800"/>
 
 如果我们仅将场景作为分组，其中静态摆放的物件不单独设置为Addressable也会一并打包到场景所在bundle。那么，这是会产生一个问题：两个场景都使用同样资源是否产生冗余？答案是肯定的！！
 那么，如何消除冗余呢？当我们Adressable面板的Tools-->Analyze进行分析时，可看到以下内容：
 
-<image src='../image/addressable9.png' width="800"/>
+<img src='../image/addressable9.png' width="800"/>
 此时，我们应将这些冗余的内容单独进行设置为Addressable。而更为简单的做法是：选中“Check Duplicate Bundle Dependencies”，点击“Fixed Selected Rules”，工具会自动将冗余项逐个设置为Addressable。
 
 
 ### 3.2.2 物件动态加载
 除了静态场景外，我们还会经常动态实例化(Instantiate)或在内存中创建资源对象。比如：
 
-<image src='../image/addressable3.png' width="600"/>
+<img src='../image/addressable3.png' width="600"/>
 
 ``` C#
 public class LoadAssetScript : MonoBehaviour

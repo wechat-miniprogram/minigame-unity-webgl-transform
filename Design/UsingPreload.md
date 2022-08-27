@@ -3,7 +3,7 @@
 通过 [启动流程与时序](Startup.md)我们知道，在UnityLoader加载过程中存在**网络空闲**的情况。特别是“引擎初始化和首场景准备”，影响该步骤包括：引擎自身模块与数据初始化，游戏首个场景加载以及Awake流程。这个过程是CPU处理密集，但网络空闲的期间，根据机型性能不同，通常**平均耗时会在3~6s**左右，我们可以在此阶段提前下载资源。
 
 ## 导出预下载列表
-<image src='../image/usingpreload1.png' width="500"/>
+<img src='../image/usingpreload1.png' width="500"/>
 
 #### MiniGameConfig.asset相关配置
 ```

@@ -21,7 +21,7 @@ eg: `adSpaceType=1&adType=1&materialType=1`
 
 ## 三、上报自定义阶段
 为了详细统计玩家的流失情况以便开发者进行优化，我们拆分了三个部分。
-<image src='../image/reportstartupstat3.png'/>
+<img src='../image/reportstartupstat3.png'/>
 其中**自动上报**为Unity Loader自动完成开发者无需关注，但**自定义阶段**与**启动加载完成**需开发者主动调用接口进行上报。详细接口可参考C# SDK中的WX.cs，此处列出关键接口：
 
 **1. 定义阶段**
@@ -109,9 +109,9 @@ gameManager.onLaunchProgress = (e) => {
 
 ## 五、获取数据统计
 数据报表包含Unity Loader自动上报与开发者自定义阶段。关注总体流失漏斗以确定需要优化的方向，同时分阶段的耗时分布有利于帮助我们分析该阶段的对应耗时的用户占比。
-<image src='../image/reportstartupstat1.png'/>
+<img src='../image/reportstartupstat1.png'/>
 
-<image src='../image/reportstartupstat2.png'/>
+<img src='../image/reportstartupstat2.png'/>
 
 注：
 目前该数据统计报表需要建联[小游戏研发助手](IssueAndContact.md)获取，未来会开放到《小游戏数据助手》。
