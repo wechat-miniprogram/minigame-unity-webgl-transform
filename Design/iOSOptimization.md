@@ -64,11 +64,11 @@ iOS端小游戏高性能模式适用于遇到iOS环境运行性能不足，运�
    - 高性能模式下，请不要服务端设置Cookie，游戏端内因为跨域问题会读取不到Cookie
    - Android下载资源无问题，高性能模式提示资源下载失败等网络问题，请参考文档[网络通信适配](UsingNetworking.md#注意事项)关于跨域的问题 
 
-Q: iOS报错提示未开启gzip/br压缩
+3. iOS报错提示未开启gzip/br压缩
 
 <img src='../image/contentencoding_error.png' width="500">
 
-A:可通过微信开发者工具查看Content-Encoding是否为gzip或br
+可通过微信开发者工具查看Content-Encoding是否为gzip或br
 
 如果有正确压缩，可忽略这个错误。
 
@@ -78,21 +78,22 @@ A:可通过微信开发者工具查看Content-Encoding是否为gzip或br
 
 <img src="../image/devtools_network.png" width="500">
 
-Q: 资源下载提示`isTrusted`
+4. 资源下载提示`isTrusted`
 
 <img src='../image/cors_istrusted.png' width='500'>
 
-A: 多半由于跨域问题导致，可通过开发者工具查看对应资源的Response Header是否有跨域头
+多半由于跨域问题导致，可通过开发者工具查看对应资源的Response Header是否有跨域头，
+请参考文档[网络通信适配](UsingNetworking.md#注意事项)关于跨域的问题 
 
-3. 卡在启动封面无法启动
+5. 卡在启动封面无法启动
    - 右上角打开调试，重启小游戏，点三次下方的Unity logo打开vconsole
    - 如果出现资源访问失败，但Android和开发者工具却可以下载则参考QA3关于跨域问题
    - 15.4以上系统出现"Not implemented"与内存问题，此为Unity & iOS 15.4的BUG，微信提供的wasm代码分包(推荐)或Unity WebGL官方论坛的[临时修复方案](https://forum.unity.com/threads/ios-15-webgl-2-issue.1176116/page-2)
 
-4. 个别游戏UI会出现闪烁问题
+6. 个别游戏UI会出现闪烁问题
    - 已知iOS 15.4偶现，如果开发者遇到请提供可复现Unity工程联系minigamedevop08
 
-5. 为什么开启了高性能模式，游戏启动很烫？
+7. 为什么开启了高性能模式，游戏启动很烫？
    - 请参考本文前面部分，如果未使用代码分包的情况下JIT编译优化将耗费大量性能
 
 6. 使用高性能模式下，必须如果不优化内存和代码包体积可以吗？
