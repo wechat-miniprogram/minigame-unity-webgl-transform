@@ -61,16 +61,8 @@ iOS端小游戏高性能模式适用于遇到iOS环境运行性能不足，运�
 
 2. 使用高性能模式下，游戏本身是否需要做修改？  
    - 业务代码无需做任何调整，普通模式与高性能模式可以无缝切换。
-   - 请检查https的证书是否合法，比如通过在线工具https://myssl.com/ssl.html
    - 高性能模式下，请不要服务端设置Cookie，游戏端内因为跨域问题会读取不到Cookie
-   - 资源跨域问题：服务器添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源，包括常见的响应头，并允许 GET、POST 或 OPTIONS 方法：
-```json
-"Access-Control-Allow-Credentials": "true",
-"Access-Control-Expose-Headers": "Content-Length, Content-Encoding",
-"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time, Content-Type",
-"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-"Access-Control-Allow-Origin": "*",
-```
+   - Android下载资源无问题，高性能模式提示资源下载失败等网络问题，请参考文档[网络通信适配](UsingNetworking.md#注意事项)关于跨域的问题 
 
 Q: iOS报错提示未开启gzip/br压缩
 
