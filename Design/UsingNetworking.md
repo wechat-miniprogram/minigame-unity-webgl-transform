@@ -106,16 +106,15 @@ socket.CloseAsync();
 ### 跨域(iOS高性能模式)
 
 为了在 WebGL 中访问跨域 Web 资源，您尝试访问的服务器需要使用跨源资源共享 (CORS) 对此跨域 Web 资源进行授权。
-添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源：该示例包括常见的请求标头，并允许 GET、POST 或 OPTIONS 方法：
-
+服务器需添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源，包括常见的响应头，并允许 GET、POST 或 OPTIONS 方法：
 ```json
 "Access-Control-Allow-Credentials": "true",
-"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time",
+"Access-Control-Expose-Headers": "Content-Length, Content-Encoding",
+"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time, Content-Type",
 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
 "Access-Control-Allow-Origin": "*",
 ```
 
-如果是资源云服务器，通常厂商的后台管理支持直接设置不验证跨域。
 
 ### SSL证书
 
