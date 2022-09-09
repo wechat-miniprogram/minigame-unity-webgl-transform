@@ -4,21 +4,33 @@
 
 ## 如何排查程序中出现的异常
 
+### 如何查看日志
 小游戏出现异常或错误时，通过以下方式打开 console：
 
 - 开发者工具：调试器->Console
-- 真机：启动阶段点三下封面视频 Logo，出现 vconsole
+- 真机：
 
-         运行阶段点右上角->打开调试->出现vconsole
+  步骤1(打开调试模式)：右上角菜单->打开调试->出现vconsole 或者 game.js增加代码"wx.setEnableDebug({enableDebug: true})"
+  
+  步骤2(打开vconsole)：点击vconsole打开日志面板（启动阶段点三次封面视频下方Unity Logo出现 vconsole)
 
 <img src='../image/debugexception4.png' width="800"/>
 
+默认情况下，函数堆栈是不可读的函数id，那么可通过以下两种方法之一来获得可读函数名
+
+### 如何通过错误堆栈查找源代码问题
+#### 使用Profiling-funcs
+转换面板勾选profiling-funcs, 导出的代码包中将包含可读函数名。
+正式上线版本请务必关闭profiling-funcs，或使用代码分包(可自动剔除函数名）。
+
+#### 使用symbols文件可读函数名
 以文本方式打开导出目录/webgl/Build/xxx.symbols 文件
 
 <img src='../image/debugexception5.png' width="800"/>
 通过日志的函数id找到对应的原始函数名，分析调用堆栈。
 
 这里有个[小工具](Symbol.md)可以帮助替换日志
+
 
 ## 影响异常错误的导出选项
 
