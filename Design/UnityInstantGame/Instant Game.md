@@ -68,13 +68,13 @@
 
 ## 方案选择建议
 
-​		对于目前平台而言，已经存在大量被 **小游戏快适配** 方案所转化的线上游戏，该方案的成熟性是较高的。在转化上需要花费时间，集中处理的位置通常为资源的异步加载，首包资源优化快速载入首屏画面等处，然而对于平台提供的一些特有的能力而言，本身仍需开发者进行专项的能力迭代。Instant Game 方案对于未使用 Bundle 来异步加载资源的游戏工具能够让游戏在几乎不需代码修改时即在微信小游戏平台真机运行，但整体的体验还是存在缺陷性，例如增大了 loading 界面的等待时间，对于较大的场景而言被打包成远程的 Bundle 来异步加载，下载资源期间由于没有提供用户界面上的反馈，会给用户一种“卡住”无响应的假象等。
+​		对于目前平台而言，已经存在大量被 **小游戏快适配** 方案所转化的线上游戏，该方案的成熟性是较高的。在转化上需要花费时间，集中处理的位置通常为资源的异步加载，首包资源优化快速载入首屏画面等处，然而对于平台提供的一些特有的能力而言，本身仍需开发者进行专项的能力迭代。Instant Game 方案对于未使用 Bundle 来异步加载资源的游戏工具能够让游戏在几乎不需代码修改时即在微信小游戏平台真机运行，但未加优化的工程仍存在一些体验上的缺陷，因此对于提升游戏体验而言需要进行一些优化。
 
 ​		总结的来说，对于大型复杂的游戏而言，无论是选择哪一种方案，都不能在免修改工程的情况下给出最理想的游戏效果，因此根据自己的研发团队选择转化方案进行适配已经专项优化即可。对于小型的休闲游戏而言，选择 Instant Game 方案可以快速进行转化，有效的降低工时，但需注意 CCD 服务的费用预算。
 
 ## 实践指南
 
-本章以 [Unity塔防模板游戏](https://learn.unity.com/project/ta-fang-mo-ban?uv=2017.2) 作为使用Unity Instant Game工具导入至微信小游戏真机运行的实践案例，相关资源下载地址：
+​		本章以 [Unity塔防模板游戏](https://learn.unity.com/project/ta-fang-mo-ban?uv=2017.2) 作为使用Unity Instant Game工具导入至微信小游戏真机运行的实践案例，相关资源下载地址：
 
 Windows平台：
 
@@ -89,10 +89,6 @@ MacOS平台：
 InstantGame Package：
 
 [com.unity.instantgame.zip](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c301_a9/com.unity.instantgame.zip)
-
-### CCD服务
-
-​		CCD 服务是由 Unity Instant Game 统一提供的 CDN 服务，通常而言游戏中被 Auto Streaming 分离的资源将被托管至 CCD 服务，同时 Instant Game 也提供了一个自由的资源目录可供开发者自行上传其他资源内容。
 
 ### 开始实践
 
@@ -109,13 +105,13 @@ InstantGame Package：
 ```c#
 public void SelectChild(LevelSelectButton levelSelectButton)
 {
-			// minus one if  buffer
-			int childCount = levelSelectButton.transform.parent.childCount - (m_HasRightBuffer ? 1 : 0);
-			if (childCount > 1)
-			{
-				float normalized = (float)levelSelectButton.transform.GetSiblingIndex() / ( childCount - 1);
-				//m_ScrollRect.normalizedPosition = new Vector2(normalized, 0);			//此处需要注释掉
-			}
+	// minus one if  buffer
+	int childCount = levelSelectButton.transform.parent.childCount - (m_HasRightBuffer ? 1 : 0);
+	if (childCount > 1)
+	{
+		float normalized = (float)levelSelectButton.transform.GetSiblingIndex() / ( childCount - 1);
+		//m_ScrollRect.normalizedPosition = new Vector2(normalized, 0);	//此处需要注释掉
+	}
 }
 ```
 
@@ -131,7 +127,11 @@ public void SelectChild(LevelSelectButton levelSelectButton)
 
 #### 3.导入 Instant Game 工具包
 
-​		在 Unity Editor 菜单栏 `Windows - Package Manager ` 面板右上角 + 号
+​		在 Unity Editor 菜单栏 `Windows - Package Manager ` 面板右上角 + 号选择 `Add package from disk` ，窗口中选择下载的 [com.unity.instantgame.zip](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c301_a9/com.unity.instantgame.zip) 内 package.json 文件。
+
+#### 4.启用 Auto Streaming 能力
+
+​		在 Unity Editor 菜单栏 `Windows - AutoStreaming - Cfg&Publish` 面板中，勾选 Use Auto Streaming，同时配置 CCD服务，CCD服务 配置请查阅本文档 CCD服务章节。
 
 
 
@@ -247,5 +247,9 @@ public class XXX : MonoBehaviour
 ### Addressable指引
 
 ​		。		
+
+### CCD服务
+
+​		CCD 服务是由 Unity Instant Game 统一提供的 CDN 服务，通常而言游戏中被 Auto Streaming 分离的资源将被托管至 CCD 服务，同时 Instant Game 也提供了一个自由的资源目录可供开发者自行上传其他资源内容。
 
 ​		
