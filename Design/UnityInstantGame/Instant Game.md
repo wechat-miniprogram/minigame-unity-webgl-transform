@@ -42,8 +42,8 @@
 
 | 转换方案     | 首屏幕呈现时间 |
 | ------------ | -------------- |
-| Instant Game | 12.3s          |
-| WeiXin Tool  | 4.5s           |
+| Instant Game | ~~12.3s~~      |
+| WeiXin Tool  | ~~4.5s~~       |
 
 
 
@@ -54,9 +54,15 @@
 - Android Instant Game：https://perfdog.qq.com/case_detail/2744514
 - Android Wei Xin Tool：https://perfdog.qq.com/case_detail/2744500
 
+### 帧率(FPS)
+
+<img src="image/20220914-143256.png" alt="20220914-143256" width="90%" />
+
+​		帧率表现上而言两者在 **游戏场景切换** 时，均会出现短暂的卡顿，WeiXin Tool 的卡顿会更明显些，游戏场景载入后，两者均能满足游戏正常运行。
+
 ### 内存(Memory Usage)		
 
-<img src="image/20220914-110716.png" alt="20220914-110716"  width="600" />
+<img src="image/20220914-110716.png" alt="20220914-110716"  width="90%" />
 
 ​		从图中可知，游戏启动阶段内存 Instant Game 略高于 WeiXin Tool ，但游戏平稳后两者内存占用没有明显差别。
 
@@ -84,11 +90,48 @@ InstantGame Package：
 
 [com.unity.instantgame.zip](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c301_a9/com.unity.instantgame.zip)
 
-
-
 ### CCD服务
 
-​		CCD服务是由 Unity Instant Game 统一提供的 CDN 服务，通常而言游戏中被 Auto Streaming 分离的资源将被托管至 CCD 服务
+​		CCD 服务是由 Unity Instant Game 统一提供的 CDN 服务，通常而言游戏中被 Auto Streaming 分离的资源将被托管至 CCD 服务，同时 Instant Game 也提供了一个自由的资源目录可供开发者自行上传其他资源内容。
+
+### 开始实践
+
+#### 1.新建项目导入游戏工程
+
+​		游戏工程 [Unity塔防模板游戏](https://learn.unity.com/project/ta-fang-mo-ban?uv=2017.2) 自行导入 Unity 工程中，导入后受工程自身原因仍需修改如下两处（其他游戏无需修改）：
+
+（1）在首场景 MainMenu 的 Main Camera 组件的检查器内，关闭 Flare Layer ，如下图所示：
+
+<img src="image/20220914-151209.png" alt="20220914-151209" width="50%" />
+
+（2）注释掉 `Assets/UnityTechnologies/TowerDefenseTemplate/Scripts/TowerDefense/UI/MouseScroll.cs` 文件中大约100行位置的代码，如下所示：
+
+```c#
+public void SelectChild(LevelSelectButton levelSelectButton)
+{
+			// minus one if  buffer
+			int childCount = levelSelectButton.transform.parent.childCount - (m_HasRightBuffer ? 1 : 0);
+			if (childCount > 1)
+			{
+				float normalized = (float)levelSelectButton.transform.GetSiblingIndex() / ( childCount - 1);
+				//m_ScrollRect.normalizedPosition = new Vector2(normalized, 0);			//此处需要注释掉
+			}
+}
+```
+
+#### 2.修改构建设置
+
+（1）修改 `File - Build Settings` 中的平台为 WebGL ，并修改 Texture Compression 为 ASTC，如下图：
+
+<img src="image/20220914-151847.png" alt="20220914-151847" width="50%" />
+
+（2）取消 `Build Settings - Player Settings - Player - Other Settings` 中的 Auto Graphics API 勾选项，并删除 WebGL 2，Lightmap Encoding 变更为 Normal Quality，如下图：
+
+<img src="image/20220914-152444.png" alt="20220914-152444" width="80%"/>
+
+#### 3.导入 Instant Game 工具包
+
+​		在 Unity Editor 菜单栏 `Windows - Package Manager ` 面板右上角 + 号
 
 
 
@@ -203,6 +246,6 @@ public class XXX : MonoBehaviour
 
 ### Addressable指引
 
-​		相。		
+​		。		
 
 ​		
