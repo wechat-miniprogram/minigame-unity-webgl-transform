@@ -36,13 +36,13 @@
 1. 对关卡场景完整打成多个独立 Addressable 包，上传 CDN ，场景加载由原字符串直接载入改为 AA 包加载；
 2. 首场景体积过大新增用于载入首场景的 Loading 场景。
 
-### 首屏幕呈现效果
+### 游戏首屏幕加载速度
 
-<img src="image/20220914-114538.png" alt="20220914-114538" style="zoom: 33%;" />
+<img src="image/20220914-114538.png" alt="20220914-114538" width="300" />
 
 | 转换方案     | 首屏幕呈现时间 |
 | ------------ | -------------- |
-| Instant Game | 8.8s           |
+| Instant Game | 12.3s          |
 | WeiXin Tool  | 4.5s           |
 
 
@@ -56,7 +56,9 @@
 
 ### 内存(Memory Usage)		
 
+<img src="image/20220914-110716.png" alt="20220914-110716"  width="600" />
 
+​		从图中可知，游戏启动阶段内存 Instant Game 略高于 WeiXin Tool ，但游戏平稳后两者内存占用没有明显差别。
 
 ## 方案选择建议
 
@@ -102,11 +104,11 @@ InstantGame Package：
 
 ​		Auto Streaming 对开发者自己构建的AB包在资源扫描时会对其进行识别，在工程中对这些资源进行低清资源的生成以及替换，在替换后，开发者需要重新对这些 bundle 进行构建，使得生成的 bundle 具备较小的体积，bundle 内原来的高清资源由 CCD 服务自行托管，需要时将异步的加载并更新在游戏的环境内，自定义AB包的运行原理如下图所示。
 
-<img src="image/20220913-174524.png" alt="20220913-174524" style="zoom:67%;" />
+<img src="image/20220913-174524.png" alt="20220913-174524" width="80%" />
 
 ​		Instant Game 提供了一个目录用于对自定义资源的上传，位于工程根目录（与Assets目录同级）的 `CustomCloudAssets` 目录内，如下图所示：
 
-<img src="image/20220913-174525.png" alt="image-20220913195029108" style="zoom:50%;" />
+<img src="image/20220913-174525.png" alt="image-20220913195029108"  width="50%" />
 
 ​		经过工具的低清资源生成后，需要重新构建AB包，一般将资源放入`CustomCloudAssets/CustomAB` 内并在`Auto Streaming - Cfg&Publish` 面板内执行 `Upload to CCD` 即完成上传  ，未来放入该目录内的资源将被如下路径访问到：
 
