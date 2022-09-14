@@ -164,6 +164,26 @@ var WebSocketLibrary =
 					_free(buffer);
 				}
 			}
+			else if (ev.data instanceof Blob)
+			{
+				var reader = new FileReader();
+				reader.addEventListener("loadend", function()
+				{
+					var dataBuffer = new Uint8Array(reader.result);
+					var buffer = _malloc(dataBuffer.length);
+					HEAPU8.set(dataBuffer, buffer);
+					try
+					{
+						Module.dynCall_viii(webSocketManager.onMessage, instanceId, buffer, dataBuffer.length);
+					}
+					finally
+					{
+						reader = null;
+						_free(buffer);
+					}
+				});
+				reader.readAsArrayBuffer(ev.data);
+			}
 			else
 			{
 				console.log("[JSLIB WebSocket] not support message type: ", (typeof ev.data));
