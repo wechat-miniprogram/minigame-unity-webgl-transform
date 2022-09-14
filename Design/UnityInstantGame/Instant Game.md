@@ -21,11 +21,40 @@
 | WebGL          | 1.0、2.0     | 1.0                              |
 | 首包资源处理   | 通常需要     | 默认不需要，但达到最佳效果仍需要 |
 
-
-
 ## 性能测评
 
-​		本文针对相同的 Unity 游戏进行两种转化方案上的性能进行测评，重点关注首屏呈现效率、帧率、网络请求等进行分析测评。
+​		本文针对相同的 Unity 游戏（[Unity塔防模板游戏](https://learn.unity.com/project/ta-fang-mo-ban?uv=2017.2)）进行两种转化方案上的性能进行测评，重点关注首屏呈现效率、帧率、内存、网络请求等进行分析测评。
+
+### 转化差异
+
+#### Instant Game：
+
+​		未对游戏进行逻辑上的修改，仅进行转化过程中必要的配置。
+
+#### WeiXin Tool：
+
+1. 对关卡场景完整打成多个独立 Addressable 包，上传 CDN ，场景加载由原字符串直接载入改为 AA 包加载；
+2. 首场景体积过大新增用于载入首场景的 Loading 场景。
+
+### 首屏幕呈现效果
+
+<img src="image/20220914-114538.png" alt="20220914-114538" style="zoom: 33%;" />
+
+| 转换方案     | 首屏幕呈现时间 |
+| ------------ | -------------- |
+| Instant Game | 8.8s           |
+| WeiXin Tool  | 4.5s           |
+
+
+
+### PerfDog测试结果
+
+测试设备信息请详见报告
+
+- Android Instant Game：https://perfdog.qq.com/case_detail/2744514
+- Android Wei Xin Tool：https://perfdog.qq.com/case_detail/2744500
+
+### 内存(Memory Usage)		
 
 
 
