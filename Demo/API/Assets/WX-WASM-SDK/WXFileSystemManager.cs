@@ -38,7 +38,7 @@ namespace WeChatWASM
         #endif
         private static extern string WXAppendStringFile(string filePath, string data, string encoding, string s, string f, string c);
 
-#if UNITY_WEBGL
+        #if UNITY_WEBGL
         [DllImport("__Internal")]
         #endif
         private static extern string WXReadFile(string filePath, string encoding, string callbackId);

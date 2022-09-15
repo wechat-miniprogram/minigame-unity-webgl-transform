@@ -760,7 +760,7 @@ namespace WeChatWASM
             allMemory += stObject.cpuMemory;
         }
 
-        // /articles/show/208879?kmref=search&from_page=1&no=1
+        //http://km.oa.com/articles/show/208879?kmref=search&from_page=1&no=1
         public void getCacheDetail() {
             allMemory = 0;
             UnityEngine.Object[] objList = FindObjectsOfType(typeof(UnityEngine.Object));

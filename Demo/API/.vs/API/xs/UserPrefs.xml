@@ -1,0 +1,30 @@
+﻿<Properties StartupConfiguration="{92393B89-8396-FC2F-BE17-A0417C4334ED}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Demo.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Demo.cs" Line="124" Column="115" />
+      <File FileName="Assets/WX-WASM-SDK/WXBase.cs" Line="263" Column="61" />
+      <File FileName="Assets/WX-WASM-SDK/WXSDKManagerHandler.cs" Line="206" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="API" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="Demo.cs" selected="True" />
+              </Node>
+              <Node name="WX-WASM-SDK" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="1107cd5a-a984-462c-9e53-4f04dfce54ba" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -4,6 +4,7 @@ using System;
 using LitJson;
 using System.Collections.Generic;
 using UnityEngine.Scripting;
+using AOT;
 
 namespace WeChatWASM
 {
@@ -21,6 +22,11 @@ namespace WeChatWASM
             {
                 if (instance == null)
                 {
+                    if (!Application.isPlaying)
+                    {
+                        Debug.LogError("不支持在非播放模式下调用WX接口");
+                        return null;
+                    }
                     instance = new GameObject(typeof(WXSDKManagerHandler).Name).AddComponent<WXSDKManagerHandler>();
                     DontDestroyOnLoad(instance.gameObject);
                      #if UNITY_UI_FAIRYGUI || UNITY_UI_UGUI || UNITY_UI_NGUI
@@ -348,6 +354,16 @@ namespace WeChatWASM
         }
 #endif
 
+#if UNITY_WEBGL
+        [DllImport("__Internal")]
+#endif
+        private static extern void WXSetDataCDN(string path);
+
+#if UNITY_WEBGL
+        [DllImport("__Internal")]
+#endif
+        private static extern void WXSetPreloadList(string paths);
+
 
 #if UNITY_WEBGL
         [DllImport("__Internal")]
@@ -424,7 +440,7 @@ namespace WeChatWASM
         private static uint WXGetDynamicMemorySize() { return 0; }
         private static uint WXGetUsedMemorySize() { return 0; }
         private static uint WXGetUnAllocatedMemorySize() { return 0; }
-        
+
         private static void WXLogManagerDebug(string str) {
             Debug.Log(str);
         }
@@ -460,7 +476,72 @@ namespace WeChatWASM
         private static void WXUncaughtException() {; }
 #endif
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern int WXCreateUDPSocket(string ip, int remotePort, int bindPort);
+#else
+        private int WXCreateUDPSocket(string ip, int remotePort, int bindPort)
+        {
+            throw new NotImplementedException();
+        }
+#endif
 
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern void WXCloseUDPSocket(int socketId);
+#else
+        private void WXCloseUDPSocket(int socketId)
+        {
+            throw new NotImplementedException();
+        }
+#endif
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern void WXSendUDPSocket(int socketId, byte[] buffer, int offset, int length);
+#else
+        private void WXSendUDPSocket(int socketId, byte[] buffer, int offset, int length)
+        {
+            throw new NotImplementedException();
+        }
+#endif
+
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+
+        public delegate void OnMessageCallback(int instanceId, IntPtr msgPtr, int msgSize);
+        public delegate void OnErrorCallback(int instanceId, IntPtr errorPtr);
+        public delegate void OnCloseCallback(int instanceId, IntPtr reasonPtr);
+        [DllImport("__Internal")]
+        public static extern void WXUDPSocketSetOnMessage(OnMessageCallback callback);
+        [DllImport("__Internal")]
+        public static extern void WXUDPSocketSetOnClose(OnCloseCallback callback);
+        [DllImport("__Internal")]
+        public static extern void WXUDPSocketSetOnError(OnErrorCallback callback);
+
+        [MonoPInvokeCallback(typeof(OnMessageCallback))]
+        public static void DelegateOnMessageEvent(int instanceId, IntPtr msgPtr, int msgSize)
+        {
+            
+           var bytes = new byte[msgSize];
+           Marshal.Copy(msgPtr, bytes, 0, msgSize);
+           UDPSocketManager.Instance.OnMessage(instanceId, bytes);
+        }
+        [MonoPInvokeCallback(typeof(OnCloseCallback))]
+        public static void DelegateOnCloseEvent(int instanceId, IntPtr reasonPtr)
+        {
+            string reason = Marshal.PtrToStringAuto(reasonPtr);
+            UDPSocketManager.Instance.OnClose(instanceId, reason);
+        }
+        [MonoPInvokeCallback(typeof(OnErrorCallback))]
+        public static void DelegateOnErrorEvent(int instanceId, IntPtr errorPtr)
+        {
+            string errorMsg = Marshal.PtrToStringAuto(errorPtr);
+            UDPSocketManager.Instance.OnError(instanceId, errorMsg);
+        }
+  
+#endif
 
 
         #region JS回调
@@ -610,12 +691,15 @@ namespace WeChatWASM
 
         }
 
-
         public void ReadFileCallback(string msg)
         {
             WXFileSystemManager.HanldReadFileCallback(msg);
         }
 
+        public void ToTempFilePathCallback(string msg)
+        {
+            WXCallBackHandler.InvokeResponseCallback<ToTempFilePathParamSuccessCallbackResult>(msg);
+        }
 
 #endregion
 
@@ -629,6 +713,11 @@ namespace WeChatWASM
 
             WXInitializeSDK(Application.unityVersion);
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+            WXUDPSocketSetOnMessage(DelegateOnMessageEvent);
+            WXUDPSocketSetOnClose(DelegateOnCloseEvent);
+            WXUDPSocketSetOnError(DelegateOnErrorEvent);
+#endif
         }
 
 
@@ -865,6 +954,22 @@ namespace WeChatWASM
         {
             WXShowAd(id, succ, fail);
         }
+
+        internal int CreateUDPSocket(string ip, int remotePort, int bindPort)
+        {
+            return WXCreateUDPSocket(ip, remotePort, bindPort);
+        }
+
+        internal void CloseUDPSocket(int socketId)
+        {
+            WXCloseUDPSocket(socketId);
+        }
+
+        internal void SendUDPSocket(int socketId, byte[] buffer, int offset, int length)
+        {
+            WXSendUDPSocket(socketId, buffer, offset, length);
+        } 
+
         public void ShowAd(string id, string branchId, string branchDim, string succ, string fail)
         {
             WXShowAd2(id, branchId, branchDim, succ, fail);
@@ -1198,7 +1303,97 @@ namespace WeChatWASM
 			}
         }
 
+        #region
+        public void SetDataCDN(string path) {
+            if (!string.IsNullOrEmpty(path)) {
+                WXSetDataCDN(path);
+            }
+        }
+        public void SetPreloadList(string[] paths) {
+            if (paths.Length > 0) {
+                WXSetPreloadList(string.Join(",", paths));
+            }
+        }
+        #endregion
 
+
+        #if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]    
+        private static extern void WX_SetPreferredFramesPerSecond(double fps);
+        #else
+        private static void WX_SetPreferredFramesPerSecond(double fps) { Application.targetFrameRate = (int)(fps); }
+        #endif
+        public void SetPreferredFramesPerSecond(double fps)
+        {
+    
+                WX_SetPreferredFramesPerSecond(fps);
+        }
+    
+        #if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+        private static extern string WXCameraCreateCamera(string option);
+        #else
+        private static string WXCameraCreateCamera(string option) { Debug.Log("需要在真机环境创建"); return ""; }
+        #endif
+        private Dictionary<string, WXCamera> CameraList = new Dictionary<string, WXCamera>();
+        public WXCamera CreateCamera(CreateCameraOption option)
+        {
+            var id = WXCameraCreateCamera(JsonMapper.ToJson(option));
+            var obj = new WXCamera(id);
+            CameraList.Add(id,obj);
+            return obj; 
+        }
+    
+        public void CameraOnAuthCancelCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXCamera.OnAuthCancelActionList.ContainsKey(id)){
+                    return;
+                }
+                WXCamera.OnAuthCancelActionList[id]?.Invoke();
+            }
+        }
+
+        #if UNITY_WEBGL
+            [DllImport("__Internal")]
+        #endif
+        private static extern string WXCameraArrayBuffer(byte[] data, string callbackId);
+
+        public void CameraOnCameraFrameCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var res = jsCallback.res;
+                if(!WXCamera.OnCameraFrameActionList.ContainsKey(id)){
+                    return;
+                }
+                var result = JsonMapper.ToObject<OnCameraFrameCallbackResult>(res);
+                var arrayBuffer = new byte[result.width * result.height * 4];
+                WXCameraArrayBuffer(arrayBuffer, id);
+                var obj = new OnCameraFrameCallbackResult()
+                {
+                    width = result.width,
+                    height = result.height,
+                    data = arrayBuffer
+                };
+                WXCamera.OnCameraFrameActionList[id]?.Invoke(obj);
+            }
+        }
+
+        public void CameraOnStopCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXCamera.OnStopActionList.ContainsKey(id)){
+                    return;
+                }
+                WXCamera.OnStopActionList[id]?.Invoke();
+            }
+        }
 
     private string GetCallbackId<T>(Dictionary<string, T> dict) {
         var id = dict.Count;
@@ -8839,6 +9034,15 @@ namespace WeChatWASM
     #if UNITY_WEBGL
     [DllImport("__Internal")]
     #endif
+    private static extern void WX_RestartMiniProgram();
+
+    public void RestartMiniProgram()
+    {
+            WX_RestartMiniProgram();
+    }
+    #if UNITY_WEBGL
+    [DllImport("__Internal")]
+    #endif
     private static extern void WX_RemoveStorageSync(string key);
     
     public void RemoveStorageSync(string key)
@@ -8905,16 +9109,6 @@ namespace WeChatWASM
     {
 
             WX_RevokeBufferURL(url);
-    }
-    #if UNITY_WEBGL
-    [DllImport("__Internal")]
-    #endif
-    private static extern void WX_SetPreferredFramesPerSecond(double fps);
-    
-    public void SetPreferredFramesPerSecond(double fps)
-    {
-
-            WX_SetPreferredFramesPerSecond(fps);
     }
     #if UNITY_WEBGL
     [DllImport("__Internal")]

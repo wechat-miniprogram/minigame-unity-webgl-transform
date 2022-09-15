@@ -293,23 +293,13 @@ try{
             value: true
         });
         var performance = void 0;
-
-        if (wx.getPerformance) {
-            var _wx$getSystemInfoSync = wx.getSystemInfoSync(),
-                platform = _wx$getSystemInfoSync.platform;
-
-            var wxPerf = wx.getPerformance();
-            var initTime = wxPerf.now();
-
-            var clientPerfAdapter = Object.assign({}, wxPerf, {
-                now: function now() {
-                    return (wxPerf.now() - initTime) / 1000;
-                }
-            });
-
-            performance = platform === 'devtools' ? wxPerf : clientPerfAdapter;
-        }
-
+        var initTime = Date.now();
+        var clientPerfAdapter = Object.assign({}, {
+            now: function now() {
+                return (Date.now() - initTime);
+            }
+        });
+        performance = clientPerfAdapter;
         exports.default = performance;
 
         /***/ }),

@@ -2249,6 +2249,15 @@ namespace WeChatWASM
         }
 
 /// <summary>
+/// [wx.restartMiniProgram()](https://developers.weixin.qq.com/minigame/dev/api/navigate/wx.restartMiniProgram.html)
+/// 需要基础库： `2.22.1`
+/// 重启当前小程序
+/// </summary>
+public static void RestartMiniProgram()
+{
+    WXSDKManagerHandler.Instance.RestartMiniProgram();
+}
+/// <summary>
 /// [wx.removeStorageSync(string key)](https://developers.weixin.qq.com/minigame/dev/api/storage/wx.removeStorageSync.html)
 /// [wx.removeStorage](https://developers.weixin.qq.com/minigame/dev/api/storage/wx.removeStorage.html) 的同步版本
 /// **示例代码**

@@ -37,7 +37,7 @@ function formatTouchEvent(v){
     }
 }
 
-function formatResponse(type,data){
+function formatResponse(type, data){
     let conf = ResType[type];
     let typeMap = { "array":[],"string":"","int":0,"bool":false,"object":{} };
     if(!conf){
@@ -66,7 +66,7 @@ function formatResponse(type,data){
     }
 }
 
-function formatJsonStr(str){
+export function formatJsonStr(str){
     if(!str){
         return {};
     }
@@ -3085,6 +3085,9 @@ export default {
         });
     },
 
+    WX_RestartMiniProgram(){
+        wx.restartMiniProgram();
+    },
     WX_RemoveStorageSync(key){
         wx.removeStorageSync(key);
     },

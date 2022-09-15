@@ -44,16 +44,21 @@ const Mod = {
     },
 
     async startTextureTask(){
+        console.log('total textureList:', Conf.textureList.length);
         for(let i=0;i<Conf.textureList.length;i++){
-            let {path,width,height} = Conf.textureList[i];
+            let { path, width, height, astc } = Conf.textureList[i];
             path = decodeURIComponent(path);
             let src = `${Conf.dst}/Assets/Textures/png/${width}/${path}.png`;
             if(!fs.existsSync(`${Conf.dst}/Assets/Textures/astc/${width}/`)){
                 fs.mkdirSync(`${Conf.dst}/Assets/Textures/astc/${width}/`,{ recursive: true });
             }
+            if (i % 20 == 0) {
+                console.log("-----current progress-----", i, Conf.textureList.length);
+            }
             await this.astc({
                 src,
-                dstPath:`${Conf.dst}/Assets/Textures/astc/${width}/${path}`
+                dstPath:`${Conf.dst}/Assets/Textures/astc/${width}/${path}`,
+                astc,
             });
             if(Conf.useDXT5 && width%4=== 0 && height%4===0){
                 if(!fs.existsSync(`${Conf.dst}/Assets/Textures/dds/${width}/`)){
@@ -90,7 +95,10 @@ const Mod = {
 
         }
     },
-    async astc({src,dstPath}){
+    async astc({ src, dstPath, astc }) {
+        if (!astc) {
+            astc = '8x8';
+        }
         try{
             await fs.promises.access(dstPath+".txt");
             return;
@@ -106,14 +114,14 @@ const Mod = {
                 exe = 'astcenc-avx2';
             }
         }
-        const cm = spawn(`${Conf.dataPath}/WX-WASM-SDK/Editor/${exe}`, ['-cs', src, dstPath+".astc",'8x8', '-medium']);
+        const cm = spawn(`${Conf.dataPath}/WX-WASM-SDK/Editor/${exe}`, ['-cs', src, dstPath + ".astc", astc, '-medium']);
 
         cm.stdout.on('data', (data) => {
          //      console.log(`${src} astc stdout: ${data}`);
         });
 
         cm.stderr.on('data', (data) => {
-         //      console.error(`${src} astc stderr: ${data}`);
+               console.error(`${src} astc stderr: ${data}`);
         });
 
         cm.on('close', (code) => {

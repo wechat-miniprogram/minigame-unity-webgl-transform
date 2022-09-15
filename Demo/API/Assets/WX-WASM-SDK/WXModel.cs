@@ -360,9 +360,9 @@ namespace WeChatWASM
     }
 
     /// <summary>
-    /// 将当前 Canvas 保存为一个临时文件,详见 https://developers.weixin.qq.com/minigame/dev/api/render/canvas/Canvas.toTempFilePathSync.html
+    /// 将当前 Canvas 保存为一个临时文件的同步版本,详见 https://developers.weixin.qq.com/minigame/dev/api/render/canvas/Canvas.toTempFilePathSync.html
     /// </summary>
-    public class WXToTempFilePathParam
+    public class WXToTempFilePathSyncParam
     {
         public int x;
         public int y;
@@ -370,8 +370,36 @@ namespace WeChatWASM
         public int height;
         public int destWidth;
         public int destHeight;
-        public string fileType;
-        public int quality;
+        public string fileType = "png";
+        public float quality = 1.0f;
+    }
+
+    [Preserve]
+    public class ToTempFilePathParamSuccessCallbackResult : WXBaseResponse {
+        /// <summary> 
+        /// canvas 生成的临时文件路径 (本地路径)
+        /// </summary>
+        public string tempFilePath;
+    }
+
+    /// <summary>
+    /// 将当前 Canvas 保存为一个临时文件的异步版本,详见 https://developers.weixin.qq.com/minigame/dev/api/render/canvas/Canvas.toTempFilePath.html
+    /// </summary>
+
+    public class WXToTempFilePathParam : WXToTempFilePathSyncParam
+    {
+        /// <summary> 
+        /// 接口调用结束的回调函数（调用成功、失败都会执行）
+        /// </summary>
+        public Action<WXTextResponse> complete;
+        /// <summary> 
+        /// 接口调用失败的回调函数
+        /// </summary>
+        public Action<WXTextResponse> fail;
+        /// <summary> 
+        /// 接口调用成功的回调函数
+        /// </summary>
+        public Action<ToTempFilePathParamSuccessCallbackResult> success;
     }
 
     /// <summary>

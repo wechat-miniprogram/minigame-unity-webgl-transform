@@ -6,3 +6,14 @@ export const launchEventType = {
   readAssets: 5, // 读取首包资源
   prepareGame: 6, // 初始化引擎
 }
+
+// https://docs.egret.com/engine/docs/screenAdaptation/zoomMode
+export const scaleMode = {
+  noBorder: 'NO_BORDER', // 常用之一，不留黑边
+  exactFit: 'EXACT_FIT',
+  fixedHeight: 'FIXED_HEIGHT', // 常用之一，高度适配
+  fixedWidth: 'FIXED_WIDTH', // 常用之一，宽度适配
+  showAll: 'SHOW_ALL',
+  fixedNarrow: 'FIXED_NARROW',
+  fixedWide: 'FIXED_WIDE',
+}

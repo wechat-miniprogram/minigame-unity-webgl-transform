@@ -376,6 +376,17 @@ namespace WeChatWASM
         }
         #endregion
 
+        #region 相机
+        /// <summary>
+        /// [[WXCamera](https://developers.weixin.qq.com/minigame/dev/api/media/camera/Camera.html) wx.createCamera(Object object)](https://developers.weixin.qq.com/minigame/dev/api/media/camera/wx.createCamera.html)
+        /// 需要基础库： `2.9.0`
+        /// 创建相机
+        /// </summary>
+        public static WXCamera CreateCamera(CreateCameraOption param)
+        {
+            return WXSDKManagerHandler.Instance.CreateCamera(param);
+        }
+        #endregion
 
         #region 文件
         /// <summary>
@@ -672,6 +683,32 @@ namespace WeChatWASM
         #endregion
 
 
+        #region UDP
+        public static int CreateUDPSocket(string ip, int remotePort, int bindPort = 0)
+        {
+            return WXSDKManagerHandler.Instance.CreateUDPSocket(ip, remotePort, bindPort);
+        }
+
+        public static void CloseUDPSocket(int socketId)
+        {
+            WXSDKManagerHandler.Instance.CloseUDPSocket(socketId);
+        }
+
+        public static void SendUDPSocket(int socketId, byte[] buffer, int offset, int length)
+        {
+            WXSDKManagerHandler.Instance.SendUDPSocket(socketId, buffer, offset, length);
+        }
+        #endregion
+
+        #region 插件配置
+        public static void SetDataCDN(string path) {
+            WXSDKManagerHandler.Instance.SetDataCDN(path);
+        }
+
+        public static void SetPreloadList(string[] paths) {
+            WXSDKManagerHandler.Instance.SetPreloadList(paths);
+        }
+        #endregion
     }
 }
 

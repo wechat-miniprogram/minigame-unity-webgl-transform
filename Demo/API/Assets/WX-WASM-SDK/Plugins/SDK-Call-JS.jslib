@@ -375,6 +375,9 @@ WX_OpenChannelsLiveCollection:function( conf, callbackId){
     window.WXWASMSDK.WX_OpenChannelsLiveCollection(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
 
+WX_RestartMiniProgram:function(){
+    window.WXWASMSDK.WX_RestartMiniProgram();
+},
 WX_RemoveStorageSync:function(key){
     window.WXWASMSDK.WX_RemoveStorageSync(_WXPointer_stringify_adaptor(key));
 },
