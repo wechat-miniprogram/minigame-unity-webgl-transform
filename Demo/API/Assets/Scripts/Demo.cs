@@ -208,7 +208,7 @@ public class Demo : MonoBehaviour
 
         Debug.Log($"PlayerPrefs mystringkey:{ PlayerPrefs.GetString("mystringkey")}");
         Debug.Log($"PlayerPrefs myintkey:{ PlayerPrefs.GetInt("myintkey")}");
-        Debug.Log($"PlayerPrefs myfloatkey:{ PlayerPrefs.GetFloat("myfloatkey")}");
+        Debug.Log($"PlayerPrefs myfloatkey:{ PlayerPrefs.GetFloat("myfloatkey")}"); 
     }
 
     // Update is called once per frame
