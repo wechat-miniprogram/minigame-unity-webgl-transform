@@ -198,12 +198,11 @@ export default {
   },
   WXStat(conf, callbackId){
       conf = formatJsonStr(conf);
-      console.log('WXStat', conf, callbackId);
       wx.getFileSystemManager().stat({
           ...conf,
           success(res){
-              console.log('StatCallback succ', res);
-              if (Array.isArray(res.stats)) {
+              // console.log('StatCallback succ', res);
+              if (!Array.isArray(res.stats)) {
                 res.one_stat = res.stats;
                 res.stats = null;
               }
@@ -217,7 +216,7 @@ export default {
               }));
           },
           complete(res){
-            if (Array.isArray(res.stats)) {
+            if (!Array.isArray(res.stats)) {
               res.one_stat = res.stats;
               res.stats = null;
             }

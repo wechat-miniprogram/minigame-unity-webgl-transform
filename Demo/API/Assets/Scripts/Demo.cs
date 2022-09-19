@@ -14,36 +14,12 @@ public class Demo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        WX.InitSDK((code)=> {
+        WX.InitSDK((code) =>
+        {
 
             // 打印屏幕信息
             var systemInfo = WeChatWASM.WX.GetSystemInfoSync();
             Debug.Log($"{systemInfo.screenWidth}:{systemInfo.screenHeight}, {systemInfo.windowWidth}:{systemInfo.windowHeight}, {systemInfo.pixelRatio}");
-
-            // 获取文件系统
-            var statOption = new WXStatOption();
-            statOption.path = env.USER_DATA_PATH + "/__GAME_FILE_CACHE";
-            statOption.recursive = true;
-            statOption.success = (succ) => {
-                Debug.Log($"stat success");
-                foreach(var file in succ.stats)
-                {
-                    Debug.Log($"stat info. {file.path}, " +
-                        $"{file.stats.size}，" +
-                        $"{file.stats.mode}，" +
-                        $"{file.stats.lastAccessedTime}，" +
-                        $"{file.stats.lastModifiedTime}");
-                }
-            };
-            statOption.complete = (complete) => {
-                Debug.Log($"stat complete");
-            };
-            statOption.fail = (fail) => {
-                Debug.Log($"stat fail {fail.errMsg}");
-            };
-            Debug.Log($"stat invoke. Path:{statOption.path}");
-            fs.Stat(statOption);
-
 
             // 预先创建广告实例
             Debug.Log("初始化成功！");
@@ -51,10 +27,12 @@ public class Demo : MonoBehaviour
             {
                 adUnitId = "xxxxxxxx" //自己申请广告单元ID
             });
-            ad.OnError((r)=> {
-                Debug.Log("ad error:"+r.errMsg);
+            ad.OnError((r) =>
+            {
+                Debug.Log("ad error:" + r.errMsg);
             });
-            ad.OnClose((r)=> {
+            ad.OnClose((r) =>
+            {
                 Debug.Log("ad close:" + r.isEnded);
             });
 
@@ -101,10 +79,12 @@ public class Demo : MonoBehaviour
             env = 0,
             offerId = "xxxx", //在米大师侧申请的应用 id
             currencyType = "CNY",
-            success = (res) => {
+            success = (res) =>
+            {
                 Debug.Log("pay success!");
             },
-            fail = (res) => {
+            fail = (res) =>
+            {
                 Debug.Log("pay fail:" + res.errMsg);
             }
         });
@@ -127,8 +107,8 @@ public class Demo : MonoBehaviour
         {
             Debug.Log("OnCanplay called");
             inneraudio.Play();
-        }); 
-    } 
+        });
+    }
 
     public void OnStopInnerAudio()
     {
@@ -143,34 +123,97 @@ public class Demo : MonoBehaviour
         WX.ReportEvent("exptnormal", videoReport);
     }
 
-    public void OnCreateUserInfoButton()
+    public void OnFileSystemManagerClick()
     {
-        //var opt = new GetSettingOption();
-        //opt.complete = (ret) => {
-        //    Debug.Log("OnGetUserInfo complete");
-        //};
-        //opt.fail = (ret) => {
-        //    Debug.Log("OnGetUserInfo fail");
-        //};
-        //opt.success = (ret) => {
-        //    Debug.Log("OnGetUserInfo succ");
-        //    foreach(var autoSetting in ret.authSetting)
-        //    {
-        //        Debug.Log($"autoSetting {autoSetting.Key}, {autoSetting.Value}");
-        //    }
-        //    if(!ret.authSetting.ContainsKey("wx.getUserInfo"))
-        //    {
+        // 扫描文件系统目录
+        fs.Stat(new WXStatOption
+        {
+            path = env.USER_DATA_PATH + "/__GAME_FILE_CACHE",
+            recursive = true,
+            success = (succ) =>
+            {
+                Debug.Log($"stat success");
+                foreach (var file in succ.stats)
+                {
+                    Debug.Log($"stat info. {file.path}, " +
+                        $"{file.stats.size}，" +
+                        $"{file.stats.mode}，" +
+                        $"{file.stats.lastAccessedTime}，" +
+                        $"{file.stats.lastModifiedTime}");
+                }
+            },
+            fail = (fail) =>
+            {
+                Debug.Log($"stat fail {fail.errMsg}");
+            }
+        });
 
-        //    }
-            
-        //};
-        //WeChatWASM.WX.GetSetting(opt);
- 
+        // 同步接口创建目录（请勿在游戏过程中频繁调用同步接口）
+        var errMsg = fs.MkdirSync(env.USER_DATA_PATH + "/mydir", true);
+
+        // 异步写入文件
+        fs.WriteFile(new WriteFileParam
+        {
+            filePath = env.USER_DATA_PATH + "/mydir/myfile.txt",
+            encoding = "utf8",
+            data = System.Text.Encoding.UTF8.GetBytes("Test FileSystemManager"),
+            success = (succ) =>
+            {
+                Debug.Log($"WriteFile succ {succ.errMsg}");
+                 // 异步读取文件
+                fs.ReadFile(new ReadFileParam
+                {
+                    filePath = env.USER_DATA_PATH + "/mydir/myfile.txt",
+                    encoding = "utf8",
+                    success = (succ) =>
+                    {
+                        Debug.Log($"ReadFile succ. stringData(utf8):{succ.stringData}");
+                    },
+                    fail = (fail) =>
+                    {
+                        Debug.Log($"ReadFile fail {fail.errMsg}");
+                    }
+                });
+
+                // 异步以无编码(二进制)方式读取
+                fs.ReadFile(new ReadFileParam
+                {
+                    filePath = env.USER_DATA_PATH + "/mydir/myfile.txt",
+                    encoding = "",
+                    success = (succ) =>
+                    {
+                        Debug.Log($"ReadFile succ. data(binary):{succ.binData.Length}, stringData(utf8):{System.Text.Encoding.UTF8.GetString(succ.binData)}");
+                    },
+                    fail = (fail) =>
+                    {
+                        Debug.Log($"ReadFile fail {fail.errMsg}");
+                    }
+                });
+
+            },
+            fail = (fail) =>
+            {
+                Debug.Log($"WriteFile fail {fail.errMsg}");
+            },
+            complete = null
+        });
+    }
+
+    public void OnPlayerPrefClick()
+    {
+        // 注意！！！ PlayerPrefs为同步接口，iOS高性能模式下为"跨进程"同步调用，会阻塞游戏线程，请避免频繁调用
+        PlayerPrefs.SetString("mystringkey", "myestringvalue");
+        PlayerPrefs.SetInt("myintkey", 123);
+        PlayerPrefs.SetFloat("myfloatkey", 1.23f);
+
+        Debug.Log($"PlayerPrefs mystringkey:{ PlayerPrefs.GetString("mystringkey")}");
+        Debug.Log($"PlayerPrefs myintkey:{ PlayerPrefs.GetInt("myintkey")}");
+        Debug.Log($"PlayerPrefs myfloatkey:{ PlayerPrefs.GetFloat("myfloatkey")}");
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

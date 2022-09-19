@@ -6,6 +6,11 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2022-9-21
+### Added
+* 增加游戏圈接口openPageOption, getGameClubData
+* FileSystemManager增加stat接口
+  
 ## 2022-9-13
 ### Added
 * 微信压缩纹理工具支持bundle级别修改压缩纹理等级

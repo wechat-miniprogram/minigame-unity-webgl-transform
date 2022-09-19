@@ -1,1 +1,0 @@
-module.exports = {"dst":"/Users/liuxinyu/Desktop/wechat07/webgl-min","dataPath":"/Users/liuxinyu/Documents/tgit/unity-wasm/SDKAdmin/Assets","useDXT5":false,"textureList":[{"path":"RainStreak.4f75dea7","width":16,"height":128,"astc":"4x4"}]}

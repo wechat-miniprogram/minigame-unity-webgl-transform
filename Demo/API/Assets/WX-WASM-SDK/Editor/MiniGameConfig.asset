@@ -15,16 +15,16 @@ MonoBehaviour:
   ProjectConf:
     projectName: testapi
     Appid: wxf616b60467bcfcaf
-    CDN: https://www.oooceanworld.com/testapi
+    CDN: https://www.test.com
     assetLoadType: 1
     VideoUrl: 
-    DST: /Users/xiaolin/Documents/wxgame_unity/wxgame_testapi
+    DST: /Users/nihayashi/Documents/wxgame_unity/wxgame_testapi
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
     bundleExcludeExtensions: json;
     AssetsUrl: 
-    MemorySize: 500
+    MemorySize: 256
     HideAfterCallMain: 1
     preloadFiles: 
     Orientation: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
     loadingBarWidth: 240
     needCheckUpdate: 0
   SDKOptions:
-    UseAudioApi: 1
+    UseAudioApi: 0
     UseFriendRelation: 0
     UseCompressedTexture: 0
   CompileOptions:

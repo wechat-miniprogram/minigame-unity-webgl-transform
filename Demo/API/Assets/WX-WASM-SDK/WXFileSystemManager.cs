@@ -141,7 +141,7 @@ namespace WeChatWASM
                     errMsg = res.errMsg,
                     stringData = res.data
                 };
-                conf.fail?.Invoke(obj);
+                conf.success?.Invoke(obj);
                 conf.complete?.Invoke(obj);
             }
             ReadFileDict.Remove(res.callbackId);
@@ -401,7 +401,7 @@ namespace WeChatWASM
                 var id = jsCallback.callbackId;
                 var type = jsCallback.type;
                 var res = jsCallback.res;
-                Debug.Log($"HanldStatCallback {msg}");
+                // Debug.Log($"HanldStatCallback {msg}");
                 if (FileSystemStatOptionList.ContainsKey(id))
                 {
                     var item = FileSystemStatOptionList[id];
