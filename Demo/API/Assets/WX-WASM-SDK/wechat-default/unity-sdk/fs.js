@@ -4,6 +4,20 @@ import moduleHelper from './module-helper';
 // 暂存readFile的数据
 const tempCacheObj = {};
 
+export function formatJsonStr(str){
+  if(!str){
+      return {};
+  }
+  let conf = JSON.parse(str);
+  var keys = Object.keys(conf);
+  keys.forEach(v=>{
+      if(conf[v] === null){
+          delete conf[v];
+      }
+  });
+  return conf;
+}
+
 export default {
   /* env */
   WXGetUserDataPath() {
@@ -182,4 +196,35 @@ export default {
       return e.message;
     }
   },
-};
+  WXStat(conf, callbackId){
+      conf = formatJsonStr(conf);
+      console.log('WXStat', conf, callbackId);
+      wx.getFileSystemManager().stat({
+          ...conf,
+          success(res){
+              console.log('StatCallback succ', res);
+              if (Array.isArray(res.stats)) {
+                res.one_stat = res.stats;
+                res.stats = null;
+              }
+              moduleHelper.send('StatCallback', JSON.stringify({
+                  callbackId,type:"success",res:JSON.stringify(res)
+              }));
+          },
+          fail(res){
+              moduleHelper.send('StatCallback', JSON.stringify({
+              callbackId,type:"fail",res:JSON.stringify(res)
+              }));
+          },
+          complete(res){
+            if (Array.isArray(res.stats)) {
+              res.one_stat = res.stats;
+              res.stats = null;
+            }
+            moduleHelper.send('StatCallback', JSON.stringify({
+            callbackId,type:"complete",res:JSON.stringify(res)
+            }));
+          }
+      });
+  }
+}

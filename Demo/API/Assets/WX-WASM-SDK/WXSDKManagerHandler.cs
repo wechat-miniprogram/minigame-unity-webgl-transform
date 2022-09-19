@@ -696,6 +696,11 @@ namespace WeChatWASM
             WXFileSystemManager.HanldReadFileCallback(msg);
         }
 
+        public void StatCallback(string msg)
+        {
+            WXFileSystemManager.HanldStatCallback(msg);
+        }
+
         public void ToTempFilePathCallback(string msg)
         {
             WXCallBackHandler.InvokeResponseCallback<ToTempFilePathParamSuccessCallbackResult>(msg);
@@ -1395,7 +1400,218 @@ namespace WeChatWASM
             }
         }
 
-    private string GetCallbackId<T>(Dictionary<string, T> dict) {
+        #if UNITY_WEBGL
+        [DllImport("__Internal")]
+        #endif
+        private static extern string WX_GetRecorderManager();
+        private Dictionary<string, WXRecorderManager> RecorderManagerList = new Dictionary<string, WXRecorderManager>();
+        public WXRecorderManager GetRecorderManager()
+        {
+            var id = WX_GetRecorderManager();
+            var obj = new WXRecorderManager(id);
+            RecorderManagerList.Add(id,obj);
+            return obj; 
+        }
+
+        public void _OnRecorderErrorCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXRecorderManager.OnRecorderErrorActionList.ContainsKey(id)){
+                    return;
+                }
+                WXRecorderManager.OnRecorderErrorActionList[id]?.Invoke();
+            }
+        }
+
+        #if UNITY_WEBGL
+            [DllImport("__Internal")]
+        #endif
+        private static extern string WXRecorderArrayBuffer(byte[] data, string callbackId);
+        
+        public void _OnRecorderFrameRecordedCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var res = jsCallback.res;
+                if(!WXRecorderManager.OnRecorderFrameRecordedActionList.ContainsKey(id)){
+                    return;
+                }
+                var result = JsonMapper.ToObject<OnFrameRecordedBufferCallbackResult>(res);
+                var arrayBuffer = new byte[result.frameBufferLength];
+                WXRecorderArrayBuffer(arrayBuffer, id);
+                var obj = new OnFrameRecordedCallbackResult()
+                {
+                    isLastFrame = result.isLastFrame,
+                    frameBuffer = arrayBuffer
+                };
+                WXRecorderManager.OnRecorderFrameRecordedActionList[id]?.Invoke(obj);
+            }
+        }
+        
+        public void _OnRecorderInterruptionBeginCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXRecorderManager.OnRecorderInterruptionBeginActionList.ContainsKey(id)){
+                    return;
+                }
+                WXRecorderManager.OnRecorderInterruptionBeginActionList[id]?.Invoke();
+            }
+        }
+        
+        public void _OnRecorderInterruptionEndCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXRecorderManager.OnRecorderInterruptionEndActionList.ContainsKey(id)){
+                    return;
+                }
+                WXRecorderManager.OnRecorderInterruptionEndActionList[id]?.Invoke();
+            }
+        }
+        
+        public void _OnRecorderPauseCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXRecorderManager.OnRecorderPauseActionList.ContainsKey(id)){
+                    return;
+                }
+                WXRecorderManager.OnRecorderPauseActionList[id]?.Invoke();
+            }
+        }
+        
+        public void _OnRecorderStartCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXRecorderManager.OnRecorderStartActionList.ContainsKey(id)){
+                    return;
+                }
+                WXRecorderManager.OnRecorderStartActionList[id]?.Invoke();
+            }
+        }
+        
+        public void _OnRecorderStopCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var res = jsCallback.res;
+                if(!WXRecorderManager.OnRecorderStopActionList.ContainsKey(id)){
+                    return;
+                }
+                var result = JsonMapper.ToObject<OnStopCallbackResult>(res);
+                WXRecorderManager.OnRecorderStopActionList[id]?.Invoke(result);
+            }
+        }
+        
+        public void _OnRecorderResumeCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                if(!WXRecorderManager.OnRecorderResumeActionList.ContainsKey(id)){
+                    return;
+                }
+                WXRecorderManager.OnRecorderResumeActionList[id]?.Invoke();
+            }
+        }
+
+        #if UNITY_WEBGL
+        [DllImport("__Internal")]
+        #endif
+        private static extern string WX_UploadFile(string option, string id);
+        private Dictionary<string, UploadFileOption> UploadTaskList = new Dictionary<string, UploadFileOption>();
+        public WXUploadTask UploadFile(UploadFileOption option)
+        {
+            string id = GetCallbackId(UploadTaskList);
+            var callback = new UploadFileOption(){
+                success = option.success,
+                fail = option.fail,
+                complete = option.complete
+            };
+            UploadTaskList.Add( id, callback );
+            var succ = option.success;
+            var fail = option.fail;
+            var comp = option.complete;
+            option.success = null;
+            option.fail = null;
+            option.complete = null;
+            var conf = JsonMapper.ToJson(option);
+            option.success = succ;
+            option.fail = fail;
+            option.complete = comp;
+            WX_UploadFile(conf, id);
+            var obj = new WXUploadTask(id);
+            return obj; 
+        }
+        
+        public void UploadFileCallback(string msg) {
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var type = jsCallback.type;
+                var res = jsCallback.res;
+                if(UploadTaskList.ContainsKey(id)){
+                    var item = UploadTaskList[id];
+                    if(type == "complete"){
+                        item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
+                        item.complete = null;
+                    }else{
+                        if(type == "success"){
+                            item.success?.Invoke(JsonMapper.ToObject<UploadFileSuccessCallbackResult>(res));
+                        }
+                        else if(type == "fail"){
+                            item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
+                        }
+                        item.success = null;
+                        item.fail = null;
+                    }
+                    if(item.complete == null && item.success == null && item.fail == null){
+                        UploadTaskList.Remove(id);
+                    }
+                }
+            }
+        }
+    
+        public void _OnHeadersReceivedCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var res = jsCallback.res;
+                if(!WXUploadTask.OnHeadersReceivedActionList.ContainsKey(id)){
+                    return;
+                }
+                var result = JsonMapper.ToObject<OnHeadersReceivedCallbackResult>(msg);
+                WXUploadTask.OnHeadersReceivedActionList[id]?.Invoke(result);
+            }
+        }
+    
+        public void _OnProgressUpdateCallback(string msg){
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var res = jsCallback.res;
+                if(!WXUploadTask.OnProgressUpdateActionList.ContainsKey(id)){
+                    return;
+                }
+                var result = JsonMapper.ToObject<UploadTaskOnProgressUpdateCallbackResult>(msg);
+                WXUploadTask.OnProgressUpdateActionList[id]?.Invoke(result);
+            }
+        }
+    
+    public static string GetCallbackId<T>(Dictionary<string, T> dict) {
         var id = dict.Count;
         var res = (id + UnityEngine.Random.value).ToString();
         while (dict.ContainsKey(res))
@@ -9030,6 +9246,128 @@ namespace WeChatWASM
         option.complete = comp;
         WX_OpenChannelsLiveCollection(conf,id);
     }
+    public void OpenPageCallback(string msg) {
+        if (!string.IsNullOrEmpty(msg) && openPageOptionList != null)
+        {
+            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+            var id = jsCallback.callbackId;
+            var type = jsCallback.type;
+            var res = jsCallback.res;
+            if(openPageOptionList.ContainsKey(id)){
+                var item = openPageOptionList[id];
+                if(type == "complete"){
+                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
+                    item.complete = null;
+                }else{
+                    if(type == "success"){
+                        item.success?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
+                    }
+                    else if(type == "fail"){
+                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
+                    }
+                    item.success = null;
+                    item.fail = null;
+                }
+                if(item.complete == null && item.success == null && item.fail == null){
+                    openPageOptionList.Remove(id);
+                }
+            }
+        }
+    }
+
+    #if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void WX_OpenPage(string conf, string callbackId);
+    #else
+    private void WX_OpenPage(string conf, string callbackId){}
+    #endif
+
+    private Dictionary<string, openPageOption> openPageOptionList;
+    public void OpenPage(openPageOption option)
+    {
+        if(openPageOptionList == null){
+            openPageOptionList = new Dictionary<string, openPageOption>();
+        }
+        string id = GetCallbackId(openPageOptionList);
+        var callback = new openPageOption(){
+            success = option.success,
+            fail = option.fail,
+            complete = option.complete
+        };
+        openPageOptionList.Add( id, callback );
+        var succ = option.success;
+        var fail = option.fail;
+        var comp = option.complete;
+        option.success = null;
+        option.fail = null;
+        option.complete = null;
+        var conf = JsonMapper.ToJson(option);
+        option.success = succ;
+        option.fail = fail;
+        option.complete = comp;
+        WX_OpenPage(conf,id);
+    }
+    public void GetGameClubDataCallback(string msg) {
+        if (!string.IsNullOrEmpty(msg) && getGameClubDataOptionList != null)
+        {
+            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+            var id = jsCallback.callbackId;
+            var type = jsCallback.type;
+            var res = jsCallback.res;
+            if(getGameClubDataOptionList.ContainsKey(id)){
+                var item = getGameClubDataOptionList[id];
+                if(type == "complete"){
+                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
+                    item.complete = null;
+                }else{
+                    if(type == "success"){
+                        item.success?.Invoke(JsonMapper.ToObject<getGameClubDataSuccessCallbackResult>(res));
+                    }
+                    else if(type == "fail"){
+                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
+                    }
+                    item.success = null;
+                    item.fail = null;
+                }
+                if(item.complete == null && item.success == null && item.fail == null){
+                    getGameClubDataOptionList.Remove(id);
+                }
+            }
+        }
+    }
+
+    #if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void WX_GetGameClubData(string conf, string callbackId);
+    #else
+    private void WX_GetGameClubData(string conf, string callbackId){}
+    #endif
+
+    private Dictionary<string, getGameClubDataOption> getGameClubDataOptionList;
+    public void GetGameClubData(getGameClubDataOption option)
+    {
+        if(getGameClubDataOptionList == null){
+            getGameClubDataOptionList = new Dictionary<string, getGameClubDataOption>();
+        }
+        string id = GetCallbackId(getGameClubDataOptionList);
+        var callback = new getGameClubDataOption(){
+            success = option.success,
+            fail = option.fail,
+            complete = option.complete
+        };
+        getGameClubDataOptionList.Add( id, callback );
+        var succ = option.success;
+        var fail = option.fail;
+        var comp = option.complete;
+        option.success = null;
+        option.fail = null;
+        option.complete = null;
+        var conf = JsonMapper.ToJson(option);
+        option.success = succ;
+        option.fail = fail;
+        option.complete = comp;
+        WX_GetGameClubData(conf,id);
+    }
 
     #if UNITY_WEBGL
     [DllImport("__Internal")]
@@ -11069,7 +11407,7 @@ public void _OnCheckForUpdateCallback(string msg){
 [DllImport("__Internal")]
 #endif
 private static extern void WX_OnCheckForUpdate(string id);
-private Dictionary<string,Action<OnCheckForUpdateCallbackResult>> OnCheckForUpdateActionList;            
+private Dictionary<string,Action<OnCheckForUpdateCallbackResult>> OnCheckForUpdateActionList;
 public void OnCheckForUpdate(string id,Action<OnCheckForUpdateCallbackResult> callback){
     if(OnCheckForUpdateActionList == null){
         OnCheckForUpdateActionList = new Dictionary<string,Action<OnCheckForUpdateCallbackResult>>();
@@ -11080,7 +11418,7 @@ public void OnCheckForUpdate(string id,Action<OnCheckForUpdateCallbackResult> ca
         OnCheckForUpdateActionList.Add(id,callback);
         WX_OnCheckForUpdate(id);
     }
-}          
+}
 
 public void _OnUpdateFailedCallback(string msg){
     if (!string.IsNullOrEmpty(msg))
@@ -11099,7 +11437,7 @@ public void _OnUpdateFailedCallback(string msg){
 [DllImport("__Internal")]
 #endif
 private static extern void WX_OnUpdateFailed(string id);
-private Dictionary<string,Action<GeneralCallbackResult>> OnUpdateFailedActionList;            
+private Dictionary<string,Action<GeneralCallbackResult>> OnUpdateFailedActionList;
 public void OnUpdateFailed(string id,Action<GeneralCallbackResult> callback){
     if(OnUpdateFailedActionList == null){
         OnUpdateFailedActionList = new Dictionary<string,Action<GeneralCallbackResult>>();
@@ -11110,7 +11448,7 @@ public void OnUpdateFailed(string id,Action<GeneralCallbackResult> callback){
         OnUpdateFailedActionList.Add(id,callback);
         WX_OnUpdateFailed(id);
     }
-}          
+}
 
 public void _OnUpdateReadyCallback(string msg){
     if (!string.IsNullOrEmpty(msg))
@@ -11129,7 +11467,7 @@ public void _OnUpdateReadyCallback(string msg){
 [DllImport("__Internal")]
 #endif
 private static extern void WX_OnUpdateReady(string id);
-private Dictionary<string,Action<GeneralCallbackResult>> OnUpdateReadyActionList;            
+private Dictionary<string,Action<GeneralCallbackResult>> OnUpdateReadyActionList;
 public void OnUpdateReady(string id,Action<GeneralCallbackResult> callback){
     if(OnUpdateReadyActionList == null){
         OnUpdateReadyActionList = new Dictionary<string,Action<GeneralCallbackResult>>();
@@ -11140,7 +11478,7 @@ public void OnUpdateReady(string id,Action<GeneralCallbackResult> callback){
         OnUpdateReadyActionList.Add(id,callback);
         WX_OnUpdateReady(id);
     }
-}          
+}
 
     }
 }

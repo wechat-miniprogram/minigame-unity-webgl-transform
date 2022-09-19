@@ -804,4 +804,96 @@ mergeInto(LibraryManager.library, {
             _WXPointer_stringify_adaptor(callbackId)
         )
     },
+    
+    WXRecorderArrayBuffer:function (offset,callbackId){
+        window.WXWASMSDK.WXRecorderArrayBuffer(
+            HEAPU8,
+            offset,
+            _WXPointer_stringify_adaptor(callbackId)
+        )
+    },
+
+    WX_GetRecorderManager:function(
+    ){
+            var res = window.WXWASMSDK.WX_GetRecorderManager();
+            var bufferSize = lengthBytesUTF8(res) + 1;
+            var buffer = _malloc(bufferSize);
+            stringToUTF8(res, buffer, bufferSize);
+            return buffer;
+    },
+
+    WX_OnRecorderError:function(id){
+        window.WXWASMSDK.WX_OnRecorderError(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_OnRecorderFrameRecorded:function(id){
+        window.WXWASMSDK.WX_OnRecorderFrameRecorded(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_OnRecorderInterruptionBegin:function(id){
+        window.WXWASMSDK.WX_OnRecorderInterruptionBegin(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_OnRecorderInterruptionEnd:function(id){
+        window.WXWASMSDK.WX_OnRecorderInterruptionEnd(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_OnRecorderPause:function(id){
+        window.WXWASMSDK.WX_OnRecorderPause(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_OnRecorderResume:function(id){
+        window.WXWASMSDK.WX_OnRecorderResume(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_OnRecorderStart:function(id){
+        window.WXWASMSDK.WX_OnRecorderStart(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_OnRecorderStop:function(id){
+        window.WXWASMSDK.WX_OnRecorderStop(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_RecorderPause:function(id){
+        window.WXWASMSDK.WX_RecorderPause(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_RecorderResume:function(id){
+        window.WXWASMSDK.WX_RecorderResume(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_RecorderStart:function(id,option){
+        window.WXWASMSDK.WX_RecorderStart(_WXPointer_stringify_adaptor(id),_WXPointer_stringify_adaptor(option));
+    },
+
+    WX_RecorderStop:function(id){
+        window.WXWASMSDK.WX_RecorderStop(_WXPointer_stringify_adaptor(id));
+    },
+
+    WX_UploadFile:function(conf, callbackId){
+        window.WXWASMSDK.WX_UploadFile(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+    },
+
+    WXUploadTaskAbort:function(id){
+        window.WXWASMSDK.WXUploadTaskAbort(_WXPointer_stringify_adaptor(id));
+    },
+
+    WXUploadTaskOffHeadersReceived:function(id){
+        window.WXWASMSDK.WXUploadTaskOffHeadersReceived(_WXPointer_stringify_adaptor(id));
+    },
+
+    WXUploadTaskOffProgressUpdate:function(id){
+        window.WXWASMSDK.WXUploadTaskOffProgressUpdate(_WXPointer_stringify_adaptor(id));
+    },
+
+    WXUploadTaskOnHeadersReceived:function(id){
+        window.WXWASMSDK.WXUploadTaskOnHeadersReceived(_WXPointer_stringify_adaptor(id));
+    },
+
+    WXUploadTaskOnProgressUpdate:function(id){
+        window.WXWASMSDK.WXUploadTaskOnProgressUpdate(_WXPointer_stringify_adaptor(id));
+    },
+    WXStat: function (conf, callbackId) {
+        window.WXWASMSDK.WXStat(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId))
+    },
 });

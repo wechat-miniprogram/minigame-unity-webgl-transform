@@ -744,6 +744,53 @@ namespace WeChatWASM
         public int byteLength;
     }
 
+    public class WXStatInfo
+    {
+        /// <summary>
+        ///  文件的类型和存取的权限，对应 POSIX stat.st_mode
+        /// </summary>
+        public int mode;
+        /// <summary>
+        /// 文件大小，单位：B，对应 POSIX stat.st_size
+        /// </summary>
+        public int size;
+        /// <summary>
+        /// 文件最近一次被存取或被执行的时间，UNIX 时间戳，对应 POSIX stat.st_atime
+        /// </summary>
+        public UInt32 lastAccessedTime;
+        /// <summary>
+        /// 文件最后一次被修改的时间，UNIX 时间戳，对应 POSIX stat.st_mtime
+        /// </summary>
+        public UInt32 lastModifiedTime;
+    }
+
+    public class WXStat
+    {
+        /// <summary>
+        ///  文件的路径
+        /// </summary>
+        public string path;
+        public WXStatInfo stats;
+    }
+
+    public class WXStatResponse : WXBaseResponse
+    {
+        public System.Collections.Generic.List<WXStat> stats;
+        public WXStatInfo one_stat;
+    }
+
+    public class WXStatOption : WXBaseActionParam<WXStatResponse>
+    {
+        /// <summary>
+        /// 文件/目录路径 (本地路径)
+        /// </summary>
+        public string path;
+        /// <summary>
+        /// 是否递归获取目录下的每个文件的 Stats 信息	2.3.0
+        /// </summary>
+        public bool recursive = true; 
+    }
+
 
     public class CustomerServiceConversationParam : WXBaseActionParam<WXTextResponse>
     {

@@ -18,6 +18,8 @@ import shortAudio from './short-audio';
 import gameClub from './game-club';
 import sdk from './sdk';
 import camera from './camera';
+import recorder from './recorder';
+import uploadFile from './upload-file';
 import './unity-adapter';
 
 const unityVersion = '$unityVersion$';
@@ -98,6 +100,8 @@ const WXWASMSDK = {
   canvasContext,
   ...sdk,
   ...camera,
+  ...recorder,
+  ...uploadFile,
 };
 
 

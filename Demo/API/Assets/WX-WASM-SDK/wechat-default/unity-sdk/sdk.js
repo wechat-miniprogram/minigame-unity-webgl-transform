@@ -3084,6 +3084,54 @@ export default {
             }
         });
     },
+    WX_OpenPage(conf, callbackId){
+        conf = formatJsonStr(conf);
+        wx.openPage({
+            ...conf,
+            success(res){
+                formatResponse("GeneralCallbackResult",res);
+                moduleHelper.send('OpenPageCallback', JSON.stringify({
+                    callbackId,type:"success",res:JSON.stringify(res)
+                }));
+            },
+            fail(res){
+                formatResponse("GeneralCallbackResult",res);
+                moduleHelper.send('OpenPageCallback', JSON.stringify({
+                callbackId,type:"fail",res:JSON.stringify(res)
+                }));
+            },
+            complete(res){
+                formatResponse("GeneralCallbackResult",res);
+                moduleHelper.send('OpenPageCallback', JSON.stringify({
+                callbackId,type:"complete",res:JSON.stringify(res)
+                }));
+            }
+        });
+    },
+    WX_GetGameClubData(conf, callbackId){
+        conf = formatJsonStr(conf);
+        wx.getGameClubData({
+            ...conf,
+            success(res){
+                formatResponse("getGameClubDataSuccessCallbackResult",res);
+                moduleHelper.send('GetGameClubDataCallback', JSON.stringify({
+                    callbackId,type:"success",res:JSON.stringify(res)
+                }));
+            },
+            fail(res){
+                formatResponse("GeneralCallbackResult",res);
+                moduleHelper.send('GetGameClubDataCallback', JSON.stringify({
+                callbackId,type:"fail",res:JSON.stringify(res)
+                }));
+            },
+            complete(res){
+                formatResponse("GeneralCallbackResult",res);
+                moduleHelper.send('GetGameClubDataCallback', JSON.stringify({
+                callbackId,type:"complete",res:JSON.stringify(res)
+                }));
+            }
+        });
+    },
 
     WX_RestartMiniProgram(){
         wx.restartMiniProgram();
@@ -4023,7 +4071,7 @@ export default {
         if(obj){
             obj.applyUpdate();
         }
-    },            
+    },
     WX_OnCheckForUpdate(id){
         var obj = this.UpdateManagerList[id];
         obj.OnCheckForUpdateList = obj.OnCheckForUpdateList || [];

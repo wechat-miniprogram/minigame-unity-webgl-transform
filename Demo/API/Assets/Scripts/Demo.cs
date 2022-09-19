@@ -9,6 +9,8 @@ public class Demo : MonoBehaviour
     public WXRewardedVideoAd ad;
     public WXInnerAudioContext inneraudio;
     public Text txtUserInfo;
+    public WXFileSystemManager fs = new WXFileSystemManager();
+    public WeChatWASM.WXEnv env = new WXEnv();
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,31 @@ public class Demo : MonoBehaviour
             // 打印屏幕信息
             var systemInfo = WeChatWASM.WX.GetSystemInfoSync();
             Debug.Log($"{systemInfo.screenWidth}:{systemInfo.screenHeight}, {systemInfo.windowWidth}:{systemInfo.windowHeight}, {systemInfo.pixelRatio}");
+
+            // 获取文件系统
+            var statOption = new WXStatOption();
+            statOption.path = env.USER_DATA_PATH + "/__GAME_FILE_CACHE";
+            statOption.recursive = true;
+            statOption.success = (succ) => {
+                Debug.Log($"stat success");
+                foreach(var file in succ.stats)
+                {
+                    Debug.Log($"stat info. {file.path}, " +
+                        $"{file.stats.size}，" +
+                        $"{file.stats.mode}，" +
+                        $"{file.stats.lastAccessedTime}，" +
+                        $"{file.stats.lastModifiedTime}");
+                }
+            };
+            statOption.complete = (complete) => {
+                Debug.Log($"stat complete");
+            };
+            statOption.fail = (fail) => {
+                Debug.Log($"stat fail {fail.errMsg}");
+            };
+            Debug.Log($"stat invoke. Path:{statOption.path}");
+            fs.Stat(statOption);
+
 
             // 预先创建广告实例
             Debug.Log("初始化成功！");

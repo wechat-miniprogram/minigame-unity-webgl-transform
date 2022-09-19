@@ -762,4 +762,13 @@ export default {
         feedIdList:"array",
         errMsg:"string",
     },
+    GameClubDataType:{
+        type:"int",
+        subKey:"string",
+        value:"int",
+    },
+    getGameClubDataSuccessCallbackResult:{
+        dataList:"array",
+        errMsg:"string",
+    },
 }

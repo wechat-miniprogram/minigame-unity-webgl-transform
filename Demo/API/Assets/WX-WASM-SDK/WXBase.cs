@@ -388,6 +388,47 @@ namespace WeChatWASM
         }
         #endregion
 
+        #region 录音
+        /// <summary>
+        /// [[RecorderManager](https://developers.weixin.qq.com/minigame/dev/api/media/recorder/RecorderManager.html) wx.getRecorderManager()](https://developers.weixin.qq.com/minigame/dev/api/media/recorder/wx.getRecorderManager.html)
+        /// 需要基础库： `1.6.0`
+        /// 获取**全局唯一**的录音管理器 RecorderManager
+        /// </summary>
+        public static WXRecorderManager GetRecorderManager()
+        {
+            return WXSDKManagerHandler.Instance.GetRecorderManager();
+        }
+        #endregion
+
+        /// <summary>
+        /// [[UploadTask](https://developers.weixin.qq.com/minigame/dev/api/network/upload/UploadTask.html) wx.uploadFile(Object object)](https://developers.weixin.qq.com/minigame/dev/api/network/upload/wx.uploadFile.html)
+        /// 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。
+        /// **示例代码**
+        /// ```js
+        /// wx.chooseImage({
+        /// success (res) {
+        /// const tempFilePaths = res.tempFilePaths
+        /// wx.uploadFile({
+        /// url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
+        /// filePath: tempFilePaths[0],
+        /// name: 'file',
+        /// formData: {
+        /// 'user': 'test'
+        /// },
+        /// success (res){
+        /// const data = res.data
+        /// //do something
+        /// }
+        /// })
+        /// }
+        /// })
+        /// ```
+        /// </summary>
+        public static WXUploadTask UploadFile(UploadFileOption option)
+        {
+            return WXSDKManagerHandler.Instance.UploadFile(option);
+        }
+
         #region 文件
         /// <summary>
         /// 获取全局唯一的文件管理器 详见 https://developers.weixin.qq.com/minigame/dev/guide/base-ability/file-system.html
