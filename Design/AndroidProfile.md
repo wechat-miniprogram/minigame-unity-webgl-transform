@@ -17,6 +17,7 @@
 
 
 4. 利用PC(Windows/Mac)的Edge/Chrome加载数据
+5. 
    以Edge为例：浏览器菜单打开"更多工具-开发人员工具-右上角...-更多工具-JavaScript探测器"，然后点击加载前面导出的cpuprofile文件即可。
     <img src='../image/androidprofile5.png' width="500"/>
     <img src='../image/androidprofile3.png' width="500"/>
