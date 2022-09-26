@@ -40,6 +40,7 @@
 
 iOS端小游戏高性能模式适用于遇到iOS环境运行性能不足，运行发烫的小游戏。
 - 需要该能力的开发者登录[微信公众平台](https://mp.weixin.qq.com) -> 首页能力地图模块 -> 点击进入"生产提效包" -> 点击开通高性能模式。 
+<img src="../image/mp_addplugin.png">
 - 开通成功后，过配置 game.json 的 iOSHighPerformance 为 true 则可进入高性能模式，通过去掉此开关可以正常回退到普通模式，以便两种模式对比。
 
 ## 高性能模式限制
