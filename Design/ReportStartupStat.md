@@ -44,7 +44,7 @@ extJsonStr为阶段额外信息，可填""
 
 当游戏完成所有加载阶段，进入核心玩法时(如进入新手引导或大厅)调用
 ``` C#
-      WX.ReportGameStart(int costTime, string extJsonStr)
+      WX.ReportGameStart()
 ```
 **4. 上报当前自定义阶段错误信息**
 ``` C#
