@@ -10,10 +10,12 @@ Unity WebGL是以WebAssebly(WASM)+WebGL为核心的技术方案，运行性能�
     - Unity WebGL是以WASM虚拟机的形式运行在类浏览器环境中，因此CPU算力会受限于虚拟机的执行效率。
     - Unity WebGL目前不支持多线程，导致部分模块比如AI、动画、渲染无法得到多线程的加速。
     
+    这是导致了Unity WebGL与APP存在性能差距的最主要因素。***通常而言，Unity WebGL是APP手游性能的1/3，开发者应该特别注意CPU侧的性能瓶颈。***
+    
     可通过[Benchmarking Unity performance in WebGL](https://blog.unity.com/technology/benchmarking-unity-performance-in-webgl)了解Unity不同模块与手游APP的性能差异。
     <img src='../image/optimizationperformence1.png'  width="600"/>
     
-    这两个因素导致了Unity WebGL与APP存在性能差距。***通常而言，Unity WebGL是APP手游性能的1/3，开发者应该特别注意CPU侧的性能瓶颈。***
+    
     
     
 - GPU性能差异
@@ -23,7 +25,7 @@ Unity WebGL是以WebAssebly(WASM)+WebGL为核心的技术方案，运行性能�
     - 渲染特性如GPU Instantcing、SRP Batcher需要WebGL2.0。 （需要注意的是，当APP手游使用了这些特性时，在小游戏未开启WebGL2.0时则会进一步拉大差距）
 
 
-### WebAssembly VS JS的运行差异
+### WASM VS JS的运行差异
 
 - WASM是强类型语言，这将使得JIT优化能更准确预判运行期类型，因此相对于JS能更快达到JIT指令优化后的峰值。通常而言，WASM~=1.5 * JS, 即JS运行效率的50%以上。
 - Unity引擎目前没有很好地针对浏览器环境优化（比如WASM与原生调用频次、不必要的代码路径裁）会比较臃肿，一些应用场景反而不如JS轻量。
