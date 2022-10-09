@@ -78,6 +78,9 @@
   ```
 
   其中 Python 路径请自行检查，若由步骤（1）方式安装的一般无需改动，至此问题解决。
+  
+11. 引擎代码裁剪级别(Managed Striping Level)应该如何设置？
+- 建议勾选并设置为High, 如果发现部分代码被错误裁剪，请参考[托管代码剥离](https://docs.unity.cn/cn/2019.4/Manual/ManagedCodeStripping.html)
 
 ## 平台适配
 1. 文本输入框点击无法输入，没有弹出输入法
