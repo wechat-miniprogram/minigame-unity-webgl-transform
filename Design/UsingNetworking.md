@@ -99,9 +99,9 @@ socket.CloseAsync();
 
 ### 安全域名
 
-1. 上线版本的网络请求必须[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。在 mp.weixin.qq.com 后台，**_开发-开发管理-开发设置-服务器域名_**进行设置。如果是 HTTP 请求请设置到 request、download合法域名，Websocket 请求请设置到 socket 合法域名。
-2. 真机预览时，开发、测试阶段可以过右上角菜单-“开启调试”不检查安全域名
-3. 开发者工具预览时，可通过“详情-本地设置-不检验合法域名“不检查安全域名
+1. 开发、测试阶段做真机预览时，可以通过手机端小游戏右上角菜单-“开启调试”不检查安全域名
+2. 开发者工具预览时，可通过“详情-本地设置-不检验合法域名“不检查安全域名
+3. 上线版本的网络请求必须[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。在 mp.weixin.qq.com 后台，**_开发-开发管理-开发设置-服务器域名_**进行设置。如果是 HTTP 请求请设置到 request、download合法域名，Websocket 请求请设置到 socket 合法域名。
 
 ### 跨域(iOS高性能模式)
 

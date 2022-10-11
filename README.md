@@ -20,7 +20,7 @@
 
 ## 安装与使用
 
-下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1), 并导入至游戏项目中。
+下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)，并导入至游戏项目中，版本更新请查看[更新日志](CHANGELOG.md)
 
 - 已验证Unity版本：2018、2019、2020、2021（请尽量使用LTS, 推荐使用2019、2021）. 安装时选择WebGL组件
 - 请前往[Node官网](https://nodejs.org/zh-cn/download/)安装长期稳定版
@@ -55,6 +55,7 @@
 
 
 - 运行性能
+  - [优化Unity WebGL的运行性能](Design/OptimizationPerformence.md)
   - [使用 Android CPU Profiler 性能调优](Design/AndroidProfile.md)
   - [使用 Unity Profiler 性能调优](Design/UnityProfiler.md)
   - [优化Unity WebGL的内存](Design/OptimizationMemory.md)
