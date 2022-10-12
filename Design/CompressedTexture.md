@@ -68,7 +68,7 @@
 
 ​		该步骤根据项目实际情况不同，处理时间也会有差异，执行完成后请留意控制台提示信息，不可存在多个警告消息。
 
-<img src="/Users/nebulaliu/Documents/Github/minigame-unity-webgl-transform0/image/cm-texture1.png" alt="avatar" width="50%" />
+<img src="../image/cm-texture1.png" alt="avatar" width="50%" />
 
 ### 5.执行纹理压缩(生成)
 
