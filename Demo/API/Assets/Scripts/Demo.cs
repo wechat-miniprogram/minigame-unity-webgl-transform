@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using WeChatWASM;
+using UnityEngine.SceneManagement;
 
 public class Demo : MonoBehaviour
 {
@@ -11,7 +12,8 @@ public class Demo : MonoBehaviour
     public Text txtUserInfo;
     public WXFileSystemManager fs = new WXFileSystemManager();
     public WeChatWASM.WXEnv env = new WXEnv();
-    // Start is called before the first frame update
+    private WXUserInfoButton infoButton;
+
     void Start()
     {
         WX.InitSDK((code) =>
@@ -40,12 +42,14 @@ public class Demo : MonoBehaviour
             // 首次获取会弹出用户授权窗口, 可通过右上角-设置-权限管理用户的授权记录
             var canvasWith = (int)(systemInfo.screenWidth * systemInfo.pixelRatio);
             var canvasHeight = (int)(systemInfo.screenHeight * systemInfo.pixelRatio);
-            var button = WX.CreateUserInfoButton(0, canvasHeight * 2 / 3, canvasWith, canvasHeight / 3, "zh_CN", false);
-            button.OnTap((userInfoButonRet) =>
+            var buttonHeight = (int)(canvasWith / 1080f * 300f);
+            infoButton = WX.CreateUserInfoButton(0, canvasHeight - buttonHeight, canvasWith, buttonHeight, "zh_CN", false);
+            infoButton.OnTap((userInfoButonRet) =>
             {
+                Debug.Log(JsonUtility.ToJson(userInfoButonRet.userInfo));
                 txtUserInfo.text = $"nickName：{userInfoButonRet.userInfo.nickName}， avartar:{userInfoButonRet.userInfo.avatarUrl}";
             });
-
+            Debug.Log("infoButton Created");
         });
 
     }
@@ -215,5 +219,15 @@ public class Demo : MonoBehaviour
     void Update()
     {
 
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("OnDestroy");
+        if (infoButton != null)
+        {
+            infoButton.Destroy();
+            Debug.Log("infoButton Destroy");
+        }
     }
 }
