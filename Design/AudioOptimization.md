@@ -2,6 +2,7 @@
 
 1. Unity2021 版本之前的音频不支持压缩音频，在引擎 CPU 侧解压会消耗大量内存
 2. iOS 高性能模式下，Unity WebGL 默认使用 WebAudio 会消耗游戏进程大量内存(特别是时长较大的音频)
+3. 减少音频重复下载，音频保存本地可以反复使用
 
 我们建议将 Unity Audio 替换成 SDK 中的音频 API 控制播放。如果工作量太大，也建议替换长音频(如 BGM)。
 
@@ -10,165 +11,59 @@
 ### 接口使用
 
 参考[微信开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/audio/InnerAudioContext.html)
+其中src为音频地址，可填本地路径如 xx.wav，运行时会自动和配置的音频地址前缀(默认为DATA_CDN/Assets)做拼接得到最终线上地址。
+
+* 使用方法一:
+
+
+```c#
+// 使用方法一：创建音频对象可以在初始化是加上needDownload = true，音频会先下载到本地，然后再播放
+// 保存本地后，同样的路径不会重复下载，再次使用时无需下载
+var audio1 = WX.CreateInnerAudioContext(new InnerAudioContextParam()
+{
+    src = "Audio/0.wav",
+    needDownload = true
+});
+// 在可以播放时播放
+audio1.OnCanplay(() =>
+{
+    audio1.Play();
+});
+
+
+// 使用方法二：创建音频对象，不设置下载，音频在准备完成后会立即开始播放，并且边下边播
+// 这样下载的缓存并不会保存到本地，再次使用时依然会重复下载，推荐频率少或者一次性使用的音频这样处理
+var audio2 = WX.CreateInnerAudioContext(new InnerAudioContextParam()
+{
+    src = "Audio/1.wav",
+});
+// 在可以播放时播放
+audio2.OnCanplay(() =>
+{
+    audio2.Play();
+});
+
+
+// 使用方法三：先提前创建音频对象，批量下载音频文件，在下载完成后可以直接修改音频对象的src并播放
+string[] a = { "Audio/0.wav", "Audio/1.wav", "Audio/2.wav" }; 
+var audio3 = WX.CreateInnerAudioContext(new InnerAudioContextParam(){ needDownload = true });
+WX.PreDownloadAudios(a, (int res) =>
+{
+    // 下载完成后回调
+    if (res == 0)
+    {
+        audio3.src = "Audio/2.wav"
+        audio3.OnCanplay(() =>
+        {
+            audio3.Play();
+        });
+    }
+});
+```
 
 ## 参考示例
-```C#
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using WeChatWASM;
-
-public class AudioManager : MonoBehaviour
-{
-    // cdn路径音频最多支持10个同时在线播放，先下载后的音频（needDownload）最多支持32个同时播放，先初始化10个
-    private static int DEFAULT_AUDIO_COUNT = 10;
-
-    // 创建音频队列
-    private Queue<WXInnerAudioContext> audioPool = new Queue<WXInnerAudioContext>();
-
-    // 当前场景需要预下载的音频列表
-    private string[] audioList = {
-        "https://xxxxxx.mp3",
-        "https://xxxxxx.mp3",
-        "https://xxxxxx.mp3",
-    };
-
-    // 正在播放的音频对象列表
-    private List<WXInnerAudioContext> audioPlayArray = new List<WXInnerAudioContext>();
-
-    // 初始化
-    public void Start()
-    {
-        // 创建音频对象池，创建时设置属性需要下载
-        for (var i = 0; i < DEFAULT_AUDIO_COUNT; i++)
-        {
-            addAudio();
-        };
-
-        // 批量下载音频文件
-        downloadAudio();
-
-        // 先下载后播放第3个音频
-        playAfterDownload(2);
-
-        // 立即播放（但不会缓存到本地）第1个音频
-        playRightNow(0);
-    }
-
-    private WXInnerAudioContext getAudio()
-    {
-        if (audioPool.Count == 0)
-        {
-            addAudio();
-        }
-
-        var audio = audioPool.Dequeue();
-
-        audioPlayArray.Add(audio);
-
-        return audio;
-    }
-
-    private void removeAudio(WXInnerAudioContext audio)
-    {
-        if (audioPlayArray.Contains(audio))
-        {
-            audio.OffCanplay();
-            audioPlayArray.Remove(audio);
-            audioPool.Enqueue(audio);
-        }
-    }
-
-    private WXInnerAudioContext addAudio()
-    {
-        var audio = WX.CreateInnerAudioContext(new InnerAudioContextParam() { needDownload = true });
-
-        // 自动播放停止
-        audio.OnEnded(() =>
-        {
-            removeAudio(audio);
-        });
-
-        // 加载出错
-        audio.OnError(() =>
-        {
-            removeAudio(audio);
-        });
-
-        // 手动停止
-        audio.OnStop(() =>
-        {
-            removeAudio(audio);
-        });
-
-        audioPool.Enqueue(audio);
-
-        return audio;
-    }
-
-    private void downloadAudio()
-    {
-        // 预下载音频
-        WX.PreDownloadAudios(audioList, (int res) =>
-        {
-            if (res == 0)
-            {
-                // 下载成功
-
-                // 下载后播放第2个音频
-                playAfterDownload(1);
-            }
-            else
-            {
-                // 下载失败
-            }
-        });
-    }
-
-    public void playAfterDownload(int index)
-    {
-        var audioIndex = getAudio();
-
-        // 如果没有下文修改needDownload为false的函数，理论上创建的所有音频都是true，可以省去这一条
-        audioIndex.needDownload = true;
-
-        // 对于已经设置了needDownload为true的audio，设置src后就会开始下载对应的音频文件
-        // 如果该文件已经下载过，并且配置了缓存本地，就不会重复下载
-        // 如果该文件没有下载过，等同于先调用WX.PreDownloadAudios下载后再播放
-        audioIndex.src = audioList[index];
-
-        // 在可以播放时播放
-        audioIndex.OnCanplay(() =>
-        {
-            audioIndex.Play();
-        });
-    }
-
-    public void playRightNow(int index)
-    {
-        // 如果是需要在当前场景立刻播放的音频，则不设置needDownload，音频会边下边播
-        // 但是再次使用该音频时会因为没有下载而需要再次下载，并不推荐这样使用
-        var audioPlayRightNow = getAudio();
-
-        // 修改src会触发下载，所以设置needDownload属性要在修改src之前
-        audioPlayRightNow.needDownload = false;
-
-        // 如果当前音频已经下载过，并且配置了缓存本地，就算设置needDownload为false也不会重复下载
-        audioPlayRightNow.src = audioList[index];
-
-        // 在可以播放时播放
-        audioPlayRightNow.OnCanplay(() =>
-        {
-            audioPlayRightNow.Play();
-        });
-    }
-
-    public void stopAllAudio()
-    {
-        audioPlayArray.ForEach(audio => audio.Stop());
-    }
-}
-```
+音频一般最多只能同时存在10个，所以必须要开发者自己控制音频对象池重复使用，可以参考以下示例：
+[音频示例](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Demo/API/Assets/Scripts/AudioManager.cs)
 
 ## 示例补充说明
 - 示例只是作为参考，可以不按照示例，以开发者文档为准

@@ -90,11 +90,21 @@ public class Recorder : MonoBehaviour
 
     public void recorderPlay()
     {
+        // 播放临时路径里的音频，此处不可设置needDownload，因为已经在本地文件了
         var audioPlayRightNow = WX.CreateInnerAudioContext(new InnerAudioContextParam() {});
         audioPlayRightNow.src = tempFilePath;
+        audioPlayRightNow.OnPlay(() =>
+        {
+            Debug.Log("recorder audio OnPlay");
+        });
         audioPlayRightNow.OnCanplay(() =>
         {
+            Debug.Log("recorder audio OnCanplay");
             audioPlayRightNow.Play();
+        });
+        audioPlayRightNow.OnError(() =>
+        {
+            Debug.Log("recorder audio OnError");
         });
     }
 
@@ -102,7 +112,7 @@ public class Recorder : MonoBehaviour
     {
         uploadTask = WX.UploadFile(new UploadFileOption()
         {
-            url = "https://game.weixin.qq.com/cgi-bin/gameobjectstoragewap/putobject",
+            url = "xxxxxxxx", // 开发者自己的后台地址
             filePath = tempFilePath,
             name = "test",
             timeout = 10000,
