@@ -13,9 +13,6 @@
 参考[微信开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/audio/InnerAudioContext.html)
 其中src为音频地址，可填本地路径如 xx.wav，运行时会自动和配置的音频地址前缀(默认为DATA_CDN/Assets)做拼接得到最终线上地址。
 
-* 使用方法一:
-
-
 ```c#
 // 使用方法一：创建音频对象可以在初始化是加上needDownload = true，音频会先下载到本地，然后再播放
 // 保存本地后，同样的路径不会重复下载，再次使用时无需下载
@@ -59,6 +56,10 @@ WX.PreDownloadAudios(a, (int res) =>
         });
     }
 });
+
+// 停止音频播放
+audio.OffCanplay();
+audio.Stop();
 ```
 
 ## 参考示例
