@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using WeChatWASM;
-using UnityEngine.SceneManagement;
 
 public class Demo : MonoBehaviour
 {
