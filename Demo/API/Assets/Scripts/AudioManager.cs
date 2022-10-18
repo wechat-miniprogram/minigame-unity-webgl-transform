@@ -9,10 +9,10 @@ public class AudioManager : MonoBehaviour
     private static int DEFAULT_AUDIO_COUNT = 10;
 
     // 创建音频队列
-    private Queue<WXInnerAudioContext> audioPool = new Queue<WXInnerAudioContext>();
+    private static Queue<WXInnerAudioContext> audioPool = new Queue<WXInnerAudioContext>();
 
     // 当前场景需要预下载的音频列表
-    private string[] audioList = {
+    private static string[] audioList = {
         "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20220901/211827/CallMeTeenTop.mp3",
         "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20220815/105451/1.mp3",
         "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20220901/211846/Night-n.mp3",
@@ -21,7 +21,9 @@ public class AudioManager : MonoBehaviour
     };
 
     // 正在播放的音频对象列表
-    private List<WXInnerAudioContext> audioPlayArray = new List<WXInnerAudioContext>();
+    private static List<WXInnerAudioContext> audioPlayArray = new List<WXInnerAudioContext>();
+
+    private bool isDestroyed = false;
 
     // 初始化
     public void Start()
@@ -44,6 +46,10 @@ public class AudioManager : MonoBehaviour
 
     private WXInnerAudioContext getAudio()
     {
+        if (this.isDestroyed) {
+            return null;
+        }
+
         if (audioPool.Count == 0)
         {
             addAudio();
@@ -116,6 +122,10 @@ public class AudioManager : MonoBehaviour
     {
         var audioIndex = getAudio();
 
+        if (audioIndex == null) {
+            return;
+        }
+
         // 如果没有下文修改needDownload为false的函数，理论上创建的所有音频都是true，可以省去这一条
         audioIndex.needDownload = true;
 
@@ -137,6 +147,10 @@ public class AudioManager : MonoBehaviour
         // 但是再次使用该音频时会因为没有下载而需要再次下载，并不推荐这样使用
         var audioPlayRightNow = getAudio();
 
+        if (audioPlayRightNow == null) {
+            return;
+        }
+
         // 修改src会触发下载，所以设置needDownload属性要在修改src之前
         audioPlayRightNow.needDownload = false;
 
@@ -152,7 +166,10 @@ public class AudioManager : MonoBehaviour
 
     public void stopAllAudio()
     {
-        audioPlayArray.ForEach(audio => audio.Stop());
+        audioPlayArray.ForEach(audio => {
+            audio.OffCanplay();
+            audio.Stop();
+        });
     }
 
     public void playRandom()
@@ -162,5 +179,11 @@ public class AudioManager : MonoBehaviour
         Debug.Log("PlayAudioLength:" + audioPlayArray.Count);
 
         playRightNow(index);
+    }
+
+    private void OnDestroy()
+    {
+        this.isDestroyed = true;
+        this.stopAllAudio();
     }
 }
