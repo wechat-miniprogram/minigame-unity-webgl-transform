@@ -43,11 +43,11 @@
 
 > 相关下载： [微信 Unity 插件下载](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1) 、[Node.js长期稳定版](https://nodejs.org/zh-cn/download/)
 >
-> 相关手册：[转换工具导出微信小游戏](Transform.md)
+> 相关手册：[快速开始：转换工具导出微信小游戏](Transform.md)
 
 ​		下载 **微信Unity插件** 并导入 Unity 游戏工程中，版本更新请查看 [更新日志]()，并安装 **Node.js长期稳定版**。
 
-​		阅读 **转换工具导出微信小游戏** 快速熟悉工具的使用并完成一次简单的转化工作！
+​		阅读 **快速开始：转换工具导出微信小游戏** 快速熟悉工具的使用并完成一次简单的转化工作！
 
 **Unity版本支持说明：**
 
