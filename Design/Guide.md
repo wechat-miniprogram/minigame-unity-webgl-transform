@@ -57,7 +57,7 @@
 
 ### 资源按需加载概述
 
-> 相关手册：[AA(Addressable) 进行资源按需加载](UsingAddressable.md) 、 [AB(AssetBundle)进行资源按需加载](UsingAssetBundle.md) 、Instant Game 实践指南
+> 相关手册：[AA(Addressable) 进行资源按需加载](UsingAddressable.md) 、 [AB(AssetBundle)进行资源按需加载](UsingAssetBundle.md) 、[Instant Game 实践指南](InstantGameGuide.md)
 
 ​		区别于原生 APP 游戏很少考虑场景内的资源规划问题，开发时通常将资源在游戏启动时全加载到内存中，而小游戏需要做到“即点即玩”，影响游戏的呈现速度因素中如首资源包的下载往往占比较大，因此需要根据场景中的主次内容进行资源上的优化分包处理。
 
