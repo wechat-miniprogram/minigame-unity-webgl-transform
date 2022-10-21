@@ -25,10 +25,10 @@
 - 已验证Unity版本：2018、2019、2020、2021（请尽量使用LTS, 推荐使用2019、2021）. 安装时选择WebGL组件
 - 请前往[Node官网](https://nodejs.org/zh-cn/download/)安装长期稳定版
 
-
-[快速开始：转换工具导出微信小游戏](Design/Transform.md)
- 
 ## 文档总览
+- [Unity WebGL微信小游戏转换指南](Design/Guide.md)
+- [快速开始：转换工具导出微信小游戏](Design/Transform.md)
+
 方案概述与兼容性
 - [技术原理与流程](Design/Summary.md)
 - [兼容性评估](Design/Evaluation.md)
