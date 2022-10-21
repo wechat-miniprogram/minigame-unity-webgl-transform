@@ -45,6 +45,7 @@
   - [使用 Loader 进行游游戏加载](Design/UsingLoader.md)
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
+  - [使用 Unity Instant Game 进行资源按需加载](Design/InstantGameGuide.md)
   - [资源服务器部署注意事项](Design/DataCDN.md)
   - [资源缓存](Design/FileCache.md)
   - [定制启动封面](Design/CustomLoading.md)
