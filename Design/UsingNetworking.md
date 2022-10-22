@@ -83,11 +83,11 @@ socket.SendAsync(bytes);
 // 关闭连接
 socket.CloseAsync();
 ```
-使用此插件需要对WebSocket.jslib做两处修改：
+UnityWebSocket需要对WebSocket.jslib做两处修改([新版本](https://github.com/psygames/UnityWebSocket)无需修改，感谢@psygames)：
 1. instance.ws.onmessage函数将分支"else if (ev.data instanceof Blob)"挪到最后
 2. WebSocketSend函数中"HEAPU8"改为"buffer"
 
-修改版本可参考[WebSocket Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/UnityWebSocket_WebGL)
+可参考[WebSocket Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/UnityWebSocket_WebGL)
 
 ### 服务端
 
