@@ -11,28 +11,14 @@ Unity的BuildTarget支持WebGL平台，WebGL导出包是基于WebAssembly技术�
 
 
 ## 二、接入流程
-接入流程主要包含以下几个环节：
-<img src='../image/summary2.png'/>
+接入流程请参考文档[Unity WebGL微信小游戏转换指南](Guide.md)
 
-> 注：图中每个环节的人力时间为预计，具体时间因具体项目不同。
+## 三、参考资料
+1. https://emscripten.org/
+2. https://docs.unity3d.com/Manual/webgl-gettingstarted.html
+3. https://forum.unity.com/forums/webgl.84/
+4. http://webassembly.org.cn/getting-started/developers-guide/
+5. https://developer.mozilla.org/zh-CN/docs/WebAssembly/C_to_wasm
 
-### 评估反馈
-我们为接入游戏提供了评估表，问卷内容是本转换方案最重要的影响因素。当根据实际项目填写之后与我们联系后一起评估可行性和技术风险点，详细内容请参考[方案评估](Evaluation.md)。
 
-### 工具转换
-我们提供了**Unity转换插件**帮助开发者将项目自动导出为微信小游戏包，随后即可使用微信开发者工具或Android/iOS真机进行预览。
-关于转换工具的使用请参考文档：
-* [使用转换工具导出微信小游戏](Transform.md)
-
-### 平台能力接入
-
-微信小游戏平台提供众多开放能力，但目前是以JavaScript API形式提供。
-为了降低开发者进行平台能力对接的门槛，我们提供了平台能力C# SDK，因此依然可以熟悉的C#接口进行平台能力使用。
-关于平台能力C# SDK请参考文档：
-* [WX SDK平台能力适配](WX_SDK.md) 
-
-### 调优体验
-转换工具能帮助开发者快速转换原有Unity项目，然而对于优质的小游戏我们还需要更多的体验调优以取得良好的上线表现。
-关于调优请参考文档：
-- [性能优化总览](PerfOptimization.md)
-- [性能评估标准](PerfMeasure.md)
+ 
