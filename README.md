@@ -30,7 +30,7 @@
 - [快速开始：转换工具导出微信小游戏](Design/Transform.md)
 
 方案概述与兼容性
-- [技术原理与流程](Design/Summary.md)
+- [技术原理](Design/Summary.md)
 - [兼容性评估](Design/Evaluation.md)
 - [更多转换案例](Design/ShowCase.md)
 - [技术常见问题QA](Design/DevelopmentQAList.md)
