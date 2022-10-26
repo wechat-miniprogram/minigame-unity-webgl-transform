@@ -83,16 +83,19 @@ socket.SendAsync(bytes);
 // 关闭连接
 socket.CloseAsync();
 ```
-使用此插件需要对WebSocket.jslib做两处修改：
+UnityWebSocket需要对WebSocket.jslib做两处修改([新版本](https://github.com/psygames/UnityWebSocket)无需修改，感谢@psygames)：
 1. instance.ws.onmessage函数将分支"else if (ev.data instanceof Blob)"挪到最后
 2. WebSocketSend函数中"HEAPU8"改为"buffer"
 
-修改版本可参考[WebSocket Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/UnityWebSocket_WebGL)
+可参考[WebSocket Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/UnityWebSocket_WebGL)
 
 ### 服务端
 
-如果服务端使用 TCP 接入，则需要使用 WSS<-->TCP 的代理层。解决方案也很多，比如使用 Ngnix 做反向代理，也可以使用集成的代理服务器, 对于后者开发中可以使用
-[websockify-js](https://github.com/novnc/websockify-js)/[websockify](https://github.com/novnc/websockify)
+如果服务端使用 TCP 接入，则需要使用 WSS<-->TCP 的代理层。解决方案也很多：
+- 使用 Ngnix、 [websockify-js](https://github.com/novnc/websockify-js)/[websockify](https://github.com/novnc/websockify)做反向代理（推荐）
+- 改造原有TCP服务兼容wss服务
+
+***特别地，在处理WebSocket数据包时，请注意数据的“粘包”问题，需要游戏服务器自行处理。***
 
 
 ## 注意事项
