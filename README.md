@@ -46,8 +46,6 @@
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
   - [使用 Unity Instant Game 进行资源按需加载](Design/InstantGameGuide.md)
-  - [资源服务器部署注意事项](Design/DataCDN.md)
-  - [资源缓存](Design/FileCache.md)
   - [定制启动封面](Design/CustomLoading.md)
   - [使用预下载功能](Design/UsingPreload.md)
   - [首场景启动优化](Design/FirstSceneOptimization.md)
@@ -64,6 +62,11 @@
   - [压缩纹理优化](Design/CompressedTexture.md)
   - [资源优化工具与建议](Design/AssetOptimization.md)
   - [iOS高性能模式](Design/iOSOptimization.md)
+
+版本更新与资源部署
+- [版本更新](Design/Update.md)
+- [资源服务器部署注意事项](Design/DataCDN.md)
+- [资源缓存](Design/FileCache.md)
 
 能力适配
 
