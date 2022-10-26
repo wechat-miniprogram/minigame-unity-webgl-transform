@@ -376,6 +376,58 @@ namespace WeChatWASM
         }
         #endregion
 
+        #region 相机
+        /// <summary>
+        /// [[WXCamera](https://developers.weixin.qq.com/minigame/dev/api/media/camera/Camera.html) wx.createCamera(Object object)](https://developers.weixin.qq.com/minigame/dev/api/media/camera/wx.createCamera.html)
+        /// 需要基础库： `2.9.0`
+        /// 创建相机
+        /// </summary>
+        public static WXCamera CreateCamera(CreateCameraOption param)
+        {
+            return WXSDKManagerHandler.Instance.CreateCamera(param);
+        }
+        #endregion
+
+        #region 录音
+        /// <summary>
+        /// [[RecorderManager](https://developers.weixin.qq.com/minigame/dev/api/media/recorder/RecorderManager.html) wx.getRecorderManager()](https://developers.weixin.qq.com/minigame/dev/api/media/recorder/wx.getRecorderManager.html)
+        /// 需要基础库： `1.6.0`
+        /// 获取**全局唯一**的录音管理器 RecorderManager
+        /// </summary>
+        public static WXRecorderManager GetRecorderManager()
+        {
+            return WXSDKManagerHandler.Instance.GetRecorderManager();
+        }
+        #endregion
+
+        /// <summary>
+        /// [[UploadTask](https://developers.weixin.qq.com/minigame/dev/api/network/upload/UploadTask.html) wx.uploadFile(Object object)](https://developers.weixin.qq.com/minigame/dev/api/network/upload/wx.uploadFile.html)
+        /// 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。
+        /// **示例代码**
+        /// ```js
+        /// wx.chooseImage({
+        /// success (res) {
+        /// const tempFilePaths = res.tempFilePaths
+        /// wx.uploadFile({
+        /// url: 'https://example.weixin.qq.com/upload', //仅为示例，非真实的接口地址
+        /// filePath: tempFilePaths[0],
+        /// name: 'file',
+        /// formData: {
+        /// 'user': 'test'
+        /// },
+        /// success (res){
+        /// const data = res.data
+        /// //do something
+        /// }
+        /// })
+        /// }
+        /// })
+        /// ```
+        /// </summary>
+        public static WXUploadTask UploadFile(UploadFileOption option)
+        {
+            return WXSDKManagerHandler.Instance.UploadFile(option);
+        }
 
         #region 文件
         /// <summary>
@@ -672,6 +724,32 @@ namespace WeChatWASM
         #endregion
 
 
+        #region UDP
+        public static int CreateUDPSocket(string ip, int remotePort, int bindPort = 0)
+        {
+            return WXSDKManagerHandler.Instance.CreateUDPSocket(ip, remotePort, bindPort);
+        }
+
+        public static void CloseUDPSocket(int socketId)
+        {
+            WXSDKManagerHandler.Instance.CloseUDPSocket(socketId);
+        }
+
+        public static void SendUDPSocket(int socketId, byte[] buffer, int offset, int length)
+        {
+            WXSDKManagerHandler.Instance.SendUDPSocket(socketId, buffer, offset, length);
+        }
+        #endregion
+
+        #region 插件配置
+        public static void SetDataCDN(string path) {
+            WXSDKManagerHandler.Instance.SetDataCDN(path);
+        }
+
+        public static void SetPreloadList(string[] paths) {
+            WXSDKManagerHandler.Instance.SetPreloadList(paths);
+        }
+        #endregion
     }
 }
 

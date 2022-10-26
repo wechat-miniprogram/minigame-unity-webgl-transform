@@ -44,7 +44,7 @@ extJsonStr为阶段额外信息，可填""
 
 当游戏完成所有加载阶段，进入核心玩法时(如进入新手引导或大厅)调用
 ``` C#
-      WX.ReportGameStart(int costTime, string extJsonStr)
+      WX.ReportGameStart()
 ```
 **4. 上报当前自定义阶段错误信息**
 ``` C#
@@ -59,7 +59,7 @@ errorType取值：[0,10000]
       WX.ReportGameStageCostTime(0, "");
       
       // 所有加载完成，玩家可以交互(如休闲游戏已进入核心玩法、MMO游戏进入创角时), 需要知道留存率
-      WX.ReportGameStart(0, "");
+      WX.ReportGameStart();
 ```
 
 ## 四、获取Loader启动阶段

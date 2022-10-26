@@ -18,7 +18,8 @@
 
 其中：
 1. 必须
-- 游戏appid：小游戏的appid
+- 游戏appid：小游戏的appid(勿用测试appid, 注册开通小游戏请查阅[快速上手
+](https://developers.weixin.qq.com/minigame/dev/guide/))
 - 游戏资源CDN：游戏资源所在HTTP或CDN地址
 - 导出路径：转换后文件目录
 2. 可选
@@ -79,9 +80,9 @@
 4. 真机预览
 点击**预览**，扫码二维码预览即可。
 
-请不要是用真机调试！！
-请不要是用真机调试！！
-请不要是用真机调试！！
+请不要使用真机调试！！
+请不要使用真机调试！！
+请不要使用真机调试！！
  
 ## 三、使用脚本集成到自己的构建系统
 如果你希望将导出插件集成到自己的发布流程，想脚本调用的话，可修改 `Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset`配置，然后调用WXEditorWindow 的 DoExport方法导出小游戏
@@ -135,12 +136,4 @@ HideAfterCallMain: 是否初始化完成立即隐藏封面
 ```
 
 ## 四、常见问题
-1. 为什么资源或网络请求在打开"vConsole"正常，关闭时下载失败？
-网络请求必须**配置安全域名**：https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html
-打开"vConsole"时，小游戏默认不检查因此能请求通过。
-
-2. 中文字体适配
-字体必须打包到项目中，才能正常展示。
-
-3. 音频被切到后台会停止
-小游戏被切到后台会停止播放音频需代码中监听 [WX.OnShow](https://developers.weixin.qq.com/minigame/dev/api/base/app/life-cycle/wx.onShow.html)事件和 [WX.OnAudioInterruptionEnd](https://developers.weixin.qq.com/minigame/dev/api/base/app/app-event/wx.onAudioInterruptionEnd.html)事件，在该事件之后重新播放音频
+请查阅[技术常见问题QA](DevelopmentQAList.md)

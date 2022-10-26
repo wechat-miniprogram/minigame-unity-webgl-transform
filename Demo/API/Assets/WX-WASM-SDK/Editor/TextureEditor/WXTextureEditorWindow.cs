@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEditor;
 using System.IO;
 using System.Collections.Generic;
@@ -17,6 +16,7 @@ namespace WeChatWASM
         public string path;
         public int width;
         public int height;
+        public string astc;
     }
 
     public class WXBundlePicDepsData
@@ -41,7 +41,8 @@ namespace WeChatWASM
         public List<WXReplaceTextureData> textureList;
     }
 
-    public class JSTextureData {
+    public class JSTextureData
+    {
         public string p;
         public int w;
         public int h;
@@ -69,20 +70,26 @@ namespace WeChatWASM
         [MenuItem("微信小游戏 / 包体瘦身--压缩纹理")]
         public static void Open()
         {
-			miniGameConf = UnityUtil.GetEditorConf();
-			var win = GetWindow(typeof(WXTextureEditorWindow), false, "包体瘦身--压缩纹理", true);//创建窗口
-			win.minSize = new Vector2(600, 380);
-			win.maxSize = new Vector2(600, 380);
-			win.Show();
+            miniGameConf = UnityUtil.GetEditorConf();
+            var win = GetWindow(typeof(WXTextureEditorWindow), false, "包体瘦身--压缩纹理", true);//创建窗口
+            win.minSize = new Vector2(600, 450);
+            win.maxSize = new Vector2(600, 450);
+            win.Show();
         }
 
-        public static void Log(string type,string msg) {
+        public static void Log(string type, string msg)
+        {
 
-            if (type == "Error") {
+            if (type == "Error")
+            {
                 UnityEngine.Debug.LogError(msg);
-            } else if (type == "Log") {
+            }
+            else if (type == "Log")
+            {
                 UnityEngine.Debug.Log(msg);
-            } else if (type == "Warn") {
+            }
+            else if (type == "Warn")
+            {
                 UnityEngine.Debug.LogWarning(msg);
             }
 
@@ -90,7 +97,7 @@ namespace WeChatWASM
 
         private static WXTextureReplacerScriptObject GetTextureEditorCacheConf()
         {
-             var BundlePicsFilePath = Path.Combine(GetDestDir(), "BundlePicsFile.json");
+            var BundlePicsFilePath = Path.Combine(GetDestDir(), "BundlePicsFile.json");
             string BundlePicsFileJson = "";
             if (File.Exists(BundlePicsFilePath))
             {
@@ -115,9 +122,9 @@ namespace WeChatWASM
             WXTextureReplacerScriptObject wXTextureReplacerScriptObject = GetTextureEditorCacheConf();
             List<WXReplaceTextureData> list = new List<WXReplaceTextureData>();
             Dictionary<string, List<WXReplaceTextureData>> cacheMap = new Dictionary<string, List<WXReplaceTextureData>>();
-            foreach (var item in wXTextureReplacerScriptObject.bundlePicDeps) 
+            foreach (var item in wXTextureReplacerScriptObject.bundlePicDeps)
             {
-                if(item.pics == null)
+                if (item.pics == null)
                 {
                     continue;
                 }
@@ -139,8 +146,22 @@ namespace WeChatWASM
             ModifiyJsFile(cacheMap);
         }
 
-        public static void ModifiyJsFile(Dictionary<string, List<WXReplaceTextureData>> picDeps) {
-            
+        private void showToast(string content, bool err = false)
+        {
+            if (err)
+            {
+                UnityEngine.Debug.LogError(content);
+            }
+            else
+            {
+                UnityEngine.Debug.LogFormat(content);
+            }
+            ShowNotification(new GUIContent(content));
+        }
+
+        public static void ModifiyJsFile(Dictionary<string, List<WXReplaceTextureData>> picDeps)
+        {
+
 
             //修改使用纹理dxt
             string content = File.ReadAllText(Path.Combine(Application.dataPath, "WX-WASM-SDK", "wechat-default", "unity-sdk", "texture.js"), Encoding.UTF8);
@@ -150,15 +171,17 @@ namespace WeChatWASM
             File.WriteAllText(Path.Combine(miniGameConf.ProjectConf.DST, "minigame", "unity-sdk", "texture.js"), content, Encoding.UTF8);
 
             Dictionary<string, List<JSTextureData>> picDepsShort = new Dictionary<string, List<JSTextureData>>();
-            foreach(var item in picDeps)
+            foreach (var item in picDeps)
             {
                 if (item.Key != "unity_default_resources")
                 {
                     var list = new List<JSTextureData>();
-                    if (item.Value == null) {
+                    if (item.Value == null)
+                    {
                         continue;
                     }
-                    foreach (var data in item.Value) {
+                    foreach (var data in item.Value)
+                    {
                         list.Add(new JSTextureData()
                         {
                             h = data.height,
@@ -166,7 +189,7 @@ namespace WeChatWASM
                             p = data.path
                         });
                     }
-                    picDepsShort.Add(item.Key,list);
+                    picDepsShort.Add(item.Key, list);
                 }
             }
 
@@ -175,7 +198,7 @@ namespace WeChatWASM
             if (miniGameConf.CompressTexture.parallelWithBundle)
             {
 
-                File.WriteAllText(textureConfigPath, "GameGlobal.USED_TEXTURE_COMPRESSION=true;GameGlobal.TEXTURE_PARALLEL_BUNDLE=true;GameGlobal.TEXTURE_BUNDLES = " + JsonMapper.ToJson(picDepsShort) , Encoding.UTF8);
+                File.WriteAllText(textureConfigPath, "GameGlobal.USED_TEXTURE_COMPRESSION=true;GameGlobal.TEXTURE_PARALLEL_BUNDLE=true;GameGlobal.TEXTURE_BUNDLES = " + JsonMapper.ToJson(picDepsShort), Encoding.UTF8);
             }
             else
             {
@@ -185,7 +208,8 @@ namespace WeChatWASM
 
         }
 
-        public static string GetDestDir() {
+        public static string GetDestDir()
+        {
             var dstDir = miniGameConf.ProjectConf.DST + "/webgl-min";
             if (!string.IsNullOrEmpty(miniGameConf.CompressTexture.dstMinDir))
             {
@@ -197,15 +221,18 @@ namespace WeChatWASM
         public static void ReplaceBundle()
         {
 
-            if (string.IsNullOrEmpty(miniGameConf.CompressTexture.bundleSuffix)) {
+            if (string.IsNullOrEmpty(miniGameConf.CompressTexture.bundleSuffix))
+            {
                 UnityEngine.Debug.LogError("bundle后缀不能为空！");
                 return;
             }
-            if (string.IsNullOrEmpty(miniGameConf.ProjectConf.DST)) {
+            if (string.IsNullOrEmpty(miniGameConf.ProjectConf.DST))
+            {
                 UnityEngine.Debug.LogError("请先转换为小游戏！");
                 return;
             }
-            if (!File.Exists(miniGameConf.ProjectConf.DST+"/webgl/index.html")) {
+            if (!File.Exists(miniGameConf.ProjectConf.DST + "/webgl/index.html"))
+            {
                 UnityEngine.Debug.LogError("请先转换为小游戏！并确保导出目录下存在webgl目录！");
                 return;
             }
@@ -214,7 +241,7 @@ namespace WeChatWASM
             var dstDir = GetDestDir();
             var dstTexturePath = dstDir + "/Assets/Textures";
             var sourceDir = miniGameConf.ProjectConf.DST + "/webgl";
- 
+
             var path = "";
             var exePath = Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/TextureEditor/Release/WXTextureMin.exe");
             var classDataPath = Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/TextureEditor/classdata.tpk");
@@ -226,8 +253,12 @@ namespace WeChatWASM
                     $" -d {dstDir}" +
                     $" -dt {dstTexturePath}" +
                     $" -s {sourceDir}" +
-                    $" -c {classDataPath}"  +
-                    $" {bundlePathArg}"), path);
+                    $" -c {classDataPath}" +
+                    $" {bundlePathArg}"), path,
+                    (current, total, extInfo) => {
+                        EditorUtility.DisplayProgressBar($"TextureMin Bundle处理中，当前:{current}，总共:{total}", $"Handling:{extInfo}", current * 1.0f / total);
+                    });
+            EditorUtility.ClearProgressBar();
 #else
             exePath = Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/TextureEditor/Release/WXTextureMin.exe");
             WeChatWASM.UnityUtil.RunCmd(exePath, string.Format($" -b {miniGameConf.CompressTexture.bundleSuffix} " +
@@ -235,7 +266,11 @@ namespace WeChatWASM
                     $" -dt {dstTexturePath}" +
                     $" -s {sourceDir}" +
                     $" -c {classDataPath}"  + 
-                    $" {bundlePathArg}"), path);
+                    $" {bundlePathArg}"), path, 
+                    (current, total, extInfo) => {
+                        EditorUtility.DisplayProgressBar($"TextureMin Bundle处理中，当前:{current}，总共:{total}", $"Handling:{extInfo}", current * 1.0f / total);
+                    });
+            EditorUtility.ClearProgressBar();
 #endif
 
 
@@ -245,7 +280,8 @@ namespace WeChatWASM
             OnReplaceEnd();
         }
 
-        private static void OnReplaceEnd() {
+        private static void OnReplaceEnd()
+        {
 
             CreateJSTask();
 
@@ -286,7 +322,7 @@ namespace WeChatWASM
 
             UnityEngine.Debug.Log("Done! 【" + System.DateTime.Now.ToString("T") + "】");
         }
- 
+
         private void OnDisable()
         {
             EditorUtility.SetDirty(miniGameConf);
@@ -298,7 +334,7 @@ namespace WeChatWASM
         }
 
         private void OnGUI()
-		{
+        {
 
             var labelStyle = new GUIStyle(EditorStyles.boldLabel);
             labelStyle.fontSize = 14;
@@ -319,7 +355,51 @@ namespace WeChatWASM
             toggleStyle.margin.left = 20;
             toggleStyle.margin.right = 20;
 
-            miniGameConf.CompressTexture.bundleSuffix = EditorGUILayout.TextField(new GUIContent("bunlde文件后缀(?)", "多个不同后缀可用;分割开来"),miniGameConf.CompressTexture.bundleSuffix, inputStyle);
+            miniGameConf.CompressTexture.bundleSuffix = EditorGUILayout.TextField(new GUIContent("bunlde文件后缀(?)", "多个不同后缀可用;分割开来"), miniGameConf.CompressTexture.bundleSuffix, inputStyle);
+
+
+            GUILayout.Label(new GUIContent("bundle资源配置(?)", "可启用忽略、对ASCT格式进行bundle粒度的配置。注：忽略的bundle(被压缩过)将被强制还原为原始bundle"), labelStyle);
+
+            GUIStyle pathButtonStyle0 = new GUIStyle(GUI.skin.button);
+            pathButtonStyle0.fontSize = 12;
+            pathButtonStyle0.margin.left = 20;
+
+            //if (useBundleIgnore) {
+            GUILayout.BeginHorizontal();
+            GUIStyle pathButtonStyle1 = new GUIStyle(GUI.skin.button);
+            pathButtonStyle1.fontSize = 12;
+            pathButtonStyle1.margin.left = 20;
+            //GUIStyle pathButtonStyle2 = new GUIStyle(GUI.skin.button);
+            //pathButtonStyle2.fontSize = 12;
+            //pathButtonStyle2.margin.left = 10;
+            //if (GUILayout.Button(new GUIContent("编辑忽略列表"), pathButtonStyle1, GUILayout.Height(30), GUILayout.Width(100)))
+            //{
+            //    var win2 = GetWindow(typeof(WXBundleSelectorWindow), false, "选择被忽略的Bundle资源", true);//创建窗口
+            //    win2.minSize = new Vector2(570, 300);
+            //    win2.Show();
+            //}
+            if (GUILayout.Button(new GUIContent("打开bundle配置面板"), pathButtonStyle1, GUILayout.Height(30), GUILayout.Width(150)))
+            {
+                var win2 = GetWindow(typeof(WXBundleSettingWindow), false, "Bundle配置面板", true);//创建窗口
+                win2.minSize = new Vector2(680, 350);
+                win2.Show();
+            }
+            //if (GUILayout.Button(new GUIContent("关闭忽略"), pathButtonStyle2, GUILayout.Height(30), GUILayout.Width(60)))
+            //{
+            //    this.cancelBundleIgnore();
+            //}
+            GUILayout.EndHorizontal();
+            //}
+            //else
+            //{
+            //    if (GUILayout.Button(new GUIContent("忽略部分bundle资源，默认不用选"), pathButtonStyle0, GUILayout.Height(30), GUILayout.Width(300)))
+            //    {
+            //        this.useBundleIgnore = true;
+            //        var win2 = GetWindow(typeof(WXBundleSelectorWindow), false, "选择被忽略的Bundle资源", true);//创建窗口
+            //        win2.minSize = new Vector2(570, 300);
+            //        win2.Show();
+            //    }
+            //}
 
             GUILayout.Label(new GUIContent("功能选项(?)", "每次变更了下列选项都需要重新发布小游戏包"), labelStyle);
             GUILayout.BeginHorizontal();
@@ -473,6 +553,9 @@ namespace WeChatWASM
 
             if (replaceTexture)
             {
+                //if (!this.checkUnityVersion())
+                //    return;
+                
                 ReplaceBundle();
             }
 
@@ -481,8 +564,41 @@ namespace WeChatWASM
                 Application.OpenURL("https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/CompressedTexture.md");
             }
 
+
         }
 
-	}
+
+        private static string[] supportUnityVersion = new string[] { "2018.", "2019.", "2020.", "2021.2" };
+        /**
+            Unity 2021.3.x 及以后 2022 等版本均不支持纹理压缩
+            支持版本： 2018、2019、2020、2021 其中2021.3.x 不支持 https://github.com/wechat-miniprogram/minigame-unity-webgl-transform#%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8
+        */
+        private bool checkUnityVersion()
+        {
+            string unityVersion = Application.unityVersion;
+            bool success = false;
+            for (int i = 0; i < supportUnityVersion.Length; i++)
+            {
+                if(unityVersion.IndexOf(supportUnityVersion[i]) != -1)
+                {
+                    success = true;
+                    break;
+                }
+            }
+            if (!success)
+            {
+                if (unityVersion.IndexOf("2021.3") != -1)
+                {
+                    this.showToast("纹理压缩工具暂不支持Unity 2021.3.x 版本，请使用 2021.2.18(含)之前版本", true);
+                    return false;
+                }
+
+                this.showToast("当前Unity版本可能不支持纹理压缩，建议使用 2021.2.18(含)之前版本");
+            }
+            return true;
+
+        }
+
+    }
 
 }

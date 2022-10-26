@@ -204,6 +204,8 @@
             WXSetKeepScreenOn(){},
             WXIsCloudTest(){ return false;},
             WXUncaughtException(){},
+            WXSetDataCDN() {},
+            WXSetPreloadList() {},
                 WX_AddCard(conf, callbackId){
     },
     WX_AuthPrivateMessage(conf, callbackId){
@@ -454,7 +456,13 @@
     },
     WX_OpenChannelsLiveCollection(conf, callbackId){
     },
+    WX_OpenPage(conf, callbackId){
+    },
+    WX_GetGameClubData(conf, callbackId){
+    },
 
+    WX_RestartMiniProgram(){
+    },
     WX_RemoveStorageSync(){
     },
     WX_ReportEvent(){

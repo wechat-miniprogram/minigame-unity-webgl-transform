@@ -20,17 +20,17 @@
 
 ## 安装与使用
 
-下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1), 并导入至游戏项目中。
+下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)，并导入至游戏项目中，版本更新请查看[更新日志](CHANGELOG.md)
 
 - 已验证Unity版本：2018、2019、2020、2021（请尽量使用LTS, 推荐使用2019、2021）. 安装时选择WebGL组件
 - 请前往[Node官网](https://nodejs.org/zh-cn/download/)安装长期稳定版
 
-
-[快速开始：转换工具导出微信小游戏](Design/Transform.md)
- 
 ## 文档总览
+- [Unity WebGL微信小游戏转换指南](Design/Guide.md)
+- [快速开始：转换工具导出微信小游戏](Design/Transform.md)
+
 方案概述与兼容性
-- [技术原理与流程](Design/Summary.md)
+- [技术原理](Design/Summary.md)
 - [兼容性评估](Design/Evaluation.md)
 - [更多转换案例](Design/ShowCase.md)
 - [技术常见问题QA](Design/DevelopmentQAList.md)
@@ -45,6 +45,7 @@
   - [使用 Loader 进行游游戏加载](Design/UsingLoader.md)
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
+  - [使用 Unity Instant Game 进行资源按需加载](Design/InstantGameGuide.md)
   - [资源服务器部署注意事项](Design/DataCDN.md)
   - [资源缓存](Design/FileCache.md)
   - [定制启动封面](Design/CustomLoading.md)
@@ -55,6 +56,7 @@
 
 
 - 运行性能
+  - [优化Unity WebGL的运行性能](Design/OptimizationPerformence.md)
   - [使用 Android CPU Profiler 性能调优](Design/AndroidProfile.md)
   - [使用 Unity Profiler 性能调优](Design/UnityProfiler.md)
   - [优化Unity WebGL的内存](Design/OptimizationMemory.md)

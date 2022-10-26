@@ -12,9 +12,11 @@
 
 ### 2.1. 查看启动耗时
 
-通过timelog开发者可以看到小游戏目前的启动首屏时长：
+通过修改unity-namespace.js中hideTimeLogModal为false，显示timelog开发者可以看到小游戏目前的启动首屏时长：
 
 <img src='../image/startupop1.png' width="400"/>
+
+
 
 要知道各个阶段的含义，我们必要理解[启动流程](Startup.md)
   
@@ -23,7 +25,7 @@
 > 2. WASM代码下载和编译 
 > 3. 引擎初始化与开发者首帧逻辑
 
-**建议首屏启动时间控制在10~15s甚至更短**。
+**建议首屏启动时间控制在5~10s甚至更短**。
 
 ### 2.2 分阶段耗时
 ### 2.2.1 资源下载阶段与首包体积
@@ -33,28 +35,28 @@
 > 3. 微信用户存在不少<300KB/s的低网速玩家
 > 4. CDN务必针对首资源包开启gzip/br压缩，将极大减少网络传输量
 
-建议：首包资源手动使用zip压缩后大小(与CDN启用gzip相近)控制在**3~5MB**以减少此阶段的耗时。
+建议：首包资源(webgl/Build目录下的data文件)网络传输大小(CDN务必确认开启gzip，传输大小与本地zip后体积相当)控制在**3~5MB**以减少此阶段的耗时。
 
 ### 2.2.2 WASM代码下载和编译
 WASM分包的大小会直接影响代码下载时长以及程序初始化编译的时间，关于WASM代码对启动速度的影响，开发者需要注意：
->1. 转换工具会将Unity WebGL包进行br压缩(压缩至原code包的20%)
+>1. 转换工具会将Unity WebGL包自动进行br压缩(压缩至原code包的20%)
 >2. WASM代码下载与首包资源并行下载，因此占用下载带宽
->3. WASM编译对于低端机来说时间依然可观
->4. WASM编译在中高端机器很快，但对于低端机来说时间依然可观
+>3. WASM编译需要CPU资源，对于低端机来说时间依然可观
 
-我们建议原始代码包**不超过30MB**, 建议开发者**勾选"Strip Engine Code"并设置"Managed Stripping Level"为High**。同时，强烈建议开发者可以使用[代码分包](WasmSplit.md)工具将代码包减少到原始尺寸的到1/3。
+我们建议原始代码包(webgl/Build目录下的code文件)**不超过30MB**, 建议开发者**勾选"Strip Engine Code"并设置"Managed Stripping Level"为High**。同时，强烈建议开发者可以使用[代码分包](WasmSplit.md)工具将代码包减少到原始尺寸的到1/3。如果使用Unity2021以上版本，可更改PlayerSettings面板IL2CPP选项为更小尺寸(SIZE)以减少函数量。
 
 ### 2.2.3 引擎初始化与开发者首帧逻辑
 在timelog中呈现的首场景耗时即为引擎初始化与开发者首帧逻辑，关于该阶段耗时，开发者需要注意的是：
 >1. MonoBehaviour脚本的首帧Start/Awake应足够少逻辑，优先将画面呈现
 >2. 初始场景不宜过大，通常呈现Splah场景即可
 >3. 初始场景中需要后续主场景或配置加载时可采取分帧策略，切勿在Start/Awake阻塞。
+>4. 对于计算耗时 请[使用Android CPU Profiler性能调优](AndroidProfile.md)分析每一帧的耗时部分。
 
 我们建议开发者[使用预下载功能](UsingPreload.md)，该功能可以利用此阶段的网络空闲期进行资源下载。
 
 ### 2.2.4 游戏内资源按需加载
 前面我们提到开发者需要将资源从首包分离以较少首屏加载时间，同理，而对于其余的资源开发者最好使用按需加载的方式进行加载，减少玩家进行核心玩法的等待时间。
-优化可参考 [使用Addressable Assets System进行资源按需加载](UsingAddressable.md)。
+优化可参考 [使用Addressable Assets System](UsingAddressable.md)或[AssetBundle](UsingAssetBundle.md)进行资源按需加载。
 
 ### 2.3 优化总览
 我们总结下启动时序以及开发者、平台提升启动性能的优化事项：

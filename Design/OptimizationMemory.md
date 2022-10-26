@@ -9,7 +9,7 @@ Unity WebGL游戏通常比普通H5(JS)游戏占用更大的内存，在操作系
 
 相对而言，Android机型的内存更为宽松。
 
-iOS低档机为iPhone 6sp/7/8等2G机型为主，中高档机为iPhone 7P/8P/iPhoneX/iPhone11等。
+iOS低档机为iPhone 6sp/7/8等RAM 2G机型为主，中高档机为iPhone 7P/8P/iPhoneX/iPhone11等RAM 3G或以上机型。
 
 
 

@@ -2247,7 +2247,35 @@ namespace WeChatWASM
         {
             WXSDKManagerHandler.Instance.OpenChannelsLiveCollection(callback);
         }
+        /// <summary>
+        /// 打开游戏内容页面，从 2.25.1 基础库开始支持
+        /// | 参数 | 类型 | 说明 |
+        /// | openlink | string | 用于打开指定游戏内容页面的开放链接 |
+        /// </summary>
+        public static void OpenPage(openPageOption callback)
+        {
+            WXSDKManagerHandler.Instance.OpenPage(callback);
+        }
+        /// <summary>
+        /// 获取游戏圈数据，从 2.25.4 基础库开始支持
+        /// | 属性 | 类型 | 说明 |
+        /// | --- | ---- | --- |
+        /// | dataTypeList | Array.<DataType> | 需要获取的数据指标的对象数组 |
+        /// </summary>
+        public static void GetGameClubData(getGameClubDataOption callback)
+        {
+            WXSDKManagerHandler.Instance.GetGameClubData(callback);
+        }
 
+/// <summary>
+/// [wx.restartMiniProgram()](https://developers.weixin.qq.com/minigame/dev/api/navigate/wx.restartMiniProgram.html)
+/// 需要基础库： `2.22.1`
+/// 重启当前小程序
+/// </summary>
+public static void RestartMiniProgram()
+{
+    WXSDKManagerHandler.Instance.RestartMiniProgram();
+}
 /// <summary>
 /// [wx.removeStorageSync(string key)](https://developers.weixin.qq.com/minigame/dev/api/storage/wx.removeStorageSync.html)
 /// [wx.removeStorage](https://developers.weixin.qq.com/minigame/dev/api/storage/wx.removeStorage.html) 的同步版本

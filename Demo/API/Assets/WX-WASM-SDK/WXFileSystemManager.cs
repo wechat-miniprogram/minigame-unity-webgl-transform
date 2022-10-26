@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using LitJson;
 using UnityEngine;
 
 namespace WeChatWASM
@@ -38,7 +39,7 @@ namespace WeChatWASM
         #endif
         private static extern string WXAppendStringFile(string filePath, string data, string encoding, string s, string f, string c);
 
-#if UNITY_WEBGL
+        #if UNITY_WEBGL
         [DllImport("__Internal")]
         #endif
         private static extern string WXReadFile(string filePath, string encoding, string callbackId);
@@ -140,7 +141,7 @@ namespace WeChatWASM
                     errMsg = res.errMsg,
                     stringData = res.data
                 };
-                conf.fail?.Invoke(obj);
+                conf.success?.Invoke(obj);
                 conf.complete?.Invoke(obj);
             }
             ReadFileDict.Remove(res.callbackId);
@@ -356,6 +357,80 @@ namespace WeChatWASM
         public string MkdirSync(string dirPath,bool recursive) {
             return WXMkdirSync(dirPath, recursive);
         }
+
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+    private static extern void WXStat(string conf, string callbackId);
+#else
+        private void WXStat(string conf, string callbackId) { }
+#endif
+        private static Dictionary<string, WXStatOption> FileSystemStatOptionList;
+        public void Stat(WXStatOption option)
+        {
+            if (FileSystemStatOptionList == null)
+            {
+                FileSystemStatOptionList = new Dictionary<string, WXStatOption>();
+            } 
+            string id = WXSDKManagerHandler.GetCallbackId(FileSystemStatOptionList);
+            var callback = new WXStatOption()
+            {
+                success = option.success,
+                fail = option.fail,
+                complete = option.complete
+            };
+            FileSystemStatOptionList.Add(id, callback);
+            var succ = option.success;
+            var fail = option.fail;
+            var comp = option.complete;
+            option.success = null;
+            option.fail = null;
+            option.complete = null;
+            var conf = JsonMapper.ToJson(option);
+            option.success = succ;
+            option.fail = fail;
+            option.complete = comp;
+            WXStat(conf, id);
+
+        }
+        public static void HanldStatCallback(string msg)
+        {
+            if (!string.IsNullOrEmpty(msg) && FileSystemStatOptionList != null)
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var type = jsCallback.type;
+                var res = jsCallback.res;
+                // Debug.Log($"HanldStatCallback {msg}");
+                if (FileSystemStatOptionList.ContainsKey(id))
+                {
+                    var item = FileSystemStatOptionList[id];
+                    if (type == "complete")
+                    {
+                        item.complete?.Invoke(JsonMapper.ToObject<WXStatResponse>(res));
+                        item.complete = null;
+                    }
+                    else
+                    {
+                        if (type == "success")
+                        {
+                            item.success?.Invoke(JsonMapper.ToObject<WXStatResponse>(res));
+                        }
+                        else if (type == "fail")
+                        {
+                            item.fail?.Invoke(JsonMapper.ToObject<WXStatResponse>(res));
+                        }
+                        item.success = null;
+                        item.fail = null;
+                    }
+                    if (item.complete == null && item.success == null && item.fail == null)
+                    {
+                        FileSystemStatOptionList.Remove(id);
+                    }
+                }
+            }
+        }
+
 
     }
 }

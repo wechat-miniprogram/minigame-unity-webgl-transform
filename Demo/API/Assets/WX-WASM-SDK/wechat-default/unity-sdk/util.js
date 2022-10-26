@@ -136,5 +136,16 @@ export default {
       return key;
     }
     return '';
+  },
+  WXSetDataCDN(path) {
+    if (GameGlobal.manager && GameGlobal.manager.setDataCDN) {
+      GameGlobal.manager.setDataCDN(path);
+    }
+  },
+  WXSetPreloadList(paths) {
+    if (GameGlobal.manager && GameGlobal.manager.setPreloadList) {
+      var list = (paths || '').split(',').filter(str => !!str && !!str.trim());
+      GameGlobal.manager.setPreloadList(list);
+    }
   }
 }

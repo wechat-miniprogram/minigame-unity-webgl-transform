@@ -114,6 +114,11 @@ namespace WeChatWASM
         /// 加载进度条的宽度，默认240
         /// </summary>
         public int loadingBarWidth = 240;
+
+        /// <summary>
+        /// 是否需要启动时自动检查小游戏是否有新版本
+        /// </summary>
+        public bool needCheckUpdate = false;
     }
 
     [Serializable]

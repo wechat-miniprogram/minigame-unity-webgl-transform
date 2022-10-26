@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: Demo
-    Appid: wxe5a48f1ed5f544b7
-    CDN: http://localhost:10000/
-    assetLoadType: 0
+    projectName: testapi
+    Appid: wxf616b60467bcfcaf
+    CDN: https://www.test.com
+    assetLoadType: 1
     VideoUrl: 
-    DST: /Users/liangyizhou/work/mini-game/r6
+    DST: /Users/nihayashi/Documents/wxgame_unity/wxgame_testapi
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -36,15 +36,16 @@ MonoBehaviour:
     texturesPath: Assets/Textures
     needCacheTextures: 1
     loadingBarWidth: 240
+    needCheckUpdate: 0
   SDKOptions:
-    UseAudioApi: 1
+    UseAudioApi: 0
     UseFriendRelation: 0
     UseCompressedTexture: 0
   CompileOptions:
     DevelopBuild: 0
     AutoProfile: 0
     ScriptOnly: 0
-    profilingFuncs: 0
+    profilingFuncs: 1
     Webgl2: 0
     DeleteStreamingAssets: 1
     ProfilingMemory: 0

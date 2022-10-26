@@ -5563,6 +5563,70 @@ namespace WeChatWASM
             /// </summary>
                 public Action<GeneralCallbackResult> success;
     }
+    [Preserve]
+    public class openPageOption {
+            /// <summary> 
+            /// 最近几场直播的 feedId 列表
+            /// </summary>
+                public string openlink;
+            /// <summary> 
+            /// 接口调用结束的回调函数（调用成功、失败都会执行）
+            /// </summary>
+                public Action<GeneralCallbackResult> complete;
+            /// <summary> 
+            /// 接口调用失败的回调函数
+            /// </summary>
+                public Action<GeneralCallbackResult> fail;
+            /// <summary> 
+            /// 接口调用成功的回调函数
+            /// </summary>
+                public Action<GeneralCallbackResult> success;
+    }
+    [Preserve]
+    public class getGameClubDataOption {
+            /// <summary> 
+            /// 最近几场直播的 feedId 列表
+            /// </summary>
+                public GameClubDataType[] dataTypeList;
+            /// <summary> 
+            /// 接口调用结束的回调函数（调用成功、失败都会执行）
+            /// </summary>
+                public Action<GeneralCallbackResult> complete;
+            /// <summary> 
+            /// 接口调用失败的回调函数
+            /// </summary>
+                public Action<GeneralCallbackResult> fail;
+            /// <summary> 
+            /// 接口调用成功的回调函数
+            /// </summary>
+                public Action<getGameClubDataSuccessCallbackResult> success;
+    }
+    [Preserve]
+    public class GameClubDataType {
+            /// <summary> 
+            /// | type | Number | 见随后表格说明|
+            /// </summary>
+                public double type;
+            /// <summary> 
+            /// | subKey | String | 部分type需要传，见随后type说明|
+            /// </summary>
+                public string subKey;
+            /// <summary> 
+            /// | value | Number | 不同type返回的value含义不同，见随后type说明|
+            /// </summary>
+                public double value;
+    }
+    [Preserve]
+    public class getGameClubDataSuccessCallbackResult {
+            /// <summary> 
+            /// 最近几场直播的 feedId 列表
+            /// </summary>
+                public GameClubDataType[] dataList;
+            /// <summary> 
+            /// 错误信息
+            /// </summary>
+                public string errMsg;
+    }
 
     [Preserve]
     public class UpdateManager{

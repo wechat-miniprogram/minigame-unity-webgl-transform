@@ -228,13 +228,39 @@ namespace WeChatWASM
             return config;
         }
 
-        public static void RunCmd(string cmd, string args, string workdir = null)
+        public static void RunCmd(string cmd, string args, string workdir = null, Action<int, int, string> progressUpdate = null)
         {
             Debug.Log($"RunCmd {cmd} {args}");
             var p = CreateCmdProcess(cmd, args, workdir);
+ 
             while (!p.StandardOutput.EndOfStream)
             {
-                Debug.Log(p.StandardOutput.ReadLine());
+                string line = p.StandardOutput.ReadLine();
+                if (line.StartsWith("#WXTextureMinProgress#"))
+                {
+                    var aProgress = line.Split('#');
+                    if (aProgress.Length < 5)
+                    {
+                        Debug.LogError($"{line} invalid!");
+                        continue;
+                    }
+                    if (progressUpdate != null)
+                    {
+                        //0:""
+                        //1:WXTextureMinProgress
+                        //2:curent
+                        //3:total
+                        //4:extInfo
+                        int current, total = 1;
+                        int.TryParse(aProgress[2], out current);
+                        int.TryParse(aProgress[3], out total);
+                        progressUpdate(current, total, aProgress[4]);
+                    }
+                }
+                else
+                {
+                    Debug.Log(line);
+                }
             }
             var err = p.StandardError.ReadToEnd();
             if (!string.IsNullOrEmpty(err))

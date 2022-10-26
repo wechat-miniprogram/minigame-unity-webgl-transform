@@ -1,13 +1,92 @@
 <!-- 
-Added － 新增功能/接口
+Feature － 新增功能/接口
 Changed - 功能/接口变更
 Deprecated - 不建议使用的功能/接口
 Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2022-9-21
+### Added
+* 增加游戏圈接口openPageOption, getGameClubData
+* FileSystemManager增加stat接口
+  
+## 2022-9-13
+### Added
+* 微信压缩纹理工具支持bundle级别修改压缩纹理等级
+* Unity2021 IL2CPP默认选项更改为SIZE减少代码包体
 
-## 2022-6-18
+## 2022-9-8
+### Fixed
+* 启动封面拉伸
+* pc小游戏下载路径处理
+
+### Added
+* 增加动态修改DATA_CDN的C#接口`SetDataCDN`，以及js接口`GameGlobal.manager.setDataCDN`
+* 增加动态修改预下载列表的C#接口`SetPreloadList`，以及js接口`GameGlobal.manager.setPreloadList`
+
+## 2022-9-7
+### Fixed
+* 修复PlayerPref在Unity Editor中的兼容
+* 修复WXWriteBinFileSync返回值的处理
+
+## 2022-8-31
+### Fixed
+* 调整WXTouchOverride更新逻辑为LateUpdate, 补充TouchCancel事件
+* 修复资源量较大时，压缩纹理工具替换过程的卡死问题
+ 
+## 2022-8-26
+### Feature
+* HTTP下载时，文件缓存与规则判定效率优化
+* 压缩纹理对于不支持的引擎版本增加提示
+* 插件特性动态开关
+
+## 2022-8-17
+### Feature
+* WASM代码未发生变化时不在进行压缩，加快转换速度
+* 压缩纹理支持剔除功能, 增加详细日志输出
+* 微信开发者工具支持提示插件审核指引
+
+## 2022-8-11
+### Fixed
+* 启动视频样式错误
+
+## 2022-8-10
+### Feature
+* 支持自定义启动封面样式
+* pc微信支持启动封面
+
+### Fixed
+* 安卓8.0.25启动异常
+* 写缓存时未删除同名旧缓存
+* 使用Date.now替换performence.now以提升性能
+* 压缩纹理工具支持特殊字符资源
+
+## 2022-7-28
+### Feature
+* 增加UDP接口能力
+## 2022-7-20
+### Feature
+* 增加重启小游戏的API支持
+### Fixed
+* 纹理压缩并行下载完成未正常显示
+### Added
+* 设置启动时是否自动检查小游戏版本更新
+## 2022-7-14
+### Fixed
+* 转换面板的最大内存提示与指引优化
+* WebGL导出失败时不进行小游戏转换
+* 非playing状态调用WX接口的告警提示
+## 2022-7-1
+### Fixed
+* 开发阶段没显示耗时弹框
+* 21.3unity服务器错误且无跨域头导致报错
+## 2022-6-30
+### Fixed
+* 压缩纹理工具逻辑异常，增加进度条
+* 完善限帧率接口SetPreferredFramesPerSecond
+
+## 2022-6-28
 ### Feature
 * 导出插件的brotli压缩不依赖python环境
 ### Fixed

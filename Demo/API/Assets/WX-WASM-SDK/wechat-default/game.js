@@ -4,7 +4,37 @@ import './$GAME_NAME.wasm.framework.unityweb'
 import "./unity-sdk/index.js"
 import checkVersion, {canUseCoverview} from './check-version'
 import "texture-config.js";
-import {launchEventType} from './plugin-config'
+import {launchEventType, scaleMode} from './plugin-config'
+
+function checkUpdate() {
+  const updateManager = wx.getUpdateManager()
+
+  updateManager.onCheckForUpdate(function (res) {
+    // 请求完新版本信息的回调
+    // console.log(res.hasUpdate)
+  })
+
+  updateManager.onUpdateReady(function () {
+    wx.showModal({
+      title: '更新提示',
+      content: '新版本已经准备好，是否重启应用？',
+      success: function (res) {
+        if (res.confirm) {
+          // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+          updateManager.applyUpdate()
+        }
+      }
+    })
+  })
+
+  updateManager.onUpdateFailed(function () {
+    // 新版本下载失败
+  })
+}
+
+if ($NEED_CHECK_UPDATE) {
+  checkUpdate()
+}
 
 let managerConfig = {
   DATA_FILE_MD5: "$DATA_MD5",
@@ -12,7 +42,6 @@ let managerConfig = {
   GAME_NAME: "$GAME_NAME",
   APPID: "$APP_ID",
   // DATA_FILE_SIZE: "$DATA_FILE_SIZE",
-  LOADING_VIDEO_URL: "$LOADING_VIDEO_URL",
   DATA_CDN: "$DEPLOY_URL",
   // 资源包是否作为小游戏分包加载
   loadDataPackageFromSubpackage: $LOAD_DATA_FROM_SUBPACKAGE,
@@ -33,48 +62,87 @@ GameGlobal.managerConfig = managerConfig;
 // 版本检查
 checkVersion().then(enable => {
   if (enable) {
-    const UnityManager = requirePlugin('UnityPlugin', {
-      enableRequireHostModule: true,
-      customEnv: {
-        wx,
-        unityNamespace,
-        document,
-        canvas
+    let UnityManager
+    try {
+      UnityManager = requirePlugin('UnityPlugin', {
+        enableRequireHostModule: true,
+        customEnv: {
+          wx,
+          unityNamespace,
+          document,
+          canvas
+        }
+      }).default
+    } catch (error) {
+      if (error.message.indexOf('not defined') !== -1) {
+        console.error('！！！插件需要申请才可使用\n请勿使用测试AppID，并登录 https://mp.weixin.qq.com/ 并前往：能力地图-开发提效包-快适配 开通\n阅读文档获取详情:https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/Transform.md')
       }
-    }).default
+    }
 
     // JS堆栈能显示更完整
     Error.stackTraceLimit = Infinity;
-    // 是否使用coverview作为启动页
-    let USE_COVER_VIEW
-    if (canUseCoverview()) {
-      USE_COVER_VIEW = true
-    } else {
-      USE_COVER_VIEW = false
+
+    managerConfig = {
+      ...managerConfig,
+
+      // callmain结束后立即隐藏封面视频
+      hideAfterCallmain: $HIDE_AFTER_CALLMAIN,
+			loadingPageConfig: {
+				// 以下是默认值
+				totalLaunchTime: 15000, // 默认总启动耗时，即加载动画默认播放时间，可根据游戏实际情况进行调整
+				/**
+				 * !!注意：修改设计宽高和缩放模式后，需要修改文字和进度条样式。默认设计尺寸为667*375
+				 */
+				designWidth: 0, // 设计宽度，单位px
+				designHeight: 0, // 设计高度，单位px
+				scaleMode: '', // 缩放模式, 取值和效果参考，https://docs.egret.com/engine/docs/screenAdaptation/zoomMode
+				// 以下配置的样式，尺寸相对设计宽高
+				textConfig: {
+					firstStartText: '首次加载请耐心等待', // 首次启动时提示文案
+					downloadingText: ['正在加载资源'], // 加载阶段循环展示的文案
+					compilingText: '编译中', // 编译阶段文案
+					initText: '初始化中', // 初始化阶段文案
+					completeText: '开始游戏', // 初始化完成
+					textDuration: 1500, // 当downloadingText有多个文案时，每个文案展示时间
+					// 文字样式
+					style: {
+						bottom: 64,
+						height: 24,
+						width: 240,
+						lineHeight: 24,
+						color: '#ffffff',
+						fontSize: 12,
+					}
+				},
+				// 进度条样式
+				barConfig: {
+					style: {
+						width: 240,
+						height: 24,
+						padding: 2,
+						bottom: 64,
+						backgroundColor: '#07C160',
+					}
+				},
+				// 一般不修改，控制icon样式
+				iconConfig: {
+					visible: true, // 是否显示icon
+					style: {
+						width: 64,
+						height: 23,
+						bottom: 20,
+					}
+				},
+				// 加载页的素材配置
+				materialConfig: {
+					// 背景图或背景视频，两者都填时，先展示背景图，视频可播放后，播放视频
+					backgroundImage: '$BACKGROUND_IMAGE', // 背景图片，推荐使用小游戏包内图片；当有视频时，可作为视频加载时的封面
+					backgroundVideo: '$LOADING_VIDEO_URL', // 加载视频，网络url
+					iconImage: 'images/unity_logo.png', // icon图片，一般不更换
+				}
+			},
     }
-    if (USE_COVER_VIEW) {
-      managerConfig = {
-        ...managerConfig,
-        useCoverView: true,
-	      // callmain结束后立即隐藏封面视频
-	      hideAfterCallmain: $HIDE_AFTER_CALLMAIN,
-        loadingPageConfig: {
-          // 背景图或背景视频，两者都填时，先展示背景图，视频可播放后，播放视频
-          backgroundImage: '$BACKGROUND_IMAGE', // 不使用默认背景图可将此图片删除
-          backgroundVideo: '$LOADING_VIDEO_URL',
-          // 以下是默认值
-          barWidth: $LOADING_BAR_WIDTH, // 加载进度条宽度，默认240
-          totalLaunchTime: 15000, // 默认总启动耗时，即加载动画默认播放时间，可根据游戏实际情况进行调整
-          textDuration: 1500, // 当downloadingText有多个文案时，每个文案展示时间
-          firstStartText: '首次加载请耐心等待', // 首次启动时提示文案
-          downloadingText: ['正在加载资源'], // 加载阶段循环展示的文案
-          compilingText: '编译中', // 编译阶段文案
-          initText: '初始化中', // 初始化阶段文案
-          completeText: '开始游戏', // 初始化完成
-        }
-      }
-      GameGlobal.managerConfig = managerConfig;
-    }
+    GameGlobal.managerConfig = managerConfig;
 
     const gameManager = new UnityManager(managerConfig);
 
@@ -112,15 +180,16 @@ checkVersion().then(enable => {
       }
     })
 
-    gameManager.assetPath = (managerConfig.DATA_CDN|| '').replace(/\/$/,'') + '/Assets';
-
     gameManager.onModulePrepared(() => {
       for(let key in unityNamespace) {
-        if (!GameGlobal.hasOwnProperty(key)) {
+        // 动态修改DATA_CDN后，同步修改全局对象
+        if (!GameGlobal.hasOwnProperty(key) || key === 'DATA_CDN') {
           GameGlobal[key] = unityNamespace[key]
         } else {
         }
       }
+      managerConfig.DATA_CDN = GameGlobal.DATA_CDN;
+      gameManager.assetPath = (managerConfig.DATA_CDN|| '').replace(/\/$/,'') + '/Assets';
     })
 
 

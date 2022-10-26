@@ -67,6 +67,7 @@ public class WXTouchInputOverride : BaseInput
 		WX.OnTouchStart(OnWxTouchStart);
 		WX.OnTouchMove(OnWxTouchMove);
 		WX.OnTouchEnd(OnWxTouchEnd);
+		WX.OnTouchCancel(OnWxTouchCancel);
 	}
 
 	private void UnregisterWechatTouchEvents()
@@ -74,6 +75,7 @@ public class WXTouchInputOverride : BaseInput
 		WX.OffTouchStart(OnWxTouchStart);
 		WX.OffTouchMove(OnWxTouchMove);
 		WX.OffTouchEnd(OnWxTouchEnd);
+		WX.OffTouchCancel(OnWxTouchCancel);
 	}
 
 	private void OnWxTouchStart(OnTouchStartCallbackResult touchEvent)
@@ -102,12 +104,41 @@ public class WXTouchInputOverride : BaseInput
 	{
 		foreach (var wxTouch in touchEvent.changedTouches)
 		{
-			var data = FindOrCreateTouchData(wxTouch.identifier);
+			TouchData data = FindTouchData(wxTouch.identifier);
+			if (data == null)
+            {
+				Debug.LogError($"OnWxTouchEnd, error identifier:{wxTouch.identifier}");
+				return;
+			}
+			if (data.touch.phase == TouchPhase.Canceled || data.touch.phase == TouchPhase.Ended)
+            {
+				Debug.LogWarning($"OnWxTouchEnd, error phase:{wxTouch.identifier}, phase:{data.touch.phase}");
+			}
+			// Debug.Log($"OnWxTouchEnd:{wxTouch.identifier}");
 			UpdateTouchData(data, new Vector2(wxTouch.clientX, wxTouch.clientY), touchEvent.timeStamp, TouchPhase.Ended);
 		}
 	}
 
-	private void Update()
+	private void OnWxTouchCancel(OnTouchStartCallbackResult touchEvent)
+	{
+		foreach (var wxTouch in touchEvent.changedTouches)
+		{
+			TouchData data = FindTouchData(wxTouch.identifier);
+			if (data == null)
+			{
+				Debug.LogError($"OnWxTouchCancel, error identifier:{wxTouch.identifier}");
+				return;
+			}
+			if (data.touch.phase == TouchPhase.Canceled || data.touch.phase == TouchPhase.Ended)
+			{
+				Debug.LogWarning($"OnWxTouchCancel, error phase:{wxTouch.identifier}, phase:{data.touch.phase}");
+			}
+			// Debug.Log($"OnWxTouchCancel:{wxTouch.identifier}");
+			UpdateTouchData(data, new Vector2(wxTouch.clientX, wxTouch.clientY), touchEvent.timeStamp, TouchPhase.Canceled);
+		}
+	}
+
+	private void LateUpdate()
 	{
 		foreach (var t in _touches) 
 		{
@@ -131,7 +162,7 @@ public class WXTouchInputOverride : BaseInput
 		}
 	}
 
-	private TouchData FindOrCreateTouchData(int identifier)
+	private TouchData FindTouchData(int identifier)
 	{
 		foreach (var touchData in _touches)
 		{
@@ -141,6 +172,14 @@ public class WXTouchInputOverride : BaseInput
 				return touchData;
 			}
 		}
+		return null;
+	}
+
+	private TouchData FindOrCreateTouchData(int identifier)
+	{
+		var touchData = FindTouchData(identifier);
+		if (touchData != null) return touchData;
+		 
 		var data = new TouchData();
 		data.touch.pressure = 1.0f;
 		data.touch.maximumPossiblePressure = 1.0f;

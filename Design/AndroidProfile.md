@@ -16,12 +16,17 @@
 <img src='../image/androidprofile2.png' width="300"/>
 
 
-4. 利用PC(Windows/Mac)的chrome加载数据
+4. 利用PC(Windows/Mac)的Edge/Chrome加载数据
 
+   以Edge为例：浏览器菜单打开"更多工具-开发人员工具-右上角...-更多工具-JavaScript探测器"，然后点击加载前面导出的cpuprofile文件即可。
+    <img src='../image/androidprofile5.png' width="500"/>
     <img src='../image/androidprofile3.png' width="500"/>
+    
+    视图有多种方式，可选择"图表"(Chart)分析每一帧游戏函数耗时情况
 
 5. 使用JavaScriptProfile进行数据分析
-   
+ 
+
     <img src='../image/androidprofile4.png' width="700"/> 
 
 注意：

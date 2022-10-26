@@ -1,2 +1,2 @@
-const moduleName = "WXSDKManagerHandler";
-export {moduleName};
+const moduleName = 'WXSDKManagerHandler';
+export { moduleName };
