@@ -14,9 +14,9 @@
   - [收集到什么时候可以结束](#收集到什么时候可以结束)
   - [新增收集的函数要重新再次提审才会在首包吗](#新增收集的函数要重新再次提审才会在首包吗)
   - [会不会最终跑到所有函数都收集的情况](#会不会最终跑到所有函数都收集的情况)
-  - [iOS 高性能模式收集很卡](#ios高性能模式收集很卡)
-  - [iOS 高性能模式代码分包后内存反而变得很高](#ios高性能模式代码分包后内存反而变得很高)
-  - [iOS 高性能模式出现 impport section's count is boo big](#ios高性能模式出现impport-sections-count-is-boo-big)
+  - [iOS 高性能模式收集很卡](#ios-high-performance-lag-when-profiling)
+  - [iOS 高性能模式代码分包后内存反而变得很高](#ios-high-performance-more-memory)
+  - [iOS 高性能模式出现 impport section's count is boo big](#ios-high-performance-import-section-too-big)
   - [没有看到增量分包的界面](#没有看到增量分包的界面)
   - [增量分包没生效](#增量分包没生效)
 
@@ -158,7 +158,7 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 
 可以等收集函数超过 75%了再来考虑这个问题
 
-### iOS 高性能模式收集很卡
+### <p id="ios-high-performance-lag-when-profiling">iOS 高性能模式收集很卡</p>
 
 ---
 
@@ -166,13 +166,13 @@ iOS 高性能模式由于加载子包的实现不同，刚开始收集时又基�
 
 这个时候可以观察分包插件面板，如果能看到有新增函数个数的变化，一般就是没问题的。如果出现卡顿（并且有新增函数）或者新增函数较多（超过 50），可以先继续往下生成分包，再进行收集。游戏运行会随着收集越来越流畅
 
-### iOS 高性能模式代码分包后内存反而变得很高
+### <p id="ios-high-performance-more-memory">iOS 高性能模式代码分包后内存反而变得很高</p>
 
 ---
 
 这种情况一般是太多新增函数（比如几百个），iOS 高性能模式的子包代码也会占用大量内存，可以继续生成分包，将这部分函数放在首包（放首包的内存占用相对小些）
 
-### iOS 高性能模式出现 impport section's count is boo big
+### <p id="ios-high-performance-import-section-too-big">iOS 高性能模式出现 impport section's count is boo big</p>
 
 ---
 
