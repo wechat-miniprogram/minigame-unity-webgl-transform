@@ -37,7 +37,14 @@ URL剔除掉DATA_CDN部分后作为缓存路径
 例如：
 - DATA_CDN=https://weixin.qq.com
 - 请求路径=https://weixin.qq.com/StreamingAssets/textures_8d265a9dfd6cb7669cdb8b726f0afb1e
+
+那么：
 - 则缓存路径=StreamingAssets/textures_8d265a9dfd6cb7669cdb8b726f0afb1e
+- 资源唯一标识=StreamingAssets/textures_
+- 资源版本=8d265a9dfd6cb7669cdb8b726f0afb1e
+
+***注意：资源实际部署的CDN前缀必须与转换面板填写的CDN地址一致，否则无法按照前文的缓存规则获得资源的唯一标识。***
+
 2. 清理掉同名旧文件
 通过文件名中的hash区分同名文件的不同版本
 继续上面的例子，假如本地已经有`StreamingAssets/textures_cdb8b726f0afb1e8d265a9dfd6cb7669`
