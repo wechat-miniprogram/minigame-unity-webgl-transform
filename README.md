@@ -65,9 +65,9 @@
   - [iOS高性能模式](Design/iOSOptimization.md)
 
 版本更新与资源部署
-- [版本更新](Design/Update.md)
-- [资源服务器部署注意事项](Design/DataCDN.md)
-- [资源缓存](Design/FileCache.md)
+- [小游戏资源部署](Design/DataCDN.md)
+- [小游戏资源缓存](Design/FileCache.md)
+- [小游戏版本更新](Design/Update.md)
 
 能力适配
 
