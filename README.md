@@ -43,6 +43,7 @@
   - [提升 Unity WebGL 游戏启动速度](Design/StartupOptimization.md)
   - [启动流程与时序](Design/Startup.md)
   - [使用 Loader 进行游游戏加载](Design/UsingLoader.md)
+  - [资源按需加载概述](Design/ResourcesLoading.md)
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
   - [使用 Unity Instant Game 进行资源按需加载](Design/InstantGameGuide.md)
