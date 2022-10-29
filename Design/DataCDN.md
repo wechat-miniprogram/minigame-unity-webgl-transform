@@ -2,13 +2,11 @@
 在转换完成后，会在导出路径下生成如下目录
 ```bash
 .
-├── backup
 ├── minigame
 └── webgl
 ```
 - webgl目录为游戏对应的webgl版本。
 - minigame目录为转化后的小游戏代码。
-- 如果使用纹理压缩会生成backup目录用于存放原始纹理。
 
 其中webgl目录结构如下：
 
