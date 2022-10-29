@@ -23,11 +23,13 @@
 下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)，并导入至游戏项目中，版本更新请查看[更新日志](CHANGELOG.md)
 
 - 已验证Unity版本：2018、2019、2020、2021（请尽量使用LTS, 推荐使用2019、2021）. 安装时选择WebGL组件
-- 请前往[Node官网](https://nodejs.org/zh-cn/download/)安装长期稳定版
+- 前往[Node官网](https://nodejs.org/zh-cn/download/)安装长期稳定版
+- 查阅[小游戏开发者文档-快速上手](https://developers.weixin.qq.com/minigame/dev/guide/)创建小游戏类目应用
+- 登录[MP微信公众平台](https://mp.weixin.qq.com)，能力地图-生产提效包-快适配，开通使用
+- 查阅[快速开始：转换工具导出微信小游戏](Design/Transform.md)进行小游戏导出转换
 
 ## 文档总览
 - [Unity WebGL微信小游戏转换指南](Design/Guide.md)
-- [快速开始：转换工具导出微信小游戏](Design/Transform.md)
 
 方案概述与兼容性
 - [技术原理](Design/Summary.md)
