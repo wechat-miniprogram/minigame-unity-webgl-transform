@@ -129,16 +129,22 @@ public class AudioManager : MonoBehaviour
         // 如果没有下文修改needDownload为false的函数，理论上创建的所有音频都是true，可以省去这一条
         audioIndex.needDownload = true;
 
-        // 对于已经设置了needDownload为true的audio，设置src后就会开始下载对应的音频文件
-        // 如果该文件已经下载过，并且配置了缓存本地，就不会重复下载
-        // 如果该文件没有下载过，等同于先调用WX.PreDownloadAudios下载后再播放
-        audioIndex.src = audioList[index];
 
-        // 在可以播放时播放
-        audioIndex.OnCanplay(() =>
-        {
-            audioIndex.Play();
-        });
+        if (audioIndex.src == audioList[index]) {
+          audioIndex.Play();
+        }
+        else {
+          // 对于已经设置了needDownload为true的audio，设置src后就会开始下载对应的音频文件
+          // 如果该文件已经下载过，并且配置了缓存本地，就不会重复下载
+          // 如果该文件没有下载过，等同于先调用WX.PreDownloadAudios下载后再播放
+          audioIndex.src = audioList[index];
+
+          // 在可以播放时播放
+          audioIndex.OnCanplay(() =>
+          {
+              audioIndex.Play();
+          });
+        }
     }
 
     public void playRightNow(int index)
@@ -154,14 +160,20 @@ public class AudioManager : MonoBehaviour
         // 修改src会触发下载，所以设置needDownload属性要在修改src之前
         audioPlayRightNow.needDownload = false;
 
-        // 如果当前音频已经下载过，并且配置了缓存本地，就算设置needDownload为false也不会重复下载
-        audioPlayRightNow.src = audioList[index];
+        // 如果要设置的src和原音频对象一致，可以直接播放
+        if (audioPlayRightNow.src == audioList[index]) {
+          audioPlayRightNow.Play();
+        }
+        else {
+          // 如果当前音频已经下载过，并且配置了缓存本地，就算设置needDownload为false也不会重复下载
+          audioPlayRightNow.src = audioList[index];
 
-        // 在可以播放时播放
-        audioPlayRightNow.OnCanplay(() =>
-        {
-            audioPlayRightNow.Play();
-        });
+          // 在可以播放时播放
+          audioPlayRightNow.OnCanplay(() =>
+          {
+              audioPlayRightNow.Play();
+          });
+        }
     }
 
     public void stopAllAudio()
