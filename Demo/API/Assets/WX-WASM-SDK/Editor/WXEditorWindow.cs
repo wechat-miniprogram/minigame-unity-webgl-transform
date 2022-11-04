@@ -343,7 +343,7 @@ namespace WeChatWASM
             var result = BuildPipeline.BuildPlayer(GetScenePaths(), projDir, BuildTarget.WebGL, option);
             if (result.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
-                UnityEngine.Debug.LogFormat($"[Builder] BuildPlayer failed. emscriptenArgs:%s", PlayerSettings.WebGL.emscriptenArgs);
+                UnityEngine.Debug.LogFormat($"[Builder] BuildPlayer failed. emscriptenArgs:{0}", PlayerSettings.WebGL.emscriptenArgs);
                 return -1;
             }
 
@@ -520,6 +520,9 @@ namespace WeChatWASM
             {
                 Directory.CreateDirectory(Path.Combine(dst, miniGameDir));
             }
+
+            var header = "function createWebAudio(){window.AudioContext=window.AudioContext||window.webkitAudioContext;if(window.AudioContext){return new AudioContext();}return wx.createWebAudioContext();}\n";
+            text = header + text;
 
             File.WriteAllText(Path.Combine(dst, miniGameDir, "webgl.wasm.framework.unityweb.js"), text, new UTF8Encoding(false));
 
@@ -1009,8 +1012,8 @@ namespace WeChatWASM
             exePath = Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/Brotli/win_x86_64/brotli.exe");
 #endif
              WeChatWASM.UnityUtil.RunCmd(exePath, string.Format($" --force --quality 11" +
-                    $" --input {filePath}" +
-                    $" --output {dstPath}"), "");
+                    $" --input \"{filePath}\"" +
+                    $" --output \"{ dstPath}\""), "");
             File.Copy(dstPath, codeInWebGL);
             return 0;
         }
@@ -1354,7 +1357,7 @@ namespace WeChatWASM
 #if UNITY_EDITOR_OSX
                 nodePath = "/usr/local/bin/node";
 #endif
-                WeChatWASM.UnityUtil.RunCmd(nodePath, string.Format($"--experimental-modules dump_wasm_symbol.mjs {dst}"), path);
+                WeChatWASM.UnityUtil.RunCmd(nodePath, string.Format($"--experimental-modules dump_wasm_symbol.mjs \"{dst}\""), path);
                 UnityEngine.Debug.LogError($"Unity 2021版本使用Embeded Symbols, 代码包中含有函数名体积较大, 发布前<a href=\"https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/WasmSplit.md\">使用代码分包工具</a>进行优化");
 #endif
 

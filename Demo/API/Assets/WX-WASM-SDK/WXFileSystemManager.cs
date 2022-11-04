@@ -106,7 +106,7 @@ namespace WeChatWASM
         /// <summary>
         /// 请不要调用这个,这个是内部使用的回调方法
         /// </summary>
-        public static void HanldReadFileCallback(string msg)
+        public static void HandleReadFileCallback(string msg)
         {
             var res = JsonUtility.FromJson<WXReadFileCallback>(msg);
             var conf = ReadFileDict[res.callbackId];
@@ -393,7 +393,7 @@ namespace WeChatWASM
             WXStat(conf, id);
 
         }
-        public static void HanldStatCallback(string msg)
+        public static void HandleStatCallback(string msg)
         {
             if (!string.IsNullOrEmpty(msg) && FileSystemStatOptionList != null)
             {
@@ -401,7 +401,7 @@ namespace WeChatWASM
                 var id = jsCallback.callbackId;
                 var type = jsCallback.type;
                 var res = jsCallback.res;
-                // Debug.Log($"HanldStatCallback {msg}");
+                // Debug.Log($"HandleStatCallback {msg}");
                 if (FileSystemStatOptionList.ContainsKey(id))
                 {
                     var item = FileSystemStatOptionList[id];

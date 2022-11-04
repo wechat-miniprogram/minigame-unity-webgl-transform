@@ -693,12 +693,12 @@ namespace WeChatWASM
 
         public void ReadFileCallback(string msg)
         {
-            WXFileSystemManager.HanldReadFileCallback(msg);
+            WXFileSystemManager.HandleReadFileCallback(msg);
         }
 
         public void StatCallback(string msg)
         {
-            WXFileSystemManager.HanldStatCallback(msg);
+            WXFileSystemManager.HandleStatCallback(msg);
         }
 
         public void ToTempFilePathCallback(string msg)
@@ -1803,67 +1803,6 @@ namespace WeChatWASM
         option.fail = fail;
         option.complete = comp;
         WX_Authorize(conf,id);
-    }
-    public void CheckHandoffEnabledCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && CheckHandoffEnabledOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(CheckHandoffEnabledOptionList.ContainsKey(id)){
-                var item = CheckHandoffEnabledOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<CheckHandoffEnabledSuccessCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    CheckHandoffEnabledOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_CheckHandoffEnabled(string conf, string callbackId);
-    #else
-    private void WX_CheckHandoffEnabled(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, CheckHandoffEnabledOption> CheckHandoffEnabledOptionList;
-    public void CheckHandoffEnabled(CheckHandoffEnabledOption option)
-    {
-        if(CheckHandoffEnabledOptionList == null){
-            CheckHandoffEnabledOptionList = new Dictionary<string, CheckHandoffEnabledOption>();
-        }
-        string id = GetCallbackId(CheckHandoffEnabledOptionList);
-        var callback = new CheckHandoffEnabledOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        CheckHandoffEnabledOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_CheckHandoffEnabled(conf,id);
     }
     public void CheckIsUserAdvisedToRestCallback(string msg) {
         if (!string.IsNullOrEmpty(msg) && CheckIsUserAdvisedToRestOptionList != null)
@@ -3451,128 +3390,6 @@ namespace WeChatWASM
         option.complete = comp;
         WX_GetFileInfo(conf,id);
     }
-    public void GetFriendCloudStorageCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && GetFriendCloudStorageOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(GetFriendCloudStorageOptionList.ContainsKey(id)){
-                var item = GetFriendCloudStorageOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GetFriendCloudStorageSuccessCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    GetFriendCloudStorageOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_GetFriendCloudStorage(string conf, string callbackId);
-    #else
-    private void WX_GetFriendCloudStorage(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, GetFriendCloudStorageOption> GetFriendCloudStorageOptionList;
-    public void GetFriendCloudStorage(GetFriendCloudStorageOption option)
-    {
-        if(GetFriendCloudStorageOptionList == null){
-            GetFriendCloudStorageOptionList = new Dictionary<string, GetFriendCloudStorageOption>();
-        }
-        string id = GetCallbackId(GetFriendCloudStorageOptionList);
-        var callback = new GetFriendCloudStorageOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        GetFriendCloudStorageOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_GetFriendCloudStorage(conf,id);
-    }
-    public void GetGroupCloudStorageCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && GetGroupCloudStorageOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(GetGroupCloudStorageOptionList.ContainsKey(id)){
-                var item = GetGroupCloudStorageOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GetGroupCloudStorageSuccessCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    GetGroupCloudStorageOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_GetGroupCloudStorage(string conf, string callbackId);
-    #else
-    private void WX_GetGroupCloudStorage(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, GetGroupCloudStorageOption> GetGroupCloudStorageOptionList;
-    public void GetGroupCloudStorage(GetGroupCloudStorageOption option)
-    {
-        if(GetGroupCloudStorageOptionList == null){
-            GetGroupCloudStorageOptionList = new Dictionary<string, GetGroupCloudStorageOption>();
-        }
-        string id = GetCallbackId(GetGroupCloudStorageOptionList);
-        var callback = new GetGroupCloudStorageOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        GetGroupCloudStorageOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_GetGroupCloudStorage(conf,id);
-    }
     public void GetGroupEnterInfoCallback(string msg) {
         if (!string.IsNullOrEmpty(msg) && GetGroupEnterInfoOptionList != null)
         {
@@ -3633,67 +3450,6 @@ namespace WeChatWASM
         option.fail = fail;
         option.complete = comp;
         WX_GetGroupEnterInfo(conf,id);
-    }
-    public void GetGroupInfoCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && GetGroupInfoOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(GetGroupInfoOptionList.ContainsKey(id)){
-                var item = GetGroupInfoOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GetGroupInfoSuccessCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    GetGroupInfoOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_GetGroupInfo(string conf, string callbackId);
-    #else
-    private void WX_GetGroupInfo(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, GetGroupInfoOption> GetGroupInfoOptionList;
-    public void GetGroupInfo(GetGroupInfoOption option)
-    {
-        if(GetGroupInfoOptionList == null){
-            GetGroupInfoOptionList = new Dictionary<string, GetGroupInfoOption>();
-        }
-        string id = GetCallbackId(GetGroupInfoOptionList);
-        var callback = new GetGroupInfoOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        GetGroupInfoOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_GetGroupInfo(conf,id);
     }
     public void GetLocalIPAddressCallback(string msg) {
         if (!string.IsNullOrEmpty(msg) && GetLocalIPAddressOptionList != null)
@@ -3877,67 +3633,6 @@ namespace WeChatWASM
         option.fail = fail;
         option.complete = comp;
         WX_GetNetworkType(conf,id);
-    }
-    public void GetPotentialFriendListCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && GetPotentialFriendListOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(GetPotentialFriendListOptionList.ContainsKey(id)){
-                var item = GetPotentialFriendListOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GetPotentialFriendListSuccessCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    GetPotentialFriendListOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_GetPotentialFriendList(string conf, string callbackId);
-    #else
-    private void WX_GetPotentialFriendList(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, GetPotentialFriendListOption> GetPotentialFriendListOptionList;
-    public void GetPotentialFriendList(GetPotentialFriendListOption option)
-    {
-        if(GetPotentialFriendListOptionList == null){
-            GetPotentialFriendListOptionList = new Dictionary<string, GetPotentialFriendListOption>();
-        }
-        string id = GetCallbackId(GetPotentialFriendListOptionList);
-        var callback = new GetPotentialFriendListOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        GetPotentialFriendListOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_GetPotentialFriendList(conf,id);
     }
     public void GetScreenBrightnessCallback(string msg) {
         if (!string.IsNullOrEmpty(msg) && GetScreenBrightnessOptionList != null)
@@ -4304,128 +3999,6 @@ namespace WeChatWASM
         option.fail = fail;
         option.complete = comp;
         WX_GetSystemInfoAsync(conf,id);
-    }
-    public void GetUserCloudStorageCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && GetUserCloudStorageOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(GetUserCloudStorageOptionList.ContainsKey(id)){
-                var item = GetUserCloudStorageOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GetUserCloudStorageSuccessCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    GetUserCloudStorageOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_GetUserCloudStorage(string conf, string callbackId);
-    #else
-    private void WX_GetUserCloudStorage(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, GetUserCloudStorageOption> GetUserCloudStorageOptionList;
-    public void GetUserCloudStorage(GetUserCloudStorageOption option)
-    {
-        if(GetUserCloudStorageOptionList == null){
-            GetUserCloudStorageOptionList = new Dictionary<string, GetUserCloudStorageOption>();
-        }
-        string id = GetCallbackId(GetUserCloudStorageOptionList);
-        var callback = new GetUserCloudStorageOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        GetUserCloudStorageOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_GetUserCloudStorage(conf,id);
-    }
-    public void GetUserCloudStorageKeysCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && GetUserCloudStorageKeysOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(GetUserCloudStorageKeysOptionList.ContainsKey(id)){
-                var item = GetUserCloudStorageKeysOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GetUserCloudStorageKeysSuccessCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    GetUserCloudStorageKeysOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_GetUserCloudStorageKeys(string conf, string callbackId);
-    #else
-    private void WX_GetUserCloudStorageKeys(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, GetUserCloudStorageKeysOption> GetUserCloudStorageKeysOptionList;
-    public void GetUserCloudStorageKeys(GetUserCloudStorageKeysOption option)
-    {
-        if(GetUserCloudStorageKeysOptionList == null){
-            GetUserCloudStorageKeysOptionList = new Dictionary<string, GetUserCloudStorageKeysOption>();
-        }
-        string id = GetCallbackId(GetUserCloudStorageKeysOptionList);
-        var callback = new GetUserCloudStorageKeysOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        GetUserCloudStorageKeysOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_GetUserCloudStorageKeys(conf,id);
     }
     public void GetUserInfoCallback(string msg) {
         if (!string.IsNullOrEmpty(msg) && GetUserInfoOptionList != null)
@@ -5158,67 +4731,6 @@ namespace WeChatWASM
         option.fail = fail;
         option.complete = comp;
         WX_MakeBluetoothPair(conf,id);
-    }
-    public void ModifyFriendInteractiveStorageCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && ModifyFriendInteractiveStorageOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(ModifyFriendInteractiveStorageOptionList.ContainsKey(id)){
-                var item = ModifyFriendInteractiveStorageOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<ModifyFriendInteractiveStorageFailCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    ModifyFriendInteractiveStorageOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_ModifyFriendInteractiveStorage(string conf, string callbackId);
-    #else
-    private void WX_ModifyFriendInteractiveStorage(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, ModifyFriendInteractiveStorageOption> ModifyFriendInteractiveStorageOptionList;
-    public void ModifyFriendInteractiveStorage(ModifyFriendInteractiveStorageOption option)
-    {
-        if(ModifyFriendInteractiveStorageOptionList == null){
-            ModifyFriendInteractiveStorageOptionList = new Dictionary<string, ModifyFriendInteractiveStorageOption>();
-        }
-        string id = GetCallbackId(ModifyFriendInteractiveStorageOptionList);
-        var callback = new ModifyFriendInteractiveStorageOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        ModifyFriendInteractiveStorageOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_ModifyFriendInteractiveStorage(conf,id);
     }
     public void NavigateToMiniProgramCallback(string msg) {
         if (!string.IsNullOrEmpty(msg) && NavigateToMiniProgramOptionList != null)
@@ -7171,67 +6683,6 @@ namespace WeChatWASM
         option.fail = fail;
         option.complete = comp;
         WX_SetUserCloudStorage(conf,id);
-    }
-    public void ShareMessageToFriendCallback(string msg) {
-        if (!string.IsNullOrEmpty(msg) && ShareMessageToFriendOptionList != null)
-        {
-            var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
-            var id = jsCallback.callbackId;
-            var type = jsCallback.type;
-            var res = jsCallback.res;
-            if(ShareMessageToFriendOptionList.ContainsKey(id)){
-                var item = ShareMessageToFriendOptionList[id];
-                if(type == "complete"){
-                    item.complete?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    item.complete = null;
-                }else{
-                    if(type == "success"){
-                        item.success?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    else if(type == "fail"){
-                        item.fail?.Invoke(JsonMapper.ToObject<GeneralCallbackResult>(res));
-                    }
-                    item.success = null;
-                    item.fail = null;
-                }
-                if(item.complete == null && item.success == null && item.fail == null){
-                    ShareMessageToFriendOptionList.Remove(id);
-                }
-            }
-        }
-    }
-
-    #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
-    private static extern void WX_ShareMessageToFriend(string conf, string callbackId);
-    #else
-    private void WX_ShareMessageToFriend(string conf, string callbackId){}
-    #endif
-
-    private Dictionary<string, ShareMessageToFriendOption> ShareMessageToFriendOptionList;
-    public void ShareMessageToFriend(ShareMessageToFriendOption option)
-    {
-        if(ShareMessageToFriendOptionList == null){
-            ShareMessageToFriendOptionList = new Dictionary<string, ShareMessageToFriendOption>();
-        }
-        string id = GetCallbackId(ShareMessageToFriendOptionList);
-        var callback = new ShareMessageToFriendOption(){
-            success = option.success,
-            fail = option.fail,
-            complete = option.complete
-        };
-        ShareMessageToFriendOptionList.Add( id, callback );
-        var succ = option.success;
-        var fail = option.fail;
-        var comp = option.complete;
-        option.success = null;
-        option.fail = null;
-        option.complete = null;
-        var conf = JsonMapper.ToJson(option);
-        option.success = succ;
-        option.fail = fail;
-        option.complete = comp;
-        WX_ShareMessageToFriend(conf,id);
     }
     public void ShowActionSheetCallback(string msg) {
         if (!string.IsNullOrEmpty(msg) && ShowActionSheetOptionList != null)

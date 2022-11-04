@@ -1,9 +1,9 @@
 var isWK = false;
-try{
-    isWK = wx.getSystemInfoSync().renderer == 'h5';
-}catch(e){
-    isWK = typeof(window)!='undefined' && window.XMLHttpRequest;
-}
+// try{
+//     isWK = wx.getSystemInfoSync().renderer == 'h5';
+// }catch(e){
+//     isWK = typeof(window)!='undefined' && window.XMLHttpRequest;
+// }
 /******/ (function(modules) { // webpackBootstrap
     /******/ 	// The module cache
     /******/ 	var installedModules = {};

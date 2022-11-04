@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 291ebb4faa51d4c13a5186c944171605
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - testHUD: {fileID: 100000, guid: e16aaad906115449f9a77ec13f96feca, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 

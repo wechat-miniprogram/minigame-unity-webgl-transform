@@ -92,15 +92,6 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.Authorize(callback);
         }
         /// <summary>
-        /// [wx.checkHandoffEnabled(Object object)](https://developers.weixin.qq.com/minigame/dev/api/share/wx.checkHandoffEnabled.html)
-        /// 需要基础库： `2.14.4`
-        /// 检查是否可以进行接力，该接口需要在开放数据域调用
-        /// </summary>
-        public static void CheckHandoffEnabled(CheckHandoffEnabledOption callback)
-        {
-            WXSDKManagerHandler.Instance.CheckHandoffEnabled(callback);
-        }
-        /// <summary>
         /// [wx.checkIsUserAdvisedToRest(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/anti-addiction/wx.checkIsUserAdvisedToRest.html)
         /// 需要基础库： `1.9.97`
         /// 根据用户当天游戏时间判断用户是否需要休息
@@ -516,24 +507,6 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.GetFileInfo(callback);
         }
         /// <summary>
-        /// [wx.getFriendCloudStorage(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.getFriendCloudStorage.html)
-        /// 需要基础库： `1.9.92`
-        /// 拉取当前用户所有同玩好友的托管数据。该接口需要用户授权，且只在开放数据域下可用。
-        /// </summary>
-        public static void GetFriendCloudStorage(GetFriendCloudStorageOption callback)
-        {
-            WXSDKManagerHandler.Instance.GetFriendCloudStorage(callback);
-        }
-        /// <summary>
-        /// [wx.getGroupCloudStorage(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.getGroupCloudStorage.html)
-        /// 需要基础库： `1.9.92`
-        /// 获取群同玩成员的游戏数据。小游戏通过群分享卡片打开的情况下才可以调用。该接口需要用户授权，且只在开放数据域下可用。
-        /// </summary>
-        public static void GetGroupCloudStorage(GetGroupCloudStorageOption callback)
-        {
-            WXSDKManagerHandler.Instance.GetGroupCloudStorage(callback);
-        }
-        /// <summary>
         /// [wx.getGroupEnterInfo(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/group/wx.getGroupEnterInfo.html)
         /// 需要基础库： `2.10.4`
         /// 获取微信群聊场景下的小程序启动信息。群聊场景包括群聊小程序消息卡片、群待办、群工具。可用于获取当前群的 opengid。
@@ -569,15 +542,6 @@ namespace WeChatWASM
         public static void GetGroupEnterInfo(GetGroupEnterInfoOption callback)
         {
             WXSDKManagerHandler.Instance.GetGroupEnterInfo(callback);
-        }
-        /// <summary>
-        /// [wx.getGroupInfo(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.getGroupInfo.html)
-        /// 需要基础库： `2.10.1`
-        /// 获取群信息。小游戏通过群分享卡片打开的情况下才可以调用。该接口需要用户授权，且只在开放数据域下可用。
-        /// </summary>
-        public static void GetGroupInfo(GetGroupInfoOption callback)
-        {
-            WXSDKManagerHandler.Instance.GetGroupInfo(callback);
         }
         /// <summary>
         /// [wx.getLocalIPAddress(Object object)](https://developers.weixin.qq.com/minigame/dev/api/device/network/wx.getLocalIPAddress.html)
@@ -635,15 +599,6 @@ namespace WeChatWASM
         public static void GetNetworkType(GetNetworkTypeOption callback)
         {
             WXSDKManagerHandler.Instance.GetNetworkType(callback);
-        }
-        /// <summary>
-        /// [wx.getPotentialFriendList(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.getPotentialFriendList.html)
-        /// 需要基础库： `2.9.0`
-        /// 获取可能对游戏感兴趣的未注册的好友名单。每次调用最多可获得 5 个好友。该接口需要用户授权，且只在开放数据域下可用。
-        /// </summary>
-        public static void GetPotentialFriendList(GetPotentialFriendListOption callback)
-        {
-            WXSDKManagerHandler.Instance.GetPotentialFriendList(callback);
         }
         /// <summary>
         /// [wx.getScreenBrightness(Object object)](https://developers.weixin.qq.com/minigame/dev/api/device/screen/wx.getScreenBrightness.html)
@@ -807,24 +762,6 @@ namespace WeChatWASM
         public static void GetSystemInfoAsync(GetSystemInfoAsyncOption callback)
         {
             WXSDKManagerHandler.Instance.GetSystemInfoAsync(callback);
-        }
-        /// <summary>
-        /// [wx.getUserCloudStorage(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.getUserCloudStorage.html)
-        /// 需要基础库： `1.9.92`
-        /// 获取当前用户托管数据当中对应 key 的数据。该接口只可在开放数据域下使用
-        /// </summary>
-        public static void GetUserCloudStorage(GetUserCloudStorageOption callback)
-        {
-            WXSDKManagerHandler.Instance.GetUserCloudStorage(callback);
-        }
-        /// <summary>
-        /// [wx.getUserCloudStorageKeys(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.getUserCloudStorageKeys.html)
-        /// 需要基础库： `2.16.1`
-        /// 获取当前用户托管数据当中所有的 key。该接口需要用户授权，且只在开放数据域下可用。
-        /// </summary>
-        public static void GetUserCloudStorageKeys(GetUserCloudStorageKeysOption callback)
-        {
-            WXSDKManagerHandler.Instance.GetUserCloudStorageKeys(callback);
         }
         /// <summary>
         /// [wx.getUserInfo(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/user-info/wx.getUserInfo.html)
@@ -1062,42 +999,6 @@ namespace WeChatWASM
         public static void MakeBluetoothPair(MakeBluetoothPairOption callback)
         {
             WXSDKManagerHandler.Instance.MakeBluetoothPair(callback);
-        }
-        /// <summary>
-        /// [wx.modifyFriendInteractiveStorage(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.modifyFriendInteractiveStorage.html)
-        /// 需要基础库： `2.7.7`
-        /// 修改好友的互动型托管数据，该接口只可在开放数据域下使用。
-        /// **赠送动作的校验**
-        /// 调用该接口需要上传 JSServer 函数 "checkInteractiveData"，该函数可用于执行赠送动作的校验逻辑，校验通过后返回结果表示本次赠送是否合法。只有 checkInteractiveData 返回了 `{ret: true}`，此次修改才会成功。
-        /// **使用模板规则进行交互**
-        /// 每次调用该接口会弹窗询问用户是否确认执行该操作，2.9.0 之后版本，需要在 game.json 中设置 `modifyFriendInteractiveStorageTemplates` 来定制交互的文案。
-        /// `modifyFriendInteractiveStorageTemplates` 是一个模板数组，每一个模板需要有 key, action, object 参数，还有一个可选参数 ratio，详细说明见示例配置：
-        /// ```json
-        /// {
-        /// "modifyFriendInteractiveStorageTemplates": [
-        /// {
-        /// "key": "1", // 这个 key 与接口中同名参数相对应，不同的 key 对应不同的模板
-        /// "action": "赠送", // 互动行为
-        /// "object": "金币", // 互动物品
-        /// "ratio": 10 // 物品比率，opNum * ratio 代表物品个数
-        /// }
-        /// ]
-        /// }
-        /// ```
-        /// 最后生成的文案为 "确认 ${action} ${nickname} ${object}？"，或者 "确认 ${action} ${nickname} ${object} x ${opNum * ratio}？"
-        /// **使用自定义文案进行交互**
-        /// 2.7.7 之后，2.9.0 之前的版本，文案通过 game.json 的 `modifyFriendInteractiveStorageConfirmWording` 字段配置。
-        /// 配置内容可包含 nickname 变量，用 ${nickname} 表示，实际调用时会被替换成好友的昵称。示例配置：
-        /// ```json
-        /// {
-        /// "modifyFriendInteractiveStorageConfirmWording": "确认送给${nickname}一个体力？"
-        /// }
-        /// ```
-        /// 2.9.0 之后，在 `modifyFriendInteractiveStorageTemplates` 和 `modifyFriendInteractiveStorageConfirmWording` 都存在的情况下，会优先使用前者。
-        /// </summary>
-        public static void ModifyFriendInteractiveStorage(ModifyFriendInteractiveStorageOption callback)
-        {
-            WXSDKManagerHandler.Instance.ModifyFriendInteractiveStorage(callback);
         }
         /// <summary>
         /// [wx.navigateToMiniProgram(Object object)](https://developers.weixin.qq.com/minigame/dev/api/navigate/wx.navigateToMiniProgram.html)
@@ -1773,18 +1674,6 @@ namespace WeChatWASM
         public static void SetUserCloudStorage(SetUserCloudStorageOption callback)
         {
             WXSDKManagerHandler.Instance.SetUserCloudStorage(callback);
-        }
-        /// <summary>
-        /// [wx.shareMessageToFriend(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.shareMessageToFriend.html)
-        /// 需要基础库： `2.9.0`
-        /// 给指定的好友分享游戏信息，该接口只可在开放数据域下使用。接收者打开之后，可以用 `wx.modifyFriendInteractiveStorage` 传入参数 quiet=true 发起一次无需弹框确认的好友互动。
-        /// ****
-        /// 定向分享不允许直接在开放数据域设置 query 参数
-        /// 需要设置请参见游戏域 `wx.setMessageToFriendQuery` 接口
-        /// </summary>
-        public static void ShareMessageToFriend(ShareMessageToFriendOption callback)
-        {
-            WXSDKManagerHandler.Instance.ShareMessageToFriend(callback);
         }
         /// <summary>
         /// [wx.showActionSheet(Object object)](https://developers.weixin.qq.com/minigame/dev/api/ui/interaction/wx.showActionSheet.html)

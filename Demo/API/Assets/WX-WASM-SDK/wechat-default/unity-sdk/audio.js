@@ -1,13 +1,18 @@
 import moduleHelper from './module-helper';
+import { uid } from './utils';
 
 const audios = {};
-
 const msg = 'InnerAudioContext does not exist!';
+// 当前生命周期内的临时音频路径
 const localAudioMap = {};
+// 正在下载中的音频
 const downloadingAudioMap = {};
+// 缓存音量设置
 const soundVolumeHandler = {};
-const err = function (msg) { GameGlobal.manager.printErr(msg); };
+const err = (msg) => { GameGlobal.manager.printErr(msg); };
+
 const funs = {
+  // 获取完整路径
   getFullUrl(v) {
     if (!/^https?:\/\//.test(v)) {
       const cdnPath = GameGlobal.manager.assetPath;
@@ -15,66 +20,64 @@ const funs = {
     }
     return encodeURI(v);
   },
-  downloadMusic(src) {
-    return new Promise((resolve, reject) => {
-      wx.downloadFile({
-        url: src,
-        success(res) {
-          if (res.statusCode === 200 && res.tempFilePath) {
-            localAudioMap[src] = res.tempFilePath;
-            wx.setStorage({
-              key: src,
-              data: res.tempFilePath,
-            }).catch((e) => {});
-            resolve(true);
-          } else {
-            resolve(false);
-          }
-        },
-        fail(e) {
-          resolve(false);
-          err(e);
-        },
-      });
-    });
-  },
-  checkLocalFile(src) {
-    return new Promise(async (resolve, reject) => {
-      let path = localAudioMap[src];
-      if (!path) {
-        try {
-          const res = await new Promise((subResolve, subReject) => {
-            wx.getStorage({
-              key: src,
-              success: (r) => {
-                subResolve(r);
+  // 下载并保存音频列表
+  downloadAudios(paths) {
+    const list = paths.split(',');
+    return Promise.all(list.map((v) => {
+      const src = funs.getFullUrl(v);
+      return new Promise(async (resolve, reject) => {
+        // 是否不在下载中
+        if (!downloadingAudioMap[src]) {
+          downloadingAudioMap[src] = [{
+            resolve, reject,
+          }];
+          if (funs.checkLocalFile(src)) {
+            funs.handleDownloadEnd(src, true);
+          } else if (!GameGlobal.unityNamespace.isCacheableFile(src)) {
+            // console.warn(`${src} 不在的缓存路径内，\n如需保存本地，请按照 https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/FileCache.md 设置配置`);
+            wx.downloadFile({
+              url: src,
+              success(res) {
+                if (res.statusCode === 200 && res.tempFilePath) {
+                  localAudioMap[src] = res.tempFilePath;
+                  funs.handleDownloadEnd(src, true);
+                } else {
+                  funs.handleDownloadEnd(src, false);
+                }
               },
-              fail: (e) => {
-                subReject(e);
+              fail(e) {
+                funs.handleDownloadEnd(src, false);
+                err(e);
               },
             });
+          } else {
+            const xmlhttp = new GameGlobal.unityNamespace.UnityLoader.UnityCache.XMLHttpRequest();
+            xmlhttp.open('GET', src, true);
+            xmlhttp.responseType = 'arraybuffer';
+            // xmlhttp.onload = () => {
+            //   console.log('下载完成');
+            // };
+            xmlhttp.onsave = () => {
+              localAudioMap[src] = GameGlobal.manager.getCachePath(src);
+              funs.handleDownloadEnd(src, true);
+            };
+            xmlhttp.onsavefail = () => {
+              funs.handleDownloadEnd(src, false);
+            };
+            xmlhttp.onerror = () => {
+              funs.handleDownloadEnd(src, false);
+            };
+            xmlhttp.send();
+          }
+        } else {
+          downloadingAudioMap[src].push({
+            resolve, reject,
           });
-          path = res.data;
-          localAudioMap[src] = path;
-        } catch (e) {}
-      }
-      if (!path) {
-        return resolve(false);
-      }
-      const fs = wx.getFileSystemManager();
-      fs.access({
-        path,
-        success() {
-          // 文件存在
-          resolve(true);
-        },
-        fail() {
-          // 文件不存在或其他错误
-          resolve(false);
-        },
+        }
       });
-    });
+    }));
   },
+  // 下载完成回调
   handleDownloadEnd(src, succeeded) {
     if (!downloadingAudioMap[src]) {
       return;
@@ -88,6 +91,54 @@ const funs = {
       }
     }
     downloadingAudioMap[src] = null;
+  },
+  // 是否存在本地文件
+  checkLocalFile(src) {
+    if (localAudioMap[src]) {
+      return localAudioMap[src];
+    }
+    const path = GameGlobal.manager.getCachePath(src);
+    if (path) {
+      localAudioMap[src] = path;
+      return path;
+    }
+    return '';
+  },
+  // 设置路径
+  setAudioSrc(audio, getSrc) {
+    return new Promise((resolve, reject) => {
+      const src = funs.getFullUrl(getSrc);
+      // 设置原始路径，后面用此路径作为key值
+      audio._src = src;
+      if (funs.checkLocalFile(src)) {
+        audio.src = localAudioMap[src];
+        setTimeout(() => {
+          funs.handleDownloadEnd(src, true)
+        }, 0)
+        resolve(localAudioMap[src]);
+      } else if (audio._needDownload) {
+        funs.downloadAudios(src).then(() => {
+          if (audio) {
+            audio.src = localAudioMap[src];
+            resolve(localAudioMap[src]);
+          } else {
+            console.warn('音频已被删除:', src);
+            reject();
+          }
+        }).catch(() => {
+          console.warn('资源下载失败:', src);
+          if (audio) {
+            audio.src = src;
+          }
+          reject();
+        });
+      } else {
+        // 不推荐这样处理，建议优先下载再使用，除非是需要立即播放的长音频文件或一次性播放音频
+        // console.warn('建议优先下载再使用:', src);
+        audio.src = src;
+        resolve(src);
+      }
+    });
   },
 };
 
@@ -103,60 +154,36 @@ const WEBAudio = {
   lPosition: { x: 0, y: 0, z: 0 },
 };
 export default {
+  // 创建audio对象
   WXCreateInnerAudioContext(src, loop, startTime, autoplay, volume, playbackRate, needDownload) {
-    const id = new Date().getTime().toString(32) + Math.random().toString(32);
-    audios[id] = wx.createInnerAudioContext();
-    playbackRate = 1; // 先强制为1，android客户端有bug，设为其他值的话
-    audios[id]._needDownload = needDownload;
-    audios[id]._src = src;
+    const id = uid();
+    const getAudio = wx.createInnerAudioContext();
+    audios[id] = getAudio;
+    getAudio._needDownload = needDownload;
     if (src) {
-      src = funs.getFullUrl(src);
-      funs.checkLocalFile(src).then((exist) => {
-        if (exist) {
-          audios[id].src = localAudioMap[src];
-          funs.handleDownloadEnd(src, true);
-        } else if (needDownload) {
-          const successFun = function () {
-            audios[id].src = localAudioMap[src];
-          };
-          const failFun = function () {
-            moduleHelper.send('OnAudioCallback', JSON.stringify({
-              callbackId: id,
-              errMsg: 'onError',
-            }));
-          };
-          if (!downloadingAudioMap[src]) {
-            downloadingAudioMap[src] = [];
-          }
-          downloadingAudioMap[src].unshift({
-            resolve: successFun, reject: failFun,
-          });
-          if (!downloadingAudioMap[src].isDownloading) {
-            downloadingAudioMap[src].isDownloading = true;
-            funs.downloadMusic(src).then((succeeded) => {
-              funs.handleDownloadEnd(src, succeeded);
-            });
-          }
-        } else {
-          audios[id].src = src;
-        }
+      // 设置原始src
+      funs.setAudioSrc(getAudio, src).catch(() => {
+        moduleHelper.send('OnAudioCallback', JSON.stringify({
+          callbackId: id,
+          errMsg: 'onError',
+        }));
       });
     }
-
     if (loop) {
-      audios[id].loop = true;
+      getAudio.loop = true;
     }
     if (autoplay) {
-      audios[id].autoplay = true;
+      getAudio.autoplay = true;
     }
     if (startTime > 0) {
-      audios[id].startTime = +startTime.toFixed(2);
+      getAudio.startTime = +startTime.toFixed(2);
     }
     if (volume !== 1) {
-      audios[id].volume = +volume.toFixed(2);
+      getAudio.volume = +volume.toFixed(2);
     }
+    playbackRate = 1; // 先强制为1，android客户端有bug，设为其他值的话
     if (playbackRate !== 1) {
-      audios[id].playbackRate = +playbackRate.toFixed(2);
+      getAudio.playbackRate = +playbackRate.toFixed(2);
     }
     return id;
   },
@@ -167,15 +194,17 @@ export default {
       console.error(msg, id);
     }
   },
+  // 修改属性
   WXInnerAudioContextSetString(id, k, v) {
     if (audios[id]) {
+      // 如果修改的是src，则需要做特殊处理，如果之前设定了这个audio needDownload，则触发下载
       if (k === 'src') {
-        v = funs.getFullUrl(v);
-        if (localAudioMap[v]) {
-          v = localAudioMap[v];
-        }
+        funs.setAudioSrc(audios[id], v);
+      } else if (k === 'needDownload') {
+        audios[id]._needDownload = !!v;
+      } else {
+        audios[id][k] = v;
       }
-      audios[id][k] = v;
     } else {
       console.error(msg, id);
     }
@@ -237,9 +266,13 @@ export default {
       console.error(msg, id);
     }
   },
+  // 监听事件
   WXInnerAudioContextAddListener(id, key) {
     if (audios[id]) {
-      function AddListener() {
+      const AddListener = () => {
+        if (!audios[id]) {
+          return;
+        }
         if (key === 'onCanplay') {
           audios[id][key]((e) => {
             // 兼容基础库获取属性异常的bug
@@ -262,20 +295,22 @@ export default {
             }
           });
         }
-      }
+      };
 
-      if (!audios[id].src && audios[id]._needDownload && audios[id]._src) {
-        const src = funs.getFullUrl(audios[id]._src);
-        if (!downloadingAudioMap[src]) {
-          downloadingAudioMap[src] = [];
-        }
-        downloadingAudioMap[src].push({
-          resolve: AddListener,
-          reject: () => {},
-        });
-      } else {
-        AddListener();
-      }
+      // 兼容innerAudio已初始化，但音频还在下载中，先等待音频下载完毕
+      // if (!audios[id].src && audios[id]._needDownload && audios[id]._src) {
+      //   const src = audios[id]._src;
+      //   if (!downloadingAudioMap[src]) {
+      //     downloadingAudioMap[src] = [];
+      //   }
+      //   downloadingAudioMap[src].push({
+      //     resolve: AddListener,
+      //     reject: () => {},
+      //   });
+      // } else {
+      //   AddListener();
+      // }
+      AddListener();
     } else {
       console.error(msg, id);
     }
@@ -288,28 +323,7 @@ export default {
     }
   },
   WXPreDownloadAudios(paths, id) {
-    const list = paths.split(',');
-    Promise.all(list.map((v) => {
-      const src = funs.getFullUrl(v);
-      return new Promise(async (resolve, reject) => {
-        if (!downloadingAudioMap[src]) {
-          downloadingAudioMap[src] = [{
-            resolve, reject,
-          }];
-          const exist = await funs.checkLocalFile(src);
-          if (exist) {
-            funs.handleDownloadEnd(src, true);
-            return;
-          }
-          const succeeded = await funs.downloadMusic(src);
-          funs.handleDownloadEnd(src, succeeded);
-        } else {
-          downloadingAudioMap[src].push({
-            resolve, reject,
-          });
-        }
-      });
-    })).then(() => {
+    funs.downloadAudios(paths).then(() => {
       moduleHelper.send('WXPreDownloadAudiosCallback', JSON.stringify({
         callbackId: id.toString(),
         errMsg: '0',
@@ -800,7 +814,6 @@ export default {
       channel.z = z;
     }
   },
-
   _JS_Sound_SetVolume(channelInstance, v) {
     if (WEBAudio.audioWebEnabled == 0) return;
     try {
@@ -820,8 +833,6 @@ export default {
     const channel = WEBAudio.audioInstances[channelInstance];
     channel.stop(delay);
   },
-
-
 };
 
 // 声音被打断后自动帮用户恢复

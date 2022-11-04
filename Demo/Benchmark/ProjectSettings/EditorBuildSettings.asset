@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Results.unity
+    guid: 2a5c29d1b03de460090dedce94b8279c
+  - enabled: 0
+    path: Assets/Scenes/Mandelbrot Script.unity
+    guid: 2811898c0875040ee8b5a49d0e47ef45
+  - enabled: 1
+    path: Assets/Scenes/Instantiate & Destroy.unity
+    guid: aeeeb09fbfd554cecaf7c735f24766bc
+  - enabled: 0
+    path: Assets/Scenes/CryptoHash Script.unity
+    guid: 9f17c1f7be6094345bc3064643e52b1e
+  - enabled: 1
+    path: Assets/Scenes/Animation & Skinning.unity
+    guid: bc289e5f26a5f420f9c12a97e0379497
+  - enabled: 0
+    path: Assets/Scenes/Asteroid Field.unity
+    guid: a2bde07f6fd0e45f09e4f5cb894222d7
+  - enabled: 0
+    path: Assets/Scenes/Particles.unity
+    guid: b628525c2535a45b7928047567eac3a4
+  - enabled: 0
+    path: Assets/Scenes/Physics Meshes.unity
+    guid: deabd37d0457d41dd99a18e8860dd3b5
+  - enabled: 1
+    path: Assets/Scenes/Physics Cubes.unity
+    guid: 1059e1e67f1924854b6a500abdc36964
+  - enabled: 0
+    path: Assets/Scenes/Physics Spheres.unity
+    guid: 71613390043494a6681b9e86788cc43d
+  - enabled: 0
+    path: Assets/Scenes/2D Physics Spheres.unity
+    guid: e41126bd2e30b364896778f307f17aea
+  - enabled: 0
+    path: Assets/Scenes/2D Physics Boxes.unity
+    guid: aebb4eee609878a468684ca068013ece
+  - enabled: 1
+    path: Assets/Scenes/AI Agents.unity
+    guid: 4a2f2b0b7fb6c2c4eac71fa69d99a4b3
+  m_configObjects: {}

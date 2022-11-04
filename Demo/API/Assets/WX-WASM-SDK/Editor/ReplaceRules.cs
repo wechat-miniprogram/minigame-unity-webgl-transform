@@ -46,6 +46,61 @@ namespace WeChatWASM
            old="var FS *=",
            newStr="var FS = GameGlobal.unityNamespace.FS="
        },
+       new Rule()
+       {
+            old="new *\\(window.AudioContext*\\|*\\|window.webkitAudioContext\\)",
+            newStr="createWebAudio()"
+       },
+       new Rule()
+       {
+            old="context.createScriptProcessor*\\(*\\$1,0",
+            newStr="context.createScriptProcessor($1,1"
+       },
+       new Rule()
+       {
+            old="eval*\\(UTF8ToString*\\(ptr*\\)*\\)",
+            newStr="/*eval(UTF8ToString(ptr))*/"
+       },
+       new Rule()
+       {
+            old="window.addEventListener*\\(\"touchend\",OutputWebAudio_resumeAudio,false*\\);window.addEventListener*\\(\"click\",OutputWebAudio_resumeAudio,false*\\)",
+            newStr="/*window.addEventListener(\"touchend\",OutputWebAudio_resumeAudio,false);window.addEventListener(\"click\",OutputWebAudio_resumeAudio,false)*/",
+       },
+       new Rule()
+       {
+            old="window.removeEventListener*\\(\"click\",OutputWebAudio_resumeAudio,false*\\);window.removeEventListener*\\(\"touchend\",OutputWebAudio_resumeAudio,false*\\)",
+            newStr="/*window.removeEventListener(\"click\",OutputWebAudio_resumeAudio,false);window.removeEventListener(\"touchend\",OutputWebAudio_resumeAudio,false)*/",
+       },
+       new Rule()
+       {
+            old="window.removeEventListener*\\(\"click\",OutputAudioWorklet_resumeAudio,false*\\);window.removeEventListener*\\(\"touchend\",OutputAudioWorklet_resumeAudio,false*\\)",
+            newStr="/*window.removeEventListener(\"click\",OutputAudioWorklet_resumeAudio,false);window.removeEventListener(\"touchend\",OutputAudioWorklet_resumeAudio,false)*/",
+       },
+       new Rule()
+       {
+            old="window.addEventListener*\\(\"touchend\",OutputAudioWorklet_resumeAudio,false*\\);window.addEventListener*\\(\"click\",OutputAudioWorklet_resumeAudio,false*\\)",
+            newStr="/*window.addEventListener(\"touchend\",OutputAudioWorklet_resumeAudio,false);window.addEventListener(\"click\",OutputAudioWorklet_resumeAudio,false)*/",
+       },
+       new Rule()
+       {
+            old="scriptDirectory=self.location.href",
+            newStr="scriptDirectory=this.location.href",
+       },
+       new Rule()
+       {
+            old="self.AudioWorkletNode",
+            newStr="this.AudioWorkletNode",
+       },
+       new Rule()
+       {
+            old="self.SharedArrayBuffer",
+            newStr="this.SharedArrayBuffer",
+       },
+       new Rule()
+       {
+            old="self.crossOriginIsolated",
+            newStr="this.crossOriginIsolated",
+       },
        // ----MemoryProfiler Begin-----//
        new Rule()
        {
@@ -224,6 +279,9 @@ namespace WeChatWASM
        },new Rule(){
            old="\"parent\": *Module\\b",
            newStr="\"parent\": Module,wx:{ignore_opt_glue_apis:[\"_glGenTextures\",\"_glBindTexture\",\"_glDeleteTextures\",\"_glFramebufferTexture2D\",\"_glIsTexture\",\"_glCompressedTexImage2D\",\"_glGetString\"]}"
+       },new Rule(){
+           old="info={\"a\":asmLibraryArg}",
+           newStr="info={\"a\":asmLibraryArg,\"wx\":{ignore_opt_glue_apis:[\"glGenTextures\",\"glBindTexture\",\"glDeleteTextures\",\"glFramebufferTexture2D\",\"glIsTexture\",\"glCompressedTexImage2D\",\"glGetString\"]}}"
        },new Rule(){
           old = "GL.createContext\\(([^)]+)\\);",
           newStr="GL.createContext($1);WXWASMSDK.canvasContext && WXWASMSDK.canvasContext._triggerCallback();"

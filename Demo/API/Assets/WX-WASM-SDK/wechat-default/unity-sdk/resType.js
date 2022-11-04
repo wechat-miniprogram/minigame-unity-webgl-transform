@@ -127,11 +127,6 @@ export default {
         iv:"string",
         valid:"bool",
     },
-    CheckHandoffEnabledSuccessCallbackResult:{
-        errCode:"int",
-        isEnabled:"bool",
-        errMsg:"string",
-    },
     CheckIsUserAdvisedToRestSuccessCallbackResult:{
         result:"bool",
         errMsg:"string",
@@ -350,33 +345,11 @@ export default {
         size:"int",
         errMsg:"string",
     },
-    GetFriendCloudStorageSuccessCallbackResult:{
-        data:"array",
-        errMsg:"string",
-    },
-    UserGameData:{
-        KVDataList:"array",
-        avatarUrl:"string",
-        nickname:"string",
-        openid:"string",
-    },
-    KVData:{
-        key:"string",
-        value:"string",
-    },
-    GetGroupCloudStorageSuccessCallbackResult:{
-        data:"array",
-        errMsg:"string",
-    },
     GetGroupEnterInfoSuccessCallbackResult:{
         cloudID:"string",
         encryptedData:"string",
         errMsg:"string",
         iv:"string",
-    },
-    GetGroupInfoSuccessCallbackResult:{
-        name:"string",
-        errMsg:"string",
     },
     GetLocalIPAddressSuccessCallbackResult:{
         errMsg:"string",
@@ -397,15 +370,6 @@ export default {
         signalStrength:"int",
         errMsg:"string",
     },
-    GetPotentialFriendListSuccessCallbackResult:{
-        list:"array",
-        errMsg:"string",
-    },
-    FriendInfo:{
-        avatarUrl:"string",
-        nickname:"string",
-        openid:"string",
-    },
     GetScreenBrightnessSuccessCallbackOption:{
         value:"int",
     },
@@ -425,14 +389,6 @@ export default {
         currentSize:"int",
         keys:"array",
         limitSize:"int",
-    },
-    GetUserCloudStorageSuccessCallbackResult:{
-        KVDataList:"array",
-        errMsg:"string",
-    },
-    GetUserCloudStorageKeysSuccessCallbackResult:{
-        keys:"array",
-        errMsg:"string",
     },
     GetUserInfoSuccessCallbackResult:{
         cloudID:"string",
@@ -483,10 +439,6 @@ export default {
     },
     LoginSuccessCallbackResult:{
         code:"string",
-        errMsg:"string",
-    },
-    ModifyFriendInteractiveStorageFailCallbackResult:{
-        errCode:"int",
         errMsg:"string",
     },
     OnAccelerometerChangeCallbackResult:{
@@ -713,6 +665,10 @@ export default {
         mtu:"int",
         errMsg:"string",
     },
+    KVData:{
+        key:"string",
+        value:"string",
+    },
     ShareAppMessageOption:{
         imageUrl:"string",
         imageUrlId:"string",
@@ -768,7 +724,10 @@ export default {
         value:"int",
     },
     getGameClubDataSuccessCallbackResult:{
-        dataList:"array",
+        signature:"string",
+        encryptedData:"string",
+        iv:"string",
+        cloudID:"string",
         errMsg:"string",
     },
 }

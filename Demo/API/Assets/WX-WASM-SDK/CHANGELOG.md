@@ -6,10 +6,32 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2022-10-20
+### Added
+* 高性能模式HTTP网络切换为小游戏接口
+* 适配插件版本升级到1.0.97
+
+## 2022-10-12
+### Added
+* 微信压缩纹理工具支持ASTC文件读取，并支持不同的块大小(需Unity2021版本)
+* 适配插件版本升级到1.0.95
+### Fixed
+* 文件缓存清理逻辑优化
+
+## 2022-9-28
+### Added
+* InnerAudio支持持久化文件存储（当音频路径加入到缓存目录时）
+* 适配插件版本升级到1.0.94
+### Fixed
+* 修复Unity2021下使用微信压缩纹理工具，在iOS普通模式无法正常渲染的问题
+* 修复WebGL2导出时的胶水层异常
+
 ## 2022-9-21
 ### Added
 * 增加游戏圈接口openPageOption, getGameClubData
 * FileSystemManager增加stat接口
+### Fixed
+* FileSystemManager异步读取文件，填写encoding时没有返回数据
   
 ## 2022-9-13
 ### Added

@@ -581,7 +581,7 @@ PlayerSettings:
   webGLExceptionSupport: 1
   webGLNameFilesAsHashes: 0
   webGLDataCaching: 0
-  webGLDebugSymbols: 1
+  webGLDebugSymbols: 2
   webGLEmscriptenArgs: ' -s TOTAL_MEMORY=256MB'
   webGLModulesDirectory: 
   webGLTemplate: PROJECT:WXTemplate2020

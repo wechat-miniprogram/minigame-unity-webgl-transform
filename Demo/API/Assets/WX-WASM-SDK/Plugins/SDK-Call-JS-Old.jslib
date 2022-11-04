@@ -26,12 +26,63 @@ mergeInto(LibraryManager.library, {
     },
     glCompressedTexImage2D: function (target, level, internalFormat, width, height, border, imageSize, data) {
         var lastTid = window._lastTextureId;
+
+        function getMatchId() {
+            if(GameGlobal.USED_TEXTURE_COMPRESSION && internalFormat == 36196){
+                var length = HEAPU8.subarray(data, data + 1)[0];
+                var d = HEAPU8.subarray(data+1, data + 1 + length);
+                var res = [];
+                d.forEach(function(v){
+                    res.push(String.fromCharCode(v));
+                });
+                var matchId = res.join('');
+                var start0 = res.length - 8;
+                var start1 = res.length - 5;
+                if(res[start0] == '_'){
+                    start0++;
+                    var header = ['a', 's', 't', 'c'];
+                    for (var i = 0;i < header.length;i++){
+                        if(res[start0 + i] != header[i]){
+                            return [ matchId, '8x8' ];
+                        }
+                    }
+                    start0--;
+                    var astcBlockSize = matchId.substring(start0 + 5);
+                    return [ matchId.substr(0,start0) , astcBlockSize ];
+                }else if(res[start1] == '_'){
+                    start1++;
+                    var size = res[start1];
+                    if(size != '4' && size != '5' && size != '8'){
+                        return [ matchId, '8x8' ];
+                    }
+                    var astcBlockSize = size + 'x' + size;
+                    start1--;
+                    return [ matchId.substr(0,start1) , astcBlockSize ];
+                }else{
+                    return [ matchId, '8x8'];
+                }
+            }
+            return [-1 ,'8x8'];
+        }
+
+        var matchIdInfo = getMatchId();
+        var matchId = matchIdInfo[0];
+        var astcBlockSize = matchIdInfo[1];
+
         function compressedImage2D(rawData) {
             var format = 0;
             var dataOffset = 16;
             var compressFormat = GameGlobal.TextureCompressedFormat;
             switch (compressFormat) {
                 case "astc":
+                    if(astcBlockSize == '4x4'){
+                        format = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_4x4_KHR;
+                        break;
+                    }
+                    if(astcBlockSize == '5x5'){
+                        format = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_5x5_KHR;
+                        break;
+                    }
                     format = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_8x8_KHR;
                     break;
                 case "etc2":
@@ -83,20 +134,6 @@ mergeInto(LibraryManager.library, {
             GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, 1, 1, 0, GLctx.RGBA, GLctx.UNSIGNED_SHORT_4_4_4_4, new Uint16Array([0, 0]))
         }
 
-        function getMatchId() {
-            if(internalFormat == 36196 && GameGlobal.USED_TEXTURE_COMPRESSION){
-                var length = HEAPU8.subarray(data, data + 1)[0];
-                var d = HEAPU8.subarray(data+1, data + 1 + length);
-                var res = [];
-                d.forEach(function(v){
-                    res.push(String.fromCharCode(v));
-                });
-                return res.join('');
-            }
-            return -1;
-        }
-
-        var matchId = getMatchId();
         if (matchId != -1) {
             if (GameGlobal.DownloadedTextures[matchId] && GameGlobal.DownloadedTextures[matchId].data) {
                 renderTexture(matchId)
@@ -116,12 +153,63 @@ mergeInto(LibraryManager.library, {
     },
     glCompressedTexSubImage2D:function(target, level, xoffset, yoffset, width, height, format, imageSize, data) {
         var lastTid = window._lastTextureId;
+
+        function getMatchId() {
+            if(GameGlobal.USED_TEXTURE_COMPRESSION && internalFormat == 36196){
+                var length = HEAPU8.subarray(data, data + 1)[0];
+                var d = HEAPU8.subarray(data+1, data + 1 + length);
+                var res = [];
+                d.forEach(function(v){
+                    res.push(String.fromCharCode(v));
+                });
+                var matchId = res.join('');
+                var start0 = res.length - 8;
+                var start1 = res.length - 5;
+                if(res[start0] == '_'){
+                    start0++;
+                    var header = ['a', 's', 't', 'c'];
+                    for (var i = 0;i < header.length;i++){
+                        if(res[start0 + i] != header[i]){
+                            return [ matchId, '8x8' ];
+                        }
+                    }
+                    start0--;
+                    var astcBlockSize = matchId.substring(start0 + 5);
+                    return [ matchId.substr(0,start0) , astcBlockSize ];
+                }else if(res[start1] == '_'){
+                    start1++;
+                    var size = res[start1];
+                    if(size != '4' && size != '5' && size != '8'){
+                        return [ matchId, '8x8' ];
+                    }
+                    var astcBlockSize = size + 'x' + size;
+                    start1--;
+                    return [ matchId.substr(0,start1) , astcBlockSize ];
+                }else{
+                    return [ matchId, '8x8'];
+                }
+            }
+            return [-1 ,'8x8'];
+        }
+
+        var matchIdInfo = getMatchId();
+        var matchId = matchIdInfo[0];
+        var astcBlockSize = matchIdInfo[1];
+
         function compressedImage2D(rawData) {
             var format = 0;
             var dataOffset = 16;
             var compressFormat = GameGlobal.TextureCompressedFormat;
             switch (compressFormat) {
                 case "astc":
+                    if(astcBlockSize == '4x4'){
+                        format = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_4x4_KHR;
+                        break;
+                    }
+                    if(astcBlockSize == '5x5'){
+                        format = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_5x5_KHR;
+                        break;
+                    }
                     format = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_8x8_KHR;
                     break;
                 case "etc2":
@@ -168,25 +256,19 @@ mergeInto(LibraryManager.library, {
 
         }
 
-        function getMatchId() {
-            if(format == 36196 && GameGlobal.USED_TEXTURE_COMPRESSION){
-                var length = HEAPU8.subarray(data, data + 1)[0];
-                var d = HEAPU8.subarray(data+1, data + 1 + length);
-                var res = [];
-                d.forEach(function(v){
-                    res.push(String.fromCharCode(v));
-                });
-                return res.join('');
-            }
-            return -1;
-        }
-
-        var matchId = getMatchId();
         var p = window._lastTexStorage2DParams;
         if (matchId != -1) {
             var f = GLctx.RGBA8;
             switch (GameGlobal.TextureCompressedFormat) {
                 case "astc":
+                    if(astcBlockSize == '4x4'){
+                        f = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_4x4_KHR;
+                        break;
+                    }
+                    if(astcBlockSize == '5x5'){
+                        f = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_5x5_KHR;
+                        break;
+                    }
                     f = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_8x8_KHR;
                     break;
                 case "etc2":

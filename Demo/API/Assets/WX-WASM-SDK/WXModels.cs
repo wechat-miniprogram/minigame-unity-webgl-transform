@@ -565,34 +565,6 @@ namespace WeChatWASM
                 public Action<GeneralCallbackResult> success;
     }
     [Preserve]
-    public class CheckHandoffEnabledOption {
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<CheckHandoffEnabledSuccessCallbackResult> success;
-    }
-    [Preserve]
-    public class CheckHandoffEnabledSuccessCallbackResult {
-            /// <summary> 
-            /// 错误码，0未知，1用户取消，2电脑未登录，3电脑版本过低，4暂未支持
-            /// </summary>
-                public double errCode;
-            /// <summary> 
-            /// 是否可以进行接力
-            /// </summary>
-                public bool isEnabled;
-
-                public string errMsg;
-    }
-    [Preserve]
     public class CheckIsUserAdvisedToRestOption {
             /// <summary> 
             /// 今天已经玩游戏的时间，单位：秒
@@ -2003,96 +1975,6 @@ namespace WeChatWASM
                 public string errMsg;
     }
     [Preserve]
-    public class GetFriendCloudStorageOption {
-            /// <summary> 
-            /// 要拉取的 key 列表
-            /// </summary>
-                public string[] keyList;
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GetFriendCloudStorageSuccessCallbackResult> success;
-    }
-    [Preserve]
-    public class GetFriendCloudStorageSuccessCallbackResult {
-            /// <summary> 
-            /// 同玩好友的托管数据
-            /// </summary>
-                public UserGameData[] data;
-
-                public string errMsg;
-    }
-    [Preserve]
-    public class UserGameData {
-            /// <summary> 
-            /// 用户的托管 KV 数据列表
-            /// </summary>
-                public KVData[] KVDataList;
-            /// <summary> 
-            /// 用户的微信头像 url
-            /// </summary>
-                public string avatarUrl;
-            /// <summary> 
-            /// 用户的微信昵称
-            /// </summary>
-                public string nickname;
-            /// <summary> 
-            /// 用户的 openid
-            /// </summary>
-                public string openid;
-    }
-    [Preserve]
-    public class KVData {
-            /// <summary> 
-            /// 数据的 key
-            /// </summary>
-                public string key;
-            /// <summary> 
-            /// 数据的 value
-            /// </summary>
-                public string value;
-    }
-    [Preserve]
-    public class GetGroupCloudStorageOption {
-            /// <summary> 
-            /// 要拉取的 key 列表
-            /// </summary>
-                public string[] keyList;
-            /// <summary> 
-            /// 群分享对应的 shareTicket
-            /// </summary>
-                public string shareTicket;
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GetGroupCloudStorageSuccessCallbackResult> success;
-    }
-    [Preserve]
-    public class GetGroupCloudStorageSuccessCallbackResult {
-            /// <summary> 
-            /// 群同玩成员的托管数据
-            /// </summary>
-                public UserGameData[] data;
-
-                public string errMsg;
-    }
-    [Preserve]
     public class GetGroupEnterInfoOption {
             /// <summary> 
             /// 接口调用结束的回调函数（调用成功、失败都会执行）
@@ -2126,34 +2008,6 @@ namespace WeChatWASM
             /// 加密算法的初始向量，详细见[加密数据解密算法](https://developers.weixin.qq.com/minigame/dev/guide/open-ability/signature.html)
             /// </summary>
                 public string iv;
-    }
-    [Preserve]
-    public class GetGroupInfoOption {
-            /// <summary> 
-            /// 群 openGId，可通过 `wx.getShareInfo` 获取
-            /// </summary>
-                public string openGId;
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GetGroupInfoSuccessCallbackResult> success;
-    }
-    [Preserve]
-    public class GetGroupInfoSuccessCallbackResult {
-            /// <summary> 
-            /// 群名称
-            /// </summary>
-                public string name;
-
-                public string errMsg;
     }
     [Preserve]
     public class GetLocalIPAddressOption {
@@ -2286,45 +2140,6 @@ namespace WeChatWASM
                 public double signalStrength;
 
                 public string errMsg;
-    }
-    [Preserve]
-    public class GetPotentialFriendListOption {
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GetPotentialFriendListSuccessCallbackResult> success;
-    }
-    [Preserve]
-    public class GetPotentialFriendListSuccessCallbackResult {
-            /// <summary> 
-            /// 可能对游戏感兴趣的未注册好友名单
-            /// </summary>
-                public FriendInfo[] list;
-
-                public string errMsg;
-    }
-    [Preserve]
-    public class FriendInfo {
-            /// <summary> 
-            /// 用户的微信头像 url
-            /// </summary>
-                public string avatarUrl;
-            /// <summary> 
-            /// 用户的微信昵称
-            /// </summary>
-                public string nickname;
-            /// <summary> 
-            /// 用户 openid
-            /// </summary>
-                public string openid;
     }
     [Preserve]
     public class GetScreenBrightnessOption {
@@ -2508,58 +2323,6 @@ namespace WeChatWASM
             /// 接口调用成功的回调函数
             /// </summary>
                 public Action<SystemInfo> success;
-    }
-    [Preserve]
-    public class GetUserCloudStorageOption {
-            /// <summary> 
-            /// 要获取的 key 列表
-            /// </summary>
-                public string[] keyList;
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GetUserCloudStorageSuccessCallbackResult> success;
-    }
-    [Preserve]
-    public class GetUserCloudStorageSuccessCallbackResult {
-            /// <summary> 
-            /// 用户托管的 KV 数据列表
-            /// </summary>
-                public KVData[] KVDataList;
-
-                public string errMsg;
-    }
-    [Preserve]
-    public class GetUserCloudStorageKeysOption {
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GetUserCloudStorageKeysSuccessCallbackResult> success;
-    }
-    [Preserve]
-    public class GetUserCloudStorageKeysSuccessCallbackResult {
-            /// <summary> 
-            /// 用户托管数据当中所有的 key 数组
-            /// </summary>
-                public string[] keys;
-
-                public string errMsg;
     }
     [Preserve]
     public class GetUserInfoOption {
@@ -2985,77 +2748,6 @@ namespace WeChatWASM
             /// 超时时间，单位 ms
             /// </summary>
                 public double timeout;
-    }
-    [Preserve]
-    public class ModifyFriendInteractiveStorageOption {
-            /// <summary> 
-            /// 需要修改的数据的 key，目前可以为 '1' - '50'
-            /// </summary>
-                public string key;
-            /// <summary> 
-            /// 需要修改的数值，目前只能为 1
-            /// </summary>
-                public double opNum;
-            /// <summary> 
-            /// 修改类型
-            /// 可选值：
-            /// - 'add': 加;
-            /// </summary>
-                public string operation;
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<ModifyFriendInteractiveStorageFailCallbackResult> fail;
-            /// <summary> 
-            /// 需要基础库： `2.9.0`
-            /// 分享图片地址，详见 wx.shareMessageToFriend 同名参数（需要配置模板规则）
-            /// </summary>
-                public string imageUrl;
-            /// <summary> 
-            /// 需要基础库： `2.9.0`
-            /// 分享图片 ID，详见 wx.shareMessageToFriend 同名参数（需要配置模板规则）
-            /// </summary>
-                public string imageUrlId;
-            /// <summary> 
-            /// 需要基础库： `2.9.0`
-            /// 是否静默修改（不弹框）。当进入场景是好友 [定向分享](https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.shareMessageToFriend.html) 的卡片时有效，代表分享反馈操作，此时 `toUser` 默认为原分享者的 openId
-            /// </summary>
-                public bool quiet;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> success;
-            /// <summary> 
-            /// 需要基础库： `2.9.0`
-            /// 分享标题，如果设置了这个值，则在交互成功后自动询问用户是否分享给好友（需要配置模板规则）
-            /// </summary>
-                public string title;
-            /// <summary> 
-            /// 目标好友的 openId
-            /// </summary>
-                public string toUser;
-    }
-    [Preserve]
-    public class ModifyFriendInteractiveStorageFailCallbackResult {
-            /// <summary> 
-            /// 错误码
-            /// 可选值：
-            /// - -17006: 非好友关系;
-            /// - -17007: 非法的 toUser openId;
-            /// - -17008: 非法的 key;
-            /// - -17009: 非法的 operation;
-            /// - -17010: 非法的操作数;
-            /// - -17011: JSServer 校验写操作失败;
-            /// </summary>
-                public double errCode;
-            /// <summary> 
-            /// 错误信息
-            /// </summary>
-                public string errMsg;
     }
     [Preserve]
     public class NavigateToMiniProgramOption {
@@ -4646,6 +4338,17 @@ namespace WeChatWASM
                 public Action<GeneralCallbackResult> success;
     }
     [Preserve]
+    public class KVData {
+            /// <summary> 
+            /// 数据的 key
+            /// </summary>
+                public string key;
+            /// <summary> 
+            /// 数据的 value
+            /// </summary>
+                public string value;
+    }
+    [Preserve]
     public class ShareAppMessageOption {
             /// <summary> 
             /// 转发显示图片的链接，可以是网络图片路径或本地图片文件路径或相对代码包根目录的图片文件路径。显示图片长宽比是 5:4
@@ -4674,37 +4377,6 @@ namespace WeChatWASM
             /// 是否转发到当前群。该参数只对从群工具栏打开的场景下生效，默认转发到当前群，填入false时可转发到其他会话。
             /// </summary>
                 public bool toCurrentGroup;
-    }
-    [Preserve]
-    public class ShareMessageToFriendOption {
-            /// <summary> 
-            /// 发送对象的 openId
-            /// </summary>
-                public string openId;
-            /// <summary> 
-            /// 接口调用结束的回调函数（调用成功、失败都会执行）
-            /// </summary>
-                public Action<GeneralCallbackResult> complete;
-            /// <summary> 
-            /// 接口调用失败的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> fail;
-            /// <summary> 
-            /// 转发显示图片的链接，可以是网络图片路径或本地图片文件路径或相对代码包根目录的图片文件路径。显示图片长宽比是 5:4
-            /// </summary>
-                public string imageUrl;
-            /// <summary> 
-            /// 审核通过的图片 ID，详见 [使用审核通过的转发图片](https://developers.weixin.qq.com/minigame/dev/guide/open-ability/share/share.html#使用审核通过的转发图片)
-            /// </summary>
-                public string imageUrlId;
-            /// <summary> 
-            /// 接口调用成功的回调函数
-            /// </summary>
-                public Action<GeneralCallbackResult> success;
-            /// <summary> 
-            /// 转发标题，不传则默认使用当前小游戏的昵称。
-            /// </summary>
-                public string title;
     }
     [Preserve]
     public class ShowActionSheetOption {
@@ -5566,7 +5238,7 @@ namespace WeChatWASM
     [Preserve]
     public class openPageOption {
             /// <summary> 
-            /// 最近几场直播的 feedId 列表
+            /// 用于打开指定游戏内容页面的开放链接
             /// </summary>
                 public string openlink;
             /// <summary> 
@@ -5619,9 +5291,21 @@ namespace WeChatWASM
     [Preserve]
     public class getGameClubDataSuccessCallbackResult {
             /// <summary> 
-            /// 最近几场直播的 feedId 列表
+            /// 使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息
             /// </summary>
-                public GameClubDataType[] dataList;
+                public string signature;
+            /// <summary> 
+            /// 包括GameClubData在内的加密数据
+            /// </summary>
+                public string encryptedData;
+            /// <summary> 
+            /// 加密算法的初始向量
+            /// </summary>
+                public string iv;
+            /// <summary> 
+            /// 敏感数据对应的云 ID，开通云开发的小程序才会返回
+            /// </summary>
+                public string cloudID;
             /// <summary> 
             /// 错误信息
             /// </summary>

@@ -400,6 +400,7 @@ namespace WeChatWASM
         }
         #endregion
 
+        #region 上传文件
         /// <summary>
         /// [[UploadTask](https://developers.weixin.qq.com/minigame/dev/api/network/upload/UploadTask.html) wx.uploadFile(Object object)](https://developers.weixin.qq.com/minigame/dev/api/network/upload/wx.uploadFile.html)
         /// 将本地资源上传到服务器。客户端发起一个 HTTPS POST 请求，其中 `content-type` 为 `multipart/form-data`。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。
@@ -428,6 +429,7 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.UploadFile(option);
         }
+        #endregion
 
         #region 文件
         /// <summary>
@@ -485,6 +487,7 @@ namespace WeChatWASM
         #region 音频
         /// <summary>
         /// InnerAudioContext 实例，可通过 WX.CreateInnerAudioContext 接口获取实例。注意，音频播放过程中，可能被系统中断，可通过 WX.OnAudioInterruptionBegin、WX.OnAudioInterruptionEnd事件来处理这种情况。详见：https://developers.weixin.qq.com/minigame/dev/api/media/audio/InnerAudioContext.html
+        /// 使用参考文档：https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/AudioOptimization.md
         /// </summary>
         /// <example>
         //var music = WX.CreateInnerAudioContext(new InnerAudioContextParam() {
@@ -534,12 +537,12 @@ namespace WeChatWASM
         }
         #endregion
 
+        #region 视频
         /// <summary>
         /// 创建视频，详见 https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
-        #region 视频
         public static WXVideo CreateVideo(WXCreateVideoParam param) {
             return WXSDKManagerHandler.Instance.CreateVideo(param);
         }
@@ -695,6 +698,7 @@ namespace WeChatWASM
         }
 
         #endregion
+
         /// <summary>
         /// 获取启动loader的启动数据
         /// </summary>

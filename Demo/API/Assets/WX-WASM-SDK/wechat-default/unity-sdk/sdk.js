@@ -153,30 +153,6 @@ export default {
             }
         });
     },
-    WX_CheckHandoffEnabled(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.checkHandoffEnabled({
-            ...conf,
-            success(res){
-                formatResponse("CheckHandoffEnabledSuccessCallbackResult",res);
-                moduleHelper.send('CheckHandoffEnabledCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('CheckHandoffEnabledCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('CheckHandoffEnabledCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
     WX_CheckIsUserAdvisedToRest(conf, callbackId){
         conf = formatJsonStr(conf);
         wx.checkIsUserAdvisedToRest({
@@ -801,54 +777,6 @@ export default {
             }
         });
     },
-    WX_GetFriendCloudStorage(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.getFriendCloudStorage({
-            ...conf,
-            success(res){
-                formatResponse("GetFriendCloudStorageSuccessCallbackResult",res);
-                moduleHelper.send('GetFriendCloudStorageCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetFriendCloudStorageCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetFriendCloudStorageCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
-    WX_GetGroupCloudStorage(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.getGroupCloudStorage({
-            ...conf,
-            success(res){
-                formatResponse("GetGroupCloudStorageSuccessCallbackResult",res);
-                moduleHelper.send('GetGroupCloudStorageCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetGroupCloudStorageCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetGroupCloudStorageCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
     WX_GetGroupEnterInfo(conf, callbackId){
         conf = formatJsonStr(conf);
         wx.getGroupEnterInfo({
@@ -868,30 +796,6 @@ export default {
             complete(res){
                 formatResponse("GeneralCallbackResult",res);
                 moduleHelper.send('GetGroupEnterInfoCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
-    WX_GetGroupInfo(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.getGroupInfo({
-            ...conf,
-            success(res){
-                formatResponse("GetGroupInfoSuccessCallbackResult",res);
-                moduleHelper.send('GetGroupInfoCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetGroupInfoCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetGroupInfoCallback', JSON.stringify({
                 callbackId,type:"complete",res:JSON.stringify(res)
                 }));
             }
@@ -964,30 +868,6 @@ export default {
             complete(res){
                 formatResponse("GeneralCallbackResult",res);
                 moduleHelper.send('GetNetworkTypeCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
-    WX_GetPotentialFriendList(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.getPotentialFriendList({
-            ...conf,
-            success(res){
-                formatResponse("GetPotentialFriendListSuccessCallbackResult",res);
-                moduleHelper.send('GetPotentialFriendListCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetPotentialFriendListCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetPotentialFriendListCallback', JSON.stringify({
                 callbackId,type:"complete",res:JSON.stringify(res)
                 }));
             }
@@ -1132,54 +1012,6 @@ export default {
             complete(res){
                 formatResponse("GeneralCallbackResult",res);
                 moduleHelper.send('GetSystemInfoAsyncCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
-    WX_GetUserCloudStorage(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.getUserCloudStorage({
-            ...conf,
-            success(res){
-                formatResponse("GetUserCloudStorageSuccessCallbackResult",res);
-                moduleHelper.send('GetUserCloudStorageCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetUserCloudStorageCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetUserCloudStorageCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
-    WX_GetUserCloudStorageKeys(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.getUserCloudStorageKeys({
-            ...conf,
-            success(res){
-                formatResponse("GetUserCloudStorageKeysSuccessCallbackResult",res);
-                moduleHelper.send('GetUserCloudStorageKeysCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetUserCloudStorageKeysCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('GetUserCloudStorageKeysCallback', JSON.stringify({
                 callbackId,type:"complete",res:JSON.stringify(res)
                 }));
             }
@@ -1471,30 +1303,6 @@ export default {
             complete(res){
                 formatResponse("GeneralCallbackResult",res);
                 moduleHelper.send('MakeBluetoothPairCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
-    WX_ModifyFriendInteractiveStorage(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.modifyFriendInteractiveStorage({
-            ...conf,
-            success(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('ModifyFriendInteractiveStorageCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("ModifyFriendInteractiveStorageFailCallbackResult",res);
-                moduleHelper.send('ModifyFriendInteractiveStorageCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('ModifyFriendInteractiveStorageCallback', JSON.stringify({
                 callbackId,type:"complete",res:JSON.stringify(res)
                 }));
             }
@@ -2263,30 +2071,6 @@ export default {
             complete(res){
                 formatResponse("GeneralCallbackResult",res);
                 moduleHelper.send('SetUserCloudStorageCallback', JSON.stringify({
-                callbackId,type:"complete",res:JSON.stringify(res)
-                }));
-            }
-        });
-    },
-    WX_ShareMessageToFriend(conf, callbackId){
-        conf = formatJsonStr(conf);
-        wx.shareMessageToFriend({
-            ...conf,
-            success(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('ShareMessageToFriendCallback', JSON.stringify({
-                    callbackId,type:"success",res:JSON.stringify(res)
-                }));
-            },
-            fail(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('ShareMessageToFriendCallback', JSON.stringify({
-                callbackId,type:"fail",res:JSON.stringify(res)
-                }));
-            },
-            complete(res){
-                formatResponse("GeneralCallbackResult",res);
-                moduleHelper.send('ShareMessageToFriendCallback', JSON.stringify({
                 callbackId,type:"complete",res:JSON.stringify(res)
                 }));
             }

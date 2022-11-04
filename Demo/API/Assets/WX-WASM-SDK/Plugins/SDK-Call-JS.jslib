@@ -8,9 +8,6 @@ WX_AuthPrivateMessage:function( conf, callbackId){
 WX_Authorize:function( conf, callbackId){
     window.WXWASMSDK.WX_Authorize(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
-WX_CheckHandoffEnabled:function( conf, callbackId){
-    window.WXWASMSDK.WX_CheckHandoffEnabled(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
 WX_CheckIsUserAdvisedToRest:function( conf, callbackId){
     window.WXWASMSDK.WX_CheckIsUserAdvisedToRest(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
@@ -89,17 +86,8 @@ WX_GetExtConfig:function( conf, callbackId){
 WX_GetFileInfo:function( conf, callbackId){
     window.WXWASMSDK.WX_GetFileInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
-WX_GetFriendCloudStorage:function( conf, callbackId){
-    window.WXWASMSDK.WX_GetFriendCloudStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
-WX_GetGroupCloudStorage:function( conf, callbackId){
-    window.WXWASMSDK.WX_GetGroupCloudStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
 WX_GetGroupEnterInfo:function( conf, callbackId){
     window.WXWASMSDK.WX_GetGroupEnterInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
-WX_GetGroupInfo:function( conf, callbackId){
-    window.WXWASMSDK.WX_GetGroupInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
 WX_GetLocalIPAddress:function( conf, callbackId){
     window.WXWASMSDK.WX_GetLocalIPAddress(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
@@ -109,9 +97,6 @@ WX_GetLocation:function( conf, callbackId){
 },
 WX_GetNetworkType:function( conf, callbackId){
     window.WXWASMSDK.WX_GetNetworkType(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
-WX_GetPotentialFriendList:function( conf, callbackId){
-    window.WXWASMSDK.WX_GetPotentialFriendList(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
 WX_GetScreenBrightness:function( conf, callbackId){
     window.WXWASMSDK.WX_GetScreenBrightness(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
@@ -130,12 +115,6 @@ WX_GetSystemInfo:function( conf, callbackId){
 },
 WX_GetSystemInfoAsync:function( conf, callbackId){
     window.WXWASMSDK.WX_GetSystemInfoAsync(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
-WX_GetUserCloudStorage:function( conf, callbackId){
-    window.WXWASMSDK.WX_GetUserCloudStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
-WX_GetUserCloudStorageKeys:function( conf, callbackId){
-    window.WXWASMSDK.WX_GetUserCloudStorageKeys(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
 WX_GetUserInfo:function( conf, callbackId){
     window.WXWASMSDK.WX_GetUserInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
@@ -172,9 +151,6 @@ WX_Login:function( conf, callbackId){
 },
 WX_MakeBluetoothPair:function( conf, callbackId){
     window.WXWASMSDK.WX_MakeBluetoothPair(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
-WX_ModifyFriendInteractiveStorage:function( conf, callbackId){
-    window.WXWASMSDK.WX_ModifyFriendInteractiveStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
 WX_NavigateToMiniProgram:function( conf, callbackId){
     window.WXWASMSDK.WX_NavigateToMiniProgram(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
@@ -271,9 +247,6 @@ WX_SetStatusBarStyle:function( conf, callbackId){
 },
 WX_SetUserCloudStorage:function( conf, callbackId){
     window.WXWASMSDK.WX_SetUserCloudStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
-},
-WX_ShareMessageToFriend:function( conf, callbackId){
-    window.WXWASMSDK.WX_ShareMessageToFriend(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
 },
 WX_ShowActionSheet:function( conf, callbackId){
     window.WXWASMSDK.WX_ShowActionSheet(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));

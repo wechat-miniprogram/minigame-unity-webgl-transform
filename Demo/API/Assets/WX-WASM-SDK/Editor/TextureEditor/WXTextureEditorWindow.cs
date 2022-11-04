@@ -553,9 +553,9 @@ namespace WeChatWASM
 
             if (replaceTexture)
             {
-                //if (!this.checkUnityVersion())
-                //    return;
-                
+                if (!this.checkUnityVersion())
+                    return;
+
                 ReplaceBundle();
             }
 
@@ -579,7 +579,7 @@ namespace WeChatWASM
             bool success = false;
             for (int i = 0; i < supportUnityVersion.Length; i++)
             {
-                if(unityVersion.IndexOf(supportUnityVersion[i]) != -1)
+                if (unityVersion.IndexOf(supportUnityVersion[i]) != -1)
                 {
                     success = true;
                     break;

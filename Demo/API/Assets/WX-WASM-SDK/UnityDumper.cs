@@ -67,7 +67,7 @@ namespace WeChatWASM
             Debug.Log("getNowScenesComponents");
             cam = Camera.main;
             List<Node> forest = new List<Node>();
-            Scene scene = SceneManager.GetActiveScene();
+            UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             sceneName = scene.name;
             if(sceneName.Length == 0) {
                 sceneName = "default";
