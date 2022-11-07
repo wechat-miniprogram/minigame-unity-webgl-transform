@@ -15,7 +15,7 @@ namespace WeChatWASM
 
         public Action<WXADErrorResponse> onErrorAction;
 
-        public Action onLoadActon;
+        public Action<WXADLoadResponse> onLoadActon;
 
 
 
@@ -34,10 +34,20 @@ namespace WeChatWASM
         /// <param name="failed">失败回调</param>
         public void Show(Action<WXTextResponse> success = null, Action<WXTextResponse> failed = null)
         {
-            
-            WXSDKManagerHandler.Instance.ShowAd(instanceId,WXCallBackHandler.Add(success), WXCallBackHandler.Add(failed));
+
+            WXSDKManagerHandler.Instance.ShowAd(instanceId, WXCallBackHandler.Add(success), WXCallBackHandler.Add(failed));
         }
 
+        /// <summary>
+        /// 显示广告。
+        /// </summary>
+        /// <param name="success">成功回调</param>
+        /// <param name="failed">失败回调</param>
+        public void Show(string branchId, string branchDim, Action<WXTextResponse> success = null, Action<WXTextResponse> failed = null)
+        {
+
+            WXSDKManagerHandler.Instance.ShowAd(instanceId, branchId, branchDim, WXCallBackHandler.Add(success), WXCallBackHandler.Add(failed));
+        }
 
         /// <summary>
         /// 监听广告错误事件。
@@ -52,7 +62,7 @@ namespace WeChatWASM
         /// 监听 banner 广告加载事件。
         /// </summary>
         /// <param name="action">广告加载事件的回调函数</param>
-        public void OnLoad(Action action)
+        public void OnLoad(Action<WXADLoadResponse> action)
         {
             onLoadActon += action;
         }
@@ -64,16 +74,16 @@ namespace WeChatWASM
         /// <param name="action">广告错误事件的回调函数</param>
         public void OffError(Action<WXADErrorResponse> action)
         {
-            onErrorAction -=action;
+            onErrorAction -= action;
         }
 
         /// <summary>
         /// 取消监听广告加载事件
         /// </summary>
         /// <param name="action">广告加载事件的回调函数</param>
-        public void OffLoad(Action action)
+        public void OffLoad(Action<WXADLoadResponse> action)
         {
-            onLoadActon -=action;
+            onLoadActon -= action;
         }
 
         /// <summary>
@@ -81,8 +91,8 @@ namespace WeChatWASM
         /// </summary>
         public void Destroy()
         {
-           WXSDKManagerHandler.Instance.ADDestroy(instanceId);
-           Dict.Remove(instanceId); 
+            WXSDKManagerHandler.Instance.ADDestroy(instanceId);
+            Dict.Remove(instanceId);
         }
 
     }

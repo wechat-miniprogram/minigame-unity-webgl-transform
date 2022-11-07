@@ -16,7 +16,7 @@ namespace WeChatWASM
         {
             get
             {
-                return SystemInfo.operatingSystem.IndexOf("Mac OS") != -1;
+                return UnityEngine.SystemInfo.operatingSystem.IndexOf("Mac OS") != -1;
             }
         }
 
@@ -24,7 +24,7 @@ namespace WeChatWASM
         {
             get
             {
-                return SystemInfo.operatingSystem.IndexOf("Windows") != -1;
+                return UnityEngine.SystemInfo.operatingSystem.IndexOf("Windows") != -1;
             }
         }
 
@@ -158,7 +158,7 @@ namespace WeChatWASM
             {
                 DirectoryInfo dir = new DirectoryInfo(srcPath);
                 FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();  //返回目录中所有文件和子目录
-                
+
                 foreach (FileSystemInfo i in fileinfo)
                 {
                     if (i is DirectoryInfo)            //判断是否文件夹
@@ -190,7 +190,8 @@ namespace WeChatWASM
             return;
         }
 
-        public static void CopyDir(string srcPath, string destPath) {
+        public static void CopyDir(string srcPath, string destPath)
+        {
             if (!Directory.Exists(srcPath))
             {
                 return;
@@ -215,7 +216,8 @@ namespace WeChatWASM
             }
         }
 
-        public static WXEditorScriptObject GetEditorConf() {
+        public static WXEditorScriptObject GetEditorConf()
+        {
             var path = "Assets/WX-WASM-SDK/Editor/MiniGameConfig.asset";
             var config = AssetDatabase.LoadAssetAtPath(path, typeof(WXEditorScriptObject)) as WXEditorScriptObject;
             if (config == null)
@@ -226,16 +228,62 @@ namespace WeChatWASM
             return config;
         }
 
-        public static WXTextureCacheObject GetTextureCacheConf()
+        public static void RunCmd(string cmd, string args, string workdir = null, Action<int, int, string> progressUpdate = null)
         {
-            var path = "Assets/WX-WASM-SDK/Editor/TextureCacheConfig.asset";
-            var config = AssetDatabase.LoadAssetAtPath(path, typeof(WXTextureCacheObject)) as WXTextureCacheObject;
-            if (config == null)
+            Debug.Log($"RunCmd {cmd} {args}");
+            var p = CreateCmdProcess(cmd, args, workdir);
+ 
+            while (!p.StandardOutput.EndOfStream)
             {
-                AssetDatabase.CreateAsset(EditorWindow.CreateInstance<WXTextureCacheObject>(), path);
-                config = AssetDatabase.LoadAssetAtPath(path, typeof(WXTextureCacheObject)) as WXTextureCacheObject;
+                string line = p.StandardOutput.ReadLine();
+                if (line.StartsWith("#WXTextureMinProgress#"))
+                {
+                    var aProgress = line.Split('#');
+                    if (aProgress.Length < 5)
+                    {
+                        Debug.LogError($"{line} invalid!");
+                        continue;
+                    }
+                    if (progressUpdate != null)
+                    {
+                        //0:""
+                        //1:WXTextureMinProgress
+                        //2:curent
+                        //3:total
+                        //4:extInfo
+                        int current, total = 1;
+                        int.TryParse(aProgress[2], out current);
+                        int.TryParse(aProgress[3], out total);
+                        progressUpdate(current, total, aProgress[4]);
+                    }
+                }
+                else
+                {
+                    Debug.Log(line);
+                }
             }
-            return config;
+            var err = p.StandardError.ReadToEnd();
+            if (!string.IsNullOrEmpty(err))
+            {
+                Debug.LogError(err);
+            }
+            p.Close();
+        }
+
+        public static System.Diagnostics.Process CreateCmdProcess(string cmd, string args, string workdir = null)
+        {
+            var pStartInfo = new System.Diagnostics.ProcessStartInfo(cmd);
+            pStartInfo.Arguments = args;
+            pStartInfo.CreateNoWindow = true;
+            pStartInfo.UseShellExecute = false;
+            pStartInfo.RedirectStandardError = true;
+            pStartInfo.RedirectStandardInput = true;
+            pStartInfo.RedirectStandardOutput = true;
+            pStartInfo.StandardErrorEncoding = System.Text.UTF8Encoding.UTF8;
+            pStartInfo.StandardOutputEncoding = System.Text.UTF8Encoding.UTF8;
+            if (!string.IsNullOrEmpty(workdir))
+                pStartInfo.WorkingDirectory = workdir;
+            return System.Diagnostics.Process.Start(pStartInfo);
         }
 
     }

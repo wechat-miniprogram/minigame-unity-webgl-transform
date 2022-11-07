@@ -20,6 +20,7 @@
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": false,
+    "disableUseStrict": false,
     "babelSetting": {
       "ignore": ["$GAME_NAME.wasm.framework.unityweb.js"],
       "disablePlugins": [],
@@ -32,7 +33,7 @@
     "packNpmRelationList": []
   },
   "compileType": "game",
-  "libVersion": "2.17.0",
+  "libVersion": "2.24.6",
   "appid": "$APP_ID",
   "projectname": "$PROJECT_NAME",
   "simulatorType": "wechat",

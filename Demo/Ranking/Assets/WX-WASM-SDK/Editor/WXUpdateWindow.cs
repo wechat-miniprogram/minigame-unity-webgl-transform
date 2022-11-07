@@ -6,7 +6,7 @@ using System.IO;
 
 namespace WeChatWASM
 {
-    public class UpdateManager {
+    public class PluginUpdateManager {
         public static string checkUrl = "https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo";
 
         public static string downloadUrl = "";
@@ -104,7 +104,7 @@ namespace WeChatWASM
 
             if (isCheckBtnPressed)
             {
-                if (UpdateManager.CheckUpdte())
+                if (PluginUpdateManager.CheckUpdte())
                 {
                     ShowNotification(new GUIContent("有新版可以下载，请尽快更新！"));
                 }

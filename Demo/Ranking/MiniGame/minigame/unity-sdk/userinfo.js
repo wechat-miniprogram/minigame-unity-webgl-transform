@@ -4,14 +4,6 @@ const userInfoButtons = {};
 import moduleHelper from "./module-helper";
 
 export default {
-    /*获取用户信息*/
-    WXGetUserInfo(withCredentials, lang, s, f, c){
-        wx.getUserInfo({
-            withCredentials,
-            lang,
-            ...response.handleUserInfo(s,f,c)
-        });
-    },
     /*userInfo按钮*/
     WXCreateUserInfoButton(x, y, width, height, lang, withCredentials){
         const button = wx.createUserInfoButton({

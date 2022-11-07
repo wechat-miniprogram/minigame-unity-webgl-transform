@@ -16,10 +16,6 @@ namespace WeChatWASM
         public Action<T> complete;  //接口调用结束的回调函数（调用成功、失败都会执行）
     }
 
-    public class WXLoginResponse : WXBaseResponse
-    {
-        public string code; //code为用户登录凭证（有效期五分钟）。开发者需要在开发者服务器后台调用 auth.code2Session，使用 code 换取 openid 和 session_key 等信息
-    }
 
 
     public class WXTextResponse : WXBaseResponse
@@ -41,7 +37,7 @@ namespace WeChatWASM
 
     public class WXUserInfoResponse : WXBaseResponse
     {
-        // 具提说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/open-api/user-info/wx.getUserInfo.html
+        // 具体说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/open-api/user-info/wx.getUserInfo.html
         public int errCode; // 0为成功，非零为失败
         public string signature; //使用 sha1( rawData + sessionkey ) 得到字符串，用于校验用户信息，详见 https://developers.weixin.qq.com/minigame/dev/guide/open-ability/signature.html
         public string encryptedData; //包括敏感数据在内的完整用户信息的加密数据，详见 https://developers.weixin.qq.com/minigame/dev/guide/open-ability/signature.html#%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95
@@ -54,7 +50,7 @@ namespace WeChatWASM
 
     public class WXShareInfoResponse : WXBaseResponse
     {
-        // 具提说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/share/wx.getShareInfo.html
+        // 具体说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/share/wx.getShareInfo.html
         public string encryptedData;
         public string iv;
         public string cloudID;
@@ -69,12 +65,20 @@ namespace WeChatWASM
     }
 
     public class WXADErrorResponse : WXBaseResponse
-    { // 具提说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/ad/BannerAd.onError.html
+    {
+        // 具体说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/ad/BannerAd.onError.html
         public int errCode;
+    }
+    public class WXADLoadResponse : WXBaseResponse
+    {
+        // 具体说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/ad/BannerAd.onLoad.html
+        public int rewardValue;
+        public int shareValue;
     }
 
     public class WXADResizeResponse : WXBaseResponse
-    { // 具提说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/ad/BannerAd.onResize.html
+    {
+        // 具体说明可以参考 https://developers.weixin.qq.com/minigame/dev/api/ad/BannerAd.onResize.html
         public int width;
         public int height;
     }
@@ -85,6 +89,22 @@ namespace WeChatWASM
         /// 视频是否是在用户完整观看的情况下被关闭的,详见 https://developers.weixin.qq.com/minigame/dev/api/ad/RewardedVideoAd.onClose.html
         /// </summary>
         public bool isEnded;
+    }
+
+    public class RequestAdReportShareBehaviorParam
+    {
+        public int operation; // 1-曝光 2-点击 3-关闭 4-操作成功 5-操作失败 6-分享拉起
+        public int currentShow; // 0-广告 1-分享，当 operation 为 1-5 时必填
+        public int strategy; // 0-业务 1-微信策略
+        public string inviteUser; // 当 operation 为 6 时必填，填写分享人的 openId
+        public string inviteUserAdunit; // 当 operation 为 6 时必填，填写分享人分享时的广告单元
+        public int shareValue; // 分享推荐值，必填
+        public int rewardValue; // 激励广告推荐值，必填
+    }
+
+    public class WXRewardedVideoAdReportShareBehaviorResponse : WXBaseResponse {
+        public string success;
+        public string message;
     }
 
     /// <summary>
@@ -141,46 +161,6 @@ namespace WeChatWASM
         public int gender;
     }
 
-    /// <summary>
-    /// 系统信息。详见 https://developers.weixin.qq.com/minigame/dev/api/base/system/system-info/wx.getSystemInfo.html
-    /// </summary>
-    public class WXSystemInfo : WXBaseResponse
-    {
-        public string brand;
-        public string model;
-        public float pixelRatio;
-        public int screenWidth;
-        public int screenHeight;
-        public int windowWidth;
-        public int windowHeight;
-        public int statusBarHeight;
-        public string language;
-        public string version;
-        public string system;
-        /// <summary>
-        /// android下为“android”，ios为 “ios”，开发工具为“devtools”
-        /// </summary>
-        public string platform;
-        public int fontSizeSetting;
-        public string SDKVersion;
-        public int benchmarkLevel;
-        public bool albumAuthorized;
-        public bool cameraAuthorized;
-
-        public bool locationAuthorized;
-        public bool microphoneAuthorized;
-        public bool notificationAuthorized;
-        public bool notificationAlertAuthorized;
-        public bool notificationBadgeAuthorized;
-        public bool notificationSoundAuthorized;
-        public bool bluetoothEnabled;
-
-        public bool locationEnabled;
-        public bool wifiEnabled;
-        public WXSafeArea safeArea;
-        public string safeAreaRaw;
-        public string theme;
-    }
 
     public struct WXSafeArea
     {
@@ -192,9 +172,30 @@ namespace WeChatWASM
         public int height;
     }
 
-    /// <summary>
-    /// 各字段说明详见这里，https://developers.weixin.qq.com/minigame/dev/api/share/wx.updateShareMenu.html
-    /// </summary>
+    public class WXAccountInfo : WXBaseResponse
+    {
+        public WXAccountInfoMiniProgram miniProgram;
+        public string miniProgramRaw;
+        public WXAccountInfoPlugin plugin;
+        public string pluginRaw;
+    }
+
+
+    public struct WXAccountInfoMiniProgram
+    {
+        public string appId;
+        public string envVersion;
+    }
+
+    public struct WXAccountInfoPlugin
+    {
+        public string appId;
+        public string version;
+    }
+
+        /// <summary>
+        /// 各字段说明详见这里，https://developers.weixin.qq.com/minigame/dev/api/share/wx.updateShareMenu.html
+        /// </summary>
     public class WXUpdateShareMenuParam : WXBaseActionParam<WXTextResponse>
     {
 
@@ -359,9 +360,9 @@ namespace WeChatWASM
     }
 
     /// <summary>
-    /// 将当前 Canvas 保存为一个临时文件,详见 https://developers.weixin.qq.com/minigame/dev/api/render/canvas/Canvas.toTempFilePathSync.html
+    /// 将当前 Canvas 保存为一个临时文件的同步版本,详见 https://developers.weixin.qq.com/minigame/dev/api/render/canvas/Canvas.toTempFilePathSync.html
     /// </summary>
-    public class WXToTempFilePathParam
+    public class WXToTempFilePathSyncParam
     {
         public int x;
         public int y;
@@ -369,8 +370,36 @@ namespace WeChatWASM
         public int height;
         public int destWidth;
         public int destHeight;
-        public string fileType;
-        public int quality;
+        public string fileType = "png";
+        public float quality = 1.0f;
+    }
+
+    [Preserve]
+    public class ToTempFilePathParamSuccessCallbackResult : WXBaseResponse {
+        /// <summary> 
+        /// canvas 生成的临时文件路径 (本地路径)
+        /// </summary>
+        public string tempFilePath;
+    }
+
+    /// <summary>
+    /// 将当前 Canvas 保存为一个临时文件的异步版本,详见 https://developers.weixin.qq.com/minigame/dev/api/render/canvas/Canvas.toTempFilePath.html
+    /// </summary>
+
+    public class WXToTempFilePathParam : WXToTempFilePathSyncParam
+    {
+        /// <summary> 
+        /// 接口调用结束的回调函数（调用成功、失败都会执行）
+        /// </summary>
+        public Action<WXTextResponse> complete;
+        /// <summary> 
+        /// 接口调用失败的回调函数
+        /// </summary>
+        public Action<WXTextResponse> fail;
+        /// <summary> 
+        /// 接口调用成功的回调函数
+        /// </summary>
+        public Action<ToTempFilePathParamSuccessCallbackResult> success;
     }
 
     /// <summary>
@@ -402,13 +431,6 @@ namespace WeChatWASM
         public KVData[] KVDataList;
     }
 
-    /// <summary>
-    /// 详见 https://developers.weixin.qq.com/minigame/dev/api/open-api/data/KVData.html
-    /// </summary>
-    public class KVData {
-        public string key;
-        public string value;
-    }
 
     /// <summary>
     /// 删除用户托管数据当中对应 key 的数据。详见 https://developers.weixin.qq.com/minigame/dev/api/open-api/data/wx.removeUserCloudStorage.html
@@ -473,27 +495,9 @@ namespace WeChatWASM
         /// <summary>
         /// 事件触发时的时间戳
         /// </summary>
-        public int timeStamp;
+        public long timeStamp;
     }
 
-    /// <summary>
-    /// 在触控设备上的触摸点。这里已做了适配，左下角为（0，0）。详见 https://developers.weixin.qq.com/minigame/dev/api/base/app/touch-event/Touch.html
-    /// </summary>
-    [Preserve]
-    public class Touch
-    {
-        public Int64 identifier;
-        public int pageX;
-        public int pageY;
-        /// <summary>
-        /// 相当于Unity中eventData.position.x
-        /// </summary>
-        public int clientX;
-        /// <summary>
-        /// 相当于Unity中eventData.position.y
-        /// </summary>
-        public int clientY;
-    }
 
     /// <summary>
     /// 调用云函数 https://developers.weixin.qq.com/minigame/dev/wxcloud/reference-sdk-api/functions/Cloud.callFunction.html
@@ -738,6 +742,53 @@ namespace WeChatWASM
     {
         public string data;
         public int byteLength;
+    }
+
+    public class WXStatInfo
+    {
+        /// <summary>
+        ///  文件的类型和存取的权限，对应 POSIX stat.st_mode
+        /// </summary>
+        public int mode;
+        /// <summary>
+        /// 文件大小，单位：B，对应 POSIX stat.st_size
+        /// </summary>
+        public int size;
+        /// <summary>
+        /// 文件最近一次被存取或被执行的时间，UNIX 时间戳，对应 POSIX stat.st_atime
+        /// </summary>
+        public UInt32 lastAccessedTime;
+        /// <summary>
+        /// 文件最后一次被修改的时间，UNIX 时间戳，对应 POSIX stat.st_mtime
+        /// </summary>
+        public UInt32 lastModifiedTime;
+    }
+
+    public class WXStat
+    {
+        /// <summary>
+        ///  文件的路径
+        /// </summary>
+        public string path;
+        public WXStatInfo stats;
+    }
+
+    public class WXStatResponse : WXBaseResponse
+    {
+        public System.Collections.Generic.List<WXStat> stats;
+        public WXStatInfo one_stat;
+    }
+
+    public class WXStatOption : WXBaseActionParam<WXStatResponse>
+    {
+        /// <summary>
+        /// 文件/目录路径 (本地路径)
+        /// </summary>
+        public string path;
+        /// <summary>
+        /// 是否递归获取目录下的每个文件的 Stats 信息	2.3.0
+        /// </summary>
+        public bool recursive = true; 
     }
 
 
@@ -1169,5 +1220,85 @@ namespace WeChatWASM
         public string[] msgTypeList;
 
     }
-
+    /// <summary>
+    /// 清理文件缓存的结果
+    /// </summary>
+    public enum ReleaseResult {
+        /// <summary>
+        /// 无需清理，空间足够
+        /// </summary>
+        noNeedRelease = 1,
+        /// <summary>
+        /// 超过最大存储容量，不清理
+        /// </summary>
+        exceedMax,
+        /// <summary>
+        /// 清理成功
+        /// </summary>
+        releaseSuccess,
+    }
+    /// <summary>
+    /// 启动数据
+    /// </summary>
+    public class LaunchEvent
+    {
+        public LaunchEventType type;
+        /// <summary>
+        /// 当前阶段耗时
+        /// </summary>
+        public int costTimeMs;
+        /// <summary>
+        /// 自插件启动后总运行时间
+        /// </summary>
+        public int runTimeMs;
+        /// <summary>
+        /// 是否需要下载资源包
+        /// </summary>
+        public bool needDownloadDataPackage;
+        /// <summary>
+        /// 首包资源是否作为小游戏代码分包下载
+        /// </summary>
+        public bool loadDataPackageFromSubpackage;
+        /// <summary>
+        /// 当前阶段完成时是否处于前台
+        /// </summary>
+        public bool isVisible;
+        /// <summary>
+        /// 是否开启了代码分包
+        /// </summary>
+        public bool useCodeSplit;
+        /// <summary>
+        /// 是否iOS高性能模式
+        /// </summary>
+        public bool isHighPerformance;
+    }
+    /// <summary>
+    /// 启动阶段类型定义
+    /// </summary>
+    public enum LaunchEventType {
+        /// <summary>
+        /// 插件启动
+        /// </summary>
+        launchPlugin,
+        /// <summary>
+        /// 下载wasm代码
+        /// </summary>
+        loadWasm,
+        /// <summary>
+        /// 编译wasm
+        /// </summary>
+        compileWasm,
+        /// <summary>
+        /// 下载首包资源
+        /// </summary>
+        loadAssets,
+        /// <summary>
+        /// 读取首包资源
+        /// </summary>
+        readAssets = 5,
+        /// <summary>
+        /// 引擎初始化(callmain)
+        /// </summary>
+        prepareGame,
+    }
 }

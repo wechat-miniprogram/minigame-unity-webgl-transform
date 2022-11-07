@@ -98,6 +98,7 @@ namespace WeChatWASM
         private float _oldVolume = 1;
         private float _playbackRate = 1;
         private bool _isPlaying = false;
+        private bool _needDownload = false;
         private bool isWaiting = false;
         private bool isWaitingPlay = false;
         private bool isWaitingStop = false;
@@ -132,6 +133,7 @@ namespace WeChatWASM
             _oldVolume = _volume;
             _loop = param.loop;
             _playbackRate = param.playbackRate;
+            _needDownload = param.needDownload;
             Dict.Add(id, this);
 
             OnPlay(()=> {
@@ -241,6 +243,26 @@ namespace WeChatWASM
                 }
                 
                 _src = value;
+            }
+        }
+
+        /// <summary>
+        /// 是否需要先下载后播放
+        /// </summary>
+        public bool needDownload
+        {
+            get
+            {
+                return _needDownload;
+            }
+            set
+            {
+                if (isWebGLPlayer && _needDownload != value)
+                {
+                    WXInnerAudioContextSetBool(instanceId, "needDownload", value);
+                }
+
+                _needDownload = value;
             }
         }
 
@@ -385,7 +407,7 @@ namespace WeChatWASM
                     var v = ht["duration"];
                     if (v == null)
                     {
-                        v = 0;
+                        v = 0f;
                     }
                     return (float)v;
                 }
@@ -405,7 +427,7 @@ namespace WeChatWASM
                     var v = ht["currentTime"];
                     if (v == null)
                     {
-                        v = 0;
+                        v = 0f;
                     }
                     return (float)v;
                 }
@@ -425,7 +447,7 @@ namespace WeChatWASM
                     var v = ht["buffered"];
                     if (v == null)
                     {
-                        v = 0;
+                        v = 0f;
                     }
                     return (float)v;
                 }

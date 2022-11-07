@@ -78,22 +78,6 @@ namespace WeChatWASM
 
 
 
-        public static void InvokeUserInfoResponseCallback(string str)
-        {
-            if (str != null)
-            {
-                WXUserInfoResponse res = JsonUtility.FromJson<WXUserInfoResponse>(str);
-                var id = res.callbackId;
-                if (responseHT.ContainsKey(id))
-                {
-                    res.userInfo = JsonUtility.FromJson<WXUserInfo>(res.userInfoRaw);
-                    var callback = (Action<WXUserInfoResponse>)responseHT[id];
-                    callback(res);
-                    responseHT.Remove(id);
-                }
-            }
-        }
-
 
         public static void InvokeUserInfoButtonCallback(string str)
         {
@@ -110,23 +94,6 @@ namespace WeChatWASM
             }
         }
 
-
-
-        public static void InvokeSysInfoResponseCallback(string str)
-        {
-            if (str != null)
-            {
-                WXSystemInfo res = JsonUtility.FromJson<WXSystemInfo>(str);
-                var id = res.callbackId;
-                if (responseHT.ContainsKey(id))
-                {
-                    res.safeArea = JsonUtility.FromJson<WXSafeArea>(res.safeAreaRaw);
-                    var callback = (Action<WXSystemInfo>)responseHT[id];
-                    callback(res);
-                    responseHT.Remove(id);
-                }
-            }
-        }
 
 
 

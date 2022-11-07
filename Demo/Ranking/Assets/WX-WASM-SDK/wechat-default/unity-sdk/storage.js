@@ -21,7 +21,7 @@ const storage = {
             this._cacheData[key] = v !== "" ? v : null;
             return v === "" ? defaultValue : v;
         } catch (e) {
-            console.error(e);
+            //console.error(e);
             return defaultValue;
         }
     },
@@ -135,7 +135,7 @@ export default {
         storage.setData(key,value);
     },
     WXStorageGetStringSync(key,defaultValue){
-        return storage.getData(key,defaultValue);
+        return storage.getData(key,defaultValue) || '';
     },
     WXStorageSetStringSync(key,value){
         storage.setData(key,value);

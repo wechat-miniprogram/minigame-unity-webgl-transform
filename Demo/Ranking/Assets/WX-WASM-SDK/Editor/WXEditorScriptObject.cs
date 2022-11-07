@@ -80,37 +80,74 @@ namespace WeChatWASM
         /// </summary>
         public string bgImageSrc = "Assets/WX-WASM-SDK/wechat-default/images/background.jpg";
 
+        /// <summary>
+        /// 拼接在DATA_CDN和首包资源文件名的路径，用于首包资源没放到DATA_CDN根目录的情况
+        /// </summary>
+        public string dataFileSubPrefix = "";
+
+        /// <summary>
+        /// 最大缓存容量，单位MB
+        /// </summary>
+        public int maxStorage = 200;
+
+        /// <summary>
+        /// 清理缓存时默认额外清理的大小，单位Bytes，默认值30MB
+        /// </summary>
+        public int defaultReleaseSize = 31457280;
+
+        /// <summary>
+        /// 纹理中hash长度
+        /// </summary>
+        public int texturesHashLength = 8;
+
+        /// <summary>
+        /// 纹理存储路径
+        /// </summary>
+        public string texturesPath = "Assets/Textures";
+
+        /// <summary>
+        /// 是否缓存纹理
+        /// </summary>
+        public bool needCacheTextures = true;
+
+        /// <summary>
+        /// 加载进度条的宽度，默认240
+        /// </summary>
+        public int loadingBarWidth = 240;
+
+        /// <summary>
+        /// 是否需要启动时自动检查小游戏是否有新版本
+        /// </summary>
+        public bool needCheckUpdate = false;
     }
 
     [Serializable]
     public class CompressTexture
     {
         /// <summary>
-        /// 要选择的压缩纹理目录
-        /// </summary>
-        public List<string> SourceDirs = new List<string>();
-        public List<QualityOptions> QualityList = new List<QualityOptions>();
-        public List<string> FlareDirList = new List<string>();
-        public List<string> PVRTCFirstList = new List<string>();
-        public string TextureRes;
-        public string SpriteRes;
-        /// <summary>
-        /// 导出的图片存放路径
-        /// </summary>
-        public string DstDir;
-        /// <summary>
-        /// 若只生成ASTC，还需再点击生成ETC2和PVRTC和压缩的PNG纹理
-        /// </summary>
-        public bool OnlyAstc = true;
-
-        /// <summary>
-        /// Mac上unity工程太大时容易触发TooManyFiles错误
-        /// </summary>
-        public bool TooManyFiles = true;
-        /// <summary>
         /// 自动将图片尺寸减小一半
         /// </summary>
         public bool halfSize = false;
+        /// <summary>
+        /// 使用pc端压缩纹理
+        /// </summary>
+        public bool useDXT5 = false;
+        /// <summary>
+        /// bundle文件后缀
+        /// </summary>
+        public string bundleSuffix = "bundle";
+        /// <summary>
+        /// 是否加载bundle时同时加载对应纹理
+        /// </summary>
+        public bool parallelWithBundle = false;
+        /// <summary>
+        /// 自定义bundle路径
+        /// </summary>
+        public string bundleDir;
+        /// <summary>
+        /// 自定义生成目录路径
+        /// </summary>
+        public string dstMinDir;
     }
 
     [Serializable]
@@ -153,21 +190,15 @@ namespace WeChatWASM
         /// WebGL2.0
         /// </summary>
         public bool Webgl2 = false;
-    }
-
-    [Serializable]
-    public class QualityOptions
-    {
         /// <summary>
-        /// 设置压缩质量目录,绝对路径
+        /// DeleteStreamingAssets
         /// </summary>
-        public string Path;
+        public bool DeleteStreamingAssets = true;
         /// <summary>
-        /// 压缩质量默认65
+        /// ProfilingMemory
         /// </summary>
-        public int Quality = 65;
+        public bool ProfilingMemory = false;
     }
-
 
 
     public enum WXScreenOritation

@@ -18,10 +18,9 @@
     "checkSiteMap": true,
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
-    "lazyloadPlaceholderEnable": false,
     "useMultiFrameRuntime": true,
-    "useApiHook": true,
-    "useApiHostProcess": true,
+    "useApiHook": false,
+    "disableUseStrict": false,
     "babelSetting": {
       "ignore": [
         "webgl.wasm.framework.unityweb.js"
@@ -30,43 +29,33 @@
       "outputPath": ""
     },
     "useIsolateContext": true,
-    "userConfirmedBundleSwitch": false,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
     "packNpmManually": false,
-    "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "showES6CompileOption": false
+    "packNpmRelationList": []
   },
   "compileType": "game",
-  "libVersion": "2.17.0",
-  "appid": "wxe5a48f1ed5f544b7",
-  "projectname": "排行榜测试",
+  "libVersion": "2.24.6",
+  "appid": "wxb44e2096fe38c90d",
+  "projectname": "test",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "packOptions": {
     "ignore": [
       {
-        "type": "folder",
-        "value": ".plugincache"
+        "value": ".plugincache",
+        "type": "folder"
       },
       {
-        "type": "file",
-        "value": ".symbols.unityweb"
+        "value": ".symbols.unityweb",
+        "type": "suffix"
       }
-    ]
+    ],
+    "include": []
   },
-  "condition": {
-    "search": {
-      "list": []
-    },
-    "conversation": {
-      "list": []
-    },
-    "game": {
-      "currentL": -1,
-      "list": []
-    },
-    "miniprogram": {
-      "list": []
-    }
+  "condition": {},
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
   }
 }

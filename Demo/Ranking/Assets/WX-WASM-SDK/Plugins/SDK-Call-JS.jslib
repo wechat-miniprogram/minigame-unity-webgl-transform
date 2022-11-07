@@ -1,788 +1,858 @@
 mergeInto(LibraryManager.library, {
-    WXPointer_stringify_adaptor:function(str){
-        if(typeof Pointer_stringify=='undefined'){
-            return UTF8ToString(str);
-        }
-        return Pointer_stringify(str);
-    },
-    glGenTextures: function (n, textures) {
-        for (var i = 0; i < n; i++) {
-            var texture = GLctx.createTexture();
-            if (!texture) {
-                GL.recordError(1282);
-                while (i < n) HEAP32[textures + i++ * 4 >> 2] = 0;
-                return
-            }
-            var id = GL.getNewId(GL.textures);
-            texture.name = id;
-            GL.textures[id] = texture;
-            window._lastTextureId = id;
-            HEAP32[textures + i * 4 >> 2] = id
-        }
-    },
-    glBindTexture:function(target, texture) {
-        window._lastBoundTexture = texture;
-        GLctx.bindTexture(target, texture ? GL.textures[texture] : null)
-    },
-    glGetString:function(name_) {
-        if (GL.stringCache[name_]) return GL.stringCache[name_];
-        var ret;
-        switch (name_) {
-            case 7936:
-            case 7937:
-            case 37445:
-            case 37446:
-                ret = allocate(intArrayFromString(GLctx.getParameter(name_)), "i8", ALLOC_NORMAL);
-                break;
-            case 7938:
-                var glVersion = GLctx.getParameter(GLctx.VERSION);
-                if (GLctx.canvas.GLctxObject.version >= 2) glVersion = "OpenGL ES 3.0 (" + glVersion + ")"; else {
-                    glVersion = "OpenGL ES 2.0 (" + glVersion + ")"
-                }
-                ret = allocate(intArrayFromString(glVersion), "i8", ALLOC_NORMAL);
-                break;
-            case 7939:
-                var exts = GLctx.getSupportedExtensions();
-                if(GameGlobal.TextureConfig || GameGlobal.SpriteAtlasConfig){
-                    exts.push("WEBGL_compressed_texture_s3tc");
-                }
-                var gl_exts = [];
-                for (var i = 0; i < exts.length; ++i) {
-                    gl_exts.push(exts[i]);
-                    gl_exts.push("GL_" + exts[i])
-                }
-                ret = allocate(intArrayFromString(gl_exts.join(" ")), "i8", ALLOC_NORMAL);
-                break;
-            case 35724:
-                var glslVersion = GLctx.getParameter(GLctx.SHADING_LANGUAGE_VERSION);
-                var ver_re = /^WebGL GLSL ES ([0-9]\.[0-9][0-9]?)(?:$| .*)/;
-                var ver_num = glslVersion.match(ver_re);
-                if (ver_num !== null) {
-                    if (ver_num[1].length == 3) ver_num[1] = ver_num[1] + "0";
-                    glslVersion = "OpenGL ES GLSL ES " + ver_num[1] + " (" + glslVersion + ")"
-                }
-                ret = allocate(intArrayFromString(glslVersion), "i8", ALLOC_NORMAL);
-                break;
-            default:
-                GL.recordError(1280);
-                return 0
-        }
-        GL.stringCache[name_] = ret;
-        return ret
-    },
-    glCompressedTexImage2D: function (target, level, internalFormat, width, height, border, imageSize, data) {
-        var lastTid = window._lastTextureId;
-        function compressedImage2D(rawData, w, h) {
-            var format = 0;
-            var dataOffset = 16;
-            var compressFormat = GameGlobal.TextureCompressedFormat;
-            switch (compressFormat) {
-                case "astc":
-                    format = GLctx.getExtension("WEBGL_compressed_texture_astc").COMPRESSED_RGBA_ASTC_8x8_KHR;
-                    break;
-                case "etc2":
-                    format = GLctx.getExtension("WEBGL_compressed_texture_etc").COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2;
-                    break;
-                case "pvr":
-                    format = GLctx.getExtension("WEBGL_compressed_texture_pvrtc").COMPRESSED_RGBA_PVRTC_4BPPV1_IMG;
-                    var PVR_HEADER_METADATA = 12;
-                    var PVR_HEADER_LENGTH = 13; // The header length in 32 bit ints.
-                    var header = new Int32Array(rawData, 0, PVR_HEADER_LENGTH);
-                    dataOffset = header[PVR_HEADER_METADATA] + 52;
-                    break;
-                case "etc1":
-                    format = GLctx.getExtension("WEBGL_compressed_texture_etc1").COMPRESSED_RGB_ETC1_WEBGL;
-                    break
-            }
-            GLctx["compressedTexImage2D"](target, level, format, w || width, h || height, border, new Uint8Array(rawData, dataOffset))
-        }
+WX_AddCard:function( conf, callbackId){
+    window.WXWASMSDK.WX_AddCard(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_AuthPrivateMessage:function( conf, callbackId){
+    window.WXWASMSDK.WX_AuthPrivateMessage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_Authorize:function( conf, callbackId){
+    window.WXWASMSDK.WX_Authorize(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CheckIsUserAdvisedToRest:function( conf, callbackId){
+    window.WXWASMSDK.WX_CheckIsUserAdvisedToRest(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CheckSession:function( conf, callbackId){
+    window.WXWASMSDK.WX_CheckSession(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ChooseImage:function( conf, callbackId){
+    window.WXWASMSDK.WX_ChooseImage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CloseBLEConnection:function( conf, callbackId){
+    window.WXWASMSDK.WX_CloseBLEConnection(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CloseBluetoothAdapter:function( conf, callbackId){
+    window.WXWASMSDK.WX_CloseBluetoothAdapter(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CloseSocket:function( conf, callbackId){
+    window.WXWASMSDK.WX_CloseSocket(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CreateBLEConnection:function( conf, callbackId){
+    window.WXWASMSDK.WX_CreateBLEConnection(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CreateBLEPeripheralServer:function( conf, callbackId){
+    window.WXWASMSDK.WX_CreateBLEPeripheralServer(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ExitMiniProgram:function( conf, callbackId){
+    window.WXWASMSDK.WX_ExitMiniProgram(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ExitVoIPChat:function( conf, callbackId){
+    window.WXWASMSDK.WX_ExitVoIPChat(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_FaceDetect:function( conf, callbackId){
+    window.WXWASMSDK.WX_FaceDetect(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetAvailableAudioSources:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetAvailableAudioSources(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBLEDeviceCharacteristics:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBLEDeviceCharacteristics(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBLEDeviceRSSI:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBLEDeviceRSSI(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBLEDeviceServices:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBLEDeviceServices(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBLEMTU:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBLEMTU(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBatteryInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBatteryInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBeacons:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBeacons(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBluetoothAdapterState:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBluetoothAdapterState(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetBluetoothDevices:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetBluetoothDevices(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetChannelsLiveInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetChannelsLiveInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetChannelsLiveNoticeInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetChannelsLiveNoticeInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetClipboardData:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetClipboardData(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetConnectedBluetoothDevices:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetConnectedBluetoothDevices(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetExtConfig:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetExtConfig(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetFileInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetFileInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetGroupEnterInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetGroupEnterInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetLocalIPAddress:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetLocalIPAddress(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetLocation:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetLocation(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetNetworkType:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetNetworkType(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetScreenBrightness:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetScreenBrightness(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetSetting:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetSetting(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetShareInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetShareInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetStorageInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetStorageInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetSystemInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetSystemInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetSystemInfoAsync:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetSystemInfoAsync(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetUserInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetUserInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetUserInteractiveStorage:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetUserInteractiveStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetWeRunData:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetWeRunData(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_HideKeyboard:function( conf, callbackId){
+    window.WXWASMSDK.WX_HideKeyboard(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_HideLoading:function( conf, callbackId){
+    window.WXWASMSDK.WX_HideLoading(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_HideShareMenu:function( conf, callbackId){
+    window.WXWASMSDK.WX_HideShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_HideToast:function( conf, callbackId){
+    window.WXWASMSDK.WX_HideToast(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_InitFaceDetect:function( conf, callbackId){
+    window.WXWASMSDK.WX_InitFaceDetect(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_IsBluetoothDevicePaired:function( conf, callbackId){
+    window.WXWASMSDK.WX_IsBluetoothDevicePaired(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_JoinVoIPChat:function( conf, callbackId){
+    window.WXWASMSDK.WX_JoinVoIPChat(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_Login:function( conf, callbackId){
+    window.WXWASMSDK.WX_Login(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_MakeBluetoothPair:function( conf, callbackId){
+    window.WXWASMSDK.WX_MakeBluetoothPair(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_NavigateToMiniProgram:function( conf, callbackId){
+    window.WXWASMSDK.WX_NavigateToMiniProgram(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_NotifyBLECharacteristicValueChange:function( conf, callbackId){
+    window.WXWASMSDK.WX_NotifyBLECharacteristicValueChange(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenBluetoothAdapter:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenBluetoothAdapter(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenCard:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenCard(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenChannelsActivity:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenChannelsActivity(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenChannelsEvent:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenChannelsEvent(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenChannelsLive:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenChannelsLive(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenChannelsUserProfile:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenChannelsUserProfile(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenCustomerServiceConversation:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenCustomerServiceConversation(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenSetting:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenSetting(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_PreviewImage:function( conf, callbackId){
+    window.WXWASMSDK.WX_PreviewImage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_PreviewMedia:function( conf, callbackId){
+    window.WXWASMSDK.WX_PreviewMedia(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ReadBLECharacteristicValue:function( conf, callbackId){
+    window.WXWASMSDK.WX_ReadBLECharacteristicValue(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_RemoveStorage:function( conf, callbackId){
+    window.WXWASMSDK.WX_RemoveStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_RemoveUserCloudStorage:function( conf, callbackId){
+    window.WXWASMSDK.WX_RemoveUserCloudStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_RequestMidasFriendPayment:function( conf, callbackId){
+    window.WXWASMSDK.WX_RequestMidasFriendPayment(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_RequestMidasPayment:function( conf, callbackId){
+    window.WXWASMSDK.WX_RequestMidasPayment(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_RequestSubscribeMessage:function( conf, callbackId){
+    window.WXWASMSDK.WX_RequestSubscribeMessage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_RequestSubscribeSystemMessage:function( conf, callbackId){
+    window.WXWASMSDK.WX_RequestSubscribeSystemMessage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SaveFileToDisk:function( conf, callbackId){
+    window.WXWASMSDK.WX_SaveFileToDisk(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SaveImageToPhotosAlbum:function( conf, callbackId){
+    window.WXWASMSDK.WX_SaveImageToPhotosAlbum(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ScanCode:function( conf, callbackId){
+    window.WXWASMSDK.WX_ScanCode(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SendSocketMessage:function( conf, callbackId){
+    window.WXWASMSDK.WX_SendSocketMessage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetBLEMTU:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetBLEMTU(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetClipboardData:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetClipboardData(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetEnableDebug:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetEnableDebug(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetInnerAudioOption:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetInnerAudioOption(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetKeepScreenOn:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetKeepScreenOn(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetMenuStyle:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetMenuStyle(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetScreenBrightness:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetScreenBrightness(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetStatusBarStyle:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetStatusBarStyle(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_SetUserCloudStorage:function( conf, callbackId){
+    window.WXWASMSDK.WX_SetUserCloudStorage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ShowActionSheet:function( conf, callbackId){
+    window.WXWASMSDK.WX_ShowActionSheet(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ShowKeyboard:function( conf, callbackId){
+    window.WXWASMSDK.WX_ShowKeyboard(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ShowLoading:function( conf, callbackId){
+    window.WXWASMSDK.WX_ShowLoading(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ShowModal:function( conf, callbackId){
+    window.WXWASMSDK.WX_ShowModal(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ShowShareImageMenu:function( conf, callbackId){
+    window.WXWASMSDK.WX_ShowShareImageMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ShowShareMenu:function( conf, callbackId){
+    window.WXWASMSDK.WX_ShowShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_ShowToast:function( conf, callbackId){
+    window.WXWASMSDK.WX_ShowToast(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StartAccelerometer:function( conf, callbackId){
+    window.WXWASMSDK.WX_StartAccelerometer(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StartBeaconDiscovery:function( conf, callbackId){
+    window.WXWASMSDK.WX_StartBeaconDiscovery(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StartBluetoothDevicesDiscovery:function( conf, callbackId){
+    window.WXWASMSDK.WX_StartBluetoothDevicesDiscovery(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StartCompass:function( conf, callbackId){
+    window.WXWASMSDK.WX_StartCompass(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StartDeviceMotionListening:function( conf, callbackId){
+    window.WXWASMSDK.WX_StartDeviceMotionListening(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StartGyroscope:function( conf, callbackId){
+    window.WXWASMSDK.WX_StartGyroscope(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StopAccelerometer:function( conf, callbackId){
+    window.WXWASMSDK.WX_StopAccelerometer(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StopBeaconDiscovery:function( conf, callbackId){
+    window.WXWASMSDK.WX_StopBeaconDiscovery(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StopBluetoothDevicesDiscovery:function( conf, callbackId){
+    window.WXWASMSDK.WX_StopBluetoothDevicesDiscovery(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StopCompass:function( conf, callbackId){
+    window.WXWASMSDK.WX_StopCompass(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StopDeviceMotionListening:function( conf, callbackId){
+    window.WXWASMSDK.WX_StopDeviceMotionListening(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StopFaceDetect:function( conf, callbackId){
+    window.WXWASMSDK.WX_StopFaceDetect(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StopGyroscope:function( conf, callbackId){
+    window.WXWASMSDK.WX_StopGyroscope(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_UpdateKeyboard:function( conf, callbackId){
+    window.WXWASMSDK.WX_UpdateKeyboard(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_UpdateShareMenu:function( conf, callbackId){
+    window.WXWASMSDK.WX_UpdateShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_UpdateVoIPChatMuteConfig:function( conf, callbackId){
+    window.WXWASMSDK.WX_UpdateVoIPChatMuteConfig(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_UpdateWeChatApp:function( conf, callbackId){
+    window.WXWASMSDK.WX_UpdateWeChatApp(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_VibrateLong:function( conf, callbackId){
+    window.WXWASMSDK.WX_VibrateLong(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_VibrateShort:function( conf, callbackId){
+    window.WXWASMSDK.WX_VibrateShort(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_WriteBLECharacteristicValue:function( conf, callbackId){
+    window.WXWASMSDK.WX_WriteBLECharacteristicValue(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_StartGameLive:function( conf, callbackId){
+    window.WXWASMSDK.WX_StartGameLive(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_CheckGameLiveEnabled:function( conf, callbackId){
+    window.WXWASMSDK.WX_CheckGameLiveEnabled(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetUserCurrentGameliveInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetUserCurrentGameliveInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetUserRecentGameLiveInfo:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetUserRecentGameLiveInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetUserGameLiveDetails:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetUserGameLiveDetails(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenChannelsLiveCollection:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenChannelsLiveCollection(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_OpenPage:function( conf, callbackId){
+    window.WXWASMSDK.WX_OpenPage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
+WX_GetGameClubData:function( conf, callbackId){
+    window.WXWASMSDK.WX_GetGameClubData(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
+},
 
-        function texImage2D(image) {
-            GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, GLctx.RGBA, GLctx.UNSIGNED_BYTE, image)
-        }
+WX_RestartMiniProgram:function(){
+    window.WXWASMSDK.WX_RestartMiniProgram();
+},
+WX_RemoveStorageSync:function(key){
+    window.WXWASMSDK.WX_RemoveStorageSync(_WXPointer_stringify_adaptor(key));
+},
+WX_ReportEvent:function(eventId,data){
+    window.WXWASMSDK.WX_ReportEvent(_WXPointer_stringify_adaptor(eventId),_WXPointer_stringify_adaptor(data));
+},
+WX_ReportMonitor:function(name,value){
+    window.WXWASMSDK.WX_ReportMonitor(_WXPointer_stringify_adaptor(name),value);
+},
+WX_ReportPerformance:function(id,value,dimensions){
+    window.WXWASMSDK.WX_ReportPerformance(id,value,_WXPointer_stringify_adaptor(dimensions));
+},
+WX_ReportUserBehaviorBranchAnalytics:function(option){
+    window.WXWASMSDK.WX_ReportUserBehaviorBranchAnalytics(_WXPointer_stringify_adaptor(option));
+},
+WX_ReserveChannelsLive:function(option){
+    window.WXWASMSDK.WX_ReserveChannelsLive(_WXPointer_stringify_adaptor(option));
+},
+WX_RevokeBufferURL:function(url){
+    window.WXWASMSDK.WX_RevokeBufferURL(_WXPointer_stringify_adaptor(url));
+},
+WX_SetPreferredFramesPerSecond:function(fps){
+    window.WXWASMSDK.WX_SetPreferredFramesPerSecond(fps);
+},
+WX_SetStorageSync:function(key,data,encrypt){
+    window.WXWASMSDK.WX_SetStorageSync(_WXPointer_stringify_adaptor(key),_WXPointer_stringify_adaptor(data),encrypt);
+},
+WX_ShareAppMessage:function(option){
+    window.WXWASMSDK.WX_ShareAppMessage(_WXPointer_stringify_adaptor(option));
+},
+WX_TriggerGC:function(){
+    window.WXWASMSDK.WX_TriggerGC();
+},
+WX_StopDownloadTexture:function(){
+    window.WXWASMSDK.WX_StopDownloadTexture();
+},
+WX_StarDownloadTexture:function(){
+    window.WXWASMSDK.WX_StarDownloadTexture();
+},
 
-        function renderTexture(id, imageType) {
-            if(!GL.textures[lastTid]){
-                return;
-            }
-            var cid = imageType + "_" + id;
-            var _data = GameGlobal.DownloadedTextures[cid].data;
-            var info = {
-                "Texture":GameGlobal.TextureConfig,
-                "SpriteAtlas":GameGlobal.SpriteAtlasConfig
-            }[imageType][id];
-            var tid = lastTid;
-              if(!GL.textures[tid]){
-                return;
-              }
-            GLctx.bindTexture(GLctx.TEXTURE_2D, GL.textures[tid]);
-            if(!GameGlobal.TextureCompressedFormat || (GameGlobal.TextureCompressedFormat == 'pvr' && info.w !== info.h )){
-                texImage2D(_data);
-            }else{
-                compressedImage2D(_data, info.w, info.h);
-            }
-            GLctx.bindTexture(GLctx.TEXTURE_2D, window._lastBoundTexture ? GL.textures[window._lastBoundTexture] : null);
+WX_OnAccelerometerChange:function(){
+    window.WXWASMSDK.WX_OnAccelerometerChange();
+},
+WX_OffAccelerometerChange:function(){
+    window.WXWASMSDK.WX_OffAccelerometerChange();
+},
+WX_OnAudioInterruptionBegin:function(){
+    window.WXWASMSDK.WX_OnAudioInterruptionBegin();
+},
+WX_OffAudioInterruptionBegin:function(){
+    window.WXWASMSDK.WX_OffAudioInterruptionBegin();
+},
+WX_OnAudioInterruptionEnd:function(){
+    window.WXWASMSDK.WX_OnAudioInterruptionEnd();
+},
+WX_OffAudioInterruptionEnd:function(){
+    window.WXWASMSDK.WX_OffAudioInterruptionEnd();
+},
+WX_OnBLECharacteristicValueChange:function(){
+    window.WXWASMSDK.WX_OnBLECharacteristicValueChange();
+},
+WX_OffBLECharacteristicValueChange:function(){
+    window.WXWASMSDK.WX_OffBLECharacteristicValueChange();
+},
+WX_OnBLEConnectionStateChange:function(){
+    window.WXWASMSDK.WX_OnBLEConnectionStateChange();
+},
+WX_OffBLEConnectionStateChange:function(){
+    window.WXWASMSDK.WX_OffBLEConnectionStateChange();
+},
+WX_OnBLEMTUChange:function(){
+    window.WXWASMSDK.WX_OnBLEMTUChange();
+},
+WX_OffBLEMTUChange:function(){
+    window.WXWASMSDK.WX_OffBLEMTUChange();
+},
+WX_OnBLEPeripheralConnectionStateChanged:function(){
+    window.WXWASMSDK.WX_OnBLEPeripheralConnectionStateChanged();
+},
+WX_OffBLEPeripheralConnectionStateChanged:function(){
+    window.WXWASMSDK.WX_OffBLEPeripheralConnectionStateChanged();
+},
+WX_OnBeaconServiceChange:function(){
+    window.WXWASMSDK.WX_OnBeaconServiceChange();
+},
+WX_OffBeaconServiceChange:function(){
+    window.WXWASMSDK.WX_OffBeaconServiceChange();
+},
+WX_OnBeaconUpdate:function(){
+    window.WXWASMSDK.WX_OnBeaconUpdate();
+},
+WX_OffBeaconUpdate:function(){
+    window.WXWASMSDK.WX_OffBeaconUpdate();
+},
+WX_OnBluetoothAdapterStateChange:function(){
+    window.WXWASMSDK.WX_OnBluetoothAdapterStateChange();
+},
+WX_OffBluetoothAdapterStateChange:function(){
+    window.WXWASMSDK.WX_OffBluetoothAdapterStateChange();
+},
+WX_OnBluetoothDeviceFound:function(){
+    window.WXWASMSDK.WX_OnBluetoothDeviceFound();
+},
+WX_OffBluetoothDeviceFound:function(){
+    window.WXWASMSDK.WX_OffBluetoothDeviceFound();
+},
+WX_OnCompassChange:function(){
+    window.WXWASMSDK.WX_OnCompassChange();
+},
+WX_OffCompassChange:function(){
+    window.WXWASMSDK.WX_OffCompassChange();
+},
+WX_OnDeviceMotionChange:function(){
+    window.WXWASMSDK.WX_OnDeviceMotionChange();
+},
+WX_OffDeviceMotionChange:function(){
+    window.WXWASMSDK.WX_OffDeviceMotionChange();
+},
+WX_OnDeviceOrientationChange:function(){
+    window.WXWASMSDK.WX_OnDeviceOrientationChange();
+},
+WX_OffDeviceOrientationChange:function(){
+    window.WXWASMSDK.WX_OffDeviceOrientationChange();
+},
+WX_OnError:function(){
+    window.WXWASMSDK.WX_OnError();
+},
+WX_OffError:function(){
+    window.WXWASMSDK.WX_OffError();
+},
+WX_OnGyroscopeChange:function(){
+    window.WXWASMSDK.WX_OnGyroscopeChange();
+},
+WX_OffGyroscopeChange:function(){
+    window.WXWASMSDK.WX_OffGyroscopeChange();
+},
+WX_OnHide:function(){
+    window.WXWASMSDK.WX_OnHide();
+},
+WX_OffHide:function(){
+    window.WXWASMSDK.WX_OffHide();
+},
+WX_OnInteractiveStorageModified:function(){
+    window.WXWASMSDK.WX_OnInteractiveStorageModified();
+},
+WX_OffInteractiveStorageModified:function(){
+    window.WXWASMSDK.WX_OffInteractiveStorageModified();
+},
+WX_OnKeyDown:function(){
+    window.WXWASMSDK.WX_OnKeyDown();
+},
+WX_OffKeyDown:function(){
+    window.WXWASMSDK.WX_OffKeyDown();
+},
+WX_OnKeyUp:function(){
+    window.WXWASMSDK.WX_OnKeyUp();
+},
+WX_OffKeyUp:function(){
+    window.WXWASMSDK.WX_OffKeyUp();
+},
+WX_OnKeyboardComplete:function(){
+    window.WXWASMSDK.WX_OnKeyboardComplete();
+},
+WX_OffKeyboardComplete:function(){
+    window.WXWASMSDK.WX_OffKeyboardComplete();
+},
+WX_OnKeyboardConfirm:function(){
+    window.WXWASMSDK.WX_OnKeyboardConfirm();
+},
+WX_OffKeyboardConfirm:function(){
+    window.WXWASMSDK.WX_OffKeyboardConfirm();
+},
+WX_OnKeyboardHeightChange:function(){
+    window.WXWASMSDK.WX_OnKeyboardHeightChange();
+},
+WX_OffKeyboardHeightChange:function(){
+    window.WXWASMSDK.WX_OffKeyboardHeightChange();
+},
+WX_OnKeyboardInput:function(){
+    window.WXWASMSDK.WX_OnKeyboardInput();
+},
+WX_OffKeyboardInput:function(){
+    window.WXWASMSDK.WX_OffKeyboardInput();
+},
+WX_OnMemoryWarning:function(){
+    window.WXWASMSDK.WX_OnMemoryWarning();
+},
+WX_OffMemoryWarning:function(){
+    window.WXWASMSDK.WX_OffMemoryWarning();
+},
+WX_OnMessage:function(){
+    window.WXWASMSDK.WX_OnMessage();
+},
+WX_OffMessage:function(){
+    window.WXWASMSDK.WX_OffMessage();
+},
+WX_OnNetworkStatusChange:function(){
+    window.WXWASMSDK.WX_OnNetworkStatusChange();
+},
+WX_OffNetworkStatusChange:function(){
+    window.WXWASMSDK.WX_OffNetworkStatusChange();
+},
+WX_OnNetworkWeakChange:function(){
+    window.WXWASMSDK.WX_OnNetworkWeakChange();
+},
+WX_OffNetworkWeakChange:function(){
+    window.WXWASMSDK.WX_OffNetworkWeakChange();
+},
+WX_OnShareMessageToFriend:function(){
+    window.WXWASMSDK.WX_OnShareMessageToFriend();
+},
+WX_OffShareMessageToFriend:function(){
+    window.WXWASMSDK.WX_OffShareMessageToFriend();
+},
+WX_OnShow:function(){
+    window.WXWASMSDK.WX_OnShow();
+},
+WX_OffShow:function(){
+    window.WXWASMSDK.WX_OffShow();
+},
+WX_OnSocketClose:function(){
+    window.WXWASMSDK.WX_OnSocketClose();
+},
+WX_OffSocketClose:function(){
+    window.WXWASMSDK.WX_OffSocketClose();
+},
+WX_OnSocketError:function(){
+    window.WXWASMSDK.WX_OnSocketError();
+},
+WX_OffSocketError:function(){
+    window.WXWASMSDK.WX_OffSocketError();
+},
+WX_OnSocketMessage:function(){
+    window.WXWASMSDK.WX_OnSocketMessage();
+},
+WX_OffSocketMessage:function(){
+    window.WXWASMSDK.WX_OffSocketMessage();
+},
+WX_OnSocketOpen:function(){
+    window.WXWASMSDK.WX_OnSocketOpen();
+},
+WX_OffSocketOpen:function(){
+    window.WXWASMSDK.WX_OffSocketOpen();
+},
+WX_OnTouchCancel:function(){
+    window.WXWASMSDK.WX_OnTouchCancel();
+},
+WX_OffTouchCancel:function(){
+    window.WXWASMSDK.WX_OffTouchCancel();
+},
+WX_OnTouchEnd:function(){
+    window.WXWASMSDK.WX_OnTouchEnd();
+},
+WX_OffTouchEnd:function(){
+    window.WXWASMSDK.WX_OffTouchEnd();
+},
+WX_OnTouchMove:function(){
+    window.WXWASMSDK.WX_OnTouchMove();
+},
+WX_OffTouchMove:function(){
+    window.WXWASMSDK.WX_OffTouchMove();
+},
+WX_OnTouchStart:function(){
+    window.WXWASMSDK.WX_OnTouchStart();
+},
+WX_OffTouchStart:function(){
+    window.WXWASMSDK.WX_OffTouchStart();
+},
+WX_OnUnhandledRejection:function(){
+    window.WXWASMSDK.WX_OnUnhandledRejection();
+},
+WX_OffUnhandledRejection:function(){
+    window.WXWASMSDK.WX_OffUnhandledRejection();
+},
+WX_OnUserCaptureScreen:function(){
+    window.WXWASMSDK.WX_OnUserCaptureScreen();
+},
+WX_OffUserCaptureScreen:function(){
+    window.WXWASMSDK.WX_OffUserCaptureScreen();
+},
+WX_OnVoIPChatInterrupted:function(){
+    window.WXWASMSDK.WX_OnVoIPChatInterrupted();
+},
+WX_OffVoIPChatInterrupted:function(){
+    window.WXWASMSDK.WX_OffVoIPChatInterrupted();
+},
+WX_OnVoIPChatMembersChanged:function(){
+    window.WXWASMSDK.WX_OnVoIPChatMembersChanged();
+},
+WX_OffVoIPChatMembersChanged:function(){
+    window.WXWASMSDK.WX_OffVoIPChatMembersChanged();
+},
+WX_OnVoIPChatSpeakersChanged:function(){
+    window.WXWASMSDK.WX_OnVoIPChatSpeakersChanged();
+},
+WX_OffVoIPChatSpeakersChanged:function(){
+    window.WXWASMSDK.WX_OffVoIPChatSpeakersChanged();
+},
+WX_OnVoIPChatStateChanged:function(){
+    window.WXWASMSDK.WX_OnVoIPChatStateChanged();
+},
+WX_OffVoIPChatStateChanged:function(){
+    window.WXWASMSDK.WX_OffVoIPChatStateChanged();
+},
+WX_OnWindowResize:function(){
+    window.WXWASMSDK.WX_OnWindowResize();
+},
+WX_OffWindowResize:function(){
+    window.WXWASMSDK.WX_OffWindowResize();
+},
 
-        }
+WX_OnAddToFavorites:function(){
+    window.WXWASMSDK.WX_OnAddToFavorites();
+},
+WX_OffAddToFavorites:function(){
+    window.WXWASMSDK.WX_OffAddToFavorites();
+},
+WX_OnAddToFavorites_Resolve:function(conf){
+    window.WXWASMSDK.WX_OnAddToFavorites_Resolve(_WXPointer_stringify_adaptor(conf));
+},
+WX_OnCopyUrl:function(){
+    window.WXWASMSDK.WX_OnCopyUrl();
+},
+WX_OffCopyUrl:function(){
+    window.WXWASMSDK.WX_OffCopyUrl();
+},
+WX_OnCopyUrl_Resolve:function(conf){
+    window.WXWASMSDK.WX_OnCopyUrl_Resolve(_WXPointer_stringify_adaptor(conf));
+},
+WX_OnHandoff:function(){
+    window.WXWASMSDK.WX_OnHandoff();
+},
+WX_OffHandoff:function(){
+    window.WXWASMSDK.WX_OffHandoff();
+},
+WX_OnHandoff_Resolve:function(conf){
+    window.WXWASMSDK.WX_OnHandoff_Resolve(_WXPointer_stringify_adaptor(conf));
+},
+WX_OnShareTimeline:function(){
+    window.WXWASMSDK.WX_OnShareTimeline();
+},
+WX_OffShareTimeline:function(){
+    window.WXWASMSDK.WX_OffShareTimeline();
+},
+WX_OnShareTimeline_Resolve:function(conf){
+    window.WXWASMSDK.WX_OnShareTimeline_Resolve(_WXPointer_stringify_adaptor(conf));
+},
+WX_OnGameLiveStateChange:function(){
+    window.WXWASMSDK.WX_OnGameLiveStateChange();
+},
+WX_OffGameLiveStateChange:function(){
+    window.WXWASMSDK.WX_OffGameLiveStateChange();
+},
+WX_OnGameLiveStateChange_Resolve:function(conf){
+    window.WXWASMSDK.WX_OnGameLiveStateChange_Resolve(_WXPointer_stringify_adaptor(conf));
+},
 
-        function renderTransparent() {
-            GLctx.texImage2D(GLctx.TEXTURE_2D, 0, GLctx.RGBA, 1, 1, 0, GLctx.RGBA, GLctx.UNSIGNED_SHORT_4_4_4_4, new Uint16Array([0, 0]))
-        }
+WX_SetHandoffQuery:function(
+    query
+){
+    var res = window.WXWASMSDK.WX_SetHandoffQuery(_WXPointer_stringify_adaptor(query));
+    return res;
+},
+WX_GetAccountInfoSync:function(
+){
+    var res = window.WXWASMSDK.WX_GetAccountInfoSync();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetBatteryInfoSync:function(
+){
+    var res = window.WXWASMSDK.WX_GetBatteryInfoSync();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetEnterOptionsSync:function(
+){
+    var res = window.WXWASMSDK.WX_GetEnterOptionsSync();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetExptInfoSync:function(
+    keys
+){
+    var res = window.WXWASMSDK.WX_GetExptInfoSync(_WXPointer_stringify_adaptor(keys));
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetExtConfigSync:function(
+){
+    var res = window.WXWASMSDK.WX_GetExtConfigSync();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetLaunchOptionsSync:function(
+){
+    var res = window.WXWASMSDK.WX_GetLaunchOptionsSync();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetMenuButtonBoundingClientRect:function(
+){
+    var res = window.WXWASMSDK.WX_GetMenuButtonBoundingClientRect();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetStorageInfoSync:function(
+){
+    var res = window.WXWASMSDK.WX_GetStorageInfoSync();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetSystemInfoSync:function(
+){
+    var res = window.WXWASMSDK.WX_GetSystemInfoSync();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_SetCursor:function(
+    path,x,y
+){
+    var res = window.WXWASMSDK.WX_SetCursor(_WXPointer_stringify_adaptor(path),x,y);
+    return res;
+},
+WX_SetMessageToFriendQuery:function(
+    option
+){
+    var res = window.WXWASMSDK.WX_SetMessageToFriendQuery(_WXPointer_stringify_adaptor(option));
+    return res;
+},
+WX_GetTextLineHeight:function(
+    option
+){
+    var res = window.WXWASMSDK.WX_GetTextLineHeight(_WXPointer_stringify_adaptor(option));
+    return res;
+},
+WX_LoadFont:function(
+    path
+){
+    var res = window.WXWASMSDK.WX_LoadFont(_WXPointer_stringify_adaptor(path));
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
+WX_GetGameLiveState:function(
+){
+    var res = window.WXWASMSDK.WX_GetGameLiveState();
+    var bufferSize = lengthBytesUTF8(res) + 1;
+    var buffer = _malloc(bufferSize);
+    stringToUTF8(res, buffer, bufferSize);
+    return buffer;
+},
 
-        function getMatchId() {
-            if (width * height / 2 !== imageSize || !data || imageSize < 8) {
-                return -1
-            }
-            var id = -1;
-            var d = HEAPU8.subarray(data, data + 8);
-            if ((d[2] | d[3]) === 0 && !(width === 4 && height === 4)) {
-                var bitText = d[1].toString(2).padStart(8, "0") + d[0].toString(2).padStart(8, "0");
-                var r = parseInt(bitText.substr(0, 5), 2);
-                var g = parseInt(bitText.substr(5, 6), 2);
-                var b = parseInt(bitText.substr(11, 5), 2);
-                id = Math.round(r / 31 * 15) * 16 * 16 + Math.round(g / 63 * 15) * 16 + Math.round(b / 31 * 15);
-                if (GameGlobal.SpriteAtlasConfig[id]) {
-                    return id
-                }
-            } else if (width === 4 && height === 4) {
-                if ((d[2] | d[3]) === 0) {
-                    id = d[1] * 255 + d[0]
-                } else if ((d[0] | d[1]) === 0) {
-                    id = d[3] * 255 + d[2]
-                }
-                if (GameGlobal.TextureConfig[id]) {
-                    return id
-                }
-            }
-            return -1
-        }
+    WX_GetUpdateManager:function(
+){
+        var res = window.WXWASMSDK.WX_GetUpdateManager();
+        var bufferSize = lengthBytesUTF8(res) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(res, buffer, bufferSize);
+        return buffer;
+    },
 
-        var matchId = getMatchId();
-        if (matchId != -1) {
-           var imageType = "SpriteAtlas";
-           if (width === 4 && height === 4) {
-             imageType = "Texture"
-           }
-            if (GameGlobal.DownloadedTextures[matchId] && GameGlobal.DownloadedTextures[matchId].data) {
-                renderTexture(matchId, imageType)
-            } else {
-                renderTransparent();
-                window.WXWASMSDK.WXDownloadTexture(matchId, imageType, (function () {
-                    renderTexture(matchId, imageType)
-                }))
-            }
-            return
-        }
-        if (GL.currentContext.supportsWebGL2EntryPoints) {
-            GLctx["compressedTexImage2D"](target, level, internalFormat, width, height, border, HEAPU8, data, imageSize);
-            return
-        }
-        GLctx["compressedTexImage2D"](target, level, internalFormat, width, height, border, data ? HEAPU8.subarray(data, data + imageSize) : null)
-    },
-    WXInitializeSDK: function (version) {
-        window.WXWASMSDK.WXInitializeSDK(_WXPointer_stringify_adaptor(version));
-    },
-    WXVibrateShort: function (s, f, c) {
-        window.WXWASMSDK.VibrateShort(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXVibrateLong: function (s, f, c) {
-        window.WXWASMSDK.VibrateLong(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXStorageSetIntSync: function (key, value) {
-        window.WXWASMSDK.WXStorageSetIntSync(_WXPointer_stringify_adaptor(key), value);
-    },
-    WXStorageGetIntSync: function (key, defaultValue) {
-        return window.WXWASMSDK.WXStorageGetIntSync(_WXPointer_stringify_adaptor(key), defaultValue);
-    },
-    WXStorageSetFloatSync: function (key, value) {
-        window.WXWASMSDK.WXStorageSetFloatSync(_WXPointer_stringify_adaptor(key), value);
-    },
-    WXStorageGetFloatSync: function (key, defaultValue) {
-        return window.WXWASMSDK.WXStorageGetFloatSync(_WXPointer_stringify_adaptor(key), defaultValue);
-    },
-    WXStorageSetStringSync: function (key, value) {
-        window.WXWASMSDK.WXStorageSetStringSync(_WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(value));
-    },
-    WXStorageGetStringSync: function (key, defaultValue) {
-        var returnStr = window.WXWASMSDK.WXStorageGetStringSync(_WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(defaultValue));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXStorageDeleteAllSync: function () {
-        window.WXWASMSDK.WXStorageDeleteAllSync();
-    },
-    WXStorageDeleteKeySync: function (key) {
-        window.WXWASMSDK.WXStorageDeleteKeySync(_WXPointer_stringify_adaptor(key));
-    },
-    WXStorageHasKeySync: function (key) {
-        return window.WXWASMSDK.WXStorageHasKeySync(_WXPointer_stringify_adaptor(key));
-    },
-    WXLogin: function (s, f, c) {
-        window.WXWASMSDK.WXLogin(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXCheckSession: function (s, f, c) {
-        window.WXWASMSDK.WXCheckSession(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXAuthorize: function (scope, s, f, c) {
-        window.WXWASMSDK.WXAuthorize(_WXPointer_stringify_adaptor(scope), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXGetUserInfo: function (withCredentials, lang, s, f, c) {
-        window.WXWASMSDK.WXGetUserInfo(withCredentials, _WXPointer_stringify_adaptor(lang), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXGetSystemLanguage: function () {
-        var returnStr = window.WXWASMSDK.WXGetSystemLanguage();
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXGetSystemInfo: function (s, f, c) {
-        window.WXWASMSDK.WXGetSystemInfo(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXGetSystemInfoSync: function () {
-        var returnStr = window.WXWASMSDK.WXGetSystemInfoSync();
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCreateUserInfoButton: function (x, y, width, height, lang, withCredentials) {
-        var returnStr = window.WXWASMSDK.WXCreateUserInfoButton(x, y, width, height, _WXPointer_stringify_adaptor(lang), withCredentials);
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXUserInfoButtonShow: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonShow(_WXPointer_stringify_adaptor(id));
-    },
-    WXUserInfoButtonDestroy: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonDestroy(_WXPointer_stringify_adaptor(id));
-    },
-    WXUserInfoButtonHide: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonHide(_WXPointer_stringify_adaptor(id));
-    },
-    WXUserInfoButtonOffTap: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonOffTap(_WXPointer_stringify_adaptor(id));
-    },
-    WXUserInfoButtonOnTap: function (id) {
-        window.WXWASMSDK.WXUserInfoButtonOnTap(_WXPointer_stringify_adaptor(id));
-    },
-    WXUpdateShareMenu: function (conf, s, f, c) {
-        window.WXWASMSDK.WXUpdateShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXShowShareMenu: function (conf, s, f, c) {
-        window.WXWASMSDK.WXShowShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXHideShareMenu: function (conf, s, f, c) {
-        window.WXWASMSDK.WXHideShareMenu(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXShareAppMessage: function (conf) {
-        window.WXWASMSDK.WXShareAppMessage(_WXPointer_stringify_adaptor(conf));
-    },
-    WXSetMessageToFriendQuery: function (num) {
-        return window.WXWASMSDK.WXSetMessageToFriendQuery(num);
-    },
-    WXOnShareAppMessage: function (conf, isPromise) {
-        return window.WXWASMSDK.WXOnShareAppMessage(_WXPointer_stringify_adaptor(conf), isPromise);
-    },
-    WXOnShareAppMessageResolve: function (conf) {
-        return window.WXWASMSDK.WXOnShareAppMessageResolve(_WXPointer_stringify_adaptor(conf));
-    },
-    WXOnShareTimeline: function (conf, needCallback) {
-        return window.WXWASMSDK.WXOnShareTimeline(_WXPointer_stringify_adaptor(conf), needCallback);
-    },
-    WXOnAddToFavorites: function (conf, needCallback) {
-        return window.WXWASMSDK.WXOnAddToFavorites(_WXPointer_stringify_adaptor(conf), needCallback);
-    },
-    WXOffShareTimeline: function () {
-        return window.WXWASMSDK.WXOffShareTimeline();
-    },
-    WXOffShareAppMessage: function () {
-        return window.WXWASMSDK.WXOffShareAppMessage();
-    },
-    WXOffAddToFavorites: function () {
-        return window.WXWASMSDK.WXOffAddToFavorites();
-    },
-    WXGetShareInfo: function (conf, s, f, c) {
-        window.WXWASMSDK.WXGetShareInfo(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXAuthPrivateMessage: function (conf, s, f, c) {
-        window.WXWASMSDK.WXAuthPrivateMessage(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXCreateBannerAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateBannerAd(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCreateRewardedVideoAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateRewardedVideoAd(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCreateInterstitialAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateInterstitialAd(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCreateGridAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateGridAd(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCreateCustomAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateCustomAd(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXADStyleChange: function (id, key, value) {
-        window.WXWASMSDK.WXADStyleChange(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), value);
-    },
-    WXShowAd: function (id, s, f) {
-        window.WXWASMSDK.WXShowAd(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f));
-    },
-    WXHideAd: function (id, s, f) {
-        window.WXWASMSDK.WXHideAd(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f));
-    },
-    WXADGetStyleValue: function (id, key) {
-        window.WXWASMSDK.WXADGetStyleValue(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
-    },
-    WXADDestroy: function (id) {
-        window.WXWASMSDK.WXADDestroy(_WXPointer_stringify_adaptor(id));
-    },
-    WXADLoad: function (id, succ, fail) {
-        window.WXWASMSDK.WXADLoad(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(succ), _WXPointer_stringify_adaptor(fail));
-    },
-    WXGetLaunchOptionsSync: function () {
-        var returnStr = window.WXWASMSDK.WXGetLaunchOptionsSync();
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXToTempFilePathSync: function (conf) {
-        var returnStr = window.WXWASMSDK.WXToTempFilePathSync(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXGetUserDataPath: function () {
-        var returnStr = window.WXWASMSDK.WXGetUserDataPath();
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXWriteFileSync: function (filePath, data, encoding) {
-        var returnStr = window.WXWASMSDK.WXWriteFileSync(_WXPointer_stringify_adaptor(filePath), _WXPointer_stringify_adaptor(data), _WXPointer_stringify_adaptor(encoding));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCreateFixedBottomMiddleBannerAd: function (adUnitId, adIntervals, height) {
-        var returnStr = window.WXWASMSDK.WXCreateFixedBottomMiddleBannerAd(_WXPointer_stringify_adaptor(adUnitId), adIntervals, height);
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXDataContextPostMessage: function (msg) {
-        window.WXWASMSDK.WXDataContextPostMessage(_WXPointer_stringify_adaptor(msg));
-    },
-    WXShowOpenData: function (id, x, y, width, height) {
-        window.WXWASMSDK.WXShowOpenData(id, x, y, width, height);
-    },
-    WXHideOpenData: function () {
-        window.WXWASMSDK.WXHideOpenData();
-    },
-    WXUpdateKeyboard: function (value, s, f, c) {
-        window.WXWASMSDK.WXUpdateKeyboard(_WXPointer_stringify_adaptor(value), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXShowKeyboard: function (conf, s, f, c) {
-        window.WXWASMSDK.WXShowKeyboard(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXHideKeyboard: function (s, f, c) {
-        window.WXWASMSDK.WXHideKeyboard(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXSetUserCloudStorage: function (list, s, f, c) {
-        window.WXWASMSDK.WXSetUserCloudStorage(
-            _WXPointer_stringify_adaptor(list),
-            _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXRemoveUserCloudStorage: function (list, s, f, c) {
-        window.WXWASMSDK.WXRemoveUserCloudStorage(
-            _WXPointer_stringify_adaptor(list),
-            _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXReportGameStart: function () {
-        window.WXWASMSDK.WXReportGameStart();
-    },
-    WXSetGameStage: function(stageType) {
-        window.WXWASMSDK.WXSetGameStage(stageType);
-    },
-    WXReportGameStageCostTime: function(totalMs, extJsonStr) {
-        window.WXWASMSDK.WXReportGameStageCostTime(totalMs, _WXPointer_stringify_adaptor(extJsonStr));
-    },
-    WXReportGameStageError: function(errorType, errStr, extJsonStr) {
-        window.WXWASMSDK.WXReportGameStageError(errorType, _WXPointer_stringify_adaptor(errStr), _WXPointer_stringify_adaptor(extJsonStr));
-    },
-    WXWriteLog: function (str) {
-        window.WXWASMSDK.WXWriteLog(_WXPointer_stringify_adaptor(str))
-    },
-    WXWriteWarn: function (str) {
-        window.WXWASMSDK.WXWriteWarn(_WXPointer_stringify_adaptor(str))
-    },
-    WXPreloadConcurrent: function (count) {
-        window.WXWASMSDK.WXPreloadConcurrent(count);
-    },
-    WXAccessFileSync: function (path) {
-        var returnStr = window.WXWASMSDK.WXAccessFileSync(_WXPointer_stringify_adaptor(path));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXAccessFile: function (path, s, f, c) {
-        return window.WXWASMSDK.WXAccessFile(_WXPointer_stringify_adaptor(path), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXCopyFileSync: function (srcPath, destPath) {
-        var returnStr = window.WXWASMSDK.WXCopyFileSync(_WXPointer_stringify_adaptor(srcPath), _WXPointer_stringify_adaptor(destPath));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCopyFile: function (srcPath, destPath, s, f, c) {
-        return window.WXWASMSDK.WXCopyFile(_WXPointer_stringify_adaptor(srcPath), _WXPointer_stringify_adaptor(destPath), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXUnlinkSync: function (filePath) {
-        var returnStr = window.WXWASMSDK.WXUnlinkSync(_WXPointer_stringify_adaptor(filePath));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXUnlink: function (filePath, s, f, c) {
-        return window.WXWASMSDK.WXUnlink(_WXPointer_stringify_adaptor(filePath), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXReportUserBehaviorBranchAnalytics: function (branchId, branchDim, eventType) {
-        window.WXWASMSDK.WXReportUserBehaviorBranchAnalytics(_WXPointer_stringify_adaptor(branchId), _WXPointer_stringify_adaptor(branchDim), eventType);
-    },
-    WXCallFunction: function (name, data, conf, s, f, c) {
-        window.WXWASMSDK.WXCallFunction(_WXPointer_stringify_adaptor(name), _WXPointer_stringify_adaptor(data), _WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXCallFunctionInit: function (conf) {
-        window.WXWASMSDK.WXCallFunctionInit(_WXPointer_stringify_adaptor(conf));
-    },
-    WXCreateInnerAudioContext: function (src, loop, startTime, autoplay, volume, playbackRate, needDownload) {
-        var returnStr = window.WXWASMSDK.WXCreateInnerAudioContext(_WXPointer_stringify_adaptor(src), loop, startTime, autoplay, volume, playbackRate, needDownload);
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXInnerAudioContextSetBool: function (id, k, v) {
-        window.WXWASMSDK.WXInnerAudioContextSetBool(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k), v);
-    },
-    WXInnerAudioContextSetString: function (id, k, v) {
-        window.WXWASMSDK.WXInnerAudioContextSetString(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k), _WXPointer_stringify_adaptor(v));
-    },
-    WXInnerAudioContextSetFloat: function (id, k, v) {
-        window.WXWASMSDK.WXInnerAudioContextSetFloat(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k), v);
-    },
-    WXInnerAudioContextGetFloat: function (id, k) {
-        return window.WXWASMSDK.WXInnerAudioContextGetFloat(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k));
-    },
-    WXInnerAudioContextGetBool: function (id, k) {
-        return window.WXWASMSDK.WXInnerAudioContextGetBool(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(k));
-    },
-    WXInnerAudioContextPlay: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextPlay(_WXPointer_stringify_adaptor(id));
-    },
-    WXInnerAudioContextStop: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextStop(_WXPointer_stringify_adaptor(id));
-    },
-    WXInnerAudioContextPause: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextPause(_WXPointer_stringify_adaptor(id));
-    },
-    WXInnerAudioContextDestroy: function (id) {
-        window.WXWASMSDK.WXInnerAudioContextDestroy(_WXPointer_stringify_adaptor(id));
-    },
-    WXInnerAudioContextSeek: function (id, position) {
-        window.WXWASMSDK.WXInnerAudioContextSeek(_WXPointer_stringify_adaptor(id), position);
-    },
-    WXInnerAudioContextAddListener: function (id, key) {
-        window.WXWASMSDK.WXInnerAudioContextAddListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
-    },
-    WXInnerAudioContextRemoveListener: function (id, key) {
-        window.WXWASMSDK.WXInnerAudioContextRemoveListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
-    },
-    WXPreDownloadAudios: function (paths, id) {
-        window.WXWASMSDK.WXPreDownloadAudios(_WXPointer_stringify_adaptor(paths), id);
-    },
-    WXCreateGameClubButton: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateGameClubButton(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXGameClubButtonDestroy: function(id) {
-        window.WXWASMSDK.WXGameClubButtonDestroy(_WXPointer_stringify_adaptor(id));
-    },
-    WXGameClubButtonHide: function(id) {
-        window.WXWASMSDK.WXGameClubButtonHide(_WXPointer_stringify_adaptor(id));
-    },
-    WXGameClubButtonShow: function(id) {
-        window.WXWASMSDK.WXGameClubButtonShow(_WXPointer_stringify_adaptor(id));
-    },
-    WXGameClubButtonAddListener: function(id, key) {
-        window.WXWASMSDK.WXGameClubButtonAddListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
-    },
-    WXGameClubButtonRemoveListener: function(id, key) {
-        window.WXWASMSDK.WXGameClubButtonRemoveListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
-    },
-    WXGameClubButtonSetProperty: function(id, key, value) {
-        window.WXWASMSDK.WXGameClubButtonSetProperty(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(value));
-    },
-    WXGameClubStyleChangeInt: function(id, key, value) {
-        window.WXWASMSDK.WXGameClubStyleChangeInt(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), value);
-    },
-    WXGameClubStyleChangeStr: function(id, key, value) {
-        window.WXWASMSDK.WXGameClubStyleChangeStr(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(value));
-    },
-    WXCreateVideo: function(conf){
-        var returnStr = window.WXWASMSDK.WXCreateVideo(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXVideoPlay: function(id){
-        window.WXWASMSDK.WXVideoPlay(_WXPointer_stringify_adaptor(id));
-    },
-    WXVideoAddListener: function(id,key){
-        window.WXWASMSDK.WXVideoAddListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
-    },
-    WXVideoDestroy: function(id){
-        window.WXWASMSDK.WXVideoDestroy(_WXPointer_stringify_adaptor(id));
-    },
-    WXVideoExitFullScreen: function(id){
-        window.WXWASMSDK.WXVideoExitFullScreen(_WXPointer_stringify_adaptor(id));
-    },
-    WXVideoPause: function(id){
-        window.WXWASMSDK.WXVideoPause(_WXPointer_stringify_adaptor(id));
-    },
-    WXVideoRequestFullScreen:function(id,direction){
-        window.WXWASMSDK.WXVideoRequestFullScreen(_WXPointer_stringify_adaptor(id),direction);
-    },
-    WXVideoSeek:function(id,time){
-        window.WXWASMSDK.WXVideoSeek(_WXPointer_stringify_adaptor(id),time);
-    },
-    WXVideoStop:function(id){
-       window.WXWASMSDK.WXVideoStop(_WXPointer_stringify_adaptor(id));
-    },
-    WXVideoRemoveListener:function(id,key){
-        window.WXWASMSDK.WXVideoRemoveListener(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
-    },
-    WXRequestMidasPayment:function(conf, s, f, c){
-        window.WXWASMSDK.WXRequestMidasPayment(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXRequestMidasFriendPayment:function(conf, s, f, c){
-        window.WXWASMSDK.WXRequestMidasFriendPayment(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXHideLoadingPage: function() {
-        window.WXWASMSDK && window.WXWASMSDK.WXHideLoadingPage()
-    },
-    WXGetNetworkType:function(s, f, c){
-        window.WXWASMSDK.WXGetNetworkType(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXSetKeepScreenOn:function(b,s, f, c){
-        window.WXWASMSDK.WXSetKeepScreenOn(b,_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXExitMiniProgram:function(s, f, c){
-         window.WXWASMSDK.WXExitMiniProgram(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXWriteFile:function(filePath, data, dataLength, encoding, s, f, c){
-        window.WXWASMSDK.WXWriteFile(
-            _WXPointer_stringify_adaptor(filePath),
-            HEAPU8.slice(data,dataLength+data),
-            _WXPointer_stringify_adaptor(encoding),
-            _WXPointer_stringify_adaptor(s),
-            _WXPointer_stringify_adaptor(f),
-            _WXPointer_stringify_adaptor(c)
-        )
-    },
-    WXWriteStringFile:function (filePath,data,encoding, s, f, c){
-        window.WXWASMSDK.WXWriteStringFile(
-            _WXPointer_stringify_adaptor(filePath),
-            _WXPointer_stringify_adaptor(data),
-            _WXPointer_stringify_adaptor(encoding),
-            _WXPointer_stringify_adaptor(s),
-            _WXPointer_stringify_adaptor(f),
-            _WXPointer_stringify_adaptor(c)
-        )
-    },
-    WXAppendFile:function(filePath, data, dataLength, encoding, s, f, c){
-        window.WXWASMSDK.WXAppendFile(
-            _WXPointer_stringify_adaptor(filePath),
-            HEAPU8.slice(data,dataLength+data),
-            _WXPointer_stringify_adaptor(encoding),
-            _WXPointer_stringify_adaptor(s),
-            _WXPointer_stringify_adaptor(f),
-            _WXPointer_stringify_adaptor(c)
-        )
-    },
-    WXAppendStringFile:function (filePath,data,encoding, s, f, c){
-        window.WXWASMSDK.WXAppendStringFile(
-            _WXPointer_stringify_adaptor(filePath),
-            _WXPointer_stringify_adaptor(data),
-            _WXPointer_stringify_adaptor(encoding),
-            _WXPointer_stringify_adaptor(s),
-            _WXPointer_stringify_adaptor(f),
-            _WXPointer_stringify_adaptor(c)
-        )
-    },
-    WXWriteBinFileSync:function(filePath, data, dataLength, encoding){
-        return window.WXWASMSDK.WXWriteBinFileSync(
-            _WXPointer_stringify_adaptor(filePath),
-            HEAPU8.slice(data,dataLength+data),
-            _WXPointer_stringify_adaptor(encoding)
-        )
-    },
-    WXReadFile:function(filePath, encoding,callbackId){
-        window.WXWASMSDK.WXReadFile(
-            _WXPointer_stringify_adaptor(filePath),
-            _WXPointer_stringify_adaptor(encoding),
-            _WXPointer_stringify_adaptor(callbackId)
-        );
-    },
-    WXReadBinFileSync:function(filePath){
-        return window.WXWASMSDK.WXReadFileSync(
-            _WXPointer_stringify_adaptor(filePath)
-        );
-    },
-    WXReadFileSync:function(filePath, encoding){
-        var returnStr = window.WXWASMSDK.WXReadFileSync( _WXPointer_stringify_adaptor(filePath), _WXPointer_stringify_adaptor(encoding) );
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXShareFileBuffer:function(offset,callbackId){
-        window.WXWASMSDK.WXShareFileBuffer(
-            HEAPU8,
-            offset,
-            _WXPointer_stringify_adaptor(callbackId)
-        )
-    },
-    WXGetTotalMemorySize: function() {
-        return TOTAL_MEMORY; // WebGLMemorySize in bytes
-    },
-    WXGetTotalStackSize: function() {
-        return TOTAL_STACK;
-    },
-    WXGetStaticMemorySize: function() {
-        return STATICTOP - STATIC_BASE;
-    },
-    WXGetDynamicMemorySize: function() {
-        if (typeof DYNAMICTOP !== "undefined") {
-            return DYNAMICTOP - DYNAMIC_BASE;
-        } else {
-            // Unity 5.6+
-            return HEAP32[DYNAMICTOP_PTR >> 2] - DYNAMIC_BASE;
-        }
-    },
-    WXOpenCustomerServiceConversation:function(conf, s, f, c){
-        window.WXWASMSDK.WXOpenCustomerServiceConversation(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXLogManagerDebug:function(str){
-        window.WXWASMSDK.WXLogManagerDebug(
-            _WXPointer_stringify_adaptor(str)
-        );
-    },
-    WXLogManagerInfo:function(str){
-        window.WXWASMSDK.WXLogManagerInfo(
-            _WXPointer_stringify_adaptor(str)
-        );
-    },
-    WXLogManagerLog:function(str){
-        window.WXWASMSDK.WXLogManagerLog(
-            _WXPointer_stringify_adaptor(str)
-        );
-    },
-    WXLogManagerWarn:function(str){
-        window.WXWASMSDK.WXLogManagerWarn(
-            _WXPointer_stringify_adaptor(str)
-        );
-    },
-    WXIsCloudTest:function(){
-        return window.WXWASMSDK.WXIsCloudTest();
-    },
-    WXUncaughtException: function() {
-       window.WXWASMSDK.WXUncaughtException(false);
-    },
-    WXPreLoadShortAudio:function(s){
-        window.WXWASMSDK.WXPreLoadShortAudio(_WXPointer_stringify_adaptor(s));
-    },
-    WXStopOthersAndPlay:function(audio,loop,volume){
-        window.WXWASMSDK.WXStopOthersAndPlay(_WXPointer_stringify_adaptor(audio),loop,volume);
-    },
-    WXShortAudioPlayerStop:function(audio){
-        window.WXWASMSDK.WXShortAudioPlayerStop(_WXPointer_stringify_adaptor(audio));
-    },
-    WXShortAudioPlayerDestroy:function(audio){
-        window.WXWASMSDK.WXShortAudioPlayerDestroy(_WXPointer_stringify_adaptor(audio));
-    },
-    WXSetClipboardData:function(str, s, f, c){
-        window.WXWASMSDK.WXSetClipboardData(_WXPointer_stringify_adaptor(str), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXGetClipboardData:function( s, f, c){
-        window.WXWASMSDK.WXGetClipboardData(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXShowToast:function( title, icon, duration, mask,  s,  f,  c){
-        window.WXWASMSDK.WXShowToast(_WXPointer_stringify_adaptor(title),_WXPointer_stringify_adaptor(icon),duration,mask,_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXHideToast:function(s,  f,  c){
-        window.WXWASMSDK.WXHideToast(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXShowModal:function( conf, s,  f,  c){
-        window.WXWASMSDK.WXShowModal(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXShowLoading:function( conf, s,  f,  c){
-        window.WXWASMSDK.WXShowLoading(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXHideLoading:function(s,  f,  c){
-        window.WXWASMSDK.WXHideLoading(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXNavigateToMiniProgram:function(conf, s, f, c) {
-        window.WXWASMSDK.WXNavigateToMiniProgram(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXMkdir:function(dirPath, recursive, s,  f,  c){
-        window.WXWASMSDK.WXMkdir(_WXPointer_stringify_adaptor(dirPath), recursive, _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    },
-    WXMkdirSync: function (dirPath, recursive) {
-        var returnStr = window.WXWASMSDK.WXMkdirSync(_WXPointer_stringify_adaptor(dirPath),recursive);
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXRequestSubscribeSystemMessage: function(list,s,f,c){
-            window.WXWASMSDK.WXHideLoading(_WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f), _WXPointer_stringify_adaptor(c));
-    }
-});
+
+WX_ApplyUpdate:function(id){
+    window.WXWASMSDK.WX_ApplyUpdate(_WXPointer_stringify_adaptor(id));
+},    
+
+WX_OnCheckForUpdate:function(id){
+    window.WXWASMSDK.WX_OnCheckForUpdate(_WXPointer_stringify_adaptor(id));
+},
+
+WX_OnUpdateFailed:function(id){
+    window.WXWASMSDK.WX_OnUpdateFailed(_WXPointer_stringify_adaptor(id));
+},
+
+WX_OnUpdateReady:function(id){
+    window.WXWASMSDK.WX_OnUpdateReady(_WXPointer_stringify_adaptor(id));
+},
+
+})

@@ -78,7 +78,7 @@ export default {
 
 const mod = {
     recover(){
-        Object.keys(cacheAudios).forEach(v=>{
+        Object.keys(cacheAudios).forEach(key=>{
             const audio = cacheAudios[key];
             if(audio.context.paused && audio.isPlaying){
                 if(audio.loop){

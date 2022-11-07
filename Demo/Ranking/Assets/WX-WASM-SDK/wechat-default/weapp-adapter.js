@@ -1,9 +1,9 @@
 var isWK = false;
-try{
-    isWK = wx.getSystemInfoSync().renderer == 'h5';
-}catch(e){
-    isWK = typeof(window)!='undefined' && window.XMLHttpRequest;
-}
+// try{
+//     isWK = wx.getSystemInfoSync().renderer == 'h5';
+// }catch(e){
+//     isWK = typeof(window)!='undefined' && window.XMLHttpRequest;
+// }
 /******/ (function(modules) { // webpackBootstrap
     /******/ 	// The module cache
     /******/ 	var installedModules = {};
@@ -293,23 +293,13 @@ try{
             value: true
         });
         var performance = void 0;
-
-        if (wx.getPerformance) {
-            var _wx$getSystemInfoSync = wx.getSystemInfoSync(),
-                platform = _wx$getSystemInfoSync.platform;
-
-            var wxPerf = wx.getPerformance();
-            var initTime = wxPerf.now();
-
-            var clientPerfAdapter = Object.assign({}, wxPerf, {
-                now: function now() {
-                    return (wxPerf.now() - initTime) / 1000;
-                }
-            });
-
-            performance = platform === 'devtools' ? wxPerf : clientPerfAdapter;
-        }
-
+        var initTime = Date.now();
+        var clientPerfAdapter = Object.assign({}, {
+            now: function now() {
+                return (Date.now() - initTime);
+            }
+        });
+        performance = clientPerfAdapter;
         exports.default = performance;
 
         /***/ }),
@@ -1338,7 +1328,7 @@ try{
                     } else {
                         if(data instanceof Uint8Array){
                             // unity 过来的请求会出现Uint8Array的数组，而客户端这里处理有问题，先这样兼容
-                            data = wx.decode({data:Uint8Array.from(data).buffer,format:"utf8"});
+                            data = Uint8Array.from(data).buffer;
                         }
                         let responseType = this.responseType;
                         wx.request({
@@ -1347,6 +1337,8 @@ try{
                             method: _method.get(this),
                             header: _requestHeader.get(this),
                             responseType: this.responseType,
+                            enableHttp2:true,
+                            enableQuic:true,
                             success: function success(_ref) {
                                 var data = _ref.data,
                                     statusCode = _ref.statusCode,

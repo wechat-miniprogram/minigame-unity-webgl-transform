@@ -2,7 +2,7 @@ const cacheAudios = {};
 const funs = {
     getFullUrl(v){
         if(!/^https?:\/\//.test(v)){
-            const cdnPath = GameGlobal.manager.managerConfig.AUDIO_PREFIX;
+            const cdnPath = GameGlobal.manager.assetPath;
             v = cdnPath.replace(/\/$/,'') +'/' +v.replace(/^\//,'').replace(/^Assets\//,'');
         }
         return encodeURI(v);
@@ -78,7 +78,7 @@ export default {
 
 const mod = {
     recover(){
-        Object.keys(cacheAudios).forEach(v=>{
+        Object.keys(cacheAudios).forEach(key=>{
             const audio = cacheAudios[key];
             if(audio.context.paused && audio.isPlaying){
                 if(audio.loop){

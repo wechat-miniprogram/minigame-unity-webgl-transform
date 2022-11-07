@@ -1,11 +1,5 @@
 ﻿using UnityEngine;
 using System.IO;
-using System.Text.RegularExpressions;
-using System;
-using System.Collections;
-using LitJson;
-using UnityEditor;
-using System.Linq;
 using System.Threading;
 
 namespace WeChatWASM
@@ -34,125 +28,12 @@ namespace WeChatWASM
     public static class PicCompressor
     {
 
-        public static ArrayList failedTask = new ArrayList();
-        static string WX_MIN_PicCompressor = "WX_MIN_PicCompressor";
         static string ASTCPath;
         static string PVRTCPath;
         static string PNGPath;
+        static string DXT5Path;
         static Semaphore sempore = new Semaphore(8, 8); //最多设置8个进程
 
-        public static void CompressPNG(string src, string dstPath, int width, int height,Action action = null)
-        {
-            sempore.WaitOne();
-            UnityUtil.CreateDir(new DirectoryInfo(dstPath).Parent.ToString());
-
-            var config = UnityUtil.GetEditorConf();
-
-            int quality = 65;
-            if (config.CompressTexture.QualityList != null && config.CompressTexture.QualityList.Count > 0)
-            {
-                var txDir = WXTextureManager.textureDstDir.Replace("\\", "/");
-                var AssetPath = Application.dataPath;
-                foreach (QualityOptions options in config.CompressTexture.QualityList)
-                {
-
-                    var p1 = options.Path.Replace("\\", "/").Replace(AssetPath,"");
-                    var p2 = src.Replace("\\", "/").Replace(txDir,"");
-
-                    if (p2.IndexOf(p1) > -1)
-                    {
-                        quality = options.Quality;
-                    }
-                }
-            }
-
-            ASTCPath = GetASTCPath();
-            PVRTCPath = GetPVRTCPath();
-            PNGPath = GetPNGPath();
-
-            var p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = "magick";
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.CreateNoWindow = true;
-
-
-
-
-
-            var isTGA = Regex.IsMatch(src.ToLower(), @"\.tga$");
-            if (isTGA)
-            {
-                // tga就是直接翻转的
-                p.StartInfo.Arguments = "convert \"" +
-    src + "[0]"
-    + "\" -quality " + quality + " -resize " + width + "x" + height + "! PNG32:\"" +
-    dstPath + "\"";
-            }
-            else
-            {
-                p.StartInfo.Arguments = "convert \"" +
-    src +  "[0]"
-    + "\" -quality " + quality + " -flip -resize " + width + "x" + height + "! PNG32:\"" +
-    dstPath + "\"";
-            }
-
-
-            if (action !=null) {
-                p.EnableRaisingEvents = true;
-                p.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((object sender, System.Diagnostics.DataReceivedEventArgs e) => {
-                    if (e.Data != null)
-                    {
-                        Debug.LogError(e.Data);
-                    }
-                });
-
-                p.Exited += new EventHandler((object sender, EventArgs e) => {
-
-                    sempore.Release();
-
-                    if (!File.Exists(dstPath))
-                    {
-                        failedTask.Add(new PicTask()
-                        {
-                            type = 0,
-                            src = src,
-                            dst = dstPath,
-                            width = width,
-                            height = height
-                        });
-                    }
-                    else
-                    {
-                        if (action != null)
-                            action?.Invoke();
-                    }
-
-
-                });
-            }
-            // 注册进程结束事件
-
-            try
-            {
-                p.Start();   //默认为75的压缩率
-            }catch(Exception e)
-            {
-                Debug.LogError(e);
-                sempore.Release();
-            }
-
-            p.BeginErrorReadLine();
-            p.BeginOutputReadLine();
-            if (action == null)
-            {
-                p.WaitForExit();
-                p.Close();
-            }
-
-        }
 
 
         public static string GetASTCPath()
@@ -160,6 +41,9 @@ namespace WeChatWASM
             if (Application.platform == RuntimePlatform.WindowsEditor)
             {
                 return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/astcenc-sse4.1.exe");
+            }
+            if (UnityEngine.SystemInfo.processorType.ToLower().Contains("apple")) {
+                return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/astcenc-neon");
             }
             return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/astcenc-avx2");
         }
@@ -170,140 +54,17 @@ namespace WeChatWASM
         }
 
 
+        public static string GetDXT5Path()
+        {
+            return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/PVRTexToolCLI" + (Application.platform == RuntimePlatform.WindowsEditor ? ".exe" : ""));
+        }
+
         public static string GetPNGPath()
         {
             return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/pngquant" + (Application.platform == RuntimePlatform.WindowsEditor ? ".exe" : ""));
         }
 
 
-        public static void SaveFailedTask()
-        {
-            var result = JsonMapper.ToJson(failedTask);
-            var prefix = UnityUtil.GetMd5Str(Application.dataPath);
-            EditorPrefs.SetString(prefix + WX_MIN_PicCompressor, result);
-        }
-
-        public static void ClearFailedTask()
-        {
-            var prefix = UnityUtil.GetMd5Str(Application.dataPath);
-            EditorPrefs.DeleteKey(prefix + WX_MIN_PicCompressor);
-            failedTask = new ArrayList();
-        }
-
-        public static void ReTryFailedTask()
-        {
-
-            var list = failedTask;
-
-            ASTCPath = GetASTCPath();
-            PVRTCPath = GetPVRTCPath();
-            PNGPath = GetPNGPath();
-
-            for (var i = 0; i < list.Count; i++)
-            {
-
-                PicTask task = (PicTask)list[i];
-                if (task.type == 0)
-                {
-                    CompressPNG(task.src, task.dst, task.width, task.height);
-                }
-                else if (task.type == 1)
-                {
-                    CompressASTC(task.src, task.dst);
-                }
-                else if (task.type == 2)
-                {
-                    CompressETC2(task.src, task.dst);
-                }
-                else if (task.type == 3)
-                {
-                    CompressPVRTC(task.src, task.dst);
-                }
-
-            }
-            SaveFailedTask();
-
-            Debug.Log("执行完毕！");
-        }
-
-        public static void CompressASTC(string src, string dstPath, Action action = null)
-        {
-
-            //UnityUtil.CreateDir(new DirectoryInfo(dstPath).Parent.ToString());
-            sempore.WaitOne();
-            if (string.IsNullOrEmpty(ASTCPath))
-            {
-                ASTCPath = GetASTCPath();
-            }
-            var p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = ASTCPath;
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.Arguments = "-cs \"" +
-                src
-                + "\" \"" +
-                dstPath + "\" 8x8 -medium";
-
-            p.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((object sender, System.Diagnostics.DataReceivedEventArgs e) => {
-                if (e.Data != null)
-                {
-                 //   Debug.LogError(e.Data);
-                }
-            });
-
-
-            p.EnableRaisingEvents = true;
-
-            p.Exited += new EventHandler((object sender, EventArgs e) => {
-
-                if (File.Exists(dstPath + ".txt"))
-                {
-                    File.Delete(dstPath + ".txt");
-                }
-
-                try
-                {
-                    File.Move(dstPath, dstPath + ".txt"); //改成txt后缀方便cdn gzip压缩}
-                }
-                catch (System.Exception)
-                {
-                    Debug.LogError("图片：" + src + " 生成astc压缩纹理失败！");
-
-                    failedTask.Add(new PicTask()
-                    {
-                        type = 1,
-                        src = src,
-                        dst = dstPath
-                    });
-                }
-
-                sempore.Release();
-
-
-                if (action!=null)
-                action.Invoke();
-
-
-            });
-
-            try
-            {
-                p.Start();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-                sempore.Release();
-            }
-
-            p.BeginErrorReadLine();
-            p.BeginOutputReadLine();
-
-
-        }
 
 
         public static void TestASTC()
@@ -372,231 +133,6 @@ namespace WeChatWASM
 
         }
 
-        public static void CompressETC2(string src, string dstPath, Action action = null)
-        {  // etc1的也直接用etc2的图片展示
-
-
-            sempore.WaitOne();
-
-            if (string.IsNullOrEmpty(PVRTCPath)) {
-                PVRTCPath = GetPVRTCPath();
-            }
-
-            var p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = PVRTCPath;
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.Arguments = "-i \"" +
-                src
-                + "\" -o \"" +
-                dstPath + "\" -f ETC2_RGB_A1,UBN,sRGB";
-
-            p.EnableRaisingEvents = true;
-
-
-            p.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((object sender, System.Diagnostics.DataReceivedEventArgs e) => {
-                if (e.Data != null)
-                {
-                 //   Debug.LogError(e.Data);
-                }
-            });
-
-            p.Exited += new EventHandler((object sender, EventArgs e) => {
-
-
-                var finalDst = dstPath + ".txt";
-                if (File.Exists(finalDst))
-                {
-                    File.Delete(finalDst);
-                }
-
-                try
-                {
-                    File.Move(dstPath + ".pvr", finalDst);
-                    var bytes = File.ReadAllBytes(finalDst);
-                    var index = BitConverter.ToInt32(bytes, 48);
-                    File.WriteAllBytes(finalDst, bytes.Skip(index + 52 - 16).Take(bytes.Length).ToArray()); //为了兼容旧版本的解析保留头部16个字节
-                }
-                catch (System.Exception)
-                {
-                    Debug.LogError("图片：" + src + " 生成etc2压缩纹理失败！");
-
-                    failedTask.Add(new PicTask()
-                    {
-                        type = 2,
-                        src = src,
-                        dst = dstPath
-                    });
-
-                }
-
-                sempore.Release();
-
-
-                if (action != null)
-                    action.Invoke();
-
-
-            });
-
-
-            try
-            {
-                p.Start();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-                sempore.Release();
-            }
-
-            p.BeginErrorReadLine();
-            p.BeginOutputReadLine();
-
-
-
-        }
-
-
-        public static void CompressPVRTC(string src, string dstPath,  Action action = null)
-        {
-            sempore.WaitOne();
-
-            if (string.IsNullOrEmpty(PVRTCPath))
-            {
-                PVRTCPath = GetPVRTCPath();
-            }
-
-            var p = new System.Diagnostics.Process();
-            p.StartInfo.FileName = PVRTCPath;
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.Arguments = "-i \"" +
-                src
-                + "\" -o \"" +
-                dstPath + "\" -f PVRTC1_4,UBN,sRGB";
-
-            p.EnableRaisingEvents = true;
-            p.Exited += new EventHandler((object sender, EventArgs e) => {
-                if (File.Exists(dstPath + ".txt"))
-                {
-                    File.Delete(dstPath + ".txt");
-                }
-
-                try
-                {
-                    File.Move(dstPath, dstPath + ".txt"); //改成txt后缀方便cdn gzip压缩}
-                }
-                catch (System.Exception)
-                {
-                    Debug.LogError("图片：" + src + " 生成pvrtc压缩纹理失败！");
-
-                    failedTask.Add(new PicTask()
-                    {
-                        type = 3,
-                        src = src,
-                        dst = dstPath
-                    });
-                }
-
-                sempore.Release();
-
-                if (action != null)
-                    action.Invoke();
-
-
-            });
-
-            p.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((object sender, System.Diagnostics.DataReceivedEventArgs e) => {
-
-                if (e.Data != null)
-                {
-                //    Debug.LogError(e.Data);
-                }
-
-            });
-
-            try
-            {
-                p.Start();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-                sempore.Release();
-            }
-
-            p.BeginErrorReadLine();
-            p.BeginOutputReadLine();
-
-
-        }
-
-
-        public static void CompressMinPNG(string src, Action action = null)
-        {
-
-            sempore.WaitOne();
-
-
-            if (string.IsNullOrEmpty(PNGPath))
-            {
-                PNGPath = GetPNGPath();
-            }
-
-            var p = new System.Diagnostics.Process();
-            p.StartInfo.FileName =PNGPath;
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.Arguments = "\"" +
-                src
-                + "\" -o \"" +
-                src + "\" -f";
-
-            p.EnableRaisingEvents = true;
-
-
-            p.Exited += new EventHandler((object sender, EventArgs e) => {
-
-                sempore.Release();
-
-                if (action != null)
-                    action.Invoke();
-
-
-            });
-
-            p.ErrorDataReceived += new System.Diagnostics.DataReceivedEventHandler((object sender, System.Diagnostics.DataReceivedEventArgs e) => {
-
-                if (e.Data != null)
-                {
-                    Debug.LogError(e.Data);
-                }
-
-            });
-
-            try
-            {
-                p.Start();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError(e);
-                sempore.Release();
-            }
-
-            p.BeginErrorReadLine();
-            p.BeginOutputReadLine();
-        }
 
 
     }

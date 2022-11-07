@@ -35,13 +35,12 @@ export default {
             }
         };
 
-        let _setInterVal = window.setInterVal;
-        window.setInterVal = function(vCallback, nDelay){
+        let _setInterval = window.setInterval;
+        window.setInterval = function(vCallback, nDelay){
             let aArgs = Array.prototype.slice.call(arguments, 2);
             let id = getId();
-            let t = _setInterVal(vCallback instanceof Function ? function() {
+            let t = _setInterval(vCallback instanceof Function ? function() {
                 vCallback.apply(null, aArgs);
-                delete wm[id];
             } : vCallback, nDelay);
             wm[id] = t;
             return id;

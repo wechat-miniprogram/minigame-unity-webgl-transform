@@ -1,5 +1,5 @@
 //绘制引擎文档可以参考  https://wechat-miniprogram.github.io/minigame-canvas-engine/
-let Layout = requirePlugin('Layout').default;
+import Layout from './open-data-js-sdk/minigame-canvas-engine/index';
 import SDK from "./open-data-js-sdk/index";
 
 function main(conf) {
@@ -106,13 +106,11 @@ const Mod = {
         const MoneyBank = Layout.getElementsById('MoneyBank')[0];
         StarRank.on('click', () => {
             this.data.rank = 'StarRank';
-            console.log(StarRank.dataset.xx);
             this.init(this.conf);
         });
 
         MoneyBank.on('click', () => {
             this.data.rank = 'MoneyBank';
-            console.log(MoneyBank.dataset.xx);
             this.init(this.conf);
         });
     },

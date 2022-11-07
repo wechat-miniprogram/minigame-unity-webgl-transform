@@ -33,7 +33,7 @@ namespace WeChatWASM
         [DllImport("__Internal")]
     #endif
         private static extern void GetUnityVersionCallback(string version);
-        
+
     #if UNITY_WEBGL
         [DllImport("__Internal")]
     #endif
@@ -67,7 +67,7 @@ namespace WeChatWASM
             Debug.Log("getNowScenesComponents");
             cam = Camera.main;
             List<Node> forest = new List<Node>();
-            Scene scene = SceneManager.GetActiveScene();
+            UnityEngine.SceneManagement.Scene scene = SceneManager.GetActiveScene();
             sceneName = scene.name;
             if(sceneName.Length == 0) {
                 sceneName = "default";
@@ -82,12 +82,12 @@ namespace WeChatWASM
             }
 
             Node rootNode = new Node("root", forest);
-            // WriteFileByLine (Application.persistentDataPath,String.Format("tree_{0}.txt", 0), JsonMapper.ToJson(rootNode)); 
+            // WriteFileByLine (Application.persistentDataPath,String.Format("tree_{0}.txt", 0), JsonMapper.ToJson(rootNode));
 
             // var countI = 0;
             // Debug.Log(Application.persistentDataPath);
             // foreach(string str in forest) {
-            //     WriteFileByLine (Application.persistentDataPath,String.Format("tree_{0}.txt", countI), str); 
+            //     WriteFileByLine (Application.persistentDataPath,String.Format("tree_{0}.txt", countI), str);
             //     countI++;
             // }
             // Debug.Log(JsonMapper.ToJson(rootNode));
@@ -121,18 +121,18 @@ namespace WeChatWASM
     #endif
         }
 
-        private void WriteFileByLine(string file_path,string file_name,string str_info)  {  
-            StreamWriter sw;  
-            if(!File.Exists(file_path+"//"+file_name)) {  
-                sw=File.CreateText(file_path+"//"+file_name);//创建一个用于写入 UTF-8 编码的文本  
-                Debug.Log("文件创建成功！");  
-            }  else  {  
-                sw=File.AppendText(file_path+"//"+file_name);//打开现有 UTF-8 编码文本文件以进行读取  
-            }  
-            sw.WriteLine(str_info);//以行为单位写入字符串  
-            sw.Close ();  
-            sw.Dispose ();//文件流释放  
-        } 
+        private void WriteFileByLine(string file_path,string file_name,string str_info)  {
+            StreamWriter sw;
+            if(!File.Exists(file_path+"//"+file_name)) {
+                sw=File.CreateText(file_path+"//"+file_name);//创建一个用于写入 UTF-8 编码的文本
+                Debug.Log("文件创建成功！");
+            }  else  {
+                sw=File.AppendText(file_path+"//"+file_name);//打开现有 UTF-8 编码文本文件以进行读取
+            }
+            sw.WriteLine(str_info);//以行为单位写入字符串
+            sw.Close ();
+            sw.Dispose ();//文件流释放
+        }
 
 
         private class Node {
@@ -144,7 +144,7 @@ namespace WeChatWASM
             public Rect position;
             public int z;
             public string zPath = "";
-            
+
             public List<Node> children = new List<Node>();
             public bool show = false;
             public bool enable = false;
@@ -161,7 +161,7 @@ namespace WeChatWASM
                 this.z = 0;
                 this.id = "root";
             }
-            
+
     #if UNITY_UI_FAIRYGUI
             public Dictionary<string, Dictionary<string, bool>> actionInfo = new Dictionary<string, Dictionary<string, bool>>();
     #else
@@ -283,7 +283,7 @@ namespace WeChatWASM
                 // unity坐标系转换为手机屏幕的坐标系
                 position = new Rect(feature.rect.x, UnityEngine.Screen.height - feature.rect.y, feature.rect.width, feature.rect.height);
                 show = (position.width > 0 && position.height > 0);
-    #if UNITY_UI_UGUI            
+    #if UNITY_UI_UGUI
                 Renderer render = obj.GetComponent<Renderer>();
                 if (render != null) {
                     visible = render.enabled;
@@ -296,7 +296,7 @@ namespace WeChatWASM
                 if (button != null) {
                     // ugui
                     useless = (button.interactable && button.isActiveAndEnabled) ? false : true; //isActiveAndEnabled=True 等同于 (activeInHierarchy=True and enabled=True)
-                } 
+                }
 
                 if (!useless) {
                     //todo ugui的获取方法
@@ -309,7 +309,7 @@ namespace WeChatWASM
                 useless = true;
                 if(feature.elementType == 1) {
                     visible = true;
-                    this.enable = false;  
+                    this.enable = false;
                     UIToggle uitoggle = obj.GetComponent<UIToggle>();
                     if(uitoggle != null) {
                         useless = uitoggle.onChange.Count > 0 ? false : true;
@@ -330,7 +330,7 @@ namespace WeChatWASM
                     Button button = obj.GetComponent<Button>();
                     if (button != null) {
                         useless = (button.interactable && button.isActiveAndEnabled) ? false : true; //isActiveAndEnabled=True 等同于 (activeInHierarchy=True and enabled=True)
-                    } 
+                    }
                     if(!useless){
                         this.enable = !button.IsDestroyed();
                     } else {
@@ -350,7 +350,7 @@ namespace WeChatWASM
                     }else{
                         enable = false;
                     }
-                    
+
                 }
     #endif
 
@@ -392,7 +392,7 @@ namespace WeChatWASM
                             children.Add(childNode);
                         }
                     }
-                } 
+                }
     #else
                 Transform transforms = obj.transform;
                 for(int i = 0; i < childrenCount; i++) {
@@ -463,7 +463,7 @@ namespace WeChatWASM
                 rotation = new Vector3(obj.rotationX, obj.rotationY, obj.rotation);
                 grayed = obj.grayed;
                 Vector3 localPosition = obj.position;
-                
+
                 var position = Vector2.zero;
                 width = obj.actualWidth;
                 height = obj.actualHeight;
@@ -517,10 +517,10 @@ namespace WeChatWASM
                 rotationZ = rotation.z;
 
     #if UNITY_UI_UGUI
-                
+
                 //localPosition 本地坐标 position世界坐标
                 //https://zhuanlan.zhihu.com/p/93813556
-                
+
                 Canvas rootCanvas = GetRootCanvas(obj);
                 RenderMode renderMode = rootCanvas != null ? rootCanvas.renderMode : new RenderMode();
 
@@ -554,7 +554,7 @@ namespace WeChatWASM
                     topX = transform.position.x + (0.0f - anchorX) * width;
                     topY = transform.position.y + (1.0f - anchorY) * height;
                 }
-                
+
                 rect = new Rect(topX, topY, width, height);
                 // if(obj.name == "RestartButton"){
                 //     switch(renderMode){
@@ -640,7 +640,7 @@ namespace WeChatWASM
                 Vector2 joystickCenter = Vector2.zero;
                 Vector2 anchorPosition = Vector2.zero;
                 if (!restrictArea){
-                    touch = touchSize;  
+                    touch = touchSize;
                 }
                 // Anchor position
                 switch (anchor){
@@ -653,7 +653,7 @@ namespace WeChatWASM
                     case "JoystickAnchor.UpperRight":
                         anchorPosition = new Vector2( VirtualScreen.width-zoneRadius-touch,zoneRadius+touch);
                         break;
-                    
+
                     case "JoystickAnchor.MiddleLeft":
                         anchorPosition = new Vector2( zoneRadius+touch, VirtualScreen.height/2);
                         break;
@@ -663,7 +663,7 @@ namespace WeChatWASM
                     case "JoystickAnchor.MiddleRight":
                         anchorPosition = new Vector2( VirtualScreen.width-zoneRadius-touch,VirtualScreen.height/2);
                         break;
-                    
+
                     case "JoystickAnchor.LowerLeft":
                         anchorPosition = new Vector2( zoneRadius+touch, VirtualScreen.height-zoneRadius-touch);
                         break;
@@ -672,15 +672,15 @@ namespace WeChatWASM
                         break;
                     case "JoystickAnchor.LowerRight":
                         anchorPosition = new Vector2( VirtualScreen.width-zoneRadius-touch,VirtualScreen.height-zoneRadius-touch);
-                        break;  
-                    
+                        break;
+
                     case "JoystickAnchor.None":
                         anchorPosition = Vector2.zero;
                         break;
                 }
                 //joystick rect
                 areaRect = new Rect(anchorPosition.x + joystickCenter.x -zoneRadius , anchorPosition.y+joystickCenter.y-zoneRadius,zoneRadius*2,zoneRadius*2);
-                return areaRect;    
+                return areaRect;
             }
 
 
@@ -710,11 +710,11 @@ namespace WeChatWASM
                         case "ButtonAnchor.MiddleCenter":
                             anchorPosition = new Vector2( VirtualScreen.width/2- buttonSize.x/2, VirtualScreen.height/2- buttonSize.y/2);
                             break;
-                        
+
                         case "ButtonAnchor.MiddleRight":
                             anchorPosition = new Vector2( VirtualScreen.width-buttonSize.x,VirtualScreen.height/2- buttonSize.y/2);
                             break;
-                        
+
                         case "ButtonAnchor.LowerLeft":
                             anchorPosition = new Vector2( 0, VirtualScreen.height- buttonSize.y);
                             break;
@@ -723,7 +723,7 @@ namespace WeChatWASM
                             break;
                         case "ButtonAnchor.LowerRight":
                             anchorPosition = new Vector2( VirtualScreen.width-buttonSize.x,VirtualScreen.height- buttonSize.y);
-                            break;  
+                            break;
                     }
 
                     //button rect
@@ -781,7 +781,7 @@ namespace WeChatWASM
         public void test_func() {
             Debug.Log("test_func");
             Debug.Log(Application.targetFrameRate);
-            // Debug.Log("Mono used size" + UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong()/(1024*1024) + "MBytes");  
+            // Debug.Log("Mono used size" + UnityEngine.Profiling.Profiler.GetMonoUsedSizeLong()/(1024*1024) + "MBytes");
         }
 
         void Start() {
@@ -789,6 +789,6 @@ namespace WeChatWASM
             // Application.targetFrameRate = 30;
             // Invoke("getNowScenesCompoments", 2.0f);
         }
-        
+
     }
 }

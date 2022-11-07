@@ -62,16 +62,4 @@ export default {
         manager.gameInstance.Module.GL.textures[textureId] = createTextureByImgObject();
         textureObject = null;
     },
-    WXSetUserCloudStorage(list,s,f,c){
-        wx.setUserCloudStorage({
-            KVDataList:JSON.parse(list),
-            ...response.handleText(s,f,c)
-        })
-    },
-    WXRemoveUserCloudStorage(list,s,f,c){
-        wx.removeUserCloudStorage({
-            keyList:JSON.parse(list),
-            ...response.handleText(s,f,c)
-        })
-    },
 }

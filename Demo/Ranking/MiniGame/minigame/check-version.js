@@ -1,75 +1,109 @@
-const { version, SDKVersion, platform, renderer, system } = wx.getSystemInfoSync()
+const { version, SDKVersion, platform, renderer, system } =
+    wx.getSystemInfoSync()
 
 function compareVersion(v1, v2) {
-  v1 = v1.split('.')
-  v2 = v2.split('.')
-  const len = Math.max(v1.length, v2.length)
-
-  while (v1.length < len) {
-    v1.push('0')
-  }
-  while (v2.length < len) {
-    v2.push('0')
-  }
-
-  for (let i = 0; i < len; i++) {
-    const num1 = parseInt(v1[i])
-    const num2 = parseInt(v2[i])
-
-    if (num1 > num2) {
-      return true
-    } else if (num1 < num2) {
-      return false
-    }
-  }
-
-  return true
+    return (
+        v1
+            .split(".")
+            .map((v) => v.padStart(2, "0"))
+            .join("") >=
+        v2
+            .split(".")
+            .map((v) => v.padStart(2, "0"))
+            .join("")
+    )
 }
+
+const isPc = platform === "windows"
+const isIOS = platform === "ios"
+const isDevtools = platform === "devtools"
+const isMobile = !isPc && !isDevtools
+// 是否iOSH5模式
+const isH5Renderer = isMobile && renderer === "h5"
+// 操作系统版本号
+const systemVersionArr = system ? system.split(" ") : []
+const systemVersion = systemVersionArr.length
+    ? systemVersionArr[systemVersionArr.length - 1]
+    : ""
+
+// pc微信版本号不一致，需要>=3.3
+const isPcWeChatVersionValid = compareVersion(version, "3.3")
+// 支持unity小游戏，需要基础库>=2.14.0，但低版本基础库iOS存在诸多问题，将版本最低版本提高到2.17.0
+const isLibVersionValid = compareVersion(SDKVersion, "2.17.0")
+// 如果是iOSH5，基础库需要>=2.19.1
+const isH5LibVersionValid = compareVersion(SDKVersion, "2.19.1")
+// iOSH5模式，支持wss的基础库版本>=2.21.1
+const isWssLibVersionValid = compareVersion(SDKVersion, "2.21.1")
+// 压缩纹理需要iOS系统版本>=14.0，检测到不支持压缩纹理时会提示升级系统
+const isIOSH5SystemVersionValid = compareVersion(systemVersion, "14.0")
+// iOS系统版本>=15支持webgl2
+const isIOSWebgl2SystemVersionValid = compareVersion(systemVersion, "15.0")
+// 是否用了webgl2
+const isWebgl2 = () => GameGlobal.managerConfig.contextConfig.contextType === 2
+
+// 是否能以iOSH5模式运行
+const canUseH5Renderer = (GameGlobal.canUseH5Renderer =
+    isH5Renderer && isH5LibVersionValid)
+
+// pc微信版本不满足要求
+const isPcInvalid = isPc && !isPcWeChatVersionValid
+// 移动设备基础库版本或客户端版本不支持运行unity小游戏
+const isMobileInvalid = isMobile && !isLibVersionValid
+// 基础库不支持iOSH5
+const isIOSH5Invalid = isH5Renderer && !isH5LibVersionValid
+
+// 视情况添加，没用到对应能力就不需要判断
+// 是否用了wss
+const useWss = false
+// 是否只能iOS高档机运行
+const disableFallback = false
+// iOSH5模式基础库不支持wss
+const isWssNotEnable = canUseH5Renderer && !isWssLibVersionValid && useWss
+// 压缩纹理需要iOS系统版本>=14.0，检测到不支持压缩纹理时会提示升级系统
+const isH5SystemVersionInvalid =
+    canUseH5Renderer && !isIOSH5SystemVersionValid && disableFallback
+// 是否支持webgl2
+const isWebgl2SystemVersionInvalid = () => isIOS && isWebgl2() && !isIOSWebgl2SystemVersionValid
 
 /**
  * 判断环境是否可使用coverview
+ * coverview实际需要基础库版本>=2.16.1，但因为移动端要>=2.17.0才能运行，所以移动端基本都支持coverview
  *
  * @export
  * @returns
  */
 export function canUseCoverview() {
-  // coverview在基础库>=2.16.1开始支持
-  return compareVersion(SDKVersion, '2.16.1') && platform !== 'windows'
+    return isMobile || isDevtools
 }
 
-const isH5Renderer = renderer === 'h5'
-const isH5ValidLibVersion = compareVersion(SDKVersion, '2.19.1')
-const systemVersion = (system || '').split(' ')[1] || ''
-const isH5SystemVersionValid = systemVersion && compareVersion(systemVersion, '14.0')
-// 如果是h5，基础库需要>=2.19.1，iOS系统版本需要>=14.0
-GameGlobal.canUseH5Renderer = isH5Renderer && isH5ValidLibVersion
-
-// pc微信版本号不一致，需要>=3.3
-const isPcValid = platform === 'windows' && !compareVersion(version, '3.3')
-// 移动设备上，客户端版本>=7.0.19，基础库最低2.14.0
-const isMobileValid = (platform !== 'windows' && platform !== 'devtools') && (!compareVersion(version, '7.0.19') || !compareVersion(SDKVersion, '2.14.0'))
-
 export default () => {
-  return new Promise((resolve, reject) => {
-    // 微信版本须>=7.0.19，基础库版本>=2.14.0，开发者工具除外
-    if (platform !== 'devtools') {
-      if (isPcValid || isMobileValid || (isH5Renderer && (!isH5ValidLibVersion || !isH5SystemVersionValid))) {
-        wx.showModal({
-          title: '提示',
-          content: '当前微信版本过低\n请更新微信后进行游戏',
-          showCancel: false,
-          success(res) {
-            if (res.confirm) {
-              wx.exitMiniProgram({
-                success: (res) => {},
-              })
+    return new Promise((resolve, reject) => {
+        if (!isDevtools) {
+            if (
+                isPcInvalid ||
+                isMobileInvalid ||
+                isIOSH5Invalid ||
+                isWssNotEnable ||
+                isH5SystemVersionInvalid ||
+                isWebgl2SystemVersionInvalid()
+            ) {
+                wx.showModal({
+                    title: "提示",
+                    content: (isH5SystemVersionInvalid || isWebgl2SystemVersionInvalid())
+                        ? "当前操作系统版本过低\n请更新iOS系统后进行游戏"
+                        : "当前微信版本过低\n请更新微信后进行游戏",
+                    showCancel: false,
+                    success(res) {
+                        if (res.confirm) {
+                            wx.exitMiniProgram({
+                                success: (res) => {},
+                            })
+                        }
+                    },
+                })
+                return resolve(false)
             }
-          }
-        })
-        return resolve(false);
-      }
-
-    }
-    return resolve(true)
-  })
+        }
+        return resolve(true)
+    })
 }

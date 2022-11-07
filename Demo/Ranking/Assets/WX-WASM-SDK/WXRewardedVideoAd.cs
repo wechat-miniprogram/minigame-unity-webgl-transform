@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 namespace WeChatWASM
 {
@@ -7,6 +9,12 @@ namespace WeChatWASM
     /// </summary>
     public class WXRewardedVideoAd : WXBaseAd, IWXAdVideoCloseable
     {
+
+        #if UNITY_WEBGL
+         [DllImport("__Internal")]
+        #endif
+        private static extern string WXRewardedVideoAdReportShareBehavior(string id, string conf);
+
         public WXRewardedVideoAd(string id) : base(id)
         {
 
@@ -37,7 +45,7 @@ namespace WeChatWASM
         }
 
         /// <summary>
-        /// //取消监听用户点击 关闭广告 按钮的事件
+        /// 取消监听用户点击 关闭广告 按钮的事件
         /// </summary>
         /// <param name="action">用户点击 关闭广告 按钮的事件的回调函数</param>
         public void OffClose(Action<WXRewardedVideoAdOnCloseResponse> action)
@@ -45,7 +53,15 @@ namespace WeChatWASM
             onCloseAction -= action;
         }
 
-
+        /// <summary>
+        /// 上报行为
+        /// 需要基础库： `2.24.5`
+        /// </summary>
+        public WXRewardedVideoAdReportShareBehaviorResponse ReportShareBehavior(RequestAdReportShareBehaviorParam param)
+        {
+            var res = WXRewardedVideoAdReportShareBehavior(instanceId, JsonUtility.ToJson(param));
+            return JsonUtility.FromJson<WXRewardedVideoAdReportShareBehaviorResponse>(res);
+        }
     }
 }
 

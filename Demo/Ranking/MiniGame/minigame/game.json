@@ -1,6 +1,7 @@
 {
     "deviceOrientation": "portrait",
     "openDataContext": "open-data",
+    "iOSHighPerformance": true,
     "subpackages": [
         {
             "name": "wasmcode",
@@ -13,18 +14,14 @@
     ],
     "plugins": {
         "UnityPlugin": {
-            "version": "1.0.39",
+            "version": "1.0.95",
             "provider": "wxe5a48f1ed5f544b7",
             "contexts": [
                 {
                     "type": "isolatedContext"
                 }
             ]
-        },
-        "Layout": {
-            "version": "latest",
-            "provider": "wx7a727ff7d940bb3f",
-            "contexts":[{"type":"openDataContext"}]
         }
-    }
+    },
+    "workers": "workers"
 }
