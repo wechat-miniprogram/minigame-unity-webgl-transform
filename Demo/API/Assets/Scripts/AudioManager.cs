@@ -85,6 +85,7 @@ public class AudioManager : MonoBehaviour
         // 加载出错
         audio.OnError(() =>
         {
+            audio.Stop();
             removeAudio(audio);
         });
 
