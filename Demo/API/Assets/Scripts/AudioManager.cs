@@ -13,6 +13,13 @@ public class AudioManager : MonoBehaviour
 
     // 当前场景需要预下载的音频列表
     private static string[] audioList = {
+        // 短音频
+        "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20221108/194356/1.mp3",
+        "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20221108/194517/2.mp3",
+        "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20221108/194523/3.mp3",
+        "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20221108/194530/4.mp3",
+        "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20221108/194536/5.mp3",
+        // 长音频
         "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20220901/211827/CallMeTeenTop.mp3",
         "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20220815/105451/1.mp3",
         "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20220901/211846/Night-n.mp3",
@@ -25,6 +32,8 @@ public class AudioManager : MonoBehaviour
 
     private bool isDestroyed = false;
 
+    private int createdAudioCount = 0;
+
     // 初始化
     public void Start()
     {
@@ -36,17 +45,12 @@ public class AudioManager : MonoBehaviour
 
         // 批量下载音频文件
         downloadAudio();
-
-        // 先下载后播放第3个音频
-        playAfterDownload(2);
-
-        // 立即播放（但不会缓存到本地）第1个音频
-        playRightNow(0);
     }
 
     private WXInnerAudioContext getAudio()
     {
-        if (this.isDestroyed) {
+        if (this.isDestroyed)
+        {
             return null;
         }
 
@@ -64,27 +68,43 @@ public class AudioManager : MonoBehaviour
 
     private void removeAudio(WXInnerAudioContext audio)
     {
+        audio.OffCanplay();
         if (audioPlayArray.Contains(audio))
         {
-            audio.OffCanplay();
             audioPlayArray.Remove(audio);
+        }
+        if (!audioPool.Contains(audio))
+        {
             audioPool.Enqueue(audio);
         }
+
+        Debug.Log("___________________");
+        Debug.Log("已创建InnerAudio" + createdAudioCount + " 对象池:" + audioPool.Count + " 正在播放:" + audioPlayArray.Count);
+        Debug.Log("___________________");
     }
 
     private WXInnerAudioContext addAudio()
     {
+        if (createdAudioCount > 32)
+        {
+            Debug.LogError("最多只支持同时使用32个InnerAudio");
+        }
+
         var audio = WX.CreateInnerAudioContext(new InnerAudioContextParam() { needDownload = true });
+
+        createdAudioCount += 1;
 
         // 自动播放停止
         audio.OnEnded(() =>
         {
+            Debug.Log(audio.instanceId + " OnEnded");
             removeAudio(audio);
         });
 
         // 加载出错
         audio.OnError(() =>
         {
+            Debug.Log(audio.instanceId + "audio OnError");
             audio.Stop();
             removeAudio(audio);
         });
@@ -92,7 +112,20 @@ public class AudioManager : MonoBehaviour
         // 手动停止
         audio.OnStop(() =>
         {
+            Debug.Log(audio.instanceId + "audio OnStop");
             removeAudio(audio);
+        });
+
+        // 暂停
+        audio.OnPause(() =>
+        {
+            Debug.Log(audio.instanceId + "audio OnPause");
+        });
+
+        // 播放成功
+        audio.OnPlay(() =>
+        {
+            Debug.Log(audio.instanceId + "audio OnPlay");
         });
 
         audioPool.Enqueue(audio);
@@ -110,7 +143,7 @@ public class AudioManager : MonoBehaviour
                 // 下载成功
 
                 // 下载后播放第2个音频
-                playAfterDownload(1);
+                // playAfterDownload(1);
             }
             else
             {
@@ -119,32 +152,42 @@ public class AudioManager : MonoBehaviour
         });
     }
 
-    public void playAfterDownload(int index)
+    public void playAfterDownload(int index, bool isEffect)
     {
         var audioIndex = getAudio();
 
-        if (audioIndex == null) {
+        if (audioIndex == null)
+        {
             return;
         }
 
         // 如果没有下文修改needDownload为false的函数，理论上创建的所有音频都是true，可以省去这一条
         audioIndex.needDownload = true;
 
-
-        if (audioIndex.src == audioList[index]) {
-          audioIndex.Play();
+        // 如果要设置的src和原音频对象一致，可以直接播放
+        if (audioIndex.src == audioList[index])
+        {
+            audioIndex.Play();
         }
-        else {
-          // 对于已经设置了needDownload为true的audio，设置src后就会开始下载对应的音频文件
-          // 如果该文件已经下载过，并且配置了缓存本地，就不会重复下载
-          // 如果该文件没有下载过，等同于先调用WX.PreDownloadAudios下载后再播放
-          audioIndex.src = audioList[index];
+        else
+        {
+            // 对于已经设置了needDownload为true的audio，设置src后就会开始下载对应的音频文件
+            // 如果该文件已经下载过，并且配置了缓存本地，就不会重复下载
+            // 如果该文件没有下载过，等同于先调用WX.PreDownloadAudios下载后再播放
+            audioIndex.src = audioList[index];
 
-          // 在可以播放时播放
-          audioIndex.OnCanplay(() =>
-          {
-              audioIndex.Play();
-          });
+            if (isEffect)
+            {
+                audioIndex.Play();
+            }
+            else
+            {
+                // 在可以播放时播放
+                audioIndex.OnCanplay(() =>
+                {
+                    audioIndex.Play();
+                });
+            }
         }
     }
 
@@ -154,7 +197,8 @@ public class AudioManager : MonoBehaviour
         // 但是再次使用该音频时会因为没有下载而需要再次下载，并不推荐这样使用
         var audioPlayRightNow = getAudio();
 
-        if (audioPlayRightNow == null) {
+        if (audioPlayRightNow == null)
+        {
             return;
         }
 
@@ -162,36 +206,64 @@ public class AudioManager : MonoBehaviour
         audioPlayRightNow.needDownload = false;
 
         // 如果要设置的src和原音频对象一致，可以直接播放
-        if (audioPlayRightNow.src == audioList[index]) {
-          audioPlayRightNow.Play();
+        if (audioPlayRightNow.src == audioList[index])
+        {
+            audioPlayRightNow.Play();
         }
-        else {
-          // 如果当前音频已经下载过，并且配置了缓存本地，就算设置needDownload为false也不会重复下载
-          audioPlayRightNow.src = audioList[index];
+        else
+        {
+            // 如果当前音频已经下载过，并且配置了缓存本地，就算设置needDownload为false也不会重复下载
+            audioPlayRightNow.src = audioList[index];
 
-          // 在可以播放时播放
-          audioPlayRightNow.OnCanplay(() =>
-          {
-              audioPlayRightNow.Play();
-          });
+            // 在可以播放时播放
+            audioPlayRightNow.OnCanplay(() =>
+            {
+                audioPlayRightNow.Play();
+            });
         }
     }
 
     public void stopAllAudio()
     {
-        audioPlayArray.ForEach(audio => {
+        audioPlayArray.ForEach(audio =>
+        {
             audio.OffCanplay();
             audio.Stop();
         });
     }
 
-    public void playRandom()
+    public void playShort()
     {
-        var index = new System.Random().Next(0, audioList.Length);
+        var index = new System.Random().Next(0, 5);
         Debug.Log("Play:" + index);
-        Debug.Log("PlayAudioLength:" + audioPlayArray.Count);
 
-        playRightNow(index);
+        playAfterDownload(index, true);
+    }
+
+    public void playLong()
+    {
+        var index = new System.Random().Next(5, 10);
+        Debug.Log("Play:" + index);
+
+        playAfterDownload(index, false);
+    }
+
+    // 播放5个短音频
+    public void playShort5()
+    {
+        for (var i = 0; i < 5; i++)
+        {
+            this.playShort();
+        };
+    }
+
+    // 播放5个长音频
+    public void playLong5()
+    {
+        for (var i = 0; i < 5; i++)
+        {
+            this.playLong();
+        };
     }
 
     private void OnDestroy()

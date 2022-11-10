@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657815, g: 0.49641192, b: 0.57481617, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -194,7 +194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play 2
+  m_Text: Play Short 5
 --- !u!222 &475772372
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -296,7 +296,7 @@ GameObject:
   - component: {fileID: 594407492}
   - component: {fileID: 594407491}
   m_Layer: 5
-  m_Name: Play2
+  m_Name: Short 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -369,8 +369,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2105647632}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: playAfterDownload
-        m_Mode: 3
+        m_MethodName: playShort
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -786,7 +786,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Play Random
+  m_Text: Play Long 5
 --- !u!222 &1260414954
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -902,7 +902,7 @@ GameObject:
   - component: {fileID: 1302124278}
   - component: {fileID: 1302124277}
   m_Layer: 5
-  m_Name: Random
+  m_Name: Long 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -975,7 +975,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2105647632}
         m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
-        m_MethodName: playRandom
+        m_MethodName: playLong
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1267,7 +1267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
