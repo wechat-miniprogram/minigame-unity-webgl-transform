@@ -6,6 +6,13 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+2022-11-9
+### Feature
+*  Unity Audio压缩纹理，支持小游戏InnerAudio
+*  适配插件版本升级到1.1.2
+### Fixed
+*  修复png资源Windows系统下缓存异常
+
 ## 2022-10-27
 ### Feature
 * 压缩纹理回退使用png时也支持缓存逻辑
