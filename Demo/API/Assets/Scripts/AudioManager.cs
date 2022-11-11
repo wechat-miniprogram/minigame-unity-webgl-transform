@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour
     // cdn路径音频最多支持10个同时在线播放，先下载后的音频（needDownload）最多支持32个同时播放，先初始化10个
     //private static int DEFAULT_AUDIO_COUNT = 10;
 
-    // 创建音频队列
+    // 创建音频对象池，复用对象
     private static Queue<WXInnerAudioContext> audioPool = new Queue<WXInnerAudioContext>();
 
     // 当前场景需要预下载的音频列表
@@ -51,6 +51,7 @@ public class AudioManager : MonoBehaviour
     }
 
     // 从缓存池中获取音频实例
+    // 注意：发现一些偶现的bug，目前不推荐使用！！
     private WXInnerAudioContext getAudio()
     {
         if (this.isDestroyed)
@@ -66,7 +67,28 @@ public class AudioManager : MonoBehaviour
         var audio = audioPool.Dequeue();
         audio.needDownload = true;
 
-        audioPlayArray.Add(audio);
+        if (!audioPlayArray.Contains(audio))
+        {
+            audioPlayArray.Add(audio);
+        }
+
+        return audio;
+    }
+
+    // 从缓存池中获取音频实例
+    private WXInnerAudioContext createAudio()
+    {
+        if (this.isDestroyed)
+        {
+            return null;
+        }
+
+        var audio = addAudio(true);
+
+        if (!audioPlayArray.Contains(audio))
+        {
+            audioPlayArray.Add(audio);
+        }
 
         return audio;
     }
@@ -81,7 +103,11 @@ public class AudioManager : MonoBehaviour
         }
         if (needDestroy)
         {
-            audio.Destroy();
+            if (WXInnerAudioContext.Dict.ContainsValue(audio))
+            {
+                audio.Destroy();
+                createdAudioCount -= 1;
+            }
         }
         else
         {
@@ -92,7 +118,7 @@ public class AudioManager : MonoBehaviour
         }
 
         Debug.Log("___________________");
-        Debug.Log("已创建InnerAudio" + createdAudioCount + " 对象池:" + audioPool.Count + " 正在播放:" + audioPlayArray.Count);
+        Debug.Log("已创建InnerAudio:" + createdAudioCount + " 对象池:" + audioPool.Count + " 正在播放:" + audioPlayArray.Count);
         Debug.Log("___________________");
     }
 
@@ -174,7 +200,7 @@ public class AudioManager : MonoBehaviour
     // 播放音频
     public void playAfterDownload(int index, bool isShort)
     {
-        var audioIndex = getAudio();
+        var audioIndex = createAudio();
 
         if (audioIndex == null)
         {
@@ -214,7 +240,7 @@ public class AudioManager : MonoBehaviour
     {
         // 如果是需要在当前场景立刻播放的音频，则不设置needDownload，音频会边下边播
         // 但是再次使用该音频时会因为没有下载而需要再次下载，并不推荐这样使用
-        var audioPlayRightNow = getAudio();
+        var audioPlayRightNow = createAudio();
 
         audioPlayRightNow.needDownload = false;
 
@@ -296,11 +322,10 @@ public class AudioManager : MonoBehaviour
 
         if (audioBGM != null)
         {
-            audioBGM.Stop();
+            removeAudio(audioBGM, true);
         }
         // 长音频在使用后需要销毁
-        audioBGM = addAudio(true);
-        audioPlayArray.Add(audioBGM);
+        audioBGM = createAudio();
         audioBGM.src = audioList[index];
         audioBGM.OnCanplay(() =>
         {
