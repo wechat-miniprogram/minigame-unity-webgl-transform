@@ -64,7 +64,8 @@ audio.Stop();
 
 ## 参考示例
 
-InnerAudioContext 实例最多同时存在 32 个，如果播放的不是本地文件而是 cdn 地址，则最多只支持 10 个，因此建议使用 needDownload 先下载，可以参考以下示例使用：
+InnerAudioContext 实例最多同时存在 32 个，如果播放的不是本地文件而是 cdn 地址，则最多只支持 10 个，因此建议使用 needDownload 先下载
+在播放完成之后需要销毁音频，再重新创建，可以参考以下示例使用：
 [音频示例](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Demo/API/Assets/Scripts/AudioManager.cs)
 
 ## 示例补充说明
