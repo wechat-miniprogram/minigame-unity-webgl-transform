@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 9a069299b0b9d4cf68218d815a4c1b38
+  - enabled: 1
+    path: Assets/Scenes/InnerAudio.unity
+    guid: 6cc335c875b7242b2b937937d262f304
+  - enabled: 1
+    path: Assets/Scenes/Recorder.unity
+    guid: 61476b21b30644ba3b6656f5633e7b3c
   m_configObjects: {}

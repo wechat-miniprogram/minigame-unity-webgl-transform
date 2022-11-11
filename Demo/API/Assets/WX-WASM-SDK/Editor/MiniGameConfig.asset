@@ -38,7 +38,7 @@ MonoBehaviour:
     loadingBarWidth: 240
     needCheckUpdate: 0
   SDKOptions:
-    UseAudioApi: 0
+    UseAudioApi: 1
     UseFriendRelation: 0
     UseCompressedTexture: 0
   CompileOptions:
