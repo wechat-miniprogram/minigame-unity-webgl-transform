@@ -54,7 +54,7 @@
 - 可以，请参考我们提供的C# SDK写法，原理也是利用到了JS与C#互通的特性。具体方式请参考Unity官方文档[Interaction with browser scripting](https://docs.unity3d.com/cn/2021.3/Manual/webgl-interactingwithbrowserscripting.html)
 #### 5.小游戏的中文字体不显示，但Editor没问题
 
-- WebGL环境下的中文字体需要打包（首资源包或Bundle），无法使用操作系统字体
+- WebGL环境下的中文显示需要自定义字体，打包在首资源包或Bundle；***请尽量使用2~3MB以内的精简字体以免影响游戏启动速度***
 #### 6.游戏逻辑是否能使用lua
 
 - 可以，但具体性能需自己实际评测，请参照[Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo)示例。
