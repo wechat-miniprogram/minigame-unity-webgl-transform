@@ -1353,9 +1353,21 @@ namespace WeChatWASM
                 // 如果是2021版本，官方symbols产生有BUG，这里需要用工具将embedded的函数名提取出来
 #if UNITY_2021_2_OR_NEWER
                 var path = "Assets/WX-WASM-SDK/Editor/Node";
-                var nodePath = "node";
+                var nodePath = "";
 #if UNITY_EDITOR_OSX
                 nodePath = "/usr/local/bin/node";
+#else
+                nodePath = @"C:\Program Files\nodejs\node.exe";
+                if (!File.Exists(nodePath))
+                {
+                    // 使用环境变量
+                    Debug.Log($"[Converter] {nodePath}不存在。使用环境变量PATH寻找node，如果仍然报错，请重启电脑刷新环境变量后重试");
+                    nodePath = "node";
+                }
+                else
+                {
+                    Debug.Log($"[Converter] 使用默认node路径：{nodePath}");
+                }
 #endif
                 WeChatWASM.UnityUtil.RunCmd(nodePath, string.Format($"--experimental-modules dump_wasm_symbol.mjs \"{dst}\""), path);
                 UnityEngine.Debug.LogError($"Unity 2021版本使用Embeded Symbols, 代码包中含有函数名体积较大, 发布前<a href=\"https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/WasmSplit.md\">使用代码分包工具</a>进行优化");

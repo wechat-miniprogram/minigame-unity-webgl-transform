@@ -155,7 +155,7 @@ mergeInto(LibraryManager.library, {
         var lastTid = window._lastTextureId;
 
         function getMatchId() {
-            if(GameGlobal.USED_TEXTURE_COMPRESSION && internalFormat == 36196){
+            if(GameGlobal.USED_TEXTURE_COMPRESSION && format == 36196){
                 var length = HEAPU8.subarray(data, data + 1)[0];
                 var d = HEAPU8.subarray(data+1, data + 1 + length);
                 var res = [];
@@ -423,7 +423,7 @@ mergeInto(LibraryManager.library, {
         window.WXWASMSDK.WXHideAd(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(s), _WXPointer_stringify_adaptor(f));
     },
     WXADGetStyleValue: function (id, key) {
-        window.WXWASMSDK.WXADGetStyleValue(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
+        return window.WXWASMSDK.WXADGetStyleValue(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key));
     },
     WXADDestroy: function (id) {
         window.WXWASMSDK.WXADDestroy(_WXPointer_stringify_adaptor(id));
@@ -975,7 +975,48 @@ mergeInto(LibraryManager.library, {
     WXUploadTaskOnProgressUpdate:function(id){
         window.WXWASMSDK.WXUploadTaskOnProgressUpdate(_WXPointer_stringify_adaptor(id));
     },
+
     WXStat: function (conf, callbackId) {
         window.WXWASMSDK.WXStat(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId))
+    },
+
+    WX_GetGameRecorder:function() {
+        var res = window.WXWASMSDK.WX_GetGameRecorder();
+        var bufferSize = lengthBytesUTF8(res) + 1;
+        var buffer = _malloc(bufferSize);
+        stringToUTF8(res, buffer, bufferSize);
+        return buffer;
+    },
+
+    WX_GameRecorderOff:function(id, eventType){
+        window.WXWASMSDK.WX_GameRecorderOff(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(eventType));
+    },
+
+    WX_GameRecorderOn:function(id, eventType){
+        window.WXWASMSDK.WX_GameRecorderOn(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(eventType));
+    },
+
+    WX_GameRecorderStart:function(id,option){
+        window.WXWASMSDK.WX_GameRecorderStart(_WXPointer_stringify_adaptor(id),_WXPointer_stringify_adaptor(option));
+    },
+
+    WX_GameRecorderAbort:function(id){
+        window.WXWASMSDK.WX_GameRecorderAbort(_WXPointer_stringify_adaptor(id));
+    },    
+
+    WX_GameRecorderPause:function(id){
+        window.WXWASMSDK.WX_GameRecorderPause(_WXPointer_stringify_adaptor(id));
+    },    
+
+    WX_GameRecorderResume:function(id){
+        window.WXWASMSDK.WX_GameRecorderResume(_WXPointer_stringify_adaptor(id));
+    },    
+
+    WX_GameRecorderStop:function(id){
+        window.WXWASMSDK.WX_GameRecorderStop(_WXPointer_stringify_adaptor(id));
+    },  
+
+    WX_OperateGameRecorderVideo:function(option){
+        window.WXWASMSDK.WX_OperateGameRecorderVideo(_WXPointer_stringify_adaptor(option));
     },
 });

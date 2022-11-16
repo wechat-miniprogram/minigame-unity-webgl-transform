@@ -145,6 +145,25 @@ const mod = {
       mod.reTryRemoteImageFile(path, width, height);
     };
   },
+  callbackPngFile(path, cid) {
+    var image = wx.createImage();
+    image.crossOrigin = '';
+    image.src = path;
+    image.onload = function() {
+      downloadedTextures[cid] = {
+        data: image,
+        tmpFile: ''
+      };
+      if (downloadingTextures[cid] instanceof Array) {
+        downloadingTextures[cid].forEach(v => v());
+      } else {
+        downloadingTextures[cid] && downloadingTextures[cid]();
+      }
+      delete downloadingTextures[cid];
+      delete downloadFailedTextures[cid];
+      delete downloadedTextures[cid];
+    };
+  },
   downloadFile(path, width, height) {
     var url = GameGlobal.manager.assetPath.replace(/\/$/, '') + '/Textures/png/' + width + "/" + path + '.png';
     var cid = path;
@@ -152,13 +171,39 @@ const mod = {
     if (cache) {
       mod.callbackPngFile(cache, cid);
     } else {
-      var xmlhttp = new GameGlobal.unityNamespace.UnityLoader.UnityCache.XMLHttpRequest();
-      xmlhttp.responseType = 'arraybuffer';
-      xmlhttp.open("GET", url, true);
-      xmlhttp.onsave = (path) => {
-        mod.callbackPngFile(path, cid);
-      };
-      xmlhttp.send(null);
+      if(GameGlobal.unityNamespace.needCacheTextures){
+        var xmlhttp = new GameGlobal.unityNamespace.UnityLoader.UnityCache.XMLHttpRequest();
+        xmlhttp.responseType = 'arraybuffer';
+        xmlhttp.open("GET", url, true);
+        xmlhttp.onsave = function(path){
+          mod.callbackPngFile(path, cid);
+        }
+        xmlhttp.onerror = function() {
+          mod.reTryRemoteImageFile(path, width, height);
+        }
+        xmlhttp.send(null);
+      }else{
+        var image = wx.createImage();
+        image.crossOrigin = '';
+        image.src = url;
+        image.onload = function () {
+          downloadedTextures[cid] = {
+            data:image,
+            tmpFile:''
+          };
+          if(downloadingTextures[cid] instanceof Array){
+            downloadingTextures[cid].forEach(v=>v());
+          }else{
+            downloadingTextures[cid] && downloadingTextures[cid]();
+          }
+          delete downloadingTextures[cid];
+          delete downloadFailedTextures[cid];
+          delete downloadedTextures[cid];
+        };
+        image.onerror = function(){
+          mod.reTryRemoteImageFile(path,width,height);
+        };
+      }
     }
   },
   readFile(textureId, callback, width, height) {

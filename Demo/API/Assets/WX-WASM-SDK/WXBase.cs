@@ -376,6 +376,20 @@ namespace WeChatWASM
         }
         #endregion
 
+        #region 游戏对局回放
+        /// <summary>
+        /// [[GameRecorder](https://developers.weixin.qq.com/minigame/dev/api/game-recorder/GameRecorder.html) wx.getGameRecorder()](https://developers.weixin.qq.com/minigame/dev/api/game-recorder/wx.getGameRecorder.html)
+        /// 
+        /// 需要基础库： `2.26.1`
+        /// 需要客户端： 安卓>=`8.0.28`，目前只支持安卓
+        /// 获取全局唯一的游戏画面录制对象
+        /// </summary>
+        public static WXGameRecorder GetGameRecorder()
+        {
+            return WXSDKManagerHandler.Instance.GetGameRecorder();
+        }
+        #endregion
+
         #region 相机
         /// <summary>
         /// [[WXCamera](https://developers.weixin.qq.com/minigame/dev/api/media/camera/Camera.html) wx.createCamera(Object object)](https://developers.weixin.qq.com/minigame/dev/api/media/camera/wx.createCamera.html)
@@ -754,6 +768,15 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.SetPreloadList(paths);
         }
         #endregion
+
+        /// <summary>
+        /// 分享对局回放
+        /// 接口需要用户产生点击行为后才能调用,要在WX.OnTouchEnd事件中调用
+        /// </summary>
+        public static void OperateGameRecorderVideo(operateGameRecorderOption option)
+        {
+            WXSDKManagerHandler.Instance.OperateGameRecorderVideo(option);
+        }
     }
 }
 

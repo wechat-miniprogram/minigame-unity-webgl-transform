@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Recorder.unity
     guid: 61476b21b30644ba3b6656f5633e7b3c
+  - enabled: 1
+    path: Assets/Scenes/GameRecorder.unity
+    guid: 7f727aa0bdd0740a8afa2675ed260003
   m_configObjects: {}

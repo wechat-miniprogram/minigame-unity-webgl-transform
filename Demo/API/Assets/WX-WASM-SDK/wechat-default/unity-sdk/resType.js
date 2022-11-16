@@ -372,6 +372,7 @@ export default {
     },
     GetScreenBrightnessSuccessCallbackOption:{
         value:"int",
+        errMsg:"string",
     },
     GetSettingSuccessCallbackResult:{
         authSetting:"AuthSetting",

@@ -44,7 +44,12 @@ namespace WeChatWASM.Analysis
             { "RGBA Compressed DXT5", TextureImporterFormat.DXT5 },
             { "RGB Crunched DXT1", TextureImporterFormat.DXT1Crunched },
             { "RGBA Crunched DXT5", TextureImporterFormat.DXT5Crunched },
-            { "R 8", TextureImporterFormat.R8 }
+            { "R 8", TextureImporterFormat.R8 },
+#if UNITY_2021_2_OR_NEWER
+            { "ASTC 8*8", TextureImporterFormat.ASTC_8x8 },
+            { "ASTC 5*5", TextureImporterFormat.ASTC_5x5 },
+            { "ASTC 4*4", TextureImporterFormat.ASTC_4x4 },
+#endif
         };
 
 
@@ -252,13 +257,11 @@ namespace WeChatWASM.Analysis
                 if (selectedTextureInfos.Count > 0)
                 {
                     OptimizeTexture.Optimize(selectedTextureInfos);
-                    CollectAssets(false);
                 }
             }
             if (GUILayout.Button("还原选中资源", GUILayout.Width(160), GUILayout.Height(40)))
             {
                 OptimizeTexture.Recover(selectedTextureInfos);
-                CollectAssets(false);
             }
             GUILayout.Label("修复规则");
             disableReadable = EditorGUILayout.ToggleLeft("禁用isReadable", disableReadable);

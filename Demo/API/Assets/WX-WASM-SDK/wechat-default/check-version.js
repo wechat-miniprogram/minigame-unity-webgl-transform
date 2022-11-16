@@ -15,7 +15,8 @@ function compareVersion(v1, v2) {
 }
 
 const isPc = platform === "windows"
-const isIOS = platform === "ios"
+export const isIOS = platform === "ios"
+export const isAndroid = platform === 'android'
 const isDevtools = platform === "devtools"
 const isMobile = !isPc && !isDevtools
 // 是否iOSH5模式
@@ -64,6 +65,9 @@ const isH5SystemVersionInvalid =
     canUseH5Renderer && !isIOSH5SystemVersionValid && disableFallback
 // 是否支持webgl2
 const isWebgl2SystemVersionInvalid = () => isIOS && isWebgl2() && !isIOSWebgl2SystemVersionValid
+
+// 2.25.3以上基础库需要手动启动webAudio
+export const webAudioNeedResume = compareVersion(SDKVersion, '2.25.3')
 
 /**
  * 判断环境是否可使用coverview
