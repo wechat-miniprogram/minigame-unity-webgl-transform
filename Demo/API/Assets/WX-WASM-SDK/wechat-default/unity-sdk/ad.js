@@ -1,5 +1,6 @@
 import moduleHelper from './module-helper';
 import response from './response';
+import Audio from './audio.js'
 
 const ads = {};
 
@@ -105,6 +106,9 @@ export default {
         errMsg: '',
         ...res,
       }));
+      setTimeout(() => {
+        Audio.resumeWebAudio()
+      }, 0);
     });
     return key;
   },
@@ -244,6 +248,12 @@ export default {
       ads[id].hide();
     }
   },
+   WXADGetStyleValue(id, key) {
+      if (!ads[id]) {
+        return -1;
+      }
+      return ads[id].style[key]
+    },
   WXADDestroy(id) {
     if (!ads[id]) {
       return false;

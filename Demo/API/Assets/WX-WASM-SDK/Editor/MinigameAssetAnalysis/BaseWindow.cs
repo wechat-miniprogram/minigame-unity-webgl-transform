@@ -49,14 +49,14 @@ namespace WeChatWASM.Analysis
         {
             win = AnalysisWindow.GetCurrentWindow();
 
-            if (!initializedRefrenceData)
-            {
-                if (!assetRefrenceDatas.ReadFromCache())
-                {
-                    assetRefrenceDatas.CollectDependenciesInfo();
-                }
-                initializedRefrenceData = true;
-            }
+            //if (!initializedRefrenceData)
+            //{
+            //    if (!assetRefrenceDatas.ReadFromCache())
+            //    {
+            //        assetRefrenceDatas.CollectDependenciesInfo();
+            //    }
+            //    initializedRefrenceData = true;
+            //}
         }
 
         public static T GetInstance()

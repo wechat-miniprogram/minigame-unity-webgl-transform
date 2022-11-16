@@ -25,7 +25,7 @@ namespace WeChatWASM
        new Rule()
        {
            old="self\\[\"performance\"\\]\\[\"now\"\\]",
-           newStr="wx.getPerformance().now"
+           newStr="performance.now"
        }
        ,new Rule()
        {
