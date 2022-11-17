@@ -6,6 +6,11 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+2022-11-17
+### Feature
+*  微信压缩纹理优化，支持ASTC使用非4倍数尺寸
+*  新增录屏接口功能
+
 2022-11-9
 ### Feature
 *  Unity Audio压缩纹理，支持小游戏InnerAudio
