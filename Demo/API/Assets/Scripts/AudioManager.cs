@@ -326,10 +326,21 @@ public class AudioManager : MonoBehaviour
         }
         // 长音频在使用后需要销毁
         audioBGM = createAudio();
+        // audioBGM.loop = true;
         audioBGM.src = audioList[index];
         audioBGM.OnCanplay(() =>
         {
             audioBGM.Play();
+        });
+        // 自动播放停止
+        audioBGM.OnEnded(() =>
+        {
+            audioBGM = null;
+        });
+        // 手动停止
+        audioBGM.OnStop(() =>
+        {
+            audioBGM = null;
         });
     }
 
