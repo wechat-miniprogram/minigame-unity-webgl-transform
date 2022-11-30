@@ -6,6 +6,13 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+2022-11-23
+### Feature
+*  导出增加sbrk函数，2021无需profiling-memory查看DynamicMemory
+
+### Fixed
+*  UDPClient使用connect+write, 修复send接口性能问题
+
 2022-11-17
 ### Feature
 *  微信压缩纹理优化，支持ASTC使用非4倍数尺寸
@@ -13,7 +20,7 @@ Others - 其他
 
 2022-11-9
 ### Feature
-*  Unity Audio压缩纹理，支持小游戏InnerAudio
+*  Unity Audio压缩音频，支持小游戏InnerAudio
 *  适配插件版本升级到1.1.2
 ### Fixed
 *  修复png资源Windows系统下缓存异常
