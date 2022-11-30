@@ -143,7 +143,7 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 - 如何设置“UnityHeap预留内存”？该值仅表示UnityHeap的峰值进行预留，避免内存不足时导致扩容产生的尖刺；
   - 1. 使用WeChatWASM.WX.OpenProfileStats打开性能面板
   - 2. 将游戏运行一段时间，观察DynamicMemory的峰值
-  - 3. UnityHeap=DynamicMemory+少量静态内存(通常<10MB)，因此转换面板的“UnityHeap预留内存”设置为略大于DynamicMemory峰值(可多预留50-100MB，以实际游戏为准)。建议值：休闲游戏256，中度(模拟经营、养成等)512，重度游戏(SLG,MMO)768。
+  - 3. UnityHeap=DynamicMemory+少量静态内存(通常<10MB)，因此转换面板的“UnityHeap预留内存”设置为略大于DynamicMemory峰值(可多预留50-100MB，以实际游戏为准)。建议值：超休闲游戏256,中度游戏(模拟经营、卡牌成长)496，重度游戏(SLG,MMO)768。
   - 4. UnityHeap不宜过大，当UnityHeap>=1024MB时，大部分设备将启动失败；UnityHeap>=500MB时，32位微信(约5%用户)与iOS普通模式大概率启动失败，建议中轻度游戏不超过该值。
 
 
