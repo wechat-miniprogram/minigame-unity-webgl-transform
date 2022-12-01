@@ -6,6 +6,11 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+2022-11-30
+### Feature
+* 微信压缩纹理支持WebGL2.0
+* 微信压缩纹理对.svn .git目录忽略 
+
 2022-11-23
 ### Feature
 *  导出增加sbrk函数，2021无需profiling-memory查看DynamicMemory
