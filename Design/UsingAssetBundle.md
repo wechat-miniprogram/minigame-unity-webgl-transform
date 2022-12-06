@@ -24,7 +24,7 @@ public static void Build()
 打包bundle时，请使用如下参数
 - 【重要】BuildAssetBundleOptions.AppendHashToAssetBundleName：bundle带上hash。在小游戏底层对bundle做缓存及缓存淘汰时，hash是重要依据。
 - BuildAssetBundleOptions.ChunkBasedCompression：LZ4压缩方式，加载速度和包体大小更均衡。
-
+ 
 ### 1.3 AssetBundle下载
 从服务器下载bundle的方式主要以下四种。
 **注意：WWW和WWW.LoadFromCacheOrDownload已不被Unity推荐使用**
@@ -62,50 +62,10 @@ public static void Build()
   }
   www.Dispose();
   ```
-- WWW.LoadFromCacheOrDownload
-  ```c#
-  WWW www = WWW.LoadFromCacheOrDownload(uriPath, 2);
-  yield return www;
-  if (www.error != null)
-  {
-      Debug.Log(www.error);
-      yield break;
-  }
-  AssetBundle ab = www.assetBundle;
-  // ab.LoadAsset
-  ab.Unload(false);
-  www.Dispose();
-  ```
-- WWW
-  ```c#
-  WWW www = new WWW(uriPath);
-  yield return www;
-  if (www.error != null)
-  {
-      Debug.Log(www.error);
-      yield break;
-  }
-  AssetBundle ab = www.assetBundle;
-  ab.Unload(false);
-  www.Dispose();
-  ```
 
-  界面如下
   
-  <img src="../image/assetbundle/assetbundle-scene.png" width="600" />
-
-按钮从上往下加载方式分别为使用`UnityWebRequestAssetBundle.GetAssetBundle`, `UnityWebRequest`, `WWW.LoadFromCacheOrDownload`, `WWW`。
-
-### 1.4 AssetBundle内资源加载
-下载完毕后，加载bundle内资源可使用`AssetBundle.LoadAsset`代码示意如下
-```c#
-StartCoroutine(UnityWebRequestLoad(string.Format("http://127.0.0.1:8080/StreamingAssets/AssetBundles/{0}", bundleName), (ab) => {
-    Sprite img = ab.LoadAsset<Sprite>("deer");
-    image.GetComponent<SpriteRenderer>().sprite = img;
-    ab1 = ab;
-    img1Loaded = true;
-}));
-```
+  ***特别地， 切忌使用WWW.LoadFromCacheOrDownload或WWW等带cache接口，WebGL模式下将会使用JS模拟文件系统带来额外内存消耗！***
+ 
 
 ## 二、在小游戏中使用AssetBundle
 
@@ -115,7 +75,21 @@ StartCoroutine(UnityWebRequestLoad(string.Format("http://127.0.0.1:8080/Streamin
 
 可参见[资源缓存与淘汰](UsingLoader.md)
 
+资源缓存与更新的不同，会导致APP与小游戏不同的加载流程
+- 常见APP AssetBundle使用方式:
+
+检查更新-->下载更新全量资源-->写入文件系统-->运行时LoadFromFile
+
+   
+- 微信小游戏 AssetBundle使用方式
+
+打包ab时文件名带hash-->UnityWebRequest按需下载并使用资源
+
+***在业务侧看来：总是使用异步接口从远程下载并使用，底层资源的缓存与更新已由适配层自动完成，游戏不再直接读写文件系统。***
+
+
 ## 三、AssetBundle下载API内存分析
+ ### 3.1 切勿使用带Cache能力的线管接口
 
 加载的bundle文件大小为5403162字节
 ```bash
@@ -131,6 +105,14 @@ StartCoroutine(UnityWebRequestLoad(string.Format("http://127.0.0.1:8080/Streamin
    <img src="../image/assetbundle/assetbundle-unnormal-memory.png" />
 
 **因此需要注意业务中不要使用已淘汰的WWW类，尤其WWW.LoadFromCacheOrDownload，当bundle数量多时，会浪费不少内存。**
+
+ ### 3.2 尽可能低使用Unload
+- 当bundle从资源服务器下载并使用，会经历多次内存分配:
+浏览器HTTP对象-->拷贝到WASM临时内存-->Unity ab内存文件(略大于ab本身体积， 相对于APP常用的LoadFromFile，WebGL这部分开销是额外的)
+- 当HTTP对象dispose之后，Unity ab内存文件
+- 当ab.Unload时，Unity ab内存文件释放
+
+因此，最佳实践是业务应该尽可能早地使用ab.Unload(false)，自行维护Asset的引用计数管理资源。
 
 ## 四、参考资料
 1. Introduction to Asset Bundles
