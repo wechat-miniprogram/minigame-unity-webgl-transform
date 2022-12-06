@@ -22,7 +22,7 @@
 
 下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)，并导入至游戏项目中，版本更新请查看[更新日志](CHANGELOG.md)
 
-- 已验证Unity版本：2018、2019、2020、2021（请尽量使用LTS, 推荐使用2019、2021）. 安装时选择WebGL组件
+- 请查阅[推荐引擎版本](Design/UnityVersion.md)，安装时选择WebGL组件
 - 前往[Node官网](https://nodejs.org/zh-cn/download/)安装长期稳定版
 - 查阅[小游戏开发者文档-快速上手](https://developers.weixin.qq.com/minigame/dev/guide/)创建小游戏类目应用
 - 登录[MP微信公众平台](https://mp.weixin.qq.com)，能力地图-生产提效包-快适配，开通使用
@@ -34,6 +34,7 @@
 方案概述与兼容性
 - [技术原理](Design/Summary.md)
 - [兼容性评估](Design/Evaluation.md)
+- [推荐引擎版本](Design/UnityVersion.md)
 - [更多转换案例](Design/ShowCase.md)
 - [技术常见问题QA](Design/DevelopmentQAList.md)
 
@@ -65,6 +66,7 @@
   - [压缩纹理优化](Design/CompressedTexture.md)
   - [资源优化工具与建议](Design/AssetOptimization.md)
   - [iOS高性能模式](Design/iOSOptimization.md)
+  - [WebGL2.0渲染支持说明](Design/WebGL2.md)
 
 版本更新与资源部署
 - [小游戏资源部署](Design/DataCDN.md)
