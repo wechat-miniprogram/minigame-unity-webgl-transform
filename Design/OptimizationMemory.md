@@ -75,7 +75,8 @@ UnityHeap非常关键，典型由以下几部分组成：
 1. 勾选转换面板"ProfilingMemory"
 2. 代码中增加WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
 游戏左上角显示Performence Stats性能面板
-<img src='../image/optimizationMemory6.jpg' width="600"/>
+
+<img src='../image/optimizationMemory6.png' width="600"/>
 
 每项指标有三个数值：当前帧、最小值、最大值。
 
@@ -104,8 +105,15 @@ Unity引擎视角：
 - 白色为预留部分，可被使用 
 - 其他颜色，已被业务使用
 
-### 3.3 JavaScript Heap
-由于Unity WebGL是托管在浏览器环境中，因此JavaScript Heap包含了大部分（并非全部）我们关注的内存， 通常我们可以使用浏览器自带的内存工具。 
+### 3.3 Unity Profiler
+当发现UnityHeap(尤其是Native)占用比较高时，可通过UnityProfiler进一步分析问题所在。关于该工具在微信小游戏的使用请查阅[使用 Unity Profiler 性能调优](UnityProfiler.md)
+
+<img src='../image/optimizationMemory12.png' width="400"/>
+
+
+### 3.4 JavaScript Heap
+由于Unity WebGL是托管在浏览器环境中，因此JavaScript Heap包含了大部分（并非全部）我们关注的内存， 通常我们可以使用浏览器自带的内存工具。 但需要注意的是***JavaScript Heap通常无法看出具体内存使用，发现该部分内存明显大于我们预留的UnityHeap，应检查是否有使用Unity Cache进行文件缓存，务必避免这样使用。***
+#### 微信开发者工具
 #### FireFox Memory(PC)
 #### iOS Safari Timeline(PC or iOS)
 <img src='../image/optimizationMemory5.png' width="1080"/>
