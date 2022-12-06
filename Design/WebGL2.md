@@ -12,8 +12,8 @@ WebGL 是一种用于在 Web 浏览器中渲染图形的 API，基于 OpenGL ES 
 
 ## 用户占比
 Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该特性在小游戏环境的支持进一步说明。
-- 小游戏Android平台在8.0.24(2022年中版本)已支持WebGL2, 用户占比>85%，最新占比请查阅[基础库版本分布](https://developers.weixin.qq.com/minigame/dev/guide/runtime/client-lib/version.html)。
-- 小游戏iOS高性能模式需要iOS系统版本>=15.0，用户占比>70%
+- 小游戏Android平台在8.0.24(2022年中版本)已支持WebGL2, 用户占比>85%（2022.12），最新占比请查阅[基础库版本分布](https://developers.weixin.qq.com/minigame/dev/guide/runtime/client-lib/version.html)。
+- 小游戏iOS高性能模式需要iOS系统版本>=15.0，用户占比>75%（2022.12）
 
 ***当项目确认使用WebGL2时，尽可能在买量时过滤无法满足的用户，比如在微信广告投放时过滤掉iOS 15.0以下用户。*** 
 
