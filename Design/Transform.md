@@ -20,7 +20,7 @@
 1. 必须
 - 游戏appid：小游戏的appid(勿用测试appid, 注册开通小游戏请查阅[快速上手
 ](https://developers.weixin.qq.com/minigame/dev/guide/))
-- 游戏资源CDN：游戏资源所在HTTP或CDN地址
+- 游戏资源CDN：首资源所在HTTP或CDN地址；运行时Application.streamingAssetPath="CDN/StreamingAssets"
 - 导出路径：转换后文件目录
 2. 可选
 - 小游戏项目名：开发者工具中展示的小游戏项目名

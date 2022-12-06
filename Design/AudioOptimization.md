@@ -11,7 +11,7 @@
 ### 接口使用
 
 参考[微信开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/audio/InnerAudioContext.html)
-其中src为音频地址，可填本地路径如 xx.wav，运行时会自动和配置的音频地址前缀(默认为DATA_CDN/Assets)做拼接得到最终线上地址。
+其中 src 为音频地址，可填本地路径如 xx.wav，运行时会自动和配置的音频地址前缀(默认为 DATA_CDN/Assets)做拼接得到最终线上地址。
 
 ```c#
 // 使用方法一：创建音频对象可以在初始化是加上needDownload = true，音频会先下载到本地，然后再播放
@@ -42,7 +42,7 @@ audio2.OnCanplay(() =>
 
 
 // 使用方法三：先提前创建音频对象，批量下载音频文件，在下载完成后可以直接修改音频对象的src并播放
-string[] a = { "Audio/0.wav", "Audio/1.wav", "Audio/2.wav" }; 
+string[] a = { "Audio/0.wav", "Audio/1.wav", "Audio/2.wav" };
 var audio3 = WX.CreateInnerAudioContext(new InnerAudioContextParam(){ needDownload = true });
 WX.PreDownloadAudios(a, (int res) =>
 {
@@ -63,10 +63,13 @@ audio.Stop();
 ```
 
 ## 参考示例
-音频一般最多只能同时存在10个，所以必须要开发者自己控制音频对象池重复使用，可以参考以下示例：
+
+InnerAudioContext 实例最多同时存在 32 个，如果播放的不是本地文件而是 cdn 地址，则最多只支持 10 个，因此建议使用 needDownload 先下载
+在播放完成之后需要销毁音频，再重新创建，可以参考以下示例使用：
 [音频示例](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Demo/API/Assets/Scripts/AudioManager.cs)
 
 ## 示例补充说明
+
 - 示例只是作为参考，可以不按照示例，以开发者文档为准
 - WX.CreateInnerAudioContext 返回的音频对象是可以复用的，可以多次调用 Play 方法播放，但是如果需要多个音频同时播放就要创建多个音频对象。
 - 其中音频 src 为音频地址，可填本地路径如 Audios/xx.wav，运行时会自动和配置的音频地址前缀(默认为 DATA_CDN/Assets)做拼接得到最终线上地址。

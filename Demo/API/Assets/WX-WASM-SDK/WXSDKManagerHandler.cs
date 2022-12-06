@@ -1403,6 +1403,33 @@ namespace WeChatWASM
         #if UNITY_WEBGL
         [DllImport("__Internal")]
         #endif
+        private static extern string WX_GetGameRecorder();
+        private Dictionary<string, WXGameRecorder> GameRecorderList = new Dictionary<string, WXGameRecorder>();
+        public WXGameRecorder GetGameRecorder()
+        {
+            var id = WX_GetGameRecorder();
+            var obj = new WXGameRecorder(id);
+            GameRecorderList.Add(id,obj);
+            return obj; 
+        }
+
+        public void _OnGameRecorderCallback(string msg)
+        {
+            if (!string.IsNullOrEmpty(msg))
+            {
+                var jsCallback = JsonUtility.FromJson<WXJSCallback>(msg);
+                var id = jsCallback.callbackId;
+                var res = jsCallback.res;
+                var result = JsonMapper.ToObject<GameRecorderCallback>(res);
+                var eventType = result.eventType;
+                var callbackResult = JsonMapper.ToObject<GameRecorderCallbackRes>(result.result);
+                WXGameRecorder.OnActionList[eventType]?.Invoke(callbackResult);  
+            }
+        }
+
+        #if UNITY_WEBGL
+        [DllImport("__Internal")]
+        #endif
         private static extern string WX_GetRecorderManager();
         private Dictionary<string, WXRecorderManager> RecorderManagerList = new Dictionary<string, WXRecorderManager>();
         public WXRecorderManager GetRecorderManager()
@@ -1610,6 +1637,18 @@ namespace WeChatWASM
                 WXUploadTask.OnProgressUpdateActionList[id]?.Invoke(result);
             }
         }
+
+        #if UNITY_WEBGL
+        [DllImport("__Internal")]
+        #endif
+        private static extern void WX_OperateGameRecorderVideo(string option);
+        
+        public void OperateGameRecorderVideo(operateGameRecorderOption option)
+        {
+    
+                WX_OperateGameRecorderVideo(JsonMapper.ToJson(option));
+        }
+    
     
     public static string GetCallbackId<T>(Dictionary<string, T> dict) {
         var id = dict.Count;

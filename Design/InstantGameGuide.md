@@ -63,7 +63,7 @@ public void SelectChild(LevelSelectButton levelSelectButton)
 
 #### 3.导入 Instant Game 工具包
 
-​		在 Unity Editor 菜单栏 `Windows - Package Manager ` 面板右上角 + 号选择 `Add package from disk` ，窗口中选择下载的 [com.unity.instantgame.zip](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c301_a9/com.unity.instantgame.zip) 解压文件内 **package.json** 文件。
+​		在 Unity Editor 菜单栏 `Windows - Package Manager ` 面板安装 `Project Instant Game` 0.1.9 版本。
 
 #### 4.启用 Auto Streaming 能力
 
@@ -296,6 +296,23 @@ public class XXX : MonoBehaviour
 
 
 
+### Addressable指引
+
+​		Addressable本质也是bundle的加载，因此对于使用低高清资源自动加载的方案时，仍需要对转换后进行资源重构bundle，本小结重点介绍Addressable的远程配置说明。
+
+​		相比于AB包，AA包是由Unity底层完成的加载，因此通常只需关注远程路径配置，在 [**Assets Bundle指引**](#AssetsBundle指引)章节中已说明 `CustomCloudAssets` 目录将作为开发者自行管理的CDN资源目录，因此需要将由 Addressable 构建的 bundle 资源放置该目录内，在 `Addressable - Profiles` 面板中的远程地址配置应该如下近似形式：
+
+```
+RemoteLoadPath:
+https://assetstreaming-wg-content.unity.cn/client_api/v1/buckets/XXXXXX/release_by_badge/0_0_3/content/CUS/GameRes
+```
+
+​		其中，`https://assetstreaming-wg-content.unity.cn/client_api/v1/buckets/XXXXXX/release_by_badge/0_0_3/content` 是游戏AutoStreamingPath，在 `AutoStreaming - Cfg&Publish` 面板可自行复制，`CUS` 是 [7.导入微信Unity - SDK](#7.导入微信Unity - SDK) 章节所介绍的前缀目录地址，`GameRes` 则为游戏 Addressable 构建的 bundle 资源。
+
+**注意：**CCD服务本质采用腾讯云COS（CDN），不支持对资源后缀使用 `?rand=xxx` 方式避免缓存，实际项目中也将因为Bucket、Badge等路径前缀隔绝不同版本资源的情况，因此在CDN资源的存储中原则上也无需避免缓存。
+
+
+
 ### Scene 加载体验问题
 
 ​		在实践中将发现使用 Instant Game 转化的游戏首次切换场景期间等待时间较长，且没有任何的界面上给用户的加载进度回应，这对于用户的体验是不友好的。由于 Unity 引擎对底层的原本地 Load Scene（同步）方法进行了替换，所以原底层方法是不具备提供进度回调的能力，因此在实际的游戏优化的过程中，应对被加载的场景进行基于 AA/AB 的手动分包，并在可能的较大资源的加载位置增加游戏UI上的给用户的进度回应。
@@ -318,3 +335,9 @@ public class XXX : MonoBehaviour
 - https://docs.qq.com/doc/DQmlUakFQb3FFY2Fu
 
 ​		
+
+## Q&A
+
+#### 1.游戏在微信开发者工具中运行缺失资源？
+
+​		经过 AutoStreaming 转换后开发者应在微信开发者工具检查控制台中Network面板资源是否加载正常，若存在404时，需要查看资源是否正确上传、读取路径是否正确等。

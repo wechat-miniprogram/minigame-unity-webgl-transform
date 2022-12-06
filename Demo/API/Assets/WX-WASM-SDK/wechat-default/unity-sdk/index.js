@@ -20,7 +20,7 @@ import sdk from './sdk';
 import camera from './camera';
 import recorder from './recorder';
 import uploadFile from './upload-file';
-import './unity-adapter';
+import gameRecorder from './game-recorder';
 
 const unityVersion = '$unityVersion$';
 GameGlobal.unityNamespace = GameGlobal.unityNamespace || {};
@@ -102,6 +102,7 @@ const WXWASMSDK = {
   ...camera,
   ...recorder,
   ...uploadFile,
+  ...gameRecorder
 };
 
 
