@@ -6,6 +6,15 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+2022-12-7
+### Feature
+* 支持指定Node路径，MiniGameConfig.asset-CompileOption-CustomNodePath指定自定义node安装目录
+* 编译选项增加CleanBuild(仅支持2021以上版本)
+* 优化开放数据域排行榜接口
+* 适配插件版本升级到1.1.3
+### Fixed
+* 修复UnityAudio适配InnerAudio时，静音状态对长音频在切换场景后无效的问题
+
 2022-11-30
 ### Feature
 * 微信压缩纹理支持WebGL2.0
