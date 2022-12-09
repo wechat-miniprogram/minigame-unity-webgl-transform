@@ -21,7 +21,7 @@
 - 小游戏平台的压缩纹理支持：PC端DXT，移动端Android ETC2/ASTC, iOS ASTC
 - Unity2018~2020在WebGL上没有明显的性能差异，但2018缺少部分功能(如不支持设置WebGL分辨率)，老项目请尽量选择2019以上版本
 - Unity2021开始支持更多特性，如更全的压缩纹理、压缩音频、更快的编译速度与更小的体积，强烈建议; 需要更强的性能分析请使用2021 InstantGame
-- Unity InstantGame版本目前是在2019.4.29/2021.2.5基础上，由Unity中国区特殊优化，提供更强的Profier分析、AutoStreaming等功能，如有条件尽可能使用
+- Unity InstantGame版本目前是在2019.4.29/2021.2.5基础上，由Unity中国区特殊优化，提供更强的[Unity Profier内存分析](https://docs.qq.com/doc/DV0hudk5TamlIek1L)、[AutoStreaming](InstantGameGuide.md)等功能，如有条件尽可能使用
 - 当引擎不支持移动端压缩纹理(ETC2/ASTC)时，请务必使用[压缩纹理优化](CompressedTexture.md)进行优化；
 - 微信压缩纹理工具比引擎自己的压缩纹理更节省内存，建议重度游戏使用；但暂无法支持高版本引擎，如2021.3.x，请使用2021.2.18以下版本
 
