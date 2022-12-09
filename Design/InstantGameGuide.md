@@ -1,6 +1,6 @@
 # 使用 AutoStreaming 进行资源按需加载
 
-​		除常规使用 AA/AB 分包方案外，Unity 官方也提供了 AutoStreaming转换工具可以实现 Unity 游戏转化至微信小游戏平台的能力，本文将介绍 AutoStreaming工具（基于InstantGame引擎版本）的实践操作，协助开发者将游戏转化至微信小游戏环境中运行。
+​		除常规使用 AA/AB 分包方案外，Unity 官方也提供了 AutoStreaming转换工具可以实现 Unity 游戏转化至微信小游戏平台的能力，本文将介绍 AutoStreaming工具（[基于InstantGame引擎版本](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/UnityVersion.md)）的实践操作，协助开发者将游戏转化至微信小游戏环境中运行。
 
 
 
