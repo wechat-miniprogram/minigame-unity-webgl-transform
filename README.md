@@ -49,7 +49,7 @@
   - [资源按需加载概述](Design/ResourcesLoading.md)
   - [使用 AssetBundle 进行资源按需加载](Design/UsingAssetBundle.md)
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
-  - [使用 Unity InstantGame 进行资源按需加载](Design/InstantGameGuide.md)
+  - [使用 AutoStreaming 进行资源按需加载](Design/InstantGameGuide.md)
   - [定制启动封面](Design/CustomLoading.md)
   - [使用预下载功能](Design/UsingPreload.md)
   - [首场景启动优化](Design/FirstSceneOptimization.md)
