@@ -1,0 +1,5 @@
+﻿Build Report Tool uses FuzzyString, an approximate string comparision library.
+FuzzyString is licensed under the Eclipse Public License -v 1.0.
+A copy of the license can be found in BuildReport/Scripts/Editor/FuzzyString/FuzzyStringLicense.txt
+
+FuzzyString can be downloaded from https://github.com/kdjones/fuzzystring

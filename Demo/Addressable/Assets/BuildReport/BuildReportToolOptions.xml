@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BuildReportToolOptions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <BuildReportFolderName>UnityBuildReports</BuildReportFolderName>
+  <SaveType>0</SaveType>
+  <CollectBuildInfo>true</CollectBuildInfo>
+  <CalculateAssetDependencies>true</CalculateAssetDependencies>
+  <CalculateAssetDependenciesOnUnusedToo>false</CalculateAssetDependenciesOnUnusedToo>
+  <GetProjectSettings>true</GetProjectSettings>
+  <IncludeUsedAssetsInReportCreation>true</IncludeUsedAssetsInReportCreation>
+  <IncludeUnusedAssetsInReportCreation>true</IncludeUnusedAssetsInReportCreation>
+  <IncludeUnusedPrefabsInReportCreation>true</IncludeUnusedPrefabsInReportCreation>
+  <IncludeBuildSizeInReportCreation>true</IncludeBuildSizeInReportCreation>
+  <IncludeSvnInUnused>true</IncludeSvnInUnused>
+  <IncludeGitInUnused>true</IncludeGitInUnused>
+  <GetSizeBeforeBuildForUsedAssets>true</GetSizeBeforeBuildForUsedAssets>
+  <GetImportedSizesForUnusedAssets>true</GetImportedSizesForUnusedAssets>
+  <FilterToUseInt>0</FilterToUseInt>
+  <AssetListPaginationLength>300</AssetListPaginationLength>
+  <UnusedAssetsEntriesPerBatch>1000</UnusedAssetsEntriesPerBatch>
+  <DoubleClickOnAssetWillPing>false</DoubleClickOnAssetWillPing>
+  <AssetUsageLabelType>0</AssetUsageLabelType>
+  <ShowAssetPrimaryUsersInTooltipIfAvailable>true</ShowAssetPrimaryUsersInTooltipIfAvailable>
+  <ShowTooltipThumbnail>true</ShowTooltipThumbnail>
+  <ShowThumbnailOnHoverType>0</ShowThumbnailOnHoverType>
+  <TooltipThumbnailWidth>256</TooltipThumbnailWidth>
+  <TooltipThumbnailHeight>256</TooltipThumbnailHeight>
+  <TooltipThumbnailZoomedInWidth>512</TooltipThumbnailZoomedInWidth>
+  <TooltipThumbnailZoomedInHeight>512</TooltipThumbnailZoomedInHeight>
+  <NumberOfTopLargestUsedAssetsToShow>10</NumberOfTopLargestUsedAssetsToShow>
+  <NumberOfTopLargestUnusedAssetsToShow>10</NumberOfTopLargestUnusedAssetsToShow>
+  <AllowDeletingOfUsedAssets>false</AllowDeletingOfUsedAssets>
+  <ShowImportedSizeForUsedAssets>false</ShowImportedSizeForUsedAssets>
+  <AutoShowWindowAfterNormalBuild>true</AutoShowWindowAfterNormalBuild>
+  <AutoResortAssetsWhenUnityEditorRegainsFocus>false</AutoResortAssetsWhenUnityEditorRegainsFocus>
+  <UseThreadedReportGeneration>true</UseThreadedReportGeneration>
+  <UseThreadedFileLoading>false</UseThreadedFileLoading>
+</BuildReportToolOptions>
