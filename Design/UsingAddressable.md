@@ -9,7 +9,7 @@
 本文介绍如何使用Unity新的资源管理流程[Addressable Assets System](https://docs.unity3d.com/Packages/com.unity.addressables@1.1/manual/index.html)进行资源的按需加载。
 
 附可参考的项目：
-https://git.weixin.qq.com/wechat-minigame/unity-webgl-addressable
+https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/Addressable
 
 
 ## 二、Addressable在小游戏中的应用
