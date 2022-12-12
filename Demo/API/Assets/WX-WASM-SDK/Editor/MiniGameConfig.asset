@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: test
-    Appid: wx7a727ff7d940bb3f
-    CDN: https://www.test.com/
+    projectName: testapi
+    Appid: wxf616b60467bcfcaf
+    CDN: https://www.abc.com
     assetLoadType: 1
     VideoUrl: 
-    DST: /Users/uhu/Projects/Unity/minigame-unity-webgl-transform/Demo/API/Dist
+    DST: C:/wxgame_unity/wxgame_testapi
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -45,10 +45,12 @@ MonoBehaviour:
     DevelopBuild: 0
     AutoProfile: 0
     ScriptOnly: 0
-    profilingFuncs: 0
+    profilingFuncs: 1
     Webgl2: 0
     DeleteStreamingAssets: 1
     ProfilingMemory: 0
+    CleanBuild: 0
+    CustomNodePath: 
   CompressTexture:
     halfSize: 0
     useDXT5: 0

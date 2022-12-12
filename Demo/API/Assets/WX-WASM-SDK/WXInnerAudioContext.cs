@@ -99,10 +99,7 @@ namespace WeChatWASM
         private float _playbackRate = 1;
         private bool _isPlaying = false;
         private bool _needDownload = false;
-        private bool isWaiting = false;
         private bool isWaitingPlay = false;
-        private bool isWaitingStop = false;
-        private bool isWaitingPause = false;
         private Action _onCanplay;
         private Action _onPlay;
         private Action _onPause;
@@ -323,28 +320,16 @@ namespace WeChatWASM
             }
             set
             {
+                _oldVolume = value;
+                _volume = value;
                 if (!isWebGLPlayer)
                 {
                     ht["volume"] = value;
                 }
                 else {
-                    if (!isWaiting) {
-                        isWaiting = true;
-                        WXSDKManagerHandler.Instance.StartCoroutine(DoSetVolume());
-                    }
-                    
+                    WXInnerAudioContextSetFloat(instanceId, "volume", _volume);
                 }
-                _oldVolume = value;
-                _volume = value;
             }
-        }
-
-        IEnumerator DoSetVolume()
-        {
-            //这里unity音频音量设置太频繁，延迟0.5秒后再执行
-            yield return new WaitForSeconds(0.5f);
-            WXInnerAudioContextSetFloat(instanceId, "volume", _volume);
-            isWaiting = false;
         }
 
         /// <summary>
@@ -521,24 +506,12 @@ namespace WeChatWASM
         {
             if (isWebGLPlayer)
             {
-                if (!isWaitingPause)
-                {
-                    isWaitingPause = true;
-                    WXSDKManagerHandler.Instance.StartCoroutine(DoPause());
-                }
+                WXInnerAudioContextPause(instanceId);
                 return;
             }
             Debug.Log(_src + " 音频暂停了");
             ht["paused"] = true;
             _HandleCallBack("onPause");
-        }
-
-        IEnumerator DoPause()
-        {
-            //这里unity音频调用太频繁，延迟0.1秒后再执行
-            yield return new WaitForSeconds(0.1f);
-            WXInnerAudioContextPause(instanceId);
-            isWaitingPause = false;
         }
 
         /// <summary>
@@ -548,25 +521,12 @@ namespace WeChatWASM
         {
             if (isWebGLPlayer)
             {
-                if (!isWaitingStop)
-                {
-                    isWaitingStop = true;
-                    WXSDKManagerHandler.Instance.StartCoroutine(DoStop());
-                }
+                WXInnerAudioContextStop(instanceId);
                 return;
             }
             Debug.Log(_src + " 音频停止了");
             ht["paused"] = false;
             _HandleCallBack("onStop");
-
-        }
-
-        IEnumerator DoStop()
-        {
-            //这里unity音频调用太频繁，延迟0.1秒后再执行
-            yield return new WaitForSeconds(0.1f);
-            WXInnerAudioContextStop(instanceId);
-            isWaitingStop = false;
         }
 
         /// <summary>

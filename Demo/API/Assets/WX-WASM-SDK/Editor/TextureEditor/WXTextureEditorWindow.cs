@@ -17,6 +17,7 @@ namespace WeChatWASM
         public int width;
         public int height;
         public string astc;
+        public string limittype;
     }
 
     public class WXBundlePicDepsData
@@ -411,9 +412,9 @@ namespace WeChatWASM
 
             miniGameConf.CompressTexture.useDXT5 = GUILayout.Toggle(miniGameConf.CompressTexture.useDXT5, "", GUILayout.Height(22), GUILayout.Width(50));
 
-            GUILayout.Label(new GUIContent("纹理与bundle并行加载(?)", "默认纹理是解析bundle后才加载，勾选后加载bundle时bundle对应纹理就会同时加载。"), labelStyle2, GUILayout.Height(22), GUILayout.Width(150));
+            //GUILayout.Label(new GUIContent("纹理与bundle并行加载(?)", "默认纹理是解析bundle后才加载，勾选后加载bundle时bundle对应纹理就会同时加载。"), labelStyle2, GUILayout.Height(22), GUILayout.Width(150));
 
-            miniGameConf.CompressTexture.parallelWithBundle = GUILayout.Toggle(miniGameConf.CompressTexture.parallelWithBundle, "", GUILayout.Height(22), GUILayout.Width(50));
+            miniGameConf.CompressTexture.parallelWithBundle = false; //GUILayout.Toggle(miniGameConf.CompressTexture.parallelWithBundle, "", GUILayout.Height(22), GUILayout.Width(50));
 
             GUILayout.EndHorizontal();
 

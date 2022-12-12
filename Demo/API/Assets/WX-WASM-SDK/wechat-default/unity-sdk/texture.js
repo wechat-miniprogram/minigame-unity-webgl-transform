@@ -28,7 +28,7 @@ wx.starDownloadTexture = function() {
   isStopDownloadTexture = false;
   while (cachedDownloadTask.length > 0) {
     var task = cachedDownloadTask.shift();
-    mod.WXDownloadTexture(task.path, task.width, task.height, task.callback);
+    mod.WXDownloadTexture(task.path, task.width, task.height, task.callback, task.limitType);
   }
 }
 
@@ -38,45 +38,52 @@ const mod = {
       return GameGlobal.TextureCompressedFormat;
     }
     const list = canvas.getContext(GameGlobal.managerConfig.contextConfig.contextType == 2 ? 'webgl2' : 'webgl').getSupportedExtensions();
-    if (list.indexOf('WEBGL_compressed_texture_astc') !== -1) {
-      GameGlobal.TextureCompressedFormat = 'astc';
-    } else if (list.indexOf('WEBGL_compressed_texture_etc') !== -1) {
-      GameGlobal.TextureCompressedFormat = 'etc2';
-    } else if (list.indexOf('WEBGL_compressed_texture_pvrtc') !== -1) {
-      GameGlobal.TextureCompressedFormat = 'pvr';
-    } else if (list.indexOf('WEBGL_compressed_texture_s3tc') !== -1 && UseDXT5) {
+
+    const noneLimitSupportedTextures = [ '' ];  //兜底采用png
+    GameGlobal.TextureCompressedFormat = '';
+    if (list.indexOf('WEBGL_compressed_texture_s3tc') !== -1 && UseDXT5){
       GameGlobal.TextureCompressedFormat = 'dds';
+    }
+    if (list.indexOf('WEBGL_compressed_texture_pvrtc') !== -1){
+      GameGlobal.TexturePVRTCSupported = true;
+      GameGlobal.TextureCompressedFormat = 'pvr';
+    }
+    if (list.indexOf('WEBGL_compressed_texture_etc') !== -1){
+      GameGlobal.TextureEtc2Supported = true;
+      noneLimitSupportedTextures.push('etc2');
+      GameGlobal.TextureCompressedFormat = 'etc2';
+    }
+    if (list.indexOf('WEBGL_compressed_texture_astc') !== -1){
+      noneLimitSupportedTextures.push('astc');
+      GameGlobal.TextureCompressedFormat = 'astc';
     }
     /*else if(list.indexOf('WEBGL_compressed_texture_etc1')!==-1){ //ect1不支持透明通道，先屏蔽
                 GameGlobal.TextureCompressedFormat = 'etc1';
             }*/
-    else {
-      GameGlobal.TextureCompressedFormat = '';
-    }
-    if (list.indexOf('WEBGL_compressed_texture_etc') !== -1) {
-      GameGlobal.TextureEtc2Supported = true;
-    }
-    if (list.indexOf('WEBGL_compressed_texture_pvrtc') !== -1) {
-      GameGlobal.TexturePVRTCSupported = true;
-    }
     hasCheckSupportedExtensions = true;
+    GameGlobal.NoneLimitSupportedTexture = noneLimitSupportedTextures.pop();
     return GameGlobal.TextureCompressedFormat;
   },
-  getRemoteImageFile(path, width, height) {
-    if (!GameGlobal.TextureCompressedFormat || (GameGlobal.TextureCompressedFormat == 'pvr' && (width != height || PotList.indexOf(width) === -1)) || (GameGlobal.TextureCompressedFormat == 'dds' && (width % 4 !== 0 || height % 4 !== 0))) {
+  getRemoteImageFile(path, width, height, limitType) {
+    let textureFormat = GameGlobal.TextureCompressedFormat;
+    if(textureFormat && limitType){
+      textureFormat = GameGlobal.NoneLimitSupportedTexture;
+    }
+    if (!textureFormat || (textureFormat == 'pvr' && (width != height || PotList.indexOf(width) === -1)) || (textureFormat == 'dds' && (width % 4 !== 0 || height % 4 !== 0))) {
       mod.downloadFile(path, width, height)
     } else {
-      mod.requestFile(path, width, height);
+      mod.requestFile(path, width, height, textureFormat, limitType);
     }
   },
-  reTryRemoteImageFile(path, width, height) {
+  reTryRemoteImageFile(path, width, height, limitType) {
     var cid = path;
     if (!downloadFailedTextures[cid]) {
       downloadFailedTextures[cid] = {
         count: 0,
         path,
         width,
-        height
+        height,
+        limitType,
       };
     }
     if (downloadFailedTextures[cid].count > 4) {
@@ -84,14 +91,13 @@ const mod = {
     }
 
     setTimeout(() => {
-      mod.getRemoteImageFile(path, width, height)
+      mod.getRemoteImageFile(path, width, height,limitType)
     }, Math.pow(2, downloadFailedTextures[cid].count) * 250);
 
     downloadFailedTextures[cid].count++;
   },
-  requestFile(path, width, height) {
+  requestFile(path, width, height, format, limitType) {
     var cid = path;
-    var format = GameGlobal.TextureCompressedFormat;
     var url = GameGlobal.manager.assetPath.replace(/\/$/, '') + '/Textures/' + format + '/' + width + "/" + path + '.txt';
     var xmlhttp = new GameGlobal.unityNamespace.UnityLoader.UnityCache.XMLHttpRequest();
     xmlhttp.responseType = 'arraybuffer';
@@ -114,12 +120,12 @@ const mod = {
         delete downloadedTextures[cid].data;
       } else {
         //   err("压缩纹理下载失败！url:"+url);
-        mod.reTryRemoteImageFile(path, width, height);
+        mod.reTryRemoteImageFile(path, width, height, limitType);
       }
     };
     xmlhttp.onerror = function() {
       //   err("压缩纹理下载失败！url:"+url);
-      mod.reTryRemoteImageFile(path, width, height);
+      mod.reTryRemoteImageFile(path, width, height, limitType);
     }
     xmlhttp.send(null);
   },
@@ -142,7 +148,7 @@ const mod = {
       delete downloadedTextures[cid];
     };
     image.onerror = function() {
-      mod.reTryRemoteImageFile(path, width, height);
+      mod.reTryRemoteImageFile(path, width, height, false);
     };
   },
   callbackPngFile(path, cid) {
@@ -255,7 +261,11 @@ const mod = {
       mod.getRemoteImageFile(textureId, type, path.replace(/\\/g, '/'), width, height);
     }
   },
-  WXDownloadTexture(path, width, height, callback) {
+  WXDownloadTexture(path, width, height, callback,limitType = false) {
+    var width4m = width % 4;
+    if (width4m !== 0) {
+      width += (4 - width4m);
+    }
     if (!hasCheckSupportedExtensions) {
       mod.getSupportedExtensions();
     }
@@ -273,7 +283,8 @@ const mod = {
         path,
         width,
         height,
-        callback
+        callback,
+        limitType,
       });
       return;
     }
@@ -281,7 +292,7 @@ const mod = {
       downloadingTextures[cid].push(callback);
     } else {
       downloadingTextures[cid] = [callback];
-      mod.getRemoteImageFile(path, width, height);
+      mod.getRemoteImageFile(path, width, height, limitType);
     }
   }
 };
@@ -338,7 +349,7 @@ canvasContext.addCreatedListener(() => {
       for (var key in downloadFailedTextures) {
         var v = downloadFailedTextures[key];
         if (v.count > 4) {
-          mod.getRemoteImageFile(v.path, v.width, v.height)
+          mod.getRemoteImageFile(v.path, v.width, v.height, v.limitType)
         }
       }
     }

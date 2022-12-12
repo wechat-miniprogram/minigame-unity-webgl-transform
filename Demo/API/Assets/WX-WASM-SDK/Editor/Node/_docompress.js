@@ -46,7 +46,7 @@ const Mod = {
     async startTextureTask(){
         console.log('total textureList:', Conf.textureList.length);
         for(let i=0;i<Conf.textureList.length;i++){
-            let { path, width, height, astc } = Conf.textureList[i];
+            let { path, width, height, astc, limittype } = Conf.textureList[i];
             path = decodeURIComponent(path);
             let src = `${Conf.dst}/Assets/Textures/png/${width}/${path}.png`;
             if(!fs.existsSync(`${Conf.dst}/Assets/Textures/astc/${width}/`)){
@@ -60,7 +60,8 @@ const Mod = {
                 dstPath:`${Conf.dst}/Assets/Textures/astc/${width}/${path}`,
                 astc,
             });
-            if(Conf.useDXT5 && width%4=== 0 && height%4===0){
+
+            if(Conf.useDXT5 && !limittype && width%4=== 0 && height%4===0){
                 if(!fs.existsSync(`${Conf.dst}/Assets/Textures/dds/${width}/`)){
                     fs.mkdirSync(`${Conf.dst}/Assets/Textures/dds/${width}/`,{ recursive: true });
                 }
@@ -71,7 +72,7 @@ const Mod = {
             }
             if(!Conf.isAstcOnly){
 
-                if(width === height && potList.indexOf(width)>-1){
+                if(!limittype && width === height && potList.indexOf(width)>-1){
                     if(!fs.existsSync(`${Conf.dst}/Assets/Textures/pvr/${width}/`)){
                         fs.mkdirSync(`${Conf.dst}/Assets/Textures/pvr/${width}/`,{ recursive: true });
                     }

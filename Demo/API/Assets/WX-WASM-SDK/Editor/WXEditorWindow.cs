@@ -35,6 +35,9 @@ namespace WeChatWASM
         bool profilingFuncs = false;
         bool profilingMemory = false;
         bool deleteStreamingAssets = true;
+        bool cleanBuild = false;
+        bool cleanCloudDev = false;
+        string customNodePath = "";
         int assetLoadType = 0; // 首包资源加载方式
         bool webgl2 = false;
 
@@ -142,6 +145,8 @@ namespace WeChatWASM
             profilingFuncs = config.CompileOptions.profilingFuncs;
             profilingMemory = config.CompileOptions.ProfilingMemory;
             deleteStreamingAssets = config.CompileOptions.DeleteStreamingAssets;
+            cleanBuild = config.CompileOptions.CleanBuild;
+            customNodePath = config.CompileOptions.CustomNodePath;
             webgl2 = config.CompileOptions.Webgl2;
             useAudioApi = config.SDKOptions.UseAudioApi;
             // audioPrefix = config.ProjectConf.AssetsUrl;
@@ -193,6 +198,8 @@ namespace WeChatWASM
             config.CompileOptions.profilingFuncs = profilingFuncs;
             config.CompileOptions.ProfilingMemory = profilingMemory;
             config.CompileOptions.DeleteStreamingAssets = deleteStreamingAssets;
+            config.CompileOptions.CleanBuild = cleanBuild;
+            config.CompileOptions.CustomNodePath = customNodePath;
             config.CompileOptions.Webgl2 = webgl2;
             config.SDKOptions.UseAudioApi = useAudioApi;
             // config.ProjectConf.AssetsUrl = audioPrefix;
@@ -273,6 +280,9 @@ namespace WeChatWASM
         private int Build()
         {
             PlayerSettings.WebGL.emscriptenArgs = "";
+#if UNITY_2021_2_OR_NEWER
+            PlayerSettings.WebGL.emscriptenArgs += " -s EXPORTED_FUNCTIONS=_sbrk";
+#endif
             PlayerSettings.runInBackground = false;
             if (memorySize != 0)
             {
@@ -328,6 +338,12 @@ namespace WeChatWASM
                 option |= BuildOptions.BuildScriptsOnly;
             }
 
+#if UNITY_2021_2_OR_NEWER
+            if (cleanBuild)
+            {
+                option |= BuildOptions.CleanBuildCache;
+            }
+#endif
             if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.WebGL)
             {
                 UnityEngine.Debug.LogFormat("[Builder] Current target is: {0}, switching to: {1}", EditorUserBuildSettings.activeBuildTarget, BuildTarget.WebGL);
@@ -1110,7 +1126,7 @@ namespace WeChatWASM
             cdn = EditorGUILayout.TextField("游戏资源CDN", cdn, inputStyle);
             projectName = EditorGUILayout.TextField("小游戏项目名", projectName, inputStyle);
             orientation = EditorGUILayout.IntPopup("游戏方向", orientation, new[] { "Portrait", "Landscape", "LandscapeLeft", "LandscapeRight" }, new[] { 0, 1, 2, 3 }, intPopupStyle);
-            var totalMemoryFieldDesc = new GUIContent("UnityHeap预留内存(MB)", "预留的初始内存值，需评估游戏最大内存峰值进行设置，消除内存自动增长带来的峰值尖刺。请查看GIT文档<优化Unity WebGL的内存>");
+            var totalMemoryFieldDesc = new GUIContent("UnityHeap预留内存(MB)", "预分配内存值，超休闲游戏256/中轻度496/重度游戏768，需预估游戏最大UnityHeap值以防止内存自动扩容带来的峰值尖刺。预估方法请查看GIT文档《优化Unity WebGL的内存》");
             memorySize = EditorGUILayout.IntField(totalMemoryFieldDesc, memorySize, inputStyle);
 
             GUILayout.Label("导出路径", labelStyle);
@@ -1236,10 +1252,12 @@ namespace WeChatWASM
             webgl2 = GUILayout.Toggle(webgl2, "WebGL2.0(beta)", toggleStyle);
             if (oldwebgl2 != webgl2) UpdateGraphicAPI();
             GUILayout.EndHorizontal();
-            EditorGUILayout.Space();
 
+            GUILayout.BeginHorizontal();
             deleteStreamingAssets = GUILayout.Toggle(deleteStreamingAssets, "ClearStreamingAssets", toggleStyle);
-
+            cleanBuild = GUILayout.Toggle(cleanBuild, "CleanWebGLBuild          ", toggleStyle);
+            cleanCloudDev = GUILayout.Toggle(cleanCloudDev, "CleanCloudDev       ", toggleStyle);
+            GUILayout.EndHorizontal();
 
             GUIStyle exportButtonStyle = new GUIStyle(GUI.skin.button);
             exportButtonStyle.fontSize = 14;
@@ -1315,6 +1333,14 @@ namespace WeChatWASM
         public void DoExport(bool buildWebGL)
         {
 
+#if UNITY_2021_2_OR_NEWER
+            var checkNodePath = WeChatWASM.UnityUtil.GetNodePath(customNodePath);
+            if (WeChatWASM.UnityUtil.RunCmd(checkNodePath, "--help") != "succ")
+            {
+                Debug.LogError($"请安装最新稳定版本Node, {checkNodePath}未能找到；如果自定义安装路径，请修改MiniGameConfig.asset-CompileOption-CustomNodePath为node安装目录");
+                return;
+            }
+#endif
             OnLostFocus();
             EditorUtility.SetDirty(config);
             AssetDatabase.SaveAssets();
@@ -1350,25 +1376,10 @@ namespace WeChatWASM
                     checkNeedCopyDataPackage(true);
                 }
 
-                // 如果是2021版本，官方symbols产生有BUG，这里需要用工具将embedded的函数名提取出来
 #if UNITY_2021_2_OR_NEWER
+                // 如果是2021版本，官方symbols产生有BUG，这里需要用工具将embedded的函数名提取出来
+                var nodePath = WeChatWASM.UnityUtil.GetNodePath(customNodePath);
                 var path = "Assets/WX-WASM-SDK/Editor/Node";
-                var nodePath = "";
-#if UNITY_EDITOR_OSX
-                nodePath = "/usr/local/bin/node";
-#else
-                nodePath = @"C:\Program Files\nodejs\node.exe";
-                if (!File.Exists(nodePath))
-                {
-                    // 使用环境变量
-                    Debug.Log($"[Converter] {nodePath}不存在。使用环境变量PATH寻找node，如果仍然报错，请重启电脑刷新环境变量后重试");
-                    nodePath = "node";
-                }
-                else
-                {
-                    Debug.Log($"[Converter] 使用默认node路径：{nodePath}");
-                }
-#endif
                 WeChatWASM.UnityUtil.RunCmd(nodePath, string.Format($"--experimental-modules dump_wasm_symbol.mjs \"{dst}\""), path);
                 UnityEngine.Debug.LogError($"Unity 2021版本使用Embeded Symbols, 代码包中含有函数名体积较大, 发布前<a href=\"https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/WasmSplit.md\">使用代码分包工具</a>进行优化");
 #endif

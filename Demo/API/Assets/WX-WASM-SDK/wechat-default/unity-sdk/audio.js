@@ -1,6 +1,6 @@
 import moduleHelper from './module-helper';
 import { uid } from './utils';
-import { isIOS, isAndroid, webAudioNeedResume } from '../check-version'
+import { isAndroid, webAudioNeedResume } from '../check-version'
 
 const audios = {};
 const msg = 'InnerAudioContext does not exist!';
@@ -22,6 +22,7 @@ fs.rmdir({
     });
   },
 });
+const ignoreErrorMsg = "audio is playing, don't play again";
 
 const funs = {
   // 获取完整路径
@@ -103,9 +104,6 @@ const funs = {
   },
   // 是否存在本地文件
   checkLocalFile(src) {
-    if (localAudioMap[src]) {
-      return localAudioMap[src];
-    }
     const path = GameGlobal.manager.getCachePath(src);
     if (path) {
       localAudioMap[src] = path;
@@ -280,30 +278,17 @@ export default {
         if (downloadingAudioMap[audios[id].isLoading]) {
           downloadingAudioMap[audios[id].isLoading].push({
             resolve: () => {
-              if (isIOS || audios[id].paused !== false) {
-                audios[id].play()
-              }
-              else {
-                console.error('重复播放音频', id);
-              }
+              audios[id].play();
             },
             reject: () => {},
           })
         }
         else {
           audios[id].src = audios[id].isLoading;
-          if (isIOS || audios[id].paused !== false) {
-            audios[id].play()
-          } else {
-            console.error('重复播放音频', id)
-          }
+          audios[id].play();
         }
       } else {
-        if (isIOS || audios[id].paused !== false) {
-          audios[id].play()
-        } else {
-          console.error('重复播放音频', id)
-        }
+        audios[id].play();
       }
     } else {
       console.error(msg, id);
@@ -359,13 +344,17 @@ export default {
           });
         } else {
           audios[id][key]((e) => {
+            if (key === 'onError') {
+              console.error(e);
+              // 忽略安卓重复播放报错
+              if (e.errMsg && e.errMsg.indexOf(ignoreErrorMsg) > -1) {
+                return;
+              }
+            }
             moduleHelper.send('OnAudioCallback', JSON.stringify({
               callbackId: id,
               errMsg: key,
             }));
-            if (key === 'onError') {
-              console.error(e);
-            }
           });
         }
       };
@@ -420,13 +409,16 @@ export default {
         this.gain.disconnect();
         this.panner.disconnect();
       },
-      playUrl(startTime, url, startOffset, duration) {
+      playUrl(startTime, url, startOffset, duration, volume) {
         try {
           if (this.source && url === this.source.url) {
             this.source.start(startTime, startOffset)
             return
           }
           this.setup(url);
+          if (typeof volume !== 'undefined') {
+            this.source.mediaElement.volume = volume;
+          }
           const chan = this;
           this.source.mediaElement.onPlay(() => {
             if (typeof this.source !== 'undefined') {
@@ -481,6 +473,9 @@ export default {
           })
           this.source.mediaElement.onError((e) => {
             console.error(e)
+            if (e.errMsg && e.errMsg.indexOf(ignoreErrorMsg) > -1) {
+              return;
+            }
             if (typeof this.source !== 'undefined' && this.source.mediaElement) {
               this.source._reset();
               this.source.mediaElement.stop()
@@ -513,6 +508,7 @@ export default {
           if (this.source.mediaElement) {
             // this.source.mediaElement.pause();
             this.source.mediaElement.destroy();
+            delete audios[this.source.instanceId]
             delete this.source.mediaElement;
             delete this.source;
           }
@@ -1038,6 +1034,7 @@ export default {
           sound.url,
           offset,
           sound.duration,
+          soundVolumeHandler[channelInstance],
         );
       } catch (e) {
         err(`playUrl error. Exception: ${e}`);
