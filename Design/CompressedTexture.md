@@ -1,4 +1,4 @@
-# 微信小游戏压缩纹理工具(Beta)
+# 微信小游戏压缩纹理工具2.0(Beta)
 
 ​		早期 Unity 不支持对 ASTC 纹理格式进行导出，因此在移动端中无法充分利用 GPU 完成硬件的解码渲染。为弥补这一缺陷，微信 Unity SDK 提供压缩纹理按需加载的能力工具。使用该工具将对项目获得如下增益：
 
@@ -127,3 +127,78 @@ node compress_all.js
 ### 3.非4倍数的资源处理底层逻辑
 
 ​		移动设备中大多数使用 ASTC 作为主要的纹理资源格式，ASTC 是不受纹理资源高宽影响的，因此非 4 倍数底层逻辑处理并不会对移动设备上的表现有差异。而对于 DXT 格式是 PC 小游戏中主要的纹理资源格式，该格式是要求高宽必须为 4 的倍数，微信纹理压缩工具在资源处理的过程中识别了资源能否正确的被压缩处理，并在渲染期间做了兜底的渲染策略，在 PC 的表现上，若资源支持以 DXT 格式，则将采用 DXT 渲染，否则遵循兜底策略，其格式优先级为： ASTC、ETC2、DXT、PNG，最差的情况将使用 PNG 格式渲染。
+
+
+
+## 微信压缩纹理API介绍
+
+​		为方便开发者构建个性化的工程导出能力，微信压缩纹理工具提供了相应的 API 调用接口，开发者可以在游戏内自助构建游戏导出脚本，完成发布上传前的自动化操作。
+
+### WXTextMin.CompressText( ... )
+
+​		void WXTextMin.CompressText(string projectPath, string bundleSuffix, string bundleDir, WXTextFormat format, WXTextMinResponse res)
+
+#### 说明
+
+​		执行微信压缩纹理流程，该函数为异步函数，调用后并不会立即处理成功，需提供 WXTextMinResponse 来获取执行结束后的回调事件。
+
+#### 参数
+
+| 参数         | 类型              | 说明                                                         |
+| ------------ | ----------------- | ------------------------------------------------------------ |
+| projectPath  | string            | 工程导出目录（默认目录内应包含 minigame 与 webgl ）两个文件夹 |
+| bundleSuffix | string/string[]   | AB包后缀，多个后缀使用英文逗号分隔，也可传入字符串数组       |
+| bundleDir    | string            | 可缺省，若存在独立的AB包目录，则此处填写目录的绝对路径       |
+| format       | WXTextFormat      | 可缺省，默认全格式导出(WXTextFormat.ALL)，调试阶段可选择 WXTextFormat.ASTC 仅导出ASTC模式 |
+| res          | WXTextMinResponse | 实现 WXTextMinResponse 声明的 on 方法，可在方法中获得直接结束后的回调事件 |
+
+
+
+### WXTextMin.GetBundleList( ... )
+
+​		string[] WXTextMin.GetBundleList(string projectPath, string bundleSuffix, string bundleDir)
+
+#### 说明
+
+​		获取微信压缩纹理工具所能扫描到的符合条件的AB包路径数组。相同参数情况下，所扫描到的资源列表则为实际可被执行处理的资源。
+
+#### 参数
+
+
+
+### WXTextMin.SetIgnore( ... )
+
+​		void WXTextMin.SetIgnore( ... )
+
+#### 说明
+
+​		设置资源忽略清单，清单中资源将被原样保留不被压缩处理，且若清单中的资源曾经已经被处理过，则将被还原。请注意，设置清单是长期有效的配置，不清理微信压缩纹理相关配置目录则忽略规则是长期有效，且该配置受 Unity - 微信纹理压缩包体瘦身 面板的配置影响，因此开发者通常仅需要在面板中做好相应配置，无需频繁改动。
+
+
+
+### WXTextMin.GetIgnore()
+
+​		void WXTextMin.SetIgnore( ... )
+
+#### 说明
+
+​		获取当前资源忽略清单。
+
+
+
+### WXTextFormat 常量说明
+
+| 常量              | 说明                                             |
+| ----------------- | ------------------------------------------------ |
+| WXTextFormat.ASTC | 仅对纹理进行ASTC格式转换                         |
+| WXTextFormat.ALL  | 对纹理进行所有的格式转换，ASTC、ETC、DXT、MinPNG |
+
+
+
+### WXTextMin.GetWebGLMinFiles()
+
+​		void WXTextMin.SetIgnore( ... )
+
+#### 说明
+
+​		获取
