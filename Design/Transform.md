@@ -97,7 +97,7 @@ Appid -- 小游戏appid
 CDN -- 游戏资源CDN
 projectName -- 小游戏项目名
 Orientation -- 游戏方向
-maxStorage -- 最大内存
+maxStorage -- 最大内存，修改此值需要联系研发助手开通权限，否则无效
 DST -- 导出路径
 // 启动Loader设置
 bgImageSrc -- 背景图/封面图
