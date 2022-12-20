@@ -1,0 +1,4 @@
+1) Select : EasyLoadingScreen/Prefabs/LoadingScreen.prefab
+2) Add to canvas
+
+// Installation video : https://youtu.be/N67Kc38qSHs

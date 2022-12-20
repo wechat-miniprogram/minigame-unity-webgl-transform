@@ -1,0 +1,174 @@
+﻿using System;
+using UnityEditor;
+
+public class SimpleBuilder
+{
+	// Example code on how to let Unity create a Build Report right after an automated build.
+	// If you don't need this, you can safely delete this file.
+	//
+	// To use, save/rename this as a proper script file (.cs instead of .txt), open a command line window,
+	// and type (change path to Unity.exe and path to project folder to your own):
+	// C:/Program Files/Unity/Editor/Unity.exe -quit -batchmode -projectPath "C:/Path/To/Project/Folder" -executeMethod SimpleBuilder.Build
+	//
+	// Also check https://support.unity3d.com/hc/en-us/articles/115000368846 for more examples on making custom build scripts.
+	//
+	static void Build()
+	{
+		Console.WriteLine("Will start building project...");
+		
+#if !UNITY_5_5_OR_NEWER // 5.4 and below
+		
+		// Unity 5.4 and below only has this way of building.
+		// You can remove this if your project isn't for Unity 5.4.
+
+		// Put all scenes to build here.
+		//
+		// The values just need to be paths to scene files,
+		// relative to the project's Assets folder.
+		// Example: "Assets/Scene.unity"
+		//
+		// The build will fail if you put in a scene that
+		// doesn't exist in your project.
+		var scenes = new[] {"Assets/Scene.unity"};
+
+		// Destination of build
+		//
+		// Set this to whatever you want.
+		//
+		// Take note that in some build platforms, you have to specify the
+		// path only to a folder, without the executable filename.
+		var buildLocation = "C:/Path/To/Build.exe";
+
+		// Platform of the build
+		//
+		// Set this to whatever you want.
+		// See https://docs.unity3d.com/ScriptReference/BuildTarget.html for all possible values.
+		var buildTarget = BuildTarget.StandaloneWindows;
+
+		// Extra options you may want to turn on.
+		//
+		// See https://docs.unity3d.com/ScriptReference/BuildOptions.html for all possible values.
+		// This enum is a flag type, so you can assign more than one value.
+		// For example, use:
+		// buildPlayerOptions.options = BuildOptions.Development | BuildOptions.CompressWithLz4;
+		// If you want both a development build and use LZ4 type of compression at the same time.
+		var buildOptions = BuildOptions.None;
+
+		// Finally, do the build.
+		var result = BuildPipeline.BuildPlayer(scenes, buildLocation, buildTarget, buildOptions); 
+		
+		Console.WriteLine("Finished building project:" + result);
+
+		// You can optionally pass a 4th parameter to BuildReportTool.ReportGenerator.CreateReport(),
+		// a string specifying a custom Editor log path.
+		//
+		// If you need the path relative to your project folder's Assets path, use:
+		// UnityEngine.Application.dataPath (https://docs.unity3d.com/ScriptReference/Application-dataPath.html)
+		//
+		// If you need the path relative from the Unity Editor exe file, use:
+		// UnityEditor.EditorApplication.applicationPath (https://docs.unity3d.com/ScriptReference/EditorApplication-applicationPath.html)
+		// 
+		// If you need the command line arguments, use:
+		// System.Environment.GetCommandLineArgs() (https://docs.microsoft.com/en-us/dotnet/api/system.environment.getcommandlineargs)
+		//
+		var pathToBuildReport = BuildReportTool.ReportGenerator.CreateReport(scenes, buildLocation, buildTarget);
+
+		if (!string.IsNullOrEmpty(pathToBuildReport))
+		{
+			// the 0 indicates a successful exit with no errors
+			EditorApplication.Exit(0);
+		}
+		else
+		{
+			// the 1 indicates an error
+			EditorApplication.Exit(1);
+		}
+#else
+		// In Unity 5.5 and above, BuildPipeline.BuildPlayer now allows the use
+		// of a struct called BuildPlayerOptions, so you can prepare the values
+		// more neatly before building.
+		
+		BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
+
+		// EditorBuildSettings.scenes is an array that contains all the
+		// scenes included for the build, as it was configured in the project.
+		// Since I will be using that array, I check if it's empty first.
+		if (EditorBuildSettings.scenes.Length == 0)
+		{
+			// No scenes to build! Aborting.
+
+			// the 1 indicates an error
+			EditorApplication.Exit(1);
+			return;
+		}
+		
+		// Put all scenes to build here.
+		//
+		// In this example, I'm only adding the first scene,
+		// but you can change this to whatever you want.
+		//
+		// buildPlayerOptions.scenes is a string array,
+		// and the values just need to be paths to scene files,
+		// relative to the project's Assets folder.
+		// Example: "Assets/Scenes/TestScene.unity"
+		buildPlayerOptions.scenes = new[] {EditorBuildSettings.scenes[0].path};
+		
+		// Destination of build
+		// Set this to whatever you want.
+		//
+		// Take note that in some build platforms, you have to specify the
+		// path only to a folder, without the executable filename.
+		buildPlayerOptions.locationPathName = "C:/Path/To/Build.exe";
+		
+		// Platform of the build
+		// Set this to whatever you want.
+		// See https://docs.unity3d.com/ScriptReference/BuildTarget.html for all possible values.
+		buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
+		
+		// Extra options you may want to turn on.
+		//
+		// See https://docs.unity3d.com/ScriptReference/BuildOptions.html for all possible values.
+		// This enum is a flag type, so you can assign more than one value.
+		// For example, use:
+		// buildPlayerOptions.options = BuildOptions.Development | BuildOptions.CompressWithLz4;
+		// If you want both a development build and use LZ4 type of compression at the same time.
+		buildPlayerOptions.options = BuildOptions.None;
+		
+		// Finally, do the build.
+		var result = BuildPipeline.BuildPlayer(buildPlayerOptions);
+		
+		// In Unity 2017 and below, result is simply a string.
+		// In Unity 2018, result is a UnityEditor.Build.Reporting.BuildReport (a class).
+		// See https://docs.unity3d.com/ScriptReference/Build.Reporting.BuildReport.html
+		// if you want to output specific parts of the build result to the console.
+		// For example, if there are build errors, you can output
+		// result.summary.totalErrors to show the number of errors.
+		Console.WriteLine("Finished building project: " + result);
+		
+		// You can optionally pass a 2nd parameter to BuildReportTool.ReportGenerator.CreateReport(),
+		// a string specifying a custom Editor log path.
+		//
+		// If you need the path relative to your project folder's Assets path, use:
+		// UnityEngine.Application.dataPath (https://docs.unity3d.com/ScriptReference/Application-dataPath.html)
+		//
+		// If you need the path relative from the Unity Editor exe file, use:
+		// UnityEditor.EditorApplication.applicationPath (https://docs.unity3d.com/ScriptReference/EditorApplication-applicationPath.html)
+		// 
+		// If you need the command line arguments, use:
+		// System.Environment.GetCommandLineArgs() (https://docs.microsoft.com/en-us/dotnet/api/system.environment.getcommandlineargs)
+		//
+		var pathToBuildReport = BuildReportTool.ReportGenerator.CreateReport(buildPlayerOptions);
+		
+		if (!string.IsNullOrEmpty(pathToBuildReport))
+		{
+			// the 0 indicates a successful exit with no errors
+			EditorApplication.Exit(0);
+		}
+		else
+		{
+			// the 1 indicates an error
+			EditorApplication.Exit(1);
+		}
+#endif
+	}
+}
