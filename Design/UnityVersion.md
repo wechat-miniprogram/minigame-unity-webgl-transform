@@ -46,6 +46,16 @@ InstantGame Package：
 ### 基于2019.4.29
 在原有引擎版本基础提供压缩纹理、压缩音频支持，需要的开发者联系小游戏研发助手(minigamedevop08)获取
 
+Windows平台：
+
+- Unity Editor：[Editor_2019.4.29f1c109_f2](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/UnitySetup64.exe)
+- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.exe](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.exe)
+
+MacOS平台：
+- Unity Editor：[Editor__2019.4.29f1c109_f2](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/Unity.pkg)
+- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.pkg](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.pkg)
+
+
 
 ## QA
 1. 项目使用2017版本，应该使用哪个引擎版本转换？
