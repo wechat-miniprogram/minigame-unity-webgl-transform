@@ -44,7 +44,7 @@ InstantGame Package：
 [com.unity.instantgame.zip](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a15/com.unity.instantgame.zip)
 
 ### 基于2019.4.29
-在原有引擎版本基础提供压缩纹理、压缩音频支持，需要的开发者联系小游戏研发助手(minigamedevop08)获取
+在原有引擎版本基础提供压缩纹理、压缩音频支持。
 
 Windows平台：
 
