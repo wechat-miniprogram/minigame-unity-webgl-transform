@@ -6,6 +6,14 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+2022-12-21
+### Feature
+* 排行榜能力优化
+* 视频透明时全局清理标记
+* 移除markdown插件
+* 微信压缩纹理增加支持ASTC6*6格式
+* 适配插件版本升级到1.1.5
+
 2022-12-7
 ### Feature
 * 支持指定Node路径，MiniGameConfig.asset-CompileOption-CustomNodePath指定自定义node安装目录
