@@ -102,10 +102,101 @@ wx.onMessage(data => {
 因此插件内置的示例采用的是微信自研的[轻量级渲染引擎](https://wechat-miniprogram.github.io/minigame-canvas-engine/)，压缩后只有几十k，这需要你掌握一些简单的 Web 开发知识，包括 [Flex布局](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)、[CSS](https://www.w3schools.com/css/)，参照示例修修改改很快能够上手。
  
 ### 5、示例DEMO
-可以参考[Demo/Ranking/Assets](../Demo/Ranking/Assets)下面的Unity工程，对应导出的小游戏在[Demo/Ranking/MiniGame/minigame](../Demo/Ranking/MiniGame/minigame)下。
+可以参考[Demo/Ranking/Assets](../Demo/Ranking/Assets)下面的Unity工程。插件导出的 open-data 已经是一个比较功能完备的工程，进行简单的魔改就能够满足需求。
+
+#### 5.1 好友排行榜
+1. 展示 RawImage 的时候调用 SDK API
+``` CSharp
+void ShowOpenData()
+{
+  RankMask.SetActive(true);
+  RankingBox.SetActive(true);
+  // 
+  // 注意这里传x,y,width,height是为了点击区域能正确点击，x,y 是距离屏幕左上角的距离，宽度传 (int)RankBody.rectTransform.rect.width是在canvas的UI Scale Mode为 Constant Pixel Size的情况下设置的。
+  /**
+    * 如果父元素占满整个窗口的话，pivot 设置为（0，0），rotation设置为180，则左上角就是离屏幕的距离
+    * 注意这里传x,y,width,height是为了点击区域能正确点击，因为开放数据域并不是使用 Unity 进行渲染而是可以选择任意第三方渲染引擎
+    * 所以开放数据域名要正确处理好事件处理，就需要明确告诉开放数据域，排行榜所在的纹理绘制在屏幕中的物理坐标系
+    * 比如 iPhone Xs Max 的物理尺寸是 414 * 896，如果排行榜被绘制在屏幕中央且物理尺寸为 200 * 200，那么这里的 x,y,width,height应当是 107,348,200,200
+    * x,y 是距离屏幕左上角的距离，宽度传 (int)RankBody.rectTransform.rect.width是在canvas的UI Scale Mode为 Constant Pixel Size的情况下设置的
+    * 如果是Scale With Screen Size，且设置为以宽度作为缩放，则要这要做一下换算，比如canavs宽度为960，rawImage设置为200 则需要根据 referenceResolution 做一些换算
+    * 不过不管是什么屏幕适配模式，这里的目的就是为了算出 RawImage 在屏幕中绝对的位置和尺寸
+    */
+
+  CanvasScaler scaler = gameObject.GetComponent<CanvasScaler>();
+  var referenceResolution = scaler.referenceResolution;
+  var p = RankBody.transform.position;
+
+  WX.ShowOpenData(RankBody.texture, (int)p.x, Screen.height - (int)p.y, (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width), (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height));
+}
+```
+
+2. 发送事件给开放数据域，要求展示好友排行榜
+``` Csharp
+OpenDataMessage msgData = new OpenDataMessage();
+msgData.type = "showFriendsRank";
+
+string msg = JsonUtility.ToJson(msgData);
+WX.GetOpenDataContext().PostMessage(msg);
+```
+
+3. 开放数据域监听相应事件，展示群排行，详见 open-data。
+
+整体流程示意：
+<img src="../image/opendata/demo1.jpeg" width="30%"> <img src="../image/opendata/demo2.jpeg" width="30%"> <img src="../image/opendata/demo3.jpeg" width="30%"> 
+#### 5.2 群好友排行榜
+1. 为了使用群排行榜，需要调用 WX.UpdateShareMenu 设置分享菜单
+``` CSharp
+/**
+  * 使用群排行功能需要特殊设置分享功能，详情可见链接
+  * https://developers.weixin.qq.com/minigame/dev/guide/open-ability/share/share.html
+  */
+WX.UpdateShareMenu(new UpdateShareMenuOption()
+{
+    withShareTicket = true,
+    isPrivateMessage = true,
+});
+
+```
+2. 在分享时，带上相关query
+``` CSharp
+WX.ShareAppMessage(new ShareAppMessageOption()
+{
+    title = "最强战力排行榜！谁是第一？",
+    query = "minigame_action=show_group_list",
+    imageUrl = "https://mmgame.qpic.cn/image/5f9144af9f0e32d50fb878e5256d669fa1ae6fdec77550849bfee137be995d18/0",
+});
+```
+
+3. 监听 WX.OnShow 回调，给开放数据域发消息要求展示群排行
+``` CSharp
+WX.OnShow((OnShowCallbackResult res) =>
+{
+    string shareTicket = res.shareTicket;
+    Dictionary<string, string> query = res.query;
+
+    if (!string.IsNullOrEmpty(shareTicket) && query != null && query["minigame_action"] == "show_group_list")
+    {
+        OpenDataMessage msgData = new OpenDataMessage();
+        msgData.type = "showGroupFriendsRank";
+        msgData.shareTicket = shareTicket;
+
+        string msg = JsonUtility.ToJson(msgData);
+
+        ShowOpenData();
+        WX.GetOpenDataContext().PostMessage(msg);
+    }
+});
+```
+
+4. 开放数据域监听相应事件，展示群排行，详见 open-data。
+
+整体流程示意：
+<img src="../image/opendata/demo6.jpeg" width="24%"> <img src="../image/opendata/demo7.jpeg" width="24%"> <img src="../image/opendata/demo4.jpeg" width="24%"> <img src="../image/opendata/demo5.jpeg" width="24%">
+
 
 ## 常见问题QA
-**Q1. 为什么调用 WX.ShowOpenData 之后画面先黑一下再展示排行榜？**
+**Q1. 为什么第一次调用 WX.ShowOpenData 之后画面先黑一下再展示排行榜？**
 A1. WX.ShowOpenData 在 openDataContext.postMessage WXRender 的事件之后立马就会开始 hook Unity 的渲染，如果开放数据域在监听到 WXRender 事件之后没有任何渲染行为，那么 sharedCanvas 纹理就还没有准备好，Unity 侧就可能出现黑一下的情况，解决办法是保证监听到 WXRender 事件之后有个同步的渲染行为，比如绘制个文案”好友数据加载中..."。
 
 **Q2. 为什么我关闭排行榜之后界面上有些问题错乱了？**
