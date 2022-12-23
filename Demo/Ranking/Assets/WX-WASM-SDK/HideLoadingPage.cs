@@ -10,9 +10,9 @@ class CheckFrame : MonoBehaviour
         frameCnt++;
         if (frameCnt == 2)
         {
-            #if UNITY_WEBGL && !UNITY_EDITOR
+#if UNITY_WEBGL && !UNITY_EDITOR
             WX.HideLoadingPage();
-            #endif
+#endif
             Destroy(this);
         }
     }

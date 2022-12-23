@@ -32,7 +32,7 @@ namespace WeChatWASM.Analysis
 
             multiColumnHeader.sortingChanged += OnSortingChanged;
             multiColumnHeader.visibleColumnsChanged += OnVisibleColumnChanged;
-            
+
             showAlternatingRowBackgrounds = true;
             showBorder = true;
             rowHeight = EditorGUIUtility.singleLineHeight;
@@ -158,7 +158,8 @@ namespace WeChatWASM.Analysis
                     {
                         this.SelectAllRows();
                     }
-                } else
+                }
+                else
                 {
                     this.SetSelection(new List<int>());
                 }

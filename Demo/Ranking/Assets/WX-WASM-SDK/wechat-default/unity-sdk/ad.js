@@ -1,5 +1,6 @@
 import moduleHelper from './module-helper';
 import response from './response';
+import Audio from './audio.js';
 
 const ads = {};
 
@@ -8,7 +9,8 @@ export default {
     conf = JSON.parse(conf);
     conf.style = JSON.parse(conf.styleRaw);
     const ad = wx.createBannerAd(conf);
-    const key = new Date().getTime().toString(32) + Math.random().toString(32);
+    const key = new Date().getTime()
+      .toString(32) + Math.random().toString(32);
     ads[key] = ad;
     ad.onError((res) => {
       console.error(res);
@@ -45,7 +47,8 @@ export default {
         width: info.windowWeight,
       },
     });
-    const key = new Date().getTime().toString(32) + Math.random().toString(32);
+    const key = new Date().getTime()
+      .toString(32) + Math.random().toString(32);
     ads[key] = ad;
     ad.onError((res) => {
       console.error(res);
@@ -78,7 +81,8 @@ export default {
   WXCreateRewardedVideoAd(conf) {
     conf = JSON.parse(conf);
     const ad = wx.createRewardedVideoAd(conf);
-    const key = new Date().getTime().toString(32) + Math.random().toString(32);
+    const key = new Date().getTime()
+      .toString(32) + Math.random().toString(32);
     ads[key] = ad;
     if (!conf.multiton) { // 单例模式要处理一下
       ad.offLoad();
@@ -105,13 +109,17 @@ export default {
         errMsg: '',
         ...res,
       }));
+      setTimeout(() => {
+        Audio.resumeWebAudio();
+      }, 0);
     });
     return key;
   },
   WXCreateInterstitialAd(conf) {
     conf = JSON.parse(conf);
     const ad = wx.createInterstitialAd(conf);
-    const key = new Date().getTime().toString(32) + Math.random().toString(32);
+    const key = new Date().getTime()
+      .toString(32) + Math.random().toString(32);
     ads[key] = ad;
     ad.onError((res) => {
       console.error(res);
@@ -139,7 +147,8 @@ export default {
     conf = JSON.parse(conf);
     conf.style = JSON.parse(conf.styleRaw);
     const ad = wx.createGridAd(conf);
-    const key = new Date().getTime().toString(32) + Math.random().toString(32);
+    const key = new Date().getTime()
+      .toString(32) + Math.random().toString(32);
     ads[key] = ad;
     ad.onError((res) => {
       console.error(res);
@@ -168,7 +177,8 @@ export default {
     conf = JSON.parse(conf);
     conf.style = JSON.parse(conf.styleRaw);
     const ad = wx.createCustomAd(conf);
-    const key = new Date().getTime().toString(32) + Math.random().toString(32);
+    const key = new Date().getTime()
+      .toString(32) + Math.random().toString(32);
     ads[key] = ad;
     ad.onError((res) => {
       console.error(res);
@@ -206,11 +216,12 @@ export default {
       response.textFormat(succ, {
         errMsg: 'show:ok',
       });
-    }).catch((e) => {
-      response.textFormat(fail, {
-        errMsg: e.errMsg || '',
+    })
+      .catch((e) => {
+        response.textFormat(fail, {
+          errMsg: e.errMsg || '',
+        });
       });
-    });
   },
   WXShowAd2(id, branchId, branchDim, succ, fail) {
     if (!ads[id]) {
@@ -220,11 +231,12 @@ export default {
       response.textFormat(succ, {
         errMsg: 'show:ok',
       });
-    }).catch((e) => {
-      response.textFormat(fail, {
-        errMsg: e.errMsg || '',
+    })
+      .catch((e) => {
+        response.textFormat(fail, {
+          errMsg: e.errMsg || '',
+        });
       });
-    });
   },
   WXHideAd(id, succ, fail) {
     if (!ads[id]) {
@@ -235,14 +247,21 @@ export default {
         response.textFormat(succ, {
           errMsg: 'hide:ok',
         });
-      }).catch((e) => {
-        response.textFormat(fail, {
-          errMsg: e.errMsg || '',
+      })
+        .catch((e) => {
+          response.textFormat(fail, {
+            errMsg: e.errMsg || '',
+          });
         });
-      });
     } else {
       ads[id].hide();
     }
+  },
+  WXADGetStyleValue(id, key) {
+    if (!ads[id]) {
+      return -1;
+    }
+    return ads[id].style[key];
   },
   WXADDestroy(id) {
     if (!ads[id]) {
@@ -257,12 +276,13 @@ export default {
     }
     ads[id].load().then(() => {
       response.textFormat(succ, {});
-    }).catch((res) => {
-      moduleHelper.send('ADLoadErrorCallback', JSON.stringify({
-        callbackId: fail,
-        ...res,
-      }));
-    });
+    })
+      .catch((res) => {
+        moduleHelper.send('ADLoadErrorCallback', JSON.stringify({
+          callbackId: fail,
+          ...res,
+        }));
+      });
   },
   WXReportShareBehavior(id, conf) {
     if (!ads[id]) {

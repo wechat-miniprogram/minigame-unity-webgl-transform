@@ -228,46 +228,78 @@ namespace WeChatWASM
             return config;
         }
 
-        public static void RunCmd(string cmd, string args, string workdir = null, Action<int, int, string> progressUpdate = null)
+        public static string GetNodePath(string customNodePath)
+        {
+            var nodePath = "";
+#if UNITY_EDITOR_OSX
+            if (customNodePath != "") return Path.Combine(customNodePath, "node");
+            nodePath = "/usr/local/bin/node";
+#else
+            if (customNodePath != "") return Path.Combine(customNodePath, "node.exe");
+            nodePath = @"C:\Program Files\nodejs\node.exe";
+            if (!File.Exists(nodePath))
+            {
+                // 使用环境变量
+                Debug.Log($"[Converter] {nodePath}不存在。使用环境变量PATH寻找node，如果仍然报错，请重启电脑刷新环境变量后重试");
+                nodePath = "node";
+            }
+            else
+            {
+                Debug.Log($"[Converter] 使用默认node路径：{nodePath}");
+            }
+#endif
+            return nodePath;
+        }
+        public static string RunCmd(string cmd, string args,  string workdir = null, Action<int, int, string> progressUpdate = null)
         {
             Debug.Log($"RunCmd {cmd} {args}");
-            var p = CreateCmdProcess(cmd, args, workdir);
- 
-            while (!p.StandardOutput.EndOfStream)
+            try
             {
-                string line = p.StandardOutput.ReadLine();
-                if (line.StartsWith("#WXTextureMinProgress#"))
+                var p = CreateCmdProcess(cmd, args, workdir);
+
+                while (!p.StandardOutput.EndOfStream)
                 {
-                    var aProgress = line.Split('#');
-                    if (aProgress.Length < 5)
+                    string line = p.StandardOutput.ReadLine();
+                    if (line.StartsWith("#WXTextureMinProgress#"))
                     {
-                        Debug.LogError($"{line} invalid!");
-                        continue;
+                        var aProgress = line.Split('#');
+                        if (aProgress.Length < 5)
+                        {
+                            Debug.LogError($"{line} invalid!");
+                            continue;
+                        }
+                        if (progressUpdate != null)
+                        {
+                            //0:""
+                            //1:WXTextureMinProgress
+                            //2:curent
+                            //3:total
+                            //4:extInfo
+                            int current, total = 1;
+                            int.TryParse(aProgress[2], out current);
+                            int.TryParse(aProgress[3], out total);
+                            progressUpdate(current, total, aProgress[4]);
+                        }
                     }
-                    if (progressUpdate != null)
+                    else
                     {
-                        //0:""
-                        //1:WXTextureMinProgress
-                        //2:curent
-                        //3:total
-                        //4:extInfo
-                        int current, total = 1;
-                        int.TryParse(aProgress[2], out current);
-                        int.TryParse(aProgress[3], out total);
-                        progressUpdate(current, total, aProgress[4]);
+                        Debug.Log(line);
                     }
                 }
-                else
+                var err = p.StandardError.ReadToEnd();
+                if (!string.IsNullOrEmpty(err))
                 {
-                    Debug.Log(line);
+                    Debug.LogError(err);
+                    return err;
                 }
+                p.Close();
+                return "succ";
             }
-            var err = p.StandardError.ReadToEnd();
-            if (!string.IsNullOrEmpty(err))
+            catch(Exception ex)
             {
-                Debug.LogError(err);
+                Debug.LogError(ex.ToString());
+                return ex.ToString();
             }
-            p.Close();
         }
 
         public static System.Diagnostics.Process CreateCmdProcess(string cmd, string args, string workdir = null)

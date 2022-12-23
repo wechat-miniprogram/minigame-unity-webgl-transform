@@ -11,7 +11,7 @@ namespace WeChatWASM
 
     public class ReplaceRules
     {
-       public static Rule[] rules = {
+        public static Rule[] rules = {
        new Rule()
        {
            old=@"function *doRun\(\) *{",
@@ -25,7 +25,7 @@ namespace WeChatWASM
        new Rule()
        {
            old="self\\[\"performance\"\\]\\[\"now\"\\]",
-           newStr="wx.getPerformance().now"
+           newStr="performance.now"
        }
        ,new Rule()
        {
@@ -449,6 +449,11 @@ namespace WeChatWASM
         {
             old="new AbortController(\\(\\)|\\b);?",
             newStr="new GameGlobal.unityNamespace.UnityLoader.UnityCache.XMLHttpRequest();if(GameGlobal.TEXTURE_PARALLEL_BUNDLE){GameGlobal.ParalleLDownloadTexture(_url)}"
+        },
+        new Rule()
+        {
+            old="enableStreamingDownload: *true",
+            newStr="enableStreamingDownload: false"
         },
         new Rule()
         {

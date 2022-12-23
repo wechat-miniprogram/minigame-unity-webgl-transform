@@ -42,7 +42,8 @@ namespace WeChatWASM
             {
                 return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/astcenc-sse4.1.exe");
             }
-            if (UnityEngine.SystemInfo.processorType.ToLower().Contains("apple")) {
+            if (UnityEngine.SystemInfo.processorType.ToLower().Contains("apple"))
+            {
                 return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/astcenc-neon");
             }
             return Path.Combine(Application.dataPath, "WX-WASM-SDK/Editor/astcenc-avx2");
