@@ -20,7 +20,7 @@ import sdk from './sdk';
 import camera from './camera';
 import recorder from './recorder';
 import uploadFile from './upload-file';
-import './unity-adapter';
+import gameRecorder from './game-recorder';
 
 const unityVersion = '$unityVersion$';
 GameGlobal.unityNamespace = GameGlobal.unityNamespace || {};
@@ -28,7 +28,8 @@ GameGlobal.unityNamespace.unityVersion = unityVersion;
 
 window._ScaleRate = 1;
 // 兼容unity低版本高清屏的问题
-if (unityVersion && unityVersion.split('.').slice(0, 2).join('') < '20193') {
+if (unityVersion && unityVersion.split('.').slice(0, 2)
+  .join('') < '20193') {
   const width = window.innerWidth * window.devicePixelRatio;
   const height = window.innerHeight * window.devicePixelRatio;
   canvas.width = width;
@@ -102,6 +103,7 @@ const WXWASMSDK = {
   ...camera,
   ...recorder,
   ...uploadFile,
+  ...gameRecorder,
 };
 
 

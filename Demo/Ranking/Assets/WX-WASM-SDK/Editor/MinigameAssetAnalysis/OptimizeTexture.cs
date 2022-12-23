@@ -65,11 +65,17 @@ namespace WeChatWASM.Analysis
             var totalCount = textureInfos.Count;
             var idx = 0;
             var changedTextures = new List<Texture>();
+
+            int total = textureInfos.Count;
+            int current = 0;
             foreach (var info in textureInfos)
             {
+                ++current;
+                EditorUtility.DisplayProgressBar($"Optimize Texture，当前:{current}，总共:{total}", $"Handling:{info.assetPath}", current * 1.0f / total);
+
                 idx++;
                 TextureImporter textureImporter = AssetImporter.GetAtPath(info.assetPath) as TextureImporter;
-                TextureImporterPlatformSettings settings = new TextureImporterPlatformSettings();
+                var settings = textureImporter.GetPlatformTextureSettings("WebGL");
                 settings.overridden = true;
                 int maxRect = Math.Max(info.width, info.height) / 2;
                 var needReImport = false;
@@ -102,7 +108,7 @@ namespace WeChatWASM.Analysis
                     needReImport = true;
                     var formatMap = textureWindow.formatMap;
                     var list = new List<string>(formatMap.Keys);
-                    var i = textureWindow.textureFormatSelected;
+                    var i = textureWindow.selectedFormat;
                     TextureImporterFormat format = formatMap[list[i]];
                     settings.name = "WebGL";
                     settings.format = format;
@@ -115,7 +121,6 @@ namespace WeChatWASM.Analysis
                     EditorUtility.DisplayCancelableProgressBar("Recover", "Reading Cache " + idx, (float)idx / totalCount);
                     textureImporter.SetPlatformTextureSettings(settings);
                     textureImporter.SaveAndReimport();
-                    AssetDatabase.ImportAsset(info.assetPath);
                 }
             }
             //Undo.RecordObjects(changedTextures.ToArray(), "optimize");
@@ -212,7 +217,6 @@ namespace WeChatWASM.Analysis
                         settings.format = info._webglFormat;
                         textureImporter.SetPlatformTextureSettings(settings);
                         textureImporter.SaveAndReimport();
-                        AssetDatabase.ImportAsset(path);
                     }
                 }
                 File.Delete(CACHE_PATH);
