@@ -37,8 +37,8 @@ Windows平台：
 
 MacOS平台：
 
-- Unity Editor：[Editor_2021.2.5f1c301_a15](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a15/Unity.pkg)
-- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a15/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
+- Unity Editor：[Editor_2021.2.5f1c301_a16](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a16/Unity.pkg)
+- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a16/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
 
 InstantGame Package：
 [com.unity.instantgame.zip](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a15/com.unity.instantgame.zip)
