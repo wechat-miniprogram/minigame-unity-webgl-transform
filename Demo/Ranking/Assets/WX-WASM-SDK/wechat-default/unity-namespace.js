@@ -14,7 +14,8 @@ const unityNamespace = {
   maxStorage: $MAX_STORAGE_SIZE, // 当前appid扩容后，通过本字段告知插件本地存储最大容量，单位MB
   texturesHashLength: $TEXTURE_HASH_LENGTH, // 纹理中的hash长度
   texturesPath: '$TEXTURES_PATH', // 纹理存放路径
-  needCacheTextures: $NEED_CACHE_TEXTURES, // 是否需要缓存纹理
+  needCacheTextures: $NEED_CACHE_TEXTURES, // 是否需要缓存纹理,
+  enableProfileStats: false, // 是否显示性能面板
 };
 
 // 判断是否需要自动缓存的文件，返回true自动缓存；false不自动缓存

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectConf:
     projectName: 
-    Appid: wx20afc706a711eefc
+    Appid: 
     CDN: 
-    assetLoadType: 1
+    assetLoadType: 0
     VideoUrl: 
-    DST: /Users/zimyuan/Desktop/testrankgithub
+    DST: 
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -39,7 +39,7 @@ MonoBehaviour:
     needCheckUpdate: 0
   SDKOptions:
     UseAudioApi: 0
-    UseFriendRelation: 1
+    UseFriendRelation: 0
     UseCompressedTexture: 0
   CompileOptions:
     DevelopBuild: 0
