@@ -73,7 +73,7 @@ UnityHeap非常关键，典型由以下几部分组成：
 
 分析手段：
 1. 勾选转换面板"ProfilingMemory"
-2. 代码中增加WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
+2. 修改unity-namespace.js中enableProfileStats变量，或C#调用WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
 游戏左上角显示Performence Stats性能面板
 
 <img src='../image/optimizationMemory6.png' width="600"/>
