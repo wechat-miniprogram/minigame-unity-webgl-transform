@@ -14,7 +14,7 @@ let timerId;
 let textureObject;
 let textureId;
 // 将 Unity 本来要渲染的 RawImage 的纹理替换成 sharedCanvas
-function hookUnityRender(needLoop = true) {
+function hookUnityRender() {
   if (!textureId) {
     return;
   }
@@ -53,9 +53,7 @@ function hookUnityRender(needLoop = true) {
 
   GL.textures[textureId] = textureObject;
 
-  if (needLoop) {
-    timerId = requestAnimationFrame(hookUnityRender);
-  }
+  timerId = requestAnimationFrame(hookUnityRender);
 }
 
 // 排行榜关系，终止 hook 的渲染循环
@@ -80,8 +78,12 @@ function stopHookUnityRender() {
   sharedCanvas.width = 1;
   sharedCanvas.height = 1;
 
-  // 将 GPU 侧的纹理同样刷新成缩小后的纹理
-  hookUnityRender();
+  // 将sharedCanvas对应的纹理从 GPU 删除，否则二次打开可能会现纹理异常
+  const GL = GameGlobal.manager.gameInstance.Module.GL;
+  const gl = GL.currentContext.GLctx;
+
+  gl.deleteTexture(textureObject);
+  textureObject = null;
 }
 
 export default {
@@ -121,3 +123,4 @@ export default {
     stopHookUnityRender();
   },
 };
+

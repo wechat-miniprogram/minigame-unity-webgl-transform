@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
@@ -850,7 +850,7 @@ namespace WeChatWASM
 
                 new Rule()
                 {
-                    old="\"$PRELOAD_LIST\"",
+                    old="'$PRELOAD_LIST'",
                     newStr=PRELOAD_LIST
                 },
                 new Rule()
