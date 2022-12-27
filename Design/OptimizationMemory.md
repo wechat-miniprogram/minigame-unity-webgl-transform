@@ -114,7 +114,7 @@ Unity引擎视角：
 ### 3.3 MemoryProfiler
 MemoryProfiler可以分析UnityHeap底层分配器的分配细节，任何分配都会产生记录，因此我们可以通过该能力分析更详细具体的分配行为。
 
-关于该能力的使用请查阅[使用MemoryProfiler分析内存](MemoryProfiler.md)
+关于该能力的使用请查阅[使用MemoryProfiler分析内存](UsingMemoryProfiler.md)
 
 ### 3.4 Unity Profiler
 当发现UnityHeap(尤其是Native)占用比较高时，可通过UnityProfiler进一步分析问题所在。关于该工具在微信小游戏的使用请查阅[使用 Unity Profiler 性能调优](UnityProfiler.md)，推荐使用Unity InstantGame版本增强的Profiler功能，下载地址请查阅[推荐引擎版本](UnityVersion.md)。

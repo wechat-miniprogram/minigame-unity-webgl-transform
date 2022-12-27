@@ -62,6 +62,7 @@
   - [使用 Android CPU Profiler 性能调优](Design/AndroidProfile.md)
   - [使用 Unity Profiler 性能调优](Design/UnityProfiler.md)
   - [优化Unity WebGL的内存](Design/OptimizationMemory.md)
+  - [使用MemoryProfiler分析内存](Design/UsingMemoryProfiler.md)
   - [音频适配优化](Design/AudioOptimization.md)
   - [压缩纹理优化](Design/CompressedTexture.md)
   - [资源优化工具与建议](Design/AssetOptimization.md)
