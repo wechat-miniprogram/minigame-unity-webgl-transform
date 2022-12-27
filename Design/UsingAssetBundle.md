@@ -106,7 +106,7 @@ public static void Build()
 
 **因此需要注意业务中不要使用已淘汰的WWW类，尤其WWW.LoadFromCacheOrDownload，当bundle数量多时，会浪费不少内存。**
 
- ### 3.2 尽可能低使用Unload
+ ### 3.2 尽可能使用Unload
 - 当bundle从资源服务器下载并使用，会经历多次内存分配:
 浏览器HTTP对象-->拷贝到WASM临时内存-->Unity ab内存文件(略大于ab本身体积， 相对于APP常用的LoadFromFile，WebGL这部分开销是额外的)
 - 当HTTP对象dispose之后，Unity ab内存文件
