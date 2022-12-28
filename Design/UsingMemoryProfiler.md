@@ -1,7 +1,7 @@
 # 使用ProfilingMemory内存分析
 
 ## 概述
-利用ProfilingMemory，我们可以分析UnityHeap(CPU主内存)的详细分配堆栈与统计数值
+在微信开发者工具运行游戏，利用ProfilingMemory，我们可以分析UnityHeap(CPU主内存)的详细分配堆栈与统计数值
 
 ## 步骤
 1. 导出选项时勾选"Profiling Funcs"与"Profiling Memory"
