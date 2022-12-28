@@ -18,12 +18,13 @@ public static void Build()
     {
         Directory.CreateDirectory(dst);
     }
-    BuildPipeline.BuildAssetBundles(dst, BuildAssetBundleOptions.AppendHashToAssetBundleName | BuildAssetBundleOptions.ChunkBasedCompression | BuildAssetBundleOptions.None, BuildTarget.WebGL);
+    BuildPipeline.BuildAssetBundles(dst, BuildAssetBundleOptions.AppendHashToAssetBundleName | BuildAssetBundleOptions.ChunkBasedCompression | UnityEditor.BuildAssetBundleOptions.DisableWriteTypeTree | BuildAssetBundleOptions.None, BuildTarget.WebGL);
 }
 ```
 打包bundle时，请使用如下参数
 - 【重要】BuildAssetBundleOptions.AppendHashToAssetBundleName：bundle带上hash。在小游戏底层对bundle做缓存及缓存淘汰时，hash是重要依据。
 - BuildAssetBundleOptions.ChunkBasedCompression：LZ4压缩方式，加载速度和包体大小更均衡。
+- 如非需要新老Unity引擎版本兼容，请使用DisableWriteTypeTree提升加载速度与降低内存。
  
 ### 1.3 AssetBundle下载
 从服务器下载bundle的方式主要以下四种。
