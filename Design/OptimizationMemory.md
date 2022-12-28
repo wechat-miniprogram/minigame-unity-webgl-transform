@@ -53,7 +53,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 进程级别: Perfdog、Android Studio、 Mac Xcode Instrument
 
-UnityHeap(CPU主内存): 性能面板、MemoryProfiler、JavaScript Heap
+UnityHeap(CPU主内存): 性能面板、ProfilingMemory、JavaScript Heap
 
 引擎与资源：UnityProfiler
 
@@ -111,10 +111,10 @@ Unity引擎视角：
 - 白色为预留部分，可被使用 
 - 其他颜色，已被业务使用
 
-### 3.3 MemoryProfiler
-MemoryProfiler可以分析UnityHeap底层分配器的分配细节，任何分配都会产生记录，因此我们可以通过该能力分析更详细具体的分配行为。
+### 3.3 ProfilingMemory
+ProfilingMemory可以分析UnityHeap底层分配器的分配细节，任何分配都会产生记录，因此我们可以通过该能力分析更详细具体的分配行为。
 
-关于该能力的使用请查阅[使用MemoryProfiler分析内存](UsingMemoryProfiler.md)
+关于该能力的使用请查阅[使用ProfilingMemory分析内存](UsingMemoryProfiler.md)
 
 ### 3.4 Unity Profiler
 当发现UnityHeap(尤其是Native)占用比较高时，可通过UnityProfiler进一步分析问题所在。关于该工具在微信小游戏的使用请查阅[使用 Unity Profiler 性能调优](UnityProfiler.md)，推荐使用Unity InstantGame版本增强的Profiler功能，下载地址请查阅[推荐引擎版本](UnityVersion.md)。
