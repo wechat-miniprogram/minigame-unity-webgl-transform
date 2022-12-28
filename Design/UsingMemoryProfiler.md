@@ -12,9 +12,6 @@
 3. 在微信开发者工具中选择gameContext, 并在Console输入命令: GameGlobal.memprofiler.onDump()
 <img src='../image/memoryprofiler2.png' width="600"/>
 
-   Unity将自启动监听端口34999等待调试链接，对于WebGL版本会启动websockify.js(用于websocket转发)。
-此时，导出的WebGL游戏在浏览器时能自动连接到Unity Profiler。
-
 4. 将位于游戏缓存目录/usr/下的csv内存数据拖拽并导入到sqlite数据库， 推荐使用[DB Browser for SQLite](https://sqlitebrowser.org/)
    <img src='../image/memoryprofiler3.png' width="600"/>
    <img src='../image/memoryprofiler4.png' width="400"/>
