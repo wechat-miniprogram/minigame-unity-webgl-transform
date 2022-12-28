@@ -6,7 +6,17 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
-2022-12-21
+## 2022-12-28
+### Feature
+* 增加ProfilingMemory功能，使用请阅读相关文档
+* C# SDK支持API chooseMedia
+* Snapshot支持，Unity 2021编译参数增加_emscripten_stack_get_base,_emscripten_stack_get_end
+* iOS高性能模式2.29.1支持BufferURL
+### Fixed
+* InnerAudio播放音频中文文件名修复
+* 兼容iOS 8.0.31普通模式UnityAudio短音频适配问题
+
+## 2022-12-21
 ### Feature
 * 排行榜能力优化
 * 视频透明时全局清理标记
@@ -14,7 +24,7 @@ Others - 其他
 * 微信压缩纹理增加支持ASTC6*6格式
 * 适配插件版本升级到1.1.5
 
-2022-12-7
+## 2022-12-7
 ### Feature
 * 支持指定Node路径，MiniGameConfig.asset-CompileOption-CustomNodePath指定自定义node安装目录
 * 编译选项增加CleanBuild(仅支持2021以上版本)
@@ -22,24 +32,24 @@ Others - 其他
 ### Fixed
 * 修复UnityAudio适配InnerAudio时，静音状态对长音频在切换场景后无效的问题
 
-2022-11-30
+## 2022-11-30
 ### Feature
 * 微信压缩纹理支持WebGL2.0
 * 微信压缩纹理对.svn .git目录忽略 
 
-2022-11-23
+## 2022-11-23
 ### Feature
 *  导出增加sbrk函数，2021无需profiling-memory查看DynamicMemory
 
 ### Fixed
 *  UDPClient使用connect+write, 修复send接口性能问题
 
-2022-11-17
+## 2022-11-17
 ### Feature
 *  微信压缩纹理优化，支持ASTC使用非4倍数尺寸
 *  新增录屏接口功能
 
-2022-11-9
+## 2022-11-9
 ### Feature
 *  Unity Audio压缩音频，支持小游戏InnerAudio
 *  适配插件版本升级到1.1.2
