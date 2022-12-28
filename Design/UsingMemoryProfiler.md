@@ -40,7 +40,7 @@ Unity 2021:
 ```
  所有内存： select sum(size) from alloc_used
 
- AssetBundle Storage Memory: select *sum(size)* from alloc_used where callback like "%AssetBundle_LoadFromMemory%" or callback like "%OnFinishReceiveData%" or callback like "%AssetBundleLoadFromStream%"
+ AssetBundle Storage Memory: select sum(size) from alloc_used where callback like "%AssetBundle_LoadFromMemory%" or callback like "%OnFinishReceiveData%" or callback like "%AssetBundleLoadFromStream%"
 
 
  AssetBundle Info:  select * from alloc_used where callback like "%get_assetBundle%"
