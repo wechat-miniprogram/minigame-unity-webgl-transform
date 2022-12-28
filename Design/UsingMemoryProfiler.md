@@ -19,8 +19,9 @@
 5. 对表格执行格式化换行
 update alloc_used set callback=replace(callback, 'at ', x'0a'
 
-
-6. 使用常规SQL进行数据分析
+## 数据分析
+### 浏览数据
+典型地，我们可以通过size进行排序分析内存最大占用的堆栈情况
 <img src='../image/memoryprofiler5.png' width="800"/>
 
 其中：
@@ -29,9 +30,9 @@ update alloc_used set callback=replace(callback, 'at ', x'0a'
 - size: 当前使用内存
 - malloc: 总分配次数
 - free: 总释放次数
-典型地, 我们可以通过size进行排序分析内存最大占用的堆栈情况
 
-常见的数据分配堆栈特征：
+### SQL统计分析
+我们可以在"执行SQL"窗口使用SQL进行数据统计和分析，常见的callback分配堆栈特征：
 
 Unity 2021:
 ```
@@ -52,5 +53,24 @@ Unity 2021:
 
 Other： select * from alloc_used where callback not like "%xxx%" or callback not like "%xxx%"
  ```
+ 
+ Unity 2018~2020：
+ ```
+ AssetBundle Storage Memory: select * from alloc_used where callback like "%AssetBundleLoadFromStreamAsyncOperation%" 
+ 
+ AssetBundle Info: select * from alloc_used where callback like "%get_assetBundle%"
+ 
+ Lua： select * from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%" 
+ 
+ Shader: select * from alloc_used where callback like "%ShaderFromSerializedShader%"
+ 
+ IL2CPP runtime: select * from alloc_used where callback like "%MetadataCache%" -19M
+ 
+ 动画数据： select  * from alloc_used where callback like "%AnimationClip%" -7MB
+
+ Other： select * from alloc_used where callback not like "%xxx%" or callback not like "%xxx%"
+ ```
+ 
+ 除了常见的堆栈特征外，我们也可以根据业务自己的使用特点来进行SQL分析。
 
 
