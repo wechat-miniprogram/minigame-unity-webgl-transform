@@ -12,12 +12,12 @@
 3. 在微信开发者工具中选择gameContext, 并在Console输入命令: GameGlobal.memprofiler.onDump()
 <img src='../image/memoryprofiler2.png' width="600"/>
 
-4. 将位于游戏缓存目录/usr/下的csv内存数据拖拽并导入到sqlite数据库， 推荐使用[DB Browser for SQLite](https://sqlitebrowser.org/)
+4. 将位于游戏缓存目录/usr/alloc_used.csv内存数据拖拽并导入到sqlite数据库， 推荐使用[DB Browser for SQLite](https://sqlitebrowser.org/)
    <img src='../image/memoryprofiler3.png' width="600"/>
    <img src='../image/memoryprofiler4.png' width="400"/>
 
 5. 对表格执行格式化换行
-update alloc_used set callback=replace(callback, 'at ', x'0a'
+update alloc_used set callback=replace(callback, 'at ', x'0a')
 
 ## 数据分析
 ### 浏览数据
