@@ -120,9 +120,9 @@
 #### 4.小游戏中能插入超链接跳转网页吗？
 
 - 不行，不提供内嵌webview或跳转的能力
-#### 5.小游戏是否支持Unity Video
+#### 5.小游戏是否支持Unity VideoPlayer
 
-- 不行，小游戏支持视频播放能力，但暂无法与Unity元素进行融合。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)
+- 不行，小游戏支持视频播放能力，但暂无法直接使用VideoPlayer。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
 #### 6.为什么使用Application.targetFrameRate无法限帧率？安卓左上角帧率不对
 
 - Application.targetFrameRate默认使用timer控制帧率，会导致不平滑，定时不精确
