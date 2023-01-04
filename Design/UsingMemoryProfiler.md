@@ -4,7 +4,7 @@
 在微信开发者工具运行游戏，利用ProfilingMemory，我们可以分析UnityHeap(CPU主内存)的详细分配堆栈与统计数值
 
 ## 步骤
-1. 导出选项时勾选"Profiling Funcs"与"Profiling Memory"
+1. 导出选项时勾选"Profiling Funcs"与"Profiling Memory"，***请勿同时勾选"Development Build"选项！！！***
 <img src='../image/memoryprofiler1.png' width="800"/>
 
 2. 在微信开发者工具运行游戏，过程中会自动记录所有内存分配数据
@@ -103,6 +103,6 @@ Other： select * from alloc_used where callback not like "%xxx%" or callback no
 
 ### 2. ProfilingMemory在真机上更容易出现内存崩溃
 - ProfilingMemory功能需要额外的内存记录堆栈与相关统计，因此JS侧内存压力会更大
-- 不建议在真机上使用该功能，只需要在微信开发者工具上进行分析即可，UnityHeap(CPU主内存)在不同端上的行为基本是一致的
+- 理论上UnityHeap(CPU主内存)在不同端上的行为基本是一致的，由于iOS内存更苛刻，建议使用微信开发者工具或Android真机进行内存堆栈导出
  
 
