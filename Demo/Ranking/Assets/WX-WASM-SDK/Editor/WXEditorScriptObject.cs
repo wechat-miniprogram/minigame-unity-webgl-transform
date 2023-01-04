@@ -198,6 +198,14 @@ namespace WeChatWASM
         /// ProfilingMemory
         /// </summary>
         public bool ProfilingMemory = false;
+        /// <summary>
+        /// CleanBuild
+        /// </summary>
+        public bool CleanBuild = false;
+        /// <summary>
+        /// CustomNodePath
+        /// </summary>
+        public string CustomNodePath = "";
     }
 
 

@@ -1,5 +1,5 @@
-import moduleHelper from "./module-helper";
-import { launchEventType } from "../plugin-config";
+import moduleHelper from './module-helper';
+import { launchEventType } from '../plugin-config';
 
 export default {
   WXReportGameStart() {
@@ -35,36 +35,35 @@ export default {
       GameGlobal.manager.hideLoadingPage();
     }
   },
-  WXReportUserBehaviorBranchAnalytics(branchId, branchDim, eventType){
+  WXReportUserBehaviorBranchAnalytics(branchId, branchDim, eventType) {
     wx.reportUserBehaviorBranchAnalytics(branchId, branchDim, eventType);
-    
   },
   WXPreloadConcurrent(count) {
     if (GameGlobal.manager && GameGlobal.manager.setConcurrent) {
-      GameGlobal.manager.setConcurrent(count)
+      GameGlobal.manager.setConcurrent(count);
     }
   },
   WXIsCloudTest() {
-    if (typeof GameGlobal.isTest !== "undefined" && GameGlobal.isTest ) { 
+    if (typeof GameGlobal.isTest !== 'undefined' && GameGlobal.isTest) {
       return true;
     }
     return false;
   },
   WXUncaughtException(needAbort) {
     function currentStackTrace() {
-      var err = new Error('WXUncaughtException');
-      return err
+      const err = new Error('WXUncaughtException');
+      return err;
     }
-    let err = currentStackTrace();
-    let fullTrace = err.stack.toString()
-    let posOfThisFunc = fullTrace.indexOf('WXUncaughtException')
+    const err = currentStackTrace();
+    let fullTrace = err.stack.toString();
+    const posOfThisFunc = fullTrace.indexOf('WXUncaughtException');
     if (posOfThisFunc != -1) fullTrace = fullTrace.substr(posOfThisFunc);
-    let posOfRaf = fullTrace.lastIndexOf("browserIterationFunc");
+    const posOfRaf = fullTrace.lastIndexOf('browserIterationFunc');
     if (posOfRaf != -1) fullTrace = fullTrace.substr(0, posOfRaf);
     const realTimelog = wx.getRealtimeLogManager();
-    realTimelog.error(fullTrace)
-    const logmanager = wx.getLogManager()
-    logmanager.warn(fullTrace)
+    realTimelog.error(fullTrace);
+    const logmanager = wx.getLogManager();
+    logmanager.warn(fullTrace);
     if (needAbort === true) {
       GameGlobal.onCrash(err);
       throw err;
@@ -76,62 +75,66 @@ export default {
   },
   WXCleanAllFileCache() {
     if (GameGlobal.manager && GameGlobal.manager.cleanCache) {
-      const key = new Date().getTime().toString(32)+Math.random().toString(32);
-      GameGlobal.manager.cleanAllCache().then(res => {
+      const key = new Date().getTime()
+        .toString(32) + Math.random().toString(32);
+      GameGlobal.manager.cleanAllCache().then((res) => {
         moduleHelper.send('CleanAllFileCacheCallback', JSON.stringify({
           callbackId: key,
-          result: res
-        }))
-      })
+          result: res,
+        }));
+      });
       return key;
     }
     return '';
   },
   WXCleanFileCache(fileSize) {
     if (GameGlobal.manager && GameGlobal.manager.cleanCache) {
-      const key = new Date().getTime().toString(32)+Math.random().toString(32);
-      GameGlobal.manager.cleanCache(fileSize).then(res => {
+      const key = new Date().getTime()
+        .toString(32) + Math.random().toString(32);
+      GameGlobal.manager.cleanCache(fileSize).then((res) => {
         moduleHelper.send('CleanFileCacheCallback', JSON.stringify({
           callbackId: key,
-          result: res
-        }))
-      })
+          result: res,
+        }));
+      });
       return key;
     }
     return '';
   },
   WXRemoveFile(path) {
     if (GameGlobal.manager && GameGlobal.manager.removeFile && path) {
-      const key = new Date().getTime().toString(32)+Math.random().toString(32);
-      GameGlobal.manager.removeFile(path).then(res => {
+      const key = new Date().getTime()
+        .toString(32) + Math.random().toString(32);
+      GameGlobal.manager.removeFile(path).then((res) => {
         moduleHelper.send('RemoveFileCallback', JSON.stringify({
           callbackId: key,
-          result: res
-        }))
-      })
+          result: res,
+        }));
+      });
       return key;
     }
     return '';
   },
   WXOnLaunchProgress() {
     if (GameGlobal.manager && GameGlobal.manager.onLaunchProgress) {
-      const key = new Date().getTime().toString(32)+Math.random().toString(32);
+      const key = new Date().getTime()
+        .toString(32) + Math.random().toString(32);
       // 异步执行，保证C#已经记录这个回调ID
       setTimeout(() => {
         GameGlobal.manager.onLaunchProgress((e) => {
           moduleHelper.send('OnLaunchProgressCallback', JSON.stringify({
             callbackId: key,
             res: JSON.stringify(Object.assign({}, e.data, {
-              type: e.type
-            }))
-          }))
+              type: e.type,
+            })),
+          }));
           // 最后一个事件完成，结束监听
           if (e.type === launchEventType.prepareGame) {
             moduleHelper.send('RemoveLaunchProgressCallback', JSON.stringify({
-              callbackId: key
-            }))
+              callbackId: key,
+            }));
           }
-        })
+        });
       }, 0);
       return key;
     }
@@ -144,8 +147,8 @@ export default {
   },
   WXSetPreloadList(paths) {
     if (GameGlobal.manager && GameGlobal.manager.setPreloadList) {
-      var list = (paths || '').split(',').filter(str => !!str && !!str.trim());
+      const list = (paths || '').split(',').filter(str => !!str && !!str.trim());
       GameGlobal.manager.setPreloadList(list);
     }
-  }
-}
+  },
+};

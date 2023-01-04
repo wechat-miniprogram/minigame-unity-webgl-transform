@@ -108,10 +108,16 @@ gameManager.onLaunchProgress = (e) => {
 ```
 
 ## 五、获取数据统计
+
 数据报表包含Unity Loader自动上报与开发者自定义阶段。关注总体流失漏斗以确定需要优化的方向，同时分阶段的耗时分布有利于帮助我们分析该阶段的对应耗时的用户占比。
-<img src='../image/reportstartupstat1.png'/>
+
+数据报表统计分析请参考文档[启动场景上报分析-数据分析](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-action-start-reportScene.html) 进行查看。
 
 <img src='../image/reportstartupstat2.png'/>
 
-注：
-目前该数据统计报表需要建联[小游戏研发助手](IssueAndContact.md)获取，未来会开放到《小游戏数据助手》。
+<img src='../image/reportstartupstat1.png'/>
+
+***注：***
+
+1. 若使用的 `转换插件版本<202211101011`（对应`Unity Loader版本<1.1.2`），数据统计报表需要建联[小游戏研发助手](IssueAndContact.md)获取。
+2. 数据报表数据未来会开放到《小游戏数据助手》。

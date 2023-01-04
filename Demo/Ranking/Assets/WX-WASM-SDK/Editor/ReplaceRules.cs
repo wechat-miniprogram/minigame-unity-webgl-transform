@@ -11,7 +11,7 @@ namespace WeChatWASM
 
     public class ReplaceRules
     {
-       public static Rule[] rules = {
+        public static Rule[] rules = {
        new Rule()
        {
            old=@"function *doRun\(\) *{",
@@ -20,12 +20,12 @@ namespace WeChatWASM
        new Rule()
        {
            old=@"calledMain *= *true",
-           newStr="if(ABORT===true)return;calledMain = true;if(Module.calledMainCb){Module.calledMainCb()}"
+           newStr="if(ABORT===true)return;calledMain = true;if(Module.calledMainCb){Module.calledMainCb()};if (GameGlobal.unityNamespace.enableProfileStats) {setTimeout(() => {SendMessage('WXSDKManagerHandler', 'OpenProfileStats');}, 30000);}"
        },
        new Rule()
        {
            old="self\\[\"performance\"\\]\\[\"now\"\\]",
-           newStr="wx.getPerformance().now"
+           newStr="performance.now"
        }
        ,new Rule()
        {
@@ -116,6 +116,21 @@ namespace WeChatWASM
        {
            old="if *\\(this.hookStackAlloc",
            newStr="return;if(this.hookStackAlloc"
+       },
+       new Rule()
+       {
+           old="allocateStatistics: *false",
+           newStr="allocateStatistics: true"
+       },
+       new Rule()
+       {
+           old="this.allocationSiteStatistics\\[str\\] *= *\\[0, *0\\]",
+           newStr="this.allocationSiteStatistics[str] = [0, 0, 0, 0];this.allocationSiteStatistics[str][2] += 1;"
+       },
+       new Rule()
+       {
+           old="this.allocationSiteStatistics\\[str\\]\\[1\\] *-= *sz",
+           newStr="this.allocationSiteStatistics[str][1] -= sz;this.allocationSiteStatistics[str][3] += 1;"
        },
        // ----MemoryProfiler End-----//
 #if !UNITY_2021
@@ -443,12 +458,32 @@ namespace WeChatWASM
           old="what=\"abort",
           newStr="if(Module.IsWxGame)window.WXWASMSDK.WXUncaughtException(true);what=\"abort"
        },
+       new Rule()
+       {
+          old="self.allocationsAtLoc\\[loc\\] *= *\\[ *0, *0, *self.filterCallstackForMalloc\\(loc\\)\\]",
+          newStr="self.allocationsAtLoc[loc] = [0, 0, 0, 0];"
+       },
+       new Rule()
+       {
+          old="self.allocationSitePtrs\\[ptr\\] *=",
+          newStr="self.allocationsAtLoc[loc][2] += 1;self.allocationSitePtrs[ptr]="
+       },
+       new Rule()
+       {
+          old="allocsAtThisLoc\\[1\\] *-= *sz",
+          newStr="allocsAtThisLoc[1] -= sz; allocsAtThisLoc[3] += 1;" 
+       },
 #endif
 #if UNITY_2021_3_OR_NEWER
         new Rule()
         {
             old="new AbortController(\\(\\)|\\b);?",
             newStr="new GameGlobal.unityNamespace.UnityLoader.UnityCache.XMLHttpRequest();if(GameGlobal.TEXTURE_PARALLEL_BUNDLE){GameGlobal.ParalleLDownloadTexture(_url)}"
+        },
+        new Rule()
+        {
+            old="enableStreamingDownload: *true",
+            newStr="enableStreamingDownload: false"
         },
         new Rule()
         {

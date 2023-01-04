@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
+    projectName: 
     Appid: 
-    projectName: test
-    CDN: https://www.test.com
-    assetLoadType: 1
+    CDN: 
+    assetLoadType: 0
     VideoUrl: 
     DST: 
     StreamCDN: 
@@ -39,7 +39,7 @@ MonoBehaviour:
     needCheckUpdate: 0
   SDKOptions:
     UseAudioApi: 0
-    UseFriendRelation: 1
+    UseFriendRelation: 0
     UseCompressedTexture: 0
   CompileOptions:
     DevelopBuild: 0
@@ -49,6 +49,8 @@ MonoBehaviour:
     Webgl2: 0
     DeleteStreamingAssets: 1
     ProfilingMemory: 0
+    CleanBuild: 0
+    CustomNodePath: 
   CompressTexture:
     halfSize: 0
     useDXT5: 0

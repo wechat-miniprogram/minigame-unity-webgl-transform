@@ -4,7 +4,7 @@ var LibraryGLClear = {
         if (mask == 0x00004000)
         {
             var v = GLctx.getParameter(GLctx.COLOR_WRITEMASK);
-            if (!v[0] && !v[1] && !v[2] && v[3])
+            if (GameGlobal.enableTransparentCanvas && !v[0] && !v[1] && !v[2] && v[3])
                 // We are trying to clear alpha only -- skip.
                 return;
         }

@@ -49,7 +49,13 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 
 ## 三、内存查看工具
-开发者可由系统进程、UnityHeap、JavaScript Heap等方面去分析和查看游戏内存。
+我们从大到小各个角度去监控和分析游戏的内存情况：
+
+进程级别: Perfdog、Android Studio、 Mac Xcode Instrument
+
+UnityHeap(CPU主内存): 性能面板、ProfilingMemory、JavaScript Heap
+
+引擎与资源：UnityProfiler
 
 ### 3.1 进程总内存
 查看总内存时，我们需要先确定监控的小游戏进程名称：
@@ -73,7 +79,7 @@ UnityHeap非常关键，典型由以下几部分组成：
 
 分析手段：
 1. 勾选转换面板"ProfilingMemory"
-2. 代码中增加WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
+2. 修改unity-namespace.js中enableProfileStats变量，或C#调用WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
 游戏左上角显示Performence Stats性能面板
 
 <img src='../image/optimizationMemory6.png' width="600"/>
@@ -105,13 +111,18 @@ Unity引擎视角：
 - 白色为预留部分，可被使用 
 - 其他颜色，已被业务使用
 
-### 3.3 Unity Profiler
-当发现UnityHeap(尤其是Native)占用比较高时，可通过UnityProfiler进一步分析问题所在。关于该工具在微信小游戏的使用请查阅[使用 Unity Profiler 性能调优](UnityProfiler.md)
+### 3.3 ProfilingMemory
+ProfilingMemory可以分析UnityHeap底层分配器的分配细节，任何分配都会产生记录，因此我们可以通过该能力分析更详细具体的分配行为。
+
+关于该能力的使用请查阅[使用ProfilingMemory分析内存](UsingMemoryProfiler.md)
+
+### 3.4 Unity Profiler
+当发现UnityHeap(尤其是Native)占用比较高时，可通过UnityProfiler进一步分析问题所在。关于该工具在微信小游戏的使用请查阅[使用 Unity Profiler 性能调优](UnityProfiler.md)，推荐使用Unity InstantGame版本增强的Profiler功能，下载地址请查阅[推荐引擎版本](UnityVersion.md)。
 
 <img src='../image/optimizationMemory12.png' width="400"/>
 
 
-### 3.4 JavaScript Heap
+### 3.5 JavaScript Heap
 由于Unity WebGL是托管在浏览器环境中，因此JavaScript Heap包含了大部分（并非全部）我们关注的内存， 通常我们可以使用浏览器自带的内存工具。 但需要注意的是***JavaScript Heap通常无法看出具体内存使用，发现该部分内存明显大于我们预留的UnityHeap，应检查是否有使用Unity Cache进行文件缓存，务必避免这样使用。***
 #### 微信开发者工具
 #### FireFox Memory(PC)

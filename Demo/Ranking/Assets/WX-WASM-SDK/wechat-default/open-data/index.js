@@ -1,61 +1,182 @@
-//绘制引擎文档可以参考  https://wechat-miniprogram.github.io/minigame-canvas-engine/
-import Layout from './open-data-js-sdk/minigame-canvas-engine/index';
-import SDK from "./open-data-js-sdk/index";
+import {
+  getFriendRankData,
+  getGroupFriendsRankData,
+  getSelfData,
+  setUserRecord,
+} from "./data/index";
 
-function main({x /*屏幕左上角横坐标*/, y/*屏幕左上角纵坐标*/, width/*渲染区域宽度大小*/, height/*渲染区域高度大小*/, devicePixelRatio/*像素密度比*/}){
-    //这里写你的业务逻辑，unity里面调用 WX.ShowOpenData 会自动执行到这里，WX.HideOpenData会自动销毁
+import getFriendRankXML from "./render/tpls/friendRank";
+import getFriendRankStyle from "./render/styles/friendRank";
+import getTipsXML from "./render/tpls/tips";
+import getTipsStyle from "./render/styles/tips";
 
+const Layout = requirePlugin("Layout").default;
+const RANK_KEY = "user_rank";
+const sharedCanvas = wx.getSharedCanvas();
+const sharedContext = sharedCanvas.getContext("2d");
 
-    //以下是demo可以删除掉, 体验demo可以参考 https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/Ranking/MiniGame/minigame
+// test
+setUserRecord(RANK_KEY, Math.ceil(Math.random() * 1000));
 
-    // demo开始
-    let template = `
-    <view id="container">
-    <text id="testText" class="redText" value="hello canvas"></text>
-    </view>
-`;
-    let style = {
-        container: {
-            width: 200,
-            height: 100,
-            backgroundColor: '#ffffff',
-            justContent: 'center',
-            alignItems: 'center',
-        },
-        testText: {
-            color: '#ffffff',
-            width: 200,
-            height: 50,
-            lineHeight: 50,
-            fontSize: 20,
-            textAlign: 'center',
-            backgroundColor: '#ffff00',
-        },
-        // 文字的最终颜色为#ff0000
-        redText: {
-            color: '#ff0000',
-        }
-    };
-    Layout.init(template, style);
-    const list = Layout.getElementsById('testText');
-    let id = 0;
-    list.forEach(item => {
-        item.on('click', (e) => {
-            console.log(e, item);
-            list[0].value = "hhh"+(++id);
+const MessageType = {
+  WX_RENDER: "WXRender",
+  WX_DESTROY: "WXDestroy",
+  SHOW_FRIENDS_RANK: "showFriendsRank",
+  SHOW_GROUP_FRIENDS_RANK: "showGroupFriendsRank",
+  SET_USER_RECORD: "setUserRecord",
+};
+
+/**
+ * 绑定邀请好友事件
+ * 温馨提示，这里仅仅是示意，请注意修改 shareMessageToFriend 参数
+ */
+const initShareEvents = () => {
+	// 绑定邀请
+  const shareBtnList = Layout.getElementsByClassName('shareToBtn');
+	shareBtnList && shareBtnList.forEach(item => {
+		item.on('click', (e) => {
+      if (item.dataset.isSelf === 'false') {
+        wx.shareMessageToFriend({
+          openId: item.dataset.id,
+          title: '最强战力排行榜！谁是第一？',
+          imageUrl: 'https://mmgame.qpic.cn/image/5f9144af9f0e32d50fb878e5256d669fa1ae6fdec77550849bfee137be995d18/0',
         });
-    });
-    let canvas = wx.getSharedCanvas();
-    let ctx   = canvas.getContext('2d');
-    Layout.updateViewPort({
-        width: width / devicePixelRatio,
-        height: height / devicePixelRatio,
-        x: x / devicePixelRatio,
-        y: y / devicePixelRatio
-    });
-    Layout.layout(ctx);
+      }
+		});
+	});
+};
 
-    // demo结束
+/**
+ * 初始化开放域，主要是使得 Layout 能够正确处理跨引擎的事件处理
+ * 如果游戏里面有移动开放数据域对应的 RawImage，也需要抛事件过来执行Layout.updateViewPort
+ */
+const initOpenDataCanvas = async (data) => {
+  Layout.updateViewPort({
+    x: data.x / data.devicePixelRatio,
+    y: data.y / data.devicePixelRatio,
+    width: data.width / data.devicePixelRatio,
+    height: data.height / data.devicePixelRatio,
+  });
+};
+
+// 给定 xml 和 style，渲染至 sharedCanvas
+function LayoutWithTplAndStyle(xml, style) {
+  Layout.clear();
+  Layout.init(xml, style);
+  Layout.layout(sharedContext);
+  console.log(Layout);
 }
 
-SDK.start(main);
+// 仅仅渲染一些提示，比如数据加载中、当前无授权等
+function renderTips(tips = "") {
+  LayoutWithTplAndStyle(
+    getTipsXML({
+      tips,
+    }),
+    getTipsStyle({
+      width: sharedCanvas.width,
+      height: sharedCanvas.height,
+    }),
+  );
+}
+
+// 将好友排行榜数据渲染在 sharedCanvas
+async function renderFriendsRank() {
+  renderTips('好友数据加载中...');
+  try {
+    const data = await getFriendRankData(RANK_KEY);
+
+    if (!data.length) {
+      renderTips('暂无好友数据');
+      return;
+    }
+
+    LayoutWithTplAndStyle(
+      getFriendRankXML({
+        data,
+      }),
+      getFriendRankStyle({
+        width: sharedCanvas.width,
+        height: sharedCanvas.height,
+      })
+    );
+    initShareEvents();
+  } catch (e) {
+    console.error('renderFriendsRank error', e);
+    renderTips('请进入设置页允许获取微信朋友信息');
+  }
+}
+
+// 渲染群排行榜
+async function renderGroupFriendsRank(shareTicket) {
+  renderTips('群同玩好友数据加载中...');
+
+  try {
+    const data = await getGroupFriendsRankData(shareTicket, RANK_KEY);
+
+    if (!data.length) {
+      renderTips('暂无群同玩好友数据');
+      return;
+    }
+
+    LayoutWithTplAndStyle(
+      getFriendRankXML({
+        data
+      }),
+      getFriendRankStyle({
+        width: sharedCanvas.width,
+        height: sharedCanvas.height,
+      })
+    );
+  } catch (e) {
+    renderTips('群同玩好友数据加载失败');
+  }
+}
+
+function main() {
+  wx.onMessage((data) => {
+    console.log("[WX OpenData] onMessage", data);
+
+    if (typeof data === "string") {
+      try {
+        data = JSON.parse(data);
+      } catch (e) {
+        console.error("[WX OpenData] onMessage data is not a object");
+        return;
+      }
+    }
+
+    switch (data.type) {
+      // 来自 WX Unity SDK 的信息
+      case MessageType.WX_RENDER:
+        initOpenDataCanvas(data);
+        break;
+
+      // 来自 WX Unity SDK 的信息
+      case MessageType.WX_DESTROY:
+        Layout.clearAll();
+        break;
+
+      // 下面为业务自定义消息
+      case MessageType.SHOW_FRIENDS_RANK:
+        renderFriendsRank();
+        break;
+
+      case MessageType.SHOW_GROUP_FRIENDS_RANK:
+        renderGroupFriendsRank(data.shareTicket);
+        break;
+
+      case MessageType.SET_USER_RECORD:
+        setUserRecord(RANK_KEY, data.score);
+        break;
+
+      default:
+        console.error(
+          `[WX OpenData] onMessage type 「${type}」 is not supported`
+        );
+        break;
+    }
+  });
+}
+
+main();
