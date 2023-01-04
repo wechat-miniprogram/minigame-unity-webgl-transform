@@ -6,9 +6,19 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-01-04
+### Feature
+* 增加`WX.ReportScene`接口，用于游戏自定义场景上报，可参见github文档，或mp文档 https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-action-start-reportScene.html
+* 增加`Rmdir`及`RmdirSync`接口
+* 增加`GetCachePath`接口
+* 提供插件缓存路径`PluginCachePath`
+* 性能面板增加ProfilingMemory Dump功能，使用请查阅：https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/UsingMemoryProfiler.md
+### Fixed
+* 修复偶现读取空文件的bug
+
 ## 2022-12-28
 ### Feature
-* 增加ProfilingMemory功能，使用请阅读相关文档
+* 增加ProfilingMemory功能
 * C# SDK支持API chooseMedia
 * Snapshot支持，Unity 2021编译参数增加_emscripten_stack_get_base,_emscripten_stack_get_end
 * iOS高性能模式2.29.1支持BufferURL
