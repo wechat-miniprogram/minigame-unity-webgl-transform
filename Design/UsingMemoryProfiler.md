@@ -9,10 +9,12 @@
 
 2. 在微信开发者工具运行游戏，过程中会自动记录所有内存分配数据
 
-3. 通过性能面板(修改unity-namespace.js-enableProfileStats开启)"ProfilingMemory Dump" 或者在微信开发者工具中选择gameContext, 并在Console输入命令: GameGlobal.memprofiler.onDump()。
+3. 导出内存堆栈数据
+- 方式1：通过性能面板(修改unity-namespace.js-enableProfileStats开启)"ProfilingMemory Dump" 
+- 方式2：者在微信开发者工具中选择gameContext, 并在Console输入命令: GameGlobal.memprofiler.onDump()。
 <img src='../image/memoryprofiler2.png' width="600"/>
 
-4. 将位于“游戏缓存目录/usr/alloc_used.csv”（Android位于data/com.tencent.mm/MicroMsg/wxanewfiles/最近使用时间的目录）拖拽并导入到sqlite数据库， 推荐使用[DB Browser for SQLite](https://sqlitebrowser.org/)
+4. 微信开发者工具-“游戏缓存目录/usr/alloc_used.csv”（Android位于data/com.tencent.mm/MicroMsg/wxanewfiles/最近使用时间的目录）拖拽并以csv方式导入sqlite数据库， 推荐使用[DB Browser for SQLite](https://sqlitebrowser.org/)
 
    <img src='../image/memoryprofiler3.png' width="600"/>
    <img src='../image/memoryprofiler4.png' width="400"/>
