@@ -10,7 +10,7 @@
 2. 在微信开发者工具运行游戏，过程中会自动记录所有内存分配数据
 
 3. 导出内存堆栈数据
-- 方式1：通过性能面板(修改unity-namespace.js-enableProfileStats开启)"ProfilingMemory Dump" 
+- 方式1：点击性能面板左上角的"ProfilingMemory Dump" 完成导出（开启性能面板可通过修改unity-namespace.js-enableProfileStats或C#调用OpenProfileStats）
 - 方式2：者在微信开发者工具中选择gameContext, 并在Console输入命令: GameGlobal.memprofiler.onDump()。
 <img src='../image/memoryprofiler2.png' width="600"/>
 
