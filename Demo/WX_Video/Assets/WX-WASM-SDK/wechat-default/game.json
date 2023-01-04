@@ -1,0 +1,27 @@
+{
+    "deviceOrientation": "$ORIENTATION",
+    "openDataContext": "open-data",
+    "iOSHighPerformance": true,
+    "subpackages": [
+        {
+            "name": "wasmcode",
+            "root": "wasmcode/"
+        },
+        {
+            "name": "data-package",
+            "root": "data-package/"
+        }
+    ],
+    "plugins": {
+        "UnityPlugin": {
+            "version": "1.0.95",
+            "provider": "wxe5a48f1ed5f544b7",
+            "contexts": [
+                {
+                    "type": "isolatedContext"
+                }
+            ]
+        }
+    },
+    "workers": "workers"
+}
