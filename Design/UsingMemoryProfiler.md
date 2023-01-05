@@ -45,6 +45,8 @@ Unity 2021:
 
 
  AssetBundle Info:  select * from alloc_used where callback like "%get_assetBundle%"
+ 
+ AssetBundle TypeTree: select * from alloc_used where callback like "%TypeTree%"
 
  Lua: select * from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%"
 
@@ -62,6 +64,8 @@ Other： select * from alloc_used where callback not like "%xxx%" or callback no
  AssetBundle Storage Memory: select * from alloc_used where callback like "%AssetBundleLoadFromStreamAsyncOperation%" 
  
  AssetBundle Info: select * from alloc_used where callback like "%get_assetBundle%"
+ 
+ AssetBundle TypeTree: select * from alloc_used where callback like "%TypeTree%"
  
  Lua： select * from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%" 
  
