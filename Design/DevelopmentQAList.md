@@ -39,6 +39,13 @@
 #### 10.内网开发时，微信开发者工具服务异常
 - 微信开发者工具域名被屏蔽，参照指引放开域名限制[微信开发者工具域名列表](DevtoolsDomain.md)
 
+#### 11.开发者工具提示`pluginid: wx7a727ff7d940bb3f, permission deny`字样错误
+Q: 
+
+<image src="../image/rank-demo/addplugin.png" width="400">
+
+A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需要添加插件。可通过微信开发者工具控制台-添加插件的报错信息添加插件，即可正常使用。同时需要注意**实际未使用关系链数据时请删掉game.json中plugins.Layout配置**
+
   
 ## Unity WebGL
 #### 1.能否使用System.Net命名空间下的接口
