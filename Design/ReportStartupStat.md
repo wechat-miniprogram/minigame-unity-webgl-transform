@@ -22,41 +22,52 @@ eg: `adSpaceType=1&adType=1&materialType=1`
 ## 三、上报自定义阶段
 为了详细统计玩家的流失情况以便开发者进行优化，我们拆分了三个部分。
 <img src='../image/reportstartupstat3.png'/>
-其中**自动上报**为Unity Loader自动完成开发者无需关注，但**自定义阶段**与**启动加载完成**需开发者主动调用接口进行上报。详细接口可参考C# SDK中的WX.cs，此处列出关键接口：
+其中**自动上报**为Unity Loader自动完成开发者无需关注，但**自定义阶段**与**启动加载完成**需开发者主动调用接口进行上报。详细接口可参考C# SDK中的WX.cs，文档可查看[启动场景上报分析](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-action-start-reportScene.html) 及 [wx.reportScene](https://developers.weixin.qq.com/minigame/dev/api/data-analysis/wx.reportScene.html)
 
-**1. 定义阶段**
-
-设置游戏当前阶段，通过此接口，插件能感知到游戏业务所处阶段。
-``` C#
-    WX.SetGameStage(int stageType)
-```
-stageType取值范围：[200,10000]
-
-**2. 上报阶段耗时**
-上报当前自定义阶段耗时
-``` C#
-      WX.ReportGameStageCostTime(int costTime, string extJsonStr)
-```
-costTime为阶段耗时，如不关心可填0
-extJsonStr为阶段额外信息，可填""
-
-**3. 游戏完成所有加载时上报**
+**1. 游戏完成所有加载时上报**
 
 当游戏完成所有加载阶段，进入核心玩法时(如进入新手引导或大厅)调用
 ``` C#
       WX.ReportGameStart()
 ```
-**4. 上报当前自定义阶段错误信息**
+**2. 上报当前自定义阶段错误信息**
 ``` C#
-      WX.ReportGameStageError(int errorType, string errStr, string extJsonStr)
+      WX.ReportGameSceneError(int sceneId, int errorType, string errStr, string extJsonStr)
 ```
+sceneId同**启动场景上报分析**
+
 errorType取值：[0,10000]
 
 示例：
 ``` C#
-      // 假设Loading场景中A资源完成为200, 需要知道完成的留存率
-      WX.SetGameStage(200);
-      WX.ReportGameStageCostTime(0, "");
+      // 假设Loading场景中A资源完成为1001, 需要知道完成的留存率
+      WX.ReportScene(new ReportSceneParams()
+      {
+            sceneId = 1001,
+            costTime = 100,
+            metric = new Dictionary<string, string>()
+            {
+                  { "testkey1", "1" },
+                  { "testkey2", "2" }
+            },
+            dimension = new Dictionary<string, string>()
+            {
+                  { "testkey1", "testvalue1" },
+                  { "testkey2", "testvalue2" }
+            },
+            complete = (res) =>
+            {
+                  Debug.Log("ReportScene complete" + res);
+            },
+            success = (res) =>
+            {
+                  Debug.Log("ReportScene success: " + res);
+            },
+            fail = (res) =>
+            {
+                  Debug.Log("ReportScene fail: " + res);
+            }
+      });
       
       // 所有加载完成，玩家可以交互(如休闲游戏已进入核心玩法、MMO游戏进入创角时), 需要知道留存率
       WX.ReportGameStart();
