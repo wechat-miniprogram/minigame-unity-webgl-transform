@@ -4,7 +4,7 @@
 在微信开发者工具运行游戏，利用ProfilingMemory，我们可以分析UnityHeap(CPU主内存)的详细分配堆栈与统计数值
 
 ## 步骤
-1. 导出选项时勾选"Profiling Funcs"与"Profiling Memory"，***请勿同时勾选"Development Build"选项！！！***
+1. 游戏启动调用WeChatWASM.WX.InitSDK，并勾选导出选项"Profiling Funcs"与"Profiling Memory"，***请勿同时勾选"Development Build"选项！！！***
 <img src='../image/memoryprofiler1.png' width="800"/>
 
 2. 在微信开发者工具运行游戏，过程中会自动记录所有内存分配数据
