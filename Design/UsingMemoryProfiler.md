@@ -44,38 +44,40 @@ Unity 2021:
  AssetBundle Storage Memory: select sum(size) from alloc_used where callback like "%AssetBundle_LoadFromMemory%" or callback like "%OnFinishReceiveData%" or callback like "%AssetBundleLoadFromStream%"
 
 
- AssetBundle Info:  select * from alloc_used where callback like "%get_assetBundle%"
+ AssetBundle Info:  select sum(size) from alloc_used where callback like "%get_assetBundle%"
  
- AssetBundle TypeTree: select * from alloc_used where callback like "%TypeTree%"
+ AssetBundle TypeTree: select sum(size) from alloc_used where callback like "%TypeTree%"
 
- Lua: select * from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%"
+ Lua: select sum(size) from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%"
 
- Shader: select * from alloc_used where callback like "%ShaderLab%"
+ Shader: select sum(size) from alloc_used where callback like "%ShaderLab%"
 
  IL2CPP runtime: select sum(size) from alloc_used where callback like "%MetadataCache%"
 
- MipMap: select * from alloc_used where callback like "%Mipmap%"
+ 非压缩纹理软解: select sum(size) from alloc_used where callback like "%Mipmap%"
 
-Other： select * from alloc_used where callback not like "%xxx%" or callback not like "%xxx%"
+Other： select sum(size) from alloc_used where callback not like "%xxx%" or callback not like "%xxx%"
  ```
  
  Unity 2018~2020：
  ```
- AssetBundle Storage Memory: select * from alloc_used where callback like "%AssetBundleLoadFromStreamAsyncOperation%" 
+ AssetBundle Storage Memory: select sum(size) from alloc_used where callback like "%AssetBundleLoadFromStreamAsyncOperation%" 
  
- AssetBundle Info: select * from alloc_used where callback like "%get_assetBundle%"
+ AssetBundle Info: select sum(size) from alloc_used where callback like "%get_assetBundle%"
  
- AssetBundle TypeTree: select * from alloc_used where callback like "%TypeTree%"
+ AssetBundle TypeTree: select sum(size) from alloc_used where callback like "%TypeTree%"
  
- Lua： select * from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%" 
+ Lua： select sum(size) from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%" 
  
- Shader: select * from alloc_used where callback like "%ShaderFromSerializedShader%"
+ Shader: select sum(size) from alloc_used where callback like "%ShaderFromSerializedShader%"
  
- IL2CPP runtime: select * from alloc_used where callback like "%MetadataCache%" -19M
+ IL2CPP runtime: select sum(size) from alloc_used where callback like "%MetadataCache%" -19M
  
- 动画数据： select  * from alloc_used where callback like "%AnimationClip%" -7MB
+ 动画数据： select  sum(size) from alloc_used where callback like "%AnimationClip%" -7MB
+ 
+ 非压缩纹理软解: select sum(size) from alloc_used where callback like "%Mipmap%"
 
- Other： select * from alloc_used where callback not like "%xxx%" or callback not like "%xxx%"
+ Other： select sum(size) from alloc_used where callback not like "%xxx%" or callback not like "%xxx%"
  ```
  
  除了常见的堆栈特征外，我们也可以根据业务自己的使用特点来进行SQL分析。
