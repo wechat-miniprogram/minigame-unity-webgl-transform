@@ -42,11 +42,11 @@
 
 主要的执行过程如下图所示：
 
-<img src="../image/compressedTexture01.png" alt="compressedTexture01.pn" width="80%" />
+<img src="../image/compressedTexture02.png" alt="compressedTexture02.png" width="80%" />
 
 ### 1.安装 Node.js
 
-​		下载并安装 [Node.JS](https://nodejs.org/en/) 
+​		下载并安装 [Node.JS](https://nodejs.org/en/) 并检查环境变量是否生效。
 
 ### 2.构建 Bundle 文件
 
@@ -75,36 +75,27 @@
 
 ​		ASTC 是多数移动设备中游戏运行的主要支持的纹理格式，因此也是微信小游戏环境下主要使用到的压缩的纹理资源。
 
-​		在 2021版本 Unity 纹理资源的  `WebGL Settings` 的 `Format` 配置项中，工具支持识别 **RGB(A) Compressed ASTC 8x8、5x5、4x4 block** 这三种压缩格式，其余格式请勿设置，并且不支持 ASTC HDR 系列的格式。
+​		在 2021版本 Unity 纹理资源的  `WebGL Settings` 的 `Format` 配置项中，工具支持识别 **RGB(A) Compressed ASTC 8x8、6x6、5x5、4x4 block** 这三种压缩格式，其余格式请勿设置，并且不支持 ASTC HDR 系列的格式。
 
-​		若以上述3种格式配置后，最终生成的多份格式资源中，ASTC 资源将保持对应的 Block Size。值得注意的是，默认推荐使用 Block Size 8x8 格式，4x4 最清晰内存占用也会升高，开发者应根据实际调试后运行效果按需配置。
+​		若以上述4种格式配置后，最终生成的多份格式资源中，ASTC 资源将保持对应的 Block Size。值得注意的是，默认推荐使用 Block Size 8x8 格式，4x4 最清晰内存占用也会升高，开发者应根据实际调试后运行效果按需配置。
 
 ### 3.导出游戏
 
 ​		点击`微信小游戏 - 转换小游戏 - 导出WEBGL并转化为小游戏` 导出游戏工程。请注意！任何时候当 微信Unity SDK 更新后，均需要重新执行该步骤（导出游戏工程）再使用同版本的压缩纹理工具完成后续操作，**不可混版本使用**。
 
-### 4.执行压缩纹理(分离)
+### 4.执行压缩纹理
 
-​		点击 `微信小游戏 - 包体瘦身--压缩纹理` ，配置好 bundle 后缀后，可点击 `打开bundle配置面板` 查看识别情况，并按需忽略部分bundle资源，点击 `处理资源` 开始处理。如果自定义了bundle生成路径，要将bundle复制到导出目录的webgl目录下。
+​		点击 `微信小游戏 - 包体瘦身--压缩纹理` ，可点击 `打开bundle配置面板` 查看识别情况，并按需忽略部分不希望执行压缩纹理的bundle资源，点击 `处理资源` 开始处理。
+
+​		`调试模式` 将只生成 ASTC 格式（开发者工具中使用PNG资源，移动设备使用 ASTC格式资源），调试结束后可再次选用`全量模式`（默认采用增量逻辑不会额外增加处理时间）
 
 ​		该步骤根据项目实际情况不同，处理时间也会有差异，执行完成后请留意控制台提示信息，不可存在多个警告消息。
 
 <img src="../image/cm-texture1.png" alt="avatar" width="50%" />
 
-### 5.执行压缩纹理(生成)
+### 5.上传CDN
 
-​		步骤4 处理完成后，控制台将给出使用 Node.js 脚本执行的消息提醒，开发者应根据提醒进入该目录，执行：
-
-```shell
-#开发调试阶段使用 只生成 ASTC 格式用于真机调试
-node compress_astc_only.js
-#上线时使用 生成所有格式纹理资源
-node compress_all.js
-```
-
-### 6.上传CDN
-
-​		执行完上述步骤后，将 `webgl-min` 目录中的资源上传至 CDN 服务器中，如 Assets 目录、StreamingAssets目录、xxx.webgl.data.unityweb.bin.txt 等文件，log 目录无需上传。
+​		执行完上述步骤后，将 `webgl-min` 目录中的资源上传至 CDN 服务器中，如 Assets 目录、StreamingAssets目录、xxx.webgl.data.unityweb.bin.txt 等文件。
 
 
 
@@ -128,35 +119,59 @@ node compress_all.js
 
 ​		移动设备中大多数使用 ASTC 作为主要的纹理资源格式，ASTC 是不受纹理资源高宽影响的，因此非 4 倍数底层逻辑处理并不会对移动设备上的表现有差异。而对于 DXT 格式是 PC 小游戏中主要的纹理资源格式，该格式是要求高宽必须为 4 的倍数，微信纹理压缩工具在资源处理的过程中识别了资源能否正确的被压缩处理，并在渲染期间做了兜底的渲染策略，在 PC 的表现上，若资源支持以 DXT 格式，则将采用 DXT 渲染，否则遵循兜底策略，其格式优先级为： ASTC、ETC2、DXT、PNG，最差的情况将使用 PNG 格式渲染。
 
+### 4.Node.js异常处理
+
+​		压缩纹理工具执行需要依赖 Node.js 解释器，若执行前已安装 Node.js 但执行时提示未找到则需手动填入本机 Node.js 路径。请将 Node.js 的绝对路径填写至 `Assets/WX-WASM-SDK/Editor/TextureEditor/WXAssetsTextTools.cs` 文件的 `NODE_PATH` 变量中。若开发者使用API调用执行，可对该变量进行直接赋值。
+
 
 
 ## 微信压缩纹理API介绍
 
 ​		为方便开发者构建个性化的工程导出能力，微信压缩纹理工具提供了相应的 API 调用接口，开发者可以在游戏内自助构建游戏导出脚本，完成发布上传前的自动化操作。
 
-### WXTextMin.CompressText( ... )
+> 提示：为简化调用，忽略ab、工程路径等数据均来自面板配置此处不提供相应参数传入，面板配置后将被存盘记录无需每次执行前进行配置。
 
-​		void WXTextMin.CompressText(string projectPath, string bundleSuffix, string bundleDir, WXTextFormat format, WXTextMinResponse res)
+### WXAssetsTextTools.CompressText( ... )
+
+​		void WXAssetsTextTools.CompressText(Action<bool, string> complete = null, string bundleDir = null, string outBundleDir = null, bool debug = false, bool force = false)
 
 #### 说明
 
-​		执行微信压缩纹理流程，该函数为异步函数，调用后并不会立即处理成功，需提供 WXTextMinResponse 来获取执行结束后的回调事件。
+​		执行微信压缩纹理流程，该函数为异步函数，调用后并不会立即处理成功，需提供 complete 函数来获取执行结束后的回调事件。
 
 #### 参数
 
-| 参数         | 类型              | 说明                                                         |
-| ------------ | ----------------- | ------------------------------------------------------------ |
-| projectPath  | string            | 工程导出目录（默认目录内应包含 minigame 与 webgl ）两个文件夹 |
-| bundleSuffix | string/string[]   | AB包后缀，多个后缀使用英文逗号分隔，也可传入字符串数组       |
-| bundleDir    | string            | 可缺省，若存在独立的AB包目录，则此处填写目录的绝对路径       |
-| format       | WXTextFormat      | 可缺省，默认全格式导出(WXTextFormat.ALL)，调试阶段可选择 WXTextFormat.ASTC 仅导出ASTC模式 |
-| res          | WXTextMinResponse | 实现 WXTextMinResponse 声明的 on 方法，可在方法中获得直接结束后的回调事件 |
+| 参数         | 类型   | 说明                                                         |
+| ------------ | ------ | ------------------------------------------------------------ |
+| complete     | Action | 执行结束的回调函数，形参1(bool) 返回执行是否成功，形参2(string)返回执行错误时的错误提示信息。 |
+| bundleDir    | string | 可缺省，若存在独立的AB包目录，则此处填写目录的绝对路径。     |
+| outBundleDir | string | 可缺省，若填写bundleDir则不可省略，独立AB包处理后的输出目录。 |
+| debug        | bool   | 可缺省，默认全量生成(false)，true时仅生成ASTC格式纹理。      |
+| force        | bool   | 可缺省，默认遵循增量逻辑(false)，true时将强制生成（已生成资源仍然生成并覆盖）。 |
+
+例子：
+
+```c#
+WXAssetsTextTools.CompressText((result, msg) =>
+	{
+		if (result)
+		{
+			Debug.Log("微信压缩纹理转换完成！");
+		}else{
+			Debug.LogError(msg);
+		}
+	}, 
+	null, 
+	null, 
+	false,
+	false);
+```
 
 
 
-### WXTextMin.GetBundleList( ... )
+### WXAssetsTextTools.GetAssetBundles( ... )
 
-​		string[] WXTextMin.GetBundleList(string projectPath, string bundleSuffix, string bundleDir)
+​		void WXAssetsTextTools.GetAssetBundles(Action<string[]> callback = null, string bundleDir = null)
 
 #### 说明
 
@@ -164,41 +179,7 @@ node compress_all.js
 
 #### 参数
 
-
-
-### WXTextMin.SetIgnore( ... )
-
-​		void WXTextMin.SetIgnore( ... )
-
-#### 说明
-
-​		设置资源忽略清单，清单中资源将被原样保留不被压缩处理，且若清单中的资源曾经已经被处理过，则将被还原。请注意，设置清单是长期有效的配置，不清理微信压缩纹理相关配置目录则忽略规则是长期有效，且该配置受 Unity - 微信纹理压缩包体瘦身 面板的配置影响，因此开发者通常仅需要在面板中做好相应配置，无需频繁改动。
-
-
-
-### WXTextMin.GetIgnore()
-
-​		void WXTextMin.SetIgnore( ... )
-
-#### 说明
-
-​		获取当前资源忽略清单。
-
-
-
-### WXTextFormat 常量说明
-
-| 常量              | 说明                                             |
-| ----------------- | ------------------------------------------------ |
-| WXTextFormat.ASTC | 仅对纹理进行ASTC格式转换                         |
-| WXTextFormat.ALL  | 对纹理进行所有的格式转换，ASTC、ETC、DXT、MinPNG |
-
-
-
-### WXTextMin.GetWebGLMinFiles()
-
-​		void WXTextMin.SetIgnore( ... )
-
-#### 说明
-
-​		获取
+| 参数      | 类型   | 说明                                                         |
+| --------- | ------ | ------------------------------------------------------------ |
+| callback  | Action | 扫描结束的回调函数，形参(string[]) 返回扫描到的ab包资源绝对路径。 |
+| bundleDir | string | 可缺省，若存在独立的AB包目录，则此处填写目录的绝对路径。     |
