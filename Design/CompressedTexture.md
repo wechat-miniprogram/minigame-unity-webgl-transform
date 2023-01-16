@@ -137,7 +137,7 @@
 
 #### 说明
 
-​		执行微信压缩纹理流程，该函数为异步函数，调用后并不会立即处理成功，需提供 complete 函数来获取执行结束后的回调事件。
+​		执行微信压缩纹理流程，该函数为异步函数。该方法对应【包体瘦身--压缩纹理】面板中「处理资源」按钮的执行，其中小游戏工程导出目录路径来自【转换小游戏】面板中配置。。
 
 #### 参数
 
@@ -153,18 +153,18 @@
 
 ```c#
 WXAssetsTextTools.CompressText((result, msg) =>
-	{
-		if (result)
-		{
-			Debug.Log("微信压缩纹理转换完成！");
-		}else{
-			Debug.LogError(msg);
-		}
-	}, 
-	null, 
-	null, 
-	false,
-	false);
+  {
+    if (result)
+    {
+      Debug.Log("微信压缩纹理转换完成！");
+    }else{
+      Debug.LogError(msg);
+    }
+  }, 
+  null, 
+  null, 
+  false,
+  false);
 ```
 
 
