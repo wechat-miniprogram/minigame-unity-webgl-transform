@@ -6,6 +6,17 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-01-17
+### Feature
+* 适配Unity 2020版本导出的_JS_Sound_IsStopped
+* 适配插件版本升级到1.1.12
+
+### Fixed
+* WebGL2.0模式下，修复iOS普通模式的渲染异常
+* WebGL2.0模式下，修复iOS高性能模式进程内存过大的问题
+* 修复fmod相关的适配问题
+* 修复微信压缩纹理DXT占位符当初修复eslint引发的无法替换问题
+
 ## 2023-01-04
 ### Feature
 * 增加`WX.ReportScene`接口，用于游戏自定义场景上报，可参见github文档，或mp文档 https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-action-start-reportScene.html
