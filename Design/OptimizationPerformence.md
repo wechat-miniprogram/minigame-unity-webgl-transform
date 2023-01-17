@@ -81,7 +81,7 @@ Unity WebGL环境的lua不支持JIT，因此需要避免用于重度逻辑。可
 限制帧率有利于降低设备发热量与提升游戏时长，对帧率不敏感游戏建议使用。小游戏平台请勿使用Application.targetFramerate限帧，应使用WX.setPreferredFramesPerSecond控制更为平滑。
 
 ### 6. 限制分辨率
-限制分辨率以一定的画质牺牲来降低对设备消耗，在小游戏平台请勿使用Unity的SetResulution等接口修改分辨率，应使用DevicePixelRatio来控制。设备默认DevicePixelRatio(最后一列dpi)如下：
+限制分辨率以一定的画质牺牲来降低对设备消耗，在小游戏平台请勿使用Unity的SetResulution等接口修改分辨率，应使用DevicePixelRatio来控制(仅支持ios、android)。设备默认DevicePixelRatio(最后一列dpi)如下：
 
 <img src='../image/optimizationperformence2.png'  width="800"/>
 
