@@ -107,7 +107,7 @@
 
 ## 新版本异常回退说明
 
-​		微信纹理压缩升级了全新的内核程序，尽管发布前进行了多数Unity年限版本与常见机型的测试，目前仍处于初期测试使用，若使用期间存在异常影响正常的游戏发布可前往issues提出问题，并使用[上一代稳定版微信纹理压缩包（旧）]()导入工程后采用旧版本完成游戏发布。旧版本使用指引请参阅：[微信压缩纹理使用说明（旧）](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/37ee6bf04443ac37c81571f60d43f9ca6e6c21c8/Design/CompressedTexture.md)
+​		微信纹理压缩升级了全新的内核程序，尽管发布前进行了多数Unity年限版本与常见机型的测试，目前仍处于初期测试使用，若使用期间存在异常影响正常的游戏发布可前往issues提出问题，并使用[上一代稳定版微信纹理压缩包（旧）](../tools/minigame.texturecompressed.backup.unitypackage)导入工程后采用旧版本完成游戏发布。旧版本使用指引请参阅：[微信压缩纹理使用说明（旧）](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/37ee6bf04443ac37c81571f60d43f9ca6e6c21c8/Design/CompressedTexture.md)
 
 
 
