@@ -97,12 +97,7 @@ if(wx.getSystemInfoSync().platform == 'ios') window.devicePixelRatio = 2;
 在压缩纹理不支持的情况下，纹理会由于需要在CPU中软解为RGB/RGBA32造成巨大的CPU和内存消耗，运行中的这种行为会造成明显的帧率卡顿问题，建议使用[压缩纹理优化](CompressedTexture.md)。
 
 ### 8. WebGL2.0说明
-Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该特性在小游戏环境的支持进一步说明。
-- 小游戏Android平台在8.0.24已支持WebGL2, 用户占比>80%
-- 小游戏iOS高性能模式需要iOS系统版本>=15.0，用户占比>70%
-- WebGL2.0特性较多，平台暂不保证所有能力完善，开发者务必验证游戏所用到的特性支持情况
-
-因此，需开启WebGL2.0的开发者要关注用户占比与验证特性的实际表现（关于用户占比，微信广告可筛选iOS系统版本信息规避）。
+请查阅[WebGL2.0渲染支持说明](WebGL2.md)
 
 ### 9. 减少Drawcall
 大量DC会造成非常大的CPU压力，当场景渲染物件过多时应该采取适当的措施减少Drawcall
@@ -112,6 +107,17 @@ Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该�
 
 ### 10. 使用SRP Batcher
 Uinty WebGL的SRP Batcher需要两个先决条件：Unity 2021以上 + WebGL2.0
+
+### 11. 如何获取设备硬件信息
+- 使用[wx.getDeviceInfo](https://developers.weixin.qq.com/miniprogram/dev/api/base/system/wx.getDeviceInfo.html)获取硬件信息， ***该接口使用前需自行判断是否满足基础库版本要求***。新版本已新增memorySize 和 CPUType获取设备内存、CPU型号
+- 使用JS代码获取GPU信息
+  ```
+    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+    const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+    console.log(vendor);
+    console.log(renderer);
+  ``` 
 
 
 
