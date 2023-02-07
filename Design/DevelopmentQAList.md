@@ -117,7 +117,7 @@ A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需�
 ## 平台适配
 #### 1.文本输入框点击无法输入，没有弹出输入法
 
-- 请参考小游戏输入法API进行适配
+- 请参考小游戏输入法API进行适配，示例[API Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/API)
 #### 2.高性能模式下iOS无法加载，但Android和微信开发者工具没问题
 
 - 请参考文档[iOS高性能模式](iOSOptimization.md)QA部分
