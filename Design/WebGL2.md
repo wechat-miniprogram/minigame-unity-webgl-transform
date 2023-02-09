@@ -19,16 +19,6 @@ Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该�
 
 ## 兼容性
  WebGL2.0特性较多，平台暂不保证所有能力完善，开发者务必验证游戏所用到的特性支持情况。
- 
-- iOS普通模式WebGL2出现紫色块，无法正常渲染
-修改framework.js, 增加wx_disable_wasm_opt选项：
-```
-wx: {
-  ignore_opt_glue_apis: ["_glGenTextures", "_glBindTexture"...],
-  wx_disable_wasm_opt: 1
-}
-```
-
  如遇到问题请与小游戏研发助手(微信号:minigamedevop08)联系详细排查。
 
 
