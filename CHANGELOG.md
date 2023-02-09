@@ -6,6 +6,14 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-02-9
+### Feature
+* 微信压缩纹理新增API可供开发者调用接入自定义自动转化能力
+* 微信压缩纹理工具内核优化
+* 微信压缩纹理工具对WebGL2.0 Gamma Linear模式兼容（Beta）
+### Fixed
+* WebGL2.0模式下，修复Android的内存异常上涨
+* 
 ## 2023-01-17
 ### Feature
 * 适配Unity 2020版本导出的_JS_Sound_IsStopped
