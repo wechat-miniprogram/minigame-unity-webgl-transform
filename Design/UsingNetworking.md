@@ -99,25 +99,21 @@ UnityWebSocket需要对WebSocket.jslib做两处修改([新版本](https://github
 
 
 ## 注意事项
+非调试版本的微信小游戏的网络需要提前在MP后台[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)，以及使用带证书的HTTPS、WSS协议。
+
+经常有开发者问到：“为什么开发者工具正常，真机访问异常” 或者 “打开调试时正常，但关闭时异常”，通常是由于安全域名与SSL证书：
+- 微信开发者工具默认不检验安全域名、SSL证书，可通过详情-本地设置-关闭“不检验合法域名、HTTPS证书”进行自查
+- 真机环境下，开启调试时不检验安全域名
+
+也有开发者问道：“在开发前期，我还没SSL证书可以跑起来吗？” 答案是肯定的：
+- 微信开发者工具 or 使用调试模式的真机环境, 可以使用HTTP/WS等不带SSL证书的协议
+- 正式上线必须使用HTTPS/WSS等带SSL证书的协议，因为上线后不可能也让玩家打开调试模式
 
 ### 安全域名
 
 1. 开发、测试阶段做真机预览时，可以通过手机端小游戏右上角菜单-“开启调试”不检查安全域名
 2. 开发者工具预览时，可通过“详情-本地设置-不检验合法域名“不检查安全域名
 3. 上线版本的网络请求必须[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。在 mp.weixin.qq.com 后台，**_开发-开发管理-开发设置-服务器域名_**进行设置。如果是 HTTP 请求请设置到 request、download合法域名，Websocket 请求请设置到 socket 合法域名。
-
-### 跨域(iOS高性能模式)
-
-为了在 WebGL 中访问跨域 Web 资源，您尝试访问的服务器需要使用跨源资源共享 (CORS) 对此跨域 Web 资源进行授权。
-服务器需添加 Access-Control 标头，以允许 Unity WebGL 从任何源点访问 Web 服务器上的资源，包括常见的响应头，并允许 GET、POST 或 OPTIONS 方法：
-```json
-"Access-Control-Allow-Credentials": "true",
-"Access-Control-Expose-Headers": "Content-Length, Content-Encoding",
-"Access-Control-Allow-Headers": "Accept, X-Access-Token, X-Application-Name, X-Request-Sent-Time, Content-Type",
-"Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-"Access-Control-Allow-Origin": "*",
-```
-
 
 ### SSL证书
 
