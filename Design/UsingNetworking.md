@@ -99,9 +99,9 @@ UnityWebSocket需要对WebSocket.jslib做两处修改([新版本](https://github
 
 
 ## 注意事项
-非调试版本的微信小游戏的网络需要提前在MP后台[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)，以及使用带证书的HTTPS、WSS协议。
+微信小游戏的网络需要提前在MP后台[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)，以及使用带证书的HTTPS、WSS协议。
 
-经常有开发者问到：“为什么开发者工具正常，真机访问异常” 或者 “打开调试时正常，但关闭时异常”，通常是由于安全域名与SSL证书：
+经常有开发者问道：“为什么开发者工具正常，真机访问异常” 或者 “打开调试时正常，但关闭时异常”，通常是由于安全域名与SSL证书：
 - 微信开发者工具，默认不检验安全域名、SSL证书；通过详情-本地设置-关闭“不检验合法域名、HTTPS证书”进行自查
 - 真机环境下，默认会检查安全域名；开启调试时不检验安全域名
 
@@ -111,12 +111,15 @@ UnityWebSocket需要对WebSocket.jslib做两处修改([新版本](https://github
 
 ### 安全域名
 
-1. 开发、测试阶段做真机预览时，可以通过手机端小游戏右上角菜单-“开启调试”不检查安全域名
-2. 开发者工具预览时，可通过“详情-本地设置-不检验合法域名“不检查安全域名
+1. 真机预览时，默认检验安全域名，通过手机端小游戏右上角菜单-“开启调试”不检查安全域名
+2. 微信开发者工具，默认不检验安全域名、SSL证书；通过详情-本地设置-关闭“不检验合法域名、HTTPS证书”会强制检查
 3. 上线版本的网络请求必须[配置安全域名](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。在 mp.weixin.qq.com 后台，**_开发-开发管理-开发设置-服务器域名_**进行设置。如果是 HTTP 请求请设置到 request、download合法域名，Websocket 请求请设置到 socket 合法域名。
 
 ### SSL证书
 
 访问HTTPS请求时，请检查SSL证书请确认是否过期，使用如通过[在线工具](https://myssl.com/ssl.html)检测。
+
+真机预览时，只要用了HTTPS/WSS必然需要SSL证书，无法关闭；如无SSL证书或正式域名，可通过打开调试+HTTP/WS协议进行开发。
+
 
 
