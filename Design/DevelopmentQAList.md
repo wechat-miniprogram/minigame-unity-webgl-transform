@@ -79,7 +79,7 @@ A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需�
 - 导出选项勾选webgl2实验能力
 #### 9.Unity FMOD音频插件是否支持？
 
-- 不支持，Unity WebGL在浏览器环境以WebAudio适配，并非原生的FMOD，因此FMOD插件也是不支持的。
+- 支持，目前微信小游戏已支持fmod转换的小游戏，但长音频依然建议使用InnerAudio以节省内存。
 #### 10.Mac 系统下 Unity 构建 WebGL 项目报`Failed running "../il2cppcore/il2cppcore.dll"`错误解决办法
 
 - 报错原因：Unity 2020及以前（如2019）版本构建 WebGL 仍然需要 Python2 ，而Mac OS 12.3版本起已经不再内置 Python2。
