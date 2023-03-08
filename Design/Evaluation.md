@@ -27,7 +27,7 @@ Unity版本支持从2018到最新的2021版本
 | 资源加载  | 支持 | Addressable、AssetBundle网络异步加载 |
 | Lua脚本 |支持 |支持标准Lua与常见binding(如xlua, tolua等)， 不支持Luajit。需根据实际游戏在真机验证性能|
 | PureTS |支持 | iOS系统需14.5以上, 支持JIT|
-| Unity音频 |支持 |Unity Audio基本能力支持，支持fmod插件, 但不支持wwise。长音频建议适配小游戏音频以优化程序内存
+| Unity音频 |支持 |UnityAudio基本能力支持，支持fmod插件(长音频请使用UnityAudio), 但不支持wwise。
 | 第三方插件 |部分支持 |支持大部分插件，C#插件与非平台相关的C原生插件|
 | 网络系统  | 需调整 |不支持System.Net接口，HTTP使用UnityWebRequest，TCP使用WebSocket通信替代(如开源的UnityWebSocket插件)，UDP使用WX SDK适配|
 | 渲染接口 | 支持 |仅支持WebGL1.0(相当于OpenGLES2.0)，2.0支持处于Beta测试阶段|
