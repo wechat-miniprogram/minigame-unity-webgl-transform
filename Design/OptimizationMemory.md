@@ -36,7 +36,7 @@ Unity WebGL是以WebAssembly+WebGL技术为基础的应用，运行在浏览器�
 
 - GPU内存：纹理或模型Upload GPU之后的显存占用, 由于Unity2021之前不支持压缩纹理，纹理内存会造成明显膨胀。
 
-- 音频：Unity将音频传递给容器（浏览器或小游戏）后，播放音频时将占用的内存。目前自带音频系统存在较大内存和性能问题，Unity2021之前不支持内存压缩音频，因此音频加载后将被完整解压，***非压缩音频会导致极大内存占用***。
+- 音频：Unity将音频传递给容器（浏览器或小游戏）后，播放音频时将占用的内存。目前UnityAudio将自动适配微信小游戏，***特别地请避免使用fmod播放长音频***。
 
 - 其他： 
    - Emscripten使用[文件系统](https://emscripten.org/docs/api_reference/Filesystem-API.html)模拟Linux/POSIX接口，***代价是占用与文件同等大小的内存***。 请勿使用首资源包、Addressable Cache机制、WWW.LoadFromCacheOrDownload等Cache API***
@@ -175,10 +175,11 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
   - 4. 避免使用Unity自带的文件缓存机制， ***首资源包和AssetBundle都不应使用文件Cache***；
 
 ### 4.5 音频内存
-- 问题原因：Unity2021之前不支持内存压缩音频，因此音频加载后将被完整解压，***非压缩音频会导致极大内存占用***。
+- 问题原因：音频将占用小游戏环境的内存
 - 解决办法：
-   - 1. 使用小游戏SDK[音频适配优化](AudioOptimization.md)。
-   - 2. 避免长音频使用Unity自带Audio系统 
+   - 1. 不要使用fmod播放长音频，如游戏BGM
+   - 2. 控制音效数量，同时存在的音频数不应该超过20个
+   - 3. 尽量强制使用单声道音频，双声道会产生2倍内存消耗
 
 ### 4.6 其他常见优化手段
 - [Unity加载和内存管理](https://zentia.github.io/2018/04/11/AssetBundle/)
