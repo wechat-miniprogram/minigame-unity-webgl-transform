@@ -44,9 +44,9 @@ Unity 2021:
  AssetBundle Storage Memory: select sum(size) from alloc_used where callback like "%AssetBundle_LoadFromMemory%" or callback like "%OnFinishReceiveData%" or callback like "%AssetBundleLoadFromStream%"
 
 
- AssetBundle Info:  select sum(size) from alloc_used where callback like "%get_assetBundle%"
+ AssetBundle Info:  select sum(size) from alloc_used where callback like "%get_assetBundle%" and callback not like "%AwakeFromLoad%"
  
- AssetBundle TypeTree: select sum(size) from alloc_used where callback like "%TypeTree%"
+ AssetBundle TypeTree: select sum(size) from alloc_used where callback like "%TypeTree%" 
 
  Lua: select sum(size) from alloc_used where callback like "%luaY_parser%" or callback like "%luaH_resize%" or callback like "%luaM_realloc%"
 
@@ -63,7 +63,7 @@ Other： select sum(size) from alloc_used where callback not like "%xxx%" or cal
  ```
  AssetBundle Storage Memory: select sum(size) from alloc_used where callback like "%AssetBundleLoadFromStreamAsyncOperation%" 
  
- AssetBundle Info: select sum(size) from alloc_used where callback like "%get_assetBundle%"
+ AssetBundle Info: select sum(size) from alloc_used where callback like "%get_assetBundle%" and callback not like "%AwakeFromLoad%"
  
  AssetBundle TypeTree: select sum(size) from alloc_used where callback like "%TypeTree%"
  
