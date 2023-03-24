@@ -30,18 +30,15 @@
 ## Unity InstantGame版本获取
 
 ### 基于2021.2.5
-Windows平台：
+2021.2.5f1c301 (a19)， 版本日期：2023/03/22
+- Windows平台：
+https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/UnitySetup64.exe
+https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe
+- MacOS平台：
+https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/Unity.pkghttps://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg
+- InstantGame Package：
+https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/com.unity.instantgame.zip
 
-- Unity Editor：[Editor_2021.2.5f1c301_a15](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a15/UnitySetup64.exe)
-- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a15/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe)
-
-MacOS平台：
-
-- Unity Editor：[Editor_2021.2.5f1c301_a16](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a16/Unity.pkg)
-- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a16/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
-
-InstantGame Package：
-[com.unity.instantgame.zip](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a15/com.unity.instantgame.zip)
 
 ### 基于2019.4.29
 在原有引擎版本基础提供压缩纹理、压缩音频支持。
