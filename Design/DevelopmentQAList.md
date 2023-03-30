@@ -72,7 +72,7 @@ A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需�
 #### 7.Touch事件丢失或错误，导致多点触控不正确
 
 - 请将WXTouchInputOverride.cs附加到EventSystem对象上，已测试EasyTouch、UGUI、FairGUI可正常工作
-- NGUI、FairGUI等UI组件内部实现(如NGUI的UICamera.cs)判断touch id<0逻辑分支需删除；在iOS高性能模式下，id可为负数。
+
 #### 8.显示黑屏，运行提示大量shader编译错误
 
 - 默认导出未webgl1, 请确认游戏是否依赖webgl2(opengles3.0)
