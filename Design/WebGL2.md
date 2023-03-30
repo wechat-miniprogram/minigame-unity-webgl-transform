@@ -21,7 +21,7 @@ Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该�
  WebGL2.0特性较多，平台暂不保证所有能力完善，开发者务必验证游戏所用到的特性支持情况。
  如遇到问题请与小游戏研发助手(微信号:minigamedevop08)联系详细排查。
  
-#### iOS平台开启GPU Instance，模型闪烁/消失/不绘制等问题；
+#### iOS高性能模式开启GPU Instance，模型闪烁/消失/不绘制等问题
   - **原因**：iOS WebKit对webGL2的支持存在问题，当uniform变量过多时，会出现绘制不正确、不绘制、效率变低等现象；
   - **解决方法**：
 
@@ -33,6 +33,11 @@ Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该�
 	
     3. 根据机型分级，使用GPU instance特性或合批处理（已知iPhone7p及以下机型需要进一步限制instance count）
 
+#### iOS高性能模式DrawMeshInstanced显示错乱
+    
+   - **原因**：iOS WebKit对webGL2的支持存在问题，当批次较大时出现显示错误
+   - **解决方法**：
+       iOS降低DrawMeshInstanced的参数matrices、population为32或更小的值
 
 ## 参考文档
 - Unity官方文档-[WebGL 图形](https://docs.unity3d.com/cn/2021.2/Manual/webgl-graphics.html)
