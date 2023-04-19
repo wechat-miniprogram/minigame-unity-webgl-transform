@@ -32,13 +32,13 @@
 ### 基于2021.2.5
 2021.2.5f1c301 (a19)， 版本日期：2023/03/22
 #### Windows平台：
-- https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/UnitySetup64.exe
-- https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe
+- [Editor_2019.4.29f1c109_f2](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/UnitySetup64.exe)
+- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe)
 #### MacOS平台：
-- https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/Unity.pkg
-- https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg
+- [Editor_2019.4.29f1c109_f2](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/Unity.pkg)
+- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
 ### InstantGame Package：
-- https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/C301_a19/com.unity.instantgame.zip
+- [com.unity.instantgame.zip](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/com.unity.instantgame.zip)
 
 
 ### 基于2019.4.29
