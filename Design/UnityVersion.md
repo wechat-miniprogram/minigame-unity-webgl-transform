@@ -32,8 +32,8 @@
 ### 基于2021.2.5
 2021.2.5f1c301 (a19)， 版本日期：2023/03/22
 #### Windows平台：
-- [Editor_2021.2.5f1c301_a19](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/UnitySetup64.exe)
-- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe)
+- [Editor_2021.2.5f1c301_a20](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup64.exe)
+- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe)
 #### MacOS平台：
 - [Editor_2021.2.5f1c301_a19](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/Unity.pkg)
 - [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
@@ -46,12 +46,12 @@
 
 Windows平台：
 
-- Unity Editor：[Editor_2019.4.29f1c109_f2](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/UnitySetup64.exe)
-- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.exe](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.exe)
+- Unity Editor：[Editor_2019.4.29f1c109_f2](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/UnitySetup64.exe)
+- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.exe](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.exe)
 
 MacOS平台：
-- Unity Editor：[Editor__2019.4.29f1c109_f2](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/Unity.pkg)
-- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.pkg](https://unity-1258948065.cos.ap-shanghai.myqcloud.com/test/AutoStreamerTest1/Release/Alpha/c109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.pkg)
+- Unity Editor：[Editor__2019.4.29f1c109_f2](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/Unity.pkg)
+- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.pkg](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.pkg)
 
 
 
