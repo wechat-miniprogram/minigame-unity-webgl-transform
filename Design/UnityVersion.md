@@ -35,10 +35,10 @@
 - [Editor_2021.2.5f1c301_a20](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup64.exe)
 - [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe)
 #### MacOS平台：
-- [Editor_2021.2.5f1c301_a19](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/Unity.pkg)
-- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
+- [Editor_2021.2.5f1c301_a20](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/Unity.pkg)
+- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
 ### InstantGame Package：
-- [com.unity.instantgame.zip](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a19/com.unity.instantgame.zip)
+- [com.unity.instantgame.zip](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/com.unity.instantgame.zip)
 
 
 ### 基于2019.4.29
