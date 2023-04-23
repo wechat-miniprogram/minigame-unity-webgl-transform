@@ -46,6 +46,9 @@ Q:
 
 A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需要添加插件。可通过微信开发者工具控制台-添加插件的报错信息添加插件，即可正常使用。同时需要注意**实际未使用关系链数据时请删掉game.json中plugins.Layout配置**。如果开发者工具控制台没有添加插件的入口请手动在MP端[添加插件](https://mp.weixin.qq.com/wxopen/plugindevdoc?appid=wx7a727ff7d940bb3f)或者升级至最新版本的开发者工具。
 
+#### 12.小游戏包中的`webgl.wasm.symbols.unityweb`不会被上传，是做什么用的
+- 堆栈信息，主要用于[错误调试与异常排查](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/DebugAndException.md)
+
   
 ## Unity WebGL
 #### 1.能否使用System.Net命名空间下的接口
@@ -137,7 +140,6 @@ A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需�
 #### 7.Unity Audio音频是否需要使用小游戏音频适配
 
 - 转换方案已通过WebAudio支持Unity音频，通常无需替换
-- 游戏中BGM等长音频建议使用小游戏音频，因为后者占用的内存更小
 #### 8.PlayerPref或用户数据存储失效
 
 - 使用小程序云开发或自建服务器进行云端存储(推荐，因本地存储的话，由于微信环境下玩家非常容易删除本地小游戏而导致存档丢失）
