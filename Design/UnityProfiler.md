@@ -29,7 +29,7 @@
 
 重启UnityProfiler监听，可通过在命令行执行引擎自带Node启动websocketfy.js：
 - windows: "$UNITY_PATH/Editor/Data/Tools/nodejs/node.exe" "$UNITY_PATH/Editor/Data/PlaybackEngines/WebGLSupport/BuildTools/websockify/websockify.js" 0.0.0.0:port localhost:34999
-- mac: /Applications/Unity/Hub/Editor/$Verson/Unity.app/Contents/Tools/nodejs/bin/node /Applications/Unity/Hub/Editor/$Verson/PlaybackEngines/WebGLSupport/BuildTools/websockify/websockify.js 0.0.0.0:port localhost:34999 -vv
+- mac: /Applications/Unity/Hub/Editor/$Verson/PlaybackEngines/WebGLSupport/BuildTools/Emscripten/node/node /Applications/Unity/Hub/Editor/$Verson/PlaybackEngines/WebGLSupport/BuildTools/websockify/websockify.js 0.0.0.0:port localhost:34999 -vv
 
 (其中$UNITY_PATH为对应Unity版本的安装目录)
 
