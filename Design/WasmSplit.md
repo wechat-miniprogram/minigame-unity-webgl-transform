@@ -11,6 +11,8 @@
     - [关闭分包](#关闭分包)
     - [增量分包](#增量分包)
   - [Changelog](#changelog)
+    - [v1.1.6](#v116)
+    - [v1.1.5](#v115)
     - [v1.1.4](#v114)
     - [v1.1.2](#v112)
     - [v1.1.0](#v110)
@@ -130,14 +132,26 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 
 ## Changelog
 
+### v1.1.6
+#### Changed
+- 移除无用代码
+
+### v1.1.5
+#### Fixed
+- iOS普通模式无法进入游戏
+- 安卓微信客户端8.0.25无法进入游戏
+
 ### v1.1.4
+#### Fixed
 - 修复iOS profile版在高性能模式下卡与内存不足的问题
-- 修复android偶现`null function or function signature mismatch`问题
+- 修复android偶现`null function or function signature mismatch`问题
 
 ### v1.1.2
+#### Changed
 - 插件新旧版本分包兼容
 
 ### v1.1.0
+#### Added
 - iOS高性能内存优化：
   - 使用条件：**转换插件版本高于202212070000**且**重新导出**
 - 分包插件交互优化
@@ -146,6 +160,7 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 
 
 ### v1.0.2
+#### Added
 - 包体优化&广告买量启动优化
   - 使用条件：**转换插件版本高于202212070000导出的包**
 
