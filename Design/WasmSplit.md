@@ -144,7 +144,8 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 ### v1.1.4
 #### Fixed
 - 修复iOS profile版在高性能模式下卡与内存不足的问题
-- 修复android偶现`null function or function signature mismatch`问题
+- 修复android偶现`null function or function signature mismatch`问题
+- 修复iOS普通模式运行出错的问题
 
 ### v1.1.2
 #### Changed
