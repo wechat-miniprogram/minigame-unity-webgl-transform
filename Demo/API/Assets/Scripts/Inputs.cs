@@ -24,7 +24,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
 
     }
 
-    public void OnInput(OnKeyboardInputCallbackResult v)
+    public void OnInput(OnKeyboardInputListenerResult v)
     {
         Debug.Log("onInput");
         Debug.Log(v.value);
@@ -35,7 +35,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
 
     }
 
-    public void OnConfirm(OnKeyboardInputCallbackResult v)
+    public void OnConfirm(OnKeyboardInputListenerResult v)
     {
         // 输入法confirm回调
         Debug.Log("onConfirm");
@@ -43,7 +43,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         HideKeyboad();
     }
 
-    public void OnComplete(OnKeyboardInputCallbackResult v)
+    public void OnComplete(OnKeyboardInputListenerResult v)
     {
         // 输入法complete回调
         Debug.Log("OnComplete");

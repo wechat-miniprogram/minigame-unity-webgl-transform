@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using WeChatWASM;
@@ -9,6 +10,7 @@ public class Demo : MonoBehaviour
     public WXRewardedVideoAd ad;
     public WXInnerAudioContext inneraudio;
     public Text txtUserInfo;
+    public Text txtTestWXFont;
     public WXFileSystemManager fs = new WXFileSystemManager();
     public WeChatWASM.WXEnv env = new WXEnv();
     private WXUserInfoButton infoButton;
@@ -49,6 +51,16 @@ public class Demo : MonoBehaviour
                 txtUserInfo.text = $"nickName：{userInfoButonRet.userInfo.nickName}， avartar:{userInfoButonRet.userInfo.avatarUrl}";
             });
             Debug.Log("infoButton Created");
+
+            // fallbackFont作为旧版本微信或者无法获得系统字体文件时的备选CDN URL
+            var fallbackFont = Application.streamingAssetsPath + "/Fz.ttf"; 
+            WeChatWASM.WX.GetWXFont(fallbackFont, (font) =>
+            {
+                if (font != null)
+                {
+                    txtTestWXFont.font = font;
+                }
+            });
         });
 
     }

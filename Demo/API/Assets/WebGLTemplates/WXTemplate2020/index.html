@@ -188,9 +188,7 @@
             return Math.random().toString(32);
         },
         WXReportGameStart:function(){},
-        WXSetGameStage: function() {},
-        WXReportGameStageCostTime: function(costTime, extJsonStr) {},
-        WXReportGameStageError: function(errorType, errStr, extJsonStr) {},
+        WXReportGameSceneError: function(sceneId, errorType, errStr, extJsonStr) {},
         WXWriteLog: function(str) {},
         WXWriteWarn: function(str) {},
         WXHideLoadingPage: function() {},
@@ -284,17 +282,24 @@
         WXUncaughtException(){},
         WXSetDataCDN() {},
         WXSetPreloadList() {},
+        WXReportScene() {},
+        WXGetCachePath() {},
+        WXGetPluginCachePath() {},
             WX_AddCard(conf, callbackId){
     },
     WX_AuthPrivateMessage(conf, callbackId){
     },
     WX_Authorize(conf, callbackId){
     },
-    WX_CheckIsUserAdvisedToRest(conf, callbackId){
+    WX_CheckIsAddedToMyMiniProgram(conf, callbackId){
     },
     WX_CheckSession(conf, callbackId){
     },
     WX_ChooseImage(conf, callbackId){
+    },
+    WX_ChooseMedia(conf, callbackId){
+    },
+    WX_ChooseMessageFile(conf, callbackId){
     },
     WX_CloseBLEConnection(conf, callbackId){
     },
@@ -340,9 +345,13 @@
     },
     WX_GetExtConfig(conf, callbackId){
     },
-    WX_GetFileInfo(conf, callbackId){
+    WX_GetFuzzyLocation(conf, callbackId){
+    },
+    WX_GetGameClubData(conf, callbackId){
     },
     WX_GetGroupEnterInfo(conf, callbackId){
+    },
+    WX_GetInferenceEnvInfo(conf, callbackId){
     },
     WX_GetLocalIPAddress(conf, callbackId){
     },
@@ -390,6 +399,8 @@
     },
     WX_NotifyBLECharacteristicValueChange(conf, callbackId){
     },
+    WX_OpenAppAuthorizeSetting(conf, callbackId){
+    },
     WX_OpenBluetoothAdapter(conf, callbackId){
     },
     WX_OpenCard(conf, callbackId){
@@ -406,6 +417,8 @@
     },
     WX_OpenSetting(conf, callbackId){
     },
+    WX_OpenSystemBluetoothSetting(conf, callbackId){
+    },
     WX_PreviewImage(conf, callbackId){
     },
     WX_PreviewMedia(conf, callbackId){
@@ -416,6 +429,8 @@
     },
     WX_RemoveUserCloudStorage(conf, callbackId){
     },
+    WX_ReportScene(conf, callbackId){
+    },
     WX_RequestMidasFriendPayment(conf, callbackId){
     },
     WX_RequestMidasPayment(conf, callbackId){
@@ -423,6 +438,8 @@
     WX_RequestSubscribeMessage(conf, callbackId){
     },
     WX_RequestSubscribeSystemMessage(conf, callbackId){
+    },
+    WX_RestartMiniProgram(conf, callbackId){
     },
     WX_SaveFileToDisk(conf, callbackId){
     },
@@ -435,6 +452,8 @@
     WX_SetBLEMTU(conf, callbackId){
     },
     WX_SetClipboardData(conf, callbackId){
+    },
+    WX_SetDeviceOrientation(conf, callbackId){
     },
     WX_SetEnableDebug(conf, callbackId){
     },
@@ -518,10 +537,8 @@
     },
     WX_OpenPage(conf, callbackId){
     },
-    WX_GetGameClubData(conf, callbackId){
-    },
 
-    WX_RestartMiniProgram(){
+    WX_OperateGameRecorderVideo(){
     },
     WX_RemoveStorageSync(){
     },
@@ -652,8 +669,6 @@
     },
     WX_OnMessage(){
     },
-    WX_OffMessage(){
-    },
     WX_OnNetworkStatusChange(){
     },
     WX_OffNetworkStatusChange(){
@@ -664,27 +679,17 @@
     },
     WX_OnShareMessageToFriend(){
     },
-    WX_OffShareMessageToFriend(){
-    },
     WX_OnShow(){
     },
     WX_OffShow(){
     },
     WX_OnSocketClose(){
     },
-    WX_OffSocketClose(){
-    },
     WX_OnSocketError(){
-    },
-    WX_OffSocketError(){
     },
     WX_OnSocketMessage(){
     },
-    WX_OffSocketMessage(){
-    },
     WX_OnSocketOpen(){
-    },
-    WX_OffSocketOpen(){
     },
     WX_OnTouchCancel(){
     },
@@ -725,6 +730,10 @@
     WX_OnVoIPChatStateChanged(){
     },
     WX_OffVoIPChatStateChanged(){
+    },
+    WX_OnWheel(){
+    },
+    WX_OffWheel(){
     },
     WX_OnWindowResize(){
     },
@@ -768,7 +777,16 @@
     WX_GetAccountInfoSync(){
         return JSON.stringify({});
     },
+    WX_GetAppAuthorizeSetting(){
+        return JSON.stringify({});
+    },
+    WX_GetAppBaseInfo(){
+        return JSON.stringify({});
+    },
     WX_GetBatteryInfoSync(){
+        return JSON.stringify({});
+    },
+    WX_GetDeviceInfo(){
         return JSON.stringify({});
     },
     WX_GetEnterOptionsSync(){
@@ -790,6 +808,18 @@
         return JSON.stringify({});
     },
     WX_GetSystemInfoSync(){
+        return JSON.stringify({});
+    },
+    WX_GetSystemSetting(){
+        return JSON.stringify({});
+    },
+    WX_GetWindowInfo(){
+        return JSON.stringify({});
+    },
+    WX_CreateImageData(){
+        return JSON.stringify({});
+    },
+    WX_CreatePath2D(){
         return JSON.stringify({});
     },
     WX_SetCursor(path,x,y){

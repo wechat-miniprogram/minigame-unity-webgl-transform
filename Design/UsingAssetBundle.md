@@ -6,10 +6,7 @@
 
 ## 一、AssetBundle使用
 注意：小游戏环境不支持assetbundle本地加载
-### 1.1 组织资源
-自行组织资源如何分组，以及各个bundle之间依赖关系，包名相同的资源会打包到一起
-<img src="../image/assetbundle/set-bundlename.png" width="600" />
-### 1.2 AssetBundle打包
+### 1.1 AssetBundle打包参数建议
 ```c#
 public static void Build()
 {
@@ -22,13 +19,12 @@ public static void Build()
 }
 ```
 打包bundle时，请使用如下参数
-- 【重要】BuildAssetBundleOptions.AppendHashToAssetBundleName：bundle带上hash。在小游戏底层对bundle做缓存及缓存淘汰时，hash是重要依据。
+- 【重要】BuildAssetBundleOptions.AppendHashToAssetBundleName：bundle带上hash。在小游戏底层对bundle做缓存及缓存淘汰时，hash是重要依据，请查阅[小游戏资源缓存](FileCache.md)
 - BuildAssetBundleOptions.ChunkBasedCompression：LZ4压缩方式，加载速度和包体大小更均衡。
 - 如非需要新老Unity引擎版本兼容，请使用DisableWriteTypeTree提升加载速度与降低内存。
  
-### 1.3 AssetBundle下载
-从服务器下载bundle的方式主要以下四种。
-**注意：WWW和WWW.LoadFromCacheOrDownload已不被Unity推荐使用**
+### 1.2 AssetBundle下载
+从服务器下载bundle的方式主要以下两种：
 
 - UnityWebRequestAssetBundle.GetAssetBundle
   ```c#
@@ -89,8 +85,51 @@ public static void Build()
 ***在业务侧看来：总是使用异步接口从远程下载并使用，底层资源的缓存与更新已由适配层自动完成，游戏不再直接读写文件系统。***
 
 
-## 三、AssetBundle下载API内存分析
- ### 3.1 切勿使用带Cache能力的线管接口
+## 三、更节省内存的WXAssetBundle
+- 简介与原理
+
+  Unity的 **AssetBundle.LoadFromFile()** 原本是打开一个文件流，LoadAsset通过文件描述符fd去读实际的目标对象。**因此不需要存储完整的AssetBundle（只需存储包头、查找表），可节省内存。**
+
+  而由于[**WebGL的文件系统是在JS内存中维护的**](https://emscripten.org/docs/porting/files/file_systems_overview.html)，不会实际读写到磁盘，无法使用LoadFromFile()达到节约内存的目的。
+
+  为此，我们在微信小游戏环境将文件系统接口桥接到了微信的文件系统接口，使其可以读写到小游戏缓存目录。同时提供了包装好的Unity SDK以便开发者使用。
+
+  <img src="../image/assetbundle/wxassetbundle.png" width="800" />
+
+
+- 使用说明
+
+  AssetBundle目前只支持异步加载，支持两种加载方式。参考示例如下：
+
+  ```C#
+  // 【推荐】原本使用WebRequest的话可按如下修改
+  using WeChatWasm;
+  UnityWebRequest bundleReq = WXAssetBundle.GetAssetBundle(url); // UnityWebRequestAssetBundle => WXAssetBundle
+  yield return bundleReq.SendWebRequest();
+  AssetBundle bundle = (bundleReq.downloadHandler as DownloadHandlerWXAssetBundle).assetBundle; // DownloadHandlerAssetBundle => DownloadHandlerWXAssetBundle
+  bundle.WXUnload(); //bundle还是AssetBundle类型，但需要调用扩展方法WXUnload()才可真正卸载
+
+
+  using WeChatWasm;
+  // 需要全局替换Bundle管理插件里的AssetBundleCreateRequest，一般推荐使用上面的接口。
+  using AssetBundleCreateRequest = WeChatWASM.WXAssetBundleRequest;
+  // LoadFromFileAsync可以直接替换异步请求类型，
+  var bundleReq = WXAssetBundle.LoadFromFileAsync(url); //注意使用WXAssetBundle类，参数仍旧使用WebRequest的url即可
+  yield return bundleReq; // 仍可通过 bundleReq.isDone 检查异步操作是否完成
+  AssetBundle bundle = bundleReq.assetBundle;
+  bundle.WXUnload();
+  ```
+
+- 注意事项
+
+  此套接口只可在微信小游戏环境下使用！需要同时导出WebGL版本的，建议自行在修改接口时候加编译宏方便控制导出版本。
+
+  频繁读写磁盘损耗性能，于是我们仍旧在JS内存中维护了完整bundle的缓存，只有使用到已被清理的bundle时才会一次性从磁盘完整读进内存，而高频读取资源时通过缓存完成请求。**默认情况下5秒未使用的bundle会被从内存中清理。**
+
+  读磁盘必定影响性能，所以我们只推荐对内存要求高的重度游戏使用。
+
+## 四、AssetBundle下载API内存分析
+ ### 4.1 切勿使用带Cache能力的线管接口
 
 加载的bundle文件大小为5403162字节
 ```bash
@@ -107,7 +146,7 @@ public static void Build()
 
 **因此需要注意业务中不要使用已淘汰的WWW类，尤其WWW.LoadFromCacheOrDownload，当bundle数量多时，会浪费不少内存。**
 
- ### 3.2 尽可能使用Unload
+ ### 4.2 尽可能使用Unload
 - 当bundle从资源服务器下载并使用，会经历多次内存分配:
 浏览器HTTP对象-->拷贝到WASM临时内存-->Unity ab内存文件(略大于ab本身体积， 相对于APP常用的LoadFromFile，WebGL这部分开销是额外的)
 - 当HTTP对象dispose之后，Unity ab内存文件

@@ -71,13 +71,13 @@ public class GameRecordeManager : MonoBehaviour
 
     public void ShareRecorder()
     {
-        WX.OperateGameRecorderVideo(new operateGameRecorderOption()
+        WX.OperateGameRecorderVideo(new OperateGameRecorderVideoOption()
         {
             title = "游戏标题",
             desc = "游戏简介",
-            timeRange = new int[][] {
-              new int[] { 0, 2000 },
-              new int[] { 5000, 8000 },
+            timeRange = new double[][] {
+              new double[] { 0, 2000 },
+              new double[] { 5000, 8000 },
             },
             query = "test=123456",
         });
