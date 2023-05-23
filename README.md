@@ -56,6 +56,7 @@
   - [首场景启动优化](Design/FirstSceneOptimization.md)
   - [使用代码分包工具](Design/WasmSplit.md)
   - [启动留存数据上报统计](Design/ReportStartupStat.md)
+  - [最佳实践检测工具](Design/PerformanceMonitor.md)
 
 
 - 运行性能
