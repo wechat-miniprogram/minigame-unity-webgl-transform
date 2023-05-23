@@ -34,6 +34,10 @@ Unity Loader是在微信小游戏环境加载Unity WebGL游戏的加载与适配
 CDN: cdn地址
 dataFileSubPrefix: 首包资源相对cdn地址的存放目录，默认首包资源放在cdn一级目录
 ```
+
+#### 通过接口修改
+游戏存在备用CDN地址，可通过C#接口 `WX.SetDataCDN` 或js接口 `GameGlobal.manager.setDataCDN` 修改DATA_CDN配置
+
 ### 3.2 启动界面
 由于Unity WebGL启动加载需要一定时间，因此需要使用视频或图片等内容作为过渡以留住玩家。Unity Loader默认使用视频+进度信息呈现，开发者可以自定义封面/视频，可参考[启动Loader视频规范](video.md)进行配置。
   
@@ -68,6 +72,9 @@ hideAfterCallmain: $HIDE_AFTER_CALLMAIN, // 是否callmain完成立即隐藏封�
 > backgroundImage需要注意图片宽高不可超过2048，否则无法显示
 > 使用coverview需要基础库版本>=2.16.1，插件已做兼容，若不支持，降级为使用离屏canvas渲染进度的方式
 > hideAfterCallmain: 游戏业务Awake逻辑耗时较高时可能导致出现短暂黑屏，改为false可盖住黑屏，等游戏第一帧渲染时隐藏
+
+更多信息请参考[定制启动封面](CustomLoading.md)
+
 ### 3.3 首包资源加载方式
 **加载方式在转换工具导出时就确定好了，开发者一般不需要修改**
 当**游戏资源量比较少**时，可选择将首包资源作为小游戏分包加载，了解[小游戏分包](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/sub-packages.html)
@@ -95,3 +102,8 @@ let managerConfig = {
 ### 3.5 资源缓存与淘汰策略
 loader会自动按一定规则做文件缓存，加快二次启动速度
 详情参考[资源缓存](FileCache.md)
+
+### 3.6 插件调试信息
+通过修改`minigame/unity-namespace.js` 中 `enableDebugLog=true`，可查看插件详细日志，例如预下载发起和命中、文件缓存等。
+
+> 真机需通过右上角菜单-调试-打开调试，查看小游戏日志
