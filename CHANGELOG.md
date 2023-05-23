@@ -10,7 +10,7 @@ Others - 其他
 ### Feature
 * 支持使用微信字体，使用WX.GetWXFont获取使用系统字体
 * 支持WXAssetBundle，替换Unity AssetBundle以减少内存使用，请参阅文档[使用AssetBundle](Design/UsingAssetBundle.md)其中WXAssetBundle部分
-* 开发版、体验版小游戏支持最佳实践检测
+* 开发版、体验版小游戏支持最佳实践检测，请参阅[最佳实践检测工具](Design/PerformanceMonitor.md)
 * WX-WASM-SDK-V2** 版本使用新的目录结构为WX-WASM-SDK-V2，更新需手动删除`Assets/WX-WASM-SDK` (如有二次修改请备份)。若新版本出现异常，可使用旧版本备份包 [SDKv1 Unity插件](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/tools/minigame.202305172131.unitypackage) 版本包进行回退
 * 适配插件版本号更新为1.2.3
 
