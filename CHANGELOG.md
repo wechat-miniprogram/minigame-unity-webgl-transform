@@ -6,6 +6,13 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-05-24
+### Feature
+* 更新适配插件1.2.5
+* 优化开发版、体验版小游戏支持最佳实践检测工具
+### Fixed
+* TextureEditor插件目录不参与编译 
+
 ## 2023-05-22
 ### Feature
 * 支持使用微信字体，使用WX.GetWXFont获取使用系统字体
