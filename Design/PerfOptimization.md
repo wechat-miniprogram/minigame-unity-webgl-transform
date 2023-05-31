@@ -44,6 +44,7 @@ Unity WebGL导出形式相对于原生APP应用，需要开发者更关注性能
 * 贴图尽量不生成Mipmap
 * 贴图尽量不使用可写属性
 * 字体文件压缩前最大不超过4MB
+
   
 更多信息请阅读:
 *  [资源优化工具与建议](AssetOptimization.md)
@@ -53,13 +54,12 @@ Unity WebGL导出形式相对于原生APP应用，需要开发者更关注性能
 * 不要初始化所有未使用的资源
 * 释放不使用的资源
 * 发布前使用压缩纹理工具进行优化
-* 使用微信音频接口对Unity音频进行改造优化
+* 音频资源尽可能勾选强制单声道
   
 更多信息请阅读: 
 *  [优化Unity WebGL的内存](OptimizationMemory.md)
 *  [压缩纹理优化](CompressedTexture.md)
 *  [Unity WebGL内存原理详解](https://gameinstitute.qq.com/community/detail/112321)
-*  [音频适配优化](AudioOptimization.md)
 
 ### 3.5 降低CPU消耗
 * iOS使用高性能模式
