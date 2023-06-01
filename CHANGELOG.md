@@ -14,6 +14,7 @@ Others - 其他
 * 支持WASM生成external symbols优化，无需Node支持
 * 增加API CreateFeedbackButton
 * 广告API customAd增加onHide
+* 更新适配插件1.2.11
 ### Fixed
 * 修复Android首次退出小游戏后会继续播放的问题
 * DoExport增加返回值方便第三方工具集成
