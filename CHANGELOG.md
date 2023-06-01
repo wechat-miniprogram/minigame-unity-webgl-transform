@@ -12,7 +12,7 @@ Others - 其他
 * 优化framework胶水层获取Canvas与宽高属性的性能损耗
 * ProfileStats性能面板增加FrameTime
 * 支持WASM生成external symbols优化，无需Node支持
-* 音频增加API CreateFeedbackButton
+* 增加API CreateFeedbackButton
 * 广告API customAd增加onHide
 ### Fixed
 * 修复Android首次退出小游戏后会继续播放的问题
