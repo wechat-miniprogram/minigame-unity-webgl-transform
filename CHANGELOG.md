@@ -9,7 +9,7 @@ Others - 其他
 ## 2023-06-1
 ### Feature
 * 支持Unity 2022引擎版本导出微信小游戏
-* 优化framework胶水层获取Cavas与宽高属性的性能损耗
+* 优化framework胶水层获取Canvas与宽高属性的性能损耗
 * ProfileStats性能面板增加FrameTime
 * 支持WASM生成external symbols优化，无需Node支持
 * 音频增加API CreateFeedbackButton
