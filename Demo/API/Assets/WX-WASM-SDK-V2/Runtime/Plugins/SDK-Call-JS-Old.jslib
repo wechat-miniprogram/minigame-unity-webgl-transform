@@ -24,6 +24,18 @@ mergeInto(LibraryManager.library, {
         window._lastBoundTexture = texture;
         GLctx.bindTexture(target, texture ? GL.textures[texture] : null)
     },
+    emscripten_get_canvas_element_size:function(target, width, height) {
+        if (Module.IsWxGame) {
+            HEAP32[width >> 2] = GameGlobal.unityNamespace.canvas_width;
+            HEAP32[height >> 2] = GameGlobal.unityNamespace.canvas_height;
+            return;
+        }
+        else {
+            var canvas = Module['canvas'];
+            HEAP32[width >> 2] = canvas.width;
+            HEAP32[height >> 2] = canvas.height 
+        }
+    },
     WXInitializeSDK: function (version) {
         window.WXWASMSDK.WXInitializeSDK(_WXPointer_stringify_adaptor(version));
         if (typeof emscriptenMemoryProfiler !== "undefined")  {
@@ -189,13 +201,6 @@ mergeInto(LibraryManager.library, {
     },
     WXCreateInterstitialAd: function (conf) {
         var returnStr = window.WXWASMSDK.WXCreateInterstitialAd(_WXPointer_stringify_adaptor(conf));
-        var bufferSize = lengthBytesUTF8(returnStr) + 1;
-        var buffer = _malloc(bufferSize);
-        stringToUTF8(returnStr, buffer, bufferSize);
-        return buffer;
-    },
-    WXCreateGridAd: function (conf) {
-        var returnStr = window.WXWASMSDK.WXCreateGridAd(_WXPointer_stringify_adaptor(conf));
         var bufferSize = lengthBytesUTF8(returnStr) + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
@@ -560,6 +565,26 @@ mergeInto(LibraryManager.library, {
         return HEAP8.length - heap_end
         return 0
     },
+    WXGetEXFrameTime : function() {
+        if(typeof GameGlobal.calcFrameTimeFunc == "undefined") 
+        {
+            GameGlobal.calcFrameTimeFunc = function () 
+            {
+                var frameCount = 0;
+                var exTotalTime = 0;
+                return function update(frameStart, frameEnd) {
+                  frameCount++;
+                  exTotalTime += (frameEnd - frameStart);
+                  if (frameCount >= 60) {
+                    GameGlobal.avgExFrameTime = exTotalTime / 60;
+                    frameCount = 0;
+                    exTotalTime = 0;
+                  }
+                };
+            }();
+        } 
+        return GameGlobal.avgExFrameTime
+    },
     WXProfilingMemoryDump: function() {
         if (typeof emscriptenMemoryProfiler !== "undefined")  {
             GameGlobal.memprofiler.onDump();
@@ -635,9 +660,6 @@ mergeInto(LibraryManager.library, {
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
-    },
-    WXReportScene: function(conf, callbackId) {
-        window.WXWASMSDK.WXReportScene(_WXPointer_stringify_adaptor(conf), _WXPointer_stringify_adaptor(callbackId));
     },
     WXUncaughtException: function() {
        window.WXWASMSDK.WXUncaughtException(false);

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
 
 namespace WeChatWASM
 {
@@ -59,6 +61,11 @@ namespace WeChatWASM
 #else
             WXExtEnvDef.SETDEF("UNITY_2021", false);
 #endif
+#if UNITY_2022
+            WXExtEnvDef.SETDEF("UNITY_2022", true);
+#else
+            WXExtEnvDef.SETDEF("UNITY_2022", false);
+#endif
             RegisterController();
         }
 
@@ -67,7 +74,7 @@ namespace WeChatWASM
             WXExtEnvDef.RegisterAction("WXEditorWindow.Init", (args) =>
             {
 #if UNITY_2021_2_OR_NEWER
-                PlayerSettings.WebGL.debugSymbolMode = WebGLDebugSymbolMode.Embedded;
+                PlayerSettings.WebGL.debugSymbolMode = WebGLDebugSymbolMode.External;
 #else
                 PlayerSettings.WebGL.debugSymbols = true;
 #endif
@@ -77,8 +84,12 @@ namespace WeChatWASM
             WXExtEnvDef.RegisterAction("WXEditorWindow.Build", (args) =>
             {
 #if UNITY_2021_2_OR_NEWER
-            // 默认更改为OptimizeSize，减少代码包体积
-            EditorUserBuildSettings.il2CppCodeGeneration = UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize;
+#if UNITY_2022_1_OR_NEWER
+                // 默认更改为OptimizeSize，减少代码包体积
+                PlayerSettings.SetIl2CppCodeGeneration(UnityEditor.Build.NamedBuildTarget.WebGL, Il2CppCodeGeneration.OptimizeSize);
+#else
+                EditorUserBuildSettings.il2CppCodeGeneration = UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize;
+#endif
 #endif
                 return null;
             });

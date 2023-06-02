@@ -1,3 +1,4 @@
+
 import storage from './storage';
 import userInfo from './userinfo';
 import moduleHelper from './module-helper';
@@ -20,79 +21,78 @@ import camera from './camera';
 import recorder from './recorder';
 import uploadFile from './upload-file';
 import gameRecorder from './game-recorder';
-import reportScene from './report-scene';
 import chat from './chat';
 import font from './font/index';
 const unityVersion = '$unityVersion$';
 GameGlobal.unityNamespace = GameGlobal.unityNamespace || {};
 GameGlobal.unityNamespace.unityVersion = unityVersion;
 window._ScaleRate = 1;
+
 if (unityVersion && unityVersion.split('.').slice(0, 2)
-  .join('') < '20193') {
-  const width = window.innerWidth * window.devicePixelRatio;
-  const height = window.innerHeight * window.devicePixelRatio;
-  canvas.width = width;
-  canvas.height = height;
-  window._ScaleRate = window.devicePixelRatio;
+    .join('') < '20193') {
+    const width = window.innerWidth * window.devicePixelRatio;
+    const height = window.innerHeight * window.devicePixelRatio;
+    canvas.width = width;
+    canvas.height = height;
+    window._ScaleRate = window.devicePixelRatio;
 }
 Object.defineProperty(canvas, 'clientHeight', {
-  get() {
-    return window.innerHeight * window._ScaleRate;
-  },
-  configurable: true,
+    get() {
+        return window.innerHeight * window._ScaleRate;
+    },
+    configurable: true,
 });
 Object.defineProperty(canvas, 'clientWidth', {
-  get() {
-    return window.innerWidth * window._ScaleRate;
-  },
-  configurable: true,
+    get() {
+        return window.innerWidth * window._ScaleRate;
+    },
+    configurable: true,
 });
 Object.defineProperty(document.body, 'clientHeight', {
-  get() {
-    return window.innerHeight * window._ScaleRate;
-  },
-  configurable: true,
+    get() {
+        return window.innerHeight * window._ScaleRate;
+    },
+    configurable: true,
 });
 Object.defineProperty(document.body, 'clientWidth', {
-  get() {
-    return window.innerWidth * window._ScaleRate;
-  },
-  configurable: true,
+    get() {
+        return window.innerWidth * window._ScaleRate;
+    },
+    configurable: true,
 });
 Object.defineProperty(document, 'fullscreenEnabled', {
-  get() {
-    return true;
-  },
-  configurable: true,
+    get() {
+        return true;
+    },
+    configurable: true,
 });
 fix.init();
 const WXWASMSDK = {
-  WXInitializeSDK() {
-    moduleHelper.init();
-    moduleHelper.send('Inited', 200);
-  },
-  ...storage,
-  ...userInfo,
-  ...share,
-  ...ad,
-  ...canvasHelper,
-  ...fs,
-  ...openData,
-  ...util,
-  ...cloud,
-  ...audio,
-  ...texture,
-  ...video,
-  ...logger,
-  ...gameClub,
-  canvasContext,
-  ...sdk,
-  ...camera,
-  ...recorder,
-  ...uploadFile,
-  ...gameRecorder,
-  ...reportScene,
-  ...chat,
-  ...font,
+        WXInitializeSDK() {
+        moduleHelper.init();
+        moduleHelper.send('Inited', 200);
+    },
+    ...storage,
+    ...userInfo,
+    ...share,
+    ...ad,
+    ...canvasHelper,
+    ...fs,
+    ...openData,
+    ...util,
+    ...cloud,
+    ...audio,
+    ...texture,
+    ...video,
+    ...logger,
+    ...gameClub,
+    canvasContext,
+    ...sdk,
+    ...camera,
+    ...recorder,
+    ...uploadFile,
+    ...gameRecorder,
+    ...chat,
+    ...font,
 };
 GameGlobal.WXWASMSDK = WXWASMSDK;

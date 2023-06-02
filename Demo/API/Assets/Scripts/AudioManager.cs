@@ -143,7 +143,7 @@ public class AudioManager : MonoBehaviour
         });
 
         // 加载出错
-        audio.OnError(() =>
+        audio.OnError((res) =>
         {
             Debug.Log(audio.instanceId + "audio OnError");
             audio.Stop();

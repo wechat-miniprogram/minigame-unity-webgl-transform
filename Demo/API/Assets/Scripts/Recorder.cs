@@ -102,7 +102,7 @@ public class Recorder : MonoBehaviour
             Debug.Log("recorder audio OnCanplay");
             audioPlayRightNow.Play();
         });
-        audioPlayRightNow.OnError(() =>
+        audioPlayRightNow.OnError((res) =>
         {
             Debug.Log("recorder audio OnError");
         });

@@ -132,6 +132,20 @@ namespace WeChatWASM
 
         /// <summary>
         /// [wx.chooseImage(Object object)](https://developers.weixin.qq.com/minigame/dev/api/media/image/wx.chooseImage.html)
+        /// 基础库版本 [2.21.0](https://developers.weixin.qq.com/miniprogram/dev/framework/compatibility.html) 起已废弃，请使用 [wx.chooseMedia](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.chooseMedia.html) 替换
+        /// 从本地相册选择图片或使用相机拍照。
+        /// ****
+        /// ```js
+        /// wx.chooseImage({
+        /// count: 1,
+        /// sizeType: ['original', 'compressed'],
+        /// sourceType: ['album', 'camera'],
+        /// success (res) {
+        /// // tempFilePath可以作为img标签的src属性显示图片
+        /// const tempFilePaths = res.tempFilePaths
+        /// }
+        /// })
+        /// ```
         /// </summary>
         public static void ChooseImage(ChooseImageOption callback)
         {
@@ -3831,6 +3845,17 @@ namespace WeChatWASM
         }
 
         /// <summary>
+        /// [[FeedbackButton](https://developers.weixin.qq.com/minigame/dev/api/open-api/feedback/FeedbackButton.html) wx.createFeedbackButton(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/feedback/wx.createFeedbackButton.html)
+        /// 需要基础库： `2.1.2`
+        /// 创建打开意见反馈页面的按钮
+        /// </summary>
+        /// <returns></returns>
+        public static WXFeedbackButton CreateFeedbackButton(CreateOpenSettingButtonOption option)
+        {
+            return WXSDKManagerHandler.Instance.CreateFeedbackButton(option);
+        }
+
+        /// <summary>
         /// [[UpdateManager](https://developers.weixin.qq.com/minigame/dev/api/base/update/UpdateManager.html) wx.getUpdateManager()](https://developers.weixin.qq.com/minigame/dev/api/base/update/wx.getUpdateManager.html)
         /// 需要基础库： `1.9.90`
         /// 获取**全局唯一**的版本更新管理器，用于管理小程序更新。关于小程序的更新机制，可以查看[运行机制](https://developers.weixin.qq.com/minigame/dev/guide/runtime/operating-mechanism.html)文档。
@@ -3838,7 +3863,7 @@ namespace WeChatWASM
         /// [示例代码](https://developers.weixin.qq.com/minigame/dev/api/base/update/UpdateManager.html#示例代码)
         /// </summary>
         /// <returns></returns>
-        public static UpdateManager GetUpdateManager()
+        public static WXUpdateManager GetUpdateManager()
         {
             return WXSDKManagerHandler.Instance.GetUpdateManager();
         }
@@ -3849,7 +3874,7 @@ namespace WeChatWASM
         /// 创建视频解码器，可逐帧获取解码后的数据
         /// </summary>
         /// <returns></returns>
-        public static VideoDecoder CreateVideoDecoder()
+        public static WXVideoDecoder CreateVideoDecoder()
         {
             return WXSDKManagerHandler.Instance.CreateVideoDecoder();
         }

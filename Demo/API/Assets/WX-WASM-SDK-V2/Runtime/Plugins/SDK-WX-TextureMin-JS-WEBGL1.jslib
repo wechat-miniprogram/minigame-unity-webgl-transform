@@ -297,6 +297,7 @@ mergeInto(LibraryManager.library, {
                     break;
                 case "etc2":
                     f = GLctx.getExtension("WEBGL_compressed_texture_etc").COMPRESSED_RGBA8_ETC2_EAC;
+                    break;
                 case "dds":
                     f = GLctx.getExtension("WEBGL_compressed_texture_s3tc").COMPRESSED_RGBA_S3TC_DXT5_EXT;
                     break;

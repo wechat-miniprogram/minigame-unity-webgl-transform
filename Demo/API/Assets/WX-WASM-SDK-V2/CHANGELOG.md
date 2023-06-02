@@ -6,6 +6,47 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+
+## 2023-06-1
+### Feature
+* 支持Unity 2022引擎版本导出微信小游戏
+* 优化framework胶水层获取Cavas与宽高属性的性能损耗
+* ProfileStats性能面板增加FrameTime
+* 支持WASM生成external symbols优化，无需Node支持
+* 音频增加API CreateFeedbackButton
+* 广告API customAd增加onHide
+### Fixed
+* 修复Android首次退出小游戏后会继续播放的问题
+* DoExport增加返回值方便第三方工具集成
+* innerAudio onError增加回调信息
+ 
+## 2023-05-24
+### Feature
+* 更新适配插件1.2.5
+* 优化开发版、体验版小游戏支持最佳实践检测工具
+### Fixed
+* TextureEditor插件目录不参与编译 
+
+## 2023-05-22
+### Feature
+* 支持使用微信字体，使用WX.GetWXFont获取使用系统字体
+* 支持WXAssetBundle，替换Unity AssetBundle以减少内存使用，请参阅文档[使用AssetBundle](Design/UsingAssetBundle.md)其中WXAssetBundle部分
+* 开发版、体验版小游戏支持最佳实践检测，请参阅[最佳实践检测工具](Design/PerformanceMonitor.md)
+* WX-WASM-SDK-V2** 版本使用新的目录结构为WX-WASM-SDK-V2，更新需手动删除`Assets/WX-WASM-SDK` (如有二次修改请备份)。若新版本出现异常，可使用旧版本备份包 [SDKv1 Unity插件](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/tools/minigame.202305172131.unitypackage) 版本包进行回退
+* 适配插件版本号更新为1.2.3
+
+### Fixed
+* 对齐最新[小游戏基础库2.30.4协议](https://github.com/wechat-miniprogram/minigame-api-typings/blob/master/types/wx/lib.wx.api.d.ts)
+部分类、接口名变更，原 Callback 命名更替为 Listener 如：
+```
+  OnKeyboardInputCallbackResult -> OnKeyboardInputListenerResult
+```
+* 修正调用参数类名的大小写，例如：
+```
+  getGameClubDataOption -> GetGameClubDataOption
+  openPageOption -> OpenPageOption
+```
+
 ## 2023-04-26
 ### Changed
 * 更新启动插件1.1.19

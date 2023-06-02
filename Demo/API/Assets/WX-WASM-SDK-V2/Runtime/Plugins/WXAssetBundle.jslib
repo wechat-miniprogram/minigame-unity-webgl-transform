@@ -230,6 +230,9 @@ var WXAssetBundleLibrary = {
         return WXFS._url2path.get(url);
       }
       var path = url.replace(GameGlobal.unityNamespace.DATA_CDN, wx.env.USER_DATA_PATH+'/__GAME_FILE_CACHE/');
+      if(path.indexOf('?') > -1){
+        path = path.substring(0,path.indexOf("?"));
+      }
       WXFS._url2path.set(url, path);
       return path;
     };

@@ -320,16 +320,6 @@ namespace WeChatWASM
         }
 
         /// <summary>
-        /// Grid 广告 详细参见 https://developers.weixin.qq.com/minigame/dev/guide/open-ability/ad/grid-ad.html
-        /// </summary>
-        /// <param name="param">详细参见 https://developers.weixin.qq.com/minigame/dev/api/ad/wx.createGridAd.html </param>
-        /// <returns>广告操作对象，https://developers.weixin.qq.com/minigame/dev/api/ad/GridAd.html </returns>
-        public static WXGridAd CreateGridAd(WXCreateGridAdParam param)
-        {
-            return WXSDKManagerHandler.Instance.CreateGridAd(param);
-        }
-
-        /// <summary>
         /// 创建原生模板广告组件 详细参见 https://developers.weixin.qq.com/minigame/dev/api/ad/wx.createCustomAd.html
         /// </summary>
         /// <param name="param"></param>
