@@ -147,5 +147,8 @@ A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需�
 - 使用WX C# SDK的文件API进行自行本地存储，他会与游戏资源缓存共用“文件系统”区域，有200MB存储上限，建议使用异步接口以不影响主线程帧率。“文件系统”请参考https://developers.weixin.qq.com/minigame/dev/guide/base-ability/file-system.html。
 - 总体而言，尽量使用云端存储。对于少量数据可以采用后两种方式，缺点是用户删除本地小游戏则记录丢失，同时要注意避免频繁的同步接口调用。
 
+#### 9.微信接口提示“fail require user interaction (only in touchend event)”
+ - 个别微信接口（比如订阅消息WX.RequestSubscribeMessage）需要在Touch回调才能被使用，而Unity大部分的UI解决方案都是延迟到下一帧才执行UI事件回调。因此需要开发者手动调用OnTouch监听，在回调内使用这类API。
+
 
 
