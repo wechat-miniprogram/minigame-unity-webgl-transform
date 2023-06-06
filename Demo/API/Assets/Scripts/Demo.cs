@@ -7,8 +7,6 @@ using WeChatWASM;
 
 public class Demo : MonoBehaviour
 {
-    public WXRewardedVideoAd ad;
-    public WXInnerAudioContext inneraudio;
     public Text txtUserInfo;
     public Text txtTestWXFont;
     public WXFileSystemManager fs = new WXFileSystemManager();
@@ -19,27 +17,11 @@ public class Demo : MonoBehaviour
     {
         WX.InitSDK((code) =>
         {
-
             // 打印屏幕信息
-            var systemInfo = WeChatWASM.WX.GetSystemInfoSync();
+            var systemInfo = WX.GetSystemInfoSync();
             Debug.Log($"{systemInfo.screenWidth}:{systemInfo.screenHeight}, {systemInfo.windowWidth}:{systemInfo.windowHeight}, {systemInfo.pixelRatio}");
 
-            // 预先创建广告实例
-            Debug.Log("初始化成功！");
-            ad = WX.CreateRewardedVideoAd(new WXCreateRewardedVideoAdParam()
-            {
-                adUnitId = "xxxxxxxx" //自己申请广告单元ID
-            });
-            ad.OnError((r) =>
-            {
-                Debug.Log("ad error:" + r.errMsg);
-            });
-            ad.OnClose((r) =>
-            {
-                Debug.Log("ad close:" + r.isEnded);
-            });
-
-            // 创建用户信息获取按钮，在底部1/3区域创建一个透明区域
+            // 创建用户信息获取按钮，在底部区域创建一个300高度的透明区域
             // 首次获取会弹出用户授权窗口, 可通过右上角-设置-权限管理用户的授权记录
             var canvasWith = (int)(systemInfo.screenWidth * systemInfo.pixelRatio);
             var canvasHeight = (int)(systemInfo.screenHeight * systemInfo.pixelRatio);
@@ -53,7 +35,7 @@ public class Demo : MonoBehaviour
             Debug.Log("infoButton Created");
 
             // fallbackFont作为旧版本微信或者无法获得系统字体文件时的备选CDN URL
-            var fallbackFont = Application.streamingAssetsPath + "/Fz.ttf"; 
+            var fallbackFont = Application.streamingAssetsPath + "/Fz.ttf";
             WeChatWASM.WX.GetWXFont(fallbackFont, (font) =>
             {
                 if (font != null)
@@ -62,7 +44,6 @@ public class Demo : MonoBehaviour
                 }
             });
         });
-
     }
 
     public void OnEnterOptionsClick()
@@ -71,18 +52,12 @@ public class Demo : MonoBehaviour
         Debug.Log("GetEnterOptionsSync scene:" + options.scene);
     }
 
-    public void OnAdClick()
-    {
-        ad.Show();
-    }
-
     public void OnShareClick()
     {
         WX.ShareAppMessage(new ShareAppMessageOption()
         {
             title = "分享标题xxx",
             imageUrl = "https://inews.gtimg.com/newsapp_bt/0/12171811596_909/0",
-
         });
     }
 
@@ -150,7 +125,7 @@ public class Demo : MonoBehaviour
             success = (succ) =>
             {
                 Debug.Log($"WriteFile succ {succ.errMsg}");
-                 // 异步读取文件
+                // 异步读取文件
                 fs.ReadFile(new ReadFileParam
                 {
                     filePath = env.USER_DATA_PATH + "/mydir/myfile.txt",
@@ -196,15 +171,9 @@ public class Demo : MonoBehaviour
         PlayerPrefs.SetInt("myintkey", 123);
         PlayerPrefs.SetFloat("myfloatkey", 1.23f);
 
-        Debug.Log($"PlayerPrefs mystringkey:{ PlayerPrefs.GetString("mystringkey")}");
-        Debug.Log($"PlayerPrefs myintkey:{ PlayerPrefs.GetInt("myintkey")}");
-        Debug.Log($"PlayerPrefs myfloatkey:{ PlayerPrefs.GetFloat("myfloatkey")}"); 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Debug.Log($"PlayerPrefs mystringkey:{PlayerPrefs.GetString("mystringkey")}");
+        Debug.Log($"PlayerPrefs myintkey:{PlayerPrefs.GetInt("myintkey")}");
+        Debug.Log($"PlayerPrefs myfloatkey:{PlayerPrefs.GetFloat("myfloatkey")}");
     }
 
     private void OnDestroy()

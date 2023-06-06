@@ -1,35 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using WeChatWASM;
 
 public class GameRecordeManager : MonoBehaviour
 {
-    private WXGameRecorder gameRecorder;
+    private static WXGameRecorder GameRecorder;
 
     void Start()
     {
-
         WX.InitSDK((code) =>
         {
+            if (GameRecorder != null)
+            {
+                // 已创建
+                Debug.Log("已创建");
+                return;
+            }
             // 获取系统信息
-            var systemInfo = WeChatWASM.WX.GetSystemInfoSync();
+            var systemInfo = WX.GetSystemInfoSync();
 
-            // TODO 先判断客户端是安卓，且客户端版本大于等于8.0.28，且基础库版本大于等于2.26.1，再使用该功能
+            // 先判断客户端版本大于等于8.0.30，且基础库版本大于等于2.26.1，再使用该功能
+            // 录屏功能无法在IOS高性能模式下使用
+            // GameRecorder是全局唯一的
+            GameRecorder = WX.GetGameRecorder();
 
-            gameRecorder = WX.GetGameRecorder();
-
-            gameRecorder.On("timeUpdate", (res) =>
+            GameRecorder.On("timeUpdate", (res) =>
             {
                 Debug.Log(res.currentTime);
             });
-            gameRecorder.On("start", (res) =>
+            GameRecorder.On("start", (res) =>
             {
-                Debug.Log("gameRecorder start");
+                Debug.Log("GameRecorder start");
             });
-            gameRecorder.On("stop", (res) =>
+            GameRecorder.On("pause", (res) =>
             {
-                Debug.Log("gameRecorder stop:" + res.duration);
+                Debug.Log("GameRecorder pause");
+            });
+            GameRecorder.On("resume", (res) =>
+            {
+                // IOS客户端resume事件有问题
+                Debug.Log("GameRecorder resume");
+            });
+            GameRecorder.On("stop", (res) =>
+            {
+                Debug.Log("GameRecorder stop:" + res.duration);
+            });
+            GameRecorder.On("error", (res) =>
+            {
+                Debug.Log("GameRecorder error:" + JsonUtility.ToJson(res));
             });
 
             var canvasWith = (int)(systemInfo.screenWidth * systemInfo.pixelRatio);
@@ -48,7 +65,7 @@ public class GameRecordeManager : MonoBehaviour
 
     public void StartRecorder()
     {
-        gameRecorder.Start(new GameRecorderStartOption()
+        GameRecorder.Start(new GameRecorderStartOption()
         {
             hookBgm = false,
         });
@@ -56,17 +73,17 @@ public class GameRecordeManager : MonoBehaviour
 
     public void StopRecorder()
     {
-        gameRecorder.Stop();
+        GameRecorder.Stop();
     }
 
     public void PauseRecorder()
     {
-        gameRecorder.Pause();
+        GameRecorder.Pause();
     }
 
     public void ResumeRecorder()
     {
-        gameRecorder.Resume();
+        GameRecorder.Resume();
     }
 
     public void ShareRecorder()
@@ -85,8 +102,15 @@ public class GameRecordeManager : MonoBehaviour
 
     public void offEvent()
     {
-        gameRecorder.Off("timeUpdate");
-        gameRecorder.Off("start");
-        gameRecorder.Off("stop");
+        GameRecorder.Off("timeUpdate");
+        GameRecorder.Off("start");
+        GameRecorder.Off("stop");
+        GameRecorder.Off("pause");
+        GameRecorder.Off("resume");
+    }
+
+    private void OnDestroy()
+    {
+        GameRecorder.Stop();
     }
 }
