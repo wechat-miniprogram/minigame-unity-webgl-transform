@@ -15,12 +15,6 @@ public class PlayVideo : MonoBehaviour
         this.AutoPlayVideo();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void AutoPlayVideo()
     {
         WX.InitSDK((int code) => {

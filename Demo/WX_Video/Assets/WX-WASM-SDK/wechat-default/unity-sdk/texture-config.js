@@ -1,1 +1,0 @@
-GameGlobal.TextureConfig = "";
