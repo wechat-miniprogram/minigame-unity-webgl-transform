@@ -24,18 +24,6 @@ mergeInto(LibraryManager.library, {
         window._lastBoundTexture = texture;
         GLctx.bindTexture(target, texture ? GL.textures[texture] : null)
     },
-    emscripten_get_canvas_element_size:function(target, width, height) {
-        if (Module.IsWxGame) {
-            HEAP32[width >> 2] = GameGlobal.unityNamespace.canvas_width;
-            HEAP32[height >> 2] = GameGlobal.unityNamespace.canvas_height;
-            return;
-        }
-        else {
-            var canvas = Module['canvas'];
-            HEAP32[width >> 2] = canvas.width;
-            HEAP32[height >> 2] = canvas.height 
-        }
-    },
     WXInitializeSDK: function (version) {
         window.WXWASMSDK.WXInitializeSDK(_WXPointer_stringify_adaptor(version));
         if (typeof emscriptenMemoryProfiler !== "undefined")  {

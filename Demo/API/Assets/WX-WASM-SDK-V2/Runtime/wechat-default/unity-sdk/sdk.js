@@ -3421,8 +3421,7 @@ export default {
             OnInteractiveStorageModifiedList = [];
         }
         const callback = (res) => {
-            formatResponse('string', res);
-            const resStr = JSON.stringify(res);
+            const resStr = res;
             moduleHelper.send('_OnInteractiveStorageModifiedCallback', resStr);
         };
         OnInteractiveStorageModifiedList.push(callback);
@@ -3554,8 +3553,7 @@ export default {
     },
     WX_OnMessage() {
         const callback = (res) => {
-            formatResponse('string', res);
-            const resStr = JSON.stringify(res);
+            const resStr = res;
             moduleHelper.send('_OnMessageCallback', resStr);
         };
         wx.onMessage(callback);

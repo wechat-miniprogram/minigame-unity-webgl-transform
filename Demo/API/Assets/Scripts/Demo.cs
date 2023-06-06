@@ -105,31 +105,6 @@ public class Demo : MonoBehaviour
         });
     }
 
-
-    public void OnPlayInnerAudio()
-    {
-        inneraudio = WX.CreateInnerAudioContext(new InnerAudioContextParam()
-        {
-            src = "Sounds/Seagull 002.wav",
-            needDownload = true,
-        });
-        inneraudio.OnEnded(() =>
-        {
-            Debug.Log("OnEnded called, play again");
-            inneraudio.Play();
-        });
-        inneraudio.OnCanplay(() =>
-        {
-            Debug.Log("OnCanplay called");
-            inneraudio.Play();
-        });
-    }
-
-    public void OnStopInnerAudio()
-    {
-        inneraudio.Stop();
-    }
-
     public void OnReportEventClick()
     {
         Dictionary<string, int> videoReport = new Dictionary<string, int>();
