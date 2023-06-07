@@ -6,6 +6,17 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-06-7
+### Feature
+* UnityWebRequest支持timeout属性
+* 二次启动最佳实践检测逻辑调整
+* 适配插件升级为1.2.12
+### Fixed
+* 修复Unity 2022引擎版本导出Web版本模板
+* dev版本不处理symbols数据
+* 修复微信系统字体换行显示问题
+* 修复微信系统字体在iOS系统部分缺失符号
+
 ## 2023-06-1
 ### Feature
 * 支持Unity 2022引擎版本导出微信小游戏
