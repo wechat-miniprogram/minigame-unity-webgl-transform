@@ -21,7 +21,6 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         {
             HideKeyboad();
         }
-
     }
 
     public void OnInput(OnKeyboardInputListenerResult v)
@@ -32,7 +31,6 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         {
             input.text = v.value;
         }
-
     }
 
     public void OnConfirm(OnKeyboardInputListenerResult v)
@@ -82,5 +80,4 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
             isShowKeyboad = false;
         }
     }
-
 }

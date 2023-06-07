@@ -19,7 +19,8 @@ public class GameRecordeManager : MonoBehaviour
             var systemInfo = WX.GetSystemInfoSync();
 
             // 先判断客户端版本大于等于8.0.30，且基础库版本大于等于2.26.1，再使用该功能
-            // 录屏功能无法在IOS高性能模式下使用
+            // 该功能无法在IOS高性能模式使用
+            // 该功能无法在开发者工具使用
             // GameRecorder是全局唯一的
             GameRecorder = WX.GetGameRecorder();
 
@@ -57,7 +58,7 @@ public class GameRecordeManager : MonoBehaviour
                 // 判断 pageX 和 pageY 的位置是否在分享按钮的位置
                 if (res.changedTouches[0].pageY < shareButtonHeight)
                 {
-                    this.ShareRecorder();
+                    ShareRecorder();
                 }
             });
         });
