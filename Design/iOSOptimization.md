@@ -74,7 +74,7 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 ### 内存限制
 
-高性能模式下，iOS 低端机(6s/7/8 等)2G RAM 机型的内存限制为 1G，中高端机(7P/8P/iPhoneX/XSAMX/11/12 等)3G 以上内存机型的内存限制为 1.4G，因此开发者务必保证内存峰值不超过该数值。
+高性能模式下，iOS 低端机(6s/7/8 等)2G RAM 机型的内存限制为 1G，中高端机(7P/8P/iPhoneX/XSAMX/11/12 等)3G 以上内存机型的内存限制为 1.5G（安全内存建议1.2G~1.3G），因此开发者务必保证内存峰值不超过该数值。
 
 建议开发者根据指引[优化 Unity WebGL 的内存](OptimizationMemory.md)。
 
@@ -82,7 +82,7 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 高性能模式下，WASM 代码将被编译并优化，需要占用更多的编译消耗与内存。如果未进行优化前，可以明显感受到启动开始阶段（如启动前 1 分钟内）设备发烫。
 
-**_上线发布时，特别建议使用[WASM 代码分包](WasmSplit.md)+[压缩纹理](CompressedTexture.md)+[小游戏音频替换](AudioOptimization.md)+[UnityHeap](OptimizationMemory.md)预留这几种优化手段。_**
+**_上线发布时，特别建议使用[WASM 代码分包](WasmSplit.md)+[压缩纹理](CompressedTexture.md)+[UnityHeap](OptimizationMemory.md)预留这几种优化手段。_**
 
 ## QA
 
@@ -90,7 +90,7 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 - 删除本地小游戏(包括开发版、体验版和正式版)，
 - 重新进入小游戏并打开调试，查看 vconsole 日志, 关注"game start"日志中的"render"字段为"h5"则为高性能模式
-- 系统和基础库要求是: iOS>=14.0, 基础库>=2.23.1, 用户占比约为 75%。 对于不满足此要求时回退为普通执行方式。
+- 系统和基础库要求是: iOS>=14.0, 基础库>=2.23.1, 用户占比约为 90%。 对于不满足此要求时回退为普通执行方式。
 
 ### 2. 使用高性能模式下，游戏本身是否需要做修改？
 
@@ -135,7 +135,7 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 ### <p id="8-release-with-no-memory-and-code-size-optimize">8. 使用高性能模式下，不优化内存、WASM 代码包体积就发布上线可以吗？
 
-- 不建议。iOS 高性能模式虽然能提运行算力，但对内存、WASM 包体积有更苛刻的要求，需要更多的精力做优化。如果不做任何优化的情况下，很有可能会遇到超出内存限制而崩溃，启动时发烫现象严重等问题。**_上线发布时，特别建议使用[WASM 代码分包](WasmSplit.md)+[压缩纹理](CompressedTexture.md)+[小游戏音频替换](AudioOptimization.md)+[UnityHeap](OptimizationMemory.md)预留这几种优化手段。_**
+- 不建议。iOS 高性能模式虽然能提运行算力，但对内存、WASM 包体积有更苛刻的要求，需要更多的精力做优化。如果不做任何优化的情况下，很有可能会遇到超出内存限制而崩溃，启动时发烫现象严重等问题。**_上线发布时，特别建议使用[WASM 代码分包](WasmSplit.md)+[压缩纹理](CompressedTexture.md)+[UnityHeap](OptimizationMemory.md)预留这几种优化手段。_**
 
 ### <p id="9-iOS-high-performance-vs-android">9. iOS 高性能模式与安卓性能对比如何？
 
