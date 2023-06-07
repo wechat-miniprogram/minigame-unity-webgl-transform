@@ -10,11 +10,12 @@ Others - 其他
 ## 2023-06-1
 ### Feature
 * 支持Unity 2022引擎版本导出微信小游戏
-* 优化framework胶水层获取Cavas与宽高属性的性能损耗
+* 优化framework胶水层获取Canvas与宽高属性的性能损耗
 * ProfileStats性能面板增加FrameTime
 * 支持WASM生成external symbols优化，无需Node支持
-* 音频增加API CreateFeedbackButton
+* 增加API CreateFeedbackButton
 * 广告API customAd增加onHide
+* 更新适配插件1.2.11
 ### Fixed
 * 修复Android首次退出小游戏后会继续播放的问题
 * DoExport增加返回值方便第三方工具集成
