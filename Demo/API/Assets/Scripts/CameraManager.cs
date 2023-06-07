@@ -71,14 +71,11 @@ public class CameraManager : MonoBehaviour
 
     private void CreateSprite(int width, int height)
     {
-        var systemInfo = WX.GetSystemInfoSync();
-        var screenWidth = (int)systemInfo.screenWidth;
         texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
         GameObject obj = new GameObject("CameraRender");
         var sr = obj.AddComponent<SpriteRenderer>();
         sr.sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f));
         sr.flipY = true;
-        obj.transform.localScale = new Vector3(screenWidth / width, screenWidth / width, screenWidth / width);
     }
 
     public void ListenFrameChange()

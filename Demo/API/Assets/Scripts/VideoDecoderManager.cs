@@ -64,14 +64,11 @@ public class VideoDecoderManager : MonoBehaviour
 
     private void CreateSprite(int width, int height)
     {
-        var systemInfo = WX.GetSystemInfoSync();
-        var screenWidth = (int)systemInfo.screenWidth;
         texture = new Texture2D(width, height, TextureFormat.RGBA32, false);
         GameObject obj = new GameObject("VideoDecoderRender");
         var sr = obj.AddComponent<SpriteRenderer>();
         sr.sprite = Sprite.Create(texture, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f));
         sr.flipY = true;
-        obj.transform.localScale = new Vector3(screenWidth / width, screenWidth / width, screenWidth / width);
     }
 
     public void VideoDecoderStart()
@@ -79,7 +76,7 @@ public class VideoDecoderManager : MonoBehaviour
         wxVideoDecoder.Start(new VideoDecoderStartOption()
         {
             source = "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400",
-            // VideoDecoder目前只支持画面，无法解析声音
+            // VideoDecoder目前只支持画面，无法解析声音，所以需要添加abortAudio
             abortAudio = true,
         });
     }
@@ -95,7 +92,7 @@ public class VideoDecoderManager : MonoBehaviour
         {
             var response = wxVideoDecoder.GetFrameData();
 
-            if (response.data.Length > 0)
+            if (response != null && response.data.Length > 0)
             {
                 RenderTexture(response.data, (int)response.width, (int)response.height);
             }
