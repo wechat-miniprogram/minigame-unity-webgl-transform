@@ -49,6 +49,16 @@ A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需�
 #### 12.小游戏包中的`webgl.wasm.symbols.unityweb`不会被上传，是做什么用的
 - 堆栈信息，主要用于[错误调试与异常排查](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/DebugAndException.md)
 
+#### 13.如何自定义接入构建流程
+- 除在微信小游戏转换工具面板配置导出外，微信SDK工具支持开发者自行实现构建，基于 `WXConvertCore.cs` 脚本提供的 `DoExport()` 方法实现导出，参考代码如下：
+```CSharp
+if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
+  Debug.Log("成功");
+  //... 后续操作
+} else {
+  Debug.LogError("失败");
+}
+```
   
 ## Unity WebGL
 #### 1.能否使用System.Net命名空间下的接口
