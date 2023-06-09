@@ -117,6 +117,10 @@ A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需�
 
 - 建议勾选并设置为High, 如果发现部分代码被错误裁剪，请参考[托管代码剥离](https://docs.unity.cn/cn/2019.4/Manual/ManagedCodeStripping.html)
 
+#### 12.使用xlua等方案在WebGL平台报“ArgumentException: Destination array was not long enough”？
+
+- 请参考https://github.com/Tencent/xlua/issues/741
+
 ## 平台适配
 #### 1.文本输入框点击无法输入，没有弹出输入法
 
