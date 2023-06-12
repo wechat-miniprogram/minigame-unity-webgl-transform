@@ -120,6 +120,8 @@ gameManager.onLaunchProgress = (e) => {
 
 ## 五、获取数据统计
 
+> 请注意！需前往【公众平台 - 能力地图 - 生产提效包 - 快适配 】开通后，方可查看数据
+
 数据报表包含Unity Loader自动上报与开发者自定义阶段。关注总体流失漏斗以确定需要优化的方向，同时分阶段的耗时分布有利于帮助我们分析该阶段的对应耗时的用户占比。
 
 数据报表统计分析请参考文档[启动场景上报分析-数据分析](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-action-start-reportScene.html) 进行查看。
