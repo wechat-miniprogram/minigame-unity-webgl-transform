@@ -6,6 +6,10 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-06-12
+### Fixed
+* plugins目录增加link.xml, 避免动态创建SDK实例的类型被裁剪(如litjson解析)
+
 ## 2023-06-7
 ### Feature
 * UnityWebRequest支持timeout属性
