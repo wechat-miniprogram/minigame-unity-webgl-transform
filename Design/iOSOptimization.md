@@ -126,8 +126,8 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 - 15.4 以上系统出现"Not implemented"与内存问题，此为 Unity & iOS 15.4 的 BUG，微信提供的 wasm 代码分包(推荐)或 Unity WebGL 官方论坛的[临时修复方案](https://forum.unity.com/threads/ios-15-webgl-2-issue.1176116/page-2)
 
 ### <p id="6-ui-flicker">6. 个别游戏 UI 会出现闪烁问题
-
-- 已知 iOS 15.4 偶现，如果开发者遇到请提供可复现 Unity 工程联系 minigamedevop08
+- 目前已发现iOS 15.4出现若干渲染BUG，如stencil特性支持，请查阅文档[优化Unity WebGL的渲染性能](RenderOptimization.md)
+- 如按上述文档去除依然无法解决，请提供可复现 Unity 工程联系 minigamedevop08
 
 ### 7. 为什么开启了高性能模式，游戏启动很烫？
 
