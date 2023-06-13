@@ -189,12 +189,13 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 
 
 ## 五、QA
-1. Q: 如何解决iOS高性能模式出现内存过大导致游戏关闭，具体优化步骤如何？
+1. Q: 如何解决iOS高性能模式出现内存过大导致游戏关闭，常见优化步骤如何？
    - iOS高性能模式下，由操作系统管理内存上限，在3G RAM机型上限是1.5G，安全内存峰值是1.2-1.3G左右
-   - 请使用Perfdog或mac Instrument查看WebContent进程内存是否在安全范围内
    - 进程内存离1.5G上限还有较大差距就崩溃了，请检查“UnityHeap预留内存“是否足够
+   - 请使用Perfdog或mac Instrument查看WebContent进程内存是否在安全范围内
+   - 进程内存中的业务内存(UnityHeap, GPU)是每个项目的主要差异点：打开性能面板查看DynamicMemory，峰值不要超过500M；使用Perfdog查看Android版本的GL、GFX显存
    - 请务必使用代码分包、压缩纹理（2021以上可使用引擎ASTC，低版本使用微信压缩纹理）
-   - 进程内存业务内存(UnityHeap, GPU)是每个项目的主要差异点，DynamicMemory峰值不要超过500M
+
 
 2. Q: 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
 
