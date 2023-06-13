@@ -79,7 +79,7 @@ UnityHeap非常关键，典型由以下几部分组成：
 
 分析手段：
 1. 勾选转换面板"ProfilingMemory"
-2. 修改unity-namespace.js中enableProfileStats变量，或C#调用WeChatWASM.WX.OpenProfileStats显示性能面板(注意：提审版本请勿显示).
+2. 导出面板勾选“显示性能面板”或unity-namespace.js中enableProfileStats变量打开性能面板(注意：提审版本请勿显示).
 游戏左上角显示Performence Stats性能面板
 
 <img src='../image/optimizationMemory6.png' width="600"/>
@@ -155,12 +155,12 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 ### 4.3 UnityHeap
 - 问题原因：UnityHeap是用于存储所有状态、托管的对象和本机对象，往往由于场景过大或由于业务原因造成瞬间内存峰值。***由于Unity WebGL在单首帧内无法GC***，单帧内瞬间的内存使用非常容易造成crash。同时，***Heap是只增不减且存在内存碎片的。***
 - 解决办法: 
-  - 1. 转换设置设置合理的“最大内存”
+  - 1. 转换面板设置合理的“UnityHeap预留内存”，切忌超出使用
   - 2. 避免场景过大导致瞬间峰值
   - 3. 避免过大的AssetBundle导致瞬间峰值
   - 4. 避免单帧内分配过多的对象, ***切忌产生跳跃峰值***
 - 如何设置“UnityHeap预留内存”？该值仅表示UnityHeap的峰值进行预留，避免内存不足时导致扩容产生的尖刺；
-  - 1. C#使用WeChatWASM.WX.OpenProfileStats或修改unity-namespace.js中enableProfileStats变量打开性能面板
+  - 1. 导出面板勾选“显示性能面板”或unity-namespace.js中enableProfileStats变量打开性能面板
   - 2. 将游戏运行一段时间，观察DynamicMemory的峰值
   - 3. UnityHeap=DynamicMemory+少量静态内存(通常<10MB)，因此转换面板的“UnityHeap预留内存”设置为略大于DynamicMemory峰值(可多预留50-100MB，以实际游戏为准)。建议值：超休闲游戏256,中度游戏(模拟经营、卡牌成长)496，重度游戏(SLG,MMO)768。
   - 4. UnityHeap不宜过大，当UnityHeap>=1024MB时，大部分设备将启动失败；UnityHeap>=500MB时，32位微信(约5%用户)与iOS普通模式大概率启动失败，建议中轻度游戏不超过该值。
@@ -189,11 +189,19 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 
 
 ## 五、QA
-1. Q: 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
+1. Q: 如何解决iOS高性能模式出现内存过大导致游戏关闭，具体优化步骤如何？
+   - iOS高性能模式下，由操作系统管理内存上限，在3G RAM机型上限是1.5G，安全内存峰值是1.2-1.3G左右
+   - 请使用Perfdog或mac Instrument查看WebContent进程内存是否在安全范围内
+   - 进程内存离1.5G上限还有较大差距就崩溃了，请检查“UnityHeap预留内存“是否足够
+   - 请务必使用代码分包、压缩纹理（2021以上可使用引擎ASTC，低版本使用微信压缩纹理）
+   - 进程内存业务内存(UnityHeap, GPU)是每个项目的主要差异点，DynamicMemory峰值不要超过500M
 
-   A: 不是。游戏占用内存必须以真机环境为准，使用Perfdog（Android or iOS）或 Instruments in Xcode(iOS)测试对应进程的内存占用。Unity Profiler仅能看到Unity Heap相关内存，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+2. Q: 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
 
-2. Q: 转换面板设置内存值多少合适？
+   - 不是。游戏占用内存必须以真机环境为准，使用Perfdog（Android or iOS）或 Instruments in Xcode(iOS)测试对应进程的内存占用。
+   - Unity Profiler仅能看到Unity Heap相关内存，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+
+3. Q: 转换面板设置内存值多少合适？
    
-   A: 可使用WeChatWASM.WX.OpenProfileStats查看Dynamic项，需要预留略大于游戏Dynamic峰值，避免游戏进行过程中产生内存扩容。建议值：休闲游戏256，中度(模拟经营、养成等)512，重度游戏(SLG,MMO)768，必须<1024。
+   - 请看前文关于UnityHeap预留内存的说明
    
