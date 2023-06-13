@@ -45,11 +45,10 @@
 
 <img src="../image/compressedTexture02.png" alt="compressedTexture02.png" width="80%" />
 
-### 1.~~安装 Node.js~~
+### 1.安装 Node.js
 
-​		~~下载并安装 [Node.JS](https://nodejs.org/en/) 并检查环境变量是否生效。~~
+​		下载并安装 [Node.JS](https://nodejs.org/en/) 并检查环境变量是否生效。
 
-​		新版本已不再依赖 Node.js。
 ### 2.构建 Bundle 文件
 
 ​		项目中若使用 bundle 文件，需先构建 AB包。请勿开启 crc 对 bundle 进行校验。
