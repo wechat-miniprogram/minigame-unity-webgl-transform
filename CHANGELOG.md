@@ -6,6 +6,16 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-06-14
+### Feature
+* 移除对Node.js依赖；
+* 优化面板，提供Instant Game AutoStreaming自动配置与上传。
+* 增加API getlogmanager/getrealtimelogmanager
+### Fixed
+* iOS高性能最低支持版本调整
+* 微信系统字体预载bug修复
+* 音频FMOD导出适配
+
 ## 2023-06-12
 ### Fixed
 * plugins目录增加link.xml, 避免动态创建SDK实例的类型被裁剪(如litjson解析)
