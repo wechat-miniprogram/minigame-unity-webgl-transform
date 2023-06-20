@@ -68,6 +68,7 @@
   - [资源优化工具与建议](Design/AssetOptimization.md)
   - [iOS高性能模式](Design/iOSOptimization.md)
   - [优化Unity WebGL的渲染性能](Design/RenderOptimization.md)
+  - [定制微信小游戏的 URP 管线](Design/CustomURP.md)
   - [WebGL2.0渲染支持说明](Design/WebGL2.md)
 
 版本更新与资源部署
