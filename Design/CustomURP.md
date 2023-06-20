@@ -33,7 +33,7 @@
 - 注意 需要先导入本地的 `Core RP Library`，然后再导入`Universal RP`. 顺序不能反! (否则会自动引入官方的`Core RP Library`包)
 - 当导入完成后，Unity Game 和 Scene 视图得渲染应该会恢复正常的
 - 此时在 `Package Manager` 窗口 选择 `Packages：In Project`, 在 `Packages - Other` 一栏会看到`Core RP Library` 和 `Universal RP`
-![本地化](../image/custom_urp_pkgs.png)
+<img src='../image/custom_urp_pkgs.png' width="800"/>
 - 此时本地化 URP 包已经完成了，下一步可以在本地的包定制 URP 
 - 如果此时 Unity Editor 有些 warning 甚至 error 的日志，可能和替换 URP 包有关系，一般重启一下 Editor 就好了
 - 接下来需要[准备条件编译宏](#准备条件编译宏)
