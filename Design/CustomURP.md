@@ -1,7 +1,7 @@
 ## 定制微信小游戏的 URP 管线
 - 本文档主要说明如何在 Unity 官方 URP 管线基础上，定制适合微信小游戏的 URP 管线。
 - URP 是 Unity 通用渲染管线，支持移动端、PC、WebGL 平台的游戏开发，它包含的功能很全面也很强大。
-- 但对于大部分微信小游戏，有些功能可能是用不上，诸如延迟渲染、XR、多光源管理等。直接用官方 URP 管线，那些用不到的功能在运行时也会有性能开销，因此，将那些游戏用不到的功能在编译期就去掉，对运行时性能是有提升。
+- 但对于大部分微信小游戏，有些功能可能是用不上，诸如延迟渲染、XR、多光源管理等。直接用官方 URP 管线，那些用不到的功能在运行时可能也会有性能开销，因此，将那些游戏用不到的功能在编译期就去掉，对运行时性能会有提升。
 - 定制 URP 管线除了具备 C# 和 Shader 相关的编程知识，还要对渲染管线有一定了解。
 - 首先需要 [本地化 URP 包](#本地化-urp-包)
 
@@ -24,7 +24,7 @@
     - 将这两个子文件夹拷贝到工程目录外的一个本地文件夹 (这里是放 `D:/custom_packages/`，路径随意，只要不要放到工程目录下即可)
 - 在 `Package Manager` 窗口找到 `Universal RP` 选中，然后点击面板右下角的 Remove 按钮，移除掉官方的 URP版本
     - 除了 `Universal RP`包，`Core RP Library` 和 `Shader Graph`包也会同时被移除
-- 稍等一会，官方 URP 包就会被移除，此时 Unity Game 和 Scene 视图可能显示粉红色的渲染异常，这时正常现象，不用担心
+- 稍等一会，官方 URP 包就会被移除，此时 Unity Game 和 Scene 视图可能显示粉红色的渲染异常，这是正常现象，不用担心
 - 导入本地的 `Core RP Library`包
     - 在 Package Manager 窗口，点击左上角 `+` 号按钮，在弹出列表选择 `Add package from disk`
     - 在弹出的 `Select package on disk` 窗口，选择 `D:/custom_packages/com.unity.render-pipelines.core@12.1.10/package.json`文件打开
@@ -114,10 +114,10 @@
 
 >>#### 供参考的 URP 定制版本
 - 开发者请联系助手 `minigamedevop08` 获取微信定制版的 URP 源码
-- 基于 Unity 2021.3.19 的 URP 12.1.10 版本定制的渲染管线，主要是用来参考如何定制 URP 管线，
+- 这是基于 Unity 2021.3.19 的 URP 12.1.10 版本定制的渲染管线，主要是用来参考如何定制 URP 管线，
 - 这个 URP 版本是基于大部分微信小游戏的渲染需要来定制的，主要修改有以下这些：
     - 不影响 GPU Instancing 和 SRP Batcher 
-    - 只支持一栈实时方向光，裁剪 Additional Light 额外的光照
+    - 只支持一盏实时方向光，裁剪 Additional Light 额外的光照
         - 裁剪 _MainLightOcclusionProbes
         - 裁剪 _MainLightLayerMask， 默认使用 DEFAULT_LIGHT_LAYERS
     - 只支持最基础的 Lightmap，裁剪支持 Directional Lightmap 和 Dynamic Lightmap
@@ -138,7 +138,7 @@
         - 裁剪 ReflectionProbe Bleed 和 BoxProjection
     - 裁剪 _GlossyEnvironmentCubeMap 和 _GlossyEnvironmentCubeMap_HDR
     - 裁剪 unity_ProbesOcclusion ( 去掉了 Shader HLSL 对应的 uniform 变量 )
-    - 裁剪 Alpha Test 镂空 （自己写的 Shader 可以支持镂空，这里是指 URP 自带的 Shader 裁剪 镂空）
+    - 裁剪 Alpha Test 镂空 （自己写的 Shader 可以支持镂空，这里是指 URP 自带的 Shader 裁剪了 镂空功能）
     - 裁剪 Fog 雾效
     - 只支持 unity_SHAr、unity_SHAg、unity_SHAb 2阶， 裁剪 unity_SHBr、unity_SHBg、unity_SHBb、unity_SHC
     - 裁剪 Deferred 延迟渲染 和 GBuffer 相关Pass 
@@ -176,7 +176,6 @@
             - 去掉 _SubtractiveShadowColor 影响
     - 裁剪 DEBUG_DISPLAY、 DebugHandler、DebugDisplaySettingsUI、DrawGizmos、DrawWireOverlay
 - 所有 C# 和 Shader HLSL 代码改动 都有 `WX_PERFORMANCE_MODE` 来做条件编译，改动详情可参考源代码
-
 
 >### 注意事项
 - 开发者使用的 Unity 版本 和 URP 版本可能不一样，不能拿微信定制的 URP  直接用的，但是
