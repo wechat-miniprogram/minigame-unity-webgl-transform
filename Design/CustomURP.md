@@ -33,7 +33,7 @@
 - 注意 需要先导入本地的 `Core RP Library`，然后再导入`Universal RP`. 顺序不能反! (否则会自动引入官方的`Core RP Library`包)
 - 当导入完成后，Unity Game 和 Scene 视图得渲染应该会恢复正常的
 - 此时在 `Package Manager` 窗口 选择 `Packages：In Project`, 在 `Packages - Other` 一栏会看到`Core RP Library` 和 `Universal RP`
-<img src='../image/custom_urp_pkgs.png' width="800"/>
+![本地化](../image/custom_urp_pkgs.png)
 - 此时本地化 URP 包已经完成了，下一步可以在本地的包定制 URP 
 - 如果此时 Unity Editor 有些 warning 甚至 error 的日志，可能和替换 URP 包有关系，一般重启一下 Editor 就好了
 - 接下来需要[准备条件编译宏](#准备条件编译宏)
@@ -136,11 +136,10 @@
     - TransformObjectToWorldNormal 和 TransformWorldToObjectNormal 使用 UNITY_ASSUME_UNIFORM_SCALING 版本 
     - 只支持 unity_SpecCube0，裁剪 unity_SpecCube1，unity_SpecCube0_HDR 和 unity_SpecCube1_HDR，
         - 裁剪 ReflectionProbe Bleed 和 BoxProjection
-    - 裁剪 _GlossyEnvironmentCubeMap 和 _GlossyEnvironmentCubeMap_HDR
+    - 裁剪 _GlossyEnvironmentColor、_GlossyEnvironmentCubeMap 和 _GlossyEnvironmentCubeMap_HDR
     - 裁剪 unity_ProbesOcclusion ( 去掉了 Shader HLSL 对应的 uniform 变量 )
     - 裁剪 Alpha Test 镂空 （自己写的 Shader 可以支持镂空，这里是指 URP 自带的 Shader 裁剪了 镂空功能）
     - 裁剪 Fog 雾效
-    - 只支持 unity_SHAr、unity_SHAg、unity_SHAb 2阶， 裁剪 unity_SHBr、unity_SHBg、unity_SHBb、unity_SHC
     - 裁剪 Deferred 延迟渲染 和 GBuffer 相关Pass 
     - 裁剪 Decal 贴花
     - 裁剪 _DETAIL 细节纹理 
@@ -177,6 +176,25 @@
     - 裁剪 DEBUG_DISPLAY、 DebugHandler、DebugDisplaySettingsUI、DrawGizmos、DrawWireOverlay
 - 所有 C# 和 Shader HLSL 代码改动 都有 `WX_PERFORMANCE_MODE` 来做条件编译，改动详情可参考源代码
 
+>>#### 微信 URP 定制版本的性能数据对比
+- 1. 使用 URP SimpleLit Shader 的测试场景，静置如下图：
+![Case1](../image/custom_urp_case1.jpeg)
+- Perfog 统计的数据 (设备 iPhone X) ，定制版本的 GPU利用率从 50%下降到 38.2%，降幅达到 23%，且 Shader半精度的利用率也有所提高
+
+| 版本   | FPS | GPU 利用率% | 半精度利用率% | 全精度利用率% | Total CPU 利用率%
+|--------:|---:|----------:|----------------:|--------------:|:-----
+|官方URP | 59.8 |  50   |      11.92   |   35.24  |   23   
+|定制URP | 59.9 |  38.2 |       8.87   |   45.5  |    23.1
+- 2. 使用 URP Lit Shader 的测试场景，静置如下图：
+![Case2](../image/custom_urp_case2.jpeg)
+- Perfog 统计的数据 (设备 iPhone X) ，定制版本的 GPU利用率从 70.8%下降到 51.1%，降幅达到 27.8%，且 Shader半精度的利用率也有所提高
+
+| 版本   | FPS | GPU 利用率% | 半精度利用率% | 全精度利用率% | Total CPU 利用率%
+|--------:|---:|----------:|----------------:|--------------:|:-----
+|官方URP | 59.8 |  70.8   |      5.88   |   43.72  |   22.9   
+|定制URP | 59.9 |  51.1 |      8.59   |   35.39  |    23.2
+
+
 >### 注意事项
 - 开发者使用的 Unity 版本 和 URP 版本可能不一样，不能拿微信定制的 URP  直接用的，但是
 - 即使开发者用的 URP 版本和微信定制的 URP版本一致，有需要根据项目实际情况，来决定是否直接使用微信定制的版本
@@ -189,6 +207,8 @@
     - 其他 Unity 版本不一样 或者 不满足渲染需要，建议基于当前 Unity版本 的 URP 进行定制，可以借鉴里面定制的方法或思路
 - 上述定制的 URP 版本 是否适用于 App 移动端 平台 ？
     - 不能直接用，但定制的做法或思路可以借鉴
+- 定制版本的 URP 版本和 官方 URP 的渲染结果是否一致 ？
+    - 如果使用的功能是定制 URP 支持的，那么渲染结果基本一致的，如果渲染差异比较大，那么应该是使用了定制 URP 裁剪掉的功能
 
 ### 参考
 - [Unity URP 官方文档](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@12.1/manual/index.html)
