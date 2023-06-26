@@ -243,7 +243,7 @@ function parseSymbol(symbolText) {
 
 var symbolMap = parseSymbol(symbolText);
 
-function replaceWithSymbol(src, symbolMap, regex) {
+function replaceWithSymbol(src, symbolMap, regex, replaceFunc) {
   var res = src.matchAll(regex);
   // console.log("to replace symbol:", src, regex);
   var output = "";
@@ -253,13 +253,11 @@ function replaceWithSymbol(src, symbolMap, regex) {
     var d = res.next();
     if (d.value) {
       matched = true;
-      var s = symbolMap.get(d.value[1]);
-      // console.log("to replace:", d.value, s, start);
-      if (s) {
-        output += src.substr(start, d.value.index - start);
-        output += s + " wasm-function[" + d.value[1] + "]";
+      var ret = replaceFunc(d, symbolMap);
+      output += src.substr(start, d.value.index - start);
+      if (ret) {
+        output += ret;
       } else {
-        output += src.substr(start, d.value.index - start);
         output += d.value[0];
       }
       start = d.value.index + d.value[0].length;
@@ -275,20 +273,43 @@ function replaceWithSymbol(src, symbolMap, regex) {
 var res = replaceWithSymbol(
   exceptionText,
   symbolMap,
-  /j(\d+):wasm-function\[\d+]/g
+  /j(\d+)(.*)wasm-function\[(\d+)]/g,
+  (match_info, symbolMap) => {
+    var s = symbolMap.get(match_info.value[1]);
+    if (!s) {
+      return null;
+    }
+    return (
+      s + match_info.value[2] + "wasm-function[" + match_info.value[3] + "]"
+    );
+  }
 );
 if (!res.matched) {
   res = replaceWithSymbol(
     exceptionText,
     symbolMap,
-    /j(\d+) \(wasm-function\[\d+]/g
+    /wasm-function\[j(\d+)]/g,
+    (match_info, symbolMap) => {
+      var s = symbolMap.get(match_info.value[1]);
+      if (!s) {
+        return null;
+      }
+      return "wasm-function[" + s + "]";
+    }
   );
 }
 if (!res.matched) {
   res = replaceWithSymbol(
     exceptionText,
     symbolMap,
-    /<anonymous>:wasm-function\[(\d+)\]/g
+    /wasm-function\[(\d+)\]/g,
+    (match_info, symbolMap) => {
+      var s = symbolMap.get(match_info.value[1]);
+      if (!s) {
+        return null;
+      }
+      return "wasm-function[" + s + "]";
+    }
   );
 }
 console.log(res.output);
