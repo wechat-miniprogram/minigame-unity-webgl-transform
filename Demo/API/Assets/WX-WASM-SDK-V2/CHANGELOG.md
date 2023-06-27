@@ -6,6 +6,35 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-06-16
+### Fixed
+* 修复Unity压缩选项导致出包错误
+* 调整默认打开窗口宽度
+* 修复打包后分包插件提示: '当前项目模板过旧，请使用新版unity导出插件重新导出项目
+
+## 2023-06-14
+### Feature
+* 移除对Node.js依赖；
+* 优化面板，提供Instant Game AutoStreaming自动配置与上传。
+* 增加API getlogmanager/getrealtimelogmanager
+### Fixed
+* iOS高性能最低支持版本调整
+* 微信系统字体预载bug修复
+* 音频FMOD导出适配
+
+## 2023-06-12
+### Fixed
+* plugins目录增加link.xml, 避免动态创建的类型被裁剪(如litjson解析)
+
+## 2023-06-7
+### Feature
+* UnityWebRequest支持timeout属性
+* 二次启动最佳实践检测逻辑调整
+### Fixed
+* 修复Unity 2022引擎版本导出Web版本的模板
+* dev版本不处理symbols数据
+* 修复微信系统字体多行重写的问题
+* 修复微信系统字体在iOS系统部分缺失符号
 
 ## 2023-06-1
 ### Feature

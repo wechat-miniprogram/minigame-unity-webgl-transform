@@ -1,5 +1,5 @@
+#if UNITY_WEBGL || UNITY_EDITOR
 using System;
-
 using UnityEngine;
 
 namespace WeChatWASM
@@ -9,7 +9,7 @@ namespace WeChatWASM
     /// </summary>
     public class WXBase
     {
-        #region env
+#region env
 
         /// <summary>
         /// Gets 微信提供了一个用户文件目录给开发者，开发者对这个目录有完全自由的读写权限。通过 WX.env.USER_DATA_PATH 可以获取到这个目录的路径。
@@ -21,9 +21,9 @@ namespace WeChatWASM
                 return WXSDKManagerHandler.Env;
             }
         }
-        #endregion
+#endregion
 
-        #region cloud
+#region cloud
 
         /// <summary>
         /// Gets 云函数
@@ -35,9 +35,9 @@ namespace WeChatWASM
                 return WXSDKManagerHandler.cloud;
             }
         }
-        #endregion
+#endregion
 
-        #region 初始化SDK
+#region 初始化SDK
 
         /// <summary>
         /// 初始化SDK
@@ -47,9 +47,9 @@ namespace WeChatWASM
         {
             WXSDKManagerHandler.Instance.InitSDK(callback);
         }
-        #endregion
+#endregion
 
-        #region 数据上报
+#region 数据上报
 
         /// <summary>
         /// 游戏开始运行时上报
@@ -116,9 +116,9 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.ReportUserBehaviorBranchAnalytics(branchId, branchDim, eventType);
         }
 
-        #endregion
+#endregion
 
-        #region 本地存储
+#region 本地存储
 
         // 更多关于存储的隔离策略和清理策略说明可以查看这里 https://developers.weixin.qq.com/minigame/dev/guide/base-ability/storage.html
 
@@ -212,9 +212,9 @@ namespace WeChatWASM
             return WXSDKManagerHandler.Instance.StorageHasKeySync(key);
         }
 
-        #endregion
+#endregion
 
-        #region 用户信息
+#region 用户信息
 
         /// <summary>
         /// 创建用户信息按钮,这里是在屏幕上额外创建一块透明区域，其为点击区域，用户点击后，就会请求用户授权获取用户信息。游戏中的该区域最好为按钮区域，这样就能看起来用户是在点击游戏中的按钮
@@ -231,9 +231,9 @@ namespace WeChatWASM
             return WXSDKManagerHandler.Instance.CreateUserInfoButton(x, y, width, height, lang, withCredentials);
         }
 
-        #endregion
+#endregion
 
-        #region 分享转发
+#region 分享转发
 
         /// <summary>
         /// 监听用户点击右上角菜单的「转发」按钮时触发的事件
@@ -245,9 +245,9 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.OnShareAppMessage(defaultParam, action);
         }
 
-        #endregion
+#endregion
 
-        #region 广告
+#region 广告
 
         /// <summary>
         /// banner 广告组件。banner 广告组件是一个原生组件，层级比普通组件高。banner 广告组件默认是隐藏的，需要调用 BannerAd.show() 将其显示。banner 广告会根据开发者设置的宽度进行等比缩放，缩放后的尺寸将通过 BannerAd.onResize() 事件中提供。 使用可参考 https://developers.weixin.qq.com/minigame/dev/guide/open-ability/ad/banner-ad.html
@@ -328,9 +328,9 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.CreateCustomAd(param);
         }
-        #endregion
+#endregion
 
-        #region 游戏对局回放
+#region 游戏对局回放
 
         /// <summary>
         /// [[GameRecorder](https://developers.weixin.qq.com/minigame/dev/api/game-recorder/GameRecorder.html) wx.getGameRecorder()](https://developers.weixin.qq.com/minigame/dev/api/game-recorder/wx.getGameRecorder.html)
@@ -344,9 +344,9 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.GetGameRecorder();
         }
-        #endregion
+#endregion
 
-        #region 相机
+#region 相机
 
         /// <summary>
         /// [[WXCamera](https://developers.weixin.qq.com/minigame/dev/api/media/camera/Camera.html) wx.createCamera(Object object)](https://developers.weixin.qq.com/minigame/dev/api/media/camera/wx.createCamera.html)
@@ -358,9 +358,9 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.CreateCamera(param);
         }
-        #endregion
+#endregion
 
-        #region 录音
+#region 录音
 
         /// <summary>
         /// [[RecorderManager](https://developers.weixin.qq.com/minigame/dev/api/media/recorder/RecorderManager.html) wx.getRecorderManager()](https://developers.weixin.qq.com/minigame/dev/api/media/recorder/wx.getRecorderManager.html)
@@ -372,16 +372,16 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.GetRecorderManager();
         }
-        #endregion
+#endregion
 
-        #region 社交组件
+#region 社交组件
         public static WXChat CreateMiniGameChat(WXChatOptions options = null)
         {
             return WXSDKManagerHandler.Instance.CreateMiniGameChat(options);
         }
-        #endregion
+#endregion
 
-        #region 上传文件
+#region 上传文件
 
         /// <summary>
         /// [[UploadTask](https://developers.weixin.qq.com/minigame/dev/api/network/upload/UploadTask.html) wx.uploadFile(Object object)](https://developers.weixin.qq.com/minigame/dev/api/network/upload/wx.uploadFile.html)
@@ -412,9 +412,9 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.UploadFile(option);
         }
-        #endregion
+#endregion
 
-        #region 文件
+#region 文件
 
         /// <summary>
         /// 获取全局唯一的文件管理器 详见 https://developers.weixin.qq.com/minigame/dev/guide/base-ability/file-system.html
@@ -429,9 +429,9 @@ namespace WeChatWASM
         {
             return new WXFileSystemManager();
         }
-        #endregion
+#endregion
 
-        #region 开放数据域，关系链，排行榜这一类
+#region 开放数据域，关系链，排行榜这一类
 
         /// <summary>
         /// 获取开放数据域，关系链相关可以参看 https://developers.weixin.qq.com/minigame/dev/guide/open-ability/open-data.html
@@ -463,9 +463,9 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.HideOpenData();
         }
 
-        #endregion
+#endregion
 
-        #region 音频
+#region 音频
 
         /// <summary>
         /// InnerAudioContext 实例，可通过 WX.CreateInnerAudioContext 接口获取实例。注意，音频播放过程中，可能被系统中断，可通过 WX.OnAudioInterruptionBegin、WX.OnAudioInterruptionEnd事件来处理这种情况。详见：https://developers.weixin.qq.com/minigame/dev/api/media/audio/InnerAudioContext.html
@@ -517,9 +517,9 @@ namespace WeChatWASM
         {
             WXSDKManagerHandler.Instance.PreDownloadAudios(pathList, action);
         }
-        #endregion
+#endregion
 
-        #region 视频
+#region 视频
 
         /// <summary>
         /// 创建视频，详见 https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html
@@ -531,9 +531,9 @@ namespace WeChatWASM
             return WXSDKManagerHandler.Instance.CreateVideo(param);
         }
 
-        #endregion
+#endregion
 
-        #region 性能
+#region 性能
 
         /// <summary>
         /// 获取当前UnityHeap总内存(峰值)
@@ -597,7 +597,7 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.LogUnityHeapMem();
         }
 
-        #region WXAssetBundle
+#region WXAssetBundle
 
         /// <summary>
         /// 获取当前AssetBundle在JS内存中的数量
@@ -634,7 +634,7 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.GetBundleSizeOnDisk();
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// 打开性能面板
@@ -651,9 +651,9 @@ namespace WeChatWASM
         {
             WXSDKManagerHandler.Instance.ProfilingMemoryDump();
         }
-        #endregion
+#endregion
 
-        #region 调试
+#region 调试
 
         /// <summary>
         /// 写 debug 日志，同 https://developers.weixin.qq.com/minigame/dev/api/base/debug/LogManager.debug.html
@@ -691,9 +691,9 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.LogManagerWarn(str);
         }
 
-        #endregion
+#endregion
 
-        #region 云测试
+#region 云测试
 
         /// <summary>
         /// 是否小游戏云测试环境
@@ -703,9 +703,9 @@ namespace WeChatWASM
         {
             return WXSDKManagerHandler.Instance.IsCloudTest();
         }
-        #endregion
+#endregion
 
-        #region 清理文件缓存
+#region 清理文件缓存
 
         /// <summary>
         /// 游戏异常时，使用本接口清理资源缓存
@@ -757,7 +757,7 @@ namespace WeChatWASM
             return WXSDKManagerHandler.Instance.GetCachePath(url);
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// 获取启动loader的启动数据
@@ -773,7 +773,7 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.UncaughtException();
         }
 
-        #region 交互
+#region 交互
 
         /// <summary>
         /// 创建游戏圈按钮，详见 https://developers.weixin.qq.com/minigame/dev/api/open-api/game-club/wx.createGameClubButton.html
@@ -785,9 +785,9 @@ namespace WeChatWASM
             return WXSDKManagerHandler.Instance.CreateGameClubButton(param);
         }
 
-        #endregion
+#endregion
 
-        #region UDP
+#region UDP
         public static int CreateUDPSocket(string ip, int remotePort, int bindPort = 0)
         {
             return WXSDKManagerHandler.Instance.CreateUDPSocket(ip, remotePort, bindPort);
@@ -802,9 +802,9 @@ namespace WeChatWASM
         {
             WXSDKManagerHandler.Instance.SendUDPSocket(socketId, buffer, offset, length);
         }
-        #endregion
+#endregion
 
-        #region 插件配置
+#region 插件配置
         public static void SetDataCDN(string path)
         {
             WXSDKManagerHandler.Instance.SetDataCDN(path);
@@ -814,7 +814,7 @@ namespace WeChatWASM
         {
             WXSDKManagerHandler.Instance.SetPreloadList(paths);
         }
-        #endregion
+#endregion
 
         /// <summary>
         /// 获取文件的本地缓存路径，若无缓存，可进行预下载
@@ -830,7 +830,7 @@ namespace WeChatWASM
                 success = (succ) =>
                 {
                     var inFontData = succ.binData;
-                    var abBytes = Unity.FontABTool.UnityFontABTool.PacKFontAB(inFontData, "WXFont", 0, 0, 0, 0);
+                    var abBytes = Unity.FontABTool.UnityFontABTool.PacKFontAB(inFontData, "WXFont", 18, 18, 18, -5);
                     try
                     {
                         var ab = AssetBundle.LoadFromMemory(abBytes);
@@ -870,3 +870,4 @@ namespace WeChatWASM
         }
     }
 }
+#endif

@@ -1,5 +1,5 @@
+#if UNITY_WEBGL || UNITY_EDITOR
 using System;
-
 using UnityEngine;
 
 namespace WeChatWASM
@@ -1318,6 +1318,24 @@ namespace WeChatWASM
         public static void OpenChannelsUserProfile(OpenChannelsUserProfileOption callback)
         {
             WXSDKManagerHandler.Instance.OpenChannelsUserProfile(callback);
+        }
+
+        /// <summary>
+        /// [wx.openCustomerServiceChat(Object object)](https://developers.weixin.qq.com/minigame/dev/api/open-api/service-chat/wx.openCustomerServiceChat.html)
+        /// 需要基础库： `2.30.4`
+        /// 打开微信客服，页面产生点击事件（例如 button 上 bindtap 的回调中）后才可调用。了解更多信息，可以参考[微信客服介绍](https://work.weixin.qq.com/kf/)。
+        /// **示例代码**
+        /// ```js
+        /// wx.openCustomerServiceChat({
+        /// extInfo: {url: ''},
+        /// corpId: '',
+        /// success(res) {}
+        /// })
+        /// ```
+        /// </summary>
+        public static void OpenCustomerServiceChat(OpenCustomerServiceChatOption callback)
+        {
+            WXSDKManagerHandler.Instance.OpenCustomerServiceChat(callback);
         }
 
         /// <summary>
@@ -3856,6 +3874,50 @@ namespace WeChatWASM
         }
 
         /// <summary>
+        /// [[LogManager](https://developers.weixin.qq.com/minigame/dev/api/base/debug/LogManager.html) wx.getLogManager(Object object)](https://developers.weixin.qq.com/minigame/dev/api/base/debug/wx.getLogManager.html)
+        /// 需要基础库： `2.1.0`
+        /// 获取日志管理器对象。
+        /// **示例代码**
+        /// ```js
+        /// const logger = wx.getLogManager({level: 1})
+        /// logger.log({str: 'hello world'}, 'basic log', 100, [1, 2, 3])
+        /// logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
+        /// logger.debug({str: 'hello world'}, 'debug log', 100, [1, 2, 3])
+        /// logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
+        /// ```
+        /// </summary>
+        /// <returns></returns>
+        public static WXLogManager GetLogManager(GetLogManagerOption option)
+        {
+            return WXSDKManagerHandler.Instance.GetLogManager(option);
+        }
+
+        /// <summary>
+        /// [[RealtimeLogManager](https://developers.weixin.qq.com/minigame/dev/api/base/debug/RealtimeLogManager.html) wx.getRealtimeLogManager()](https://developers.weixin.qq.com/minigame/dev/api/base/debug/wx.getRealtimeLogManager.html)
+        /// 需要基础库： `2.14.4`
+        /// 获取实时日志管理器对象。
+        /// **示例代码**
+        /// ```js
+        /// // 小程序端
+        /// const logger = wx.getRealtimeLogManager()
+        /// logger.info({str: 'hello world'}, 'info log', 100, [1, 2, 3])
+        /// logger.error({str: 'hello world'}, 'error log', 100, [1, 2, 3])
+        /// logger.warn({str: 'hello world'}, 'warn log', 100, [1, 2, 3])
+        /// // 插件端，基础库 2.16.0 版本后支持，只允许采用 key-value 的新格式上报
+        /// const logManager = wx.getRealtimeLogManager()
+        /// const logger = logManager.tag('plugin-log1')
+        /// logger.info('key1', 'value1')
+        /// logger.error('key2', {str: 'value2'})
+        /// logger.warn('key3', 'value3')
+        /// ```
+        /// </summary>
+        /// <returns></returns>
+        public static WXRealtimeLogManager GetRealtimeLogManager()
+        {
+            return WXSDKManagerHandler.Instance.GetRealtimeLogManager();
+        }
+
+        /// <summary>
         /// [[UpdateManager](https://developers.weixin.qq.com/minigame/dev/api/base/update/UpdateManager.html) wx.getUpdateManager()](https://developers.weixin.qq.com/minigame/dev/api/base/update/wx.getUpdateManager.html)
         /// 需要基础库： `1.9.90`
         /// 获取**全局唯一**的版本更新管理器，用于管理小程序更新。关于小程序的更新机制，可以查看[运行机制](https://developers.weixin.qq.com/minigame/dev/guide/runtime/operating-mechanism.html)文档。
@@ -3881,3 +3943,4 @@ namespace WeChatWASM
 
     }
 }
+#endif

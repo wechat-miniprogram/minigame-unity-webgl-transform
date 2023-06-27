@@ -1,9 +1,10 @@
 {
     "name": "WxEditor",
+    "rootNamespace": "",
     "references": [
-        "Wx"
+        "Wx",
+        "Unity.InstantGame.Editor"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -12,5 +13,13 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.instantgame",
+            "expression": "0.3.1",
+            "define": "UNITY_INSTANTGAME"
+        }
+    ],
+    "noEngineReferences": false
 }

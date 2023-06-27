@@ -14,7 +14,7 @@
   ],
   "plugins": {
     "UnityPlugin": {
-      "version": "1.2.11",
+      "version": "1.2.13",
       "provider": "wxe5a48f1ed5f544b7",
       "contexts": [
         {

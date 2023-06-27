@@ -66,20 +66,25 @@ namespace WeChatWASM
 #else
             WXExtEnvDef.SETDEF("UNITY_2022", false);
 #endif
+#if UNITY_INSTANTGAME
+            WXExtEnvDef.SETDEF("UNITY_INSTANTGAME", true);
+#else
+            WXExtEnvDef.SETDEF("UNITY_INSTANTGAME", false);
+#endif
             RegisterController();
         }
 
         private static void RegisterController()
         {
-            WXExtEnvDef.RegisterAction("WXEditorWindow.Init", (args) =>
-            {
-#if UNITY_2021_2_OR_NEWER
-                PlayerSettings.WebGL.debugSymbolMode = WebGLDebugSymbolMode.External;
-#else
-                PlayerSettings.WebGL.debugSymbols = true;
-#endif
-                return null;
-            });
+            //             WXExtEnvDef.RegisterAction("WXEditorWindow.Init", (args) =>
+            //             {
+            // #if UNITY_2021_2_OR_NEWER
+            //                 PlayerSettings.WebGL.debugSymbolMode = WebGLDebugSymbolMode.External;
+            // #else
+            //                 PlayerSettings.WebGL.debugSymbols = true;
+            // #endif
+            //                 return null;
+            //             });
 
             WXExtEnvDef.RegisterAction("WXEditorWindow.Build", (args) =>
             {
