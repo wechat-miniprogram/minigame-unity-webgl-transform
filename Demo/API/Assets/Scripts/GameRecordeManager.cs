@@ -49,18 +49,6 @@ public class GameRecordeManager : MonoBehaviour
             {
                 Debug.Log("GameRecorder error:" + JsonUtility.ToJson(res));
             });
-
-            var canvasWith = (int)(systemInfo.screenWidth * systemInfo.pixelRatio);
-            var shareButtonHeight = (int)(canvasWith / 1080f * 120f);
-            // 分享接口必须在touchEnd里触发
-            WX.OnTouchEnd((res) =>
-            {
-                // 判断 pageX 和 pageY 的位置是否在分享按钮的位置
-                if (res.changedTouches[0].pageY < shareButtonHeight)
-                {
-                    ShareRecorder();
-                }
-            });
         });
     }
 

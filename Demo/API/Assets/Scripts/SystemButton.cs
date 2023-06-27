@@ -20,6 +20,31 @@ public class SystemButton : MonoBehaviour
             CreateGameClubButton();
 
             CreateFeedbackButton();
+
+            var result = WX.GetLaunchOptionsSync();
+            Debug.Log(JsonUtility.ToJson(result));
+
+            WX.GetSetting(new GetSettingOption()
+            {
+                withSubscriptions = true,
+                success = (res) =>
+                {
+                    Dictionary<string, string> itemSettings = res.subscriptionsSetting.itemSettings;
+                    // 是否已授权过SYS_MSG_TYPE_INTERACTIVE，授权过不在乎展示按钮
+                    if (itemSettings.ContainsKey("SYS_MSG_TYPE_INTERACTIVE") && itemSettings["SYS_MSG_TYPE_INTERACTIVE"] == "accept")
+                    {
+                        GameObject requestSubscribeButton = GameObject.Find("RequestSubscribeSystemMessage");
+                        if (requestSubscribeButton != null)
+                        {
+                            requestSubscribeButton.SetActive(false);
+                        }
+                    }
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("GetSetting fail" + JsonUtility.ToJson(res));
+                }
+            });
         });
     }
 
@@ -119,6 +144,29 @@ public class SystemButton : MonoBehaviour
     private void FeedbackButtonDestroy()
     {
         FeedbackButton.Destroy();
+    }
+
+    public void RequestSubscribeSystemMessage()
+    {
+        WX.RequestSubscribeSystemMessage(new RequestSubscribeSystemMessageOption()
+        {
+            msgTypeList = new string[] { "SYS_MSG_TYPE_INTERACTIVE" },
+            success = (res) => {
+                Debug.Log(res);
+            }
+        });
+    }
+
+    public void OpenCustomerServiceChat()
+    {
+        WX.OpenCustomerServiceChat(new OpenCustomerServiceChatOption()
+        {
+            extInfo = new ExtInfoOption()
+            {
+                url = "https://www.qq.com/"
+            },
+            corpId = "123",
+        });
     }
 
     private void OnDestroy()
