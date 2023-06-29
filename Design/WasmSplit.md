@@ -30,7 +30,7 @@
     - [会不会最终跑到所有函数都收集的情况](#会不会最终跑到所有函数都收集的情况)
     - [iOS 高性能模式收集很卡](#ios-高性能模式收集很卡)
     - [iOS 高性能模式代码分包后内存反而变得很高](#ios-高性能模式代码分包后内存反而变得很高)
-    - [iOS 高性能模式出现 impport section's count is boo big](#ios-高性能模式出现-impport-sections-count-is-boo-big)
+    - [iOS 高性能模式出现 impport section's count is too big](#ios-高性能模式出现-impport-sections-count-is-too-big)
     - [没有看到增量分包的界面](#没有看到增量分包的界面)
     - [增量分包没生效](#增量分包没生效)
     - [如何更新分包插件](#如何更新分包插件)
@@ -227,7 +227,7 @@ iOS 高性能模式由于加载子包的实现不同，刚开始收集时又基�
 
 这种情况一般是太多新增函数（比如几百个），iOS 高性能模式的子包代码也会占用大量内存，可以继续生成分包，将这部分函数放在首包（放首包的内存占用相对小些）
 
-### <p id="ios-high-performance-import-section-too-big">iOS 高性能模式出现 impport section's count is boo big</p>
+### <p id="ios-high-performance-import-section-too-big">iOS 高性能模式出现 impport section's count is too big</p>
 
 ---
 
