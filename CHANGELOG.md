@@ -6,6 +6,16 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-06-29
+### Feature
+* 最佳实践预下载及网络下载检测项调整
+* 增加OpenCustomerServiceChat
+* 优化WXTouchInputOverride，在touchend时触发点击事件
+### Fixed
+* 修复微信系统字体在iOS上部分字符缺失
+* 修复微信系统字体在安卓上字形异常
+* 修复导出webgl的兼容逻辑
+
 ## 2023-06-16
 ### Fixed
 * 修复Unity压缩选项导致出包错误
