@@ -37,7 +37,7 @@ Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该�
     
    - **原因**：iOS WebKit对webGL2的支持存在问题，当批次较大时出现显示错误
    - **解决方法**：
-       iOS降低DrawMeshInstanced的参数matrices、population为32或更小的值
+       iOS降低DrawMeshInstanced的参数matrices、count为32或更小的值
 
 ## 参考文档
 - Unity官方文档-[WebGL 图形](https://docs.unity3d.com/cn/2021.2/Manual/webgl-graphics.html)
