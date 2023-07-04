@@ -29,7 +29,15 @@
 
 ### 2.2 分阶段耗时
 ### 2.2.1 首资源包下载与体积
-首包资源(webgl/Build目录下的data文件)主要有以下组成：BuildSettings勾选的所有场景、Resources、引擎Builtin资源(Shader、splash等)。可使用[AssetStudio](https://github.com/Perfare/AssetStudio)查看文件内的所有资源。
+首包资源(webgl/Build目录下的data文件)主要有以下组成：
+- unity default resources文件，引擎默认资源，如Arial字体，默认mesh，纹理等
+- il2cppmetadata， C#代码使用il2Cpp生成cpp代码时，生成的类，方法等信息
+- unity builtin_extra, always include的shader
+- BuildSettings中所有active的场景
+- Resources文件夹中的资源，以及其中的资源引用到的其他资源
+- 全局设置及引用到的资源，如splash图片等
+
+可使用[AssetStudio](https://github.com/Perfare/AssetStudio)查看文件内的所有资源。
 
 当首资源包发生变化时，需要在小游戏的启动阶段就进行下载，因此文件大小极为影响游戏的启动速度。
 > 1. 网络条件绝大部分为wifi或4G(另，微信广告可指定网络条件)
