@@ -18,7 +18,8 @@ public class Init : MonoBehaviour
         WeChatWASM.WX.InitSDK((ret) =>
         {
             // fallbackFont作为旧版本微信或者无法获得系统字体文件时的备选CDN URL
-            var fallbackFont = "https://www.oooceanworld.com/testgame/testfont/36ee0558-77aa-4918-a524-1e472fcb2a12.ttf";
+            // 「注意」需要替换成游戏真实的字体URL！！
+            var fallbackFont = Application.streamingAssetsPath + "fallback.ttf";
             WeChatWASM.WX.GetWXFont(fallbackFont, (font) =>
             {
                 text.font = font;
