@@ -16,7 +16,7 @@
 详细示例可参考[系统字体demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Font)
 
 ```csharp
-var fallbackFont = "https://www.oooceanworld.com/testgame/testfont/36ee0558-77aa-4918-a524-1e472fcb2a12.ttf";
+var fallbackFont = "https://www......com/字体文件.ttf";
 WeChatWASM.WX.GetWXFont(fallbackFont, (font) =>
 {
     text.font = font;
