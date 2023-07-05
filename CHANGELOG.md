@@ -6,6 +6,13 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-07-05
+### Feature
+* iOS高性能模式自动GC策略(默认10s GC)，可通过MiniGameConfig.asset-CompileOption-iOSAutoGCInterval调整间隔
+* 支持对首资源包进行brotli压缩
+### Fixed
+* 性能面板数值显示优化
+  
 ## 2023-06-29
 ### Feature
 * 最佳实践预下载及网络下载检测项调整
