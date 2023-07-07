@@ -92,7 +92,7 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 - 导出选项勾选webgl2实验能力
 #### 9.Unity FMOD音频插件是否支持？
 
-- 支持，目前微信小游戏已支持fmod转换的小游戏，但长音频依然建议使用InnerAudio以节省内存。
+- 支持，目前微信小游戏已支持fmod转换的小游戏
 #### 10.Mac 系统下 Unity 构建 WebGL 项目报`Failed running "../il2cppcore/il2cppcore.dll"`错误解决办法
 
 - 报错原因：Unity 2020及以前（如2019）版本构建 WebGL 仍然需要 Python2 ，而Mac OS 12.3版本起已经不再内置 Python2。
@@ -157,8 +157,8 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 #### 8.PlayerPref或用户数据存储失效
 
 - 使用小程序云开发或自建服务器进行云端存储(推荐，因本地存储的话，由于微信环境下玩家非常容易删除本地小游戏而导致存档丢失）
-- 使用WX C# SDK提供的PlayerPref进行存储，可以替代已有Unity的PlayerPref。但需要注意该部分数据使用小游戏Storage，有10MB存储上限。 由于接口是同步调用(阻塞游戏线程)，不建议频率过高的调用。“存储“请参考https://developers.weixin.qq.com/minigame/dev/guide/base-ability/storage.html。
-- 使用WX C# SDK的文件API进行自行本地存储，他会与游戏资源缓存共用“文件系统”区域，有200MB存储上限，建议使用异步接口以不影响主线程帧率。“文件系统”请参考https://developers.weixin.qq.com/minigame/dev/guide/base-ability/file-system.html。
+- 使用WX C# SDK提供的PlayerPref进行存储，可以替代已有Unity的PlayerPref。但需要注意该部分数据使用小游戏Storage，有10MB存储上限。 由于接口是同步调用(阻塞游戏线程)，不建议频率过高的调用。“存储“请参考https://developers.weixin.qq.com/minigame/dev/guide/base-ability/storage.html
+- 使用WX C# SDK的文件API进行自行本地存储，他会与游戏资源缓存共用“文件系统”区域，有200MB存储上限，建议使用异步接口以不影响主线程帧率。“文件系统”请参考https://developers.weixin.qq.com/minigame/dev/guide/base-ability/file-system.html
 - 总体而言，尽量使用云端存储。对于少量数据可以采用后两种方式，缺点是用户删除本地小游戏则记录丢失，同时要注意避免频繁的同步接口调用。
 
 #### 9.微信接口提示“fail require user interaction (only in touchend event)”
