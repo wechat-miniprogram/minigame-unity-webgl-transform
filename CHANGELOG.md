@@ -6,6 +6,12 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-07-12
+### Feature
+* 增加选项Il2CppCodeGeneration，默认为Il2CppCodeGeneration.OptimizeSize
+* 启动期间校验首资源包大小
+* 更新适配插件1.2.18
+  
 ## 2023-07-05
 ### Feature
 * iOS高性能模式自动GC策略(默认10s GC)，可通过MiniGameConfig.asset-CompileOption-iOSAutoGCInterval调整间隔
