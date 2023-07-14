@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "es2020",
+    "inlineSourceMap": true,
+    "noImplicitAny": true,
+    "composite": true,
+    "typeRoots": [
+      "../../Gen/Typing",
+      "../../../Library/PackageCache/com.tencent.puerts.core@2.0.0-rc.1/Typing"
+    ]
+  }
+}

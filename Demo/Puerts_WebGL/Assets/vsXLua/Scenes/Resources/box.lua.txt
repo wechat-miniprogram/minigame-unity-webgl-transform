@@ -1,0 +1,58 @@
+local Vector3 = CS.UnityEngine.Vector3 
+local Quaternion = CS.UnityEngine.Quaternion
+local json_ = require('json');
+
+local boxConfig = json_.decode('{"range":24,"destroyRange":0.5}')
+local speedConfig = json_.decode('{"speed":0.2}')
+
+local boxUpdates = {} 
+local freeIndex = {} 
+function addUpdate(fn) 
+    if (#freeIndex > 0) then 
+        local index = table.remove(freeIndex) 
+        boxUpdates[index] = fn 
+        return index 
+    else 
+        local index = #boxUpdates + 1
+        table.insert(boxUpdates, fn) 
+        return index 
+    end 
+end 
+local function empty()
+end
+function freeUpdate(index) 
+    boxUpdates[index] = empty
+    table.insert(freeIndex, index) 
+end
+
+CS.ScriptBehaviourManager.AddUpdate(typeof(CS.BoxWithLua), function () 
+    for _, updater in ipairs(boxUpdates) do
+        if not updater then return end
+        updater()
+    end
+end)
+
+function start(mb)
+    CS.BoxWithLua.TotalBoxCount = CS.BoxWithLua.TotalBoxCount + 1
+
+    local index = addUpdate(function ()
+        local deltaVec = mb.target.position - mb.transform.position
+        if deltaVec.magnitude < boxConfig.destroyRange then
+            return CS.UnityEngine.Object.Destroy(mb.gameObject)
+        end
+
+        mb.transform.rotation = Quaternion.LookRotation(deltaVec)
+        mb.transform.position = mb.transform.position + deltaVec.normalized * CS.UnityEngine.Time.deltaTime * speedConfig.speed
+    end)
+
+    mb.ScriptOnDestroy = function()
+        CS.BoxWithLua.TotalBoxCount = CS.BoxWithLua.TotalBoxCount - 1
+        freeUpdate(index)
+    end
+
+    local randomPositionX = math.random() * boxConfig.range - (boxConfig.range / 2) + mb.target.position.x
+    local randomPositionZ = math.random() * boxConfig.range - (boxConfig.range / 2) + mb.target.position.z
+    mb.transform.position = Vector3(
+        randomPositionX, mb.transform.position.y, randomPositionZ
+    )
+end
