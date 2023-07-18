@@ -1,0 +1,28 @@
+{
+    "compilerOptions": { 
+        "target": "esnext",
+        "jsx": "react",
+        "inlineSourceMap": true,
+        "moduleResolution": "node16",
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "typeRoots": [
+            "../../../Gen/Typing",
+            "../../../../Library/PackageCache/com.tencent.puerts.core@2.0.0-rc.1/Typing",
+        ],
+        "paths": {
+            "*": [
+                "../../../../Puer-Project/out/*"
+            ]
+        },
+
+        "module": "ES2015",
+        "composite": true,
+        "outDir": "./Resources"
+    },
+    "references": [
+        {
+            "path": "../../../../Puer-Project/out"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+local Vector3 = CS.UnityEngine.Vector3 
+local Quaternion = CS.UnityEngine.Quaternion
+
+local gap = 0.01
+
+CS.UnityEngine.Application.targetFrameRate = 60
+
+local timeCount = 0
+
+
+function start(mb)
+    local function generateSubbox()
+        if CS.BoxWithLua.TotalBoxCount < 1000 then
+            local box = CS.UnityEngine.Object.Instantiate(mb.SubPrefab, mb.transform)
+            local mbbox = box:GetComponent(typeof(CS.BoxWithLua))
+            mbbox.target = mb.Main.transform
+        end 
+    end
+    local function update ()
+        mb.FpsText.text = "FPS: " .. string.format("%.2f", 1 / CS.UnityEngine.Time.deltaTime)
+        mb.BoxText.text = "Box: " .. CS.BoxWithLua.TotalBoxCount
+
+        local vec2 = mb.Joystick.Direction
+        if vec2.magnitude > 0 then
+            local direction3D = Vector3(vec2.x, 0, vec2.y)
+            mb.Main.transform.position = mb.Main.transform.position + direction3D * (4 * CS.UnityEngine.Time.deltaTime)
+            mb.Main.transform.rotation = Quaternion.LookRotation(direction3D)
+        end
+
+        timeCount = timeCount + CS.UnityEngine.Time.deltaTime
+        while timeCount > gap do
+            timeCount = timeCount - gap
+            generateSubbox()
+        end
+    end
+    CS.ScriptBehaviourManager.AddUpdate(typeof(CS.GameWithLua), update) 
+
+end

@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "@puerts/shell-util": "^2.0.1",
+    "glob": "^8.0.3"
+  }
+}
