@@ -11,10 +11,10 @@
 | --- | --- | --- | --- | --- |
 | 2018 | 仅DXT,不支持ETC2/ASTC | 100% | 2018.4.25~2018.4.34 | 不支持设置dpr分辨率 |
 | 2019 | 仅DXT,不支持ETC2/ASTC | 100% | 2019.4.28~2019.4.35 | --- |
-| 2019 InstantGame| 全支持DXT/ETC2/ASTC | 100% | 2019.4.29 | --- |
+| 2019 InstantGame| 全支持DXT/ETC2/ASTC | 100% | 2019.4.29 | 增加WebGL移动端压缩纹理的支持 |
 | 2020 | DXT/ETC2,不支持ASTC | 100% | 2020.3.1~2020.3.36 | --- |
 | 2021 | 全支持DXT/ETC2/ASTC | 80% | 2021.2.11~2021.2.18 | --- |
-| 2021 InstantGame | 全支持DXT/ETC2/ASTC | 80% | 2021.2.5 | 增强的UnityProfiler |
+| 2021 InstantGame | 全支持DXT/ETC2/ASTC | 80% | 2021.2.5 | 增强运行时性能、UnityProfiler以及更小的包体 |
 | 2022 | 全支持DXT/ETC2/ASTC | 80% | 2022.3.0| --- |
 
 备注:
@@ -30,30 +30,7 @@
 
 ## Unity InstantGame版本获取
 
-### 基于2021.2.5
-2021.2.5f1c301 (a19)， 版本日期：2023/03/22
-#### Windows平台：
-- [Editor_2021.2.5f1c301_a20](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup64.exe)
-- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.exe)
-#### MacOS平台：
-- [Editor_2021.2.5f1c301_a20](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/Unity.pkg)
-- [UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/UnitySetup-WebGL-Support-for-Editor-2021.2.5f1c301.pkg)
-### InstantGame Package：
-- [com.unity.instantgame.zip](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C301_a20/com.unity.instantgame.zip)
-
-
-### 基于2019.4.29
-在原有引擎版本基础提供压缩纹理、压缩音频支持。
-
-Windows平台：
-
-- Unity Editor：[Editor_2019.4.29f1c109_f2](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/UnitySetup64.exe)
-- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.exe](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.exe)
-
-MacOS平台：
-- Unity Editor：[Editor__2019.4.29f1c109_f2](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/Unity.pkg)
-- WebGL Build Support: [UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109_f2.pkg](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/Alpha/C109_f2/UnitySetup-WebGL-Support-for-Editor-2019.4.29f1c109.pkg)
-
+中国特供版[下载地址](https://unity.cn/instantgame/docs/WechatMinigame/InstallUnity)
 
 
 ## QA
