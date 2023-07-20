@@ -146,11 +146,12 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
   - 1. [使用代码分包工具](WasmSplit.md)能降低原编译代码内存50%以上。 
   - 2. 手动删除多余插件，减少不必要的Unity模块引入(如物理、Unity数据统计等)
 
-### 4.2 GPU纹理内存
+### 4.2 GPU内存
 - 问题原因：Unity 2021才开始支持移动平台的压缩纹理，使用RGBA、DXT等纹理格式将导致巨大的内存开销与运行时解压消耗。
 - 解决办法：
   - 1. [压缩纹理优化](CompressedTexture.md)能最大程度地减少内存与解压开销。
   - 2. 升级引擎至2021使用ASTC压缩纹理
+  - 3. 关闭HDR，标准渲染管线在"GraphicsSetting-tier2"（WebGL使用tier2）取消勾选"Use HDR";URP管线通过renderer配置取消 
 
 ### 4.3 UnityHeap
 - 问题原因：UnityHeap是用于存储所有状态、托管的对象和本机对象，往往由于场景过大或由于业务原因造成瞬间内存峰值。***由于Unity WebGL在单首帧内无法GC***，单帧内瞬间的内存使用非常容易造成crash。同时，***Heap是只增不减且存在内存碎片的。***
