@@ -6,6 +6,15 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-07-20
+### Feature
+* 补充启动阶段关键日志
+* 新增米大师接口RequestMidasPaymentGameItem
+* 更新适配插件1.2.19
+### Fixed
+* 首资源包校验兼容微信纹理压缩工具
+* 移除不用的纹理下载API
+  
 ## 2023-07-12
 ### Feature
 * 增加选项Il2CppCodeGeneration，默认为Il2CppCodeGeneration.OptimizeSize
