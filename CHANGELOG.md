@@ -6,6 +6,18 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-07-27
+### Feature
+* 转换插件添加启动并行下载配置
+* 详细缓存日志不写入日志管理器
+* pc增加是否支持brotli压缩条件判断
+### Fixed
+* 修复系统字体未正常预下载
+* PC微信因loadSubPackage无回调的容错处理
+* 修复最佳实践检测工具首资源包brotli压缩后仍提示未gzip/br压缩
+* 修复AudioSource修改pitch失效
+* 修复PC端OnKeyDown回调报错
+  
 ## 2023-07-20
 ### Feature
 * 补充启动阶段关键日志
