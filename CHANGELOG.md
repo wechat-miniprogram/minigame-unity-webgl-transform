@@ -6,6 +6,21 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-08-3
+### Feature
+更新内容：
+* 首资源包压缩后在pc上运行的基础库版本限制调整，CDN加载(>=2.32.3)，小游戏分包加载(2.29.2)
+* 完善FileSystemManager
+* Video支持修改属性
+* development模式下，增加渲染性能检测日志
+* 启动卡住时补充上报dependency
+* 更新适配插件为1.2.23
+### Fixed 
+* 修复微信系统字体加载时报错'SC Font not found in TTC File'
+* 忽略unity分析的网络失败上报
+* 修正网络个数和HTTP2.0检测
+* 修复wx.onCompassChange
+  
 ## 2023-07-27
 ### Feature
 * 转换插件添加启动并行下载配置
