@@ -23,6 +23,7 @@ public class VideoDecoderManager : MonoBehaviour
 
     private void CreateVideoDecoder()
     {
+        // 8.0.38客户端+3.0.0基础库，才能正常使用
         wxVideoDecoder = WX.CreateVideoDecoder();
 
         wxVideoDecoder.On("start", (res) =>

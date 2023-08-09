@@ -7,19 +7,19 @@ using UnityEngine.EventSystems;
 public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
 {
     public InputField input;
-    private bool isShowKeyboad = false;
+    private bool isShowKeyboard = false;
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("ooooo");
-        ShowKeyboad();
+        Debug.Log("OnPointerClick");
+        ShowKeyboard();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // 隐藏输入法
+        Debug.Log("OnPointerExit");
         if (!input.isFocused)
         {
-            HideKeyboad();
+            HideKeyboard();
         }
     }
 
@@ -38,7 +38,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         // 输入法confirm回调
         Debug.Log("onConfirm");
         Debug.Log(v.value);
-        HideKeyboad();
+        HideKeyboard();
     }
 
     public void OnComplete(OnKeyboardInputListenerResult v)
@@ -46,12 +46,12 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         // 输入法complete回调
         Debug.Log("OnComplete");
         Debug.Log(v.value);
-        HideKeyboad();
+        HideKeyboard();
     }
 
-    private void ShowKeyboad()
+    private void ShowKeyboard()
     {
-        if (!isShowKeyboad)
+        if (!isShowKeyboard)
         {
             WX.ShowKeyboard(new ShowKeyboardOption()
             {
@@ -64,20 +64,20 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
             WX.OnKeyboardConfirm(OnConfirm);
             WX.OnKeyboardComplete(OnComplete);
             WX.OnKeyboardInput(OnInput);
-            isShowKeyboad = true;
+            isShowKeyboard = true;
         }
     }
 
-    private void HideKeyboad()
+    private void HideKeyboard()
     {
-        if (isShowKeyboad)
+        if (isShowKeyboard)
         {
             WX.HideKeyboard(new HideKeyboardOption());
             //删除掉相关事件监听
             WX.OffKeyboardInput(OnInput);
             WX.OffKeyboardConfirm(OnConfirm);
             WX.OffKeyboardComplete(OnComplete);
-            isShowKeyboad = false;
+            isShowKeyboard = false;
         }
     }
 }
