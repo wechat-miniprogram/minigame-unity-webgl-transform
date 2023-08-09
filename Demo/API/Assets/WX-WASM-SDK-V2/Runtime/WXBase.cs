@@ -830,7 +830,13 @@ namespace WeChatWASM
                 success = (succ) =>
                 {
                     var inFontData = succ.binData;
-                    var abBytes = Unity.FontABTool.UnityFontABTool.PacKFontAB(inFontData, "WXFont", 18, 18, 18, -5);
+                    var ascent = succ.ascent;
+                    var descent = succ.descent;
+                    var lineGap = succ.lineGap;
+                    var unitsPerEm = succ.unitsPerEm;
+                    // 未经过充分测试，目前看fontSize不决定最终字体大小，此处只是为了换算lineHeight。如果游戏使用有问题，可以考虑让游戏侧传入字体大小
+                    var fSize = 16;
+                    var abBytes = Unity.FontABTool.UnityFontABTool.PacKFontAB(inFontData, "WXFont", fSize * (Math.Abs(ascent) + Math.Abs(descent) + Math.Abs(lineGap)), fSize, fSize * ascent, fSize * descent);
                     try
                     {
                         var ab = AssetBundle.LoadFromMemory(abBytes);

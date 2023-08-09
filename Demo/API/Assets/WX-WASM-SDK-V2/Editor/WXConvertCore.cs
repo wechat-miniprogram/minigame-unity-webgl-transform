@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 using LitJson;
+using UnityEditor.Build;
 
 namespace WeChatWASM
 {
@@ -107,6 +108,19 @@ namespace WeChatWASM
 
                 ConvertCode();
                 string dataFilePath = GetWebGLDataPath();
+                string wxTextDataDir = WXAssetsTextTools.GetTextMinDataDir();
+                string dataFilePathBackupDir = $"{wxTextDataDir}{WXAssetsTextTools.DS}slim";
+                string dataFilePathBackupPath = $"{dataFilePathBackupDir}{WXAssetsTextTools.DS}backup.txt";
+                if (!Directory.Exists(dataFilePathBackupDir))
+                {
+                    Directory.CreateDirectory(dataFilePathBackupDir);
+                }
+                if (File.Exists(dataFilePathBackupPath))
+                {
+                    File.Delete(dataFilePathBackupPath);
+                }
+                File.Copy(dataFilePath, dataFilePathBackupPath);
+
                 if (config.CompileOptions.fbslim && !IsInstantGameAutoStreaming())
                 {
                     WXAssetsTextTools.FirstBundleSlim(dataFilePath, (result, info) =>
@@ -206,6 +220,17 @@ namespace WeChatWASM
             }
 
             var header = "function createWebAudio(){window.AudioContext=window.AudioContext||window.webkitAudioContext;if(window.AudioContext){return new AudioContext();}return wx.createWebAudioContext();}\n";
+            
+            if (config.CompileOptions.DevelopBuild && config.CompileOptions.enableRenderAnalysis)
+            {
+                header = header + RenderAnalysisRules.header;
+                for (i = 0; i < RenderAnalysisRules.rules.Length; i++)
+                {
+                    var rule = RenderAnalysisRules.rules[i];
+                    text = Regex.Replace(text, rule.old, rule.newStr);
+                }
+            }
+            
             text = header + text;
 
             File.WriteAllText(Path.Combine(config.ProjectConf.DST, miniGameDir, "webgl.wasm.framework.unityweb.js"), text, new UTF8Encoding(false));
@@ -218,7 +243,7 @@ namespace WeChatWASM
             PlayerSettings.WebGL.emscriptenArgs = string.Empty;
             if (WXExtEnvDef.GETDEF("UNITY_2021_2_OR_NEWER"))
             {
-                PlayerSettings.WebGL.emscriptenArgs += " -s EXPORTED_FUNCTIONS=_sbrk,_emscripten_stack_get_base,_emscripten_stack_get_end";
+                PlayerSettings.WebGL.emscriptenArgs += " -s EXPORTED_FUNCTIONS=_main,_sbrk,_emscripten_stack_get_base,_emscripten_stack_get_end";
             }
             PlayerSettings.runInBackground = false;
             if (config.ProjectConf.MemorySize != 0)
@@ -246,7 +271,14 @@ namespace WeChatWASM
                 PlayerSettings.WebGL.emscriptenArgs += " --profiling-funcs ";
             }
 
-            WXExtEnvDef.GOTO("WXEditorWindow.Build");
+#if UNITY_2021_2_OR_NEWER
+#if UNITY_2022_1_OR_NEWER
+                // 默认更改为OptimizeSize，减少代码包体积
+            PlayerSettings.SetIl2CppCodeGeneration(NamedBuildTarget.WebGL, config.CompileOptions.Il2CppOptimizeSize ? Il2CppCodeGeneration.OptimizeSize : Il2CppCodeGeneration.OptimizeSpeed);
+#else
+            EditorUserBuildSettings.il2CppCodeGeneration = config.CompileOptions.Il2CppOptimizeSize ? Il2CppCodeGeneration.OptimizeSize : Il2CppCodeGeneration.OptimizeSpeed;
+#endif
+#endif
 
             UnityEngine.Debug.Log("[Builder] Starting to build WebGL project ... ");
             UnityEngine.Debug.Log("PlayerSettings.WebGL.emscriptenArgs : " + PlayerSettings.WebGL.emscriptenArgs);
@@ -290,7 +322,7 @@ namespace WeChatWASM
             var result = BuildPipeline.BuildPlayer(GetScenePaths(), projDir, BuildTarget.WebGL, option);
             if (result.summary.result != UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
-                UnityEngine.Debug.LogFormat($"[Builder] BuildPlayer failed. emscriptenArgs:{0}", PlayerSettings.WebGL.emscriptenArgs);
+                UnityEngine.Debug.LogFormat("[Builder] BuildPlayer failed. emscriptenArgs:{0}", PlayerSettings.WebGL.emscriptenArgs);
                 return -1;
             }
 
@@ -315,20 +347,40 @@ namespace WeChatWASM
             int code = GenerateBinFile();
             if (code == 0)
             {
-                checkNeedCopyDataPackage(false);
+                convertDataPackage(false);
                 UnityEngine.Debug.LogFormat("[Converter] All done!");
                 //ShowNotification(new GUIContent("转换完成"));
             }
             else
             {
-                checkNeedCopyDataPackage(true);
+                convertDataPackage(true);
             }
         }
         /// <summary>
         /// 等brotli之后，统计下资源包加brotli压缩后代码包是否超过了20M（小游戏代码分包总大小限制）
         /// </summary>
-        private static void checkNeedCopyDataPackage(bool brotliError)
+        private static void convertDataPackage(bool brotliError)
         {
+            var baseDataFilename = dataMd5 + ".webgl.data.unityweb.bin";
+            var webglDirPath = Path.Combine(config.ProjectConf.DST, webglDir);
+            var minigameDirPath = Path.Combine(config.ProjectConf.DST, miniGameDir);
+            var minigameDataPath = Path.Combine(minigameDirPath, "data-package");
+            // 未压缩的包名
+            var originDataFilename = baseDataFilename + ".txt";
+            var originMinigameDataPath = Path.Combine(minigameDataPath, originDataFilename);
+            var originTempDataPath = Path.Combine(webglDirPath, originDataFilename);
+            // br压缩的资源包名
+            var brDataFilename = baseDataFilename + ".br";
+            var brMinigameDataPath = Path.Combine(minigameDataPath, brDataFilename);
+            var tempDataBrPath = Path.Combine(webglDirPath, brDataFilename);
+
+            // 资源文件名
+            var dataFilename = originDataFilename;
+            // 原始webgl的资源路径，即webgl/build目录下的资源名
+            var sourceDataPath = GetWebGLDataPath();
+            // webgl目录下的资源路径
+            var tempDataPath = originTempDataPath;
+            var dataPackageBrotliRet = 0;
             // 如果brotli失败，使用CDN加载
             if (brotliError)
             {
@@ -342,24 +394,56 @@ namespace WeChatWASM
                 // ShowNotification(new GUIContent("Brotli压缩失败，请到转出目录手动压缩！！！"));
                 Debug.LogError("Brotli压缩失败，请到转出目录手动压缩！");
             }
+            // 需要压缩资源包
+            if (!!config.ProjectConf.compressDataPackage)
+            {
+                dataFilename = brDataFilename;
+                tempDataPath = tempDataBrPath;
+                UnityEngine.Debug.LogFormat("[Compressing] Starting to compress datapackage");
+                dataPackageBrotliRet = Brotlib(dataFilename, sourceDataPath, tempDataPath);
+                Debug.Log("[Compressing] compress ret = " + dataPackageBrotliRet);
+                // 若压缩资源包失败，回退未压缩状态
+                if (dataPackageBrotliRet != 0)
+                {
+                    config.ProjectConf.compressDataPackage = false;
+                    dataFilename = originDataFilename;
+                    tempDataPath = originTempDataPath;
+                }
+            }
 
+            // 不需要压缩资源包或压缩失败
+            if (!config.ProjectConf.compressDataPackage || dataPackageBrotliRet != 0)
+            {
+                // 将资源包从Build目录复制一份作为未压缩资源
+                File.Copy(sourceDataPath, tempDataPath, true);
+            }
+
+            // 用小游戏分包加载时，需要计算是否未超过20M
             if (config.ProjectConf.assetLoadType == 1)
             {
-                var dataPath = GetWebGLDataPath();
-                var brcodePath = Path.Combine(config.ProjectConf.DST, miniGameDir, "wasmcode", codeMd5 + ".webgl.wasm.code.unityweb.wasm.br");
+                // 计算wasm包大小
+                var brcodePath = Path.Combine(minigameDirPath, "wasmcode", codeMd5 + ".webgl.wasm.code.unityweb.wasm.br");
                 var brcodeInfo = new FileInfo(brcodePath);
                 var brcodeSize = brcodeInfo.Length;
-                if (brcodeSize + int.Parse(dataFileSize) > 20971520)
+                // 计算首资源包大小
+                var tempDataInfo = new FileInfo(tempDataPath);
+                var tempFileSize = tempDataInfo.Length.ToString();
+                // 胶水层及sdk可能占一定大小，粗略按照1M来算，则剩余19M
+                if (brcodeSize + int.Parse(tempFileSize) > (20 - 1) * 1024 * 1024)
                 {
-                    //ShowNotification(new GUIContent("资源文件过大，不适宜用放小游戏包内加载"));
-                    Debug.LogError("资源文件过大，不适宜用放小游戏包内加载");
-                    throw new Exception("资源文件过大，不适宜用小游戏包内加载");
+                    config.ProjectConf.assetLoadType = 0;
+                    Debug.LogError("资源文件过大，不适宜用放小游戏包内加载，请上传资源文件到CDN");
                 }
                 else
                 {
-                    File.Copy(dataPath, Path.Combine(config.ProjectConf.DST, miniGameDir, "data-package", dataMd5 + ".webgl.data.unityweb.bin.txt"), true);
+                    // 小游戏分包加载时，压缩成功且总大小符合要求，将br文件copy到小游戏目录
+                    File.Copy(tempDataPath, config.ProjectConf.compressDataPackage ? brMinigameDataPath : originMinigameDataPath, true);
                 }
             }
+            checkNeedRmovePackageParallelPreload();
+
+            // 设置InstantGame的首资源包路径，上传用
+            FirstBundlePath = tempDataPath;
 
             var loadDataFromCdn = config.ProjectConf.assetLoadType == 0;
             Rule[] rules =
@@ -374,9 +458,34 @@ namespace WeChatWASM
                     old = "$LOAD_DATA_FROM_SUBPACKAGE",
                     newStr = loadDataFromCdn ? "false" : "true",
                 },
+                new Rule()
+                {
+                    old = "$COMPRESS_DATA_PACKAGE",
+                    newStr = config.ProjectConf.compressDataPackage ? "true" : "false",
+                }
             };
-            string[] files = { "game.js", "game.json", "project.config.json" };
+            string[] files = { "game.js", "game.json", "project.config.json", "check-version.js" };
             ReplaceFileContent(files, rules);
+        }
+
+        private static void checkNeedRmovePackageParallelPreload()
+        {
+            // cdn下载时不需要填写并行下载配置
+            if (config.ProjectConf.assetLoadType == 0)
+            {
+                var filePath = Path.Combine(config.ProjectConf.DST, miniGameDir, "game.json");
+
+                string content = File.ReadAllText(filePath, Encoding.UTF8);
+                JsonData gameJson = JsonMapper.ToObject(content);
+                JsonWriter writer = new JsonWriter();
+                writer.IndentValue = 2;
+                writer.PrettyPrint = true;
+                gameJson["parallelPreloadSubpackages"].Remove(gameJson["parallelPreloadSubpackages"][1]);
+
+                // 将配置写回到文件夹
+                gameJson.ToJson(writer);
+                File.WriteAllText(filePath, writer.TextWriter.ToString());
+            }
         }
 
         /// <summary>
@@ -502,8 +611,6 @@ namespace WeChatWASM
 
             RemoveOldAssetPackage(Path.Combine(config.ProjectConf.DST, webglDir));
             RemoveOldAssetPackage(Path.Combine(config.ProjectConf.DST, webglDir + "-min"));
-            FirstBundlePath = Path.Combine(config.ProjectConf.DST, webglDir, dataMd5 + ".webgl.data.unityweb.bin.txt");
-            File.Copy(dataPath, FirstBundlePath, true);
             CopyDirectory(Path.Combine(Application.dataPath, "WX-WASM-SDK-V2", "Runtime", "wechat-default"), Path.Combine(config.ProjectConf.DST, miniGameDir), true);
             // FIX: 2021.2版本生成symbol有bug，导出时生成symbol报错，有symbol才copy
             // 代码分包需要symbol文件以进行增量更新
@@ -524,19 +631,19 @@ namespace WeChatWASM
             {
                 Directory.CreateDirectory(Path.Combine(config.ProjectConf.DST, webglDir, "StreamingAssets"));
             }
-            return Brotlib(codePath);
+            return Brotlib(codeMd5 + ".webgl.wasm.code.unityweb.wasm.br", codePath, Path.Combine(config.ProjectConf.DST, miniGameDir, "wasmcode", codeMd5 + ".webgl.wasm.code.unityweb.wasm.br"));
         }
 
-        private static int Brotlib(string filePath)
+        private static int Brotlib(string filename, string sourcePath, string targetPath)
         {
             UnityEngine.Debug.LogFormat("[Converter] Starting to generate Brotlib file");
-            var dstPath = Path.Combine(config.ProjectConf.DST, miniGameDir, "wasmcode", codeMd5 + ".webgl.wasm.code.unityweb.wasm.br");
-            var codeInWebGL = Path.Combine(config.ProjectConf.DST, webglDir, codeMd5 + ".webgl.wasm.code.unityweb.wasm.br");
+            var cachePath = Path.Combine(config.ProjectConf.DST, webglDir, filename);
+            var shortFilename = filename.Substring(filename.IndexOf('.') + 1);
 
             // 如果code没有发生过变化，则不再进行br压缩
-            if (File.Exists(codeInWebGL))
+            if (File.Exists(cachePath))
             {
-                File.Copy(codeInWebGL, dstPath);
+                File.Copy(cachePath, targetPath, true);
                 return 0;
             }
 
@@ -546,30 +653,17 @@ namespace WeChatWASM
                 foreach (string path in Directory.GetFiles(Path.Combine(config.ProjectConf.DST, webglDir)))
                 {
                     FileInfo fileInfo = new FileInfo(path);
-                    if (fileInfo.Name.Contains(".webgl.wasm.code.unityweb.wasm.br"))
+                    if (fileInfo.Name.Contains(shortFilename))
                     {
                         File.Delete(fileInfo.FullName);
                     }
                 }
             }
-
-            var exePath = string.Empty;
-            if (WXExtEnvDef.GETDEF("UNITY_EDITOR_OSX"))
+            UnityUtil.brotli(sourcePath, targetPath);
+            if (targetPath != cachePath)
             {
-                exePath = Path.Combine(Application.dataPath, "WX-WASM-SDK-V2/Editor/Brotli/macos/brotli");
-                if (WXExtEnvDef.GETDEF("UNITY_2021_2_OR_NEWER"))
-                {
-                    exePath = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "PlaybackEngines/WebGLSupport/BuildTools/Brotli/macos/brotli");
-                }
+                File.Copy(targetPath, cachePath, true);
             }
-            else
-            {
-                exePath = Path.Combine(Application.dataPath, "WX-WASM-SDK-V2/Editor/Brotli/win_x86_64/brotli.exe");
-            }
-            WeChatWASM.UnityUtil.RunCmd(exePath, string.Format($" --force --quality 11" +
-                   $" --input \"{filePath}\"" +
-                   $" --output \"{dstPath}\""), string.Empty);
-            File.Copy(dstPath, codeInWebGL);
             return 0;
         }
 
@@ -795,6 +889,9 @@ namespace WeChatWASM
                 config.SDKOptions.PreloadWXFont ? "true" : "false",
                 config.CompileOptions.showMonitorSuggestModal ? "true" : "false",
                 config.CompileOptions.enableProfileStats ? "true" : "false",
+                config.CompileOptions.iOSAutoGCInterval.ToString(),
+                dataFileSize,
+                IsInstantGameAutoStreaming() ? "true" : "false",
             });
 
             List<Rule> replaceList = new List<Rule>(replaceArrayList);
@@ -836,7 +933,7 @@ namespace WeChatWASM
                     foreach (string path in Directory.GetFiles(dstDir))
                     {
                         FileInfo fileInfo = new FileInfo(path);
-                        if (fileInfo.Name.Contains("webgl.data.unityweb.bin.txt"))
+                        if (fileInfo.Name.Contains("webgl.data.unityweb.bin.txt") || fileInfo.Name.Contains("webgl.data.unityweb.bin.br"))
                         {
                             File.Delete(fileInfo.FullName);
                         }

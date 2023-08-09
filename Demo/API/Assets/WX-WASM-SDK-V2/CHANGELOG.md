@@ -6,6 +6,66 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-08-3
+### Feature
+更新内容：
+* 首资源包压缩后在pc上运行的基础库版本限制调整，CDN加载(>=2.32.3)，小游戏分包加载(2.29.2)
+* 完善FileSystemManager
+* Video支持修改属性
+* development模式下，增加渲染性能检测日志
+* 启动卡住时补充上报dependency
+* 更新适配插件为1.2.23
+### Fixed 
+* 修复微信系统字体加载时报错'SC Font not found in TTC File'
+* 忽略unity分析的网络失败上报
+* 修正网络个数和HTTP2.0检测
+* 修复wx.onCompassChange
+
+## 2023-07-27
+### Feature
+* 转换插件添加启动并行下载配置
+* 详细缓存日志不写入日志管理器
+* pc增加是否支持brotli压缩条件判断
+### Fixed
+* 修复系统字体未正常预下载
+* PC微信因loadSubPackage无回调的容错处理
+* 修复最佳实践检测工具首资源包brotli压缩后仍提示未gzip/br压缩
+* 修复AudioSource修改pitch失效
+* 修复PC端OnKeyDown回调报错
+
+## 2023-07-20
+### Feature
+* 补充启动阶段关键日志
+* 新增米大师接口RequestMidasPaymentGameItem
+* 更新适配插件1.2.19
+### Fixed
+* 首资源包校验兼容微信纹理压缩工具
+* 移除不用的纹理下载API
+
+## 2023-07-12
+### Feature
+* 增加选项Il2CppCodeGeneration，默认为Il2CppCodeGeneration.OptimizeSize
+* 启动期间校验首资源包大小
+* 更新适配插件1.2.18
+
+## 2023-07-05
+### Feature
+* iOS高性能模式自动GC策略(默认10s GC)，可通过MiniGameConfig.asset-CompileOption-iOSAutoGCInterval调整间隔
+* 支持对首资源包进行brotli压缩
+### Fixed
+* 性能面板数值显示优化
+
+## 2023-06-29
+### Feature
+* 最佳实践预下载及网络下载检测项调整
+* 增加OpenCustomerServiceChat
+* 优化WXTouchInputOverride，在touchend时触发点击事件
+
+### Fixed
+* 修复微信系统字体在iOS上部分字符缺失
+* 修复微信系统字体在安卓上字形异常
+* 修复导出webgl的兼容逻辑
+
 ## 2023-06-16
 ### Fixed
 * 修复Unity压缩选项导致出包错误

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using static WeChatWASM.WXConvertCore;
+using System;
 
 namespace WeChatWASM
 {
@@ -11,13 +12,17 @@ namespace WeChatWASM
     public class WXEditorWin : EditorWindow
     {
         private static WXEditorScriptObject config;
-
+#if UNITY_2021_3_OR_NEWER
+        private bool fbSlimSupport = false;
+#else
+        private bool fbSlimSupport = true;
+#endif
         [MenuItem("微信小游戏 / 转换小游戏", false, 1)]
         public static void Open()
         {
             var win = GetWindow(typeof(WXEditorWin), false, "微信小游戏转换工具面板");
             win.minSize = new Vector2(350, 400);
-            win.position = new Rect(100, 100, 520, 620);
+            win.position = new Rect(100, 100, 600, 700);
             win.Show();
             // 打开面板时自动检查更新
             PluginUpdateManager.CheckUpdte();
@@ -131,6 +136,7 @@ namespace WeChatWASM
 
                 this.formInput("videoUrl", "加载阶段视频URL");
                 this.formIntPopup("assetLoadType", "首包资源加载方式", new[] { "CDN", "小游戏包内" }, new[] { 0, 1 });
+                this.formCheckbox("compressDataPackage", "压缩首包资源(?)", "将首包资源Brotli压缩, 降低资源大小. 注意: 首次启动耗时可能会增加200ms, 仅推荐使用小游戏分包加载时节省包体大小使用");
                 this.formInput("bundleExcludeExtensions", "不自动缓存文件类型(?)", "(使用;分割)当请求url包含资源'cdn+StreamingAssets'时会自动缓存，但StreamingAssets目录下不是所有文件都需缓存，此选项配置不需要自动缓存的文件拓展名。默认值json");
                 this.formInput("bundleHashLength", "Bundle名称Hash长度(?)", "自定义Bundle文件名中hash部分长度，默认值32，用于缓存控制。");
                 this.formInput("preloadFiles", "预下载文件列表(?)", "使用;间隔，支持模糊匹配");
@@ -159,16 +165,22 @@ namespace WeChatWASM
                 this.formCheckbox("developBuild", "Development Build");
                 this.formCheckbox("autoProfile", "Auto connect Profiler");
                 this.formCheckbox("scriptOnly", "Scripts Only Build");
+                this.formCheckbox("il2CppOptimizeSize", "Il2Cpp Optimize Size(?)", "对应于Il2CppCodeGeneration选项，勾选时使用OptimizeSize(默认推荐)，生成代码小15%左右，取消勾选则使用OptimizeSpeed。游戏中大量泛型集合的高频访问建议OptimizeSpeed，在使用HybridCLR等第三方组件时只能用OptimizeSpeed。");
                 this.formCheckbox("profilingFuncs", "Profiling Funcs");
                 this.formCheckbox("profilingMemory", "Profiling Memory");
                 this.formCheckbox("webgl2", "WebGL2.0(beta)");
                 this.formCheckbox("deleteStreamingAssets", "Clear Streaming Assets");
                 this.formCheckbox("cleanBuild", "Clean WebGL Build");
                 // this.formCheckbox("cleanCloudDev", "Clean Cloud Dev");
-                this.formCheckbox("fbslim", "首包资源优化(?)", "导出时自动清理UnityEditor默认打包但游戏项目从未使用的资源，瘦身首包资源体积，建议所有游戏启用。");
+                this.formCheckbox("fbslim", "首包资源优化(?)", "导出时自动清理UnityEditor默认打包但游戏项目从未使用的资源，瘦身首包资源体积，建议所有游戏启用。" + (this.fbSlimSupport ? "" : "(当前Unity Editor暂不支持该能力)"), !this.fbSlimSupport, (res) =>
+                {
+                    var fbWin = GetWindow(typeof(WXFbSettingWindow), false, "首包资源优化配置面板", true);
+                    fbWin.minSize = new Vector2(680, 350);
+                    fbWin.Show();
+                });
                 this.formCheckbox("showMonitorSuggestModal", "显示优化建议弹窗");
                 this.formCheckbox("enableProfileStats", "显示性能面板");
-
+                this.formCheckbox("enableRenderAnalysis", "显示渲染日志(dev only)");
                 EditorGUILayout.EndVertical();
             }
 
@@ -354,6 +366,7 @@ namespace WeChatWASM
             this.setData("appid", config.ProjectConf.Appid);
             this.setData("cdn", config.ProjectConf.CDN);
             this.setData("assetLoadType", config.ProjectConf.assetLoadType);
+            this.setData("compressDataPackage", config.ProjectConf.compressDataPackage);
             this.setData("videoUrl", config.ProjectConf.VideoUrl);
             this.setData("orientation", (int)config.ProjectConf.Orientation);
             this.setData("dst", config.ProjectConf.DST);
@@ -364,6 +377,7 @@ namespace WeChatWASM
             this.setData("developBuild", config.CompileOptions.DevelopBuild);
             this.setData("autoProfile", config.CompileOptions.AutoProfile);
             this.setData("scriptOnly", config.CompileOptions.ScriptOnly);
+            this.setData("il2CppOptimizeSize", config.CompileOptions.Il2CppOptimizeSize);
             this.setData("profilingFuncs", config.CompileOptions.profilingFuncs);
             this.setData("profilingMemory", config.CompileOptions.ProfilingMemory);
             this.setData("deleteStreamingAssets", config.CompileOptions.DeleteStreamingAssets);
@@ -390,7 +404,7 @@ namespace WeChatWASM
             this.setData("disableHighPerformanceFallback", config.ProjectConf.disableHighPerformanceFallback);
             this.setData("showMonitorSuggestModal", config.CompileOptions.showMonitorSuggestModal);
             this.setData("enableProfileStats", config.CompileOptions.enableProfileStats);
-
+            this.setData("enableRenderAnalysis", config.CompileOptions.enableRenderAnalysis);
             this.setData("autoUploadFirstBundle", true);
         }
 
@@ -400,6 +414,7 @@ namespace WeChatWASM
             config.ProjectConf.Appid = this.getDataInput("appid");
             config.ProjectConf.CDN = this.getDataInput("cdn");
             config.ProjectConf.assetLoadType = this.getDataPop("assetLoadType");
+            config.ProjectConf.compressDataPackage = this.getDataCheckbox("compressDataPackage");
             config.ProjectConf.VideoUrl = this.getDataInput("videoUrl");
             config.ProjectConf.Orientation = (WXScreenOritation)this.getDataPop("orientation");
             config.ProjectConf.DST = this.getDataInput("dst");
@@ -410,6 +425,7 @@ namespace WeChatWASM
             config.CompileOptions.DevelopBuild = this.getDataCheckbox("developBuild");
             config.CompileOptions.AutoProfile = this.getDataCheckbox("autoProfile");
             config.CompileOptions.ScriptOnly = this.getDataCheckbox("scriptOnly");
+            config.CompileOptions.Il2CppOptimizeSize = this.getDataCheckbox("il2CppOptimizeSize");
             config.CompileOptions.profilingFuncs = this.getDataCheckbox("profilingFuncs");
             config.CompileOptions.ProfilingMemory = this.getDataCheckbox("profilingMemory");
             config.CompileOptions.DeleteStreamingAssets = this.getDataCheckbox("deleteStreamingAssets");
@@ -434,6 +450,7 @@ namespace WeChatWASM
             config.ProjectConf.disableHighPerformanceFallback = this.getDataCheckbox("disableHighPerformanceFallback");
             config.CompileOptions.showMonitorSuggestModal = this.getDataCheckbox("showMonitorSuggestModal");
             config.CompileOptions.enableProfileStats = this.getDataCheckbox("enableProfileStats");
+            config.CompileOptions.enableRenderAnalysis = this.getDataCheckbox("enableRenderAnalysis");
         }
 
         private string getDataInput(string target)
@@ -521,7 +538,7 @@ namespace WeChatWASM
             GUILayout.EndHorizontal();
         }
 
-        private void formCheckbox(string target, string label, string help = null, bool disable = false)
+        private void formCheckbox(string target, string label, string help = null, bool disable = false, Action<bool> setting = null)
         {
             if (!formCheckboxData.ContainsKey(target))
             {
@@ -539,6 +556,18 @@ namespace WeChatWASM
             }
             EditorGUI.BeginDisabledGroup(disable);
             formCheckboxData[target] = EditorGUILayout.Toggle(formCheckboxData[target]);
+
+            if (setting != null)
+            {
+                EditorGUILayout.LabelField("", GUILayout.Width(10));
+                // 配置按钮
+                if (GUILayout.Button(new GUIContent("设置"), GUILayout.Width(40), GUILayout.Height(18)))
+                {
+                    setting?.Invoke(true);
+                }
+                EditorGUILayout.LabelField("", GUILayout.MinWidth(10));
+            }
+
             EditorGUI.EndDisabledGroup();
 
             EditorGUILayout.LabelField(string.Empty);

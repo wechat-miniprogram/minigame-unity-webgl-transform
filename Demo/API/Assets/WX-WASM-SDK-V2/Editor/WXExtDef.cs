@@ -85,19 +85,6 @@ namespace WeChatWASM
             // #endif
             //                 return null;
             //             });
-
-            WXExtEnvDef.RegisterAction("WXEditorWindow.Build", (args) =>
-            {
-#if UNITY_2021_2_OR_NEWER
-#if UNITY_2022_1_OR_NEWER
-                // 默认更改为OptimizeSize，减少代码包体积
-                PlayerSettings.SetIl2CppCodeGeneration(UnityEditor.Build.NamedBuildTarget.WebGL, Il2CppCodeGeneration.OptimizeSize);
-#else
-                EditorUserBuildSettings.il2CppCodeGeneration = UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize;
-#endif
-#endif
-                return null;
-            });
         }
     }
 }

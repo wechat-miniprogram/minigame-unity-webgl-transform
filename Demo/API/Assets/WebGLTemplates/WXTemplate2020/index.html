@@ -44,6 +44,7 @@
       };
     </script>
     <script>
+      var gameInstance;
       document.addEventListener('DOMContentLoaded', () => {
         var container = document.querySelector('#unity-container');
         var canvas = document.querySelector('#unity-canvas');
@@ -129,7 +130,9 @@
         },
         WXCheckSession(s, f, c) {},
         WXAuthorize(scope, s, f, c) {},
-        WXCreateUserInfoButton(x, y, width, height, lang, withCredentials) {},
+        WXCreateUserInfoButton(x, y, width, height, lang, withCredentials) {
+          return "";
+        },
         WXUserInfoButtonShow(id) {},
         WXUserInfoButtonDestroy(id) {},
         WXUserInfoButtonHide(id) {},
@@ -216,6 +219,7 @@
         WXVideoSeek() {},
         WXVideoStop() {},
         WXVideoRemoveListener() {},
+        WXVideoSetProperty() {},
         WXShowOpenData() {},
         WXDownloadTexture(id, type, callback) {
           var Infos = {
@@ -346,6 +350,39 @@
         WXChatOff() {},
         WXChatSetSignature() {},
         WXSetArrayBuffer() {},
+        WX_FileSystemManagerReaddirSync() {},
+        WX_FileSystemManagerReadCompressedFileSync() {},
+        WX_FileSystemManagerClose() {},
+        WX_FileSystemManagerFstat() {},
+        WX_FileSystemManagerFtruncate() {},
+        WX_FileSystemManagerGetFileInfo() {},
+        WX_FileSystemManagerGetSavedFileList() {},
+        WX_FileSystemManagerOpen() {},
+        WX_FileSystemManagerRead() {},
+        WX_FileSystemManagerReadCompressedFile() {},
+        WX_FileSystemManagerReadZipEntry() {},
+        WX_FileSystemManagerReaddir() {},
+        WX_FileSystemManagerRemoveSavedFile() {},
+        WX_FileSystemManagerRename() {},
+        WX_FileSystemManagerRenameSync() {},
+        WX_FileSystemManagerSaveFile() {},
+        WX_FileSystemManagerTruncate() {},
+        WX_FileSystemManagerUnzip() {},
+        WX_FileSystemManagerWrite() {},
+        WX_FileSystemManagerReadSync() {},
+        WX_FileSystemManagerFstatSync() {},
+        WX_FileSystemManagerStatSync() {},
+        WX_FileSystemManagerWriteSync() {},
+        WX_FileSystemManagerOpenSync() {},
+        WX_FileSystemManagerSaveFileSync() {},
+        WX_FileSystemManagerCloseSync() {},
+        WX_FileSystemManagerFtruncateSync() {},
+        WX_FileSystemManagerTruncateSync() {},
+        WX_FileSystemManagerAppendFileSync() {},
+        WX_FileSystemManagerAppendFileStringSync() {},
+        WX_FileSystemManagerWriteStringSync() {},
+        WX_FileSystemManagerReadZipEntryString() {},
+        WX_FileSystemManagerWriteString() {},
         WX_AddCard(conf, callbackId){},
         WX_AuthPrivateMessage(conf, callbackId){},
         WX_Authorize(conf, callbackId){},
@@ -356,7 +393,6 @@
         WX_ChooseMessageFile(conf, callbackId){},
         WX_CloseBLEConnection(conf, callbackId){},
         WX_CloseBluetoothAdapter(conf, callbackId){},
-        WX_CloseSocket(conf, callbackId){},
         WX_CreateBLEConnection(conf, callbackId){},
         WX_CreateBLEPeripheralServer(conf, callbackId){},
         WX_ExitMiniProgram(conf, callbackId){},
@@ -428,7 +464,6 @@
         WX_SaveFileToDisk(conf, callbackId){},
         WX_SaveImageToPhotosAlbum(conf, callbackId){},
         WX_ScanCode(conf, callbackId){},
-        WX_SendSocketMessage(conf, callbackId){},
         WX_SetBLEMTU(conf, callbackId){},
         WX_SetClipboardData(conf, callbackId){},
         WX_SetDeviceOrientation(conf, callbackId){},
@@ -473,6 +508,7 @@
         WX_GetUserGameLiveDetails(conf, callbackId){},
         WX_OpenChannelsLiveCollection(conf, callbackId){},
         WX_OpenPage(conf, callbackId){},
+        WX_RequestMidasPaymentGameItem(conf, callbackId){},
 
         WX_OperateGameRecorderVideo() {},
         WX_RemoveStorageSync() {},
@@ -486,8 +522,6 @@
         WX_SetStorageSync() {},
         WX_ShareAppMessage() {},
         WX_TriggerGC() {},
-        WX_StopDownloadTexture() {},
-        WX_StarDownloadTexture() {},
 
         WX_OnAccelerometerChange() {},
         WX_OffAccelerometerChange() {},
@@ -547,10 +581,6 @@
         WX_OnShareMessageToFriend() {},
         WX_OnShow() {},
         WX_OffShow() {},
-        WX_OnSocketClose() {},
-        WX_OnSocketError() {},
-        WX_OnSocketMessage() {},
-        WX_OnSocketOpen() {},
         WX_OnTouchCancel() {},
         WX_OffTouchCancel() {},
         WX_OnTouchEnd() {},

@@ -237,14 +237,6 @@ namespace WeChatWASM
         }
 
         /// <summary>
-        /// [wx.closeSocket(Object object)](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/wx.closeSocket.html)
-        /// </summary>
-        public static void CloseSocket(CloseSocketOption callback)
-        {
-            WXSDKManagerHandler.Instance.CloseSocket(callback);
-        }
-
-        /// <summary>
         /// [wx.createBLEConnection(Object object)](https://developers.weixin.qq.com/minigame/dev/api/device/bluetooth-ble/wx.createBLEConnection.html)
         /// 需要基础库： `2.9.2`
         /// 连接蓝牙低功耗设备。
@@ -1803,14 +1795,6 @@ namespace WeChatWASM
         }
 
         /// <summary>
-        /// [wx.sendSocketMessage(Object object)](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/wx.sendSocketMessage.html)
-        /// </summary>
-        public static void SendSocketMessage(SendSocketMessageOption callback)
-        {
-            WXSDKManagerHandler.Instance.SendSocketMessage(callback);
-        }
-
-        /// <summary>
         /// [wx.setBLEMTU(Object object)](https://developers.weixin.qq.com/minigame/dev/api/device/bluetooth-ble/wx.setBLEMTU.html)
         /// 需要基础库： `2.11.0`
         /// 协商设置蓝牙低功耗的最大传输单元 (Maximum Transmission Unit, MTU)。需在 [wx.createBLEConnection](https://developers.weixin.qq.com/minigame/dev/api/device/bluetooth-ble/wx.createBLEConnection.html) 调用成功后调用。仅安卓系统 5.1 以上版本有效，iOS 因系统限制不支持。
@@ -2453,6 +2437,15 @@ namespace WeChatWASM
         }
 
         /// <summary>
+        /// [wx.requestMidasPaymentGameItem(Object object)]
+        /// 发起米大师支付
+        /// </summary>
+        public static void RequestMidasPaymentGameItem(RequestMidasPaymentGameItemOption callback)
+        {
+            WXSDKManagerHandler.Instance.RequestMidasPaymentGameItem(callback);
+        }
+
+        /// <summary>
         /// [wx.operateGameRecorderVideo(Object object)](https://developers.weixin.qq.com/minigame/dev/api/game-recorder/wx.operateGameRecorderVideo.html)
         /// 需要基础库： `2.26.1`
         /// 分享游戏对局回放。安卓微信8.0.28开始支持，iOS微信8.0.30开始支持。
@@ -2600,22 +2593,6 @@ namespace WeChatWASM
         public static void TriggerGC()
         {
             WXSDKManagerHandler.Instance.TriggerGC();
-        }
-
-        /// <summary>
-        /// 停止纹理下载
-        /// </summary>
-        public static void StopDownloadTexture()
-        {
-            WXSDKManagerHandler.Instance.StopDownloadTexture();
-        }
-
-        /// <summary>
-        /// 开始纹理下载
-        /// </summary>
-        public static void StarDownloadTexture()
-        {
-            WXSDKManagerHandler.Instance.StarDownloadTexture();
         }
 
         /// <summary>
@@ -3164,42 +3141,6 @@ namespace WeChatWASM
         {
             WXSDKManagerHandler.Instance.OffShow(result);
         }
-
-        /// <summary>
-        /// [wx.onSocketClose(function listener)](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/wx.onSocketClose.html)
-        /// </summary>
-        public static void OnSocketClose(Action<SocketTaskOnCloseListenerResult> result)
-        {
-            WXSDKManagerHandler.Instance.OnSocketClose(result);
-        }
-
-
-        /// <summary>
-        /// [wx.onSocketError(function listener)](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/wx.onSocketError.html)
-        /// </summary>
-        public static void OnSocketError(Action<GeneralCallbackResult> result)
-        {
-            WXSDKManagerHandler.Instance.OnSocketError(result);
-        }
-
-
-        /// <summary>
-        /// [wx.onSocketMessage(function listener)](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/wx.onSocketMessage.html)
-        /// </summary>
-        public static void OnSocketMessage(Action<SocketTaskOnMessageListenerResult> result)
-        {
-            WXSDKManagerHandler.Instance.OnSocketMessage(result);
-        }
-
-
-        /// <summary>
-        /// [wx.onSocketOpen(function listener)](https://developers.weixin.qq.com/minigame/dev/api/network/websocket/wx.onSocketOpen.html)
-        /// </summary>
-        public static void OnSocketOpen(Action<OnSocketOpenListenerResult> result)
-        {
-            WXSDKManagerHandler.Instance.OnSocketOpen(result);
-        }
-
 
         /// <summary>
         /// [wx.onTouchCancel(function listener)](https://developers.weixin.qq.com/minigame/dev/api/device/touch-event/wx.onTouchCancel.html)

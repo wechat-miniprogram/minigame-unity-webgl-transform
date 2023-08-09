@@ -49,7 +49,7 @@ var WXAssetBundleLibrary = {
     WXFS.fs = wx.getFileSystemManager();
     WXFS.nowfd = FS.MAX_OPEN_FDS + 1;
     WXFS.isWXAssetBundle = function(url){
-      if(url.includes(GameGlobal.unityNamespace.DATA_CDN)){
+      if(url.startsWith(GameGlobal.unityNamespace.DATA_CDN)||url.startsWith('/vfs_streamingassets')){
         return unityNamespace.isWXAssetBundle(WXFS.url2path(url));
       }
       return unityNamespace.isWXAssetBundle(url);
@@ -229,7 +229,12 @@ var WXAssetBundleLibrary = {
       if(WXFS._url2path.has(url)){
         return WXFS._url2path.get(url);
       }
-      var path = url.replace(GameGlobal.unityNamespace.DATA_CDN, wx.env.USER_DATA_PATH+'/__GAME_FILE_CACHE/');
+      if(url.startsWith('/vfs_streamingassets/')){
+        var path = url.replace('/vfs_streamingassets/', wx.env.USER_DATA_PATH + "/__GAME_FILE_CACHE/StreamingAssets/");
+      }
+      else{
+        var path = url.replace(GameGlobal.unityNamespace.DATA_CDN, wx.env.USER_DATA_PATH+'/__GAME_FILE_CACHE/');
+      }
       if(path.indexOf('?') > -1){
         path = path.substring(0,path.indexOf("?"));
       }
