@@ -6,6 +6,12 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-08-10
+### Feature
+* 增加隐私信息授权API（requirePrivacyAuthorize等）
+* 增加API-requestSubscribeLiveActivity
+* WXAssetBundle兼容WebGL浏览器环境(回退至UnityWebRequestAssetBundle模式运行)
+  
 ## 2023-08-3
 ### Feature
 更新内容：
