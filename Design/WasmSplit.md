@@ -11,14 +11,18 @@
     - [关闭分包](#关闭分包)
     - [增量分包](#增量分包)
   - [Changelog](#changelog)
-    - [v1.1.6](#v116)
+    - [v1.1.9](#v119)
+      - [Feature](#feature)
+    - [v1.1.8](#v118)
       - [Changed](#changed)
+    - [v1.1.6](#v116)
+      - [Changed](#changed-1)
     - [v1.1.5](#v115)
       - [Fixed](#fixed)
     - [v1.1.4](#v114)
       - [Fixed](#fixed-1)
     - [v1.1.2](#v112)
-      - [Changed](#changed-1)
+      - [Changed](#changed-2)
     - [v1.1.0](#v110)
       - [Added](#added)
     - [v1.0.2](#v102)
@@ -138,6 +142,14 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 这里主要是通过 symbol 文件，按函数签名识别相同函数来实现的，因此需要导出时有 symbol 文件
 
 ## Changelog
+
+### v1.1.9
+#### Feature
+- 选择增量更新时可查看首包个数、最后收集时间
+
+### v1.1.8
+#### Changed
+- 拉取分包时网络异常弹框提示
 
 ### v1.1.6
 #### Changed
