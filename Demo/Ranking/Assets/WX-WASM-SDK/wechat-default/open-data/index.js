@@ -16,7 +16,7 @@ const sharedCanvas = wx.getSharedCanvas();
 const sharedContext = sharedCanvas.getContext("2d");
 
 // test
-setUserRecord(RANK_KEY, Math.ceil(Math.random() * 1000));
+// setUserRecord(RANK_KEY, Math.ceil(Math.random() * 1000));
 
 const MessageType = {
   WX_RENDER: "WXRender",
