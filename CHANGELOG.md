@@ -6,6 +6,16 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-08-18
+* 增加downloadfile（优化构建，支持创建类时传入success等会回调）
+* 重构fs.readFile和fs.readFileSync，支持position和length参数
+* 增加onMouseDown等PC点击事件
+* 支持通过 `minigame/unity-namespace.js` 中函数 `isReportableHttpError` 忽略非重要网络异常上报，如心跳、数据分析接口
+### Fixed 
+* 修复使用 `WXAssetBundle` 且请求了不同版本的资源时报错'readFileSync:fail no such file or directory'
+* pc下载资源出现'still downloading xxx'弹框时用户可尝试重启小游戏
+* 修复最佳实践检测工具首资源包是否压缩判断
+  
 ## 2023-08-10
 ### Feature
 * 增加隐私信息授权API（requirePrivacyAuthorize等）
