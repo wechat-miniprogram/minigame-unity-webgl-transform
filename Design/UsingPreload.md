@@ -2,7 +2,7 @@
 ## 概述
 通过 [启动流程与时序](Startup.md)我们知道，在UnityLoader加载过程中存在**网络空闲**的情况。特别是“引擎初始化和首场景准备”，影响该步骤包括：引擎自身模块与数据初始化，游戏首个场景加载以及Awake流程。这个过程是CPU处理密集，但网络空闲的期间，根据机型性能不同，通常**平均耗时会在3~6s**左右，我们可以在此阶段提前下载资源。
 
-在引擎初始化期间，最多**并发10个**预下载。已发起但未完成的下载任务，以及列表中尚未发起的任务，会在引擎初始完成后继续进行，但**并发数为1个**。可通过`WX.SetConcurrent`修改引擎初始化后的预下载并发数，若想修改引擎初始化期间的并发数，需要使用js接口`GameGlobal.manager.setConcurrent`
+在引擎初始化期间，最多**并发10个**预下载。已发起但未完成的下载任务，以及列表中尚未发起的任务，会在引擎初始完成后继续进行，但**并发数为1个**。可通过Csharp接口 `WX.PreloadConcurrent` 修改引擎初始化后的预下载并发数，若想修改引擎初始化期间的并发数，需要使用js接口 `GameGlobal.manager.setConcurrent`
 
 ## 配置方式
 ### 导出预下载列表
@@ -37,11 +37,87 @@ let managerConfig = {
 ### 运行时配置「推荐」
 可能存在资源热更，导致配置在预下载列表中的资源是旧版本的资源。支持通过接口在运行时动态修改预下载列表
 
+假设有后台接口 `https://api.example.com/preloadlist` 返回如下数据:
+```json
+{
+  "list": [
+    "https://cdn.example.com/file1",
+    "https://cdn.example.com/file2",
+    "https://cdn.example.com/file3",
+  ]
+}
+```
+
 #### 在插件启动前修改
 在插件启动前，拉取游戏后台获取最新的预下载列表，修改 `managerConfig.preloadDataList` 或通过js接口 `GameGlobal.manager.setPreloadList` 修改
 
+伪代码如下:
+
+- `managerConfig.preloadDataList`
+```js
+wx.request({
+  url: 'https://api.example.com/preloadlist', // 修改为实际API地址
+  success(res) {
+    if (res.statusCode === 200) {
+      managerConfig.preloadDataList = res.data.list;
+    }
+  },
+  complete() {
+    // 成功与否都开始启动unity
+    GameGlobal.manager.startGame();
+  }
+})
+```
+
+- `GameGlobal.manager.setPreloadList`
+```js
+wx.request({
+  url: 'https://api.example.com/preloadlist', // 修改为实际API地址
+  success(res) {
+    if (res.statusCode === 200) {
+      GameGlobal.manager.setPreloadList(res.data.list);
+    }
+  },
+  complete() {
+    // 成功与否都开始启动unity
+    GameGlobal.manager.startGame();
+  }
+})
+```
+
 #### 引擎初始化完成后修改
 同样的，拉取游戏后台接口获取最新的预下载列表后，通过C#接口 `WX.SetPreloadList` 修改
+
+伪代码如下:
+
+```csharp
+private IEnumerator GetPreloadList()
+{
+    using (UnityWebRequest www = UnityWebRequest.Get("https://api.example.com/preloadlist"))
+    {
+        yield return www.SendWebRequest();
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            string json = www.downloadHandler.text;
+            PreloadListData preloadListData = JsonUtility.FromJson<PreloadListData>(json);
+
+            // 获取URL列表
+            WX.SetPreloadList(preloadListData.list.ToArray());
+        }
+    }
+}
+
+
+[System.Serializable]
+public class PreloadListData
+{
+    public List<string> list;
+}
+```
 
 ## 路径规范
 - 若填写完成路径，如`$STREAM_CDN/StreamingAssets/WebGL/textures_8d265a9dfd6cb7669cdb8b726f0afb1e`；实际发起预载请求的URL采用填写的地址
