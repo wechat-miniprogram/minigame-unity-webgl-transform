@@ -6,6 +6,14 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-08-24
+### Feature
+* 适配AudioClip.GetData
+* 更新适配插件版本到1.2.25
+### Fixed 
+* 修复旧版本安卓使用系统字体报错'SC Font not found in TTC File'
+* 资源优化工具支持ASTC6*6格式
+  
 ## 2023-08-18
 * 增加downloadfile
 * 增加onMouseDown等PC点击事件
