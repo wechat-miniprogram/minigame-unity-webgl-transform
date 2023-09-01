@@ -6,6 +6,14 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-09-01
+### Feature
+* 微信压缩纹理工具Unity全版本支持
+### Fixed 
+* 修复WXAssetBundle WXUnload后再次Load同个AssetBundle可能出现的异常
+* 优化WXAssetBundle当UnityWebRequest异常时DownloadHandlerWXAssetBundle.assetBundle返回null，不再直接崩溃
+* 更新适配插件版本到1.2.26
+  
 ## 2023-08-24
 ### Feature
 * 适配AudioClip.GetData
