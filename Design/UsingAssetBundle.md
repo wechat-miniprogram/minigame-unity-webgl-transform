@@ -108,16 +108,6 @@ public static void Build()
   yield return bundleReq.SendWebRequest();
   AssetBundle bundle = (bundleReq.downloadHandler as DownloadHandlerWXAssetBundle).assetBundle; // DownloadHandlerAssetBundle => DownloadHandlerWXAssetBundle
   bundle.WXUnload(); //bundle还是AssetBundle类型，但需要调用扩展方法WXUnload()才可真正卸载
-
-
-  using WeChatWasm;
-  // 需要全局替换Bundle管理插件里的AssetBundleCreateRequest，一般推荐使用上面的接口。
-  using AssetBundleCreateRequest = WeChatWASM.WXAssetBundleRequest;
-  // LoadFromFileAsync可以直接替换异步请求类型，
-  var bundleReq = WXAssetBundle.LoadFromFileAsync(url); //注意使用WXAssetBundle类，参数仍旧使用WebRequest的url即可
-  yield return bundleReq; // 仍可通过 bundleReq.isDone 检查异步操作是否完成
-  AssetBundle bundle = bundleReq.assetBundle;
-  bundle.WXUnload();
   ```
 
 - 注意事项
