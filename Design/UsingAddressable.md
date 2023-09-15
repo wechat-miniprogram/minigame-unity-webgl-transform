@@ -75,7 +75,7 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 ```
 选择分组，设置分组属性如下：
 
-<img src='../image/addressable8.png' width="800"/>
+<img src='../image/addressable10.png' width="800"/>
 
 如果我们仅将场景作为分组，其中静态摆放的物件不单独设置为Addressable也会一并打包到场景所在bundle。那么，这是会产生一个问题：两个场景都使用同样资源是否产生冗余？答案是肯定的！！
 那么，如何消除冗余呢？当我们Adressable面板的Tools-->Analyze进行分析时，可看到以下内容：
