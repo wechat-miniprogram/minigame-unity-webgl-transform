@@ -6,6 +6,14 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-9-26
+### Feature
+* 适配Application.targetFramerate，无需再调用小游戏的帧率设置API
+### Fixed
+* 修复wasm分包patch未生效的问题
+* 修复WXAssetBundle在异常时上报错误
+* 更新适配插件版本到1.2.31
+  
 ## 2023-09-20
 ### Feature
 * API协议更新至3.0.1版本，增加模糊地理位置获取接口
