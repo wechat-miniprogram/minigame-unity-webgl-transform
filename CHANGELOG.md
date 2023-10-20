@@ -6,6 +6,18 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-10-20
+### Feature
+* Unity2022 development build的导出支持
+* 更新小游戏云测试profile获取的性能数据
+### Fixed
+* 修复微信压缩纹理工具对音频ab包的处理bug问题
+* 修复微信压缩纹理工具在 MacOS M1系列芯片执行异常问题
+
+## 2023-10-11
+### Feature
+* 适配Video Player, 安卓3.0.0基础库/IOS 3.1.1基础库且只支持播放一个视频
+
 ## 2023-9-26
 ### Feature
 * 适配Application.targetFramerate，无需再调用小游戏的帧率设置API
