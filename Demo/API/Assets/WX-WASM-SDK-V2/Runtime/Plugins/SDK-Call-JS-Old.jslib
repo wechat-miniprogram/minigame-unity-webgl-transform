@@ -443,7 +443,7 @@ mergeInto(LibraryManager.library, {
     WXHideLoadingPage: function() {
         window.WXWASMSDK && window.WXWASMSDK.WXHideLoadingPage()
     },
-    WXWriteFile:function(filePath, data, dataLength, encoding, s, f, c){
+    WXWriteFile:function(filePath, data, dataLength, encoding, s, f, c) {
         window.WXWASMSDK.WXWriteFile(
             _WXPointer_stringify_adaptor(filePath),
             HEAPU8.slice(data, dataLength + data),
@@ -453,7 +453,7 @@ mergeInto(LibraryManager.library, {
             _WXPointer_stringify_adaptor(c)
         )
     },
-    WXWriteStringFile:function (filePath,data,encoding, s, f, c){
+    WXWriteStringFile:function (filePath,data,encoding, s, f, c) {
         window.WXWASMSDK.WXWriteStringFile(
             _WXPointer_stringify_adaptor(filePath),
             _WXPointer_stringify_adaptor(data),
@@ -463,7 +463,7 @@ mergeInto(LibraryManager.library, {
             _WXPointer_stringify_adaptor(c)
         )
     },
-    WXAppendFile:function(filePath, data, dataLength, encoding, s, f, c){
+    WXAppendFile:function(filePath, data, dataLength, encoding, s, f, c) {
         window.WXWASMSDK.WXAppendFile(
             _WXPointer_stringify_adaptor(filePath),
             HEAPU8.slice(data, dataLength + data),
@@ -473,7 +473,7 @@ mergeInto(LibraryManager.library, {
             _WXPointer_stringify_adaptor(c)
         )
     },
-    WXAppendStringFile:function (filePath, data, encoding, s, f, c){
+    WXAppendStringFile:function (filePath, data, encoding, s, f, c) {
         window.WXWASMSDK.WXAppendStringFile(
             _WXPointer_stringify_adaptor(filePath),
             _WXPointer_stringify_adaptor(data),
@@ -483,7 +483,7 @@ mergeInto(LibraryManager.library, {
             _WXPointer_stringify_adaptor(c)
         )
     },
-    WXWriteBinFileSync:function(filePath, data, dataLength, encoding){
+    WXWriteBinFileSync:function(filePath, data, dataLength, encoding) {
         var returnStr = window.WXWASMSDK.WXWriteBinFileSync(
             _WXPointer_stringify_adaptor(filePath),
             HEAPU8.slice(data, dataLength + data),
@@ -494,31 +494,15 @@ mergeInto(LibraryManager.library, {
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
     },
-    WXReadFile:function(filePath, encoding,callbackId){
-        window.WXWASMSDK.WXReadFile(
-            _WXPointer_stringify_adaptor(filePath),
-            _WXPointer_stringify_adaptor(encoding),
-            _WXPointer_stringify_adaptor(callbackId)
-        );
+    WXReadFile:function(option, callbackId) {
+        window.WXWASMSDK.WXReadFile(_WXPointer_stringify_adaptor(option), _WXPointer_stringify_adaptor(callbackId));
     },
-    WXReadBinFileSync:function(filePath){
-        return window.WXWASMSDK.WXReadFileSync(
-            _WXPointer_stringify_adaptor(filePath)
-        );
-    },
-    WXReadFileSync:function(filePath, encoding){
-        var returnStr = window.WXWASMSDK.WXReadFileSync( _WXPointer_stringify_adaptor(filePath), _WXPointer_stringify_adaptor(encoding) );
+    WXReadFileSync:function(option) {
+        var returnStr = window.WXWASMSDK.WXReadFileSync(_WXPointer_stringify_adaptor(option));
         var bufferSize = lengthBytesUTF8(returnStr || '') + 1;
         var buffer = _malloc(bufferSize);
         stringToUTF8(returnStr, buffer, bufferSize);
         return buffer;
-    },
-    WXShareFileBuffer:function(offset,callbackId){
-        window.WXWASMSDK.WXShareFileBuffer(
-            HEAPU8,
-            offset,
-            _WXPointer_stringify_adaptor(callbackId)
-        )
     },
     WXGetTotalMemorySize: function() {
         if (typeof TOTAL_MEMORY !== "undefined") {
@@ -974,4 +958,10 @@ mergeInto(LibraryManager.library, {
     WXVideoSetProperty: function(id, key, value) {
         window.WXWASMSDK.WXVideoSetProperty(_WXPointer_stringify_adaptor(id), _WXPointer_stringify_adaptor(key), _WXPointer_stringify_adaptor(value));
     },
+    WX_OnNeedPrivacyAuthorization:function() {
+        window.WXWASMSDK.WX_OnNeedPrivacyAuthorization();
+    },
+    WX_PrivacyAuthorizeResolve: function(option) {
+        window.WXWASMSDK.WX_PrivacyAuthorizeResolve(_WXPointer_stringify_adaptor(option));
+    }
 });

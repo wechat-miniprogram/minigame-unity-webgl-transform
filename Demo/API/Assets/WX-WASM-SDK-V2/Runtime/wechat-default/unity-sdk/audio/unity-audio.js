@@ -4,10 +4,140 @@ import { TEMP_DIR_PATH } from './const';
 import { createInnerAudio, destroyInnerAudio, printErrMsg, resumeWebAudio } from './utils';
 
 const defaultSoundLength = 441000;
+function jsAudioCreateUncompressedSoundClip(buffer, error, length) {
+    const soundClip = {
+        buffer,
+        error,
+        release() {
+            this.buffer = null;
+            WEBAudio.audioBufferLength -= length;
+        },
+        getLength() {
+            if (!this.buffer) {
+                console.log('Trying to get length of sound which is not loaded.');
+                return 0;
+            }
+            const sampleRateRatio = 44100 / this.buffer.sampleRate;
+            return this.buffer.length * sampleRateRatio;
+        },
+        getData(ptr, length) {
+            if (!this.buffer) {
+                console.log('Trying to get data of sound which is not loaded.');
+                return 0;
+            }
+            const startOutputBuffer = ptr >> 2;
+            const output = GameGlobal.unityNamespace.Module.HEAPF32.subarray(startOutputBuffer, startOutputBuffer + (length >> 2));
+            const numMaxSamples = Math.floor((length >> 2) / this.buffer.numberOfChannels);
+            const numReadSamples = Math.min(this.buffer.length, numMaxSamples);
+            for (let i = 0; i < this.buffer.numberOfChannels; i++) {
+                const channelData = this.buffer.getChannelData(i).subarray(0, numReadSamples);
+                output.set(channelData, i * numReadSamples);
+            }
+            return numReadSamples * this.buffer.numberOfChannels * 4;
+        },
+        getNumberOfChannels() {
+            if (!this.buffer) {
+                console.log('Trying to get metadata of sound which is not loaded.');
+                return 0;
+            }
+            return this.buffer.numberOfChannels;
+        },
+        getFrequency() {
+            if (!this.buffer) {
+                console.log('Trying to get metadata of sound which is not loaded.');
+                return 0;
+            }
+            return this.buffer.sampleRate;
+        },
+    };
+    return soundClip;
+}
+function jsAudioCreateUncompressedSoundClipFromCompressedAudio(audioData, ptr, length) {
+    const soundClip = jsAudioCreateUncompressedSoundClip(null, false, length);
+    WEBAudio.audioContext?.decodeAudioData(audioData, (buffer) => {
+        soundClip.buffer = buffer;
+        WEBAudio.audioBufferLength += length;
+    }, (error) => {
+        soundClip.error = true;
+        console.log(`Decode error: ${error}`);
+    });
+    return soundClip;
+}
+function jsAudioCreateCompressedSoundClip(audioData, ptr, length) {
+    const soundClip = {
+        error: false,
+        length: 441000,
+        url: undefined,
+        release() {
+            WEBAudio.audioBufferLength -= length;
+            if (isSupportBufferURL && this.url) {
+                wx.revokeBufferURL(this.url);
+            }
+            delete this.url;
+        },
+        getLength() {
+            return this.length || 0;
+        },
+        
+        getData(ptr, length) {
+            console.warn('getData() is not supported for compressed sound.');
+            return 0;
+        },
+        getNumberOfChannels() {
+            console.warn('getNumberOfChannels() is not supported for compressed sound.');
+            return 0;
+        },
+        getFrequency() {
+            console.warn('getFrequency() is not supported for compressed sound.');
+            return 0;
+        },
+    };
+    if (isSupportBufferURL) {
+        const url = wx.createBufferURL(audioData);
+        soundClip.url = url;
+        WEBAudio.audioBufferLength += length;
+    }
+    else {
+        const tempFilePath = `${TEMP_DIR_PATH}/temp-audio${ptr + length}.mp3`;
+        if (GameGlobal.manager.getCachePath(tempFilePath)) {
+            soundClip.url = tempFilePath;
+            WEBAudio.audioBufferLength += length;
+        }
+        else {
+            GameGlobal.manager
+                .writeFile(tempFilePath, audioData)
+                .then(() => {
+                soundClip.url = tempFilePath;
+                WEBAudio.audioBufferLength += length;
+            })
+                .catch((res) => {
+                soundClip.error = true;
+                printErrMsg(res);
+            });
+        }
+    }
+    return soundClip;
+}
+function jsAudioCreateUncompressedSoundClipFromPCM(channels, length, sampleRate, ptr) {
+    if (WEBAudio.audioContext) {
+        const buffer = WEBAudio.audioContext.createBuffer(channels, length, sampleRate);
+        for (let i = 0; i < channels; i++) {
+            const offs = (ptr >> 2) + length * i;
+            const copyToChannel = buffer.copyToChannel
+                || function (source, channelNumber, startInChannel) {
+                    const clipped = source.subarray(0, Math.min(source.length, buffer.length - (startInChannel | 0)));
+                    buffer.getChannelData(channelNumber | 0).set(clipped, startInChannel | 0);
+                };
+            copyToChannel.apply(buffer, [GameGlobal.unityNamespace.Module.HEAPF32.subarray(offs, offs + length), i, 0]);
+        }
+        return jsAudioCreateUncompressedSoundClip(buffer, false, length);
+    }
+    return jsAudioCreateUncompressedSoundClip(null, false, length);
+}
 export class AudioChannelInstance {
-    gain;
-    source;
     threeD = false; 
+    source;
+    gain;
     callback = 0;
     userData = 0;
     constructor(callback, userData) {
@@ -102,7 +232,7 @@ export class AudioChannelInstance {
                     this.source.mediaElement.stop();
                 }
             });
-            this.source.mediaElement.onCanplay(() => {
+            const fn = () => {
                 if (typeof this.source !== 'undefined' && this.source.mediaElement) {
                     
                     
@@ -113,7 +243,12 @@ export class AudioChannelInstance {
                         }
                     }, 0);
                 }
-            });
+            };
+            if (!this.source.canPlayFnList) {
+                this.source.canPlayFnList = [];
+            }
+            this.source.canPlayFnList.push(fn);
+            this.source.mediaElement.onCanplay(fn);
             this.source.start(startTime, startOffset);
             this.source.playbackStartTime = startTime - startOffset / this.source.playbackRateValue;
         }
@@ -299,10 +434,13 @@ export class AudioChannelInstance {
             const { source } = this;
             Object.defineProperty(this.source, 'playbackRateValue', {
                 get() {
-                    return source?.playbackRate.value ?? 0;
+                    return source?.playbackRate?.value ?? 0;
                 },
                 set(v) {
                     if (!source) {
+                        return;
+                    }
+                    if (typeof source.playbackRate === 'undefined') {
                         return;
                     }
                     source.playbackRate.value = v;
@@ -327,7 +465,7 @@ export class AudioChannelInstance {
                     if (this.source && this.source.mediaElement && this.source.needCanPlay && !this.source.isPlaying) {
                         this.source.mediaElement.play();
                     }
-                }, 2000);
+                }, 100);
             };
             const innerPlay = () => {
                 if (this.source && this.source.mediaElement) {
@@ -345,7 +483,7 @@ export class AudioChannelInstance {
                         }
                     }
                     else {
-                        this.source.mediaElement.onCanplay(() => {
+                        const fn = () => {
                             if (!this.source) {
                                 return;
                             }
@@ -355,7 +493,12 @@ export class AudioChannelInstance {
                                 
                                 
                                 const { duration } = this.source.mediaElement;
-                                this.source.mediaElement.offCanplay();
+                                
+                                
+                                this.source.canPlayFnList.forEach((fn) => {
+                                    this.source?.mediaElement?.offCanplay(fn);
+                                });
+                                this.source.canPlayFnList = [];
                             }
                             if (this.source.stopCache) {
                                 this.source.stopCache = false;
@@ -370,7 +513,12 @@ export class AudioChannelInstance {
                                     this.source.mediaElement.play();
                                 }
                             }
-                        });
+                        };
+                        if (!this.source.canPlayFnList) {
+                            this.source.canPlayFnList = [];
+                        }
+                        this.source.canPlayFnList.push(fn);
+                        this.source.mediaElement.onCanplay(fn);
                         innerFixPlay();
                     }
                 }
@@ -570,8 +718,10 @@ export class AudioChannelInstance {
             else {
                 t = -this.source.playbackStartTime * this.source.playbackRateValue;
             }
-            if (this.source.loop && t >= this.source.loopStart) {
-                t = ((t - this.source.loopStart) % (this.source.loopEnd - this.source.loopStart)) + this.source.loopStart;
+            if (typeof this.source.loopStart !== 'undefined' && typeof this.source.loopEnd !== 'undefined') {
+                if (this.source.loop && t >= this.source.loopStart) {
+                    t = ((t - this.source.loopStart) % (this.source.loopEnd - this.source.loopStart)) + this.source.loopStart;
+                }
             }
             return t;
         };
@@ -707,84 +857,21 @@ export default {
         if (isAndroid && !isSupportInnerAudio) {
             decompress = 1;
         }
+        let soundClip;
         if (decompress && WEBAudio.audioWebSupport) {
-            const soundClip = {
-                buffer: null,
-                error: false,
-                release() {
-                    this.buffer = null;
-                    WEBAudio.audioBufferLength -= length;
-                },
-            };
-            WEBAudio.audioContext.decodeAudioData(audioData, (buffer) => {
-                soundClip.buffer = buffer;
-                WEBAudio.audioBufferLength += length;
-            }, (error) => {
-                soundClip.error = true;
-                console.log(`Decode error: ${error}`);
-            });
-            WEBAudio.audioInstances[++WEBAudio.audioInstanceIdCounter] = soundClip;
+            soundClip = jsAudioCreateUncompressedSoundClipFromCompressedAudio(audioData, ptr, length);
         }
         else {
-            const soundClip = {
-                error: false,
-                length: 441000,
-                url: undefined,
-                release() {
-                    WEBAudio.audioBufferLength -= length;
-                    if (isSupportBufferURL && this.url) {
-                        wx.revokeBufferURL(this.url);
-                    }
-                    delete this.url;
-                },
-            };
-            if (isSupportBufferURL) {
-                const url = wx.createBufferURL(audioData);
-                soundClip.url = url;
-                WEBAudio.audioBufferLength += length;
-            }
-            else {
-                const tempFilePath = `${TEMP_DIR_PATH}/temp-audio${ptr + length}.mp3`;
-                if (GameGlobal.manager.getCachePath(tempFilePath)) {
-                    soundClip.url = tempFilePath;
-                    WEBAudio.audioBufferLength += length;
-                }
-                else {
-                    GameGlobal.manager
-                        .writeFile(tempFilePath, audioData)
-                        .then(() => {
-                        soundClip.url = tempFilePath;
-                        WEBAudio.audioBufferLength += length;
-                    })
-                        .catch((res) => {
-                        soundClip.error = true;
-                        printErrMsg(res);
-                    });
-                }
-            }
-            WEBAudio.audioInstances[++WEBAudio.audioInstanceIdCounter] = soundClip;
+            soundClip = jsAudioCreateCompressedSoundClip(audioData, ptr, length);
         }
+        WEBAudio.audioInstances[++WEBAudio.audioInstanceIdCounter] = soundClip;
         return WEBAudio.audioInstanceIdCounter;
     },
     _JS_Sound_Load_PCM(channels, length, sampleRate, ptr) {
         if (!WEBAudio.audioContext || WEBAudio.audioWebSupport === 0 || WEBAudio.audioWebEnabled === 0) {
             return 0;
         }
-        const sound = {
-            buffer: WEBAudio.audioContext.createBuffer(channels, length, sampleRate),
-            error: false,
-            release: () => { },
-        };
-        for (let i = 0; i < channels; i++) {
-            const offs = (ptr >> 2) + length * i;
-            const { buffer } = sound;
-            const copyToChannel = buffer.copyToChannel
-                || function (source, channelNumber, startInChannel) {
-                    const clipped = source.subarray(0, Math.min(source.length, buffer.length - (startInChannel | 0)));
-                    buffer.getChannelData(channelNumber | 0).set(clipped, startInChannel | 0);
-                };
-            copyToChannel.apply(buffer, [GameGlobal.unityNamespace.Module.HEAPF32.subarray(offs, offs + length), i, 0]);
-        }
+        const sound = jsAudioCreateUncompressedSoundClipFromPCM(channels, length, sampleRate, ptr);
         WEBAudio.audioInstances[++WEBAudio.audioInstanceIdCounter] = sound;
         return WEBAudio.audioInstanceIdCounter;
     },
@@ -995,5 +1082,31 @@ export default {
         }
         const channel = WEBAudio.audioInstances[channelInstance];
         channel.stop(delay);
+    },
+    _JS_Sound_GetData(bufferInstance, ptr, length) {
+        if (WEBAudio.audioWebEnabled === 0) {
+            return 0;
+        }
+        const soundClip = WEBAudio.audioInstances[bufferInstance];
+        if (!soundClip) {
+            return 0;
+        }
+        return soundClip.getData(ptr, length) ?? 0;
+    },
+    _JS_Sound_GetMetaData(buffer, bufferInstance, metaData) {
+        if (WEBAudio.audioWebEnabled === 0) {
+            buffer[metaData >> 2] = 0;
+            buffer[(metaData >> 2) + 1] = 0;
+            return false;
+        }
+        const soundClip = WEBAudio.audioInstances[bufferInstance];
+        if (!soundClip) {
+            buffer[metaData >> 2] = 0;
+            buffer[(metaData >> 2) + 1] = 0;
+            return false;
+        }
+        buffer[metaData >> 2] = soundClip.getNumberOfChannels() ?? 0;
+        buffer[(metaData >> 2) + 1] = soundClip.getFrequency() ?? 0;
+        return true;
     },
 };

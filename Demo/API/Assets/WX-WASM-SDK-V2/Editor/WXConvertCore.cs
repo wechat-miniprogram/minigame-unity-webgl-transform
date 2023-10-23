@@ -220,8 +220,8 @@ namespace WeChatWASM
             }
 
             var header = "function createWebAudio(){window.AudioContext=window.AudioContext||window.webkitAudioContext;if(window.AudioContext){return new AudioContext();}return wx.createWebAudioContext();}\n";
-            
-            if (config.CompileOptions.DevelopBuild && config.CompileOptions.enableRenderAnalysis)
+
+            if (config.CompileOptions.DevelopBuild)
             {
                 header = header + RenderAnalysisRules.header;
                 for (i = 0; i < RenderAnalysisRules.rules.Length; i++)
@@ -230,7 +230,7 @@ namespace WeChatWASM
                     text = Regex.Replace(text, rule.old, rule.newStr);
                 }
             }
-            
+
             text = header + text;
 
             File.WriteAllText(Path.Combine(config.ProjectConf.DST, miniGameDir, "webgl.wasm.framework.unityweb.js"), text, new UTF8Encoding(false));
@@ -243,7 +243,10 @@ namespace WeChatWASM
             PlayerSettings.WebGL.emscriptenArgs = string.Empty;
             if (WXExtEnvDef.GETDEF("UNITY_2021_2_OR_NEWER"))
             {
-                PlayerSettings.WebGL.emscriptenArgs += " -s EXPORTED_FUNCTIONS=_main,_sbrk,_emscripten_stack_get_base,_emscripten_stack_get_end";
+                PlayerSettings.WebGL.emscriptenArgs += " -s EXPORTED_FUNCTIONS=_sbrk,_emscripten_stack_get_base,_emscripten_stack_get_end";
+#if UNITY_2021_2_5
+                    PlayerSettings.WebGL.emscriptenArgs += ",_main";
+#endif
             }
             PlayerSettings.runInBackground = false;
             if (config.ProjectConf.MemorySize != 0)
@@ -717,11 +720,10 @@ namespace WeChatWASM
             File.WriteAllText(Path.Combine(config.ProjectConf.DST, miniGameDir, "unity-sdk", "index.js"), content, Encoding.UTF8);
             content = File.ReadAllText(Path.Combine(Application.dataPath, "WX-WASM-SDK-V2", "Runtime", "wechat-default", "unity-sdk", "storage.js"), Encoding.UTF8);
             var PreLoadKeys = config.PlayerPrefsKeys.Count > 0 ? JsonMapper.ToJson(config.PlayerPrefsKeys) : "[]";
-            content = content.Replace("\"$PreLoadKeys\"", PreLoadKeys);
+            content = content.Replace("'$PreLoadKeys'", PreLoadKeys);
             File.WriteAllText(Path.Combine(config.ProjectConf.DST, miniGameDir, "unity-sdk", "storage.js"), content, Encoding.UTF8);
             // 修改纹理dxt
             content = File.ReadAllText(Path.Combine(Application.dataPath, "WX-WASM-SDK-V2", "Runtime", "wechat-default", "unity-sdk", "texture.js"), Encoding.UTF8);
-            content = content.Replace("\"$UseDXT5$\"", config.CompressTexture.useDXT5 ? "true" : "false");
             File.WriteAllText(Path.Combine(config.ProjectConf.DST, miniGameDir, "unity-sdk", "texture.js"), content, Encoding.UTF8);
         }
 
@@ -892,6 +894,7 @@ namespace WeChatWASM
                 config.CompileOptions.iOSAutoGCInterval.ToString(),
                 dataFileSize,
                 IsInstantGameAutoStreaming() ? "true" : "false",
+                (config.CompileOptions.DevelopBuild && config.CompileOptions.enableRenderAnalysis) ? "true" : "false",
             });
 
             List<Rule> replaceList = new List<Rule>(replaceArrayList);

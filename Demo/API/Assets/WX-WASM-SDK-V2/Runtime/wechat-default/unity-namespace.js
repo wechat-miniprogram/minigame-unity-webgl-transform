@@ -43,6 +43,8 @@ const unityNamespace = {
     usedTextureCompression: GameGlobal.USED_TEXTURE_COMPRESSION,
     
     usedAutoStreaming: $USED_AUTO_STREAMING,
+    
+    enableRenderAnalysisLog: $ENABLE_RENDER_ANALYSIS_LOG,
 };
 
 unityNamespace.monitorConfig = {
@@ -68,6 +70,11 @@ unityNamespace.isCacheableFile = function (path) {
         return true;
     }
     return false;
+};
+
+unityNamespace.isReportableHttpError = function (_info) {
+    
+    return true;
 };
 
 unityNamespace.isWXAssetBundle = function (path) {
@@ -106,6 +113,7 @@ GameGlobal.WebAssembly = GameGlobal.WXWebAssembly;
 GameGlobal.unityNamespace = GameGlobal.unityNamespace || unityNamespace;
 GameGlobal.realtimeLogManager = wx.getRealtimeLogManager();
 GameGlobal.logmanager = wx.getLogManager({ level: 0 });
+
 GameGlobal.onCrash = GameGlobal.unityNamespace.onCrash = function () {
     GameGlobal.manager.showAbort();
     const sysInfo = wx.getSystemInfoSync();

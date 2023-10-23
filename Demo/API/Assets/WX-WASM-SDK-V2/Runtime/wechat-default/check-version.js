@@ -24,7 +24,7 @@ export const isDevelop = envVersion === 'develop';
 
 const disableHighPerformanceFallback = $DISABLE_HIGHPERFORMANCE_FALLBACK && isIOS;
 
-const isH5Renderer = GameGlobal.isIOSHighPerformanceMode;
+export const isH5Renderer = GameGlobal.isIOSHighPerformanceMode;
 
 const systemVersionArr = system ? system.split(' ') : [];
 const systemVersion = systemVersionArr.length ? systemVersionArr[systemVersionArr.length - 1] : '';
@@ -68,6 +68,8 @@ const isPcInvalid = isPc && !isPcWeChatVersionValid;
 const isMobileInvalid = isMobile && !isLibVersionValid;
 
 const isIOSH5Invalid = (isH5Renderer && !isH5LibVersionValid) || (!isH5Renderer && disableHighPerformanceFallback);
+
+export const isSupportVideoDecoder = compareVersion(version, '8.0.38') && ((isIOS && compareVersion(SDKVersion, '3.1.1')) || (isAndroid && compareVersion(SDKVersion, '3.0.0'))) && !isDevtools;
 
 
 const isWebgl2SystemVersionInvalid = () => isIOS && isWebgl2() && !isIOSWebgl2SystemVersionValid;

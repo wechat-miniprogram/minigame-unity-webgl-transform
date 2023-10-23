@@ -1,8 +1,6 @@
 import response from './response';
 import moduleHelper from './module-helper';
 import { cacheArrayBuffer, formatJsonStr, formatResponse } from './utils';
-
-const tempCacheObj = {};
 function runMethod(method, option, callbackId, isString = false) {
     try {
         const fs = wx.getFileSystemManager();
@@ -34,6 +32,19 @@ function runMethod(method, option, callbackId, isString = false) {
                     returnRes = JSON.stringify({
                         arrayBufferLength: res.data.byteLength,
                     });
+                }
+                else if (method === 'readFile') {
+                    if (config.encoding) {
+                        returnRes = JSON.stringify({
+                            stringData: res.data,
+                        });
+                    }
+                    else {
+                        cacheArrayBuffer(callbackId, res.data);
+                        returnRes = JSON.stringify({
+                            arrayBufferLength: res.data.byteLength,
+                        });
+                    }
                 }
                 else {
                     returnRes = JSON.stringify(res);
@@ -195,50 +206,18 @@ export default {
         }
         return 'ok';
     },
-    WXReadFile(filePath, encoding, callbackId) {
-        const fs = wx.getFileSystemManager();
-        fs.readFile({
-            filePath,
-            encoding,
-            success(res) {
-                if (!encoding) {
-                    tempCacheObj[callbackId] = res.data;
-                    moduleHelper.send('ReadFileCallback', JSON.stringify({
-                        callbackId,
-                        errMsg: res.errMsg,
-                        errCode: 0,
-                        byteLength: res.data.byteLength || 0,
-                        data: encoding ? res.data : '',
-                    }));
-                }
-                else {
-                    moduleHelper.send('ReadFileCallback', JSON.stringify({
-                        callbackId,
-                        errMsg: res.errMsg,
-                        errCode: 0,
-                        byteLength: 0,
-                        data: encoding ? res.data : '',
-                    }));
-                }
-            },
-            fail(res) {
-                moduleHelper.send('ReadFileCallback', JSON.stringify({
-                    callbackId,
-                    errMsg: res.errMsg,
-                    errCode: 1,
-                }));
-            },
-        });
+    WXReadFile(option, callbackId) {
+        runMethod('readFile', option, callbackId);
     },
-    WXReadFileSync(filePath, encoding) {
+    WXReadFileSync(option) {
         const fs = wx.getFileSystemManager();
+        const config = formatJsonStr(option);
         try {
-            const res = fs.readFileSync(filePath, encoding);
-            if (!encoding) {
-                tempCacheObj[filePath] = res;
-                if (typeof res !== 'string') {
-                    return res.byteLength;
-                }
+            const { filePath } = config;
+            const res = fs.readFileSync(config.filePath, config.encoding, config.position, config.length);
+            if (!config.encoding && typeof res !== 'string') {
+                cacheArrayBuffer(filePath, res);
+                return `${res.byteLength}`;
             }
             return res;
         }
@@ -249,13 +228,6 @@ export default {
             }
             return 'fail';
         }
-    },
-    WXShareFileBuffer(buffer, offset, callbackId) {
-        if (typeof tempCacheObj[callbackId] === 'string') {
-            console.error('内存写入异常');
-        }
-        buffer.set(new Uint8Array(tempCacheObj[callbackId]), offset);
-        delete tempCacheObj[callbackId];
     },
     WXMkdir(dirPath, recursive, s, f, c) {
         const fs = wx.getFileSystemManager();

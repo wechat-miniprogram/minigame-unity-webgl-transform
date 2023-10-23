@@ -12,11 +12,7 @@ namespace WeChatWASM
     public class WXEditorWin : EditorWindow
     {
         private static WXEditorScriptObject config;
-#if UNITY_2021_3_OR_NEWER
-        private bool fbSlimSupport = false;
-#else
         private bool fbSlimSupport = true;
-#endif
         [MenuItem("微信小游戏 / 转换小游戏", false, 1)]
         public static void Open()
         {

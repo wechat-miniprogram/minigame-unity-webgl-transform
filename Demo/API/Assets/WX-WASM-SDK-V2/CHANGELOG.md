@@ -6,6 +6,64 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-10-20
+### Feature
+* Unity2022 development build的导出支持
+* 更新小游戏云测试profile获取的性能数据
+### Fixed
+* 修复微信压缩纹理工具对音频ab包的处理bug问题
+* 修复微信压缩纹理工具在 MacOS M1系列芯片执行异常问题
+
+## 2023-10-11
+### Feature
+* 适配Video Player, 安卓3.0.0基础库/IOS 3.1.1基础库且只支持播放一个视频
+
+## 2023-9-26
+### Feature
+* 适配Application.targetFramerate，无需再调用小游戏的帧率设置API
+### Fixed
+* 修复wasm分包patch未生效的问题
+* 修复WXAssetBundle在异常时上报错误
+* 更新适配插件版本到1.2.31
+
+## 2023-09-20
+### Feature
+* API协议更新至3.0.1版本，增加模糊地理位置获取接口
+* 更新适配插件版本到1.2.29
+
+## 2023-09-01
+### Feature
+* 微信压缩纹理工具Unity全版本支持
+### Fixed 
+* 修复WXAssetBundle WXUnload后再次Load同个AssetBundle可能出现的异常
+* 优化WXAssetBundle当UnityWebRequest异常时DownloadHandlerWXAssetBundle.assetBundle返回null，不再直接崩溃
+* 更新适配插件版本到1.2.26
+
+## 2023-08-24
+### Feature
+* 适配AudioClip.GetData
+* 更新适配插件版本到1.2.25
+### Fixed 
+* 修复旧版本安卓使用系统字体报错'SC Font not found in TTC File'
+* 资源优化工具支持ASTC6*6格式
+
+## 2023-08-18
+### Feature
+* 增加downloadfile（优化构建，支持创建类时传入success等会回调）
+* 重构fs.readFile和fs.readFileSync，支持position和length参数
+* 增加onMouseDown等PC点击事件
+* 支持通过 `minigame/unity-namespace.js` 中函数 `isReportableHttpError` 忽略非重要网络异常上报，如心跳、数据分析接口
+### Fixed 
+* 修复使用 `WXAssetBundle` 且请求了不同版本的资源时报错'readFileSync:fail no such file or directory'
+* pc下载资源出现'still downloading xxx'弹框时用户可尝试重启小游戏
+* 修复最佳实践检测工具首资源包是否压缩判断
+
+## 2023-08-10
+### Feature
+* 增加隐私信息授权API（requirePrivacyAuthorize等）
+* 增加API-requestSubscribeLiveActivity
+* WXAssetBundle兼容WebGL浏览器环境(回退至UnityWebRequestAssetBundle模式运行)
+ 
 ## 2023-08-3
 ### Feature
 更新内容：

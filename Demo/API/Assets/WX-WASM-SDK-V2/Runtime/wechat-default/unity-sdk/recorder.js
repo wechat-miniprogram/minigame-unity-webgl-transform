@@ -28,7 +28,7 @@ export default {
             return;
         }
         const callback = (res) => {
-            cacheArrayBuffer(id, res.data);
+            cacheArrayBuffer(id, res.frameBuffer);
             const resStr = JSON.stringify({
                 callbackId: id,
                 res: JSON.stringify({
