@@ -51,6 +51,7 @@
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AutoStreaming 进行资源按需加载](Design/InstantGameGuide.md)
   - [定制启动封面](Design/CustomLoading.md)
+  - [设计启动剧情](Design/LaunchOpera.md)
   - [使用预下载功能](Design/UsingPreload.md)
   - [首场景启动优化](Design/FirstSceneOptimization.md)
   - [使用代码分包工具](Design/WasmSplit.md)
@@ -86,6 +87,7 @@
 - [后端服务指引](Design/BackendServiceStartup.md)
 - [网络通信适配](Design/UsingNetworking.md)
 - [使用水印保护代码包安全](Design/wasmWaterMark.md)
+- [微信小游戏包JavaScript扩展](Design/javascriptExt.md)
   
 调试与异常
 - [开发错误调试与排查](Design/DebugAndException.md)
