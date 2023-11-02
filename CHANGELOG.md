@@ -6,6 +6,10 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-11-02
+### Fixed
+* 修复部分首资源包压缩异常问题
+
 ## 2023-10-20
 ### Feature
 * Unity2022 development build的导出支持
