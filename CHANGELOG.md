@@ -6,6 +6,11 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-11-10
+### Feature
+* 支持2022 Input Field组件适配微信输入法
+* PC端和开发者工具支持Unity VideoPlayer组件
+  
 ## 2023-11-02
 ### Fixed
 * 修复部分首资源包压缩异常问题
