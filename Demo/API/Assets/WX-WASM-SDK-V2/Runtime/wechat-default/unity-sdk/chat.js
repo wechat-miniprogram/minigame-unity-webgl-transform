@@ -67,6 +67,10 @@ export default {
             x: options.x,
             y: options.y,
             autoShow: false,
+            logoUrl: options.logoUrl || '',
+            movable: options.movable,
+            enableSnap: options.enableSnap,
+            scale: options.scale,
         }, (instance) => {
             instance.on('error', (err) => {
                 console.error('error', err);

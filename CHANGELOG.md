@@ -6,6 +6,40 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-11-10
+### Feature
+* 支持2022 Input Field组件适配微信输入法
+* PC端和开发者工具支持Unity VideoPlayer组件
+  
+## 2023-11-02
+### Fixed
+* 修复部分首资源包压缩异常问题
+
+## 2023-10-20
+### Feature
+* Unity2022 development build的导出支持
+* 更新小游戏云测试profile获取的性能数据
+### Fixed
+* 修复微信压缩纹理工具对音频ab包的处理bug问题
+* 修复微信压缩纹理工具在 MacOS M1系列芯片执行异常问题
+
+## 2023-10-11
+### Feature
+* 适配Video Player, 安卓3.0.0基础库/IOS 3.1.1基础库且只支持播放一个视频
+
+## 2023-9-26
+### Feature
+* 适配Application.targetFramerate，无需再调用小游戏的帧率设置API
+### Fixed
+* 修复wasm分包patch未生效的问题
+* 修复WXAssetBundle在异常时上报错误
+* 更新适配插件版本到1.2.31
+  
+## 2023-09-20
+### Feature
+* API协议更新至3.0.1版本，增加模糊地理位置获取接口
+* 更新适配插件版本到1.2.29
+  
 ## 2023-09-01
 ### Feature
 * 微信压缩纹理工具Unity全版本支持

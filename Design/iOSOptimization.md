@@ -123,7 +123,9 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 - 右上角打开调试，重启小游戏，点三次下方的 Unity logo 打开 vconsole
 - 如果出现资源访问失败，但 Android 和开发者工具却可以下载则参考 QA3 关于跨域问题
-- 15.4 以上系统出现"Not implemented"与内存问题，此为 Unity & iOS 15.4 的 BUG，微信提供的 wasm 代码分包(推荐)或 Unity WebGL 官方论坛的[临时修复方案](https://forum.unity.com/threads/ios-15-webgl-2-issue.1176116/page-2)
+- 15.4 系统出现"Not implemented"与内存问题，此为 Unity & iOS 15.4 的 BUG，微信提供的 wasm 代码分包(推荐)或 Unity WebGL 官方论坛的[临时修复方案](https://forum.unity.com/threads/ios-15-webgl-2-issue.1176116/page-2)
+- 16.7/17.0系统出现"glGetString (GL_EXTENSIONS) - failure", 需更新到17.1，出问题时需重启微信恢复。详情请查阅: [Unity社区讨论](https://forum.unity.com/threads/webgl-context-lost-ios-17-safari.1501193/)，[iOS浏览器Webkit BUG](https://bugs.webkit.org/show_bug.cgi?id=261313),
+  
 
 ### <p id="6-ui-flicker">6. 个别游戏 UI 会出现闪烁问题
 - 目前已发现iOS 15.4出现若干渲染BUG，如stencil特性支持，请查阅文档[优化Unity WebGL的渲染性能](RenderOptimization.md)

@@ -78,7 +78,7 @@ Unity WebGL环境的lua不支持JIT，因此需要避免用于重度逻辑。可
 由于Unity WebGL是单线程模型，因此耗时长的CPU运算会影响帧率。较为普遍的是AssetBundle加载与Prefab实例化，通过优化逻辑分帧加载可大幅度提升游戏体验。
 
 ### 5. 限制帧率
-限制帧率有利于降低设备发热量与提升游戏时长，对帧率不敏感游戏建议使用。小游戏平台请勿使用Application.targetFramerate限帧，应使用WX.setPreferredFramesPerSecond控制更为平滑。
+限制帧率有利于降低设备发热量与提升游戏时长，对帧率不敏感游戏建议使用, 可使用Application.targetFramerate限帧，当帧率为15/30/60使用raf分片处理，其余值使用timer控制。
 
 ### 6. 限制分辨率
 限制分辨率以一定的画质牺牲来降低对设备消耗，在小游戏平台请勿使用Unity的SetResulution等接口修改分辨率，应使用DevicePixelRatio来控制(仅支持ios、android)。设备默认DevicePixelRatio(最后一列dpi)如下：

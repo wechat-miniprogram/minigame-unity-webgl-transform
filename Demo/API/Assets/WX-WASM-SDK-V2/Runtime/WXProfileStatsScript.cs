@@ -2,11 +2,15 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 using Unity.Profiling;
+using LitJson;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.Profiling;
+using WeChatWASM;
 
-public class WXProfileStatsScript : MonoBehaviour
+#if UNITY_WEBGL || UNITY_EDITOR
+public class WXProfileStatsScript : MonoBehaviour, WeChatWASM.WXSDKManagerHandler.WXProfileStatsScript
 {
     private string statsText;
 #if UNITY_2021_2_OR_NEWER
@@ -33,9 +37,25 @@ public class WXProfileStatsScript : MonoBehaviour
     // private ProfilerRecorder m_totalUnityObjectCountRecorder;
     // private ProfilerRecorder m_gcAllocationInFrameCountRecorder;
     // private ProfilerRecorder m_gcAllocatedInFrameRecorder;
-    private ProfilerRecorder m_setPassCallsRecorder;
-    private ProfilerRecorder m_drawCallsRecorder;
-    private ProfilerRecorder m_verticesRecorder;
+    private ProfilerRecorder m_setPassCallsRecorder; //切换用于渲染游戏对象的着色器通道的次数
+    private ProfilerRecorder m_drawCallsRecorder; //绘制调用总数
+    private ProfilerRecorder m_verticesRecorder; //顶点数
+    private ProfilerRecorder m_triangleRecorder; //三角形数
+
+    private ProfilerRecorder m_renderTexturesCount;
+    private ProfilerRecorder m_RenderTexturesBytes;
+    private ProfilerRecorder m_BatchesCount;
+    private ProfilerRecorder m_ShadowCastersCount;
+    private ProfilerRecorder m_VisibleSkinnedMeshesCount;
+    private ProfilerRecorder m_RenderTexturesChangesCount;
+    private ProfilerRecorder m_UsedBuffersCount;
+    private ProfilerRecorder m_UsedBuffersBytes;
+    private ProfilerRecorder m_VertexBufferUploadInFrameCount;
+    private ProfilerRecorder m_VertexBufferUploadInFrameBytes;
+    private ProfilerRecorder m_IndexBufferUploadInFrameCount;
+    private ProfilerRecorder m_IndexBufferUploadInFrameBytes;
+
+
 #endif
     private int m_fpsCount;
     private float m_fpsDeltaTime;
@@ -77,6 +97,24 @@ public class WXProfileStatsScript : MonoBehaviour
         m_setPassCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "SetPass Calls Count");
         m_drawCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
         m_verticesRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Vertices Count");
+        if (WeChatWASM.WXSDKManagerHandler.Instance.IsCloudTest())
+        {
+            m_triangleRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Triangles Count");
+
+            m_renderTexturesCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Render Textures Count");
+            m_RenderTexturesBytes = ProfilerRecorder.StartNew(ProfilerCategory.Render,"Render Textures Bytes");
+            m_BatchesCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Batches Count");
+            m_ShadowCastersCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Shadow Casters Count");
+            m_VisibleSkinnedMeshesCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Visible Skinned Meshes Count");
+            m_RenderTexturesChangesCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Render Textures Changes Count");
+            m_UsedBuffersCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Used Buffers Count");
+            m_UsedBuffersBytes = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Used Buffers Bytes");
+            m_VertexBufferUploadInFrameCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Vertex Buffer Upload In Frame Count");
+            m_VertexBufferUploadInFrameBytes = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Vertex Buffer Upload In Frame Bytes");
+            m_IndexBufferUploadInFrameCount = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Index Buffer Upload In Frame Count");
+            m_IndexBufferUploadInFrameBytes = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Index Buffer Upload In Frame Bytes");
+        }
+        
 #endif
 
     }
@@ -108,7 +146,22 @@ public class WXProfileStatsScript : MonoBehaviour
         m_setPassCallsRecorder.Dispose();
         m_drawCallsRecorder.Dispose();
         m_verticesRecorder.Dispose();
-
+        if (WeChatWASM.WXSDKManagerHandler.Instance.IsCloudTest())
+        {
+            m_triangleRecorder.Dispose();
+            m_renderTexturesCount.Dispose();
+            m_RenderTexturesBytes.Dispose();
+            m_BatchesCount.Dispose();
+            m_ShadowCastersCount.Dispose();
+            m_VisibleSkinnedMeshesCount.Dispose();
+            m_RenderTexturesChangesCount.Dispose();
+            m_UsedBuffersCount.Dispose();
+            m_UsedBuffersBytes.Dispose();
+            m_VertexBufferUploadInFrameCount.Dispose();
+            m_VertexBufferUploadInFrameBytes.Dispose();
+            m_IndexBufferUploadInFrameCount.Dispose();
+            m_IndexBufferUploadInFrameBytes.Dispose();
+        }
 #endif
     }
 
@@ -170,7 +223,7 @@ public class WXProfileStatsScript : MonoBehaviour
         sb.AppendLine("-------------WebAssembly----------");
         UpdateValue("TotalHeapMemory", WeChatWASM.WXSDKManagerHandler.Instance.GetTotalMemorySize() / toMB, sb);
         UpdateValue("DynamicMemory", WeChatWASM.WXSDKManagerHandler.Instance.GetDynamicMemorySize() / toMB, sb);
-        UpdateValue("UsedHeapMemory", WeChatWASM.WXSDKManagerHandler.Instance.GetUsedMemorySize() / toMB, sb);
+        UpdateValue("UsedHeap(ProfilingMemory only)", WeChatWASM.WXSDKManagerHandler.Instance.GetUsedMemorySize() / toMB, sb);
         UpdateValue("UnAllocatedMemory", WeChatWASM.WXSDKManagerHandler.Instance.GetUnAllocatedMemorySize() / toMB, sb);
 
         sb.AppendLine("-------------AssetBundle----------");
@@ -220,32 +273,35 @@ public class WXProfileStatsScript : MonoBehaviour
     }
 
     public void OnGUI()
-    {
-        GUI.backgroundColor = new Color(0, 0, 0, 0.5f);
+    {   
+        // 云测环境不展示profile stats的界面
+        if(!WeChatWASM.WXSDKManagerHandler.Instance.IsCloudTest()) {
+            GUI.backgroundColor = new Color(0, 0, 0, 0.5f);
 #if UNITY_EDITOR
-        GUI.skin.button.fontSize = 10;
-        GUI.skin.label.fontSize = 10;
+            GUI.skin.button.fontSize = 10;
+            GUI.skin.label.fontSize = 10;
 #else
-        GUI.skin.button.fontSize = 30;
-        GUI.skin.label.fontSize = 30;
+            GUI.skin.button.fontSize = 30;
+            GUI.skin.label.fontSize = 30;
 #endif
-        if (GUILayout.Button("Performence Stats", GUILayout.ExpandWidth(false)))
-        {
-            m_isShow = !m_isShow;
-        }
+            if (GUILayout.Button("Performence Stats", GUILayout.ExpandWidth(false)))
+            {
+                m_isShow = !m_isShow;
+            }
 
-        if (GUILayout.Button("ProfilingMemory Dump", GUILayout.ExpandWidth(false)))
-        {
-            WeChatWASM.WXSDKManagerHandler.Instance.ProfilingMemoryDump();
-        }
+            if (GUILayout.Button("ProfilingMemory Dump", GUILayout.ExpandWidth(false)))
+            {
+                WeChatWASM.WXSDKManagerHandler.Instance.ProfilingMemoryDump();
+            }
 
-        GUILayout.BeginVertical(m_bgStyle);
-        if (m_isShow)
-        {
-            GUILayout.Label(statsText);
-        }
+            GUILayout.BeginVertical(m_bgStyle);
+            if (m_isShow)
+            {
+                GUILayout.Label(statsText);
+            }
 
-        GUILayout.EndVertical();
+            GUILayout.EndVertical();
+        }
     }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -253,4 +309,41 @@ public class WXProfileStatsScript : MonoBehaviour
     {
         WeChatWASM.WXSDKManagerHandler.SetProfileStatsScript(typeof(WXProfileStatsScript));
     }
+
+    public string GetProfileStatsDatas()
+    {
+        const uint toMB = 1024 * 1024;
+        Dictionary<string, long> _profileDatasDic = new Dictionary<string, long>();
+        _profileDatasDic.Add("MonoHeapReserved", Profiler.GetMonoHeapSizeLong() / toMB);
+        _profileDatasDic.Add("MonoHeapUsed", Profiler.GetMonoUsedSizeLong() / toMB);
+        _profileDatasDic.Add("NativeReserved", Profiler.GetTotalReservedMemoryLong() / toMB);
+        _profileDatasDic.Add("NativeUnused", Profiler.GetTotalUnusedReservedMemoryLong() / toMB);
+        _profileDatasDic.Add("NativeAllocated", Profiler.GetTotalAllocatedMemoryLong() / toMB);
+
+#if UNITY_2021_2_OR_NEWER
+        _profileDatasDic.Add("SetPassCalls", m_setPassCallsRecorder.LastValue);
+        _profileDatasDic.Add("DrawCalls",  m_drawCallsRecorder.LastValue);
+        _profileDatasDic.Add("Vertices",  m_verticesRecorder.LastValue);
+        if (WeChatWASM.WXSDKManagerHandler.Instance.IsCloudTest())
+        {
+            _profileDatasDic.Add("Triangles",  m_triangleRecorder.LastValue);
+            _profileDatasDic.Add("renderTexturesCount", m_renderTexturesCount.LastValue);
+            _profileDatasDic.Add("RenderTexturesBytes", m_RenderTexturesBytes.LastValue);
+            _profileDatasDic.Add("BatchesCount", m_BatchesCount.LastValue);
+            _profileDatasDic.Add("ShadowCastersCount", m_ShadowCastersCount.LastValue);
+            _profileDatasDic.Add("VisibleSkinnedMeshesCount", m_VisibleSkinnedMeshesCount.LastValue);
+            _profileDatasDic.Add("RenderTexturesChangesCount", m_RenderTexturesChangesCount.LastValue);
+            _profileDatasDic.Add("UsedBuffersCount", m_UsedBuffersCount.LastValue);
+            _profileDatasDic.Add("UsedBuffersBytes", m_UsedBuffersBytes.LastValue);
+            _profileDatasDic.Add("VertexBufferUploadInFrameCount", m_VertexBufferUploadInFrameCount.LastValue);
+            _profileDatasDic.Add("VertexBufferUploadInFrameBytes", m_VertexBufferUploadInFrameBytes.LastValue);
+            _profileDatasDic.Add("IndexBufferUploadInFrameCount", m_IndexBufferUploadInFrameCount.LastValue);
+            _profileDatasDic.Add("IndexBufferUploadInFrameBytes", m_IndexBufferUploadInFrameBytes.LastValue);
+        }
+        
+#endif
+        return JsonMapper.ToJson(_profileDatasDic);;
+    }
+
 }
+#endif

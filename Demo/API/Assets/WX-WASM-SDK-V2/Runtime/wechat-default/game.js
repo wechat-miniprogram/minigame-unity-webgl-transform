@@ -180,6 +180,7 @@ checkVersion().then((enable) => {
         const systeminfo = wx.getSystemInfoSync();
         const bootinfo = {
             renderer: systeminfo.renderer || '',
+            isH5Plus: GameGlobal.isIOSHighPerformanceModePlus || false,
             abi: systeminfo.abi || '',
             brand: systeminfo.brand,
             model: systeminfo.model,
@@ -202,7 +203,9 @@ checkVersion().then((enable) => {
         };
         
         if (GameGlobal.canUseiOSAutoGC && unityNamespace.iOSAutoGCInterval !== 0) {
-            setInterval(function () { wx.triggerGC(); }, unityNamespace.iOSAutoGCInterval);
+            setInterval(() => {
+                wx.triggerGC();
+            }, unityNamespace.iOSAutoGCInterval);
         }
         gameManager.startGame();
         GameGlobal.manager = gameManager;

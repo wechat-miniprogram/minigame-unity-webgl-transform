@@ -787,6 +787,46 @@ namespace WeChatWASM
 
 #endregion
 
+#region 隐私协议弹窗
+        /// <summary>
+        /// [wx.onNeedPrivacyAuthorization(function callback)](https://developers.weixin.qq.com/minigame/dev/api/open-api/privacy/wx.onNeedPrivacyAuthorization.html)
+        /// 需要基础库： `2.33.0`
+        /// 该接口将**启用自定义弹窗**，同时对onNeedPrivacyAuthorization事件进行监听，当需要用户授权弹窗时会触发，可以通过调用resolve函数，对授权事件进行上报。
+        /// **示例代码**
+        /// ```C#
+        /// WX.OnNeedPrivacyAuthorization((result) =>
+        /// {
+        ///     // 开发者弹出自定义的隐私弹窗，并调用告知平台已经弹窗
+        ///     WX.PrivacyAuthorizeResolve(new PrivacyAuthorizeResolveOption()
+        ///     {
+        ///         eventString = "exposureAuthorization"
+        ///     });
+        /// });
+        /// 
+        /// // 用户通过开发者自定义的界面点击了同意按钮
+        /// WX.OnTouchEnd((res) => {
+        ///     WX.PrivacyAuthorizeResolve(new PrivacyAuthorizeResolveOption()
+        ///     {
+        ///         eventString = "agree"
+        ///     });
+        /// });
+        /// ```
+        /// </summary>
+        public static void OnNeedPrivacyAuthorization(Action<string> res)
+        {
+            WXSDKManagerHandler.Instance.OnNeedPrivacyAuthorization(res);
+        }
+
+        /// <summary>
+        /// [wx.onNeedPrivacyAuthorization(function callback)](https://developers.weixin.qq.com/minigame/dev/api/open-api/privacy/wx.onNeedPrivacyAuthorization.html)
+        /// 由于C#侧无法直接返回JS绑定函数，所以新增一个API专门用于在WX.OnNeedPrivacyAuthorization的回调内调用
+        /// </summary>
+        public static void PrivacyAuthorizeResolve(PrivacyAuthorizeResolveOption res)
+        {
+            WXSDKManagerHandler.Instance.PrivacyAuthorizeResolve(res);
+        }
+#endregion
+
 #region UDP
         public static int CreateUDPSocket(string ip, int remotePort, int bindPort = 0)
         {

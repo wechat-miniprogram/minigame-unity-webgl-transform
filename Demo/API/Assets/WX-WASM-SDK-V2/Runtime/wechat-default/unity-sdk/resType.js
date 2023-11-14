@@ -150,6 +150,51 @@ export const ResType = {
         windowHeight: 'number',
         windowWidth: 'number',
     },
+    GeneralCallbackResult: {
+        errMsg: 'string',
+    },
+    DownloadFileSuccessCallbackResult: {
+        filePath: 'string',
+        profile: 'RequestProfile',
+        statusCode: 'number',
+        tempFilePath: 'string',
+        errMsg: 'string',
+    },
+    RequestProfile: {
+        SSLconnectionEnd: 'number',
+        SSLconnectionStart: 'number',
+        connectEnd: 'number',
+        connectStart: 'number',
+        domainLookUpEnd: 'number',
+        domainLookUpStart: 'number',
+        downstreamThroughputKbpsEstimate: 'number',
+        estimate_nettype: 'number',
+        fetchStart: 'number',
+        httpRttEstimate: 'number',
+        peerIP: 'string',
+        port: 'number',
+        protocol: 'string',
+        receivedBytedCount: 'number',
+        redirectEnd: 'number',
+        redirectStart: 'number',
+        requestEnd: 'number',
+        requestStart: 'number',
+        responseEnd: 'number',
+        responseStart: 'number',
+        rtt: 'number',
+        sendBytesCount: 'number',
+        socketReused: 'bool',
+        throughputKbps: 'number',
+        transportRttEstimate: 'number',
+    },
+    OnHeadersReceivedListenerResult: {
+        header: 'object',
+    },
+    DownloadTaskOnProgressUpdateListenerResult: {
+        progress: 'number',
+        totalBytesExpectedToWrite: 'number',
+        totalBytesWritten: 'number',
+    },
     CreateOpenSettingButtonOption: {
         style: 'OptionStyle',
         type: 'string',
@@ -169,9 +214,6 @@ export const ResType = {
         textAlign: 'string',
         top: 'number',
         width: 'number',
-    },
-    GeneralCallbackResult: {
-        errMsg: 'string',
     },
     ImageData: {
         height: 'number',
@@ -255,6 +297,10 @@ export const ResType = {
     BluetoothError: {
         errMsg: 'string',
         errCode: 'number',
+    },
+    CompressImageSuccessCallbackResult: {
+        tempFilePath: 'string',
+        errMsg: 'string',
     },
     CreateBLEPeripheralServerSuccessCallbackResult: {
         server: 'BLEPeripheralServer',
@@ -386,6 +432,18 @@ export const ResType = {
         mtu: 'number',
         errMsg: 'string',
     },
+    GetBackgroundFetchDataSuccessCallbackResult: {
+        fetchedData: 'string',
+        path: 'string',
+        query: 'string',
+        scene: 'number',
+        timeStamp: 'long',
+        errMsg: 'string',
+    },
+    GetBackgroundFetchTokenSuccessCallbackResult: {
+        errMsg: 'string',
+        token: 'string',
+    },
     GetBatteryInfoSuccessCallbackResult: {
         isCharging: 'bool',
         level: 'number',
@@ -511,6 +569,11 @@ export const ResType = {
         signalStrength: 'number',
         errMsg: 'string',
     },
+    GetPrivacySettingSuccessCallbackResult: {
+        needAuthorization: 'bool',
+        privacyContractName: 'string',
+        errMsg: 'string',
+    },
     GetScreenBrightnessSuccessCallbackOption: {
         value: 'number',
         errMsg: 'string',
@@ -579,6 +642,10 @@ export const ResType = {
         errMsg: 'string',
         openIdList: 'string[]',
     },
+    RequestFailCallbackErr: {
+        errMsg: 'string',
+        errno: 'number',
+    },
     LoginSuccessCallbackResult: {
         code: 'string',
         errMsg: 'string',
@@ -613,6 +680,14 @@ export const ResType = {
         connected: 'bool',
         deviceId: 'string',
         serverId: 'string',
+    },
+    OnBackgroundFetchDataListenerResult: {
+        fetchType: 'string',
+        fetchedData: 'string',
+        path: 'string',
+        query: 'string',
+        scene: 'number',
+        timeStamp: 'long',
     },
     OnBeaconServiceChangeListenerResult: {
         available: 'bool',
@@ -668,6 +743,19 @@ export const ResType = {
     },
     OnMemoryWarningListenerResult: {
         level: 'number',
+    },
+    OnMouseDownListenerResult: {
+        button: 'number',
+        timeStamp: 'long',
+        x: 'number',
+        y: 'number',
+    },
+    OnMouseMoveListenerResult: {
+        movementX: 'number',
+        movementY: 'number',
+        timeStamp: 'long',
+        x: 'number',
+        y: 'number',
     },
     OnNetworkStatusChangeListenerResult: {
         isConnected: 'bool',
@@ -810,6 +898,13 @@ export const ResType = {
         errMsg: 'string',
         errCode: 'number',
     },
+    RequestMidasPaymentFailCallbackErr: {
+        errCode: 'number',
+        errMsg: 'string',
+    },
+    RequestMidasPaymentSuccessCallbackResult: {
+        errMsg: 'string',
+    },
     RequestSubscribeMessageFailCallbackResult: {
         errCode: 'number',
         errMsg: 'string',
@@ -899,6 +994,10 @@ export const ResType = {
     MidasPaymentGameItemError: {
         errMsg: 'string',
         errCode: 'number',
+    },
+    RequestSubscribeLiveActivitySuccessCallbackResult: {
+        code: 'string',
+        errMsg: 'string',
     },
     FrameDataOptions: {
         data: 'arrayBuffer',

@@ -145,6 +145,26 @@
 ​		压缩纹理工具执行需要依赖 Node.js 解释器，若执行前已安装 Node.js 但执行时提示未找到则需手动填入本机 Node.js 路径。请将 Node.js 的绝对路径填写至 `Assets/WX-WASM-SDK/Editor/TextureEditor/WXAssetsTextTools.cs` 文件的 `NODE_PATH` 变量中。若开发者使用API调用执行，可对该变量进行直接赋值。
 
 
+### 5.分离纹理后各自单独下载是否会增加下载开销？
+
+​		不会。标准的CDN服务会支持http2协议，因此看似多条的请求背后系统仅会创建1条TCP/IP链路，所以并不会增加额外的请求开销。宏观来说你开启了CDN压缩情况下，游戏所需资源下载的总量没变、链接次数没变，却享受了不同设备按需使用纹理格式的能力。
+
+### 6.MacOS系统执行报错 “'System.Drawing.GDIPlus' threw an exception”
+
+​		因为 Unity 自带 Mono 配置错误 libgdiplus.dylib 文件路径。有两种解决方案选择其一即可。
+#### 解决方案一：
+
+​		本地安装官方 Mono 后，代码配置微信压缩纹理工具用于执行的 Mono 解释器完整路径。
+```c#
+// 在合理的时机进行路径配置：
+#if UNITY_EDITOR_OSX
+  WXAssetsTextTools.MONO_PATH = "/usr/bin/mono";     // 本机安装的 Mono 解释器完整路径
+#endif
+```
+
+#### 解决方案二：
+
+​		先下载 [libgdiplus.dylib](../tools/libgdiplus.dylib) 文件后，将其放在 UnityEditor `/Applications/Unity/Hub/Editor/{$Unity_Editor_Version}/Unity.app/Contents/MonoBleedingEdge/lib/libgdiplus.dylib` 路径下，并编辑 `/Applications/Unity/Hub/Editor/{$Unity_Editor_Version}/Unity.app/Contents/MonoBleedingEdge/etc/mono/config` 文件，将 `target= .../libgdiplus.dylib` 路径内容均变更为下载文件的存放完整路径，重启 Unity Editor 即可。
 
 ## 微信压缩纹理API介绍
 

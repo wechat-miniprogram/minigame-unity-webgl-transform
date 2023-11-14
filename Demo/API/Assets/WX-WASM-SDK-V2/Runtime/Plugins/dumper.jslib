@@ -1,4 +1,10 @@
 mergeInto(LibraryManager.library, {
+  _WXPointer_stringify_adaptor:function(str){
+    if (typeof UTF8ToString !== "undefined") {
+        return UTF8ToString(str)
+    }
+    return Pointer_stringify(str)
+  },
   DumpUICallback: function (str) {
     if(typeof GameGlobal!='undefined'){
       GameGlobal.monkeyCallback(_WXPointer_stringify_adaptor(str));
@@ -29,4 +35,9 @@ mergeInto(LibraryManager.library, {
       GameGlobal.UnityUIType = _WXPointer_stringify_adaptor(str);
     }
   },
+  DumpProfileStatsCallback: function(str){
+     if(typeof GameGlobal!='undefined') {
+       GameGlobal.monkeyCallback(_WXPointer_stringify_adaptor(str));
+     }
+  }
 });
