@@ -87,7 +87,6 @@
 - [后端服务指引](Design/BackendServiceStartup.md)
 - [网络通信适配](Design/UsingNetworking.md)
 - [使用水印保护代码包安全](Design/wasmWaterMark.md)
-- [微信小游戏包JavaScript扩展](Design/javascriptExt.md)
   
 调试与异常
 - [开发错误调试与排查](Design/DebugAndException.md)
