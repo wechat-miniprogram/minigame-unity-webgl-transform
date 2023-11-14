@@ -3,7 +3,7 @@
 ## 概述
 在微信开发者工具运行游戏，利用ProfilingMemory，我们可以分析UnityHeap 或 DynamicMemory(CPU主内存)的详细分配堆栈与统计数值。
 - 该工具仅分析业务与引擎的CPU内存，即性能面板中的DynamicMemory，不包含WASM编译内存、显存、JS临时内存等
-- 建议在微信开发者工具 or  Android使用（工具本身会增加不少内存，此时iOS进程内存压力会很大）
+- 建议在微信开发者工具 or  Android使用（工具本身会增加不少内存，此时iOS WebContent进程内存压力会很大）
  
 ## 步骤
 1. 游戏启动调用WeChatWASM.WX.InitSDK，并勾选导出选项"Profiling Funcs"与"Profiling Memory"，***请勿同时勾选"Development Build"选项！！！***
