@@ -4,7 +4,7 @@
 
 ## 演示效果
 
-  [演示视频]()
+  [演示视频](https://drive.weixin.qq.com/s?k=AJEAIQdfAAoX1N1P1D)
 
   <等待更多优秀游戏作品入驻>
 
@@ -21,7 +21,7 @@
 - 游戏世界观、故事背景的介绍
 - 游戏厂家启动Logo、防沉迷等信息披露
 
-## 接入方式(Beta)
+## 接入方式
 
 [演示工程源码]()
 由于启动剧情为Unity启动加载耗时过久而推出的能力，因此主要配置由 JavaScript 脚本实现（早于WASM初始化）。
@@ -91,3 +91,86 @@ GameGlobal.event.on("launchOperaInit", (operaHandler) => {
 
 启动剧情是一个持续较长时间的业务内容，这段时间中任何时刻均会有用户离开，因此上报剧情期间用户不同阶段的行为对于分析剧情内容与留存率是非常重要的。启动剧情的“剧本”由开发者定义，因此开发者更清楚一个剧情的不同阶段的时间点，所以需要开发者自行对不同阶段剧情进行上报打点。开发者配置上报后，MP管理后台提供了漏斗图的数据可视化看板，将方便开发者进行数据分析。
 
+
+### 外显进度条接入
+
+启动剧情能力工作期间，仍然提供了加载进度外显能力，这有助于在剧情播放期间通过截图方式反馈一些加载进度信息，默认情况下位于小游戏底部区域，如图所示：
+
+<img src='/image/launch-opera/image-1.png' width="50%"/>
+
+启动剧情外显进度条默认为用户开启，并且进度条前70%固定为Unity小游戏封面启动进度，开发者可以自行补充后30%进度的显示，若开发者未定义后30%显示进度则启动剧情插件将在首资源包与WASM初始化完成后以平滑动画完成100%进度显示。
+
+#### 关闭/样式调整
+
+如需关闭/样式调整外显进度条，如下配置：
+
+```js
+GameGlobal.event.on("launchOperaInit", (operaHandler) => {
+
+  // other codes...
+
+  // 配置外显进度条
+  operaHandler.progress.style = {
+    position: 1,                  // 0 顶部 1 底部
+    hidden: true,                 // 是否隐藏
+    color: '#FFFFFF',             // 进度条颜色
+    backgroundColor: '#000000',   // 进度条背景颜色
+    height: 10,                   // 进度条高度
+  }
+
+  // 声明控制后30%显示，默认不控制将以动画自动补间
+  operaHandler.useProgress = true;
+
+});
+```
+
+如开启 `useProgress` 则可在游戏侧完成控制
+
+```c#
+  launchOpera.percentage = 0.6;     // 开发者输入 .0～1.0 浮点数，对应控制剩余 30%
+```
+
+## API
+
+JavaScript 与 C# 环境中均能获得 launchOpera 控制句柄，
+JavaScript 中除了 `launchOperaInit` 回调函数参数中可获得句柄外， 全局变量 `GameGlobal.launchOpera` 同样可访问；
+C# 环境中引入微信SDK同样可以获得交互句柄。
+
+### .running
+只读属性，获得当前剧情插件运行状态，`true` 代表正在播放剧情，`false` 为未运行或已播放结束资源析构。
+
+### .config
+在初始化期间对启动剧情组件进行相关配置。
+
+```js
+GameGlobal.launchOpera.config = {
+  playPath: '',   // 可选，剧本文件路径，填写该项则意味开启启动剧情
+}
+```
+
+### .progress
+外显进度条配置。
+
+### .end()
+提前结束启动剧情。
+
+### .onEnd( callback )
+注册当剧情结束时的回调事件。
+当产生该回调时意味着启动剧情组件资源已经完全析构，同时自动释放注册的事件（如 .onErr 、.onEnd），无需开发手动释放。
+
+### .offEnd( callback )
+注销当剧情结束时配置的回调事件。
+
+### .onErr( callback )
+注册当发生异常时的回调事件。
+引发异常的可能是：剧本文件读取失败、剧本与启动剧情插件版本不兼容、插件环境异常、CDN视频资源播放失败等。
+为避免发生异常时用户无法退出启动剧情插件，推荐开发者在 onErr 强制结束启动剧情。
+
+```js
+launchOpera.onErr((err) => {
+  launchOpera.end();    // 强制结束
+});
+```
+
+### .offErr( callback )
+注销当发生异常时的回调事件。
