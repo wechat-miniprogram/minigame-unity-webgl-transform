@@ -28,7 +28,7 @@
 
 ### 步骤一：设计剧情
 
-剧情设计需联系研发助手协助设计。
+剧情设计由开发者自行准备游戏主题相关视频、图片资源素材并上传至CDN。剧情编辑工具目前有一定的使用学习成本，内测阶段为了降低开发者的接入难度，具体的剧情设计需联系研发助手协助设计。
 
 剧本产物：资源目录 `launchOperaPlay`。
 
@@ -90,6 +90,7 @@ GameGlobal.event.on("launchOperaInit", (operaHandler) => {
 ### 自定义上报分析
 
 启动剧情是一个持续较长时间的业务内容，这段时间中任何时刻均会有用户离开，因此上报剧情期间用户不同阶段的行为对于分析剧情内容与留存率是非常重要的。启动剧情的“剧本”由开发者定义，因此开发者更清楚一个剧情的不同阶段的时间点，所以需要开发者自行对不同阶段剧情进行上报打点。开发者配置上报后，MP管理后台提供了漏斗图的数据可视化看板，将方便开发者进行数据分析。
+有关自定义上报详细内容请参考 [启动场景上报分析](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-action-start-reportScene.html) 。
 
 
 ### 外显进度条接入
@@ -110,21 +111,21 @@ GameGlobal.event.on("launchOperaInit", (operaHandler) => {
   // other codes...
 
   // 配置外显进度条
-  operaHandler.progress.style = {
-    position: 1,                  // 0 顶部 1 底部
-    hidden: true,                 // 是否隐藏
-    color: '#FFFFFF',             // 进度条颜色
-    backgroundColor: '#000000',   // 进度条背景颜色
-    height: 10,                   // 进度条高度
+  operaHandler.config = {
+    progressStyle: {   // 外显进度条配置，所有配置项均可缺省，以下为默认值
+      position: 1,                  // 0 顶部 1 底部
+      hidden: false,                // 是否隐藏
+      color: '#FFFFFF',             // 进度条颜色
+      backgroundColor: '#000000',   // 进度条背景颜色
+      height: 3,                    // 进度条高度
+    },
+    useCustomProgress: true,       // 声明控制后30%显示，默认不控制将以动画自动补间
   }
-
-  // 声明控制后30%显示，默认不控制将以动画自动补间
-  operaHandler.useProgress = true;
 
 });
 ```
 
-如开启 `useProgress` 则可在游戏侧完成控制
+如开启 `useCustomProgress` 则可在游戏侧完成控制
 
 ```c#
   launchOpera.percentage = 0.6;     // 开发者输入 .0～1.0 浮点数，对应控制剩余 30%
@@ -145,11 +146,17 @@ C# 环境中引入微信SDK同样可以获得交互句柄。
 ```js
 GameGlobal.launchOpera.config = {
   playPath: '',   // 可选，剧本文件路径，填写该项则意味开启启动剧情
+  progressStyle: {   // 外显进度条配置，所有配置项均可缺省，以下为默认值
+    position: 1,                  // 0 顶部 1 底部
+    hidden: false,                // 是否隐藏
+    color: '#FFFFFF',             // 进度条颜色
+    backgroundColor: '#000000',   // 进度条背景颜色
+    height: 3,                    // 进度条高度
+  },
+  useCustomProgress: false,       // 是否接入自定义外显进度条
 }
 ```
 
-### .progress
-外显进度条配置。
 
 ### .end()
 提前结束启动剧情。
