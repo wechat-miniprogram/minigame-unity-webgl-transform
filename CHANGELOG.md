@@ -6,6 +6,15 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2023-11-28
+* FileSystem Stat支持isDirectory和isFile
+* 优化胶水层代码，删减多余代码
+* TouchMove触摸性能优化
+* 优化微信字体所占用的MonoHeap临时内存
+### Fixed
+* 修复IOS音频被打断无法重新播放
+* 修复2022导出Video的BUG
+  
 ## 2023-11-10
 ### Feature
 * 支持2022 Input Field组件适配微信输入法
