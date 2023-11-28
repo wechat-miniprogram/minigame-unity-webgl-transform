@@ -44,5 +44,8 @@
     }, 10000);
     ```
     修改后，游戏启动将会有10s黑屏，可在此期间打开调试。
+4. 最新版本Chrome/Edge已经将Javascript Profiler默认隐藏，你可以使用微信开发者工具查看`.cpuprofiler`，或是通过以下方式将它在浏览器显示出来：
+   ![image](https://github.com/zombieyang/minigame-unity-webgl-transform/assets/5595819/2a4a276d-d5a7-4d1e-9cb4-891f3f984e0d)
+
 
    

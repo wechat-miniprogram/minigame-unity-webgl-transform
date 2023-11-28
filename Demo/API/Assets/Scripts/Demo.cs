@@ -33,6 +33,8 @@ public class Demo : MonoBehaviour
                 txtUserInfo.text = $"nickName：{userInfoButonRet.userInfo.nickName}， avartar:{userInfoButonRet.userInfo.avatarUrl}";
             });
             Debug.Log("infoButton Created");
+            
+            this.AddMenuRectMask();
 
             // fallbackFont作为旧版本微信或者无法获得系统字体文件时的备选CDN URL
             var fallbackFont = Application.streamingAssetsPath + "/Fz.ttf";
@@ -44,6 +46,48 @@ public class Demo : MonoBehaviour
                 }
             });
         });
+    }
+
+    public void AddMenuRectMask() {
+        var systemInfo = WX.GetSystemInfoSync();
+
+        // 获取Canvas组件
+        Canvas canvas = GetComponent<Canvas>();
+        
+        // 如果没有找到Canvas组件，打印错误并返回
+        if (canvas == null)
+        {
+            Debug.LogError("Canvas component not found.");
+            return;
+        }
+
+        // 获取Canvas的宽度
+        float canvasWidth = canvas.GetComponent<RectTransform>().rect.width;
+
+        // 创建一个新的Image对象
+        GameObject blackSquare = new GameObject("BlackSquare", typeof(Image));
+
+        // 设置Image对象的父对象为Canvas
+        blackSquare.transform.SetParent(canvas.transform, false);
+
+        // 获取Image对象的RectTransform组件
+        RectTransform rectTransform = blackSquare.GetComponent<RectTransform>();
+
+        // 获取小游戏系统按钮的位置
+        var menuRect = WX.GetMenuButtonBoundingClientRect();
+
+        // 转换成当前场景屏幕比例的高度
+        var safeButtom = (int)(menuRect.bottom * 1080f / systemInfo.screenWidth);
+
+        // 设置RectTransform的属性
+        rectTransform.anchorMin = new Vector2(0, 1);
+        rectTransform.anchorMax = new Vector2(0, 1);
+        rectTransform.pivot = new Vector2(0, 1);
+        rectTransform.sizeDelta = new Vector2(canvasWidth, safeButtom);
+
+        // 设置Image组件的颜色为黑色
+        Image image = blackSquare.GetComponent<Image>();
+        image.color = Color.black;
     }
 
     public void OnEnterOptionsClick()
