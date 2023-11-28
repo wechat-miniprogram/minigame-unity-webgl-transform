@@ -46,7 +46,7 @@
 // 底部增加启动剧情配置
 // launchOperaInit 是用于初始化剧情的回调事件
 // 配置工作需要在该回调中使用「同步」方式完成，请勿使用异步函数
-GameGlobal.event.on("launchOperaInit", (operaHandler) => {
+GameGlobal.events.on("launchOperaInit", (operaHandler) => {
 
   // 如需读取本地缓存请使用 getStorageSync 读取，请勿使用异步方式
   // 如需异步请查阅「基于异步干预剧情发展」
