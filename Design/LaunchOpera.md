@@ -128,12 +128,16 @@ GameGlobal.event.on("launchOperaInit", (operaHandler) => {
 如开启 `useCustomProgress` 则可在游戏侧完成控制
 
 ```c#
-  launchOpera.percentage = 0.6;     // 开发者输入 .0～1.0 浮点数，对应控制剩余 30%
+launchOpera.percentage = 0.6;     // 开发者输入 .0～1.0 浮点数，对应控制剩余 30%
 ```
 
-## API（JavaScript侧）
+## API执行环境说明
 
-启动剧情的运行环境主要以 JavaScript 为主，当然我们也提供了部分 C# 侧需要用到的访问接口，可阅读 **C#侧** 章节。
+启动剧情的运行环境主要以 JavaScript 为主，当然我们也提供了部分 C# 侧需要用到的访问接口。JavaScript 侧指的是导出目录中 `minigame` 文件夹中的脚本，这是微信开发者工具打开的脚本目录，`minigame/game.js` 是整个游戏客户端启动的入口，我们通常也是从该入口进行能力迭代。不过值得注意的是，`minigame` 目录是导出产物，在重新导出游戏时将会被覆盖，所以正确的修改目录应该位于 `Assets/WX-WASM-SDK-V2/Runtime/wechat-default` 目录中，这里是导出 `minigame` 的模板文件，并且能够跟随项目Git等代码版本托管迭代。
+
+C# 侧指的是游戏在 Unity 环境中的函数调用，区别于 JavaScript 他的时机将更晚，因为 C# 侧需要等待 WASM 准备充分（首场景加载完成）后才能够进行一系列的函数调用，因此配置性的操作是不能此完成（请在 JavaScript 完成），当剧情启动并给到充分的 WASM 启动后，C# 将得到一些信息反馈，如：何时结束剧情、外显进度条的进度设置等。
+
+## API（JavaScript侧）
 
 在 JavaScript 中除了 `launchOperaInit` 回调函数参数中可获得句柄外， 全局变量 `GameGlobal.launchOpera` 可以让开发者在任意位置访问到控制句柄；
 
@@ -167,17 +171,17 @@ GameGlobal.launchOpera.config = {
 
 提前结束启动剧情。
 
-### .onEnd( callback: Function )
+### .onEnd(callback: Function)
 
 注册当剧情结束时的回调事件。
 
 当产生该回调时意味着启动剧情组件资源已经完全析构，同时自动释放注册的事件（如 .onErr 、.onEnd），无需开发手动释放。
 
-### .offEnd( callback: Function )
+### .offEnd(callback: Function)
 
 注销当剧情结束时配置的回调事件。
 
-### .onErr( callback: Function )
+### .onErr(callback: Function)
 
 注册当发生异常时的回调事件。
 
@@ -191,11 +195,11 @@ launchOpera.onErr((err) => {
 });
 ```
 
-### .offErr( callback: Function )
+### .offErr(callback: Function)
 
 注销当发生异常时的回调事件。
 
-### .setGlobalVar( globalName: string, value: string )
+### .setGlobalVar(globalName: string, value: string)
 
 设置启动剧情全局变量值。
 

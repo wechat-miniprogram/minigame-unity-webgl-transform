@@ -48,7 +48,7 @@ public class LaunchOpera : MonoBehaviour
 
         CustomPrgressDemo.onClick.AddListener(() =>
         {
-            WX.StorageSetStringSync("launchOperaLocalData_UseCustomProgress");
+            WX.StorageSetStringSync("launchOperaLocalData_UseCustomProgress", "1");
             WX.ShowModal(new ShowModalOption()
             {
                 content = "Successfully set, restart the game and progress bar will eventually stop at 85%",

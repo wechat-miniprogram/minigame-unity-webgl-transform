@@ -222,9 +222,10 @@ checkVersion().then((enable) => {
     }
 });
 
+
 GameGlobal.events.on("launchOperaInit", (operaHandler) => {
 
-    var play = true;
+    var play = false;
     var asyncValue = false;
     var newUserValue = true;
     try {
@@ -240,8 +241,8 @@ GameGlobal.events.on("launchOperaInit", (operaHandler) => {
     } catch (e) { }
   
     // 标记为非新用户
-    wx.setStorageSync('launchOperaLocalData_Demo', { })
-    var useCustomProgress = !!(wx.getStorageSync('launchOperaLocalData_UseCustomProgress') === '');
+    wx.setStorageSync('launchOperaLocalData_Demo', { anydata: 0 })
+    var useCustomProgress = !!wx.getStorageSync('launchOperaLocalData_UseCustomProgress');
     // 配置启动剧情
     operaHandler.config = { // 配置本地剧本路径，若 playPath 文件不存在或读取失败则自动放弃启动剧情
       playPath: play ? '/launchOperaPlay/operaPlay.obj' : null,
@@ -252,7 +253,6 @@ GameGlobal.events.on("launchOperaInit", (operaHandler) => {
     if (asyncValue) {
       setTimeout(() => { // 使用 setTimeout 模拟异步，实际可以用 wx.request 与服务器完成交互
         // 新用户播放完整剧情 老用户仅播放 logo video
-        console.log(123, newUserValue);
         operaHandler.setGlobalVar('continue-play', newUserValue ? 'true' : 'false')
       },2000);
     }
@@ -267,4 +267,4 @@ GameGlobal.events.on("launchOperaInit", (operaHandler) => {
       operaHandler.end();       // 发生异常时强制结束，避免用户无法退出剧情插件模式
     })
   
-  });
+});
