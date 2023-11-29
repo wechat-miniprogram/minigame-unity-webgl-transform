@@ -28,15 +28,15 @@
 
 ### 步骤一：设计剧情
 
-剧情设计由开发者自行准备游戏主题相关视频、图片资源素材并上传至CDN。剧情编辑工具目前有一定的使用学习成本，内测阶段为了降低开发者的接入难度，具体的剧情设计需联系研发助手协助设计。
+剧情设计由开发者自行准备游戏主题相关视频、图片资源素材并上传至CDN。剧情编辑工具目前有一定的使用学习成本，Beta阶段为了降低开发者的接入难度，具体的剧情设计需联系[研发助手](/Design/IssueAndContact.md#小游戏研发助手)协助设计。
 
 剧本产物：资源目录 `launchOperaPlay`。
 
 ### 步骤二：配置启动剧情
 
-1. 使用微信开发者工具打开微信SDK导出产物中 `minigame` 目录，在模拟器中运行导出的Unity小游戏；
-2. 将 **步骤一** 中 `launchOperaPlay` 资源放到 `minigame` 目录中；
-3. 打开 `mingame/game.js` 文件，该文件是 JavaScript 运行的入口文件，在文件底部增加启动剧情初始化配置。
+1. 使用代码编辑工具打开Unity工程中 `Assets/WX-WASM-SDK-V2/Runtime/wechat-default` 目录；
+2. 将 **步骤一** 中 `launchOperaPlay` 资源放到 `wechat-default` 目录中；
+3. 打开 `wechat-default/game.js` 文件，该文件是 JavaScript 运行的入口文件，在文件底部增加启动剧情初始化配置。
 
 ```js
 // game.js
@@ -76,6 +76,7 @@ GameGlobal.events.on("launchOperaInit", (operaHandler) => {
 });
 
 ```
+4. 导出面板进行导出微信小游戏即可。
 
 ### 基于异步干预剧情发展
 
