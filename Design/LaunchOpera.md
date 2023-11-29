@@ -131,16 +131,22 @@ GameGlobal.event.on("launchOperaInit", (operaHandler) => {
   launchOpera.percentage = 0.6;     // 开发者输入 .0～1.0 浮点数，对应控制剩余 30%
 ```
 
-## API
+## API（JavaScript侧）
 
-JavaScript 与 C# 环境中均能获得 launchOpera 控制句柄，
-JavaScript 中除了 `launchOperaInit` 回调函数参数中可获得句柄外， 全局变量 `GameGlobal.launchOpera` 同样可访问；
-C# 环境中引入微信SDK同样可以获得交互句柄。
+启动剧情的运行环境主要以 JavaScript 为主，当然我们也提供了部分 C# 侧需要用到的访问接口，可阅读 **C#侧** 章节。
+
+在 JavaScript 中除了 `launchOperaInit` 回调函数参数中可获得句柄外， 全局变量 `GameGlobal.launchOpera` 可以让开发者在任意位置访问到控制句柄；
 
 ### .running
+
 只读属性，获得当前剧情插件运行状态，`true` 代表正在播放剧情，`false` 为未运行或已播放结束资源析构。
 
+```js
+console.log(GameGlobal.launchOpera.running);    // true or false
+```
+
 ### .config
+
 在初始化期间对启动剧情组件进行相关配置。
 
 ```js
@@ -157,20 +163,26 @@ GameGlobal.launchOpera.config = {
 }
 ```
 
-
 ### .end()
+
 提前结束启动剧情。
 
-### .onEnd( callback )
+### .onEnd( callback: Function )
+
 注册当剧情结束时的回调事件。
+
 当产生该回调时意味着启动剧情组件资源已经完全析构，同时自动释放注册的事件（如 .onErr 、.onEnd），无需开发手动释放。
 
-### .offEnd( callback )
+### .offEnd( callback: Function )
+
 注销当剧情结束时配置的回调事件。
 
-### .onErr( callback )
+### .onErr( callback: Function )
+
 注册当发生异常时的回调事件。
+
 引发异常的可能是：剧本文件读取失败、剧本与启动剧情插件版本不兼容、插件环境异常、CDN视频资源播放失败等。
+
 为避免发生异常时用户无法退出启动剧情插件，推荐开发者在 onErr 强制结束启动剧情。
 
 ```js
@@ -179,5 +191,72 @@ launchOpera.onErr((err) => {
 });
 ```
 
-### .offErr( callback )
+### .offErr( callback: Function )
+
 注销当发生异常时的回调事件。
+
+### .setGlobalVar( globalName: string, value: string )
+
+设置启动剧情全局变量值。
+
+### .getGlobalVar(globalName: string): string | null
+
+读取启动剧情全局变量值。
+
+### .onGlobalVarChange(globalName: string, callback: Function)
+
+当启动剧情全局变量变化时回调。
+
+### .offGlobalVarChange(globalName: string, callback: Function)
+
+注销启动剧情全局变量变化时回调。
+
+## API（C#侧）
+
+### 获得交互句柄
+
+```c#
+var launchOperaHandler = WX.GetLaunchOperaHandler();
+```
+
+### void SetPercentage(double value)
+
+当开启自定义外显进度条时（useCustomProgress）可控制进度条进度，value 接受 .0 ~ 1.0 区间浮点数，对应外显进度条的 70% ~ 100% 进度。
+
+### bool GetRunning()
+
+获得当前剧情插件运行状态，`true` 代表正在播放剧情，`false` 为未运行或已播放结束资源析构。
+
+### void End()
+
+提前结束启动剧情。
+
+### void onEnd(Action<bool> callback)
+
+注册当剧情结束时的回调事件。
+
+由于 C# 代码启动较晚，如果在开发者注册时剧情已经结束，则在注册该方法时会立即产生回调，注册的回调只会产生1次。
+
+```c#
+// On LaunchOpera End
+WX.GetLaunchOperaHandler().onEnd((status) =>
+{
+    WX.ShowToast(new ShowToastOption()
+    {
+        title = "C#(WASM) received the ending callback event!",
+        icon = "none",
+    });
+});
+```
+
+### void offEnd(Action<bool> callback)
+
+注销当剧情结束时配置的回调事件。
+
+### void SetGlobalVar(string key, string value)
+
+设置启动剧情全局变量值。
+
+### string GetGlobalVar(string key)
+
+读取启动剧情全局变量值。

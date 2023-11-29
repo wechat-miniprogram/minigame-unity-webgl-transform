@@ -10,8 +10,9 @@
 
 1. `Assets/Script/LaunchOpera.cs` 定义了 C# 中的一些交互；
 
-2. JavaScript 的代码位于 `Assets/WX-WASM-SDK-V2/Runtime/wechat-default/game.js`;
-其中 `wechat-default` 目录是导出微信小游戏的模板目录，因此在该目录中修改未来会影响未来导出的 `minigame` 目录内容，并且跟随项目的代码版本管理；
+2. JavaScript 的代码位于 `Assets/WX-WASM-SDK-V2/Runtime/wechat-default/game.js` 大约 225 行开始;
+
+其中 `wechat-default` 目录是导出微信小游戏的模板目录，因此在该目录中修改未来会影响导出的 `minigame` 目录内容，并且跟随项目的代码版本管理；
 
 3. 运行中的几个按钮介绍：
 - `Reset to new User` : 设置为新用户。即清理当前游戏本地的非新用户标识，再次访问小游戏时将以新用户身份进入，可正常观看启动剧情内容；
