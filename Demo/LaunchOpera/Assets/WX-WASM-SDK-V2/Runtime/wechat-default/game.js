@@ -221,3 +221,50 @@ checkVersion().then((enable) => {
         GameGlobal.events.on('launchOperaPushMsgToWasm', (callback, args) => GameGlobal.WXWASMSDK.WXLaunchOperaBridgeToC(callback, args));
     }
 });
+
+GameGlobal.events.on("launchOperaInit", (operaHandler) => {
+
+    var play = true;
+    var asyncValue = false;
+    var newUserValue = true;
+    try {
+      newUserValue = !wx.getStorageSync('launchOperaLocalData_Demo'); // 自行管理的本地缓存 Key-Value
+  
+      asyncValue = !!wx.getStorageSync('launchOperaLocalData_Async');
+      if (newUserValue) {    // 本地有特定缓存标识意味已经不是首次访问可以不播放
+        play = true;
+      }
+      if (asyncValue) { // 异步控制演示标记，当开启异步控制时及时老用户也播放，后续异步控制剩余剧情的播放
+        play = true;
+      }
+    } catch (e) { }
+  
+    // 标记为非新用户
+    wx.setStorageSync('launchOperaLocalData_Demo', { })
+    var useCustomProgress = !!(wx.getStorageSync('launchOperaLocalData_UseCustomProgress') === '');
+    // 配置启动剧情
+    operaHandler.config = { // 配置本地剧本路径，若 playPath 文件不存在或读取失败则自动放弃启动剧情
+      playPath: play ? '/launchOperaPlay/operaPlay.obj' : null,
+      useCustomProgress,
+    }
+  
+    // 剧情开始播放后执行异步处理逻辑
+    if (asyncValue) {
+      setTimeout(() => { // 使用 setTimeout 模拟异步，实际可以用 wx.request 与服务器完成交互
+        // 新用户播放完整剧情 老用户仅播放 logo video
+        console.log(123, newUserValue);
+        operaHandler.setGlobalVar('continue-play', newUserValue ? 'true' : 'false')
+      },2000);
+    }
+  
+    // 注册一些其他的启动剧情事件回调
+    operaHandler.onEnd((logger) => {
+      console.log('剧情播放结束');
+    })
+  
+    operaHandler.onErr((err) => {
+      console.error('启动剧情发生异常', err);
+      operaHandler.end();       // 发生异常时强制结束，避免用户无法退出剧情插件模式
+    })
+  
+  });
