@@ -58,6 +58,9 @@ GameGlobal.events.on("launchOperaInit", (operaHandler) => {
     }
   } catch (e) { }
 
+  // 合理位置标记为非新用户，也可以在 C# 侧完成标记
+  wx.setStorageSync('launchOperaLocalDataXXX', { anydata: 0 });
+
   // 开始配置启动剧情
   operaHandler.config = { // 配置本地剧本路径，若 playPath 文件不存在或读取失败则自动放弃启动剧情
     playPath: play ? '/launchOperaPlay/operaPlay.obj' : null,
