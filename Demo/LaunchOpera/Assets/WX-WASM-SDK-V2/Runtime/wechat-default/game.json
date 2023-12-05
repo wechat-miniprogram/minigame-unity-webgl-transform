@@ -22,7 +22,7 @@
   ],
   "plugins": {
     "UnityPlugin": {
-      "version": "latest",
+      "version": "1.2.33",
       "provider": "wxe5a48f1ed5f544b7",
       "contexts": [
         {
