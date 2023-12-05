@@ -51,6 +51,7 @@
   - [使用 Addressable 进行资源按需加载](Design/UsingAddressable.md)
   - [使用 AutoStreaming 进行资源按需加载](Design/InstantGameGuide.md)
   - [定制启动封面](Design/CustomLoading.md)
+  - [设计启动剧情](Design/LaunchOpera.md)
   - [使用预下载功能](Design/UsingPreload.md)
   - [首场景启动优化](Design/FirstSceneOptimization.md)
   - [使用代码分包工具](Design/WasmSplit.md)

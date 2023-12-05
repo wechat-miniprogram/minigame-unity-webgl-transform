@@ -10,6 +10,7 @@
 **/WebGLTemplates/
 **/UserSettings/
 **/.vs/
+**/TextToolDatas/
 .DS_Store
 
 # Visual Studio 2015 cache directory
@@ -49,3 +50,4 @@ Plugins.meta
 
 !minigame.texturecompressed.backup.unitypackage
 !minigame.202305172131.unitypackage
+!Demo/LaunchOpera/Assets/WebGLTemplates

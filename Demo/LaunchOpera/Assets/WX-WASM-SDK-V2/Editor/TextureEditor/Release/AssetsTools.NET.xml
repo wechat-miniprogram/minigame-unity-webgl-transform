@@ -1,0 +1,1852 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AssetsTools.NET</name>
+    </assembly>
+    <members>
+        <member name="F:AssetsTools.NET.Extra.AssetReadFlags.None">
+            <summary>
+            No flags.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.AssetReadFlags.PreferEditor">
+            <summary>
+            Use the editor version of the TPK instead of the the player version. Use this if you are
+            generating new assets for an editor project.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.AssetReadFlags.SkipMonoBehaviourFields">
+            <summary>
+            If the file doesn't have a type tree, decide whether to skip calling
+            AssetsManager.MonoTempGenerator to add the MonoBehaviour fields to the end of the base
+            MonoBehaviour field or not.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.AssetReadFlags.ForceFromCldb">
+            <summary>
+            If the file is using a type tree, force it to use the loaded class database instead.
+            </summary>
+        </member>
+        <member name="T:AssetsTools.NET.Extra.AssetsFileInstance">
+            <summary>
+            A wrapper around an <see cref="T:AssetsTools.NET.AssetsFile"/> with information such as the path to the file
+            (used for handling dependencies) and the bundle it belongs to.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.AssetsFileInstance.path">
+            <summary>
+            The full path to the file. This path can be fake if it is not from disk.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.AssetsFileInstance.name">
+            <summary>
+            The name of the file. This is the file name part of the path.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.AssetsFileInstance.file">
+            <summary>
+            The base <see cref="T:AssetsTools.NET.AssetsFile"/>.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.AssetsFileInstance.parentBundle">
+            <summary>
+            The bundle this file is a part of, if there is one.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.Extra.AssetsFileInstance.AssetsStream">
+            <summary>
+            The stream the assets file uses.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadAssetsFile(System.IO.Stream,System.String,System.Boolean,AssetsTools.NET.Extra.BundleFileInstance)">
+            <summary>
+            Load an <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> from a stream with a path.
+            Use the <see cref="T:System.IO.FileStream"/> version of this method to skip the path argument.
+            If a file with that name is already loaded, it will be returned instead.
+            </summary>
+            <param name="stream">The stream to read from.</param>
+            <param name="path">The path to set on the <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.</param>
+            <param name="loadDeps">Load all dependencies immediately?</param>
+            <param name="bunInst">The parent bundle, if one exists.</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadAssetsFile(System.IO.FileStream,System.Boolean)">
+            <summary>
+            Load an <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> from a stream.
+            Assigns the <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>'s path from the stream's file path.
+            If a file with that name is already loaded, it will be returned instead.
+            </summary>
+            <param name="stream">The stream to read from.</param>
+            <param name="loadDeps">Load all dependencies immediately?</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadAssetsFile(System.String,System.Boolean)">
+            <summary>
+            Load an <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> from a path.
+            If a file with that name is already loaded, it will be returned instead.
+            </summary>
+            <param name="path">The path of the file to read from.</param>
+            <param name="loadDeps">Load all dependencies immediately?</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.UnloadAssetsFile(System.String)">
+            <summary>
+            Unload an <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> by path.
+            </summary>
+            <param name="path">The path of the <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> to unload.</param>
+            <returns>True if the file was found and closed, and false if it wasn't found.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.UnloadAssetsFile(AssetsTools.NET.Extra.AssetsFileInstance)">
+            <summary>
+            Unload an <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.
+            </summary>
+            <param name="fileInst">The <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> to unload.</param>
+            <returns>True if the file was found and closed, and false if it wasn't found.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.UnloadAllAssetsFiles(System.Boolean)">
+            <summary>
+            Unload all <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>s.
+            </summary>
+            <param name="clearCache">Clear the cache? Recommended if you plan on reopening files later.</param>
+            <returns>True if there are files that can be cleared, and false if no files are loaded.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadBundleFile(System.IO.Stream,System.String,System.Boolean)">
+            <summary>
+            Load a <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> from a stream with a path.
+            Use the <see cref="T:System.IO.FileStream"/> version of this method to skip the path argument.
+            If the bundle is large, you may want to set <paramref name="unpackIfPacked"/> to false
+            so you can manually decompress to file.
+            </summary>
+            <param name="stream">The stream to read from.</param>
+            <param name="path">The path to set on the <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.</param>
+            <param name="unpackIfPacked">Unpack the bundle if it's compressed?</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadBundleFile(System.IO.FileStream,System.Boolean)">
+            <summary>
+            Load a <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> from a stream.
+            Assigns the <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/>'s path from the stream's file path.
+            If the bundle is large, you may want to set <paramref name="unpackIfPacked"/> to false
+            so you can manually decompress to file.
+            </summary>
+            <param name="stream">The stream to read from.</param>
+            <param name="unpackIfPacked">Unpack the bundle if it's compressed?</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadBundleFile(System.String,System.Boolean)">
+            <summary>
+            Load a <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> from a path.
+            If the bundle is large, you may want to set <paramref name="unpackIfPacked"/> to false
+            so you can manually decompress to file.
+            </summary>
+            <param name="path">The path of the file to read from.</param>
+            <param name="unpackIfPacked">Unpack the bundle if it's compressed?</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.UnloadBundleFile(System.String)">
+            <summary>
+            Unload an <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> by path.
+            </summary>
+            <param name="path">The path of the <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> to unload.</param>
+            <returns>True if the file was found and closed, and false if it wasn't found.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.UnloadBundleFile(AssetsTools.NET.Extra.BundleFileInstance)">
+            <summary>
+            Unload an <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/>.
+            </summary>
+            <param name="bunInst">The <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> to unload.</param>
+            <returns>True if the file was found and closed, and false if it wasn't found.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.UnloadAllBundleFiles">
+            <summary>
+            Unload all <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>s.
+            </summary>
+            <returns>True if there are files that can be cleared, and false if no files are loaded.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadAssetsFileFromBundle(AssetsTools.NET.Extra.BundleFileInstance,System.Int32,System.Boolean)">
+            <summary>
+            Load an <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> from a <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> by index.
+            </summary>
+            <param name="bunInst">The bundle to load from.</param>
+            <param name="index">The index of the file in the bundle to load from.</param>
+            <param name="loadDeps">Load all dependencies immediately?</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.Extra.AssetsManager.LoadAssetsFileFromBundle(AssetsTools.NET.Extra.BundleFileInstance,System.String,System.Boolean)">
+            <summary>
+            Load an <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/> from a <see cref="T:AssetsTools.NET.Extra.BundleFileInstance"/> by name.
+            </summary>
+            <param name="bunInst">The bundle to load from.</param>
+            <param name="name">The name of the file in the bundle to load from.</param>
+            <param name="loadDeps">Load all dependencies immediately?</param>
+            <returns>The loaded <see cref="T:AssetsTools.NET.Extra.AssetsFileInstance"/>.</returns>
+        </member>
+        <member name="F:AssetsTools.NET.Extra.BundleFileInstance.loadedAssetsFiles">
+            <summary>
+            List of loaded assets files for this bundle.
+            </summary>
+            <remarks>
+            This list does not contain <i>every</i> assets file for the bundle,
+            instead only the ones that have been loaded so far.
+            </remarks>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleBlockAndDirInfo.Hash">
+            <summary>
+            Hash of this entry.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleBlockAndDirInfo.BlockInfos">
+            <summary>
+            List of blocks in this bundle.
+            Do not modify this array, it's needed to read the existing file correctly.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleBlockAndDirInfo.DirectoryInfos">
+            <summary>
+            List of file infos in this bundle.
+            You can add new infos or make changes to existing ones and they will be
+            updated on write.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleBlockInfo.DecompressedSize">
+            <summary>
+            Decompressed size of this block.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleBlockInfo.CompressedSize">
+            <summary>
+            Compressed size of this block. If uncompressed, this is the same as DecompressedSize.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleBlockInfo.Flags">
+            <summary>
+            Flags of this block. <br/>
+            First 6 bits (0x3f mask): Compression mode. 0 for uncompressed, 1 for LZMA, 2/3 for LZ4/LZ4HC. <br/>
+            0x40: Streamed if unset (will be read in blocks) <br/>
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.AssetBundleDirectoryInfo.Offset">
+            <summary>
+            Offset from bundle's data start (header.GetFileDataOffset()).
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.AssetBundleDirectoryInfo.DecompressedSize">
+            <summary>
+            Decompressed size of this entry.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.AssetBundleDirectoryInfo.Flags">
+            <summary>
+            Flags of this entry. <br/>
+            0x01: Entry is a directory. Unknown usage.
+            0x02: Entry is deleted. Unknown usage.
+            0x04: Entry is serialized file. Assets files should enable this, and other files like .resS or .resource(s) should disable this.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.AssetBundleDirectoryInfo.Name">
+            <summary>
+            Name of this entry.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleDirectoryInfo.Replacer">
+            <summary>
+            Replacer which can be set by the user.
+            You can use <see cref="M:AssetsTools.NET.AssetBundleDirectoryInfo.SetNewData(System.Byte[])"/> or <see cref="M:AssetsTools.NET.AssetBundleDirectoryInfo.SetNewData(AssetsTools.NET.AssetsFile)"/>
+            for convenience.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleDirectoryInfo.ReplacerType">
+            <summary>
+            Replacer type such as modified or removed.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleDirectoryInfo.IsReplacerPreviewable">
+            <summary>
+            Is the replacer non-null and does the replacer has a preview?
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleDirectoryInfo.SetNewData(System.Byte[])">
+            <summary>
+            Sets the bytes used when the AssetBundleFile is written.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleDirectoryInfo.SetNewData(AssetsTools.NET.AssetsFile)">
+            <summary>
+            Sets the assets file to use when the AssetBundleFile is written.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleDirectoryInfo.SetRemoved">
+            <summary>
+            Set the asset to be removed when the AssetBundleFile is written.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleDirectoryInfo.Create(System.String,System.Boolean)">
+            <summary>
+            Creates a new directory info.
+            </summary>
+            <param name="name">Name of the file.</param>
+            <param name="isSerialized">Is the file serialized (i.e. is it an assets file)?</param>
+            <returns>The new directory info</returns>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFile.Header">
+            <summary>
+            Bundle header. Contains bundle engine version.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFile.BlockAndDirInfo">
+            <summary>
+            List of compression blocks and file info (file names, address in file, etc.)
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFile.DataReader">
+            <summary>
+            Reader for data block of bundle
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFile.DataIsCompressed">
+            <summary>
+            Is data reader reading compressed data? Only LZMA bundles set this to true.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.Close">
+            <summary>
+            Closes the reader.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetBundleFile"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.Write(AssetsTools.NET.AssetsFileWriter,System.Int64)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetBundleFile"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="filePos">Where in the stream to start writing. Use -1 to start writing at the current stream position.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.Unpack(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Unpack and write the uncompressed <see cref="T:AssetsTools.NET.AssetBundleFile"/> with the provided writer. <br/>
+            You must write to a new file or stream when calling this method.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.Pack(AssetsTools.NET.AssetsFileWriter,AssetsTools.NET.AssetBundleCompressionType,System.Boolean,AssetsTools.NET.IAssetBundleCompressProgress)">
+            <summary>
+            Pack and write the compressed <see cref="T:AssetsTools.NET.AssetBundleFile"/> with the provided writer. <br/>
+            You must write to a new file or stream when calling this method.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="compType">The compression type to use. LZ4 compresses worse but faster, LZMA compresses better but slower.</param>
+            <param name="blockDirAtEnd">Put block and directory list at end? This skips creating temporary files, but is not officially used.</param>
+            <param name="progress">Optional callback for compression progress.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.GetCompressionType">
+            <summary>
+            Returns the main compression type the bundle uses (the first uncompressed block type).
+            </summary>
+            <returns>The compression type</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.IsAssetsFile(System.Int32)">
+            <summary>
+            Is the file at the index an <see cref="T:AssetsTools.NET.AssetsFile"/>?
+            Note: this checks by reading the first bit of the file instead of reading the directory flag.
+            </summary>
+            <param name="index">Index of the file in the directory info list.</param>
+            <returns>True if the file at the index is an <see cref="T:AssetsTools.NET.AssetsFile"/>.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.GetFileIndex(System.String)">
+            <summary>
+            Returns the index of the file in the directory list with the given name.
+            </summary>
+            <param name="name">The name to search for.</param>
+            <returns>The index of the file in the directory list or -1 if no file is found.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.GetFileName(System.Int32)">
+            <summary>
+            Returns the name of the file at the index in the directory list.
+            </summary>
+            <param name="index">The index to look at.</param>
+            <returns>The name of the file in the directory list or null if the index is out of bounds.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.GetFileRange(System.Int32,System.Int64@,System.Int64@)">
+            <summary>
+            Returns the file range of a file.
+            Use <see cref="P:AssetsTools.NET.AssetBundleFile.DataReader"/> instead of <see cref="F:AssetsTools.NET.AssetBundleFile.Reader"/> to read data.
+            </summary>
+            <param name="index">The index to look at.</param>
+            <param name="offset">The offset in the data stream, or -1 if the index is out of bounds.</param>
+            <param name="length">The length of the file, or 0 if the index is out of bounds.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetBundleFile.GetAllFileNames">
+            <summary>
+            Returns a list of file names in the bundle.
+            </summary>
+            <returns>The file names in the bundle.</returns>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFSHeader.TotalFileSize">
+            <summary>
+            Size of entire file.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFSHeader.CompressedSize">
+            <summary>
+            Size of the compressed data. This is the same as DecompressedSize if not compressed.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFSHeader.DecompressedSize">
+            <summary>
+            Size of the decompressed data.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleFSHeader.Flags">
+            <summary>
+            Flags of this bundle. <br/>
+            First 6 bits (0x3f mask): Compression mode. 0 for uncompressed, 1 for LZMA, 2/3 for LZ4/LZ4HC. <br/>
+            0x40: Has directory info. Should always be true for 5.2+. <br/>
+            0x80: Block and directory info is at end. The Unity editor does not usually use this.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleHeader.Signature">
+            <summary>
+            Magic appearing at the beginning of all bundles. Possible options are:
+            UnityFS, UnityWeb, UnityRaw, UnityArchive
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleHeader.Version">
+            <summary>
+            Version of this file.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleHeader.GenerationVersion">
+            <summary>
+            Generation version string. For Unity 5 bundles this is always "5.x.x"
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleHeader.EngineVersion">
+            <summary>
+            Engine version. This is the specific version string being used. For example, "2019.4.2f1"
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetBundleHeader.FileStreamHeader">
+            <summary>
+            Header for bundles with a UnityFS Signature.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.PathId">
+            <summary>
+            Path ID of the asset.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.ByteOffset">
+            <summary>
+            Address of the asset's data from the header's DataOffset.
+            Use <see cref="M:AssetsTools.NET.AssetFileInfo.GetAbsoluteByteOffset(AssetsTools.NET.AssetsFile)"/> for the real file position.
+            If the asset has a replacer, this field is ignored.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.ByteSize">
+            <summary>
+            Byte size of the asset data. If the asset has a replacer, this field is ignored.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.TypeIdOrIndex">
+            <summary>
+            Before version 16 this is the type ID of the asset. In version 16 and later this is the
+            index into the type tree list. In versions 15 and below, this is the same as TypeId
+            except in MonoBehaviours where this acts similar to ScriptTypeIndex (negative).
+            You should use TypeId for the type ID in either version. <see cref="T:AssetsTools.NET.Extra.AssetClassID"/>
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.OldTypeId">
+            <summary>
+            Old Type ID of the asset (officially called class ID). This field is only used in versions
+            15 and below and is the same as TypeId, except when TypeId is negative, in which case
+            the old type ID will be a MonoBehaviour (0x72) and TypeId will be the same as TypeIdOrIndex.
+            You should use TypeId for the type ID in either version. <see cref="T:AssetsTools.NET.Extra.AssetClassID"/>
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.ScriptTypeIndex">
+            <summary>
+            Script type index of the asset. Assets other than MonoBehaviours will have 0xffff for
+            this field. This value is stored in the type tree starting at version 17. Note this is
+            not the same as taking
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.Stripped">
+            <summary>
+            Marks if the type in the type tree has been stripped (?)
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.TypeId">
+            <summary>
+            The type ID of the asset. This field works in both versions. This field is only for
+            convenience; modifying the type ID in the type tree in later versions will not update the
+            ID here, and modifying this field will not update the type ID when saved.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.Replacer">
+            <summary>
+            Replacer which can be set by the user.
+            You can use <see cref="M:AssetsTools.NET.AssetFileInfo.SetNewData(System.Byte[])"/> or <see cref="M:AssetsTools.NET.AssetFileInfo.SetNewData(AssetsTools.NET.AssetTypeValueField)"/>
+            for convenience.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.ReplacerType">
+            <summary>
+            Replacer type such as modified or removed.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetFileInfo.IsReplacerPreviewable">
+            <summary>
+            Is the replacer non-null and does the replacer has a preview?
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.GetTypeId(AssetsTools.NET.AssetsFile)">
+            <summary>
+            Get the Type ID of the asset.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.GetTypeId(AssetsTools.NET.AssetsFileMetadata,System.UInt32)">
+            <summary>
+            Get the Type ID of the asset.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.GetTypeId(System.Collections.Generic.List{AssetsTools.NET.TypeTreeType},System.UInt32)">
+            <summary>
+            Get the Type ID of the asset.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.GetAbsoluteByteOffset(AssetsTools.NET.AssetsFile)">
+            <summary>
+            Address of the asset's data from the start of the file.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.GetAbsoluteByteOffset(AssetsTools.NET.AssetsFileHeader)">
+            <summary>
+            Address of the asset's data from the start of the file.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.GetAbsoluteByteOffset(System.Int64)">
+            <summary>
+            Address of the asset's data from the start of the file.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.SetNewData(System.Byte[])">
+            <summary>
+            Sets the bytes used when the AssetsFile is written.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.SetNewData(AssetsTools.NET.AssetTypeValueField)">
+            <summary>
+            Sets the bytes to the base field's data used when the AssetsFile is written.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.SetRemoved">
+            <summary>
+            Set the asset to be removed when the AssetsFile is written.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.Create(AssetsTools.NET.AssetsFile,System.Int64,System.Int32,AssetsTools.NET.ClassDatabaseFile,System.Boolean)">
+            <summary>
+            Creates a new asset info. If the type has not appeared in this file yet, pass
+            <paramref name="classDatabase"/> to pull new type info from.
+            </summary>
+            <param name="assetsFile">The assets file this info will belong to.</param>
+            <param name="pathId">The path ID to use.</param>
+            <param name="typeId">The type ID to use.</param>
+            <param name="classDatabase">The class database to use if the type does not appear in the assets file yet.</param>
+            <param name="preferEditor">Read from the editor version of this type if available?</param>
+            <returns>The new asset info, or null if the type can't be found in the type tree or class database.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetFileInfo.Create(AssetsTools.NET.AssetsFile,System.Int64,System.Int32,System.UInt16,AssetsTools.NET.ClassDatabaseFile,System.Boolean)">
+            <summary>
+            Creates a new asset info. If the type has not appeared in this file yet, pass
+            <paramref name="classDatabase"/> to pull new type info from. If the asset is
+            a MonoBehaviour, add the type manually to <see cref="P:AssetsTools.NET.AssetsFileMetadata.TypeTreeTypes"/>
+            and if version 16 or later, set <paramref name="scriptIndex"/> to the script type index
+            or if ealier than version 16, set the negative type id.
+            </summary>
+            <param name="assetsFile">The assets file this info will belong to.</param>
+            <param name="pathId">The path ID to use.</param>
+            <param name="typeId">The type ID to use.</param>
+            <param name="scriptIndex">The script type index to use.</param>
+            <param name="classDatabase">The class database to use if the type does not appear in the assets file yet.</param>
+            <param name="preferEditor">Read from the editor version of this type if available?</param>
+            <returns>The new asset info, or null if the type can't be found in the type tree or class database.</returns>
+        </member>
+        <member name="P:AssetsTools.NET.AssetPPtr.FilePath">
+            <summary>
+            File path of the pointer. If empty or null, FileId will be used.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetPPtr.FileId">
+            <summary>
+            File ID of the pointer.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetPPtr.PathId">
+            <summary>
+            Path ID of the pointer.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFile.Header">
+            <summary>
+            Assets file header.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFile.Metadata">
+            <summary>
+            Contains metadata about the file (TypeTree, engine version, dependencies, etc.)
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFile.Reader">
+            <summary>
+            The <see cref="T:AssetsTools.NET.AssetsFileReader"/> that reads the file.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.Close">
+            <summary>
+            Closes the reader.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetsFile"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.Read(System.IO.Stream)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetsFile"/> with the provided stream.
+            </summary>
+            <param name="stream">The stream to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.Write(AssetsTools.NET.AssetsFileWriter,System.Int64)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetsFile"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="filePos">Where in the stream to start writing. Use -1 to start writing at the current stream position.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)">
+            <summary>
+            Get the script index for an <see cref="T:AssetsTools.NET.AssetFileInfo"/>.
+            Always use this method instead of ScriptTypeIndex, as it handles all versions.
+            </summary>
+            <param name="info">The file info to check.</param>
+            <returns>The script index of the asset.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.IsAssetsFile(System.String)">
+            <summary>
+            Check if a file at a path is an <see cref="T:AssetsTools.NET.AssetsFile"/> or not.
+            </summary>
+            <param name="filePath">The file path to read from and check.</param>
+            <returns>True if the file is an assets file, otherwise false.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.IsAssetsFile(AssetsTools.NET.AssetsFileReader,System.Int64,System.Int64)">
+            <summary>
+            Check if a file at a position in a stream is an <see cref="T:AssetsTools.NET.AssetsFile"/> or not.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="offset">The offset to start at (this value cannot be -1).</param>
+            <param name="length">The length of the file. You can use <c>reader.BaseStream.Length</c> for this.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.GetAssetInfo(System.Int64)">
+            <summary>
+            Get an <see cref="T:AssetsTools.NET.AssetFileInfo"/> from a path ID.
+            </summary>
+            <param name="pathId">The path ID to search for.</param>
+            <returns>An info for that path ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.GenerateQuickLookup">
+            <summary>
+            Generate a dictionary lookup for assets instead of a brute force search.
+            Takes a little bit more memory but results in quicker lookups.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.GetAssetsOfType(System.Int32)">
+            <summary>
+            Get all assets of a specific type ID.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <returns>A list of infos for that type ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.GetAssetsOfType(AssetsTools.NET.Extra.AssetClassID)">
+            <summary>
+            Get all assets of a specific type ID.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <returns>A list of infos for that type ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.GetAssetsOfType(System.Int32,System.UInt16)">
+            <summary>
+            Get all assets of a specific type ID and script index. The script index of an asset can be
+            found from <see cref="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)"/> or <see cref="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes"/>.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>A list of infos for that type ID and script index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFile.GetAssetsOfType(AssetsTools.NET.Extra.AssetClassID,System.UInt16)">
+            <summary>
+            Get all assets of a specific type ID and script index. The script index of an asset can be
+            found from <see cref="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)"/> or <see cref="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes"/>.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>A list of infos for that type ID and script index.</returns>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFile.AssetInfos">
+            <summary>
+            A list of all asset infos in this file.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileExternal.VirtualAssetPathName">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileExternal.Guid">
+            <summary>
+            GUID for dependencies used in editor. Otherwise this is 0.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileExternal.Type">
+            <summary>
+            Dependency type.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileExternal.PathName">
+            <summary>
+            Real path name to the other file.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileExternal.OriginalPathName">
+            <summary>
+            Original path name listed in the assets file (if it was changed).
+            You shouldn't modify this.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileExternal.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetsFileExternal"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileExternal.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetsFileExternal"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileHeader.MetadataSize">
+            <summary>
+            Size of the metadata block (not including this header).
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileHeader.FileSize">
+            <summary>
+            Size of the entire file.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileHeader.Version">
+            <summary>
+            Version of this file. This only affects the structure of the serialized file, not asset data.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileHeader.DataOffset">
+            <summary>
+            Offset to the data of the first asset.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileHeader.Endianness">
+            <summary>
+            File endianness. Little endian is false and big endian is true.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileHeader.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetsFileHeader"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileHeader.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetsFileHeader"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.UnityVersion">
+            <summary>
+            Engine version this file uses.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.TargetPlatform">
+            <summary>
+            Target platform this file uses.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.TypeTreeEnabled">
+            <summary>
+            Marks whether the type info contains type tree data.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.TypeTreeTypes">
+            <summary>
+            List of type tree types.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.AssetInfos">
+            <summary>
+            List of asset infos. Do not add or remove from this list directly, instead use the
+            <see cref="M:AssetsTools.NET.AssetsFileMetadata.AddAssetInfo(AssetsTools.NET.AssetFileInfo)"/> or <see cref="M:AssetsTools.NET.AssetsFileMetadata.RemoveAssetInfo(AssetsTools.NET.AssetFileInfo)"/> methods.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes">
+            <summary>
+            List of script type pointers. This list should match up with ScriptTypeIndex in the type
+            tree types list.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.Externals">
+            <summary>
+            List of externals (references to other files).
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.RefTypes">
+            <summary>
+            List of reference types.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetsFileMetadata.UserInformation">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.Read(AssetsTools.NET.AssetsFileReader,AssetsTools.NET.AssetsFileHeader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetsFileMetadata"/> with the provided reader and file header.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="header">The header to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.Read(AssetsTools.NET.AssetsFileReader,System.UInt32)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetsFileMetadata"/> with the provided reader and format version.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="version">The version of the file.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.Write(AssetsTools.NET.AssetsFileWriter,System.UInt32)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetsFileMetadata"/> with the provided reader and format version.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="version">The version of the file.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.GetAssetInfo(System.Int64)">
+            <summary>
+            Get an <see cref="T:AssetsTools.NET.AssetFileInfo"/> from a path ID.
+            </summary>
+            <param name="pathId">The path ID to search for.</param>
+            <returns>An info for that path ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.AddAssetInfo(AssetsTools.NET.AssetFileInfo)">
+            <summary>
+            Adds an <see cref="T:AssetsTools.NET.AssetFileInfo"/> to the info list.
+            </summary>
+            <param name="info">The info to add</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.RemoveAssetInfo(AssetsTools.NET.AssetFileInfo)">
+            <summary>
+            Removes an <see cref="T:AssetsTools.NET.AssetFileInfo"/> from the info list.
+            </summary>
+            <remarks>
+            It is suggested to set <see cref="P:AssetsTools.NET.AssetFileInfo.Replacer"/> to
+            <see cref="T:AssetsTools.NET.ContentRemover"/> if you want to keep the info in the list but save without it.
+            </remarks>
+            <param name="info">The info to add</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.GenerateQuickLookup">
+            <summary>
+            Generate a dictionary lookup for assets instead of a brute force search.
+            Takes a little bit more memory but results in quicker lookups.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.GetAssetsOfType(System.Int32)">
+            <summary>
+            Get all assets of a specific type ID.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <returns>A list of infos for that type ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.GetAssetsOfType(System.Int32,System.UInt16)">
+            <summary>
+            Get all assets of a specific type ID and script index. The script index of an asset can be
+            found from <see cref="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)"/> or <see cref="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes"/>.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>A list of infos for that type ID and script index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.GetAssetsOfType(AssetsTools.NET.Extra.AssetClassID)">
+            <summary>
+            Get all assets of a specific type ID.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <returns>A list of infos for that type ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.GetAssetsOfType(AssetsTools.NET.Extra.AssetClassID,System.UInt16)">
+            <summary>
+            Get all assets of a specific type ID and script index. The script index of an asset can be
+            found from <see cref="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)"/> or <see cref="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes"/>.
+            </summary>
+            <param name="typeId">The type ID to search for.</param>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>A list of infos for that type ID and script index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.FindTypeTreeTypeByID(System.Int32)">
+            <summary>
+            Get the type tree type by type ID.
+            </summary>
+            <param name="id">The type ID to search for.</param>
+            <returns>The type tree type with this ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.FindTypeTreeTypeByID(System.Int32,System.UInt16)">
+            <summary>
+            Get the type tree type by type ID and script index. The script index of an asset can be
+            found from <see cref="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)"/> or <see cref="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes"/>.
+            For games before 5.5, <paramref name="scriptIndex"/> is ignored since this data is read
+            from the negative value of <paramref name="id"/>. In 5.5 and later, MonoBehaviours are always
+            0x72, so <paramref name="scriptIndex"/> is used instead.
+            </summary>
+            <param name="id">The type ID to search for.</param>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>The type tree type with this ID and script index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.FindTypeTreeTypeIndexByID(System.Int32,System.UInt16)">
+            <summary>
+            Get the type tree type index by type ID and script index. The script index of an asset can be
+            found from <see cref="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)"/> or <see cref="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes"/>.
+            For games before 5.5, <paramref name="scriptIndex"/> is ignored since this data is read
+            from the negative value of <paramref name="id"/>. In 5.5 and later, MonoBehaviours are always
+            0x72, so <paramref name="scriptIndex"/> is used instead.
+            </summary>
+            <param name="id">The type ID to search for.</param>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>The type tree type index with this ID and script index, or -1 if not found.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.FindTypeTreeTypeByScriptIndex(System.UInt16)">
+            <summary>
+            Get the type tree type by script index. The script index of an asset can be
+            found from <see cref="M:AssetsTools.NET.AssetsFile.GetScriptIndex(AssetsTools.NET.AssetFileInfo)"/> or <see cref="P:AssetsTools.NET.AssetsFileMetadata.ScriptTypes"/>.
+            </summary>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>The type tree type with this script index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.FindTypeTreeTypeByName(System.String)">
+            <summary>
+            Get the type tree type by name.
+            </summary>
+            <param name="name">The type name to search for.</param>
+            <returns>The type tree type with this name.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetsFileMetadata.FindRefTypeByIndex(System.UInt16)">
+            <summary>
+            Get the type tree ref type by script index.
+            </summary>
+            <param name="scriptIndex">The script index to search for.</param>
+            <returns>The type tree ref type with this script index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeReference.ReadMetadata(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetTypeReference"/> with the provided reader, used in
+            reading <see cref="T:AssetsTools.NET.AssetsFileMetadata"/>.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeReference.ReadAsset(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetTypeReference"/> with the provided reader, used in
+            reading <see cref="T:AssetsTools.NET.AssetTypeReferencedObject"/>.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeReference.WriteMetadata(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetTypeReference"/> with the provided writer, used in
+            writing <see cref="T:AssetsTools.NET.AssetsFileMetadata"/>.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeReference.WriteAsset(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetTypeReference"/> with the provided writer, used in
+            writing <see cref="T:AssetsTools.NET.AssetTypeReferencedObject"/>.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.Version">
+            <summary>
+            Version of the node.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.Level">
+            <summary>
+            Level of the node (0 for root, 1 for child, etc.)
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.TypeFlags">
+            <summary>
+            Information about whether the node is an array, registry, etc.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.TypeStrOffset">
+            <summary>
+            Offset of the type string in the string table.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.NameStrOffset">
+            <summary>
+            Offset of the name string in the string table.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.ByteSize">
+            <summary>
+            Byte size of the field's type (for example, int is 4).
+            If the field isn't a value type, then this value is a sum of all children sizes.
+            If the size is variable, this is set to -1.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.Index">
+            <summary>
+            Index in the type tree. This should always be the same as the index in the array.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.MetaFlags">
+            <summary>
+            0x4000 if aligned.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeNode.RefTypeHash">
+            <summary>
+            Unknown.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.TypeTreeNode.Read(AssetsTools.NET.AssetsFileReader,System.UInt32)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.TypeTreeNode"/> with the provided reader and format version.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="version">The version of the file.</param>
+        </member>
+        <member name="M:AssetsTools.NET.TypeTreeNode.Write(AssetsTools.NET.AssetsFileWriter,System.UInt32)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.TypeTreeNode"/> with the provided writer and format version.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="version">The version of the file.</param>
+        </member>
+        <member name="M:AssetsTools.NET.TypeTreeNode.GetTypeString(System.String,System.String)">
+            <summary>
+            Get the type name from the string table (from <see cref="P:AssetsTools.NET.TypeTreeType.StringBuffer"/>).
+            </summary>
+            <param name="stringTable">The string table to use.</param>
+            <param name="commonStringTable">
+            The common string table to use, if the builtin one is outdated.
+            See <see cref="P:AssetsTools.NET.ClassDatabaseFile.CommonStringBufferIndices"/>.
+            </param>
+            <returns>The node type name.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.TypeTreeNode.GetNameString(System.String,System.String)">
+            <summary>
+            Get the name name from the string table (from <see cref="P:AssetsTools.NET.TypeTreeType.StringBuffer"/>).
+            </summary>
+            <param name="stringTable">The string table to use.</param>
+            <param name="commonStringTable">
+            The common string table to use, if the builtin one is outdated.
+            See <see cref="P:AssetsTools.NET.ClassDatabaseFile.CommonStringBufferIndices"/>.
+            </param>
+            <returns>The node name.</returns>
+        </member>
+        <member name="F:AssetsTools.NET.TypeTreeNodeFlags.Array">
+            <summary>
+            Type tree node is an array.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.TypeTreeNodeFlags.Ref">
+            <summary>
+            Type tree node is a ref type. For example, "managedRefArrayItem" would be an
+            array item that is a reference to an object in the registry.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.TypeTreeNodeFlags.Registry">
+            <summary>
+            Type tree node is a registry. Should just be "ManagedReferencesRegistry references".
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.TypeTreeNodeFlags.ArrayOfRefs">
+            <summary>
+            Type tree node is an array of ref types. This occurs if the SerializeReference was
+            added to a list or array instead of just a single field. This is not applied to the
+            Array child of the field, just the field itself.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.TypeId">
+            <summary>
+            ID for this type.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.IsStrippedType">
+            <summary>
+            Marks whether the type is stripped or not. Stripped types do not have any fields.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.ScriptTypeIndex">
+            <summary>
+            Script index for this type. Only used in MonoBehaviours, and MonoBehaviours of the same
+            script have the same index.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.ScriptIdHash">
+            <summary>
+            Hash of the script's fields. Two different scripts with the same fields can have the same hash.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.TypeHash">
+            <summary>
+            Hash of the type's fields.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.Nodes">
+            <summary>
+            Nodes for this type. This list will be empty if the type is stripped.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.StringBufferBytes">
+            <summary>
+            String table bytes for this type.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.IsRefType">
+            <summary>
+            Is the type a reference type?
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.TypeDependencies">
+            <summary>
+            Type dependencies for this type. Used by MonoBehaviours referencing ref types. Only used
+            when IsRefType is false.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.TypeTreeType.TypeReference">
+            <summary>
+            Type reference information. Only used when IsRefType is true.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.TypeTreeType.Read(AssetsTools.NET.AssetsFileReader,System.UInt32,System.Boolean,System.Boolean)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.TypeTreeType"/> with the provided reader and format version.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="version">The version of the file.</param>
+            <param name="hasTypeTree">Is type tree enabled for this file?</param>
+            <param name="isRefType">Is this type part of the ref type list?</param>
+        </member>
+        <member name="M:AssetsTools.NET.TypeTreeType.Write(AssetsTools.NET.AssetsFileWriter,System.UInt32,System.Boolean)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.TypeTreeType"/> with the provided writer and format version.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="version">The version of the file.</param>
+            <param name="hasTypeTree">Is type tree enabled for this file?</param>
+        </member>
+        <member name="F:AssetsTools.NET.TypeTreeType.COMMON_STRING_TABLE">
+            <summary>
+            The string table used for commonly occuring strings in type trees.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeTemplateField.Name">
+            <summary>
+            Name of the field.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeTemplateField.Type">
+            <summary>
+            Type name of the field.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeTemplateField.ValueType">
+            <summary>
+            Type of the field (as an enum).
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeTemplateField.IsArray">
+            <summary>
+            Is the field an array?
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeTemplateField.IsAligned">
+            <summary>
+            Is the field aligned? This aligns four bytes after all children have been read/written.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeTemplateField.HasValue">
+            <summary>
+            Does the field have value? (i.e. is the field a numeric / string / array type?)
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeTemplateField.Children">
+            <summary>
+            Children of the field.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeTemplateField.FromTypeTree(AssetsTools.NET.TypeTreeType)">
+            <summary>
+            Read the template field from a type tree type.
+            </summary>
+            <param name="typeTreeType">The type tree type to read from.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeTemplateField.FromClassDatabase(AssetsTools.NET.ClassDatabaseFile,AssetsTools.NET.ClassDatabaseType,System.Boolean)">
+            <summary>
+            Read the template field from a class database type.
+            </summary>
+            <param name="cldbFile">The class database file to read from.</param>
+            <param name="cldbType">The class database type to read.</param>
+            <param name="preferEditor">Read from the editor version of this type if available?</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeTemplateField.MakeValue(AssetsTools.NET.AssetsFileReader,AssetsTools.NET.RefTypeManager)">
+            <summary>
+            Deserialize an asset into a value field.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="refMan">The ref type manager to use, if reading a MonoBehaviour using a ref type.</param>
+            <returns>The deserialized base field.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeTemplateField.MakeValue(AssetsTools.NET.AssetsFileReader,System.Int64,AssetsTools.NET.RefTypeManager)">
+            <summary>
+            Deserialize an asset into a value field.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="position">The position to start reading from.</param>
+            <param name="refMan">The ref type manager to use, if reading a MonoBehaviour using a ref type.</param>
+            <returns>The deserialized value field.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeTemplateField.ReadType(AssetsTools.NET.AssetsFileReader,AssetsTools.NET.AssetTypeValueField,AssetsTools.NET.RefTypeManager)">
+            <summary>
+            Deserialize a single field and its children.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="valueField">The empty base value field to use.</param>
+            <param name="refMan">The ref type manager to use, if reading a MonoBehaviour using a ref type.</param>
+            <returns>The deserialized base field.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeTemplateField.Clone">
+            <summary>
+            Clone the field.
+            </summary>
+            <returns>The cloned field.</returns>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeValueField.TemplateField">
+            <summary>
+            Template field corresponding to this value field.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeValueField.Value">
+            <summary>
+            Value of this field.
+            </summary>
+        </member>
+        <member name="P:AssetsTools.NET.AssetTypeValueField.Children">
+            <summary>
+            Children of this field.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.AssetTypeValueField.DUMMY_FIELD">
+            <summary>
+            The field which indicates that a field that was accessed does not exist.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeValueField.Read(AssetsTools.NET.AssetTypeValue,AssetsTools.NET.AssetTypeTemplateField,System.Collections.Generic.List{AssetsTools.NET.AssetTypeValueField})">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.AssetTypeValueField"/> from a value, template field, and children.
+            </summary>
+            <param name="value">The value to use.</param>
+            <param name="templateField">The template field to use.</param>
+            <param name="children">The children to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeValueField.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetTypeValueField"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.AssetTypeValueField.WriteToByteArray(System.Boolean)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.AssetTypeValueField"/> with a new writer to a byte array.
+            </summary>
+            <param name="bigEndian">Write in big endian?</param>
+        </member>
+        <member name="M:AssetsTools.NET.RefTypeManager.Clear">
+            <summary>
+            Clear the ref type lookup dictionaries.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.RefTypeManager.FromTypeTree(AssetsTools.NET.AssetsFileMetadata)">
+            <summary>
+            Load the lookup from the type tree ref types of a serialized file.
+            </summary>
+            <param name="metadata">The metadata to load from.</param>
+        </member>
+        <member name="M:AssetsTools.NET.RefTypeManager.WithMonoTemplateGenerator(AssetsTools.NET.AssetsFileMetadata,AssetsTools.NET.Extra.IMonoBehaviourTemplateGenerator,System.Collections.Generic.Dictionary{AssetsTools.NET.AssetTypeReference,AssetsTools.NET.AssetTypeTemplateField})">
+            <summary>
+            Initialize a lookup for MonoBehaviours.
+            </summary>
+            <param name="metadata">The metadata to load from.</param>
+            <param name="monoTemplateGenerator">The mono template generator to use.</param>
+            <param name="monoTemplateFieldCache">The cache to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.RefTypeManager.GetTemplateField(AssetsTools.NET.AssetTypeReference)">
+            <summary>
+            Gets the template field from a reference.
+            </summary>
+            <param name="type">The type reference to use.</param>
+            <returns>A template field for this reference.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseFile.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassDatabaseFile"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseFile.Write(AssetsTools.NET.AssetsFileWriter,AssetsTools.NET.ClassFileCompressionType)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassDatabaseFile"/> with the provided writer and compression type.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="compressionType">The compression method to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseFile.FindAssetClassByID(System.Int32)">
+            <summary>
+            Find a class database type by type ID.
+            </summary>
+            <param name="id">The type's type ID to search for.</param>
+            <returns>The type of that type ID.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseFile.FindAssetClassByName(System.String)">
+            <summary>
+            Find a class database type by type name.
+            </summary>
+            <param name="name">The type's type name to search for.</param>
+            <returns>The type of that type name.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseFile.GetString(System.UInt16)">
+            <summary>
+            Get a string from the string table.
+            </summary>
+            <param name="index">The index of the string in the table.</param>
+            <returns>The string at that index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseFileHeader.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassDatabaseFileHeader"/> with the provided reader.
+            Note only new CLDB files are supported. Original UABE cldb files are no longer supported.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseFileHeader.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassDatabaseFileHeader"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseStringTable.GetString(System.UInt16)">
+            <summary>
+            Get a string from the string table.
+            </summary>
+            <param name="index">The index of the string in the table.</param>
+            <returns>The string at that index.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseType.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassDatabaseType"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseType.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassDatabaseType"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseType.GetPreferredNode(System.Boolean)">
+            <summary>
+            Get either the release root node or the editor root node. If only release
+            or only editor is available, that one will be selected regardless of
+            <paramref name="preferEditor"/>, otherwise it will select editor or release.
+            </summary>
+            <param name="preferEditor">Read from the editor version of this type if available?</param>
+            <returns>The class database type root node.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseTypeNode.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassDatabaseTypeNode"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassDatabaseTypeNode.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassDatabaseTypeNode"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.None">
+            <summary>
+            None of the flags apply to this class
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.IsAbstract">
+            <summary>
+            Is the class abstract?
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.IsSealed">
+            <summary>
+            Is the class sealed? Not necessarily accurate.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.IsEditorOnly">
+            <summary>
+            Does the class only appear in the editor?
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.IsReleaseOnly">
+            <summary>
+            Does the class only appear in game files? Not currently used.
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.IsStripped">
+            <summary>
+            Is the class stripped?
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.Reserved">
+            <summary>
+            Not currently used
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.HasEditorRootNode">
+            <summary>
+            Does the class have an editor root node?
+            </summary>
+        </member>
+        <member name="F:AssetsTools.NET.ClassFileTypeFlags.HasReleaseRootNode">
+            <summary>
+            Does the class have a release root node?
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageFile.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageFile"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageFile.Read(System.String)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageFile"/> at the given path.
+            </summary>
+            <param name="path">The path to read from.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageFile.Write(AssetsTools.NET.AssetsFileWriter,AssetsTools.NET.ClassFileCompressionType)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageFile"/> with the provided writer and compression type.
+            </summary>
+            <param name="writer">The writer to use.</param>
+            <param name="compressionType">The compression type to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageFile.Write(System.String,AssetsTools.NET.ClassFileCompressionType)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageFile"/> at the given path and compression type.
+            </summary>
+            <param name="path">The path to write to.</param>
+            <param name="compressionType">The compression type to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageFile.GetClassDatabase(System.String)">
+            <summary>
+            Make a class database for a version.
+            </summary>
+            <param name="version">The version to make the class database for.</param>
+            <returns>A class database for that version.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageFile.GetClassDatabase(AssetsTools.NET.Extra.UnityVersion)">
+            <summary>
+            Make a class database for a version.
+            </summary>
+            <param name="version">The version to make the class database for.</param>
+            <returns>A class database for that version.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageClassInfo.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageClassInfo"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageClassInfo.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageClassInfo"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageClassInfo.GetTypeForVersion(AssetsTools.NET.Extra.UnityVersion)">
+            <summary>
+            Get the latest version of a type before or at a version.
+            </summary>
+            <param name="version">The version to get the type for.</param>
+            <returns>The type at that version.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageCommonString.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageCommonString"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageCommonString.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageCommonString"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageCommonString.GetCommonStringLengthForVersion(AssetsTools.NET.Extra.UnityVersion)">
+            <summary>
+            Get the length of the common string for a version. <br/>
+            Since the common string is only appended in new versions, never edited, only the
+            length of the string for each version needs to be stored rather than the string
+            in its entirety.
+            </summary>
+            <param name="version"></param>
+            <returns>The length of the common string.</returns>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageHeader.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageHeader"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageHeader.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageHeader"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageType.Read(AssetsTools.NET.AssetsFileReader,System.Int32)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageType"/> with the provided reader and class ID.
+            </summary>
+            <param name="reader">The reader to use.</param>
+            <param name="classId">The class ID to assign.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageType.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageType"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageTypeNode.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageTypeNode"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageTypeNode.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageTypeNode"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageTypeTree.Read(AssetsTools.NET.AssetsFileReader)">
+            <summary>
+            Read the <see cref="T:AssetsTools.NET.ClassPackageTypeTree"/> with the provided reader.
+            </summary>
+            <param name="reader">The reader to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.ClassPackageTypeTree.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the <see cref="T:AssetsTools.NET.ClassPackageTypeTree"/> with the provided writer.
+            </summary>
+            <param name="writer">The writer to use.</param>
+        </member>
+        <member name="M:AssetsTools.NET.IContentReplacer.Write(AssetsTools.NET.AssetsFileWriter)">
+            <summary>
+            Write the content with provided writer.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.IContentReplacer.HasPreview">
+            <summary>
+            Does the content has a preview stream? This will be true if the data
+            is readily available (i.e. buffer or stream) and false if the data
+            isn't readily available because it needs to be calculated (assets).
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.IContentReplacer.GetPreviewStream">
+            <summary>
+            Returns the preview stream.
+            </summary>
+        </member>
+        <member name="M:AssetsTools.NET.IContentReplacer.GetReplacerType">
+            <summary>
+            The replacer type such as modified or removed.
+            </summary>
+        </member>
+        <member name="T:LZ4ps.LZ4Codec">
+            <summary>Safe LZ4 codec.</summary>
+        </member>
+        <member name="F:LZ4ps.LZ4Codec.MEMORY_USAGE">
+            <summary>
+            Memory usage formula : N->2^N Bytes (examples : 10 -> 1KB; 12 -> 4KB ; 16 -> 64KB; 20 -> 1MB; etc.)
+            Increasing memory usage improves compression ratio
+            Reduced memory usage can improve speed, due to cache effect
+            Default value is 14, for 16KB, which nicely fits into Intel x86 L1 cache
+            </summary>
+        </member>
+        <member name="F:LZ4ps.LZ4Codec.NOTCOMPRESSIBLE_DETECTIONLEVEL">
+            <summary>
+            Decreasing this value will make the algorithm skip faster data segments considered "incompressible"
+            This may decrease compression ratio dramatically, but will be faster on incompressible data
+            Increasing this value will make the algorithm search more before declaring a segment "incompressible"
+            This could improve compression a bit, but will be slower on incompressible data
+            The default value (6) is recommended
+            </summary>
+        </member>
+        <member name="F:LZ4ps.LZ4Codec.BLOCK_COPY_LIMIT">
+            <summary>Buffer length when Buffer.BlockCopy becomes faster than straight loop.
+            Please note that safe implementation REQUIRES it to be greater (not even equal) than 8.</summary>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.MaximumOutputLength(System.Int32)">
+            <summary>Gets maximum the length of the output.</summary>
+            <param name="inputLength">Length of the input.</param>
+            <returns>Maximum number of bytes needed for compressed buffer.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode32(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="output">The output.</param>
+            <param name="outputOffset">The output offset.</param>
+            <param name="outputLength">Length of the output.</param>
+            <returns>Number of bytes written.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode32(System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <returns>Compressed buffer.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode64(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="output">The output.</param>
+            <param name="outputOffset">The output offset.</param>
+            <param name="outputLength">Length of the output.</param>
+            <returns>Number of bytes written.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode64(System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <returns>Compressed buffer.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Decode32(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>Decodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="output">The output.</param>
+            <param name="outputOffset">The output offset.</param>
+            <param name="outputLength">Length of the output.</param>
+            <param name="knownOutputLength">Set it to <c>true</c> if output length is known.</param>
+            <returns>Number of bytes written.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Decode32(System.Byte[],System.Int32,System.Int32,System.Int32)">
+            <summary>Decodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="outputLength">Length of the output.</param>
+            <returns>Decompressed buffer.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Decode64(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32,System.Boolean)">
+            <summary>Decodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="output">The output.</param>
+            <param name="outputOffset">The output offset.</param>
+            <param name="outputLength">Length of the output.</param>
+            <param name="knownOutputLength">Set it to <c>true</c> if output length is known.</param>
+            <returns>Number of bytes written.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Decode64(System.Byte[],System.Int32,System.Int32,System.Int32)">
+            <summary>Decodes the specified input.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="outputLength">Length of the output.</param>
+            <returns>Decompressed buffer.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode32HC(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input using HC codec.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="output">The output.</param>
+            <param name="outputOffset">The output offset.</param>
+            <param name="outputLength">Length of the output.</param>
+            <returns>Number of bytes written. NOTE: when output buffer is too small it returns negative value.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode32HC(System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input using HC codec.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <returns>Buffer with compressed data (NOTE: it can be bigger than input).</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode64HC(System.Byte[],System.Int32,System.Int32,System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input using HC codec.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <param name="output">The output.</param>
+            <param name="outputOffset">The output offset.</param>
+            <param name="outputLength">Length of the output.</param>
+            <returns>Number of bytes written. NOTE: when output buffer is too small it returns negative value.</returns>
+        </member>
+        <member name="M:LZ4ps.LZ4Codec.Encode64HC(System.Byte[],System.Int32,System.Int32)">
+            <summary>Encodes the specified input using HC codec.</summary>
+            <param name="input">The input.</param>
+            <param name="inputOffset">The input offset.</param>
+            <param name="inputLength">Length of the input.</param>
+            <returns>Buffer with compressed data (NOTE: it can be bigger than input).</returns>
+        </member>
+        <member name="T:SevenZip.DataErrorException">
+            <summary>
+            The exception that is thrown when an error in input stream occurs during decoding.
+            </summary>
+        </member>
+        <member name="T:SevenZip.InvalidParamException">
+            <summary>
+            The exception that is thrown when the value of an argument is outside the allowable range.
+            </summary>
+        </member>
+        <member name="M:SevenZip.ICodeProgress.SetProgress(System.Int64,System.Int64)">
+            <summary>
+            Callback progress.
+            </summary>
+            <param name="inSize">
+            input size. -1 if unknown.
+            </param>
+            <param name="outSize">
+            output size. -1 if unknown.
+            </param>
+        </member>
+        <member name="M:SevenZip.ICoder.Code(System.IO.Stream,System.IO.Stream,System.Int64,System.Int64,SevenZip.ICodeProgress)">
+            <summary>
+            Codes streams.
+            </summary>
+            <param name="inStream">
+            input Stream.
+            </param>
+            <param name="outStream">
+            output Stream.
+            </param>
+            <param name="inSize">
+            input Size. -1 if unknown.
+            </param>
+            <param name="outSize">
+            output Size. -1 if unknown.
+            </param>
+            <param name="progress">
+            callback progress reference.
+            </param>
+            <exception cref="T:SevenZip.DataErrorException">
+            if input stream is not valid
+            </exception>
+        </member>
+        <member name="T:SevenZip.CoderPropID">
+            <summary>
+            Provides the fields that represent properties idenitifiers for compressing.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.DefaultProp">
+            <summary>
+            Specifies default property.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.DictionarySize">
+            <summary>
+            Specifies size of dictionary.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.UsedMemorySize">
+            <summary>
+            Specifies size of memory for PPM*.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.Order">
+            <summary>
+            Specifies order for PPM methods.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.BlockSize">
+            <summary>
+            Specifies Block Size.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.PosStateBits" -->
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.LitContextBits" -->
+        <!-- Badly formed XML comment ignored for member "F:SevenZip.CoderPropID.LitPosBits" -->
+        <member name="F:SevenZip.CoderPropID.NumFastBytes">
+            <summary>
+            Specifies number of fast bytes for LZ*.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.MatchFinder">
+            <summary>
+            Specifies match finder. LZMA: "BT2", "BT4" or "BT4B".
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.MatchFinderCycles">
+            <summary>
+            Specifies the number of match finder cyckes.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.NumPasses">
+            <summary>
+            Specifies number of passes.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.Algorithm">
+            <summary>
+            Specifies number of algorithm.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.NumThreads">
+            <summary>
+            Specifies the number of threads.
+            </summary>
+        </member>
+        <member name="F:SevenZip.CoderPropID.EndMarker">
+            <summary>
+            Specifies mode with end marker.
+            </summary>
+        </member>
+    </members>
+</doc>
