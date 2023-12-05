@@ -41,6 +41,9 @@
 性能优化
 - [性能优化总览](Design/PerfOptimization.md)
 - [性能评估标准](Design/PerfMeasure.md)
+- 技术沙龙
+  - [微信小游戏技术沙龙分享材料_2023](TechSalon/微信小游戏技术沙龙分享材料_2023.pdf)
+  
 - 启动性能
 
   - [提升 Unity WebGL 游戏启动速度](Design/StartupOptimization.md)
@@ -72,6 +75,8 @@
   - [优化Unity WebGL的渲染性能](Design/RenderOptimization.md)
   - [定制微信小游戏的 URP 管线](Design/CustomURP.md)
   - [WebGL2.0渲染支持说明](Design/WebGL2.md)
+
+
 
 版本更新与资源部署
 - [小游戏资源部署](Design/DataCDN.md)
