@@ -6,49 +6,74 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
-## 2023-11-28
-* FileSystem Stat支持isDirectory和isFile
-* 优化胶水层代码，删减多余代码
-* TouchMove触摸性能优化
-* 优化微信字体所占用的MonoHeap临时内存
-### Fixed
-* 修复IOS音频被打断无法重新播放
-* 修复2022导出Video的BUG
-  
-## 2023-11-10
+最新版本下载地址：
+
+[微信小游戏转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
+
+## 2023-12-08
+【重要更新】包含重要bugfix、特性支持
 ### Feature
-* 支持2022 Input Field组件适配微信输入法
-* PC端和开发者工具支持Unity VideoPlayer组件
-  
+* 重要：新增启动剧情能力(Beta)
+* 重要：新增TCP接口能力
+* 普通：更新适配插件版本到1.2.34
+### Fixed
+* 严重：修复TouchMove在<iOS 15.0系统BigUnit64Array兼容性问题
+* 严重：修复适配插件处理代码分包时序导致的一定概率启动失败
+
+## 2023-11-29
+【普通更新】
+### Fixed
+* 普通：修复TouchMove优化在2020之前版本产生的导出错误
+
+## 2023-11-28
+【重要更新】包含重要bugfix、特性支持
+### Feature
+* 普通：FileSystem Stat支持isDirectory和isFile
+* 普通：优化胶水层代码，删减多余代码
+* 重要：TouchMove触摸性能优化
+* 重要：优化微信字体所占用的MonoHeap临时内存
+### Fixed
+* 普通：修复IOS音频被打断无法重新播放
+* 普通：修复2022导出Video的BUG
+
+## 2023-11-10
+【普通更新】
+### Feature
+* 普通：支持2022 Input Field组件适配微信输入法
+* 普通：PC端和开发者工具支持Unity VideoPlayer组件
+
 ## 2023-11-02
+【普通更新】
 ### Fixed
 * 修复部分首资源包压缩异常问题
 
 ## 2023-10-20
+【普通更新】
 ### Feature
-* Unity2022 development build的导出支持
-* 更新小游戏云测试profile获取的性能数据
+* 重要：Unity2022 development build的导出支持
+* 普通：更新小游戏云测试profile获取的性能数据
 ### Fixed
-* 修复微信压缩纹理工具对音频ab包的处理bug问题
-* 修复微信压缩纹理工具在 MacOS M1系列芯片执行异常问题
+* 普通：修复微信压缩纹理工具对音频ab包的处理bug问题
+* 普通：修复微信压缩纹理工具在 MacOS M1系列芯片执行异常问题
 
-## 2023-10-11
+## 2023-10-11【普通更新】
 ### Feature
 * 适配Video Player, 安卓3.0.0基础库/IOS 3.1.1基础库且只支持播放一个视频
 
 ## 2023-9-26
+【重要更新】包含重要bugfix、特性支持
 ### Feature
 * 适配Application.targetFramerate，无需再调用小游戏的帧率设置API
 ### Fixed
-* 修复wasm分包patch未生效的问题
-* 修复WXAssetBundle在异常时上报错误
+* 重要：修复wasm分包patch未生效的问题
+* 重要：修复WXAssetBundle在异常时上报错误
 * 更新适配插件版本到1.2.31
-  
+
 ## 2023-09-20
 ### Feature
 * API协议更新至3.0.1版本，增加模糊地理位置获取接口
 * 更新适配插件版本到1.2.29
-  
+
 ## 2023-09-01
 ### Feature
 * 微信压缩纹理工具Unity全版本支持
@@ -56,7 +81,7 @@ Others - 其他
 * 修复WXAssetBundle WXUnload后再次Load同个AssetBundle可能出现的异常
 * 优化WXAssetBundle当UnityWebRequest异常时DownloadHandlerWXAssetBundle.assetBundle返回null，不再直接崩溃
 * 更新适配插件版本到1.2.26
-  
+
 ## 2023-08-24
 ### Feature
 * 适配AudioClip.GetData
@@ -64,23 +89,24 @@ Others - 其他
 ### Fixed 
 * 修复旧版本安卓使用系统字体报错'SC Font not found in TTC File'
 * 资源优化工具支持ASTC6*6格式
-  
+
 ## 2023-08-18
-* 增加downloadfile
-* 增加onMouseDown等PC点击事件
+### Feature
+* 增加downloadfile（优化构建，支持创建类时传入success等会回调）
 * 重构fs.readFile和fs.readFileSync，支持position和length参数
+* 增加onMouseDown等PC点击事件
 * 支持通过 `minigame/unity-namespace.js` 中函数 `isReportableHttpError` 忽略非重要网络异常上报，如心跳、数据分析接口
 ### Fixed 
 * 修复使用 `WXAssetBundle` 且请求了不同版本的资源时报错'readFileSync:fail no such file or directory'
 * pc下载资源出现'still downloading xxx'弹框时用户可尝试重启小游戏
 * 修复最佳实践检测工具首资源包是否压缩判断
-  
+
 ## 2023-08-10
 ### Feature
 * 增加隐私信息授权API（requirePrivacyAuthorize等）
 * 增加API-requestSubscribeLiveActivity
 * WXAssetBundle兼容WebGL浏览器环境(回退至UnityWebRequestAssetBundle模式运行)
-  
+ 
 ## 2023-08-3
 ### Feature
 更新内容：
@@ -95,7 +121,7 @@ Others - 其他
 * 忽略unity分析的网络失败上报
 * 修正网络个数和HTTP2.0检测
 * 修复wx.onCompassChange
-  
+
 ## 2023-07-27
 ### Feature
 * 转换插件添加启动并行下载配置
@@ -107,7 +133,7 @@ Others - 其他
 * 修复最佳实践检测工具首资源包brotli压缩后仍提示未gzip/br压缩
 * 修复AudioSource修改pitch失效
 * 修复PC端OnKeyDown回调报错
-  
+
 ## 2023-07-20
 ### Feature
 * 补充启动阶段关键日志
@@ -116,25 +142,26 @@ Others - 其他
 ### Fixed
 * 首资源包校验兼容微信纹理压缩工具
 * 移除不用的纹理下载API
-  
+
 ## 2023-07-12
 ### Feature
 * 增加选项Il2CppCodeGeneration，默认为Il2CppCodeGeneration.OptimizeSize
 * 启动期间校验首资源包大小
 * 更新适配插件1.2.18
-  
+
 ## 2023-07-05
 ### Feature
 * iOS高性能模式自动GC策略(默认10s GC)，可通过MiniGameConfig.asset-CompileOption-iOSAutoGCInterval调整间隔
 * 支持对首资源包进行brotli压缩
 ### Fixed
 * 性能面板数值显示优化
-  
+
 ## 2023-06-29
 ### Feature
 * 最佳实践预下载及网络下载检测项调整
 * 增加OpenCustomerServiceChat
 * 优化WXTouchInputOverride，在touchend时触发点击事件
+
 ### Fixed
 * 修复微信系统字体在iOS上部分字符缺失
 * 修复微信系统字体在安卓上字形异常
@@ -158,17 +185,16 @@ Others - 其他
 
 ## 2023-06-12
 ### Fixed
-* plugins目录增加link.xml, 避免动态创建SDK实例的类型被裁剪(如litjson解析)
+* plugins目录增加link.xml, 避免动态创建的类型被裁剪(如litjson解析)
 
 ## 2023-06-7
 ### Feature
 * UnityWebRequest支持timeout属性
 * 二次启动最佳实践检测逻辑调整
-* 适配插件升级为1.2.12
 ### Fixed
-* 修复Unity 2022引擎版本导出Web版本模板
+* 修复Unity 2022引擎版本导出Web版本的模板
 * dev版本不处理symbols数据
-* 修复微信系统字体换行显示问题
+* 修复微信系统字体多行重写的问题
 * 修复微信系统字体在iOS系统部分缺失符号
 
 ## 2023-06-1
@@ -184,7 +210,7 @@ Others - 其他
 * 修复Android首次退出小游戏后会继续播放的问题
 * DoExport增加返回值方便第三方工具集成
 * innerAudio onError增加回调信息
-
+ 
 ## 2023-05-24
 ### Feature
 * 更新适配插件1.2.5
@@ -212,6 +238,16 @@ Others - 其他
   openPageOption -> OpenPageOption
 ```
 
+## 2023-04-26
+### Changed
+* 更新启动插件1.1.19
+## 2023-03-31
+### Feature
+* 优化启动插件内存占用
+## 2023-02-22
+### Feature
+* 支持开通高性能模式的游戏禁止回退成普通模式运行，通过`disableHighPerformanceFallback`修改
+
 ## 2023-02-15
 ### Fixed
 * 微信压缩纹理工具修复自定义路径导出
@@ -225,7 +261,11 @@ Others - 其他
 * 微信压缩纹理工具对WebGL2.0 Gamma Linear模式兼容（Beta）
 ### Fixed
 * WebGL2.0模式下，修复Android的内存异常上涨
-* 
+
+## 2023-01-17
+### Fixed
+* iOS高性能模式下，touch identifier始终返回正整数
+
 ## 2023-01-17
 ### Feature
 * 适配Unity 2020版本导出的_JS_Sound_IsStopped
@@ -233,9 +273,10 @@ Others - 其他
 
 ### Fixed
 * WebGL2.0模式下，修复iOS普通模式的渲染异常
-* WebGL2.0模式下，修复iOS高性能模式在iOS16系统版本进程内存过大的问题
+* WebGL2.0模式下，修复iOS高性能模式进程内存过大的问题
 * 修复fmod相关的适配问题
 * 修复微信压缩纹理DXT占位符当初修复eslint引发的无法替换问题
+
 
 ## 2023-01-04
 ### Feature
@@ -244,18 +285,23 @@ Others - 其他
 * 增加`GetCachePath`接口
 * 提供插件缓存路径`PluginCachePath`
 * 性能面板增加ProfilingMemory Dump功能，使用请查阅：https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/UsingMemoryProfiler.md
+
 ### Fixed
 * 修复偶现读取空文件的bug
 
 ## 2022-12-28
 ### Feature
-* 增加ProfilingMemory功能
+* 增加ProfilingMemory功能，使用请阅读相关文档
 * C# SDK支持API chooseMedia
 * Snapshot支持，Unity 2021编译参数增加_emscripten_stack_get_base,_emscripten_stack_get_end
 * iOS高性能模式2.29.1支持BufferURL
 ### Fixed
 * InnerAudio播放音频中文文件名修复
 * 兼容iOS 8.0.31普通模式UnityAudio短音频适配问题
+
+## 2022-12-22
+### Fixed
+* 修复UnityPlugin v1.1.5导致特性开关和分包patch逻辑失效
 
 ## 2022-12-21
 ### Feature
@@ -292,17 +338,17 @@ Others - 其他
 
 ## 2022-11-9
 ### Feature
-*  Unity Audio压缩音频，支持小游戏InnerAudio
+*  Unity Audio压缩纹理，支持小游戏InnerAudio
 *  适配插件版本升级到1.1.2
 ### Fixed
 *  修复png资源Windows系统下缓存异常
 
 ## 2022-10-27
 ### Feature
-* 压缩纹理回退使用png时也支持缓存逻辑
+压缩纹理回退使用png时也支持缓存逻辑
 ### Fixed
-* 使用node命令时同时查找默认安装路径
-* 修复Win7下使用Unity2021生成symbols时导致的卡死问题
+使用node命令时同时查找默认安装路径
+修复Win7下使用Unity2021生成symbols时导致的卡死问题
 
 ## 2022-10-20
 ### Feature
