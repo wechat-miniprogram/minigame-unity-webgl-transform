@@ -42,7 +42,7 @@
 - [性能优化总览](Design/PerfOptimization.md)
 - [性能评估标准](Design/PerfMeasure.md)
 - 技术沙龙
-  - [微信小游戏技术沙龙分享材料_2023](TechSalon/微信小游戏技术沙龙分享材料_2023.pdf)
+  - [微信小游戏技术沙龙分享材料2023](https://docs.qq.com/pdf/DSW1scnFuaVlLb2xa?)
   
 - 启动性能
 
