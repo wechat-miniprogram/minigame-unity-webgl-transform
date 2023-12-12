@@ -8,6 +8,14 @@ Others - 其他
 -->
 最新版本下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
 
+## 2023-12-12
+【重要更新】包含重要bugfix、特性支持
+### Feature
+* 重要：优化TCP接口能力，使用请查阅[网络通信适配](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/UsingNetworking.md)
+* 重要：优化UDP接口能力
+* 普通：优化启动剧情能力(Beta)
+* 普通：增加接口WX.CanIUse
+
 ## 2023-12-08
 【重要更新】包含重要bugfix、特性支持
 ### Feature
