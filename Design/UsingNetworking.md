@@ -55,9 +55,89 @@ while(!www.isDone) {}
 
 ## TCP 网络通信
 
-如果游戏使用 TCP 进行网络通信，在 Unity WebGL 中开发者需要使用 Websocket 进行替代。
+如果游戏使用 TCP 进行网络通信，在 Unity WebGL 中开发者可以使用微信基础库中的TCPSocket（**需要微信基础库3.1.1**），也可以使用 Websocket 进行替代。
 
-### 客户端
+### TCPSocket
+
+注意：出于应用场景考虑，TCPSocket.OnMessage表现与文档不一致。
+
+```c#
+/// <summary>
+/// [TCPSocket.onMessage(function listener)](https://developers.weixin.qq.com/minigame/dev/api/network/tcp/TCPSocket.onMessage.html)
+/// 监听当接收到数据的时触发该事件
+/// needInfo: 是否需要返回localInfo和remoteInfo，设置为 false 时这两个字段会返回null，设置为 true 会降低性能，请按需使用
+/// 多次使用OnMessage时needInfo以第一个OnMessage为准，OffMessage()移除所有回调后再次OnMessage可重新设置needInfo
+/// </summary>
+public void OnMessage(Action<TCPSocketOnMessageListenerResult> listener, bool needInfo = false)
+```
+
+使用举例：
+
+```c#
+using System.Text;
+using UnityEngine;
+using WeChatWASM;
+using LitJson;
+
+public class TCPTest : MonoBehaviour
+{
+    void Start()
+    {
+      	// 初始化WXSDK
+         WX.InitSDK((int code) =>
+         {
+             Debug.Log("InitSDK code: " + code);
+             TestTCPSocket();
+         });
+    }
+
+    void TestTCPSocket()
+    {
+        Debug.Log("TestTCPSocket");
+        // 创建TCPSocket
+        WXTCPSocket tcp = WX.CreateTCPSocket();
+      	
+      	// 注册回调
+        tcp.OnConnect(res =>
+        {
+            Debug.Log("tcp 连接成功");
+          	//连接成功时发送数据
+            tcp.Write("TCP Write Test");
+        });
+        tcp.OnError(res =>
+        {
+            Debug.Log("tcp 连接失败" + JsonMapper.ToJson(res));
+            WX.ShowModal(new ShowModalOption()
+            {
+                content = res.errMsg
+            });
+        });
+        // 注意OnMessage参数与文档不同
+        tcp.OnMessage(res =>
+        {
+            Debug.Log("tcp 消息" + JsonMapper.ToJson(res));
+            WX.ShowModal(new ShowModalOption()
+            {
+                content = Encoding.UTF8.GetString(res.message)
+            });
+        }, true);
+				
+      	// 在给定的套接字上启动连接，请按需更改地址与端口
+        tcp.Connect(new TCPSocketConnectOption()
+        {
+            address = "www.example.com",
+            port = 8848
+        });
+    }
+}
+
+```
+
+
+
+### WebSocket
+
+#### 客户端
 
 支持 Unity Websocket 的第三方插件比较多，可以从 Github 或 AssetStore 找到。这里以[UnityWebSocket](https://github.com/psygames/UnityWebSocket)为例。
 
@@ -89,13 +169,80 @@ UnityWebSocket需要对WebSocket.jslib做两处修改([新版本](https://github
 
 可参考[WebSocket Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/UnityWebSocket_WebGL)
 
-### 服务端
+#### 服务端
 
 如果服务端使用 TCP 接入，则需要使用 WSS<-->TCP 的代理层。解决方案也很多：
 - 使用 Ngnix、 [websockify-js](https://github.com/novnc/websockify-js)/[websockify](https://github.com/novnc/websockify)做反向代理（推荐）
 - 改造原有TCP服务兼容wss服务
 
 ***特别地，在处理WebSocket数据包时，请注意数据的“粘包”问题，需要游戏服务器自行处理。***
+
+## UDP 网络通信
+
+微信基础库支持UDPSocket类。
+
+注意：出于应用场景考虑，TCPSocket.OnMessage表现与文档不一致。
+
+```c#
+/// <summary>
+/// [UDPSocket.onMessage(function listener)](https://developers.weixin.qq.com/minigame/dev/api/network/udp/UDPSocket.onMessage.html)
+/// 监听收到消息的事件
+/// needInfo: 是否需要返回localInfo和remoteInfo，设置为 false 时这两个字段会返回null，设置为 true 会降低性能，请按需使用
+/// 多次使用OnMessage时needInfo以第一个OnMessage为准，OffMessage()移除所有回调后再次OnMessage可重新设置needInfo
+/// </summary>
+public void OnMessage(Action<UDPSocketOnMessageListenerResult> listener, bool needInfo = false)
+```
+
+使用举例：
+
+```c#
+using System.Text;
+using UnityEngine;
+using WeChatWASM;
+using LitJson;
+
+public class UDPTest : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+         Debug.Log("Start");
+         WX.InitSDK((int code) =>
+         {
+             Debug.Log("InitSDK code: " + code);
+             TestUDPSocket();
+         });
+    }
+
+    void TestUDPSocket()
+    {
+        Debug.Log("TestUDPSocket");
+        // 创建UDPSocket
+        var udp = WX.CreateUDPSocket();
+				// 注册回调
+        udp.OnMessage(res => 
+        {
+            Debug.Log("udp 消息" + JsonMapper.ToJson(res));
+            WX.ShowModal(new ShowModalOption()
+            {
+                content = Encoding.UTF8.GetString(res.message)
+            });
+        });
+      	// 绑定端口
+        udp.Bind();
+        // 向指定的 IP 和 port 发送消息，请按需更改地址和端口
+        udp.Send(new UDPSocketSendOption()
+        {
+            address = "www.example.com",
+            port = 8848,
+            message = "UDP Send Test"
+        });
+    }
+}
+
+```
+
+
 
 
 ## 注意事项
