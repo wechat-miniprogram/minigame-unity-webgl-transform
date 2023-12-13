@@ -1180,6 +1180,20 @@ const isWK = false;
                 touchEvent.targetTouches = Array.prototype.slice.call(event.touches).map(v => formatTouchEvent(v));
                 touchEvent.changedTouches = event.changedTouches.map(v => formatTouchEvent(v));
                 touchEvent.timeStamp = event.timeStamp;
+                
+                // 如果是cancel，则先end所有touch
+                if(type==="touchcancel"){
+                    const evt = new TouchEvent("touchend");
+                    evt.touches = [];
+                    evt.targetTouches = [];
+                    evt.changedTouches = Array.prototype.concat(touchEvent.changedTouches,touchEvent.touches);
+                    evt.timeStamp = event.timeStamp;
+                    _document2.default.dispatchEvent(evt);
+
+                    touchEvent.touches = 
+                    touchEvent.targetTouches = 
+                    touchEvent.changedTouches = [];
+                }
                 _document2.default.dispatchEvent(touchEvent);
             };
         }
