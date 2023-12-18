@@ -7,7 +7,13 @@ Fixed - 修复问题
 Others - 其他 
 -->
 最新版本下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
-
+## 2023-12-18
+【重要更新】包含重要bugfix、特性支持
+### Feature
+* 普通：TouchStart/TouchEnd去json性能优化
+### Fixed
+* 重要：修复TCP接口arraybuffer处理
+  
 ## 2023-12-12
 【重要更新】包含重要bugfix、特性支持
 ### Feature
