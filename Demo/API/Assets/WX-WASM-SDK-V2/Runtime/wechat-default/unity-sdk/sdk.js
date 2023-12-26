@@ -1,6 +1,6 @@
 
 import moduleHelper from './module-helper';
-import { uid, formatResponse, formatJsonStr, formatTouchEvent, onEventCallback, offEventCallback, getListObject } from './utils';
+import { uid, formatResponse, formatJsonStr, onEventCallback, offEventCallback, getListObject } from './utils';
 let OnAccelerometerChangeList;
 let OnAudioInterruptionBeginList;
 let OnAudioInterruptionEndList;
@@ -31,11 +31,8 @@ let OnMouseMoveList;
 let OnMouseUpList;
 let OnNetworkStatusChangeList;
 let OnNetworkWeakChangeList;
+let OnScreenRecordingStateChangedList;
 let OnShowList;
-let OnTouchCancelList;
-let OnTouchEndList;
-let OnTouchMoveList;
-let OnTouchStartList;
 let OnUnhandledRejectionList;
 let OnUserCaptureScreenList;
 let OnVoIPChatInterruptedList;
@@ -954,30 +951,6 @@ export default {
             },
         });
     },
-    WX_GetLocation(conf, callbackId) {
-        const config = formatJsonStr(conf);
-        wx.getLocation({
-            ...config,
-            success(res) {
-                formatResponse('GetLocationSuccessCallbackResult', res);
-                moduleHelper.send('GetLocationCallback', JSON.stringify({
-                    callbackId, type: 'success', res: JSON.stringify(res),
-                }));
-            },
-            fail(res) {
-                formatResponse('GeneralCallbackResult', res);
-                moduleHelper.send('GetLocationCallback', JSON.stringify({
-                    callbackId, type: 'fail', res: JSON.stringify(res),
-                }));
-            },
-            complete(res) {
-                formatResponse('GeneralCallbackResult', res);
-                moduleHelper.send('GetLocationCallback', JSON.stringify({
-                    callbackId, type: 'complete', res: JSON.stringify(res),
-                }));
-            },
-        });
-    },
     WX_GetNetworkType(conf, callbackId) {
         const config = formatJsonStr(conf);
         wx.getNetworkType({
@@ -1045,6 +1018,30 @@ export default {
             complete(res) {
                 formatResponse('GeneralCallbackResult', res);
                 moduleHelper.send('GetScreenBrightnessCallback', JSON.stringify({
+                    callbackId, type: 'complete', res: JSON.stringify(res),
+                }));
+            },
+        });
+    },
+    WX_GetScreenRecordingState(conf, callbackId) {
+        const config = formatJsonStr(conf);
+        wx.getScreenRecordingState({
+            ...config,
+            success(res) {
+                formatResponse('GetScreenRecordingStateSuccessCallbackResult', res);
+                moduleHelper.send('GetScreenRecordingStateCallback', JSON.stringify({
+                    callbackId, type: 'success', res: JSON.stringify(res),
+                }));
+            },
+            fail(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('GetScreenRecordingStateCallback', JSON.stringify({
+                    callbackId, type: 'fail', res: JSON.stringify(res),
+                }));
+            },
+            complete(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('GetScreenRecordingStateCallback', JSON.stringify({
                     callbackId, type: 'complete', res: JSON.stringify(res),
                 }));
             },
@@ -2424,6 +2421,30 @@ export default {
             },
         });
     },
+    WX_SetVisualEffectOnCapture(conf, callbackId) {
+        const config = formatJsonStr(conf);
+        wx.setVisualEffectOnCapture({
+            ...config,
+            success(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('SetVisualEffectOnCaptureCallback', JSON.stringify({
+                    callbackId, type: 'success', res: JSON.stringify(res),
+                }));
+            },
+            fail(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('SetVisualEffectOnCaptureCallback', JSON.stringify({
+                    callbackId, type: 'fail', res: JSON.stringify(res),
+                }));
+            },
+            complete(res) {
+                formatResponse('GeneralCallbackResult', res);
+                moduleHelper.send('SetVisualEffectOnCaptureCallback', JSON.stringify({
+                    callbackId, type: 'complete', res: JSON.stringify(res),
+                }));
+            },
+        });
+    },
     WX_ShowActionSheet(conf, callbackId) {
         const config = formatJsonStr(conf);
         wx.showActionSheet({
@@ -3288,6 +3309,9 @@ export default {
             },
         });
     },
+    WX_ExitPointerLock() {
+        wx.exitPointerLock();
+    },
     WX_OperateGameRecorderVideo(option) {
         wx.operateGameRecorderVideo(formatJsonStr(option));
     },
@@ -3305,6 +3329,9 @@ export default {
     },
     WX_ReportUserBehaviorBranchAnalytics(option) {
         wx.reportUserBehaviorBranchAnalytics(formatJsonStr(option));
+    },
+    WX_RequestPointerLock() {
+        wx.requestPointerLock();
     },
     WX_ReserveChannelsLive(option) {
         wx.reserveChannelsLive(formatJsonStr(option));
@@ -3575,7 +3602,7 @@ export default {
             OnErrorList = [];
         }
         const callback = (res) => {
-            formatResponse('WxOnErrorCallbackResult', res);
+            formatResponse('Error', res);
             const resStr = JSON.stringify(res);
             moduleHelper.send('_OnErrorCallback', resStr);
         };
@@ -3848,6 +3875,23 @@ export default {
             wx.offNetworkWeakChange(v);
         });
     },
+    WX_OnScreenRecordingStateChanged() {
+        if (!OnScreenRecordingStateChangedList) {
+            OnScreenRecordingStateChangedList = [];
+        }
+        const callback = (res) => {
+            formatResponse('OnScreenRecordingStateChangedListenerResult', res);
+            const resStr = JSON.stringify(res);
+            moduleHelper.send('_OnScreenRecordingStateChangedCallback', resStr);
+        };
+        OnScreenRecordingStateChangedList.push(callback);
+        wx.onScreenRecordingStateChanged(callback);
+    },
+    WX_OffScreenRecordingStateChanged() {
+        (OnScreenRecordingStateChangedList || []).forEach((v) => {
+            wx.offScreenRecordingStateChanged(v);
+        });
+    },
     WX_OnShareMessageToFriend() {
         const callback = (res) => {
             formatResponse('OnShareMessageToFriendListenerResult', res);
@@ -3871,90 +3915,6 @@ export default {
     WX_OffShow() {
         (OnShowList || []).forEach((v) => {
             wx.offShow(v);
-        });
-    },
-    WX_OnTouchCancel() {
-        if (!OnTouchCancelList) {
-            OnTouchCancelList = [];
-        }
-        const callback = (res) => {
-            const touches = res.touches.map((v) => formatTouchEvent(v));
-            const resStr = JSON.stringify({
-                touches,
-                timeStamp: parseInt(res.timeStamp, 10),
-                changedTouches: res.changedTouches.map((v) => formatTouchEvent(v)),
-            });
-            moduleHelper.send('_OnTouchCancelCallback', resStr);
-        };
-        OnTouchCancelList.push(callback);
-        wx.onTouchCancel(callback);
-    },
-    WX_OffTouchCancel() {
-        (OnTouchCancelList || []).forEach((v) => {
-            wx.offTouchCancel(v);
-        });
-    },
-    WX_OnTouchEnd() {
-        if (!OnTouchEndList) {
-            OnTouchEndList = [];
-        }
-        const callback = (res) => {
-            const touches = res.touches.map((v) => formatTouchEvent(v));
-            const resStr = JSON.stringify({
-                touches,
-                timeStamp: parseInt(res.timeStamp, 10),
-                changedTouches: res.changedTouches.map((v) => formatTouchEvent(v)),
-            });
-            moduleHelper.send('_OnTouchEndCallback', resStr);
-        };
-        OnTouchEndList.push(callback);
-        wx.onTouchEnd(callback);
-    },
-    WX_OffTouchEnd() {
-        (OnTouchEndList || []).forEach((v) => {
-            wx.offTouchEnd(v);
-        });
-    },
-    WX_OnTouchMove() {
-        if (!OnTouchMoveList) {
-            OnTouchMoveList = [];
-        }
-        const callback = (res) => {
-            const touches = res.touches.map((v) => formatTouchEvent(v));
-            const resStr = JSON.stringify({
-                touches,
-                timeStamp: parseInt(res.timeStamp, 10),
-                changedTouches: res.changedTouches.map((v) => formatTouchEvent(v)),
-            });
-            moduleHelper.send('_OnTouchMoveCallback', resStr);
-        };
-        OnTouchMoveList.push(callback);
-        wx.onTouchMove(callback);
-    },
-    WX_OffTouchMove() {
-        (OnTouchMoveList || []).forEach((v) => {
-            wx.offTouchMove(v);
-        });
-    },
-    WX_OnTouchStart() {
-        if (!OnTouchStartList) {
-            OnTouchStartList = [];
-        }
-        const callback = (res) => {
-            const touches = res.touches.map((v) => formatTouchEvent(v));
-            const resStr = JSON.stringify({
-                touches,
-                timeStamp: parseInt(res.timeStamp, 10),
-                changedTouches: res.changedTouches.map((v) => formatTouchEvent(v)),
-            });
-            moduleHelper.send('_OnTouchStartCallback', resStr);
-        };
-        OnTouchStartList.push(callback);
-        wx.onTouchStart(callback);
-    },
-    WX_OffTouchStart() {
-        (OnTouchStartList || []).forEach((v) => {
-            wx.offTouchStart(v);
         });
     },
     WX_OnUnhandledRejection() {
@@ -4278,6 +4238,14 @@ export default {
         formatResponse('Path2D', res);
         return JSON.stringify(res);
     },
+    WX_IsPointerLocked() {
+        const res = wx.isPointerLocked();
+        return res;
+    },
+    WX_IsVKSupport(version) {
+        const res = wx.isVKSupport(formatJsonStr(version));
+        return res;
+    },
     WX_SetCursor(path, x, y) {
         const res = wx.setCursor(formatJsonStr(path), x, y);
         return res;
@@ -4402,7 +4370,18 @@ export default {
         if (!obj) {
             return;
         }
-        obj[key] = value;
+        if (/^\s*(\{.*\}|\[.*\])\s*$/.test(value)) {
+            try {
+                const jsonValue = JSON.parse(value);
+                Object.assign(obj[key], jsonValue);
+            }
+            catch (e) {
+                obj[key] = value;
+            }
+        }
+        else {
+            obj[key] = value;
+        }
     },
     WX_FeedbackButtonDestroy(id) {
         const obj = getFeedbackButtonObject(id);

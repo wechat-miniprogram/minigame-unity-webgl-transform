@@ -963,5 +963,27 @@ mergeInto(LibraryManager.library, {
     },
     WX_PrivacyAuthorizeResolve: function(option) {
         window.WXWASMSDK.WX_PrivacyAuthorizeResolve(_WXPointer_stringify_adaptor(option));
+    },
+    WXLaunchOperaBridge: function(req) {
+        var res = window.WXWASMSDK.WXLaunchOperaBridge(_WXPointer_stringify_adaptor(req));
+        if (res) {
+            var bufferSize = lengthBytesUTF8(res) + 1;
+            var buffer = _malloc(bufferSize);
+            stringToUTF8(res, buffer, bufferSize);
+            return buffer;
+        }
+    },
+    WX_OnTouchMove:function() {
+        window.WXWASMSDK.WX_OnTouchMove();
+    },
+    WX_OffTouchMove:function() {
+        window.WXWASMSDK.WX_OffTouchMove();
+    },
+    WXCanIUse: function(key) {
+        if (!key || !_WXPointer_stringify_adaptor(key)) {
+            return false;
+        }
+        const keyString = _WXPointer_stringify_adaptor(key);
+        return typeof wx[keyString[0].toLowerCase() + keyString.slice(1)] !== 'undefined';
     }
 });

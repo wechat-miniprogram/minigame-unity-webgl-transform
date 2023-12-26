@@ -1,5 +1,5 @@
 import { isAndroid, isPc, webAudioNeedResume, isSupportBufferURL, isSupportPlayBackRate, isSupportInnerAudio } from '../../check-version';
-import { WEBAudio, soundVolumeHandler } from './store';
+import { WEBAudio, unityAudioVolume } from './store';
 import { TEMP_DIR_PATH } from './const';
 import { createInnerAudio, destroyInnerAudio, printErrMsg, resumeWebAudio } from './utils';
 
@@ -165,6 +165,9 @@ export class AudioChannelInstance {
             if (typeof volume !== 'undefined') {
                 this.source.mediaElement.volume = volume;
             }
+            if (WEBAudio.isMute) {
+                this.source.mediaElement.volume = 0;
+            }
             this.source.mediaElement.onPlay(() => {
                 if (typeof this.source !== 'undefined') {
                     this.source.isPlaying = true;
@@ -256,7 +259,7 @@ export class AudioChannelInstance {
             printErrMsg(`playUrl error. Exception: ${e}`);
         }
     }
-    playBuffer(startTime, buffer, startOffset) {
+    playBuffer(startTime, buffer, startOffset, channel) {
         try {
             this.setup();
             if (!this.source) {
@@ -269,6 +272,19 @@ export class AudioChannelInstance {
                     GameGlobal.unityNamespace.Module.dynCall_vi(this.callback, [this.userData]);
                 }
             };
+            if (this.gain && channel) {
+                let volume;
+                if (WEBAudio.isMute) {
+                    unityAudioVolume.set(channel, this.gain.gain.value || 1);
+                    volume = 0;
+                }
+                else {
+                    volume = unityAudioVolume.get(channel);
+                }
+                if (this.gain.gain.value !== volume && typeof volume === 'number') {
+                    this.gain.gain.value = volume;
+                }
+            }
             this.source.start(startTime, startOffset);
             this.source.playbackStartTime = startTime - startOffset / this.source.playbackRateValue;
         }
@@ -387,13 +403,21 @@ export class AudioChannelInstance {
             getSource.setPitch(pausedSource.playbackRate);
         }
     }
-    setVolume(volume) {
+        setVolume(volume, isDefault) {
         if (!WEBAudio.audioContext) {
+            return;
+        }
+        if (WEBAudio.isMute) {
+            volume = 0;
+        }
+        
+        if (isDefault && volume == 1) {
             return;
         }
         if (this.source) {
             if (this.source.buffer && this.gain) {
-                this.gain.gain.setValueAtTime(volume, WEBAudio.audioContext.currentTime);
+                
+                this.gain.gain.value = volume;
             }
             else if (this.source.mediaElement) {
                 this.source.mediaElement.volume = volume;
@@ -884,7 +908,7 @@ export default {
         const channel = WEBAudio.audioInstances[channelInstance];
         if (soundClip && soundClip.url) {
             try {
-                channel.playUrl(delay, soundClip.url, offset, soundVolumeHandler[channelInstance], soundClip);
+                channel.playUrl(delay, soundClip.url, offset, unityAudioVolume.get(channel), soundClip);
             }
             catch (e) {
                 printErrMsg(`playUrl error. Exception: ${e}`);
@@ -892,7 +916,7 @@ export default {
         }
         else if (soundClip && soundClip.buffer) {
             try {
-                channel.playBuffer(WEBAudio.audioContext.currentTime + delay, soundClip.buffer, offset);
+                channel.playBuffer(WEBAudio.audioContext.currentTime + delay, soundClip.buffer, offset, channel);
             }
             catch (e) {
                 printErrMsg(`playBuffer error. Exception: ${e}`);
@@ -1060,17 +1084,13 @@ export default {
         }
         try {
             const volume = Number(v.toFixed(2));
-            const cur = soundVolumeHandler[channelInstance];
+            const channel = WEBAudio.audioInstances[channelInstance];
+            const cur = unityAudioVolume.get(channel);
             if (cur === volume) {
                 return;
             }
-            
-            if (cur == undefined && v == 1) {
-                return;
-            }
-            soundVolumeHandler[channelInstance] = volume;
-            const channel = WEBAudio.audioInstances[channelInstance];
-            channel.setVolume(volume);
+            unityAudioVolume.set(channel, volume);
+            channel.setVolume(volume, cur == undefined);
         }
         catch (e) {
             printErrMsg(`Invalid audio volume ${v} specified to WebAudio backend!`);

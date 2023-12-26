@@ -21,6 +21,15 @@ namespace WeChatWASM
                 return WXSDKManagerHandler.Env;
             }
         }
+
+        /// <summary>
+        /// 判断判断当前基础库是否支持某个WX API
+        /// 例如想要判断当前基础库WX.ReportScene是否可用，可以用WX.CanIUse("ReportScene")来判断
+        /// </summary>
+        public static bool CanIUse(string key)
+        {
+            return WXSDKManagerHandler.Instance.CanIUse(key);
+        }
 #endregion
 
 #region cloud
@@ -827,23 +836,6 @@ namespace WeChatWASM
         }
 #endregion
 
-#region UDP
-        public static int CreateUDPSocket(string ip, int remotePort, int bindPort = 0)
-        {
-            return WXSDKManagerHandler.Instance.CreateUDPSocket(ip, remotePort, bindPort);
-        }
-
-        public static void CloseUDPSocket(int socketId)
-        {
-            WXSDKManagerHandler.Instance.CloseUDPSocket(socketId);
-        }
-
-        public static void SendUDPSocket(int socketId, byte[] buffer, int offset, int length)
-        {
-            WXSDKManagerHandler.Instance.SendUDPSocket(socketId, buffer, offset, length);
-        }
-#endregion
-
 #region 插件配置
         public static void SetDataCDN(string path)
         {
@@ -914,6 +906,109 @@ namespace WeChatWASM
                 },
             });
         }
+
+#region 启动剧情交互相关
+        public static WXLaunchOpera GetLaunchOperaHandler()
+        {
+            return WXSDKManagerHandler.GetLaunchOperaHandler();
+        }
+#endregion
+
+#region Touch
+        /// <summary>
+        /// [wx.onTouchCancel(function listener)](https://developers.weixin.qq.com/minigame/dev/api/device/touch-event/wx.onTouchCancel.html)
+        /// 监听触点失效事件
+        /// **注意**
+        /// - 在 Windows/Mac 设备上，将会由鼠标事件转义而成。
+        /// </summary>
+        public static void OnTouchCancel(Action<OnTouchStartListenerResult> result)
+        {
+            WXSDKManagerHandler.Instance.OnTouchCancel(result);
+        }
+
+        public static void OffTouchCancel(Action<OnTouchStartListenerResult> result = null)
+        {
+            WXSDKManagerHandler.Instance.OffTouchCancel(result);
+        }
+
+        /// <summary>
+        /// [wx.onTouchEnd(function listener)](https://developers.weixin.qq.com/minigame/dev/api/device/touch-event/wx.onTouchEnd.html)
+        /// 监听触摸结束事件
+        /// **注意**
+        /// - 在 Windows/Mac 设备上，将会由鼠标事件转义而成。
+        /// </summary>
+        public static void OnTouchEnd(Action<OnTouchStartListenerResult> result)
+        {
+            WXSDKManagerHandler.Instance.OnTouchEnd(result);
+        }
+
+        public static void OffTouchEnd(Action<OnTouchStartListenerResult> result = null)
+        {
+            WXSDKManagerHandler.Instance.OffTouchEnd(result);
+        }
+
+        /// <summary>
+        /// [wx.onTouchMove(function listener)](https://developers.weixin.qq.com/minigame/dev/api/device/touch-event/wx.onTouchMove.html)
+        /// 监听触点移动事件
+        /// **注意**
+        /// - 在 Windows/Mac 设备上，将会由鼠标事件转义而成。
+        /// - 在 Windows/Mac 设备上并处于鼠标锁定状态时，touchMove 事件将会随着鼠标滑动持续触发。
+        /// </summary>
+        public static void OnTouchMove(Action<OnTouchStartListenerResult> result)
+        {
+            WXSDKManagerHandler.Instance.OnTouchMove(result);
+        }
+
+        public static void OffTouchMove(Action<OnTouchStartListenerResult> result = null)
+        {
+            WXSDKManagerHandler.Instance.OffTouchMove(result);
+        }
+
+        /// <summary>
+        /// [wx.onTouchStart(function listener)](https://developers.weixin.qq.com/minigame/dev/api/device/touch-event/wx.onTouchStart.html)
+        /// 监听开始触摸事件
+        /// **注意**
+        /// - 在 Windows/Mac 设备上，将会由鼠标事件转义而成。
+        /// </summary>
+        public static void OnTouchStart(Action<OnTouchStartListenerResult> result)
+        {
+            WXSDKManagerHandler.Instance.OnTouchStart(result);
+        }
+
+        public static void OffTouchStart(Action<OnTouchStartListenerResult> result = null)
+        {
+            WXSDKManagerHandler.Instance.OffTouchStart(result);
+        }
+#endregion
+#region TCPSocket
+        /// <summary>
+        /// [[TCPSocket](https://developers.weixin.qq.com/minigame/dev/api/network/tcp/TCPSocket.html) wx.createTCPSocket()](https://developers.weixin.qq.com/minigame/dev/api/network/tcp/wx.createTCPSocket.html)
+        /// 需要基础库： `3.1.1`
+        /// 创建一个 TCP Socket 实例。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。
+        /// **连接限制**
+        /// - 允许与局域网内的非本机 IP 通信
+        /// - 允许与配置过的服务器域名通信，详见[相关说明](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)
+        /// - 禁止与以下端口号连接：`1024 以下` `1099` `1433` `1521` `1719` `1720` `1723` `2049` `2375` `3128` `3306` `3389` `3659` `4045` `5060` `5061` `5432` `5984` `6379` `6000` `6566` `7001` `7002` `8000-8100` `8443` `8888` `9200` `9300` `10051` `10080` `11211` `27017` `27018` `27019`
+        /// - 每 5 分钟内最多创建 20 个 TCPSocket
+        /// </summary>
+        /// <returns></returns>
+        public static WXTCPSocket CreateTCPSocket()
+        {
+            return WXSDKManagerHandler.Instance.CreateTCPSocket();
+        }
+#endregion
+#region UDPSocket
+        /// <summary>
+        /// [[UDPSocket](https://developers.weixin.qq.com/minigame/dev/api/network/udp/UDPSocket.html) wx.createUDPSocket()](https://developers.weixin.qq.com/minigame/dev/api/network/udp/wx.createUDPSocket.html)
+        /// 需要基础库： `2.7.0`
+        /// 创建一个 UDP Socket 实例。使用前请注意阅读[相关说明](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/network.html)。
+        /// </summary>
+        /// <returns></returns>
+        public static WXUDPSocket CreateUDPSocket()
+        {
+            return WXSDKManagerHandler.Instance.CreateUDPSocket();
+        }
+#endregion
     }
 }
 #endif

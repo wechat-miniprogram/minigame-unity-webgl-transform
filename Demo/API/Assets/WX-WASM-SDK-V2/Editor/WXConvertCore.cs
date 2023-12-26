@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using LitJson;
 using UnityEditor.Build;
+using System.Linq;
 
 namespace WeChatWASM
 {
@@ -155,6 +156,54 @@ namespace WeChatWASM
             }
         }
 
+        /// <summary>
+        /// 移除输入js代码字符串中所有以prefix为前缀的函数的函数体，function与函数名之间仅允许有一个空格
+        /// </summary>
+        /// <param name="input">输入字符串</param>
+        /// <param name="prefix">函数前缀</param>
+        /// <returns>处理后的字符串</returns>
+        public static string RemoveFunctionsWithPrefix(string input, string prefix)
+        {
+            StringBuilder output = new StringBuilder();
+
+            int braceCount = 0;
+            int lastIndex = 0;
+            int index = input.IndexOf("function " + prefix);
+
+            while (index != -1)
+            {
+                output.Append(input, lastIndex, index - lastIndex);
+                lastIndex = index;
+
+                while (input[lastIndex] != '{')
+                {
+                    lastIndex++;
+                }
+
+                braceCount = 1;
+                ++lastIndex;
+
+                while (braceCount > 0)
+                {
+                    if (input[lastIndex] == '{')
+                    {
+                        ++braceCount;
+                    }
+                    else if (input[lastIndex] == '}')
+                    {
+                        --braceCount;
+                    }
+                    ++lastIndex;
+                }
+
+                index = input.IndexOf("function " + prefix, lastIndex);
+            }
+
+            output.Append(input, lastIndex, input.Length - lastIndex);
+
+            return output.ToString();
+        }
+
         private static void ConvertCode()
         {
             UnityEngine.Debug.LogFormat("[Converter] Starting to adapt framewor. Dst: " + config.ProjectConf.DST);
@@ -175,7 +224,19 @@ namespace WeChatWASM
                 var rule = ReplaceRules.rules[i];
                 text = Regex.Replace(text, rule.old, rule.newStr);
             }
-
+            string[] prefixs =
+            {
+                "_JS_Video_",
+                //"jsVideo",
+                "_JS_Sound_",
+                "jsAudio",
+                "_JS_MobileKeyboard_",
+                "_JS_MobileKeybard_"
+            };
+            foreach (var prefix in prefixs)
+            {
+                text = RemoveFunctionsWithPrefix(text, prefix);
+            }
             if (PlayerSettings.WebGL.exceptionSupport == WebGLExceptionSupport.None)
             {
                 Rule[] rules =
@@ -184,7 +245,8 @@ namespace WeChatWASM
                     {
                         old = "console.log\\(\"Exception at",
                         newStr = "if(Module.IsWxGame);console.log(\"Exception at",
-                    },                    new Rule()
+                    },
+                    new Rule()
                     {
                         old = "throw ptr",
                         newStr = "if(Module.IsWxGame)window.WXWASMSDK.WXUncaughtException(true);else throw ptr",
@@ -273,6 +335,11 @@ namespace WeChatWASM
             {
                 PlayerSettings.WebGL.emscriptenArgs += " --profiling-funcs ";
             }
+
+            string original_EXPORTED_RUNTIME_METHODS = "\"ccall\",\"cwrap\",\"stackTrace\",\"addRunDependency\",\"removeRunDependency\",\"FS_createPath\",\"FS_createDataFile\",\"stackTrace\",\"writeStackCookie\",\"checkStackCookie\"";
+            // 添加额外的EXPORTED_RUNTIME_METHODS
+            string additional_EXPORTED_RUNTIME_METHODS = ",\"lengthBytesUTF8\",\"stringToUTF8\"";
+            PlayerSettings.WebGL.emscriptenArgs += " -s EXPORTED_RUNTIME_METHODS='[" + original_EXPORTED_RUNTIME_METHODS + additional_EXPORTED_RUNTIME_METHODS + "]'";
 
 #if UNITY_2021_2_OR_NEWER
 #if UNITY_2022_1_OR_NEWER

@@ -17,7 +17,8 @@ export const WEBAudio = {
     audio3DSupport: 0,
     audioWebSupport: 0,
     bufferSourceNodeLength: 0,
-    audioBufferLength: 0, 
+    audioBufferLength: 0,
+    isMute: false, 
 };
 
 export const audios = {};
@@ -26,4 +27,6 @@ export const localAudioMap = {};
 
 export const downloadingAudioMap = {};
 
-export const soundVolumeHandler = {};
+export const unityAudioVolume = new WeakMap();
+
+export const innerAudioVolume = new WeakMap();

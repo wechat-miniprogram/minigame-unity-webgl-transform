@@ -1,40 +1,41 @@
-
+// @ts-nocheck
 import { formatIdentifier } from './unity-sdk/utils';
+/* eslint-disable */
 const isWK = false;
-
-
-
-
-
- (function (modules) {
-     
-     const installedModules = {};
-     
-     function __webpack_require__(moduleId) {
-         
-         if (installedModules[moduleId])
-             return installedModules[moduleId].exports;
-         
-         const module = installedModules[moduleId] = {
-             exports: {},
-             id: moduleId,
-             loaded: false,
-             
+// try{
+//     isWK = wx.getSystemInfoSync().renderer == 'h5';
+// }catch(e){
+//     isWK = typeof(window)!='undefined' && window.XMLHttpRequest;
+// }
+/** ****/ (function (modules) {
+    /** ****/ // The module cache
+    /** ****/ const installedModules = {};
+    /** ****/ // The require function
+    /** ****/ function __webpack_require__(moduleId) {
+        /** ****/ // Check if module is in cache
+        /** ****/ if (installedModules[moduleId])
+            /** ****/ return installedModules[moduleId].exports;
+        /** ****/ // Create a new module (and put it into the cache)
+        /** ****/ const module = installedModules[moduleId] = {
+            /** ****/ exports: {},
+            /** ****/ id: moduleId,
+            /** ****/ loaded: false,
+            /** ****/ 
         };
-         
-         modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-         
-         module.loaded = true;
-         
-         return module.exports;
-         
+        /** ****/ // Execute the module function
+        /** ****/ modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+        /** ****/ // Flag the module as loaded
+        /** ****/ module.loaded = true;
+        /** ****/ // Return the exports of the module
+        /** ****/ return module.exports;
+        /** ****/ 
     }
-     
-     __webpack_require__.m = modules;
-     
-     __webpack_require__.c = installedModules;
-     
-     __webpack_require__.p = '';
+    /** ****/ // expose the modules object (__webpack_modules__)
+    /** ****/ __webpack_require__.m = modules;
+    /** ****/ // expose the module cache
+    /** ****/ __webpack_require__.c = installedModules;
+    /** ****/ // __webpack_public_path__
+    /** ****/ __webpack_require__.p = '';
     /** ****/ // Load entry module and return exports
     /** ****/ return __webpack_require__(0);
     /** ****/ 
@@ -77,7 +78,7 @@ const isWK = false;
             }
             const _wx$getSystemInfoSync = wx.getSystemInfoSync();
             const { platform } = _wx$getSystemInfoSync;
-            
+            // 开发者工具无法重定义 window
             if (platform === 'devtools') {
                 for (const key in _window) {
                     const descriptor = Object.getOwnPropertyDescriptor(global, key);
@@ -110,14 +111,15 @@ const isWK = false;
             GameGlobal.__isAdapterInjected = true;
             inject();
         }
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 1 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
         });
-        exports.cancelAnimationFrame = exports.requestAnimationFrame = exports.clearInterval = exports.clearTimeout = exports.setInterval = exports.setTimeout = exports.canvas = exports.location = exports.localStorage = exports.HTMLElement = exports.FileReader = exports.Audio = exports.Image = exports.WebSocket =  exports.navigator = exports.document = undefined;
+        exports.cancelAnimationFrame = exports.requestAnimationFrame = exports.clearInterval = exports.clearTimeout = exports.setInterval = exports.setTimeout = exports.canvas = exports.location = exports.localStorage = exports.HTMLElement = exports.FileReader = exports.Audio = exports.Image = exports.WebSocket = /* exports.XMLHttpRequest =*/ exports.navigator = exports.document = undefined;
         if (!isWK) {
             exports.XMLHttpRequest = undefined;
         }
@@ -173,7 +175,7 @@ const isWK = false;
         if (!isWK) {
             exports.XMLHttpRequest = _XMLHttpRequest3.default;
         }
-        
+        // exports.XMLHttpRequest = _XMLHttpRequest3.default;
         exports.WebSocket = _WebSocket3.default;
         exports.Image = _Image3.default;
         exports.Audio = _Audio3.default;
@@ -181,7 +183,7 @@ const isWK = false;
         exports.HTMLElement = _HTMLElement3.default;
         exports.localStorage = _localStorage3.default;
         exports.location = _location3.default;
-        
+        // 模拟web中的CustomEvent接口
         function CustomEvent(event, params) {
             params = params || {
                 bubbles: false,
@@ -198,7 +200,7 @@ const isWK = false;
         }
         ;
         exports.CustomEvent = CustomEvent;
-        
+        // 暴露全局的 canvas
         const canvas = new _Canvas2.default();
         exports.canvas = canvas;
         exports.setTimeout = setTimeout;
@@ -207,9 +209,10 @@ const isWK = false;
         exports.clearInterval = clearInterval;
         exports.requestAnimationFrame = requestAnimationFrame;
         exports.cancelAnimationFrame = cancelAnimationFrame;
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 2 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -235,9 +238,10 @@ const isWK = false;
         const ontouchmove = exports.ontouchmove = null;
         const ontouchend = exports.ontouchend = null;
         exports.performance = _performance3.default;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 3 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -251,9 +255,10 @@ const isWK = false;
         });
         performance = clientPerfAdapter;
         exports.default = performance;
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 4 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -299,9 +304,10 @@ const isWK = false;
             }
             return HTMLCanvasElement;
         }(_HTMLElement4.default));
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 5 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -407,9 +413,10 @@ const isWK = false;
             return HTMLElement;
         }(_Element3.default));
         exports.default = HTMLElement;
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 6 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -539,9 +546,10 @@ const isWK = false;
             return Node;
         }(_EventTarget3.default));
         exports.default = Node;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 8 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -627,18 +635,20 @@ const isWK = false;
             return EventTarget;
         }());
         exports.default = EventTarget;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 9 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
         });
         exports.noop = noop;
         function noop() { }
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 10 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -671,9 +681,10 @@ const isWK = false;
             };
             return canvas;
         }
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 11 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -815,9 +826,10 @@ const isWK = false;
             },
         };
         exports.default = document;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 12 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -827,9 +839,10 @@ const isWK = false;
             const image = wx.createImage();
             return image;
         }
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 13 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1004,9 +1017,10 @@ const isWK = false;
             return Audio;
         }(_HTMLAudioElement3.default));
         exports.default = Audio;
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 14 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1044,9 +1058,10 @@ const isWK = false;
             return HTMLAudioElement;
         }(_HTMLMediaElement3.default));
         exports.default = HTMLAudioElement;
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 15 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1122,14 +1137,16 @@ const isWK = false;
             return HTMLMediaElement;
         }(_HTMLElement3.default));
         exports.default = HTMLMediaElement;
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 16 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         __webpack_require__(17);
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 17 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         const _window = __webpack_require__(1);
         const window = _interopRequireWildcard(_window);
@@ -1187,15 +1204,16 @@ const isWK = false;
         wx.onTouchMove(touchEventHandlerFactory('touchmove'));
         wx.onTouchEnd(touchEventHandlerFactory('touchend'));
         wx.onTouchCancel(touchEventHandlerFactory('touchcancel'));
-         
+        /***/ 
     }),
-         (function (module, exports, __webpack_require__) {
+    /* 18 */
+    /***/ (function (module, exports, __webpack_require__) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
         });
         const _util = __webpack_require__(9);
-        
+        // TODO 需要 wx.getSystemInfo 获取更详细信息
         const _wx$getSystemInfoSync = wx.getSystemInfoSync();
         const { platform } = _wx$getSystemInfoSync;
         const navigator = {
@@ -1204,7 +1222,7 @@ const isWK = false;
             appVersion: '5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
             userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Mobile/14E8301 MicroMessenger/6.6.0 MiniGame NetType/WIFI Language/zh_CN',
             onLine: true,
-            
+            // TODO 用 wx.getLocation 来封装 geolocation
             geolocation: {
                 getCurrentPosition: _util.noop,
                 watchPosition: _util.noop,
@@ -1212,9 +1230,10 @@ const isWK = false;
             },
         };
         exports.default = navigator;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 19 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1261,7 +1280,7 @@ const isWK = false;
             _triggerEvent.call(this, 'readystatechange');
         }
         const XMLHttpRequest = (function () {
-            
+            // TODO 没法模拟 HEADERS_RECEIVED 和 LOADING 两个状态
             function XMLHttpRequest() {
                 _classCallCheck(this, XMLHttpRequest);
                 this.onabort = null;
@@ -1287,7 +1306,10 @@ const isWK = false;
                 });
                 _responseHeader.set(this, {});
             }
-                        _createClass(XMLHttpRequest, [{
+            /*
+                   * TODO 这一批事件应该是在 XMLHttpRequestEventTarget.prototype 上面的
+                   */
+            _createClass(XMLHttpRequest, [{
                     key: 'abort',
                     value: function abort() {
                         const myRequestTask = _requestTask.get(this);
@@ -1309,7 +1331,7 @@ const isWK = false;
                     },
                 }, {
                     key: 'open',
-                    value: function open(method, url ) {
+                    value: function open(method, url /* async, user, password 这几个参数在小程序内不支持*/) {
                         _method.set(this, method);
                         _url.set(this, url);
                         _changeReadyState.call(this, XMLHttpRequest.OPENED);
@@ -1378,7 +1400,7 @@ const isWK = false;
                                 },
                                 fail: function fail(_ref2) {
                                     const { errMsg } = _ref2;
-                                    
+                                    // TODO 规范错误
                                     if (errMsg.indexOf('abort') !== -1) {
                                         _triggerEvent.call(_this, 'abort');
                                     }
@@ -1408,9 +1430,10 @@ const isWK = false;
         if (!isWK) {
             exports.default = XMLHttpRequest;
         }
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 20 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1441,9 +1464,9 @@ const isWK = false;
         }
         const _socketTask = new WeakMap();
         const WebSocket = (function () {
-            
-            
-            
+            // TODO 更新 binaryType
+            // The connection is in the process of closing.
+            // The connection is not yet open.
             function WebSocket(url) {
                 const _this = this;
                 const protocols = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
@@ -1490,10 +1513,10 @@ const isWK = false;
                     }
                 });
                 return this;
-            } 
-            
-            
-            
+            } // TODO 小程序内目前获取不到，实际上需要根据服务器选择的 sub-protocol 返回
+            // TODO 更新 bufferedAmount
+            // The connection is closed or couldn't be opened.
+            // The connection is open and ready to communicate.
             _createClass(WebSocket, [{
                     key: 'close',
                     value: function close(code, reason) {
@@ -1523,9 +1546,10 @@ const isWK = false;
         WebSocket.CLOSING = 2;
         WebSocket.CLOSED = 3;
         exports.default = WebSocket;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 21 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1554,7 +1578,10 @@ const isWK = false;
                 throw new TypeError('Cannot call a class as a function');
             }
         }
-                const FileReader = (function () {
+        /*
+             * TODO 使用 wx.readFile 来封装 FileReader
+             */
+        const FileReader = (function () {
             function FileReader() {
                 _classCallCheck(this, FileReader);
             }
@@ -1565,9 +1592,10 @@ const isWK = false;
             return FileReader;
         }());
         exports.default = FileReader;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 22 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1597,9 +1625,10 @@ const isWK = false;
             },
         };
         exports.default = localStorage;
-         
+        /***/ 
     }),
-         (function (module, exports) {
+    /* 23 */
+    /***/ (function (module, exports) {
         'use strict';
         Object.defineProperty(exports, '__esModule', {
             value: true,
@@ -1609,7 +1638,7 @@ const isWK = false;
             reload: function reload() { },
         };
         exports.default = location;
-         
+        /***/ 
     }),
-     
+    /** ****/ 
 ]));
