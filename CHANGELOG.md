@@ -7,6 +7,17 @@ Fixed - 修复问题
 Others - 其他 
 -->
 最新版本下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
+## 2024-1-2
+【重要更新】包含重要bugfix、特性支持
+### Feature
+* 普通：陀螺仪去json性能优化
+* 普通：启动剧情新增Hash 、版本号兼容验证逻辑
+* 普通：转换配置新增iOS dpr选项
+* 普通：C# SDK支持文档注释
+### Fixed
+* 重要：修复Android系统代码分包Patch功能不生效的问题(需同时升级分包工具插件至1.1.12)
+* 普通：修复压缩纹理工具在一些特殊字符转义失败的bug
+
 ## 2023-12-18
 【重要更新】包含重要bugfix、特性支持
 ### Feature
