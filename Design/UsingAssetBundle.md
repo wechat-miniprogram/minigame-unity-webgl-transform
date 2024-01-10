@@ -99,7 +99,9 @@ public static void Build()
 
 - 使用说明
 
-  AssetBundle目前只支持异步加载，支持两种加载方式。参考示例如下：
+  Addressable也可使用，可参考[使用WXAssetBundleProvider节省内存](UsingAddressable.md#24-使用wxassetbundleprovider节省内存) 修改Provider。
+
+  AssetBundle目前只支持异步加载。参考示例如下：
 
   ```C#
   // 【推荐】原本使用WebRequest的话可按如下修改

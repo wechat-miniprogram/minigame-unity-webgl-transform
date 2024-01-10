@@ -34,6 +34,18 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 ### 2.3 在小游戏中使用Addressable Assets System
 无论是Addressable还是AssetBundle在微信小游戏底层都使用XHR进行远程资源访问，并使用微信小游戏文件存储系统进行缓存。对于已有的游戏资源，如果我们需要尽量少的工作量去做到像H5游戏按需加载，使用Addressable是最佳做法。
 
+### 2.4 使用WXAssetBundleProvider节省内存
+
+[WXAssetBundle](UsingAssetBundle.md#三更节省内存的wxassetbundle)可以减轻iOS的内存压力，对于使用Addressable的项目，需要替换Provider来使用WXAssetBundle。
+
+1. 下载[WXAssetBundleProvider.cs](../tools/WXAssetBundleProvider.cs)，放到WX-WASM-SDK-V2/Runtime/目录下
+2. 导入插件后会有WXAssetBundleProvider.cs缺依赖的报错，需要给WX-WASM-SDK-V2/Runtime 增加 Unity.ResourceManager 的引用
+<img src='../image/wxassetbundleprovider1.png' width="600"/>
+
+3. 进入AA的组设置修改Provider如下
+<img src='../image/wxassetbundleprovider2.png' width="600"/>
+
+4. 重新导出 AA包 和 小游戏
 
 ## 三、启动优化与资源优化实战
 ### 3.1 从首包开始
