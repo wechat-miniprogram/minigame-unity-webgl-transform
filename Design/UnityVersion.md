@@ -13,9 +13,9 @@
 | 2019 | 仅DXT,不支持ETC2/ASTC | 100% | 2019.4.28~2019.4.35 | --- |
 | 2019 InstantGame| 全支持DXT/ETC2/ASTC | 100% | 2019.4.29 | 增加WebGL移动端压缩纹理的支持 |
 | 2020 | DXT/ETC2,不支持ASTC | 100% | 2020.3.1~2020.3.36 | --- |
-| 2021 | 全支持DXT/ETC2/ASTC | 80% | 2021.2.11~2021.2.18 | --- |
+| 2021 | 全支持DXT/ETC2/ASTC | 80% | 2021.2.11~2021.3.33 | --- |
 | 2021 InstantGame | 全支持DXT/ETC2/ASTC | 80% | 2021.2.5 | 增强运行时性能、UnityProfiler以及更小的包体 |
-| 2022 | 全支持DXT/ETC2/ASTC | 80% | 2022.3.0| --- |
+| 2022 | 全支持DXT/ETC2/ASTC | 80% | 2022.3.14| --- | 更稳定的memoryprofiler |
 
 备注:
 - Unity引擎在早期版本如5.x已提供WebGL平台导出模式，但我们并不推荐使用早期版本，因为存在较多BUG
@@ -24,7 +24,7 @@
 - Unity2021开始支持更多特性，如更全的压缩纹理、压缩音频、更快的编译速度与更小的体积，强烈建议; 需要更强的性能分析请使用2021 InstantGame
 - Unity InstantGame版本目前是在2019.4.29/2021.2.5基础上，由Unity中国区特殊优化，提供更强的[Unity Profier内存分析](https://docs.qq.com/doc/DV0hudk5TamlIek1L)、[AutoStreaming](InstantGameGuide.md)等功能，如有条件尽可能使用
 - 当引擎不支持移动端压缩纹理(ETC2/ASTC)时，请务必使用[压缩纹理优化](CompressedTexture.md)进行优化；
-- 微信压缩纹理工具比引擎自己的压缩纹理更节省内存，建议重度游戏使用；但暂无法支持高版本引擎，如2021.3.x，请使用2021.2.18以下版本
+- Unity2022支持新的[memoryprofiler](https://docs.unity3d.com/Packages/com.unity.memoryprofiler@1.0/manual/index.html) Package, 有助于更好地分析WebGL内存使用
 
 
 
