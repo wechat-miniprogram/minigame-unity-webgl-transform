@@ -6,7 +6,10 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
-最新版本下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
+标准版下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)  
+
+团结版下载地址：[微信小游戏团结引擎转换插件](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/tuanjie1231/minigame.202311021543.package)
+
 ## 2024-1-2
 【重要更新】包含重要bugfix、特性支持
 ### Feature
