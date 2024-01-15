@@ -10,8 +10,19 @@ Others - 其他
 
 团结版下载地址：[微信小游戏团结引擎转换插件](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/tuanjie1231/minigame.202311021543.package)
 
-## 2024-1-2
-【重要更新】包含重要bugfix、特性支持
+## 2024-1-15 【普通更新】
+包含重要bugfix、特性支持
+### Feature
+* 重要：增加iOS高性能+(iOSPerformancePlus)选项，请查阅[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)，有助于提升渲染兼容性、降低WebContent进程内存
+* 普通：陀螺仪去json性能优化
+### Fixed
+* 普通：修复蓝牙数据传输问题
+* 普通：修复广告低版本微信ReportshareBehavior上报问题
+* 普通：修复2021.3.33 ContextMenu适配
+* 普通：修复开放域排行榜触控
+  
+## 2024-1-2 【重要更新】
+包含重要bugfix、特性支持
 ### Feature
 * 普通：陀螺仪去json性能优化
 * 普通：启动剧情新增Hash 、版本号兼容验证逻辑
@@ -21,15 +32,15 @@ Others - 其他
 * 重要：修复Android系统代码分包Patch功能不生效的问题(需同时升级分包工具插件至1.1.12)
 * 普通：修复压缩纹理工具在一些特殊字符转义失败的bug
 
-## 2023-12-18
-【重要更新】包含重要bugfix、特性支持
+## 2023-12-18 【重要更新】
+包含重要bugfix、特性支持
 ### Feature
 * 普通：TouchStart/TouchEnd去json性能优化
 ### Fixed
 * 重要：修复TCP接口arraybuffer处理
   
-## 2023-12-12
-【重要更新】包含重要bugfix、特性支持
+## 2023-12-12 【重要更新】
+包含重要bugfix、特性支持
 ### Feature
 * 重要：优化TCP接口能力，使用请查阅[网络通信适配](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/UsingNetworking.md)
 * 重要：优化UDP接口能力
