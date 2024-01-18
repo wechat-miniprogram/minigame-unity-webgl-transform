@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: SystemButtonSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: SystemButton
+  entryName: "\u5FAE\u4FE1\u5BA2\u670D/\u8BA2\u9605\u6D88\u606F/\u610F\u89C1\u53CD\u9988/\u6E38\u620F\u5708/\u5BA2\u670D\u6D88\u606F"
+  entryAPI: 
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u8FDB\u5165\u5BA2\u670D\u4F1A\u8BDD"
+  extraButtonList:
+  - buttonText: "\u663E\u793A\u6E38\u620F\u5708\u6309\u94AE"
+  - buttonText: "\u663E\u793A\u610F\u89C1\u53CD\u9988\u6309\u94AE"
+  - buttonText: "\u8C03\u8D77\u5C0F\u6E38\u620F\u7CFB\u7EDF\u8BA2\u9605\u6D88\u606F\u754C\u9762"
+  - buttonText: "\u6253\u5F00\u5FAE\u4FE1\u5BA2\u670D"
+  initialResultList: []

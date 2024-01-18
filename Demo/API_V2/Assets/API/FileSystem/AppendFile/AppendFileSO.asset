@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: AppendFileSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: AppendFile
+  entryName: "\u5728\u6587\u4EF6\u7ED3\u5C3E\u8FFD\u52A0\u5185\u5BB9"
+  entryAPI: AppendFile(Sync)
+  entryDescription: "\u6CE8\uFF1A\u4EE5UTF-8\u7F16\u7801\u8BFB\u51FA\u6587\u4EF6\u5185\u5BB9"
+  optionList:
+  - optionName: "\u6267\u884C\u65B9\u5F0F"
+    availableOptions:
+    - "\u540C\u6B65\u6267\u884C"
+    - "\u5F02\u6B65\u6267\u884C"
+  - optionName: "data\u7C7B\u578B"
+    availableOptions:
+    - string
+    - byte[]
+  - optionName: encoding
+    availableOptions:
+    - null
+    - ascii
+    - base64
+    - binary
+    - hex
+    - ucs2
+    - ucs-2
+    - utf16le
+    - utf-16le
+    - utf-8
+    - utf8
+    - latin1
+  initialButtonText: "\u8FD0\u884C"
+  extraButtonList:
+  - buttonText: "\u6062\u590D\u6587\u4EF6\u5185\u5BB9"
+  initialResultList:
+  - isDisableInitially: 0
+    initialTitleText: "\u6587\u4EF6\u5185\u5BB9\uFF1A"
+    initialContentText: 'Original Data '

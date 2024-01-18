@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: CopyFileSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: CopyFile
+  entryName: "\u590D\u5236\u6587\u4EF6"
+  entryAPI: CopyFile(Sync)
+  entryDescription: "<color=red>\u6CE8\u610F\uFF1ASDK CopyFileSync\u8FD4\u56DE\u503C\u4E0E\u6587\u6863\u63CF\u8FF0\u4E0D\u540C\u3002\n\u6210\u529F\u4F1A\u8FD4\u56DE\"copyFile:ok\"\uFF0C\u5931\u8D25\u4F1A\u8FD4\u56DE\u5177\u4F53\u7684\u9519\u8BEF\u4FE1\u606F\u6216\"fail\"\u3002\n\u4E0D\u4F1A\u629B\u51FA\u5F02\u5E38\u3002</color>"
+  optionList:
+  - optionName: "\u6267\u884C\u65B9\u5F0F"
+    availableOptions:
+    - "\u540C\u6B65\u6267\u884C"
+    - "\u5F02\u6B65\u6267\u884C"
+  initialButtonText: "\u8FD0\u884C"
+  extraButtonList:
+  - buttonText: "\u6E05\u9664\u590D\u5236\u6587\u4EF6"
+  initialResultList:
+  - isDisableInitially: 0
+    initialTitleText: "\u5DF2\u5B58\u5728\u6587\u4EF6\uFF1A"
+    initialContentText: /hello.txt
+  - isDisableInitially: 1
+    initialTitleText: 
+    initialContentText: /copyFileSync.txt
+  - isDisableInitially: 1
+    initialTitleText: 
+    initialContentText: /copyFileAsync.txt

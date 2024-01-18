@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: RenameSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Rename
+  entryName: "\u91CD\u547D\u540D\uFF08\u79FB\u52A8\uFF09\u6587\u4EF6"
+  entryAPI: Rename
+  entryDescription: "\u6CE8\uFF1AoldPath\u88AB\u81EA\u52A8\u8BBE\u7F6E\u4E3A\u5F53\u524D\u6587\u4EF6\u6240\u5728\u4F4D\u7F6E"
+  optionList:
+  - optionName: "\u6267\u884C\u65B9\u5F0F"
+    availableOptions:
+    - "\u540C\u6B65\u6267\u884C"
+    - "\u5F02\u6B65\u6267\u884C"
+  - optionName: newPath
+    availableOptions:
+    - /hello.txt
+    - /world.txt
+    - /dir/hello.txt
+  initialButtonText: "\u8FD0\u884C"
+  extraButtonList: []
+  initialResultList:
+  - isDisableInitially: 0
+    initialTitleText: "\u6587\u4EF6\u5217\u8868\uFF1A"
+    initialContentText: /hello.txt
+  - isDisableInitially: 1
+    initialTitleText: "\u6587\u4EF6\u5217\u8868\uFF1A"
+    initialContentText: /world.txt
+  - isDisableInitially: 1
+    initialTitleText: "\u6587\u4EF6\u5217\u8868\uFF1A"
+    initialContentText: /dir/hello.txt
