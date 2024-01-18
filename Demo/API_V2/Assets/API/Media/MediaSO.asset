@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
+  m_Name: MediaSO
+  m_EditorClassIdentifier: 
+  categoryName: "\u5A92\u4F53"
+  categorySprite: {fileID: 21300000, guid: 5914cbe47cb794caab37c4bae648c2f8, type: 3}
+  entryList:
+  - {fileID: 11400000, guid: 1d998af43281d4eee9e1effc8f83bddd, type: 2}
+  - {fileID: 11400000, guid: ad04526c3748b4e2b8498f998dfea973, type: 2}

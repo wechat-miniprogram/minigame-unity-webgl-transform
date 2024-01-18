@@ -1,0 +1,4 @@
+<linker>
+  <assembly fullname="wx-runtime" preserve="all"/>
+  <assembly fullname="LitJson" preserve="all"/>
+</linker>
