@@ -9,6 +9,11 @@ Others - 其他
 标准版下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)  
 
 团结版下载地址：[微信小游戏团结引擎转换插件](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/tuanjie1231/minigame.202311021543.package)
+## 2024-1-18 【普通更新】
+包含重要bugfix、特性支持
+* 普通：更新适配插件版本到1.2.38
+### Fixed
+* 普通：不支持WebGL2的旧Android微信版本提供升级指引
 
 ## 2024-1-15 【普通更新】
 包含重要bugfix、特性支持
