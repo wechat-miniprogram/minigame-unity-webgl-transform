@@ -2716,39 +2716,6 @@ namespace WeChatWASM
         }
 
         /// <summary>
-        /// [wx.onBLECharacteristicValueChange(function listener)](https://developers.weixin.qq.com/minigame/dev/api/device/bluetooth-ble/wx.onBLECharacteristicValueChange.html)
-        /// 需要基础库： `2.9.2`
-        /// 监听蓝牙低功耗设备的特征值变化事件。必须先调用 [wx.notifyBLECharacteristicValueChange](https://developers.weixin.qq.com/minigame/dev/api/device/bluetooth-ble/wx.notifyBLECharacteristicValueChange.html) 接口才能接收到设备推送的 notification。
-        /// **示例代码**
-        /// [在微信开发者工具中查看示例](https://developers.weixin.qq.com/s/pQU51zmz7a3K)
-        /// ```js
-        /// // ArrayBuffer转16进制字符串示例
-        /// function ab2hex(buffer) {
-        /// let hexArr = Array.prototype.map.call(
-        /// new Uint8Array(buffer),
-        /// function(bit) {
-        /// return ('00' + bit.toString(16)).slice(-2)
-        /// }
-        /// )
-        /// return hexArr.join('');
-        /// }
-        /// wx.onBLECharacteristicValueChange(function(res) {
-        /// console.log(`characteristic ${res.characteristicId} has changed, now is ${res.value}`)
-        /// console.log(ab2hex(res.value))
-        /// })
-        /// ```
-        /// </summary>
-        public static void OnBLECharacteristicValueChange(Action<OnBLECharacteristicValueChangeListenerResult> result)
-        {
-            WXSDKManagerHandler.Instance.OnBLECharacteristicValueChange(result);
-        }
-
-        public static void OffBLECharacteristicValueChange(Action<OnBLECharacteristicValueChangeListenerResult> result)
-        {
-            WXSDKManagerHandler.Instance.OffBLECharacteristicValueChange(result);
-        }
-
-        /// <summary>
         /// [wx.onBLEConnectionStateChange(function listener)](https://developers.weixin.qq.com/minigame/dev/api/device/bluetooth-ble/wx.onBLEConnectionStateChange.html)
         /// 需要基础库： `2.9.2`
         /// 监听蓝牙低功耗连接状态改变事件。包括开发者主动连接或断开连接，设备丢失，连接异常断开等等

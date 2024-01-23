@@ -532,7 +532,7 @@ namespace WeChatWASM
                 {
                     old = "$COMPRESS_DATA_PACKAGE",
                     newStr = config.ProjectConf.compressDataPackage ? "true" : "false",
-                }
+                }            
             };
             string[] files = { "game.js", "game.json", "project.config.json", "check-version.js" };
             ReplaceFileContent(files, rules);
@@ -931,6 +931,7 @@ namespace WeChatWASM
                 config.ProjectConf.projectName == string.Empty ? "webgl" : config.ProjectConf.projectName,
                 config.ProjectConf.Appid,
                 screenOrientation,
+                config.CompileOptions.enableIOSPerformancePlus ? "true" : "false",
                 config.ProjectConf.VideoUrl,
                 codeMd5,
                 dataMd5,
@@ -962,6 +963,7 @@ namespace WeChatWASM
                 dataFileSize,
                 IsInstantGameAutoStreaming() ? "true" : "false",
                 (config.CompileOptions.DevelopBuild && config.CompileOptions.enableRenderAnalysis) ? "true" : "false",
+                config.ProjectConf.IOSDevicePixelRatio.ToString(),
             });
 
             List<Rule> replaceList = new List<Rule>(replaceArrayList);

@@ -1,0 +1,469 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>wx-editor</name>
+    </assembly>
+    <members>
+        <member name="T:WeChatWASM.WXAssetsTextTools">
+            <summary>
+            微信团队提供的资源纹理处理工具，可对微信小游戏首包资源、AssetsBundle进行专项的纹理资源处理操作
+            详细说明请参阅[微信压缩纹理文档](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/CompressedTexture.md)
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.CompressText(System.Action{System.Boolean,System.String},System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            执行微信压缩纹理流程，对应【包体瘦身--压缩纹理】面板中「处理资源」按钮的执行，其中小游戏工程导出目录路径来自【转换小游戏】面板中配置。
+            </summary>
+            <param name="complete">流程执行结束后产生的回调Action，回调形参1(bool)为是否执行成功，形参2(string)异常时返回的错误提示信息</param>
+            <param name="bundleDir">自定义bundle目录</param>
+            <param name="outBundleDir">自定义bundle资源处理后的存放路径</param>
+            <param name="debug">调试模式 true:仅生成ASTC false:全量模式(ASTC、DXT5、ETC2、PNG-min)</param>
+            <param name="force">强制全部重新生成，默认采用增量模式</param>
+            <param name="colorSpace">颜色空间 默认为 Gamma</param>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.GetAssetBundles(System.Action{System.String[]},System.String)">
+            <summary>
+            异步获取特定资源目录下的 AssetBundle 资源列表
+            </summary>
+            <param name="callback">callback(string[] files) 扫描完成后的文件列表 files ，每个元素对应当前磁盘中一个 AssetBundle 资源的绝对路径</param>
+            <param name="bundleDir"></param>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.GetOutDir">
+            <summary>
+            获取输出目录路径（默认为 webgl-min）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.FirstBundleSlim(System.String,System.Action{System.Boolean,System.String})">
+            <summary>
+            首包资源瘦身
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.updateDataByteLength(System.String)">
+            <summary>
+            更新game.js中的资源包大小，纹理压缩可能会处理首资源包
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.sizeFormatToMB(System.Int64)">
+            <summary>
+            转换为MB并保留两位小数
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.cleatPvrFiles(System.String)">
+            <summary>
+            清理 .pvr 文件
+            </summary>
+            <param name="dir"></param>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.ExceWXAssetTextTools(System.String,System.Action{System.Boolean,System.String},System.Action{System.Int32,System.Int32,System.String})">
+            <summary>
+            执行微信资源纹理工具脚本
+            options 为配置的执行参数
+            callback(bool succ, string result) succ 是否执行成功，result 为脚本最终的回调结果，一次进程仅可给出1个最终结果
+            progress(int current,int total,string info) 进度回调，一次执行可能存在多次的进度回调，进度回调最终 current = total 则为最后一次回调应调用 EditorUtility.ClearProgressBar() 结束 Unity 的进度展示
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.OnReplaced(System.Boolean,System.String,System.Boolean,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="debug">是否debug模式</param>
+            <param name="outDir">webgl-min目录路径</param>
+            <param name="compressDataPackage">是否开启首资源包压缩</param>
+            <param name="outDataPackageFileHeader">webgl-min目录下首资源包除后缀头部路径</param>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.RunCmd(System.String,System.String,System.String,System.Action{System.Int32,System.String})">
+            <summary>
+            执行命令行脚本
+            </summary>
+            <param name="cmd">程序路径</param>
+            <param name="args">程序参数</param>
+            <param name="workDir">执行目录</param>
+            <param name="callback">回调信息 0 程序正常结束；1 程序异常结束并返回错误信息；2 程序期间的信息打印</param>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.CheckUnityVersion(System.Boolean)">
+                        Unity 2021.3.x 及以后 2022 等版本均不支持纹理压缩
+                        支持版本： 2018、2019、2020、2021 其中2021.3.x 不支持 https://github.com/wechat-miniprogram/minigame-unity-webgl-transform#%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.GetTextMinDataDir">
+            <summary>
+            纹理资源处理工具的数据目录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.exportLastLog">
+            <summary>
+            导出最后一次执行日志
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.ParserUnityWebGL2(System.String)">
+            <summary>
+            判断导出工程是否是webgl2模式
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.ParserUnityJSString(System.String,System.String[])">
+            <summary>
+            获取UnityJS脚本中配置文件Value
+            </summary>
+            <param name="jsPath"></param>
+            <param name="keywords"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.CheckPluginVersion(System.String)">
+            <summary>
+            检查插件版本号，使用纹理压缩工具处理的资源必须保证项目也是当前版本插件导出的
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.ChineseCmdTest">
+            <summary>
+            中文输出测试
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.GetMacOSMonoPath">
+            <summary>
+            获取 MacOS 下 Mono 解释器路径
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXAssetsTextTools.Error(System.Boolean)">
+            <summary>
+            异常测试
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXBundleSettingWindow.loadTextures">
+            <summary>
+            加载单个纹理数据
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.WXBundleSettingWindow.loadIgnore">
+                         读取 .wxbundleignore 文件 若该文件不存在则视为默认全选
+        </member>
+        <member name="M:WeChatWASM.WXBundleSettingWindow.scanMiniGameDirBundle(System.Boolean)">
+                        扫描微信小游戏目录内的资源包信息
+        </member>
+        <member name="M:WeChatWASM.WXBundleSettingWindow.search">
+                        对已有的结果进行关键词检索更新新的列表
+                        搜索显示不会影响已选中的项目内容，但是会影响总条数与页面关系
+            
+                        已忽略的将其置顶
+        </member>
+        <member name="M:WeChatWASM.WXBundleSettingWindow.stringSub(System.String)">
+                         路径字符串截断处理
+        </member>
+        <member name="M:WeChatWASM.WXFbSettingWindow.scanFbContent">
+            <summary>
+            扫描首资源包中资源内容
+            </summary>
+        </member>
+        <member name="T:WeChatWASM.UnityUtil">
+            工具函数
+        </member>
+        <member name="M:WeChatWASM.UnityUtil.ScanDirFiles(System.String)">
+            <summary>
+            扫描目录内所有资源
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.UnityUtil.dpScanDirFiles(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            递归扫描目录内文件并追加到参数 Files 中
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.UnityUtil.brotli(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            br压缩、解压文件
+            </summary>
+            <param name="sourcePath">被执行文件路径</param>
+            <param name="dstPath">输出文件路径</param>
+            <param name="quality">压缩质量（解压模式时可忽略或任意填写）</param>
+            <param name="decompress">是否是解压（默认为压缩模式）</param>
+            <returns>是否成功执行</returns>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.projectName">
+            <summary>
+            小游戏项目名
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.Appid">
+            <summary>
+            游戏appid
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.CDN">
+            <summary>
+            游戏资源CDN
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.assetLoadType">
+            <summary>
+             首包资源加载方式
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.compressDataPackage">
+            <summary>
+            首包资源是否进行压缩，会略微增加启动耗时（300ms～）并且存在兼容性问题，仅推荐在使用小游戏分包且超出20M包体大小时使用
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.VideoUrl">
+            <summary>
+            视频url
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.DST">
+            <summary>
+            导出路径(绝对路径)
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.StreamCDN">
+            <summary>
+            AB包CDN地址
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.bundleHashLength">
+            <summary>
+            bundle的hash长度
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.bundlePathIdentifier">
+            <summary>
+            路径中包含什么标识符表示下载bundle，需要自动缓存
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.bundleExcludeExtensions">
+            <summary>
+            排除路径下指定类型文件不缓存
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.AssetsUrl">
+            <summary>
+            Assets目录对应CDN地址
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.MemorySize">
+            <summary>
+            游戏内存大小(MB)
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.HideAfterCallMain">
+            <summary>
+            callmain完成后是否立即隐藏加载封面
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.preloadFiles">
+            <summary>
+            预下载列表
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.Orientation">
+            <summary>
+            游戏方向
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.bgImageSrc">
+            <summary>
+            启动视频封面图/背景图
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.dataFileSubPrefix">
+            <summary>
+            拼接在DATA_CDN和首包资源文件名的路径，用于首包资源没放到DATA_CDN根目录的情况
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.maxStorage">
+            <summary>
+            最大缓存容量，单位MB
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.defaultReleaseSize">
+            <summary>
+            清理缓存时默认额外清理的大小，单位Bytes，默认值30MB
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.texturesHashLength">
+            <summary>
+            纹理中hash长度
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.texturesPath">
+            <summary>
+            纹理存储路径
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.needCacheTextures">
+            <summary>
+            是否缓存纹理
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.loadingBarWidth">
+            <summary>
+            加载进度条的宽度，默认240
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.needCheckUpdate">
+            <summary>
+            是否需要启动时自动检查小游戏是否有新版本
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.disableHighPerformanceFallback">
+            <summary>
+            是否禁止开启高性能模式后在不支持的iOS设备上回退为普通模式
+            注意：不要随意修改，只有开通高性能模式后并确认不回退才修改
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXProjectConf.IOSDevicePixelRatio">
+            <summary>
+            IOS限制固定的分辨率，以减少内存，但是会降低游戏画面品质
+            注意：不要随意修改，默认值为0，0表示不限制
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.halfSize">
+            <summary>
+            自动将图片尺寸减小一半
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.useDXT5">
+            <summary>
+            使用pc端压缩纹理
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.bundleSuffix">
+            <summary>
+            bundle文件后缀
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.parallelWithBundle">
+            <summary>
+            是否加载bundle时同时加载对应纹理
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.bundleDir">
+            <summary>
+            自定义bundle路径
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.dstMinDir">
+            <summary>
+            自定义生成目录路径
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.debugMode">
+            <summary>
+            是否开启调试模式（仅生成ASTC）
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompressTexture.force">
+            <summary>
+            强制（不遵循增量逻辑）
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.UseFriendRelation">
+            <summary>
+            使用好友关系链
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.UseCompressedTexture">
+            <summary>
+            使用压缩纹理替换(beta)
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.UseMiniGameChat">
+            <summary>
+            使用社交组件
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.SDKOptions.PreloadWXFont">
+            <summary>
+            预载系统字体
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.DevelopBuild">
+            <summary>
+            Development Build
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.AutoProfile">
+            <summary>
+            Autoconnect Profiler
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.ScriptOnly">
+            <summary>
+            Scripts Only Build
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.Il2CppOptimizeSize">
+            <summary>
+             Il2CppCodeGeneration.OptimizeSize
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.profilingFuncs">
+            <summary>
+            Profiling Funcs
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.Webgl2">
+            <summary>
+            WebGL2.0
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.fbslim">
+            <summary>
+            First Bundle Slim
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.DeleteStreamingAssets">
+            <summary>
+            DeleteStreamingAssets
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.ProfilingMemory">
+            <summary>
+            ProfilingMemory
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.CleanBuild">
+            <summary>
+            CleanBuild
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.CustomNodePath">
+            <summary>
+            CustomNodePath
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.showMonitorSuggestModal">
+            <summary>
+            是否显示最佳实践检测弹框
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.enableProfileStats">
+            <summary>
+            是否显示性能面板
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.enableRenderAnalysis">
+            <summary>
+            是否显示渲染分析日志（develop build才生效）
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.iOSAutoGCInterval">
+            <summary>
+            iOS高性能模式自动GC间隔(毫秒)
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.CompileOptions.enableIOSPerformancePlus">
+            <summary>
+            是否使用iOS高性能Plus
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXEditorScriptObject.CompressTexture">
+            <summary>
+            压缩纹理配置
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXEditorScriptObject.PlayerPrefsKeys">
+            <summary>
+            小游戏里会预先加载的key
+            </summary>
+        </member>
+    </members>
+</doc>

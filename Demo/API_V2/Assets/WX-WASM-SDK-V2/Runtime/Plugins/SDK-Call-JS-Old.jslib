@@ -980,4 +980,13 @@ mergeInto(LibraryManager.library, {
         const keyString = _WXPointer_stringify_adaptor(key);
         return typeof wx[keyString[0].toLowerCase() + keyString.slice(1)] !== 'undefined';
     },
+    WX_OnBLECharacteristicValueChange: function() {
+        window.WXWASMSDK.WX_OnBLECharacteristicValueChange();
+    },
+    WX_OffBLECharacteristicValueChange: function() {
+        window.WXWASMSDK.WX_OffBLECharacteristicValueChange();
+    },
+    WX_RegisterOnBLECharacteristicValueChangeCallback: function(callback) {
+        window.WXWASMSDK.WX_RegisterOnBLECharacteristicValueChangeCallback(callback);
+    }
 });

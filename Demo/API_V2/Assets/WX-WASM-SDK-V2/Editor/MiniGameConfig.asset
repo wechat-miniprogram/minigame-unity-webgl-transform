@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectConf:
     projectName: 'API-Demo '
-    Appid: wxdbe7308e7eeb552b
+    Appid: wxb44e2096fe38c90d
     CDN: 
     assetLoadType: 1
     compressDataPackage: 0
     VideoUrl: 
-    DST: D:/GitHub/minigame-unity-webgl-transform-API-demo/Dist
+    DST: /Users/lujinhao/Desktop/unitygame
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -39,13 +39,14 @@ MonoBehaviour:
     loadingBarWidth: 240
     needCheckUpdate: 0
     disableHighPerformanceFallback: 0
+    IOSDevicePixelRatio: 0
   SDKOptions:
     UseFriendRelation: 1
     UseCompressedTexture: 0
     UseMiniGameChat: 0
     PreloadWXFont: 0
   CompileOptions:
-    DevelopBuild: 1
+    DevelopBuild: 0
     AutoProfile: 0
     ScriptOnly: 0
     Il2CppOptimizeSize: 1
@@ -60,6 +61,7 @@ MonoBehaviour:
     enableProfileStats: 0
     enableRenderAnalysis: 0
     iOSAutoGCInterval: 10000
+    enableIOSPerformancePlus: 0
   CompressTexture:
     halfSize: 0
     useDXT5: 0

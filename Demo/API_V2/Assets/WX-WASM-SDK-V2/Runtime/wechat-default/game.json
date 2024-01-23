@@ -2,6 +2,7 @@
   "deviceOrientation": "$ORIENTATION",
   "openDataContext": "open-data",
   "iOSHighPerformance": true,
+  "iOSHighPerformance+": $ENABLE_IOSPERFORMANCEPLUS,
   "subpackages": [
     {
       "name": "wasmcode",
@@ -22,7 +23,7 @@
   ],
   "plugins": {
     "UnityPlugin": {
-      "version": "1.2.34",
+      "version": "1.2.38",
       "provider": "wxe5a48f1ed5f544b7",
       "contexts": [
         {
@@ -31,7 +32,7 @@
       ]
     },
     "Layout": {
-      "version": "1.0.5",
+      "version": "1.0.7",
       "provider": "wx7a727ff7d940bb3f",
       "contexts": [
         {

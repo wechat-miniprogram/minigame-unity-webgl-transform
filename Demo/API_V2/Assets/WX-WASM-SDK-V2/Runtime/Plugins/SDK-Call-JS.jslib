@@ -463,12 +463,6 @@ WX_OnAudioInterruptionEnd:function() {
 WX_OffAudioInterruptionEnd:function() {
     window.WXWASMSDK.WX_OffAudioInterruptionEnd();
 },
-WX_OnBLECharacteristicValueChange:function() {
-    window.WXWASMSDK.WX_OnBLECharacteristicValueChange();
-},
-WX_OffBLECharacteristicValueChange:function() {
-    window.WXWASMSDK.WX_OffBLECharacteristicValueChange();
-},
 WX_OnBLEConnectionStateChange:function() {
     window.WXWASMSDK.WX_OnBLEConnectionStateChange();
 },
