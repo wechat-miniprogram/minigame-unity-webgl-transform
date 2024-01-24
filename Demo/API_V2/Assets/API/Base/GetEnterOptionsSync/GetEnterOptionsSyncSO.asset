@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: GetEnterOptionsSyncSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: GetEnterOptionsSync
+  entryName: "\u83B7\u53D6\u5C0F\u6E38\u620F\u6253\u5F00\u7684\u53C2\u6570\uFF08\u5305\u62EC\u51B7\u542F\u52A8\u548C\u70ED\u542F\u52A8\uFF09"
+  entryAPI: getEnterOptionsSync
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u83B7\u53D6"
+  extraButtonList: []
+  initialResultList: []
