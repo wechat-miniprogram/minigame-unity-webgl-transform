@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: ReportEventSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: ReportEvent
+  entryName: "\u4E8B\u4EF6\u4E0A\u62A5"
+  entryAPI: reportEvent
+  entryDescription: "<color=red>\u6CE8\u610F\uFF1A\u9700\u8981\u63D0\u524D\u5728We\u5206\u6790\u5E73\u53F0\u4E0A\u521B\u5EFA\u4E8B\u4EF6</color>"
+  optionList:
+  - optionName: data1
+    availableOptions:
+    - "\u5FAE\u4FE1\u5C0F\u6E38\u620F"
+    - "\u5FAE\u4FE1"
+  - optionName: data2
+    availableOptions:
+    - 1
+    - 2
+  initialButtonText: "\u4E8B\u4EF6\u4E0A\u62A5"
+  extraButtonList: []
+  initialResultList: []
