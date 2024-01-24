@@ -14,9 +14,6 @@ public class EventData
 
 public class ReportEvent : Details
 {
-    private string data1;
-    private int data2;
-
     // 测试 API
     protected override void TestAPI(string[] args)
     {
