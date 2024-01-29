@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: MenuSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Menu
+  entryName: "\u83DC\u5355\u548C\u72B6\u6001\u680F"
+  entryAPI: 'setMenuStyle
+
+    getMenuButtonBoundingClientRect
+
+    setStatusBarStyle
+
+'
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u8BBE\u7F6E\u83DC\u5355\u6837\u5F0F"
+  extraButtonList:
+  - buttonText: "\u83B7\u53D6\u83DC\u5355\u6309\u94AE\u5E03\u5C40\u4F4D\u7F6E\u4FE1\u606F"
+  - buttonText: "\u8BBE\u7F6E\u72B6\u6001\u680F\u6837\u5F0F"
+  initialResultList: []
