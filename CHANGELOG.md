@@ -10,13 +10,11 @@ Others - 其他
 
 团结版下载地址：[微信小游戏团结引擎转换插件](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/tuanjie1231/minigame.202311021543.package)
 ## 2024-1-18 【普通更新】
-包含重要bugfix、特性支持
 * 普通：更新适配插件版本到1.2.38
 ### Fixed
 * 普通：不支持WebGL2的旧Android微信版本提供升级指引
 
 ## 2024-1-15 【普通更新】
-包含重要bugfix、特性支持
 ### Feature
 * 重要：增加iOS高性能+(iOSPerformancePlus)选项，请查阅[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)，有助于提升渲染兼容性、降低WebContent进程内存
 * 普通：陀螺仪去json性能优化
@@ -52,8 +50,8 @@ Others - 其他
 * 普通：优化启动剧情能力(Beta)
 * 普通：增加接口WX.CanIUse
 
-## 2023-12-08
-【重要更新】包含重要bugfix、特性支持
+## 2023-12-08 【重要更新】
+包含重要bugfix、特性支持
 ### Feature
 * 重要：新增启动剧情能力(Beta)
 * 重要：新增TCP接口能力
@@ -62,8 +60,7 @@ Others - 其他
 * 严重：修复TouchMove在<iOS 15.0系统BigUnit64Array兼容性问题
 * 严重：修复适配插件处理代码分包时序导致的一定概率启动失败
 
-## 2023-11-29
-【普通更新】
+## 2023-11-29 【普通更新】
 ### Fixed
 * 普通：修复TouchMove优化在2020之前版本产生的导出错误
 
