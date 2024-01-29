@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: GetEnterOptionsSyncSO
+  m_Name: PerformanceSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: GetEnterOptionsSync
-  entryName: "\u83B7\u53D6\u5C0F\u6E38\u620F\u6253\u5F00\u7684\u53C2\u6570\uFF08\u5305\u62EC\u51B7\u542F\u52A8\u548C\u70ED\u542F\u52A8\uFF09"
-  entryAPI: getEnterOptionsSync
-  entryDescription: 
+  entryScriptTypeName: Performance
+  entryName: "\u6027\u80FD"
+  entryAPI: "triggerGC \uFF5C reportPerformance"
+  entryDescription: "\u5C0F\u7A0B\u5E8F\u6D4B\u901F\u4E0A\u62A5\uFF0C\u4F7F\u7528\u524D\uFF0C\u9700\u8981\u5728\u5C0F\u7A0B\u5E8F\u7BA1\u7406\u540E\u53F0\u914D\u7F6E"
   optionList: []
-  initialButtonText: "\u83B7\u53D6"
-  extraButtonList: []
+  initialButtonText: "\u52A0\u5FEBGC"
+  extraButtonList:
+  - buttonText: "\u6D4B\u901F\u4E0A\u62A5"
   initialResultList: []

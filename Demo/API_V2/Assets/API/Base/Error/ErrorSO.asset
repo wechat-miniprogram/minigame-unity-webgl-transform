@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: ErrorSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Error
+  entryName: "\u5E94\u7528\u7EA7\u4E8B\u6545"
+  entryAPI: "off/ onUnhandledRejection \uFF5C off/ onError\noff/ onAudioInterruptionEnd
+    |  off/ onAudioInterruptionBegin"
+  entryDescription: "\u6CA1\u6709\u53EF\u89C1\u6548\u679C\uFF0C\u4EC5\u4F5C\u4E3Ademo"
+  optionList: []
+  initialButtonText: "\u5F00\u59CB\u76D1\u542C"
+  extraButtonList: []
+  initialResultList: []
