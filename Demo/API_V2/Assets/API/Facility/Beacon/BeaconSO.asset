@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: BeaconSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Beacon
+  entryName: "\u84DD\u7259-\u4FE1\u6807"
+  entryAPI: "\u84DD\u7259-\u4FE1\u6807\u76F8\u5173API"
+  entryDescription: "\u9700\u8981\u66F4\u6539uuids\u624D\u80FD\u76D1\u6D4B\u5230\u84DD\u7259-\u4FE1\u6807"
+  optionList: []
+  initialButtonText: "\u5F00\u59CB\u641C\u7D22"
+  extraButtonList:
+  - buttonText: "\u83B7\u53D6\u6240\u6709\u5DF2\u641C\u7D22\u5230\u7684 Beacon \u8BBE\u5907"
+  initialResultList: []
