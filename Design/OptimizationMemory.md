@@ -184,10 +184,8 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
    - 3. 尽量强制使用单声道音频，双声道会产生2倍内存消耗
 
 ### 4.6 其他常见优化手段
-- [Unity加载和内存管理](https://zentia.github.io/2018/04/11/AssetBundle/)
 - [性能优化，进无止境-内存篇（上）](https://blog.uwa4d.com/archives/optimzation_memory_1.html)
 - [性能优化，进无止境-内存篇（下）](https://blog.uwa4d.com/archives/optimzation_memory_2.html)
-- [全面理解Unity加载和内存管理](https://gameinstitute.qq.com/community/detail/100741)
 
 
 ## 五、QA
