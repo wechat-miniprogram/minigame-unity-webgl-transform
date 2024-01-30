@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: BatteryAndClipboard
   entryName: "\u7535\u91CF\u548C\u526A\u5207\u677F"
   entryAPI: "\u7535\u91CF\u548C\u526A\u5207\u677F\u76F8\u5173API"
-  entryDescription: 
+  entryDescription: "\u526A\u5207\u7248\u9700\u8981\u76F8\u5173\u6743\u9650"
   optionList: []
   initialButtonText: "\u83B7\u53D6\u8BBE\u5907\u7535\u91CF-\u540C\u6B65"
   extraButtonList:

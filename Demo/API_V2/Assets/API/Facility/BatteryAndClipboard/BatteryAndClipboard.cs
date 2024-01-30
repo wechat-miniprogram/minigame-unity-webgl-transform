@@ -32,7 +32,7 @@ public class BatteryAndClipboard : Details
         WX.GetBatteryInfo(new GetBatteryInfoOption 
         {
             success = (res) => {
-                Debug.Log("success" + res);
+                Debug.Log("success" + JsonUtility.ToJson(res));
             },
             fail = (res) => {
                 Debug.Log("fail" + res.errMsg);
@@ -66,7 +66,7 @@ public class BatteryAndClipboard : Details
         {
             data = "123",
             success = (res) => {
-                Debug.Log("success" + res);
+                Debug.Log(JsonUtility.ToJson(res));
             },
             fail = (res) => {
                 Debug.Log("fail" + res.errMsg);

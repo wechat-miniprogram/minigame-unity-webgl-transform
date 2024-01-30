@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: ScreenSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Screen
+  entryName: "\u5C4F\u5E55"
+  entryAPI: "\u5C4F\u5E55\u76F8\u5173API"
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u8BBE\u7F6E\u622A\u5C4F/\u5F55\u5C4F\u65F6\u5C4F\u5E55\u8868\u73B0"
+  extraButtonList:
+  - buttonText: "\u8BBE\u7F6E\u5C4F\u5E55\u4EAE\u5EA6"
+  - buttonText: "\u8BBE\u7F6E\u5C4F\u5E55\u5E38\u4EAE"
+  - buttonText: "\u5F00\u59CB\u76D1\u542C\u622A\u5C4F"
+  - buttonText: "\u5F00\u59CB\u76D1\u542C\u5F55\u5C4F"
+  - buttonText: "\u67E5\u8BE2\u7528\u6237\u662F\u5426\u5728\u5F55\u5C4F"
+  - buttonText: "\u83B7\u53D6\u5C4F\u5E55\u4EAE\u5EA6"
+  initialResultList: []

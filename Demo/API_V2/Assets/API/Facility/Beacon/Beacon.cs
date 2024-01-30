@@ -51,7 +51,7 @@ public class Beacon : Details
         {
             uuids = new string[] {"xxxxxxxxxx"},
             success = (res) => {
-                Debug.Log(res);
+                Debug.Log(JsonUtility.ToJson(res));
             },
             fail = (res) => {
                 Debug.Log("fail" + res.errMsg);
@@ -66,7 +66,7 @@ public class Beacon : Details
         WX.StopBeaconDiscovery(new StopBeaconDiscoveryOption
         {
             success = (res) => {
-                Debug.Log(res);
+                Debug.Log(JsonUtility.ToJson(res));
             },
             fail = (res) => {
                 Debug.Log("fail" + res.errMsg);
@@ -81,7 +81,7 @@ public class Beacon : Details
         WX.GetBeacons(new GetBeaconsOption
         {
             success = (res) => {
-                Debug.Log(res);
+                Debug.Log(JsonUtility.ToJson(res));
             },
             fail = (res) => {
                 Debug.Log("fail" + res.errMsg);
