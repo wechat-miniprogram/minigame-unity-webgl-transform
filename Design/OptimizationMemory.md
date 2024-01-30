@@ -203,7 +203,8 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 3. Q: 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
 
    - 不是。游戏占用内存必须以真机环境为准，使用Perfdog（Android or iOS）或 Instruments in Xcode(iOS)测试对应进程的内存占用。
-   - Unity Profiler仅能看到Unity Heap相关内存，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+   - Unity Profiler仅能看到“引擎可监控内存”，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+   - 建议使用2022或团结版的memoryprofiler、profiling-mem更精确分析内存，对于分析CPU/GPU内存有较大帮助
 
 4. Q: 转换面板设置内存值多少合适？
    
