@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: PhotoSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Photo
+  entryName: "\u56FE\u7247"
+  entryAPI: "\u56FE\u7247\u76F8\u5173API"
+  entryDescription: "\u9700\u8865\u5145\u56FE\u7247\u8DEF\u5F84\u624D\u80FD\u8FD0\u884C"
+  optionList: []
+  initialButtonText: "\u4FDD\u5B58\u56FE\u7247\u5230\u7CFB\u7EDF\u76F8\u518C"
+  extraButtonList:
+  - buttonText: "\u9884\u89C8\u56FE\u7247\u548C\u89C6\u9891"
+  - buttonText: "\u5728\u65B0\u9875\u9762\u4E2D\u5168\u5C4F\u9884\u89C8\u56FE\u7247"
+  - buttonText: "\u538B\u7F29\u56FE\u7247"
+  - buttonText: "\u4ECE\u5BA2\u6237\u7AEF\u4F1A\u8BDD\u9009\u62E9\u6587\u4EF6"
+  initialResultList: []
