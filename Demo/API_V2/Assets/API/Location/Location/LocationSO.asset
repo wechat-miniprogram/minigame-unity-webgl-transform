@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: LocationSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Location
+  entryName: "\u4F4D\u7F6E"
+  entryAPI: getFuzzyLocation
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u83B7\u53D6\u5F53\u524D\u7684\u6A21\u7CCA\u5730\u7406\u4F4D\u7F6E"
+  extraButtonList: []
+  initialResultList: []

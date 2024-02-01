@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
-  m_Name: OpenInterfaceSO
+  m_Name: LocationSO
   m_EditorClassIdentifier: 
-  categoryName: "\u5F00\u653E\u63A5\u53E3"
+  categoryName: "\u4F4D\u7F6E"
   categorySprite: {fileID: 0}
   entryList:
-  - {fileID: 11400000, guid: 2c8c997508e96423fa1031b948386d44, type: 2}
-  - {fileID: 11400000, guid: 07a53d3481bd54766a5468694e9f8d1b, type: 2}
+  - {fileID: 11400000, guid: 295e57f0dea5540cb8f8e6c491ed308f, type: 2}
