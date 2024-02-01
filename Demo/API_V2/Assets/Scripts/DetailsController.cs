@@ -128,7 +128,36 @@ public class DetailsController : MonoBehaviour
         extraButtonBlockObjects[index].GetComponent<ButtonController>()
             .AddButtonListener(action);
     }
-    
+
+    // 获取初始按钮左上角距离画布左上角的相对距离
+    public Vector2 GetInitialButtonPosition() {   
+        var button = initialButton;
+        var canvas = button.GetComponentInParent<Canvas>();
+
+               // 获取 Canvas 和按钮的 RectTransform 组件
+        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
+        RectTransform buttonRectTransform = button.GetComponent<RectTransform>();
+
+        // 计算 Canvas 左上角的局部位置
+        Vector2 canvasTopLeftLocalPosition = new Vector2(-canvasRectTransform.rect.width * canvasRectTransform.pivot.x, canvasRectTransform.rect.height * (1 - canvasRectTransform.pivot.y));
+
+        // 计算按钮左上角的局部位置
+        Vector2 buttonTopLeftLocalPosition = new Vector2(buttonRectTransform.anchoredPosition.x - buttonRectTransform.rect.width * buttonRectTransform.pivot.x, buttonRectTransform.anchoredPosition.y + buttonRectTransform.rect.height * (1 - buttonRectTransform.pivot.y));
+
+        // 将 Canvas 和按钮左上角的局部位置转换为世界坐标系中的位置
+        Vector3 canvasTopLeftWorldPosition = canvasRectTransform.TransformPoint(canvasTopLeftLocalPosition);
+        Vector3 buttonTopLeftWorldPosition = buttonRectTransform.TransformPoint(buttonTopLeftLocalPosition);
+
+        var x = canvasTopLeftWorldPosition.x - buttonTopLeftWorldPosition.x;
+        var y = canvasTopLeftWorldPosition.y - buttonTopLeftWorldPosition.y;
+        return new Vector2(x, y);
+    }
+
+    // 获取初始按钮的长宽
+    public Vector2 GetInitialButtonSize() {
+        return initialButton.GetComponent<RectTransform>().sizeDelta;
+    }
+
     // 添加结果信息
     public GameObject AddResult(ResultData resultData)
     {
