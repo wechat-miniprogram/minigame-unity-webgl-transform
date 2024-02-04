@@ -108,8 +108,15 @@ public static void Build()
   using WeChatWasm;
   UnityWebRequest bundleReq = WXAssetBundle.GetAssetBundle(url); // UnityWebRequestAssetBundle => WXAssetBundle
   yield return bundleReq.SendWebRequest();
-  AssetBundle bundle = (bundleReq.downloadHandler as DownloadHandlerWXAssetBundle).assetBundle; // DownloadHandlerAssetBundle => DownloadHandlerWXAssetBundle
-  bundle.WXUnload(); //bundle还是AssetBundle类型，但需要调用扩展方法WXUnload()才可真正卸载
+  if (bundleReq.isHttpError)
+  {
+      Debug.LogError(GetType() + "/ERROR/" + bundleReq.error);
+  }
+  else
+  {
+      AssetBundle bundle = (bundleReq.downloadHandler as DownloadHandlerWXAssetBundle).assetBundle; // DownloadHandlerAssetBundle => DownloadHandlerWXAssetBundle
+      bundle.WXUnload(false); //bundle还是AssetBundle类型，但需要调用扩展方法WXUnload()才可真正卸载
+  }
   ```
 
 - 注意事项
