@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: OpenDataSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: OpenData
+  entryName: "\u767B\u5F55-\u9690\u79C1"
+  entryAPI: "login \uFF5CcheckSession\nauthorize \uFF5C getGroupEnterInfo\nrequirePrivacyAuthorize
+    \uFF5C openPrivacyContract\ngetPrivacySetting"
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u767B\u5F55"
+  extraButtonList:
+  - buttonText: "\u68C0\u67E5\u767B\u5F55\u6001\u662F\u5426\u8FC7\u671F"
+  - buttonText: "\u63D0\u524D\u5411\u7528\u6237\u53D1\u8D77\u6388\u6743\u8BF7\u6C42"
+  - buttonText: "\u83B7\u53D6\u5FAE\u4FE1\u7FA4\u804A\u542F\u52A8\u4FE1\u606F"
+  - buttonText: "\u6A21\u62DF\u9690\u79C1\u63A5\u53E3\u8C03\u7528"
+  - buttonText: "\u8DF3\u8F6C\u81F3\u9690\u79C1\u534F\u8BAE\u9875\u9762"
+  - buttonText: "\u67E5\u8BE2\u9690\u79C1\u6388\u6743\u60C5\u51B5"
+  initialResultList: []
