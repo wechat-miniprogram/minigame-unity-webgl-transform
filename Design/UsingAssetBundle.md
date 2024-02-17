@@ -1,8 +1,6 @@
-# 使用AssetBundle
+# 使用 AssetBundle 进行资源按需加载
 
-*首先，相比AssetBundle，更推荐使用[Addressable Assets System](UsingAddressable.md)*
-
-本文对AssetBundle使用做简要介绍，同时分析四种下载方式的内存占用情况
+阐述如何在小游戏环境对AssetBundle进行打包、加载和内存优化，同时推荐使用WXAssetBundle更自动化地节省内存。
 
 ## 一、AssetBundle使用
 注意：小游戏环境不支持assetbundle本地加载
@@ -64,7 +62,7 @@ public static void Build()
   ***特别地， 切忌使用WWW.LoadFromCacheOrDownload或WWW等带cache接口，WebGL模式下将会使用JS模拟文件系统带来额外内存消耗！***
  
 
-## 二、在小游戏中使用AssetBundle
+## 二、小游戏与APP的AssetBundle缓存更新流程差异
 
 小游戏因其平台特殊性，需要保证加载速度，因此我们在底层对bundle文件做了缓存，开发者无须自己实现缓存。
 
@@ -127,7 +125,7 @@ public static void Build()
 
   读磁盘必定影响性能，所以我们只推荐对内存要求高的重度游戏使用。
 
-## 四、AssetBundle下载API内存分析
+## 四、AssetBundle内存分析
  ### 4.1 切勿使用带Cache能力的线管接口
 
 加载的bundle文件大小为5403162字节
