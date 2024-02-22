@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { getFriendRankData, getGroupFriendsRankData, setUserRecord } from './data/index';
 import getFriendRankXML from './render/tpls/friendRank';
 import getFriendRankStyle from './render/styles/friendRank';
@@ -8,7 +9,7 @@ const Layout = requirePlugin('Layout').default;
 const RANK_KEY = 'user_rank';
 const sharedCanvas = wx.getSharedCanvas();
 const sharedContext = sharedCanvas.getContext('2d');
-
+// test
 setUserRecord(RANK_KEY, Math.ceil(Math.random() * 1000));
 const MessageType = {
     WX_RENDER: 'WXRender',
@@ -17,8 +18,12 @@ const MessageType = {
     SHOW_GROUP_FRIENDS_RANK: 'showGroupFriendsRank',
     SET_USER_RECORD: 'setUserRecord',
 };
+/**
+ * 绑定邀请好友事件
+ * 温馨提示，这里仅仅是示意，请注意修改 shareMessageToFriend 参数
+ */
 const initShareEvents = () => {
-    
+    // 绑定邀请
     const shareBtnList = Layout.getElementsByClassName('shareToBtn');
     shareBtnList
         && shareBtnList.forEach((item) => {
@@ -33,6 +38,10 @@ const initShareEvents = () => {
             });
         });
 };
+/**
+ * 初始化开放域，主要是使得 Layout 能够正确处理跨引擎的事件处理
+ * 如果游戏里面有移动开放数据域对应的 RawImage，也需要抛事件过来执行Layout.updateViewPort
+ */
 const initOpenDataCanvas = async (data) => {
     Layout.updateViewPort({
         x: data.x / data.devicePixelRatio,
@@ -41,14 +50,14 @@ const initOpenDataCanvas = async (data) => {
         height: data.height / data.devicePixelRatio,
     });
 };
-
+// 给定 xml 和 style，渲染至 sharedCanvas
 function LayoutWithTplAndStyle(xml, style) {
     Layout.clear();
     Layout.init(xml, style);
     Layout.layout(sharedContext);
     console.log(Layout);
 }
-
+// 仅仅渲染一些提示，比如数据加载中、当前无授权等
 function renderTips(tips = '') {
     LayoutWithTplAndStyle(getTipsXML({
         tips,
@@ -79,7 +88,7 @@ async function renderFriendsRank() {
         renderTips('请进入设置页允许获取微信朋友信息');
     }
 }
-
+// 渲染群排行榜
 async function renderGroupFriendsRank(shareTicket) {
     showLoading();
     try {
@@ -104,7 +113,7 @@ function main() {
         console.log('[WX OpenData] onMessage', data);
         if (typeof data === 'string') {
             try {
-                
+                // eslint-disable-next-line no-param-reassign
                 data = JSON.parse(data);
             }
             catch (e) {
@@ -113,15 +122,15 @@ function main() {
             }
         }
         switch (data.type) {
-            
+            // 来自 WX Unity SDK 的信息
             case MessageType.WX_RENDER:
                 initOpenDataCanvas(data);
                 break;
-            
+            // 来自 WX Unity SDK 的信息
             case MessageType.WX_DESTROY:
                 Layout.clearAll();
                 break;
-            
+            // 下面为业务自定义消息
             case MessageType.SHOW_FRIENDS_RANK:
                 renderFriendsRank();
                 break;

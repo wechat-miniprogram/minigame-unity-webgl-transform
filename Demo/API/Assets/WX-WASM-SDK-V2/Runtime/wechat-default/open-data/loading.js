@@ -1,13 +1,13 @@
-
+// 通过插件的方式引用 Layout
 const Layout = requirePlugin('Layout').default;
-let sharedCanvas = wx.getSharedCanvas();
-let sharedContext = sharedCanvas.getContext("2d");
+const sharedCanvas = wx.getSharedCanvas();
+const sharedContext = sharedCanvas.getContext('2d');
 const style = {
     container: {
         width: '100%',
         height: '100%',
-        justifyContent: "center",
-        alignItems: "center",
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     loading: {
         width: 150,

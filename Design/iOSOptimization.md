@@ -1,6 +1,7 @@
-# iOS 高性能模式
+# iOS 高性能与高性能+模式
 
 - [什么是高性能模式](#什么是高性能模式)
+- [什么是高性能+模式](#什么是高性能+模式)
 - [性能提升](#性能提升)
   - [CPU 消耗](#cpu-消耗)
   - [压力测试](#压力测试)
@@ -27,6 +28,10 @@
 2. 对 CPU 计算资源消耗过高，运行一段时间后设备温度持续上升
 
 小游戏环境框架提供了高性能运行模式，该运行模式下 CPU 算力得到明显提升。但该模式也存在更严格的内存与代码包体限制，需要开发者采取合适的手段以达到最优。
+
+## 什么是高性能+模式
+高性能+模式开创新地在保留游戏独立进程的基础上将渲染重新挪回了微信进程，这使得渲染效果和渲染内存消耗都得到了改善。详细文档请查阅[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)。
+特别地，建议使用WebGL2、内存压力大的游戏开启此选项。开启后请验证进程内存、渲染兼容性、帧耗时数据是否正常。
 
 ## 性能提升
 
@@ -124,7 +129,7 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 - 右上角打开调试，重启小游戏，点三次下方的 Unity logo 打开 vconsole
 - 如果出现资源访问失败，但 Android 和开发者工具却可以下载则参考 QA3 关于跨域问题
 - 15.4 系统出现"Not implemented"与内存问题，此为 Unity & iOS 15.4 的 BUG，微信提供的 wasm 代码分包(推荐)或 Unity WebGL 官方论坛的[临时修复方案](https://forum.unity.com/threads/ios-15-webgl-2-issue.1176116/page-2)
-- 16.7/17.0系统出现"glGetString (GL_EXTENSIONS) - failure", 需更新到17.1，出问题时需重启微信恢复。详情请查阅: [Unity社区讨论](https://forum.unity.com/threads/webgl-context-lost-ios-17-safari.1501193/)，[iOS浏览器Webkit BUG](https://bugs.webkit.org/show_bug.cgi?id=261313),
+- 16.7/17.0系统出现"glGetString (GL_EXTENSIONS) - failure", 苹果官方17.1已fix。对于未更新系统的玩家，也可使用[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)处理。详情请查阅: [Unity社区讨论](https://forum.unity.com/threads/webgl-context-lost-ios-17-safari.1501193/)，[iOS浏览器Webkit BUG](https://bugs.webkit.org/show_bug.cgi?id=261313),
   
 
 ### <p id="6-ui-flicker">6. 个别游戏 UI 会出现闪烁问题

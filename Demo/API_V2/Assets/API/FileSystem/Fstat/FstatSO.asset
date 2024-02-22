@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: FstatSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Fstat
+  entryName: "\u83B7\u53D6\u6587\u4EF6\u7684\u72B6\u6001\u4FE1\u606F"
+  entryAPI: Fstat(Sync)
+  entryDescription: 
+  optionList:
+  - optionName: "\u6267\u884C\u65B9\u5F0F"
+    availableOptions:
+    - "\u540C\u6B65\u6267\u884C"
+    - "\u5F02\u6B65\u6267\u884C"
+  initialButtonText: "\u8FD0\u884C"
+  extraButtonList: []
+  initialResultList:
+  - isDisableInitially: 0
+    initialTitleText: "\u5DF2\u5B58\u5728\u6587\u4EF6\uFF1A"
+    initialContentText: /hello.txt

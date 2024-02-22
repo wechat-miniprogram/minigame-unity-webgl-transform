@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: ReadFileAndWriteFileSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: ReadFileAndWriteFile
+  entryName: "\u8BFB/\u5199\u6587\u4EF6\uFF08\u6587\u4EF6\u8DEF\u5F84\uFF09"
+  entryAPI: ReadFile(Sync)/WriteFile(Sync)
+  entryDescription: "\u6CE8\uFF1A\u4F7F\u7528\u6587\u4EF6\u63CF\u8FF0\u7B26\u7684\u65B9\u5F0F\u8BFB\u5199\u6587\u4EF6\u6027\u80FD\u8F83\u597D\n\u6CE8\uFF1A\u4F7F\u7528UTF8\u7F16\u7801\u663E\u793A\u6587\u4EF6\u5185\u5BB9\n<color=red>\u6CE8\u610F\uFF1ASDK
+    ReadFile\u7684\u6210\u529F\u56DE\u8C03\u4E2D\uFF0C\u82E5encoding\u4E3Anull\uFF0C\u5219\u6570\u636E\u4F4D\u4E8Eres.binData\uFF0C\u5426\u5219\u6570\u636E\u4F4D\u4E8Eres.stringData</color>"
+  optionList:
+  - optionName: "\u6267\u884C\u65B9\u5F0F"
+    availableOptions:
+    - "\u540C\u6B65\u6267\u884C"
+    - "\u5F02\u6B65\u6267\u884C"
+  - optionName: "data\u7C7B\u578B\n(\u4EC5\u5199\u5165)"
+    availableOptions:
+    - string
+    - byte[]
+  - optionName: encoding
+    availableOptions:
+    - null
+    - ascii
+    - base64
+    - binary
+    - hex
+    - ucs2
+    - ucs-2
+    - utf16le
+    - utf-16le
+    - utf-8
+    - utf8
+    - latin1
+  - optionName: "position\n(\u4EC5\u8BFB\u53D6)"
+    availableOptions:
+    - null
+    - 4
+    - 20
+  - optionName: "length\n(\u4EC5\u8BFB\u53D6)"
+    availableOptions:
+    - null
+    - 4
+    - 20
+  initialButtonText: "\u8BFB\u53D6\u6587\u4EF6"
+  extraButtonList:
+  - buttonText: "\u5199\u5165\u6587\u4EF6"
+  initialResultList:
+  - isDisableInitially: 0
+    initialTitleText: "\u8BFB\u53D6\u7ED3\u679C\uFF1A"
+    initialContentText: ' '
+  - isDisableInitially: 0
+    initialTitleText: "\u6587\u4EF6\u5185\u5BB9\uFF1A"
+    initialContentText: 'Original Data '

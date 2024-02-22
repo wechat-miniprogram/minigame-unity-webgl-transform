@@ -3,10 +3,13 @@ import { isSupportCacheAudio } from '../../check-version';
 import { WEBAudio, audios } from './store';
 import { TEMP_DIR_PATH } from './const';
 export const resumeWebAudio = () => {
-    if (WEBAudio.audioContext
-        && (WEBAudio.audioContext.state === 'suspended' || WEBAudio.audioContext.state === 'interrupted')) {
-        WEBAudio.audioContext.resume();
-    }
+    
+    
+    
+    
+    
+    
+    WEBAudio.audioContext?.resume();
 };
 export const createInnerAudio = () => {
     const id = uid();

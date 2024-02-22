@@ -1,4 +1,4 @@
-import { WEBAudio, audios } from './store';
+import { WEBAudio, audios, unityAudioVolume, innerAudioVolume } from './store';
 import { resumeWebAudio, mkCacheDir } from './utils';
 
 mkCacheDir();
@@ -9,6 +9,26 @@ export default {
             webAudio: WEBAudio.bufferSourceNodeLength,
             buffer: WEBAudio.audioBufferLength,
         };
+    },
+        WXSetAudioMute(value) {
+        if (typeof value !== 'boolean') {
+            return;
+        }
+        if (WEBAudio.isMute === value) {
+            return;
+        }
+        WEBAudio.isMute = value;
+        
+        for (const channelInstance of Object.keys(WEBAudio.audioInstances)) {
+            const channel = WEBAudio.audioInstances[+channelInstance];
+            if (channel.source) {
+                channel.setVolume?.(value ? 0 : unityAudioVolume.get(channel) ?? 1);
+            }
+        }
+        
+        for (const innerAudio of Object.values(audios)) {
+            innerAudio.volume = value ? 0 : innerAudioVolume.get(innerAudio) ?? 1;
+        }
     },
 };
 

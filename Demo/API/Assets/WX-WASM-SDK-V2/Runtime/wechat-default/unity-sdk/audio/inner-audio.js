@@ -1,6 +1,6 @@
 import moduleHelper from '../module-helper';
 import { isSupportPlayBackRate } from '../../check-version';
-import { audios, localAudioMap, downloadingAudioMap } from './store';
+import { audios, localAudioMap, downloadingAudioMap, innerAudioVolume, WEBAudio } from './store';
 import { createInnerAudio, destroyInnerAudio, printErrMsg } from './utils';
 import { IGNORE_ERROR_MSG, INNER_AUDIO_UNDEFINED_MSG } from './const';
 const funs = {
@@ -187,11 +187,20 @@ export default {
         if (startTime > 0) {
             getAudio.startTime = +startTime.toFixed(2);
         }
+        
+        let volumeValue;
         if (typeof volume === 'undefined') {
-            volume = 1;
+            volumeValue = 1;
         }
-        if (volume !== 1) {
-            getAudio.volume = +volume.toFixed(2);
+        else {
+            volumeValue = +volume.toFixed(2);
+        }
+        innerAudioVolume.set(getAudio, volumeValue);
+        if (WEBAudio.isMute) {
+            volumeValue = 0;
+        }
+        if (volumeValue !== 1) {
+            getAudio.volume = volumeValue;
         }
         
         if (!isSupportPlayBackRate) {
@@ -230,7 +239,14 @@ export default {
         if (!checkHasAudio(id)) {
             return;
         }
-        audios[id][k] = +v.toFixed(2);
+        let value = +v.toFixed(2);
+        if (k === 'volume') {
+            innerAudioVolume.set(audios[id], value);
+            if (WEBAudio.isMute) {
+                value = 0;
+            }
+        }
+        audios[id][k] = value;
     },
     
     WXInnerAudioContextGetFloat(id, k) {

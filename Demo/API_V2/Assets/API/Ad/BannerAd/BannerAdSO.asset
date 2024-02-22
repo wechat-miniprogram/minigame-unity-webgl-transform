@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: BannerAdSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: BannerAd
+  entryName: "Banner\u5E7F\u544A"
+  entryAPI: 'CreateBannerAd
+
+    BannerAd.Destroy/Hide/Show
+
+    BannerAd.OnError/Load/Resize'
+  entryDescription: "\u6CE8\uFF1AadUnitId \u8BF7\u586B\u5199\u81EA\u5DF1\u7684\u5E7F\u544A\u4F4D
+    ID\n\u6CE8\uFF1A\u793A\u4F8B\u8C03\u7528\u7684\u662F\u9884\u8BBE\u7684BannerAd\uFF0C\u5982\u9700\u81EA\u5B9A\u4E49style\u8BF7\u8C03\u7528WX.CreateBannerAd()\u63A5\u53E3"
+  optionList: []
+  initialButtonText: "\u521B\u5EFA\u5E7F\u544A"
+  extraButtonList:
+  - buttonText: "\u5207\u6362\u5E7F\u544A\u72B6\u6001"
+  - buttonText: "\u9500\u6BC1\u5E7F\u544A"
+  initialResultList: []

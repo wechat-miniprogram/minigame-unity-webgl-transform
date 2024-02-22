@@ -1,6 +1,7 @@
 import moduleHelper from './module-helper';
 import { launchEventType } from '../plugin-config';
 import { setArrayBuffer, uid } from './utils';
+import '../events';
 export default {
     WXReportGameStart() {
         GameGlobal.manager.reportCustomLaunchInfo();
@@ -156,5 +157,18 @@ export default {
     },
     WXSetArrayBuffer(buffer, offset, callbackId) {
         setArrayBuffer(buffer, offset, callbackId);
+    },
+    WXLaunchOperaBridge(args) {
+        const res = GameGlobal.events.emit('launchOperaMsgBridgeFromWasm', args);
+        if (Array.isArray(res) && res.length > 0) {
+            return res[0];
+        }
+        return null;
+    },
+    WXLaunchOperaBridgeToC(callback, args) {
+        moduleHelper.send('WXLaunchOperaBridgeToC', JSON.stringify({
+            callback,
+            args,
+        }));
     },
 };

@@ -1,0 +1,10 @@
+{
+  "name": "unity-wasm",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "binaryen": "^103.0.0"
+  }
+}

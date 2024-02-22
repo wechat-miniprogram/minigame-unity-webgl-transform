@@ -6,10 +6,52 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
-最新版本下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
+标准版下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)  
 
-## 2023-12-08
-【重要更新】包含重要bugfix、特性支持
+团结版下载地址：[微信小游戏团结引擎转换插件](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/tuanjie1231/minigame.202401191135.unitypackage)
+## 2024-1-18 【普通更新】
+* 普通：更新适配插件版本到1.2.38
+### Fixed
+* 普通：不支持WebGL2的旧Android微信版本提供升级指引
+
+## 2024-1-15 【普通更新】
+### Feature
+* 重要：增加iOS高性能+(iOSPerformancePlus)选项，请查阅[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)，有助于提升渲染兼容性、降低WebContent进程内存
+* 普通：陀螺仪去json性能优化
+### Fixed
+* 普通：修复蓝牙数据传输问题
+* 普通：修复广告低版本微信ReportshareBehavior上报问题
+* 普通：修复2021.3.33 ContextMenu适配
+* 普通：修复开放域排行榜触控
+  
+## 2024-1-2 【重要更新】
+包含重要bugfix、特性支持
+### Feature
+* 普通：陀螺仪去json性能优化
+* 普通：启动剧情新增Hash 、版本号兼容验证逻辑
+* 普通：转换配置新增iOS dpr选项
+* 普通：C# SDK支持文档注释
+### Fixed
+* 重要：修复Android系统代码分包Patch功能不生效的问题(需同时升级分包工具插件至1.1.12)
+* 普通：修复压缩纹理工具在一些特殊字符转义失败的bug
+
+## 2023-12-18 【重要更新】
+包含重要bugfix、特性支持
+### Feature
+* 普通：TouchStart/TouchEnd去json性能优化
+### Fixed
+* 重要：修复TCP接口arraybuffer处理
+  
+## 2023-12-12 【重要更新】
+包含重要bugfix、特性支持
+### Feature
+* 重要：优化TCP接口能力，使用请查阅[网络通信适配](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/Design/UsingNetworking.md)
+* 重要：优化UDP接口能力
+* 普通：优化启动剧情能力(Beta)
+* 普通：增加接口WX.CanIUse
+
+## 2023-12-08 【重要更新】
+包含重要bugfix、特性支持
 ### Feature
 * 重要：新增启动剧情能力(Beta)
 * 重要：新增TCP接口能力
@@ -18,8 +60,7 @@ Others - 其他
 * 严重：修复TouchMove在<iOS 15.0系统BigUnit64Array兼容性问题
 * 严重：修复适配插件处理代码分包时序导致的一定概率启动失败
 
-## 2023-11-29
-【普通更新】
+## 2023-11-29 【普通更新】
 ### Fixed
 * 普通：修复TouchMove优化在2020之前版本产生的导出错误
 

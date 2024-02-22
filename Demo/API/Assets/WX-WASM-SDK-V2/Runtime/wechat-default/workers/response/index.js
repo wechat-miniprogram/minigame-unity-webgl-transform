@@ -1,9 +1,9 @@
-
+// 消息类型
 const messageType = {
     config: 0,
-    writeFile: 1, 
+    writeFile: 1, // 写文件
 };
-
+// @ts-ignore SDK实际有暴露这几个API，但是协议里没有
 const { createSharedArrayBuffer, getFileSystemManager } = worker;
 const fs = getFileSystemManager ? getFileSystemManager() : null;
 function compareVersion(_v1, _v2) {
@@ -57,7 +57,7 @@ worker.onMessage((res) => {
         const { platform, version } = systemInfo;
         // 安卓才需要使用worker写文件
         const isAndroid = platform.toLocaleLowerCase() === 'android';
-        
+        // 8.0.18以下版本出现写文件报错
         const isClientValid = compareVersion(version, '8.0.18');
         worker.postMessage({
             type: messageType.config,

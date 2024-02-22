@@ -151,7 +151,8 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
 - 解决办法：
   - 1. [压缩纹理优化](CompressedTexture.md)能最大程度地减少内存与解压开销。
   - 2. 升级引擎至2021使用ASTC压缩纹理
-  - 3. 关闭HDR，标准渲染管线在"GraphicsSetting-tier2"（WebGL使用tier2）取消勾选"Use HDR";URP管线通过renderer配置取消 
+  - 3. 关闭HDR，标准渲染管线在"GraphicsSetting-tier2"（WebGL使用tier2）取消勾选"Use HDR";URP管线通过renderer配置取消
+  - 4. 使用[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)将显著降低GPU内存
 
 ### 4.3 UnityHeap
 - 问题原因：UnityHeap是用于存储所有状态、托管的对象和本机对象，往往由于场景过大或由于业务原因造成瞬间内存峰值。***由于Unity WebGL在单首帧内无法GC***，单帧内瞬间的内存使用非常容易造成crash。同时，***Heap是只增不减且存在内存碎片的。***
@@ -183,27 +184,27 @@ UnityHeap = max(托管/Mono内存) + max(Native/Reserved内存 + C原生代码�
    - 3. 尽量强制使用单声道音频，双声道会产生2倍内存消耗
 
 ### 4.6 其他常见优化手段
-- [Unity加载和内存管理](https://zentia.github.io/2018/04/11/AssetBundle/)
 - [性能优化，进无止境-内存篇（上）](https://blog.uwa4d.com/archives/optimzation_memory_1.html)
 - [性能优化，进无止境-内存篇（下）](https://blog.uwa4d.com/archives/optimzation_memory_2.html)
-- [全面理解Unity加载和内存管理](https://gameinstitute.qq.com/community/detail/100741)
 
 
 ## 五、QA
 1. Q: 如何解决iOS高性能模式出现内存过大导致游戏关闭，常见优化步骤如何？
-   - iOS高性能模式下，由操作系统管理内存上限，在3G RAM机型上限是1.5G，安全内存峰值是1.2-1.3G左右
-   - 进程内存离1.5G上限还有较大差距就崩溃了，请检查“UnityHeap预留内存“是否足够
-   - 请使用Perfdog或mac Instrument查看WebContent进程内存是否在安全范围内
-   - 进程内存中的业务内存(UnityHeap, GPU)是每个项目的主要差异点：打开性能面板查看DynamicMemory，峰值不要超过500M；使用Perfdog查看Android版本的GL、GFX显存
-   - 请务必使用代码分包、压缩纹理（2021以上可使用引擎ASTC，低版本使用微信压缩纹理）
+   - iOS测试内存务必不要开启development、profilingmem等模式
+   - iOS测试内存务必使用代码分包、压缩纹理（2021以上可使用引擎ASTC，低版本使用微信压缩纹理）
+   - 请使用Perfdog或mac Instrument查看WebContent进程内存是否在安全范围(安全内存峰值是1.2-1.3G左右)
+   - 进程内存离1.5G上限还有较大差距就突然崩溃，请检查“UnityHeap预留内存“是否足够
+   - 打开性能面板查看DynamicMemory，峰值不要超过500M（结合profilingmem、memoryprofiler分析）
+   - 使用Perfdog查看Android版本的GL、GFX显存，对于GPU显存压力大的游戏，使用[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)
+   - 如果以上步骤完成还有问题，请提供详细数据联系平台侧进一步分析
 
-
-2. Q: 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
+3. Q: 在Unity Profiler看到内存才200MB+，是否代表游戏内存无问题
 
    - 不是。游戏占用内存必须以真机环境为准，使用Perfdog（Android or iOS）或 Instruments in Xcode(iOS)测试对应进程的内存占用。
-   - Unity Profiler仅能看到Unity Heap相关内存，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+   - Unity Profiler仅能看到“引擎可监控内存”，并不包含小游戏公共库、Cavas、WebAssembly编译以及容器其他内存。
+   - 建议使用2022或团结版的memoryprofiler、profiling-mem更精确分析内存，对于分析CPU/GPU内存有较大帮助
 
-3. Q: 转换面板设置内存值多少合适？
+4. Q: 转换面板设置内存值多少合适？
    
    - 请看前文关于UnityHeap预留内存的说明
    
