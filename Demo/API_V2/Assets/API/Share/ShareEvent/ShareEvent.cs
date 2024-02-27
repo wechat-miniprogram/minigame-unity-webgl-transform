@@ -193,5 +193,9 @@ public class ShareEvent : Details
         };
         WX.OnShareAppMessage(defaultParam, _onShareAppMessageCallback);
     }
+
+    private void OnDestroy() {
+        WX.OffShareTimeline(_onShareTimelineCallback);
+    }
 }
 

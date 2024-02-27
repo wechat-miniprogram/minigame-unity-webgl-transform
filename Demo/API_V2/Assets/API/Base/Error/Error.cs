@@ -56,4 +56,13 @@ public class Error : Details
         _isListening = !_isListening;
         GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
     }
+
+
+    private void OnDestroy()
+    {
+        WX.OffUnhandledRejection(_onUnhandledRejection);
+        WX.OffError(_onError);
+        WX.OffAudioInterruptionEnd(_onAudioInterruptionEnd);
+        WX.OffAudioInterruptionBegin(_onAudioInterruptionBegin);
+    }
 }

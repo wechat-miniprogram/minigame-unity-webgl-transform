@@ -12,6 +12,10 @@ public class Screen : Details
     private System.Random random = new System.Random();
 
     private readonly Action<GeneralCallbackResult> _onUserCaptureScreen = (res) => {
+        WX.ShowToast(new ShowToastOption 
+        {
+            title = "截屏触发"
+        });
         var result = "_onUserCaptureScreen\n" + JsonMapper.ToJson(res);
         GameManager.Instance.detailsController.AddResult(new ResultData()
         {
@@ -151,6 +155,11 @@ public class Screen : Details
                 Debug.Log("complete");
             }
         });
+    }
+
+    private void OnDestroy() {
+        WX.OffUserCaptureScreen(_onUserCaptureScreen);
+        WX.OffScreenRecordingStateChanged(_onScreenRecordingStateChanged);
     }
 }
 

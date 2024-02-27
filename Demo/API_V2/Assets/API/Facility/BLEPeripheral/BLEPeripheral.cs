@@ -233,7 +233,16 @@ public class BLEPeripheral : Details
             _server.offCharacteristicWriteRequest(_onCharacteristicWriteRequest);
         }
         _isListening = !_isListening;
-        GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
+        GameManager.Instance.detailsController.ChangeExtraButtonText(4, _isListening ? "取消监听" : "开始监听");
+    }
+
+    private void OnDestroy() {
+        WX.OffBLEPeripheralConnectionStateChanged(_onBLEPeripheralConnectionStateChanged);
+        _server.offCharacteristicReadRequest(_onCharacteristicReadRequest);
+        _server.offCharacteristicSubscribed(_onCharacteristicSubscribed);
+        _server.offCharacteristicUnsubscribed(_onCharacteristicUnsubscribed);
+        _server.offCharacteristicWriteRequest(_onCharacteristicWriteRequest);
+        _server = null;
     }
 }
 

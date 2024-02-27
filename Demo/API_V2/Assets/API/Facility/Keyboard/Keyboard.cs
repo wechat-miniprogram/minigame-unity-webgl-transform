@@ -143,5 +143,15 @@ public class Keyboard : Details
             }
         });
     }
+
+    private void OnDestroy() 
+    {
+        WX.OffKeyUp(_onKeyUp);
+        WX.OffKeyDown(_onKeyDown);
+        WX.OffKeyboardInput(_onKeyboardInput);
+        WX.OffKeyboardHeightChange(_onKeyboardHeightChange);
+        WX.OffKeyboardConfirm(_onKeyboardConfirm);
+        WX.OffKeyboardComplete(_onKeyboardComplete);
+    }
 }
 

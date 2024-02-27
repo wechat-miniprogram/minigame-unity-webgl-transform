@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using WeChatWASM;
 
 public class DetailsController : MonoBehaviour
 {
@@ -37,9 +38,13 @@ public class DetailsController : MonoBehaviour
 
     private void Start()
     {
+        var res = WX.GetMenuButtonBoundingClientRect();
+        var info = WX.GetSystemInfoSync();
+        float height = (float)res.height;
+        float safeArea = (float)GameManager.Instance.systemInfo.safeArea.top;
         // 根据系统安全区域调整标题和返回按钮的位置
-        titleTransform.anchoredPosition = new Vector2(titleTransform.anchoredPosition.x,  -125f - (float)GameManager.Instance.systemInfo.safeArea.top);
-        backButtonTransform.anchoredPosition = new Vector2(backButtonTransform.anchoredPosition.x, -125f - (float)GameManager.Instance.systemInfo.safeArea.top);
+        titleTransform.anchoredPosition = new Vector2(titleTransform.anchoredPosition.x,  -(float)((res.top + res.height / 4) * info.pixelRatio));
+        backButtonTransform.anchoredPosition = new Vector2(backButtonTransform.anchoredPosition.x, -(float)((res.top + res.height / 4) * info.pixelRatio));
     }
 
     // 清除详情信息
@@ -102,6 +107,13 @@ public class DetailsController : MonoBehaviour
             extraButtonBlockObjects.Add(extraButtonBlock);
             extraButtonBlock.GetComponentInChildren<Text>().text = button.buttonText;
         }
+
+        // 添加一个新的透明按钮
+        var extraButton = Instantiate(buttonBlockPrefab, buttonsTransform);
+        extraButtonBlockObjects.Add(extraButton);
+        extraButton.GetComponentInChildren<Text>().text = "";
+        Color transparentColor = new Color(0, 0, 0, 0);
+        extraButton.GetComponentInChildren<Button>().GetComponent<Image>().color = transparentColor;
         
         // 生成结果
         foreach (var result in entrySO.initialResultList)
@@ -162,6 +174,24 @@ public class DetailsController : MonoBehaviour
     public GameObject AddResult(ResultData resultData)
     {
         var resultObj = Instantiate(resultPrefab, resultsTransform);
+        
+         RectTransform resultRectTransform = resultObj.GetComponent<RectTransform>();
+
+        // Change resultObj's width
+        float newWidth = 200f; // Set the desired width
+        resultRectTransform.sizeDelta = new Vector2(newWidth, resultRectTransform.sizeDelta.y);
+
+        // Get the outermost Canvas component
+        Canvas canvas = resultObj.GetComponentInParent<Canvas>();
+
+        // Get the Canvas's RectTransform
+        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
+
+        // Calculate the screen center position based on the Canvas's RectTransform
+        Vector2 screenCenterPosition = new Vector2(canvasRectTransform.sizeDelta.x / 2, canvasRectTransform.sizeDelta.y / 2);
+
+        // Center resultObj within the outermost Canvas
+        resultRectTransform.anchoredPosition = screenCenterPosition;
         resultObjects.Add(resultObj);
         
         ChangeResultTitle(resultObjects.Count - 1, resultData.initialTitleText);

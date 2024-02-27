@@ -57,5 +57,12 @@ public class MouseAndWheel : Details
         _isListening = !_isListening;
         GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
     }
+
+    private void OnDestroy() {
+        WX.OffMouseUp(_onMouseUp);
+        WX.OffMouseDown(_onMouseDown);
+        WX.OffMouseMove(_onMouseMove);
+        WX.OffWheel(_onWheel);
+    }
 }
 

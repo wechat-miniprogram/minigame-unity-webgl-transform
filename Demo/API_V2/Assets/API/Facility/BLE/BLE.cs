@@ -233,5 +233,11 @@ public class BLE : Details
             }
         });
     }
+
+    private void OnDestroy() {
+        WX.OffBLEMTUChange(_onBLEMTUChange);
+        WX.OffBLEConnectionStateChange(_onBLEConnectionStateChange);
+        WX.OffBLECharacteristicValueChange();
+    }
 }
 

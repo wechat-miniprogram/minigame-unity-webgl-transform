@@ -91,5 +91,11 @@ public class Beacon : Details
             }
         });
     }
+
+    private void OnDestroy() {
+        stopBeaconDiscovery();
+        WX.OffBeaconUpdate(_onBeaconUpdate);
+        WX.OffBeaconServiceChange(_onBeaconServiceChange);
+    }
 }
 

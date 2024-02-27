@@ -80,5 +80,10 @@ public class Network : Details
             }
         });
     }
+
+    private void OnDestroy() {
+        WX.OffNetworkWeakChange(_onNetworkWeakChange);
+        WX.OffNetworkStatusChange(_onNetworkStatusChange);
+    }
 }
 

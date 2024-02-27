@@ -193,5 +193,10 @@ public class BluetoothDevice : Details
             }
         });
     }
+
+    private void OnDestroy() {
+        WX.OffBluetoothDeviceFound(_onBluetoothDeviceFound);
+        WX.OffBluetoothAdapterStateChange(_onBluetoothAdapterStateChange);
+    }
 }
 

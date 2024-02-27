@@ -87,5 +87,9 @@ public class Other : Details
             }
         });
     }
+
+    private void OnDestroy() {
+        WX.OffMemoryWarning(_onMemoryWarning);
+    }
 }
 

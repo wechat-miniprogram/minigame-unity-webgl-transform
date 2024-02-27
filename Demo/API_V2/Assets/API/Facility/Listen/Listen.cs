@@ -249,5 +249,13 @@ public class Listen : Details
         _isListeningGyroscope = !_isListeningGyroscope;
         GameManager.Instance.detailsController.ChangeExtraButtonText(3, _isListeningGyroscope ? "取消监听陀螺仪" : "开始监听陀螺仪");
     }
+
+    private void OnDestroy() {
+        WX.OffDeviceOrientationChange(_onDeviceOrientationChange);
+        WX.OffAccelerometerChange(_onAccelerometerChange);
+        WX.OffCompassChange(_onCompassChange);
+        WX.OffDeviceMotionChange(_onDeviceMotionChange);
+        WX.OffGyroscopeChange(_onGyroscopeChange);
+    }
 }
 

@@ -26,4 +26,8 @@ public class Window : Details
         _isListening = !_isListening;
         GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
     }
+
+    private void OnDestroy() {
+        WX.OffWindowResize(_onWindowResize);
+    }
 }

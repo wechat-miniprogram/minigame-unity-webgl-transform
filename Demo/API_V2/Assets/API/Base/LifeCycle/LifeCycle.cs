@@ -37,4 +37,9 @@ public class LifeCycle : Details
         _isListening = !_isListening;
         GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
     }
+
+    private void OnDestroy() {
+         WX.OffShow(_onShow);
+         WX.OffHide(_onHide);
+    }
 }

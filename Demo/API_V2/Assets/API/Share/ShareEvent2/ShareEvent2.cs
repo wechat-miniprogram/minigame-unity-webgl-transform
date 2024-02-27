@@ -115,5 +115,11 @@ public class ShareEvent2 : Details
             }
         });
     }
+
+    private void OnDestroy() {
+        WX.OffHandoff(_onHandoff);
+        WX.OffCopyUrl(_onCopyUrl);
+        WX.OffAddToFavorites(_onAddToFavorites);
+    }
 }
 
