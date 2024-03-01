@@ -16,7 +16,7 @@ MonoBehaviour:
   entryName: "\u767B\u5F55-\u9690\u79C1"
   entryAPI: "login \uFF5CcheckSession\nauthorize \uFF5C getGroupEnterInfo\nrequirePrivacyAuthorize
     \uFF5C openPrivacyContract\ngetPrivacySetting"
-  entryDescription: 
+  entryDescription: "\u90E8\u5206\u63A5\u53E3\u9700\u8981\u914D\u7F6E\u9690\u79C1\u534F\u8BAE"
   optionList: []
   initialButtonText: "\u767B\u5F55"
   extraButtonList:

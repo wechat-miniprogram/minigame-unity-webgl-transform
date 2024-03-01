@@ -4105,7 +4105,7 @@ export default {
     },
     WX_GetAppAuthorizeSetting() {
         const res = wx.getAppAuthorizeSetting();
-        formatResponse('AppAuthorizeSetting', JSON.parse(JSON.stringify(res)));
+        formatResponse('AppAuthorizeSetting', res);
         return JSON.stringify(res);
     },
     WX_GetAppBaseInfo() {

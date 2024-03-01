@@ -174,24 +174,6 @@ public class DetailsController : MonoBehaviour
     public GameObject AddResult(ResultData resultData)
     {
         var resultObj = Instantiate(resultPrefab, resultsTransform);
-        
-         RectTransform resultRectTransform = resultObj.GetComponent<RectTransform>();
-
-        // Change resultObj's width
-        float newWidth = 200f; // Set the desired width
-        resultRectTransform.sizeDelta = new Vector2(newWidth, resultRectTransform.sizeDelta.y);
-
-        // Get the outermost Canvas component
-        Canvas canvas = resultObj.GetComponentInParent<Canvas>();
-
-        // Get the Canvas's RectTransform
-        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
-
-        // Calculate the screen center position based on the Canvas's RectTransform
-        Vector2 screenCenterPosition = new Vector2(canvasRectTransform.sizeDelta.x / 2, canvasRectTransform.sizeDelta.y / 2);
-
-        // Center resultObj within the outermost Canvas
-        resultRectTransform.anchoredPosition = screenCenterPosition;
         resultObjects.Add(resultObj);
         
         ChangeResultTitle(resultObjects.Count - 1, resultData.initialTitleText);

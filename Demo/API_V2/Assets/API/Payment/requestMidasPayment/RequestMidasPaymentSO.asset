@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: RequestMidasPayment
   entryName: "\u53D1\u8D77\u7C73\u5927\u5E08\u652F\u4ED8"
   entryAPI: requestMidasPayment
-  entryDescription: 
+  entryDescription: "\u9700\u914D\u7F6E\u6B63\u786E\u7684\u53C2\u6570\u624D\u80FD\u6B63\u5E38\u8FD0\u884C"
   optionList: []
   initialButtonText: "\u652F\u4ED8"
   extraButtonList: []

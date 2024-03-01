@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: ShareEvent
   entryName: "\u8F6C\u53D11"
   entryAPI: "\u8F6C\u53D1\u76F8\u5173api"
-  entryDescription: 
+  entryDescription: "\u8F6C\u53D1\u529F\u80FD\u53EF\u80FD\u9700\u8981\u76F8\u5173\u6743\u9650"
   optionList: []
   initialButtonText: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027"
   extraButtonList:

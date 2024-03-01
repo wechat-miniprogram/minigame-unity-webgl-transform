@@ -17,7 +17,7 @@ MonoBehaviour:
   entryAPI: 'openSystemBluetoothSetting
 
     openAppAuthorizeSetting'
-  entryDescription: 
+  entryDescription: "\u82E5\u65E0\u6CD5\u6253\u5F00\uFF0C\u5219\u9700\u8981\u53BBmp\u7AEF\u914D\u7F6E\u9690\u79C1\u8BBE\u7F6E\u6216\u67E5\u770B\u62A5\u9519\u4FE1\u606F"
   optionList: []
   initialButtonText: "\u84DD\u7259"
   extraButtonList:

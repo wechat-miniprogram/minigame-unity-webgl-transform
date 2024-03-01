@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: Storage
   entryName: "\u6570\u636E\u7F13\u5B58"
   entryAPI: "\u6570\u636E\u7F13\u5B58\u76F8\u5173API"
-  entryDescription: 
+  entryDescription: "backgroundFetch \u4F7F\u7528\u524D\u8BF7\u67E5\u770B\u4EE5\u4E0B\u6587\u6863\uFF1A\nhttps://developers.weixin.qq.com/minigame/dev/guide/base-ability/background-fetch.html"
   optionList: []
   initialButtonText: "\u6570\u636E\u7F13\u5B58"
   extraButtonList:

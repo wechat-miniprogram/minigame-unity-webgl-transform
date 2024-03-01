@@ -12,6 +12,9 @@ public class SystemButton : Details
         var result = WX.GetLaunchOptionsSync();
         Debug.Log(JsonUtility.ToJson(result));
 
+        CreateGameClubButton();
+        CreateFeedbackButton();
+
         WX.GetSetting(new GetSettingOption()
         {
             withSubscriptions = true,
@@ -42,16 +45,16 @@ public class SystemButton : Details
     
     private void CreateGameClubButton()
     {
-        var screenWidth = (int)GameManager.Instance.systemInfo.screenWidth;
+         var screenWidth = (int)GameManager.Instance.systemInfo.screenWidth;
         _gameClubButton = WX.CreateGameClubButton(new WXCreateGameClubButtonParam()
         {
             type = GameClubButtonType.image,
             text = "游戏圈",
-            icon = GameClubButtonIcon.white,
+            icon = GameClubButtonIcon.green,
             style = new GameClubButtonStyle()
             {
                 left = screenWidth - 40 - 10,
-                top = 200,
+                top = 260,
                 width = 40,
                 height = 40,
             }
@@ -67,7 +70,7 @@ public class SystemButton : Details
             style = new OptionStyle()
             {
                 left = 10,
-                top = 200,
+                top = 260,
                 width = 200,
                 height = 40,
                 lineHeight = 40,
@@ -98,20 +101,20 @@ public class SystemButton : Details
     {
         if (_isGameClubShow)
         {
-            // 隐藏游戏圈按钮
-            _gameClubButton.Hide();
-            GameManager.Instance.detailsController.ChangeExtraButtonText(0, "显示游戏圈按钮");
-        }
-        else
-        {
             // 显示游戏圈按钮
             _gameClubButton.Show();
             GameManager.Instance.detailsController.ChangeExtraButtonText(0, "隐藏游戏圈按钮");
         }
+        else
+        {
+            // 隐藏游戏圈按钮
+            _gameClubButton.Hide();
+            GameManager.Instance.detailsController.ChangeExtraButtonText(0, "显示游戏圈按钮");
+        }
         _isGameClubShow = !_isGameClubShow;
     }
     
-    private bool _isFeedbackShow = false;
+    private bool _isFeedbackShow = true;
     
     // 切换意见反馈按钮显示/隐藏
     private void FeedbackButtonSwitch()
@@ -139,6 +142,9 @@ public class SystemButton : Details
             msgTypeList = new string[] { "SYS_MSG_TYPE_INTERACTIVE" },
             success = (res) => {
                 Debug.Log(res);
+            },
+            fail = (res) => {
+                Debug.Log(JsonUtility.ToJson(res));
             }
         });
     }
@@ -178,17 +184,23 @@ public class SystemButton : Details
     
     private void GameClubButtonDestroy()
     {
+        Debug.Log("gameclub destroy");
         _gameClubButton.Destroy();
     }
     
     private void FeedbackButtonDestroy()
     {
+        Debug.Log("feedback destroy");
         _feedbackButton.Destroy();
     }
     
-    private void OnDestroy()
+    public void OnDestroy()
     {
-        GameClubButtonDestroy();
-        FeedbackButtonDestroy();
+        if (_gameClubButton != null) {
+            GameClubButtonDestroy();
+        }
+        if (_feedbackButton != null) {
+            FeedbackButtonDestroy();
+        }
     }
 }

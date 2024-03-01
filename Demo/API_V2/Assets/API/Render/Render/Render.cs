@@ -23,7 +23,7 @@ public class Render : Details
     }
 
     public void loadFont() {
-        var font = WX.LoadFont("xx");
+        var font = WX.LoadFont("TencentSans-W7.subset.ttf");
         Debug.Log(font);
     }
 }

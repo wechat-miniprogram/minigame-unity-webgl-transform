@@ -15,12 +15,12 @@ MonoBehaviour:
   entryScriptTypeName: SystemButton
   entryName: "\u5FAE\u4FE1\u5BA2\u670D/\u8BA2\u9605\u6D88\u606F/\u610F\u89C1\u53CD\u9988/\u6E38\u620F\u5708/\u5BA2\u670D\u6D88\u606F"
   entryAPI: 
-  entryDescription: 
+  entryDescription: "\u5FAE\u4FE1\u5BA2\u670D\u529F\u80FD\u9700\u8981\u8865\u5145url"
   optionList: []
   initialButtonText: "\u8FDB\u5165\u5BA2\u670D\u4F1A\u8BDD"
   extraButtonList:
-  - buttonText: "\u663E\u793A\u6E38\u620F\u5708\u6309\u94AE"
-  - buttonText: "\u663E\u793A\u610F\u89C1\u53CD\u9988\u6309\u94AE"
+  - buttonText: "\u9690\u85CF\u6E38\u620F\u5708\u6309\u94AE"
+  - buttonText: "\u9690\u85CF\u610F\u89C1\u53CD\u9988\u6309\u94AE"
   - buttonText: "\u8C03\u8D77\u5C0F\u6E38\u620F\u7CFB\u7EDF\u8BA2\u9605\u6D88\u606F\u754C\u9762"
   - buttonText: "\u6253\u5F00\u5FAE\u4FE1\u5BA2\u670D"
   initialResultList: []

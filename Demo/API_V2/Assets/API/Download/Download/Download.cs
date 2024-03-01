@@ -30,9 +30,10 @@ public class Download : Details
         // 填入具体的url和其它参数
         _downloadTask = WX.DownloadFile(new DownloadFileOption 
         {
-            url = "xxxx",
+            url = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
             success = (res) => {
-                Debug.Log(JsonMapper.ToJson(res));
+                // Debug.Log(JsonMapper.ToJson(res));
+                
             },
             fail = (res) => {
                 Debug.Log("fail: " + res.errMsg);

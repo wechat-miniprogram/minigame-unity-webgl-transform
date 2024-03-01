@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectConf:
     projectName: 'API-Demo '
-    Appid: wx0408f5273ebacbbb
+    Appid: wx7a727ff7d940bb3f
     CDN: 
     assetLoadType: 1
     compressDataPackage: 0
@@ -61,7 +61,7 @@ MonoBehaviour:
     enableProfileStats: 0
     enableRenderAnalysis: 0
     iOSAutoGCInterval: 10000
-    enableIOSPerformancePlus: 1
+    enableIOSPerformancePlus: 0
   CompressTexture:
     halfSize: 0
     useDXT5: 0

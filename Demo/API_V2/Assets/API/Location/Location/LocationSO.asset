@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: Location
   entryName: "\u4F4D\u7F6E"
   entryAPI: getFuzzyLocation
-  entryDescription: 
+  entryDescription: "\u82E5api\u4E0D\u53EF\u7528\uFF0C\u53EF\u80FD\u9700\u914D\u7F6E\u76F8\u5173\u7684\u9690\u79C1\u534F\u8BAE"
   optionList: []
   initialButtonText: "\u83B7\u53D6\u5F53\u524D\u7684\u6A21\u7CCA\u5730\u7406\u4F4D\u7F6E"
   extraButtonList: []

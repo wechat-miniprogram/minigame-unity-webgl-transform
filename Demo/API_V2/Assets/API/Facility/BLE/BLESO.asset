@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: BLE
   entryName: "\u84DD\u7259-\u4F4E\u529F\u8017\u4E2D\u5FC3\u8BBE\u5907"
   entryAPI: "\u84DD\u7259-\u4F4E\u529F\u8017\u4E2D\u5FC3\u8BBE\u5907\u76F8\u5173api"
-  entryDescription: 
+  entryDescription: "\u84DD\u7259\u76F8\u5173\u529F\u80FD\u4F7F\u7528\u9700\u914D\u7F6E\u6B63\u786E\u53C2\u6570\u548C\u914D\u7F6E\u9690\u79C1\u534F\u8BAE"
   optionList: []
   initialButtonText: "\u5F00\u59CB\u8FDE\u63A5"
   extraButtonList:

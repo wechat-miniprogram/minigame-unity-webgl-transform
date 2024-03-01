@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: Listen
   entryName: "\u8BBE\u5907\u76D1\u542C"
   entryAPI: "\u52A0\u901F\u8BA1\uFF0C\u7F57\u76D8\uFF0C\u8BBE\u5907\u65B9\u5411\uFF0C\u8F6C\u5C4F\u548C\u9640\u87BA\u4EEA\u76F8\u5173api"
-  entryDescription: 
+  entryDescription: "\u82E5api\u4E0D\u53EF\u7528\uFF0C\u53EF\u80FD\u9700\u914D\u7F6E\u76F8\u5173\u7684\u9690\u79C1\u534F\u8BAE"
   optionList: []
   initialButtonText: "\u5F00\u59CB\u76D1\u542C\u52A0\u901F\u5EA6"
   extraButtonList:

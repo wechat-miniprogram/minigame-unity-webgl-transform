@@ -4,7 +4,7 @@ using WeChatWASM;
 
 public class ChatManager : Details
 {
-    private static WXChat WxChat = null;
+    // private static WXChat WxChat = null;
 
     private void Start()
     {
@@ -33,10 +33,12 @@ public class ChatManager : Details
         }
 
         WxChat = WX.CreateMiniGameChat();
+        Debug.Log("WxChat : " + WxChat);
 
         if (WxChat == null)
         {
             // 创建失败
+            Debug.Log("WXchat is null");
             return;
         }
 
