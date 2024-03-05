@@ -9,6 +9,19 @@ Others - 其他
 标准版下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)  
 
 团结版下载地址：[微信小游戏团结引擎转换插件](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/tuanjie1231/minigame.202401191135.unitypackage)
+## 2024-3-5 【普通更新】
+* 普通：WXAssetBundle支持切换CDN
+* 普通：优化VideoPlayer组件
+* 普通：更新小游戏模板捕获全局错误
+* 普通：高性能+模式不再限制需要iOS>15.0
+### Fixed
+* 普通：修复wx.onBluetoothDeviceFound
+* 普通：修复wx.onUserCaptureScreen
+* 普通：修复wx.getAppAuthorizeSetting
+* 普通：修复fs.stat
+* 普通：修复截屏回调
+* 普通：unity21.3网络超时时间设置
+
 ## 2024-1-18 【普通更新】
 * 普通：更新适配插件版本到1.2.38
 ### Fixed
