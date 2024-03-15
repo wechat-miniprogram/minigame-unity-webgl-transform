@@ -13,7 +13,7 @@ Others - 其他
 * 普通：WXAssetBundle支持切换CDN
 * 普通：优化VideoPlayer组件
 * 普通：更新小游戏模板捕获全局错误
-* 普通：高性能+模式不再限制需要iOS>15.0
+* 普通：高性能+模式下，WebGL2.0不再限制需要iOS>15.0
 ### Fixed
 * 普通：修复wx.onBluetoothDeviceFound
 * 普通：修复wx.onUserCaptureScreen
