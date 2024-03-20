@@ -79,9 +79,14 @@ export function formatResponse(type, data, id) {
     Object.keys(conf).forEach((key) => {
         if (data[key] === null || typeof data[key] === 'undefined') {
             if (typeof typeMap[conf[key]] === 'undefined') {
-                data[key] = {};
-                if (ResType[conf[key]]) {
-                    formatResponse(conf[key], data[key]);
+                if (conf[key].indexOf('[]') > -1) {
+                    data[key] = [];
+                }
+                else {
+                    data[key] = {};
+                    if (ResType[conf[key]]) {
+                        formatResponse(conf[key], data[key]);
+                    }
                 }
             }
             else {
@@ -100,11 +105,20 @@ export function formatResponse(type, data, id) {
         else if (conf[key] === 'bool' && (typeof data[key] === 'number' || typeof data[key] === 'string')) {
             data[key] = !!data[key];
         }
-        else if (conf[key] === 'arrayBuffer' && id) {
-            
-            cacheArrayBuffer(id, data[key]);
-            data.arrayBufferLength = data[key].byteLength;
-            data[key] = [];
+        else if (conf[key] === 'arrayBuffer') {
+            if (id) {
+                
+                cacheArrayBuffer(id, data[key]);
+                data.arrayBufferLength = data[key].byteLength;
+                data[key] = [];
+            }
+            else if (data[key] instanceof ArrayBuffer) {
+                data[key] = new Uint8Array(data[key]);
+                data[key] = Array.from(data[key]);
+            }
+            else {
+                data[key] = [];
+            }
         }
         else if (typeof data[key] === 'object' && conf[key] === 'object') {
             Object.keys(data[key]).forEach((v) => {
@@ -342,4 +356,10 @@ function infoToUint8Array(info) {
 }
 export function convertInfoToPointer(info) {
     return allocateAndSet(infoToUint8Array(info));
+}
+export function stringifyRes(obj) {
+    if (!obj) {
+        return '{}';
+    }
+    return JSON.stringify(obj);
 }

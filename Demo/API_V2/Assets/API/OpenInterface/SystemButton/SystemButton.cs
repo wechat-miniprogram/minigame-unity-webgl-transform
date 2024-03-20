@@ -194,13 +194,15 @@ public class SystemButton : Details
         _feedbackButton.Destroy();
     }
     
-    public void OnDestroy()
+    public void Destroy()
     {
         if (_gameClubButton != null) {
             GameClubButtonDestroy();
+            _gameClubButton = null;
         }
         if (_feedbackButton != null) {
             FeedbackButtonDestroy();
+            _feedbackButton = null;
         }
     }
 }

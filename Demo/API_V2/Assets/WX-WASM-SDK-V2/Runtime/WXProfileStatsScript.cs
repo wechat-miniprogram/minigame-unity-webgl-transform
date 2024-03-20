@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using WeChatWASM;
 
-#if UNITY_WEBGL || UNITY_EDITOR
+#if UNITY_WEBGL || WEIXINMINIGAME || UNITY_EDITOR
 public class WXProfileStatsScript : MonoBehaviour, WeChatWASM.WXSDKManagerHandler.WXProfileStatsScript
 {
     private string statsText;

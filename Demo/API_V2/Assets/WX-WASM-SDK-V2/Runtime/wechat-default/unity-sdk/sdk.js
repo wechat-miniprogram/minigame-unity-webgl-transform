@@ -1,6 +1,6 @@
 
 import moduleHelper from './module-helper';
-import { uid, formatResponse, formatJsonStr, onEventCallback, offEventCallback, getListObject } from './utils';
+import { uid, formatResponse, formatJsonStr, onEventCallback, offEventCallback, getListObject, stringifyRes } from './utils';
 let OnAccelerometerChangeList;
 let OnAudioInterruptionBeginList;
 let OnAudioInterruptionEndList;
@@ -3331,7 +3331,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnAccelerometerChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnAccelerometerChangeCallback', resStr);
         };
         OnAccelerometerChangeList.push(callback);
@@ -3348,7 +3348,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('GeneralCallbackResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnAudioInterruptionBeginCallback', resStr);
         };
         OnAudioInterruptionBeginList.push(callback);
@@ -3365,7 +3365,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('GeneralCallbackResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnAudioInterruptionEndCallback', resStr);
         };
         OnAudioInterruptionEndList.push(callback);
@@ -3382,7 +3382,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnBLEConnectionStateChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBLEConnectionStateChangeCallback', resStr);
         };
         OnBLEConnectionStateChangeList.push(callback);
@@ -3399,7 +3399,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnBLEMTUChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBLEMTUChangeCallback', resStr);
         };
         OnBLEMTUChangeList.push(callback);
@@ -3416,7 +3416,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnBLEPeripheralConnectionStateChangedListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBLEPeripheralConnectionStateChangedCallback', resStr);
         };
         OnBLEPeripheralConnectionStateChangedList.push(callback);
@@ -3430,7 +3430,7 @@ export default {
     WX_OnBackgroundFetchData() {
         const callback = (res) => {
             formatResponse('OnBackgroundFetchDataListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBackgroundFetchDataCallback', resStr);
         };
         wx.onBackgroundFetchData(callback);
@@ -3441,7 +3441,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnBeaconServiceChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBeaconServiceChangeCallback', resStr);
         };
         OnBeaconServiceChangeList.push(callback);
@@ -3458,7 +3458,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnBeaconUpdateListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBeaconUpdateCallback', resStr);
         };
         OnBeaconUpdateList.push(callback);
@@ -3475,7 +3475,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnBluetoothAdapterStateChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBluetoothAdapterStateChangeCallback', resStr);
         };
         OnBluetoothAdapterStateChangeList.push(callback);
@@ -3492,7 +3492,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnBluetoothDeviceFoundListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnBluetoothDeviceFoundCallback', resStr);
         };
         OnBluetoothDeviceFoundList.push(callback);
@@ -3509,7 +3509,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnCompassChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnCompassChangeCallback', resStr);
         };
         OnCompassChangeList.push(callback);
@@ -3526,7 +3526,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnDeviceMotionChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnDeviceMotionChangeCallback', resStr);
         };
         OnDeviceMotionChangeList.push(callback);
@@ -3543,7 +3543,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnDeviceOrientationChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnDeviceOrientationChangeCallback', resStr);
         };
         OnDeviceOrientationChangeList.push(callback);
@@ -3560,7 +3560,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('Error', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnErrorCallback', resStr);
         };
         OnErrorList.push(callback);
@@ -3577,7 +3577,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('GeneralCallbackResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnHideCallback', resStr);
         };
         OnHideList.push(callback);
@@ -3610,7 +3610,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnKeyDownListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnKeyDownCallback', resStr);
         };
         OnKeyDownList.push(callback);
@@ -3627,7 +3627,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnKeyDownListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnKeyUpCallback', resStr);
         };
         OnKeyUpList.push(callback);
@@ -3644,7 +3644,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnKeyboardInputListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnKeyboardCompleteCallback', resStr);
         };
         OnKeyboardCompleteList.push(callback);
@@ -3661,7 +3661,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnKeyboardInputListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnKeyboardConfirmCallback', resStr);
         };
         OnKeyboardConfirmList.push(callback);
@@ -3678,7 +3678,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnKeyboardHeightChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnKeyboardHeightChangeCallback', resStr);
         };
         OnKeyboardHeightChangeList.push(callback);
@@ -3695,7 +3695,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnKeyboardInputListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnKeyboardInputCallback', resStr);
         };
         OnKeyboardInputList.push(callback);
@@ -3712,7 +3712,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnMemoryWarningListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnMemoryWarningCallback', resStr);
         };
         OnMemoryWarningList.push(callback);
@@ -3736,7 +3736,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnMouseDownListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnMouseDownCallback', resStr);
         };
         OnMouseDownList.push(callback);
@@ -3753,7 +3753,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnMouseMoveListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnMouseMoveCallback', resStr);
         };
         OnMouseMoveList.push(callback);
@@ -3770,7 +3770,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnMouseDownListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnMouseUpCallback', resStr);
         };
         OnMouseUpList.push(callback);
@@ -3787,7 +3787,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnNetworkStatusChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnNetworkStatusChangeCallback', resStr);
         };
         OnNetworkStatusChangeList.push(callback);
@@ -3804,7 +3804,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnNetworkWeakChangeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnNetworkWeakChangeCallback', resStr);
         };
         OnNetworkWeakChangeList.push(callback);
@@ -3821,7 +3821,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnScreenRecordingStateChangedListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnScreenRecordingStateChangedCallback', resStr);
         };
         OnScreenRecordingStateChangedList.push(callback);
@@ -3835,7 +3835,7 @@ export default {
     WX_OnShareMessageToFriend() {
         const callback = (res) => {
             formatResponse('OnShareMessageToFriendListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnShareMessageToFriendCallback', resStr);
         };
         wx.onShareMessageToFriend(callback);
@@ -3846,7 +3846,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnShowListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnShowCallback', resStr);
         };
         OnShowList.push(callback);
@@ -3863,7 +3863,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnUnhandledRejectionListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnUnhandledRejectionCallback', resStr);
         };
         OnUnhandledRejectionList.push(callback);
@@ -3880,7 +3880,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('GeneralCallbackResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnUserCaptureScreenCallback', resStr);
         };
         OnUserCaptureScreenList.push(callback);
@@ -3897,7 +3897,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnVoIPChatInterruptedListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnVoIPChatInterruptedCallback', resStr);
         };
         OnVoIPChatInterruptedList.push(callback);
@@ -3914,7 +3914,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnVoIPChatMembersChangedListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnVoIPChatMembersChangedCallback', resStr);
         };
         OnVoIPChatMembersChangedList.push(callback);
@@ -3931,7 +3931,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnVoIPChatSpeakersChangedListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnVoIPChatSpeakersChangedCallback', resStr);
         };
         OnVoIPChatSpeakersChangedList.push(callback);
@@ -3948,7 +3948,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnVoIPChatStateChangedListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnVoIPChatStateChangedCallback', resStr);
         };
         OnVoIPChatStateChangedList.push(callback);
@@ -3965,7 +3965,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnWheelListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnWheelCallback', resStr);
         };
         OnWheelList.push(callback);
@@ -3982,7 +3982,7 @@ export default {
         }
         const callback = (res) => {
             formatResponse('OnWindowResizeListenerResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnWindowResizeCallback', resStr);
         };
         OnWindowResizeList.push(callback);
@@ -3995,7 +3995,7 @@ export default {
     },
     WX_OnAddToFavorites() {
         const callback = (res) => {
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnAddToFavoritesCallback', resStr);
             return wxOnAddToFavoritesResolveConf;
         };
@@ -4015,7 +4015,7 @@ export default {
     },
     WX_OnCopyUrl() {
         const callback = (res) => {
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnCopyUrlCallback', resStr);
             return wxOnCopyUrlResolveConf;
         };
@@ -4035,7 +4035,7 @@ export default {
     },
     WX_OnHandoff() {
         const callback = (res) => {
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnHandoffCallback', resStr);
             return wxOnHandoffResolveConf;
         };
@@ -4055,7 +4055,7 @@ export default {
     },
     WX_OnShareTimeline() {
         const callback = (res) => {
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnShareTimelineCallback', resStr);
             return wxOnShareTimelineResolveConf;
         };
@@ -4076,7 +4076,7 @@ export default {
     WX_OnGameLiveStateChange() {
         const callback = (res) => {
             formatResponse('OnGameLiveStateChangeCallbackResult', res);
-            const resStr = JSON.stringify(res);
+            const resStr = stringifyRes(res);
             moduleHelper.send('_OnGameLiveStateChangeCallback', resStr);
             return wxOnGameLiveStateChangeResolveConf;
         };
@@ -4105,7 +4105,7 @@ export default {
     },
     WX_GetAppAuthorizeSetting() {
         const res = wx.getAppAuthorizeSetting();
-        formatResponse('AppAuthorizeSetting', res);
+        formatResponse('AppAuthorizeSetting', JSON.parse(JSON.stringify(res)));
         return JSON.stringify(res);
     },
     WX_GetAppBaseInfo() {
@@ -4160,7 +4160,7 @@ export default {
     },
     WX_GetSystemSetting() {
         const res = wx.getSystemSetting();
-        formatResponse('SystemSetting', res);
+        formatResponse('SystemSetting', JSON.parse(JSON.stringify(res)));
         return JSON.stringify(res);
     },
     WX_GetWindowInfo() {

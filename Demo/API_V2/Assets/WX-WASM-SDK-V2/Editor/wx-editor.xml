@@ -158,6 +158,35 @@
         <member name="T:WeChatWASM.UnityUtil">
             工具函数
         </member>
+        <member name="M:WeChatWASM.UnityUtil.WxSDKEnvInit">
+            <summary>
+            微信SDK环境初始化
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.UnityUtil.GetEngineVersion">
+            <summary>
+            获取当前环境引擎版本类型
+              Unity 是公版 Unity
+              TuanjieBeta 是团结版老版本
+              Tuanjie 是团结版新版本（支持Package WebGLTemplate）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatWASM.UnityUtil.GetWxSDKRootPath">
+            <summary>
+            获取当前插件模式下 WX-WASM-SDK-V2 的真实绝对路径；
+                如果是 Unity 版本，则返回的是 ...../Assets/WX-WASM-SDK-V2
+                如果是 Tuanjie 版本，若是导入插件模式，则也返回 ...../Assets/WX-WASM-SDK-V2
+                                   若是Package模式，则返回插件的真实路径，如 ..../temp/xxxxx/com.qq.wx.minigame
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatWASM.UnityUtil.GetSDKMode">
+            <summary>
+            获取当前 WXSDK 引入的方式
+            </summary>
+            <returns> SDKMode.Assets 资源目录模式； SDKMode.Package 包模式</returns>
+        </member>
         <member name="M:WeChatWASM.UnityUtil.ScanDirFiles(System.String)">
             <summary>
             扫描目录内所有资源
@@ -177,6 +206,14 @@
             <param name="quality">压缩质量（解压模式时可忽略或任意填写）</param>
             <param name="decompress">是否是解压（默认为压缩模式）</param>
             <returns>是否成功执行</returns>
+        </member>
+        <member name="M:WeChatWASM.UnityUtil.CopyFiles(System.String,System.String,System.Boolean)">
+            <summary>
+            将A目录内容（包括子目录）全部复制到B目录中
+            </summary>
+            <param name="dirA">A目录路径</param>
+            <param name="dirB">B目录路径</param>
+            <param name="force">是否强制覆盖，true 则覆盖，false 则跳过</param>
         </member>
         <member name="F:WeChatWASM.WXProjectConf.projectName">
             <summary>

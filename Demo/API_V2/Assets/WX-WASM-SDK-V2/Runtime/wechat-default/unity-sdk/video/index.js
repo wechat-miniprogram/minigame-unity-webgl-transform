@@ -2,6 +2,8 @@ import { isH5Renderer, isSupportVideoPlayer, isPc, isDevtools } from '../../chec
 let FrameworkData = null;
 const isWebVideo = isH5Renderer || isPc || isDevtools;
 const isDebug = false;
+const needCache = true;
+const cacheVideoDecoder = [];
 const videoInstances = {};
 function _JS_Video_CanPlayFormat(format, data) {
     
@@ -45,10 +47,16 @@ function _JS_Video_Create(url) {
         videoInstances[++videoInstanceIdCounter] = video;
     }
     else {
-        
-        const videoDecoder = wx.createVideoDecoder({
-            type: 'wemedia',
-        });
+        let videoDecoder;
+        if (cacheVideoDecoder.length > 0) {
+            videoDecoder = cacheVideoDecoder.pop();
+        }
+        else {
+            
+            videoDecoder = wx.createVideoDecoder({
+                type: 'wemedia',
+            });
+        }
         
         const videoInstance = {
             videoDecoder,
@@ -122,10 +130,17 @@ function _JS_Video_Create(url) {
         };
         videoInstance.play();
         videoInstance.destroy = () => {
-            videoDecoder.remove();
+            if (needCache) {
+                videoDecoder.stop();
+                cacheVideoDecoder.push(videoDecoder);
+            }
+            else {
+                videoDecoder.remove();
+            }
             if (videoInstance.loopEndPollInterval) {
                 clearInterval(videoInstance.loopEndPollInterval);
             }
+            delete videoInstance.videoDecoder;
             delete videoInstance.onendedCallback;
             delete videoInstance.frameData;
             videoInstance.paused = false;
@@ -314,9 +329,9 @@ function _JS_Video_SetReadyHandler(video, ref, onready) {
         const fn = () => {
             console.log('_JS_Video_SetReadyHandler onCanPlay');
             dynCall_vi(onready, ref);
-            v.videoDecoder.off('bufferchange', fn);
+            v.videoDecoder?.off('bufferchange', fn);
         };
-        v.videoDecoder.on('bufferchange', fn);
+        v.videoDecoder?.on('bufferchange', fn);
     }
 }
 function _JS_Video_SetSeekedOnceHandler(video, ref, onseeked) {
@@ -330,7 +345,7 @@ function _JS_Video_SetSeekedOnceHandler(video, ref, onseeked) {
         });
     }
     else {
-        v.videoDecoder.on('seek', () => {
+        v.videoDecoder?.on('seek', () => {
             dynCall_vi(onseeked, ref);
         });
     }
@@ -406,7 +421,7 @@ function _JS_Video_SetSeekedHandler(video, ref, onseeked) {
         });
     }
     else {
-        v.videoDecoder.on('seek', () => {
+        v.videoDecoder?.on('seek', () => {
             dynCall_vi(onseeked, ref);
         });
     }

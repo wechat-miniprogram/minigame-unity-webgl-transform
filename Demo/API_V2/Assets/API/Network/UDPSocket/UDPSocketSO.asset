@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: DownloadSO
+  m_Name: UDPSocketSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Download
-  entryName: "\u4E0B\u8F7D"
-  entryAPI: downloadFile
-  entryDescription: 
+  entryScriptTypeName: UDPSocket
+  entryName: "UDP\u901A\u4FE1"
+  entryAPI: "UDP \u901A\u4FE1\u76F8\u5173api"
+  entryDescription: "\u9700\u8981\u586B\u5165ip\u548Cport"
   optionList: []
-  initialButtonText: "\u4E0B\u8F7D"
-  extraButtonList: []
+  initialButtonText: "\u521B\u5EFAudp\u5B9E\u4F8B"
+  extraButtonList:
+  - buttonText: "\u8FDE\u63A5"
+  - buttonText: "\u5173\u95ED"
   initialResultList: []

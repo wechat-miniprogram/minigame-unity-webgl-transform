@@ -411,8 +411,15 @@ export default {
     },
     WX_FileSystemManagerStatSync(path, recursive) {
         const fs = wx.getFileSystemManager();
-        
-        return JSON.stringify(fs.statSync(path, recursive));
+        const res = fs.statSync(path, recursive);
+        let resArray;
+        if (Array.isArray(res)) {
+            resArray = res;
+        }
+        else {
+            resArray = [res];
+        }
+        return JSON.stringify(resArray);
     },
     WX_FileSystemManagerWriteSync(option, data) {
         const fs = wx.getFileSystemManager();

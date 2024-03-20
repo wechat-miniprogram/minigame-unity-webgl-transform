@@ -1267,7 +1267,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "ios\u4E0B\u9AD8\u6027\u80FD+\u6A21\u5F0F\u65E0\u6CD5\u6B63\u5E38\u64AD\u653E\u89C6\u9891"
+  m_Text: "ios\u4E0B\u9AD8\u6027\u80FD+\u6A21\u5F0F\u65E0\u6CD5\u6B63\u5E38\u64AD\u653E\u89C6\u9891\n\u8FD9\u91CC\u4E3A\u4E24\u4E2A\u89C6\u9891\uFF0Cios\u53EA\u80FD\u540C\u65F6\u64AD\u653E\u4E00\u4E2A\u89C6\u9891"
 --- !u!1 &1069909357
 GameObject:
   m_ObjectHideFlags: 0

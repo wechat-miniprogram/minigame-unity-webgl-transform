@@ -1,4 +1,4 @@
-#if UNITY_WEBGL || UNITY_EDITOR
+#if UNITY_WEBGL || WEIXINMINIGAME || UNITY_EDITOR
 using System;
 using UnityEngine;
 using WeChatWASM;
@@ -12,7 +12,7 @@ internal class CheckFrame : MonoBehaviour
         frameCnt++;
         if (frameCnt == 2)
         {
-#if UNITY_WEBGL && !UNITY_EDITOR
+#if (UNITY_WEBGL || WEIXINMINIGAME) && !UNITY_EDITOR
             WXSDKManagerHandler.Instance.HideLoadingPage();
 #endif
             Destroy(this);

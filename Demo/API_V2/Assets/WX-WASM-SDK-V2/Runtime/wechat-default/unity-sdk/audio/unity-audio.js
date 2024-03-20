@@ -4,6 +4,8 @@ import { TEMP_DIR_PATH } from './const';
 import { createInnerAudio, destroyInnerAudio, printErrMsg, resumeWebAudio } from './utils';
 
 const defaultSoundLength = 441000;
+
+const needGetLength = false;
 function jsAudioCreateUncompressedSoundClip(buffer, error, length) {
     const soundClip = {
         buffer,
@@ -66,7 +68,7 @@ function jsAudioCreateUncompressedSoundClipFromCompressedAudio(audioData, ptr, l
 function jsAudioCreateCompressedSoundClip(audioData, ptr, length) {
     const soundClip = {
         error: false,
-        length: 441000,
+        length: needGetLength ? 0 : defaultSoundLength,
         url: undefined,
         release() {
             WEBAudio.audioBufferLength -= length;
@@ -115,6 +117,17 @@ function jsAudioCreateCompressedSoundClip(audioData, ptr, length) {
                 printErrMsg(res);
             });
         }
+    }
+    if (needGetLength && soundClip.url) {
+        const { audio: getAudio } = createInnerAudio();
+        getAudio.src = soundClip.url;
+        getAudio.onCanplay(() => {
+            soundClip.length = getAudio.duration * 44100;
+            setTimeout(() => {
+                soundClip.length = getAudio.duration * 44100;
+                getAudio.destroy();
+            }, 0);
+        });
     }
     return soundClip;
 }
@@ -798,11 +811,8 @@ export default {
         if (!soundClip) {
             return defaultSoundLength;
         }
-        if (soundClip && soundClip.buffer) {
-            const sampleRateRatio = 44100 / soundClip.buffer.sampleRate;
-            return soundClip.buffer.length * sampleRateRatio;
-        }
-        return soundClip.length || defaultSoundLength;
+        const length = soundClip.getLength() || defaultSoundLength;
+        return length;
     },
     _JS_Sound_GetLoadState(bufferInstance) {
         if (WEBAudio.audioWebEnabled === 0) {
@@ -812,7 +822,10 @@ export default {
         if (!soundClip || soundClip.error) {
             return 2;
         }
-        if (soundClip.buffer || soundClip.url) {
+        if (soundClip.buffer) {
+            return 0;
+        }
+        if (soundClip.url && soundClip.length) {
             return 0;
         }
         return 1;

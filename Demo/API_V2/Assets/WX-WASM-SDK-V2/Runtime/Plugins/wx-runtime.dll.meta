@@ -12,7 +12,7 @@ PluginImporter:
   validateReferences: 1
   platformData:
   - first:
-      '': Any
+      : Any
     second:
       enabled: 0
       settings:
@@ -22,6 +22,7 @@ PluginImporter:
         Exclude LinuxUniversal: 1
         Exclude OSXUniversal: 1
         Exclude WebGL: 0
+        Exclude WeixinMiniGame: 0
         Exclude Win: 1
         Exclude Win64: 1
   - first:
@@ -60,7 +61,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: x86_64
+        CPU: AnyCPU
   - first:
       Standalone: LinuxUniversal
     second:
@@ -87,6 +88,11 @@ PluginImporter:
         CPU: AnyCPU
   - first:
       WebGL: WebGL
+    second:
+      enabled: 1
+      settings: {}
+  - first:
+      WeixinMiniGame: WeixinMiniGame
     second:
       enabled: 1
       settings: {}

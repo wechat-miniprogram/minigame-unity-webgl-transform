@@ -1,4 +1,4 @@
-import { convertDataToPointer } from "../utils";
+import { convertDataToPointer } from '../utils';
 let wxOnBLECharacteristicValueChangeCallback;
 const OnBLECharacteristicValueChange = (res) => {
     const deviceIdPtr = convertDataToPointer(res.deviceId);

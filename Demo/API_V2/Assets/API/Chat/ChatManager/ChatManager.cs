@@ -4,12 +4,11 @@ using WeChatWASM;
 
 public class ChatManager : Details
 {
-    // private static WXChat WxChat = null;
+    private static WXChat WxChat = null;
 
     private void Start()
     {
         CreateChat();
-        SetTabs();
         
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, Hide);
@@ -31,9 +30,8 @@ public class ChatManager : Details
             Debug.Log("已创建");
             return;
         }
-
+        
         WxChat = WX.CreateMiniGameChat();
-        Debug.Log("WxChat : " + WxChat);
 
         if (WxChat == null)
         {
@@ -45,6 +43,7 @@ public class ChatManager : Details
         WxChat.On("ready", (res) =>
         {
             Debug.Log("wxChat ready");
+            SetTabs();
         });
 
         WxChat.On("show", (res) =>
@@ -125,7 +124,7 @@ public class ChatManager : Details
         }
     }
 
-    private void OnDestroy()
+    public void Destroy()
     {
         Hide();
     }

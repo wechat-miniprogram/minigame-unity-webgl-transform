@@ -138,4 +138,9 @@ public class Interact : Details
             }
         });
     }
+
+    public void Destroy() {
+        WX.HideToast(new HideToastOption{});
+        WX.HideLoading(new HideLoadingOption{});
+    }
 }

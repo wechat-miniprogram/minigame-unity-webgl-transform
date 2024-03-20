@@ -6,14 +6,25 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2024-3-5 【普通更新】
+* 普通：WXAssetBundle支持切换CDN
+* 普通：优化VideoPlayer组件
+* 普通：更新小游戏模板捕获全局错误
+* 普通：高性能+模式不再限制需要iOS>15.0
+### Fixed
+* 普通：修复wx.onBluetoothDeviceFound
+* 普通：修复wx.onUserCaptureScreen
+* 普通：修复wx.getAppAuthorizeSetting
+* 普通：修复fs.stat
+* 普通：修复截屏回调
+* 普通：unity21.3网络超时时间设置
+
 ## 2024-1-18 【普通更新】
-包含重要bugfix、特性支持
 * 普通：更新适配插件版本到1.2.38
 ### Fixed
 * 普通：不支持WebGL2的旧Android微信版本提供升级指引
 
 ## 2024-1-15 【普通更新】
-包含重要bugfix、特性支持
 ### Feature
 * 重要：增加iOS高性能+(iOSPerformancePlus)选项，请查阅[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)，有助于提升渲染兼容性、降低WebContent进程内存
 * 普通：陀螺仪去json性能优化

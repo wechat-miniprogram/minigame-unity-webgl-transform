@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
-  m_Name: DownloadSO
+  m_Script: {fileID: 11500000, guid: 77d040911b51640ea8a6e857528c3a0d, type: 3}
+  m_Name: WebSocketSO
   m_EditorClassIdentifier: 
-  categoryName: "\u4E0B\u8F7D"
-  categorySprite: {fileID: 0}
-  entryList:
-  - {fileID: 11400000, guid: 8fb54c5918d454eea90d5147f2c316ea, type: 2}
+  abilityName: WebSocket
+  abilitySprite: {fileID: 0}

@@ -32,8 +32,7 @@ public class Download : Details
         {
             url = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
             success = (res) => {
-                // Debug.Log(JsonMapper.ToJson(res));
-                
+                Debug.Log(JsonMapper.ToJson(res));
             },
             fail = (res) => {
                 Debug.Log("fail: " + res.errMsg);

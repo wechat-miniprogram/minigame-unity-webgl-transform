@@ -9,7 +9,7 @@ public class Menu : Details
     {
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, getMenuButtonBoundingClientRect);
-        GameManager.Instance.detailsController.BindExtraButtonAction(0, setStatusBarStyle);
+        GameManager.Instance.detailsController.BindExtraButtonAction(1, setStatusBarStyle);
     }
 
     // 测试 API

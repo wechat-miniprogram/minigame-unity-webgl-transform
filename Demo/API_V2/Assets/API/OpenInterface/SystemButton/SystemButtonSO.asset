@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SystemButtonSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: SystemButton
-  entryName: "\u5FAE\u4FE1\u5BA2\u670D/\u8BA2\u9605\u6D88\u606F/\u610F\u89C1\u53CD\u9988/\u6E38\u620F\u5708/\u5BA2\u670D\u6D88\u606F"
+  entryName: "\u7CFB\u7EDF\u6309\u94AE"
   entryAPI: 
   entryDescription: "\u5FAE\u4FE1\u5BA2\u670D\u529F\u80FD\u9700\u8981\u8865\u5145url"
   optionList: []

@@ -54,7 +54,7 @@ var WXAssetBundleLibrary = {
     WXFS.fs = wx.getFileSystemManager();
     WXFS.nowfd = FS.MAX_OPEN_FDS + 1;
     WXFS.isWXAssetBundle = function(url){
-      if(url.startsWith(GameGlobal.unityNamespace.DATA_CDN)||url.startsWith('/vfs_streamingassets')){
+      if(WXFS._url2path.has(url)||url.startsWith(GameGlobal.unityNamespace.DATA_CDN)||url.startsWith('/vfs_streamingassets')){
         return unityNamespace.isWXAssetBundle(WXFS.url2path(url));
       }
       return unityNamespace.isWXAssetBundle(url);
