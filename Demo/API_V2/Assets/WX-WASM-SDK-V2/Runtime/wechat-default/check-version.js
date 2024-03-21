@@ -4,17 +4,17 @@ const { version, SDKVersion, platform, system } = wx.getSystemInfoSync();
 const accountInfo = wx.getAccountInfoSync();
 const envVersion = accountInfo?.miniProgram?.envVersion;
 function compareVersion(v1, v2) {
-  if (!v1 || !v2) {
-    return false;
-  }
-  return (v1
-    .split('.')
-    .map(v => v.padStart(2, '0'))
-    .join('')
+    if (!v1 || !v2) {
+        return false;
+    }
+    return (v1
+        .split('.')
+        .map(v => v.padStart(2, '0'))
+        .join('')
         >= v2
-          .split('.')
-          .map(v => v.padStart(2, '0'))
-          .join(''));
+            .split('.')
+            .map(v => v.padStart(2, '0'))
+            .join(''));
 }
 export const isPc = platform === 'windows' || platform === 'mac';
 export const isIOS = platform === 'ios';
@@ -40,13 +40,15 @@ const isH5LibVersionValid = compareVersion(SDKVersion, '2.23.1');
 const isIOSH5SystemVersionValid = compareVersion(systemVersion, '14.0');
 // iOS系统版本>=15支持webgl2
 const isIOSWebgl2SystemVersionValid = compareVersion(systemVersion, '15.0');
+// Android客户端版本>=8.0.19支持webgl2
+const isAndroidWebGL2ClientVersionValid = compareVersion(version, '8.0.19');
 // 是否用了webgl2
 const isWebgl2 = () => GameGlobal.managerConfig.contextConfig.contextType === 2;
 // 是否支持BufferURL
 export const isSupportBufferURL = !isPc
     && (isH5Renderer
-      ? compareVersion(SDKVersion, '2.29.1') && compareVersion(version, '8.0.30')
-      : typeof wx.createBufferURL === 'function');
+        ? compareVersion(SDKVersion, '2.29.1') && compareVersion(version, '8.0.30')
+        : typeof wx.createBufferURL === 'function');
 // 安卓innerAudio支持playbackRate
 export const isSupportPlayBackRate = !isAndroid || compareVersion(version, '8.0.23');
 // IOS innerAudio支持复用时再次触发onCanplay
@@ -74,7 +76,7 @@ const isIOSH5Invalid = (isH5Renderer && !isH5LibVersionValid) || (!isH5Renderer 
 export const isSupportVideoPlayer = (isIOS && compareVersion(SDKVersion, '3.1.1')) || (isAndroid && compareVersion(SDKVersion, '3.0.0')) || ((isPc || isDevtools) && compareVersion(SDKVersion, '3.2.1'));
 // 视情况添加，没用到对应能力就不需要判断
 // 是否支持webgl2
-const isWebgl2SystemVersionInvalid = () => isIOS && isWebgl2() && !isIOSWebgl2SystemVersionValid;
+const isWebgl2SystemVersionInvalid = () => isWebgl2() && ((!isIOSWebgl2SystemVersionValid && isIOS) || (isAndroid && !isAndroidWebGL2ClientVersionValid));
 // IOS高性能模式2.25.3以上基础库需要手动启动webAudio
 export const webAudioNeedResume = compareVersion(SDKVersion, '2.25.3') && isH5Renderer;
 // 满足iOS高性能条件，但未开通高性能模式
@@ -87,53 +89,59 @@ const needToastEnableHpMode = isDevelop && isIOS && isH5LibVersionValid && isIOS
  * @returns
  */
 export function canUseCoverview() {
-  return isMobile || isDevtools;
+    return isMobile || isDevtools;
 }
 if (needToastEnableHpMode) {
-  console.error('此AppID未开通高性能模式\n请前往mp后台-能力地图-开发提效包-高性能模式开通\n可大幅提升游戏运行性能');
-  // setTimeout(() => {
-  //   wx.showModal({
-  //     title: '[开发版提示]建议',
-  //     content: '此AppID未开通高性能模式\n请前往mp后台-能力地图-开发提效包-高性能模式开通\n可大幅提升游戏运行性能',
-  //     showCancel: false,
-  //   })
-  // }, 10000);
+    console.error('此AppID未开通高性能模式\n请前往mp后台-能力地图-开发提效包-高性能模式开通\n可大幅提升游戏运行性能');
+    // setTimeout(() => {
+    //   wx.showModal({
+    //     title: '[开发版提示]建议',
+    //     content: '此AppID未开通高性能模式\n请前往mp后台-能力地图-开发提效包-高性能模式开通\n可大幅提升游戏运行性能',
+    //     showCancel: false,
+    //   })
+    // }, 10000);
+}
+// @ts-ignore
+if (isIOS && typeof $IOS_DEVICE_PIXEL_RATIO === 'number' && $IOS_DEVICE_PIXEL_RATIO > 0) {
+    // @ts-ignore
+    window.devicePixelRatio = $IOS_DEVICE_PIXEL_RATIO;
 }
 export default () => new Promise((resolve) => {
-  if (!isDevtools) {
-    if (isPcInvalid
+    if (!isDevtools) {
+        if (isPcInvalid
             || isMobileInvalid
             || isIOSH5Invalid
             || isWebgl2SystemVersionInvalid()
             || isBrotliInvalid) {
-      let updateWechat = true;
-      let content = '当前微信版本过低\n请更新微信后进行游戏';
-      if (isIOS) {
-        if (!isIOSH5SystemVersionValid || isWebgl2SystemVersionInvalid()) {
-          content = '当前操作系统版本过低\n请更新iOS系统后进行游戏';
-          updateWechat = false;
-        }
-      }
-      wx.showModal({
-        title: '提示',
-        content,
-        showCancel: false,
-        confirmText: updateWechat ? '更新微信' : '确定',
-        success(res) {
-          if (res.confirm) {
-            const showUpdateWechat = updateWechat && typeof wx.createBufferURL === 'function';
-            if (showUpdateWechat) {
-              wx.updateWeChatApp();
-            } else {
-              wx.exitMiniProgram({
-                success: () => { },
-              });
+            let updateWechat = true;
+            let content = '当前微信版本过低\n请更新微信后进行游戏';
+            if (isIOS) {
+                if (!isIOSH5SystemVersionValid || (isWebgl2SystemVersionInvalid() && isIOS)) {
+                    content = '当前操作系统版本过低\n请更新iOS系统后进行游戏';
+                    updateWechat = false;
+                }
             }
-          }
-        },
-      });
-      return resolve(false);
+            wx.showModal({
+                title: '提示',
+                content,
+                showCancel: false,
+                confirmText: updateWechat ? '更新微信' : '确定',
+                success(res) {
+                    if (res.confirm) {
+                        const showUpdateWechat = updateWechat && typeof wx.createBufferURL === 'function';
+                        if (showUpdateWechat) {
+                            wx.updateWeChatApp();
+                        }
+                        else {
+                            wx.exitMiniProgram({
+                                success: () => { },
+                            });
+                        }
+                    }
+                },
+            });
+            return resolve(false);
+        }
     }
-  }
-  return resolve(true);
+    return resolve(true);
 });

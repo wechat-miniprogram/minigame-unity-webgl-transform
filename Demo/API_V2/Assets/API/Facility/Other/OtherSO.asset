@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: OtherSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Other
+  entryName: "\u5176\u5B83"
+  entryAPI: "\u5185\u5B58\uFF0C\u626B\u7801\u548C\u632F\u52A8\u76F8\u5173API"
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u5F00\u59CB\u76D1\u542C\u5185\u5B58\u544A\u8B66"
+  extraButtonList:
+  - buttonText: "\u626B\u7801"
+  - buttonText: "\u77ED\u632F\u52A8"
+  - buttonText: "\u957F\u632F\u52A8"
+  initialResultList: []

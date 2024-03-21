@@ -33,7 +33,7 @@
     "packNpmRelationList": []
   },
   "compileType": "game",
-  "libVersion": "3.0.0",
+  "libVersion": "3.2.5",
   "appid": "$APP_ID",
   "projectname": "$PROJECT_NAME",
   "simulatorType": "wechat",

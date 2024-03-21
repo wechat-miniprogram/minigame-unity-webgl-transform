@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: OpenSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Open
+  entryName: "\u6253\u5F00\u84DD\u7259\u548C\u6388\u6743\u9875"
+  entryAPI: 'openSystemBluetoothSetting
+
+    openAppAuthorizeSetting'
+  entryDescription: "\u82E5\u65E0\u6CD5\u6253\u5F00\uFF0C\u5219\u9700\u8981\u53BBmp\u7AEF\u914D\u7F6E\u9690\u79C1\u8BBE\u7F6E\u6216\u67E5\u770B\u62A5\u9519\u4FE1\u606F"
+  optionList: []
+  initialButtonText: "\u84DD\u7259"
+  extraButtonList:
+  - buttonText: "\u6388\u6743\u9875"
+  initialResultList: []

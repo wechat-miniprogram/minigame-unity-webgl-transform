@@ -15,6 +15,7 @@ MonoBehaviour:
   categoryName: "\u5E7F\u544A"
   categorySprite: {fileID: 21300000, guid: 9865c656be3004b6f8d509f0134ccdda, type: 3}
   entryList:
+  - {fileID: 11400000, guid: 3ddfb0b7c42b34030a50164dbdb42595, type: 2}
   - {fileID: 11400000, guid: 46bca0e1609784a2f876ea58df90e8b8, type: 2}
   - {fileID: 11400000, guid: ab9ad3727f48045839570ecbda60c455, type: 2}
   - {fileID: 11400000, guid: 11f09745641b4493b99b3ee8bd3e5334, type: 2}

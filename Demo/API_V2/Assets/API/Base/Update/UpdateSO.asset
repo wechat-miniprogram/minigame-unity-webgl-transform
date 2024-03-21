@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: UpdateSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: Update
+  entryName: "\u66F4\u65B0"
+  entryAPI: 'updateWeChatApp
+
+    getUpdateManager - updateManagerdemo'
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u66F4\u65B0\u5BA2\u6237\u7AEF\u7248\u672C"
+  extraButtonList:
+  - buttonText: "\u83B7\u53D6\u7248\u672C\u66F4\u65B0\u7BA1\u7406\u5668"
+  initialResultList: []

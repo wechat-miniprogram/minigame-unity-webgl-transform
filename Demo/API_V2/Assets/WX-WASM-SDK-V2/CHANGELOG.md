@@ -6,8 +6,46 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
-## 2023-12-18
-【重要更新】包含重要bugfix、特性支持
+## 2024-3-5 【普通更新】
+* 普通：WXAssetBundle支持切换CDN
+* 普通：优化VideoPlayer组件
+* 普通：更新小游戏模板捕获全局错误
+* 普通：高性能+模式不再限制需要iOS>15.0
+### Fixed
+* 普通：修复wx.onBluetoothDeviceFound
+* 普通：修复wx.onUserCaptureScreen
+* 普通：修复wx.getAppAuthorizeSetting
+* 普通：修复fs.stat
+* 普通：修复截屏回调
+* 普通：unity21.3网络超时时间设置
+
+## 2024-1-18 【普通更新】
+* 普通：更新适配插件版本到1.2.38
+### Fixed
+* 普通：不支持WebGL2的旧Android微信版本提供升级指引
+
+## 2024-1-15 【普通更新】
+### Feature
+* 重要：增加iOS高性能+(iOSPerformancePlus)选项，请查阅[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)，有助于提升渲染兼容性、降低WebContent进程内存
+* 普通：陀螺仪去json性能优化
+### Fixed
+* 普通：修复蓝牙数据传输问题
+* 普通：修复广告低版本微信ReportshareBehavior上报问题
+* 普通：修复2021.3.33 ContextMenu适配
+* 普通：修复开放域排行榜触控 
+
+## 2024-1-2 【重要更新】
+包含重要bugfix、特性支持
+### Feature
+* 普通：启动剧情新增Hash 、版本号兼容验证逻辑
+* 普通：转换配置新增iOS dpr选项
+* 普通：C# SDK支持文档注释
+### Fixed
+* 重要：修复Android系统代码分包Patch功能不生效的问题(需同时升级分包工具插件至1.1.12)
+* 普通：修复压缩纹理工具在一些特殊字符转义失败的bug
+
+## 2023-12-18 重要更新】
+包含重要bugfix、特性支持
 ### Feature
 * 普通：TouchStart/TouchEnd去json性能优化
 ### Fixed

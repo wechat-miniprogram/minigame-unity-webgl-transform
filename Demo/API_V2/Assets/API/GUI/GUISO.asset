@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
+  m_Name: GUISO
+  m_EditorClassIdentifier: 
+  categoryName: "\u754C\u9762"
+  categorySprite: {fileID: 0}
+  entryList:
+  - {fileID: 11400000, guid: 546628e39e8c246c38eebcdfbfd35b47, type: 2}
+  - {fileID: 11400000, guid: 6902bd974e09745c4a185485a99c165d, type: 2}
+  - {fileID: 11400000, guid: 7d54d37634607415697fd83a27026953, type: 2}

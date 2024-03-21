@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: ShareEventSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: ShareEvent
+  entryName: "\u8F6C\u53D11"
+  entryAPI: "\u8F6C\u53D1\u76F8\u5173api"
+  entryDescription: "\u8F6C\u53D1\u529F\u80FD\u53EF\u80FD\u9700\u8981\u76F8\u5173\u6743\u9650"
+  optionList: []
+  initialButtonText: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027"
+  extraButtonList:
+  - buttonText: "\u663E\u793A\u5F53\u524D\u9875\u9762\u7684\u8F6C\u53D1\u6309\u94AE"
+  - buttonText: "\u9690\u85CF\u5F53\u524D\u9875\u9762\u7684\u8F6C\u53D1\u6309\u94AE"
+  - buttonText: "\u6253\u5F00\u5206\u4EAB\u56FE\u7247\u5F39\u7A97"
+  - buttonText: "\u8BBE\u7F6Esharetofriend\u5B57\u6BB5"
+  - buttonText: "\u8BBE\u7F6E\u63A5\u529B\u53C2\u6570"
+  - buttonText: "\u5F00\u59CB\u76D1\u542C\u5206\u4EAB\u5230\u670B\u53CB\u5708"
+  - buttonText: "\u76D1\u542Csharetofriend"
+  - buttonText: "\u76D1\u542C\u53F3\u4E0A\u89D2\u83DC\u5355\u7684\u8F6C\u53D1"
+  initialResultList: []

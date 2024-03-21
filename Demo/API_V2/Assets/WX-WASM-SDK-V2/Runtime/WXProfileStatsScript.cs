@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Profiling;
 using WeChatWASM;
 
-#if UNITY_WEBGL || UNITY_EDITOR
+#if UNITY_WEBGL || WEIXINMINIGAME || UNITY_EDITOR
 public class WXProfileStatsScript : MonoBehaviour, WeChatWASM.WXSDKManagerHandler.WXProfileStatsScript
 {
     private string statsText;
@@ -284,7 +284,7 @@ public class WXProfileStatsScript : MonoBehaviour, WeChatWASM.WXSDKManagerHandle
             GUI.skin.button.fontSize = 30;
             GUI.skin.label.fontSize = 30;
 #endif
-            if (GUILayout.Button("Performence Stats", GUILayout.ExpandWidth(false)))
+            if (GUILayout.Button("Performance Stats", GUILayout.ExpandWidth(false)))
             {
                 m_isShow = !m_isShow;
             }

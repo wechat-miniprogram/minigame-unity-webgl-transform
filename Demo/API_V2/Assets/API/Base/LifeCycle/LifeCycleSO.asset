@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: LifeCycleSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: LifeCycle
+  entryName: "\u751F\u547D\u5468\u671F"
+  entryAPI: 'onHide | onShow
+
+    offHIde | offHide'
+  entryDescription: 
+  optionList: []
+  initialButtonText: "\u5F00\u59CB\u76D1\u542C"
+  extraButtonList: []
+  initialResultList: []

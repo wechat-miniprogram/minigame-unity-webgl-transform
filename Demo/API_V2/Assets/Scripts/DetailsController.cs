@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using WeChatWASM;
 
 public class DetailsController : MonoBehaviour
 {
@@ -37,9 +38,13 @@ public class DetailsController : MonoBehaviour
 
     private void Start()
     {
+        var res = WX.GetMenuButtonBoundingClientRect();
+        var info = WX.GetSystemInfoSync();
+        float height = (float)res.height;
+        float safeArea = (float)GameManager.Instance.systemInfo.safeArea.top;
         // 根据系统安全区域调整标题和返回按钮的位置
-        titleTransform.anchoredPosition = new Vector2(titleTransform.anchoredPosition.x,  -125f - (float)GameManager.Instance.systemInfo.safeArea.top);
-        backButtonTransform.anchoredPosition = new Vector2(backButtonTransform.anchoredPosition.x, -125f - (float)GameManager.Instance.systemInfo.safeArea.top);
+        titleTransform.anchoredPosition = new Vector2(titleTransform.anchoredPosition.x,  -(float)((res.top + res.height / 4) * info.pixelRatio));
+        backButtonTransform.anchoredPosition = new Vector2(backButtonTransform.anchoredPosition.x, -(float)((res.top + res.height / 4) * info.pixelRatio));
     }
 
     // 清除详情信息
@@ -102,6 +107,13 @@ public class DetailsController : MonoBehaviour
             extraButtonBlockObjects.Add(extraButtonBlock);
             extraButtonBlock.GetComponentInChildren<Text>().text = button.buttonText;
         }
+
+        // 添加一个新的透明按钮
+        var extraButton = Instantiate(buttonBlockPrefab, buttonsTransform);
+        extraButtonBlockObjects.Add(extraButton);
+        extraButton.GetComponentInChildren<Text>().text = "";
+        Color transparentColor = new Color(0, 0, 0, 0);
+        extraButton.GetComponentInChildren<Button>().GetComponent<Image>().color = transparentColor;
         
         // 生成结果
         foreach (var result in entrySO.initialResultList)
@@ -128,7 +140,36 @@ public class DetailsController : MonoBehaviour
         extraButtonBlockObjects[index].GetComponent<ButtonController>()
             .AddButtonListener(action);
     }
-    
+
+    // 获取初始按钮左上角距离画布左上角的相对距离
+    public Vector2 GetInitialButtonPosition() {   
+        var button = initialButton;
+        var canvas = button.GetComponentInParent<Canvas>();
+
+               // 获取 Canvas 和按钮的 RectTransform 组件
+        RectTransform canvasRectTransform = canvas.GetComponent<RectTransform>();
+        RectTransform buttonRectTransform = button.GetComponent<RectTransform>();
+
+        // 计算 Canvas 左上角的局部位置
+        Vector2 canvasTopLeftLocalPosition = new Vector2(-canvasRectTransform.rect.width * canvasRectTransform.pivot.x, canvasRectTransform.rect.height * (1 - canvasRectTransform.pivot.y));
+
+        // 计算按钮左上角的局部位置
+        Vector2 buttonTopLeftLocalPosition = new Vector2(buttonRectTransform.anchoredPosition.x - buttonRectTransform.rect.width * buttonRectTransform.pivot.x, buttonRectTransform.anchoredPosition.y + buttonRectTransform.rect.height * (1 - buttonRectTransform.pivot.y));
+
+        // 将 Canvas 和按钮左上角的局部位置转换为世界坐标系中的位置
+        Vector3 canvasTopLeftWorldPosition = canvasRectTransform.TransformPoint(canvasTopLeftLocalPosition);
+        Vector3 buttonTopLeftWorldPosition = buttonRectTransform.TransformPoint(buttonTopLeftLocalPosition);
+
+        var x = canvasTopLeftWorldPosition.x - buttonTopLeftWorldPosition.x;
+        var y = canvasTopLeftWorldPosition.y - buttonTopLeftWorldPosition.y;
+        return new Vector2(x, y);
+    }
+
+    // 获取初始按钮的长宽
+    public Vector2 GetInitialButtonSize() {
+        return initialButton.GetComponent<RectTransform>().sizeDelta;
+    }
+
     // 添加结果信息
     public GameObject AddResult(ResultData resultData)
     {

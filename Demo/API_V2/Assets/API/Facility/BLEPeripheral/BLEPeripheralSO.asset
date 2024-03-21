@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: BLEPeripheralSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: BLEPeripheral
+  entryName: "\u84DD\u7259-\u4F4E\u529F\u8017\u5916\u56F4\u8BBE\u5907"
+  entryAPI: "\u84DD\u7259-\u4F4E\u529F\u8017\u5916\u56F4\u8BBE\u5907api"
+  entryDescription: "\u84DD\u7259\u76F8\u5173\u529F\u80FD\u4F7F\u7528\u9700\u914D\u7F6E\u6B63\u786E\u53C2\u6570\u548C\u914D\u7F6E\u9690\u79C1\u534F\u8BAE"
+  optionList: []
+  initialButtonText: "\u6DFB\u52A0\u670D\u52A1"
+  extraButtonList:
+  - buttonText: "\u79FB\u9664\u670D\u52A1"
+  - buttonText: "\u5F00\u59CB\u5E7F\u64AD"
+  - buttonText: "\u505C\u6B62\u5E7F\u64AD"
+  - buttonText: "\u5F80\u6307\u5B9A\u7279\u5F81\u5199\u5165\u4E8C\u8FDB\u5236\u6570\u636E\u503C"
+  - buttonText: "\u5F00\u59CB\u76D1\u542C"
+  initialResultList: []

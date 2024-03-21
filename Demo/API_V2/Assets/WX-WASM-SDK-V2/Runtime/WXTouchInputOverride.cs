@@ -1,4 +1,4 @@
-#if UNITY_WEBGL || UNITY_EDITOR
+#if UNITY_WEBGL || WEIXINMINIGAME || UNITY_EDITOR
 using System.Collections.Generic;
 
 using UnityEngine;
