@@ -26,4 +26,8 @@ public class Render : Details
         var font = WX.LoadFont("TencentSans-W7.subset.ttf");
         Debug.Log(font);
     }
+
+    public void Destroy() {
+        WX.SetPreferredFramesPerSecond(60);
+    }
 }

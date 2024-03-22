@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: Stat
   entryName: "\u83B7\u53D6\u6587\u4EF6/\u6587\u4EF6\u5939\u7684\u72B6\u6001\u4FE1\u606F"
   entryAPI: Stat(Sync)
-  entryDescription: "<color=red>\u6CE8\u610F\uFF1ASDK Stat\u3001StatSync\u4FEE\u590D\u4E2D\uFF0C\u6682\u65F6\u65E0\u6CD5\u4F7F\u7528</color>"
+  entryDescription: 
   optionList:
   - optionName: "\u6267\u884C\u65B9\u5F0F"
     availableOptions:
