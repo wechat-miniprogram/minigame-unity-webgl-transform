@@ -54,7 +54,7 @@ lacop watch
 
 可能与平时开发小程序/小游戏直接在 `微信开发者工具` 修改剧本不同的是，你无需修改 `/minigame` 目录中的任何资源，因为这是一个动态构建的产物，他会随着 `/src` 目录中的资源变化被不断覆盖。所以你真正需要修改的是 `/src` 中的代码资源。
 
-接下来请你使用 JavaScript 代码编辑器打开本仓库目录（如 VSCode 打开），找到 `/src/launchOperaPlay/index.ts` 脚本。
+接下来请你使用 JavaScript 代码编辑器打开当前工程目录（如 VSCode 打开），找到 `/src/launchOperaPlay/index.ts` 脚本。
 
 请修改脚本中大约第 51 行的 skipButton 的 setParams 参数为：
 
@@ -84,7 +84,7 @@ skipButton.setParams({
 lacop build
 ```
 
-等待程序执行结束后，你将在本仓库根目录看到 `/release` 目录，此时你可以将 release 目录内资源放到你的正式游戏工程导出的 minigame 目录下使用。
+等待程序执行结束后，你将在根目录看到 `/release` 目录，此时你可以将 release 目录内资源放到你的正式游戏工程导出的 minigame 目录下使用。
 
 有关图片资源路径问题请阅读 [常见Q&A](#常见qa) 中说明。
 
@@ -92,7 +92,7 @@ lacop build
 
 #### Step7 尝试更多的模板
 
-启动剧情能够设计很复杂的交互剧情内容，但是这对于初学者还需要阅读本文更多的内容，后续请查阅 [进阶指南](#4进阶指南)。如果你想快速应用场景，类似 Step5 中这样仅修改属性值就可以替换成自己的游戏素材还是十分便捷。我们提供了多种模板可供选择，只需要在命令行中输入 `lacop template` 可以快速切换提供的多种模板效果拿来使用。
+启动剧情能够设计很复杂的交互剧情内容，但是这对于初次使用的开发者还需要阅读本文更多的内容，后续请查阅 [进阶指南](#4进阶指南)。如果你想快速应用场景，类似 Step5 中这样仅修改属性值就可以替换成自己的游戏素材还是十分便捷。我们提供了多种模板可供选择，只需要在命令行中输入 `lacop template` 可以快速切换提供的多种模板效果拿来使用。
 
 **实际上你可以直接执行 `lacop` 而无需带后面的参数进行能力的自主选择**
 
@@ -137,6 +137,7 @@ const skipButton = operaData.createFrame(FrameType.createImage, {
 
 // 也可以创建后再修改其属性，与上面的写法实际效果完全一样
 const skipButton = operaData.createFrame(FrameType.createImage);
+
 skipButton.setParams({
   url: `launchOpera/skip_button.png`,
   right: 25,
@@ -210,10 +211,10 @@ skipButton.setEvents({
 // 创建
 const storyLine = operaData.createStoryLine();
 
-// 创建一系列的动作帧.....
+// 创建一系列的动作帧...
 
 // 如需添加动作帧
-storyLine.add(var_GC_GUIDE_STEP, startImg, video1, ..... );
+storyLine.add(var_GC_GUIDE_STEP, startImg, video1, ... );
 ```
 
 ##### 4.2.2.2 主故事线
@@ -238,14 +239,14 @@ storyLine.add(var_GC_GUIDE_STEP, startImg, video1, ..... );
 
 FrameType | 释义
 -|-
-[createVideo](#createvideo)| 创建视频组件
-[pauseVide]()| 将某个视频组件进行暂停
-[playVideo]()| 将某个视频组件进行继续播放
-[createAudio]()| 创建音频组件
-[pauseAudio]()| 将某个音频组件进行暂停
-[playAudio]()| 将某个音频组件进行继续播放
-[createImage]()| 创建贴图
-[createRect]()| 创建矩形区域（可透明、填充纯色、用于区域点击识别）
+[createVideo](#frametypecreatevideo)| 创建视频组件
+[pauseVide](#frametypepausevideo)| 将某个视频组件进行暂停
+[playVideo](#frametypeplayvideo)| 将某个视频组件进行继续播放
+[createAudio](#frametypecreateaudio)| 创建音频组件
+[pauseAudio](#frametypepauseaudio)| 将某个音频组件进行暂停
+[playAudio](#frametypeplayaudio)| 将某个音频组件进行继续播放
+[createImage](#frametypecreateimage)| 创建贴图
+[createRect](#frametypecreaterect)| 创建矩形区域（可透明、填充纯色、用于区域点击识别）
 [var]()| 创建全局变量
 [setParam]()| 设置某个关键动作帧的属性
 [setTimeout]()| 创建延迟执行
@@ -258,19 +259,301 @@ FrameType | 释义
 [checkPoint]()| 剧情检查点
 [reportCheckPointCount]()| 上报剧情检查点个数
 
+### 类型约定
+
+类型主要包括以下几种：
+
+类型名 | 说明
+-|-
+String | 字符串
+Boolean | 布尔值
+Number | 数值
+None | 可缺省值
+Percent | 百分比字符串，如 30%
+Frame | 关键动作帧句柄，如 Frame.var 只接受 FrameType 为 var 的句柄
+
+### 空间描述约定
+
+在描述组件的空间位置时，提供了几种简单的描述几乎可以满足大部分的使用需要。
+
+空间描述主要涉及：left、right、top、bottom、width、height 5个属性，这5个属性均支持缺省（None），实际上描述一个组件在屏幕中的位置有时不需要将5个属性完全设置，比如当你规定了 left=0、right=0 时，也就意味着 width=屏幕宽度（width=100%），同理当你 left=0、width=100%，自然right也就=0。
+
+在处理相对位置的时候有时 Number 与 Percent 可能都不能满足你的需要，比如：left=50% 代表屏幕中间，但是你希望屏幕中间再靠左10像素，就无法直接使用 Percent 实现，因为不同用户的设备宽度是不相同的，此时用到 calc 表达式方式，比如刚刚的案例中你可以这样描述： left=calc(50%-10) 就可以了。
+
 ### 视频相关
 
-#### createVideo
+#### FrameType.createVideo
 
 创建视频组件。
 
 ##### 属性
 
-...
+属性名 | 类型 | 介绍
+-|-|-
+top | Number/Percent | 顶端。可参阅[空间描述约定](#空间描述约定)
+bottom | Number/Percent | 底端
+left | Number/Percent | 左端
+right | Number/Percent | 右端
+visible | Boolean | 可视
+width | Number/Percent | 宽度
+height | Number/Percent | 高度
+url | String/Frame.var | 视频资源CDN地址
+autoPlay | Boolean | 是否自动播放
+playing | Boolean | 是否播放中
+objectFit | String/Frame.var | 视频的缩放模式，可选值：fill(填充拉伸)、contain(包含，可能有黑边)、cover(覆盖，可能有部分内容溢出屏幕)
+seek | Number/String/Frame.var | 视频跳转到特定秒数，如果 < 0 则不跳转
+loop | Boolean | 是否循环播放
 
 ##### 事件
 
+事件名 | 参数 | 介绍
+-|-|-
+onPlayTimeAt | sec:Number | 当播放到第sec秒数时（sec单位：秒）
+onEnded | - | 视频播放结束时
+onPlay | - | 视频开始播放时
+
 ##### 案例
+
+```js
+const video = operaData.createFrame(FrameType.createVideo);
+
+video.setParams({
+  // 全屏视频
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  // 视频完整呈现，可能存在黑边
+  objectFit: 'contain',
+  // 视频CDN
+  url: 'http://abc.com/xx.mp4',
+  autoPlay: true,
+});
+
+// 播放 1.5s 时触发新的关键动作帧
+video.setEvent({
+  event: 'onPlayTimeAt',
+  param: {
+    sec: 1.5,
+  },
+  bind: [ xxxx ] // 新的关键动作帧/故事线
+});
+
+// 可以创建多个事件，互相独立
+video.setEvent({
+  event: 'onPlayTimeAt',
+  ...
+})
+
+```
+
+seek 的使用：
+
+seek 需要配合 Frame.SetParam 使用，意味其他事件触发 Frame.SetParam 后为 video 关键动作帧赋值 seek 则产生视频跳转，如需了解 SetParam 请移步特定章节阅读，此处给出 seek 案例：
+
+```js
+const video = ... // 创建video
+
+// 创建一个 setParam ，对 video 的 seek 属性设置为 10
+// 意味着当触发 seek0 时，video 组件视频将从10秒的位置开始播放
+const seek0 = operaData.createFrame(FrameType.setParam, {
+  frame: video,
+  param: 'seek',
+  value: '10'
+});
+
+... // 在特定条件下触发 seek0
+```
+
+#### FrameType.pauseVideo
+
+暂停视频。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+video | Frame.createVideo | 需要暂停的视频的关键动作帧句柄
+
+##### 案例
+
+```js
+const video = ... // 创建video
+
+const playVideo0 = operaData.createFrame(FrameType.playVideo, {
+  video: video,
+});
+
+... // 在特定条件下触发 playVideo0
+```
+
+#### FrameType.playVideo
+
+（继续）播放视频。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+video | Frame.createVideo | 需要（继续）播放的视频的关键动作帧句柄
+
+##### 案例
+
+同 [FrameType.pauseVideo](#frametypepausevideo) 使用。
+
+### 音频相关
+
+#### FrameType.createAudio
+
+创建音频组件。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+url | String/Frame.var | 音频资源CDN地址
+autoPlay | Boolean | 是否自动播放
+playing | Boolean | 是否播放中
+seek | Number/String/Frame.var | 视频跳转到特定秒数，如果 < 0 则不跳转
+loop | Boolean | 是否循环播放
+volume | Number | 音量，0～1之间的数值，默认为1
+
+##### 事件
+
+事件名 | 参数 | 介绍
+-|-|-
+onPlayTimeAt | sec:Number | 当播放到第sec秒数时（sec单位：秒）
+onEnded | - | 音频播放结束时
+onPlay | - | 音频开始播放时
+
+##### 案例
+
+```js
+const audio = operaData.createFrame(FrameType.createAudio);
+
+audio.setParams({
+  // 视频CDN
+  url: 'http://abc.com/xx.mp3',
+  autoPlay: true,
+});
+
+// 播放 1.5s 时触发新的关键动作帧
+audio.setEvent({
+  event: 'onPlayTimeAt',
+  param: {
+    sec: 1.5,
+  },
+  bind: [ xxxx ] // 新的关键动作帧/故事线
+});
+
+// 可以创建多个事件，互相独立
+audio.setEvent({
+  event: 'onPlayTimeAt',
+  ...
+})
+```
+
+#### FrameType.pauseAudio
+
+暂停音频。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+audio | Frame.createAudio | 需要暂停的音频的关键动作帧句柄
+
+##### 案例
+
+同 [FrameType.pauseVideo](#frametypepausevideo) 使用。
+
+#### FrameType.playAudio
+
+（继续）播放音频。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+audio | Frame.createAudio | 需要（继续）播放的音频的关键动作帧句柄
+
+##### 案例
+
+同 [FrameType.pauseVideo](#frametypepausevideo) 使用。
+
+
+### 贴图相关
+
+#### FrameType.createImage
+
+创建贴图组件。
+
+贴图只能加载小游戏包内图片资源，并且需要主动设置高宽（不会自动读取贴图资源尺寸）。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+top | Number/Percent | 顶端。可参阅[空间描述约定](#空间描述约定)
+bottom | Number/Percent | 底端
+left | Number/Percent | 左端
+right | Number/Percent | 右端
+visible | Boolean | 可视
+width | Number/Percent | 宽度
+height | Number/Percent | 高度
+opacity | Number | 透明度 0～1
+url | String/Frame.var | 图片资源本地路径
+scaleWidth | Number | 宽度放缩系数
+scaleHeight | Number | 高度放缩系数
+
+##### 事件
+
+事件名 | 参数 | 介绍
+-|-|-
+onClick | - | 当贴图被点击
+
+##### 案例
+
+```js
+// 案例
+```
+
+#### FrameType.createRect
+
+创建透明、纯色矩形区域，通常用于透明点击区域、背景色。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+top | Number/Percent | 顶端。可参阅[空间描述约定](#空间描述约定)
+bottom | Number/Percent | 底端
+left | Number/Percent | 左端
+right | Number/Percent | 右端
+visible | Boolean | 可视
+width | Number/Percent | 宽度
+height | Number/Percent | 高度
+color | String | 十六进制颜色描述字符串（如：#FFFFFF00）
+
+##### 事件
+
+事件名 | 参数 | 介绍
+-|-|-
+onClick | - | 当贴图被点击
+
+##### 案例
+
+```js
+// 案例
+```
+
+### 属性修改
+
+### 条件判断
+
+### 动画相关
+
+### 全局变量
 
 ## 6.常见Q&A
 
