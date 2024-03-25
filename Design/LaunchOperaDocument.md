@@ -247,13 +247,12 @@ FrameType | 释义
 [playAudio](#frametypeplayaudio)| 将某个音频组件进行继续播放
 [createImage](#frametypecreateimage)| 创建贴图
 [createRect](#frametypecreaterect)| 创建矩形区域（可透明、填充纯色、用于区域点击识别）
+[setParam](#frametypesetparam)| 设置某个关键动作帧的属性
+[setParamSizeAndPosition](#frametypesetparamsizeandposition)| 同时设置组件的Size、Position属性
+[setTimeout](#frametypesettimeout)| 创建延迟执行
+[createAnimationFunction](#frametypecreateanimationfunction)| 创建动画函数
+
 [var]()| 创建全局变量
-[setParam]()| 设置某个关键动作帧的属性
-[setTimeout]()| 创建延迟执行
-[setParamSize]()| 设置组件的Size属性
-[setParamPosition]()| 设置组件的Position属性
-[setParamSizeAndPosition]()| 同时设置组件的Size、Position属性
-[createAnimationFunction]()| 创建动画函数
 [if]()| 条件判断
 [report]()| 创建上报节点
 [checkPoint]()| 剧情检查点
@@ -343,11 +342,10 @@ video.setEvent({
 video.setEvent({
   event: 'onPlayTimeAt',
   ...
-})
-
+});
 ```
 
-seek 的使用：
+###### seek 的使用案例
 
 seek 需要配合 Frame.SetParam 使用，意味其他事件触发 Frame.SetParam 后为 video 关键动作帧赋值 seek 则产生视频跳转，如需了解 SetParam 请移步特定章节阅读，此处给出 seek 案例：
 
@@ -515,7 +513,23 @@ onClick | - | 当贴图被点击
 ##### 案例
 
 ```js
-// 案例
+const image = operaData.createFrame(FrameType.createImage);
+
+// 右下角跳过贴图
+image.setParams({
+  bottom: 10,
+  right: 10,
+  width: 100,
+  height: 30,
+  url: 'launchOperaPlay/skip.png',
+});
+
+// 点击事件
+image.setEvent({
+  event: 'onClick',
+  bind: [ ... ],
+  keep: true,   // 事件始终有效
+});
 ```
 
 #### FrameType.createRect
@@ -544,16 +558,203 @@ onClick | - | 当贴图被点击
 ##### 案例
 
 ```js
-// 案例
+const rect = operaData.createFrame(FrameType.createRect);
+
+// 一个全屏的透明区域，可以用于点击事件透明遮罩
+rect.setParams({
+  top: 0,
+  left: 0,
+  bottom: 0,
+  right: 0,
+  color: '#FFFFFF00'
+});
+
+// 点击事件
+rect.setEvent({
+  event: 'onClick',
+  bind: [ ... ],
+})
 ```
 
 ### 属性修改
 
-### 条件判断
+#### FrameType.setParam
+
+设置单个属性。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+frame | Frame | 需要修改的 frame 句柄
+param | String | 属性名
+value | String/Frame.var/Number/Boolean | 新的值
+
+##### 案例
+
+参阅 [seek的使用案例](#seek-的使用案例) 案例
+
+#### FrameType.setParamSizeAndPosition
+
+同时设置 Size 或 Position 相关属性。相比较于 [FrameType.setParam](#frametypesetparam) 每次只能设置1个属性，对于常见的位置属性可以使用 `FrameType.setParamSizeAndPosition` 一次性设置。
+
+##### 属性
+
+类型中 None 代表可缺省，即不设置该属性。
+
+属性名 | 类型 | 介绍
+-|-|-
+frame | Frame | 需要修改的 frame 句柄
+top | Number/Percent/None | 顶端
+bottom | Number/Percent/None | 底端
+left | Number/Percent/None | 左端
+right | Number/Percent/None | 右端
+visible | Boolean/None | 可视
+width | Number/Percent/None | 宽度
+height | Number/Percent/None | 高度
+opacity | Number/None | 透明度 0～1
+scaleWidth | Number/None | 宽度放缩系数
+scaleHeight | Number/None | 高度放缩系数
+
+##### 案例
+
+```js
+const image = ... // 创建image
+
+// 调整Image位置
+const setPositon = operaData.createFrame(FrameType.setParamSizeAndPosition, {
+  frame: image,
+  top: 0,
+  right: '10%',
+  opacity: 0.5
+});
+
+... // 在特定条件下触发 setPositon
+```
+
+### 延迟执行
+
+#### FrameType.setTimeout
+
+类似 JavaScript `setTimeout` 的延迟执行。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+timeout | String/Number/Frame.var | 延迟时长，单位 ms
+cancel | Boolean | 取消状态，运行时赋值false可提前终止延迟执行
+
+##### 事件
+
+事件名 | 参数 | 介绍
+-|-|-
+onEnded | - | 当延迟结束后
+onCancel | - | 当主动取消时
+
+##### 案例
+
+```js
+const delay1000 = operaData.createFrame(FrameType.setTimeout, {
+  timeout: 1000,  // 1000ms
+});
+
+delay1000.setEvent({
+  event: 'onEnded',
+  bind: [ ... ] // 1000ms 后执行的关键动作帧/故事线
+});
+```
 
 ### 动画相关
 
+#### FrameType.createAnimationFunction
+
+创建动画函数，使得视图组件的某(几)个属性能够按照持续时间完成渐变。无需考虑卸载动画函数，当动画函数被作用的关键动作帧句柄不可视状态时，动画函数将自动结束。
+
+动画在微信开发者工具（模拟器）中表现异常，以真机表现为准。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+frame | Frame | 动画被作用的关键动作帧句柄
+duration | String/Frame.var | 持续时长
+easing | String/Frame.var | 曲率函数，如 ease-out
+top | Number/Percent/None | 顶端
+bottom | Number/Percent/None | 底端
+left | Number/Percent/None | 左端
+right | Number/Percent/None | 右端
+visible | Boolean/None | 可视
+width | Number/Percent/None | 宽度
+height | Number/Percent/None | 高度
+opacity | Number/None | 透明度 0～1
+scaleWidth | Number/None | 宽度放缩系数
+scaleHeight | Number/None | 高度放缩系数
+
+##### 事件
+
+事件名 | 参数 | 介绍
+-|-|-
+onEnded | - | 当动画结束后。
+
+##### 演示
+
+使用动画实现贴图按钮“点击继续”的「呼吸态」是最常见的实用应用，本演示将提供呼吸态按钮的实现：
+
+```js
+// 一个位于底部的 点击继续按钮
+const button = operaData.createFrame(FrameType.createImage, {
+  bottom: 20,
+  left: '50%',
+  width: 100,
+  height: 25,
+  url: 'launchOperaPlay/click_go_on.png'
+});
+
+// 创建一个淡出的动画（透明度从 1->0.2）
+const goonButtonAnimationFadeOut = operaData.createFrame(
+  FrameType.createAnimationFunction,
+  {
+    opacity: 0.2,
+    duration: 1000,
+    easing: 'ease-out',
+    frame: button,
+  },
+);
+// 再创建一个淡入的动画（透明度从 0.2->1）
+const goonButtonAnimationFadeIn = operaData.createFrame(
+  FrameType.createAnimationFunction,
+  {
+    opacity: 1,
+    duration: 1000,
+    easing: 'ease-out',
+    frame: button,
+  },
+);
+
+// 需要两个 Animation 结束后互相调用，即 淡入->结束->淡出->结束->... 循环之
+goonButtonAnimationFadeOut.setEvent({
+  event: 'onEnded',
+  bind: goonButtonAnimationFadeIn,
+  keep: true,    // keep = true 很关键，因为该事件将被反复执行
+});
+goonButtonAnimationFadeIn.setEvent({
+  event: 'onEnded',
+  bind: goonButtonAnimationFadeOut,
+  keep: true,
+});
+
+// 挂载一个适合的故事线中触发后则实现「呼吸态」
+storyLineX.add(button, goonButtonAnimationFadeOut);
+```
+
 ### 全局变量
+
+### 条件判断
+
+条件判断
+
+### 上报
 
 ## 6.常见Q&A
 
@@ -562,17 +763,3 @@ onClick | - | 当贴图被点击
 
 #### 6.2 为什么要放首帧图片（firstFramePic）
 图片资源是跟随微信小游戏包上传至微信服务器，所以在小游戏主逻辑运行时，图片资源也处于就绪状态可以同步加载，因此玩家打开游戏时首帧将看到具体的游戏画面。而视频是存放在CDN的远程资源，不可避免的存在加载延迟问题，所以配置好首帧图片后，在视频可播放后再隐藏图片资源。
-
-#### 6.3 如何托管自己的剧本？
-
-你可以将本仓库 Fork 至自己 GitHub 名下，私有化后独立维护剧本创作。
-
-## 7.分享你的模板
-
-如果你很了解启动剧情剧本的设计，非常欢迎分享出你设计的剧情。请 Fork 本仓库后进行相应的创作，并提交至本仓库。
-
-你的作品需存放至 `template` 的子目录中，子目录名称根据时间先后数字排序（提交后可能被二次修改），将作品名称填写至作品目录的 `readme.md` 文件头（长度不要超过10个中文字符），正如 `template/0/readme.md` 相同的格式。
-
-注意：提交仅接受剧情相关文件，如贴图、.ts剧情撰写代码、说明文档，并且切换模板能够正常播放体验。
-
-请勿提供未确认版权的演示内容。
