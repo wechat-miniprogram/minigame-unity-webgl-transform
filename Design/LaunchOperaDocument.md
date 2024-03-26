@@ -695,14 +695,14 @@ scaleHeight | Number/None | 高度放缩系数
 
 事件名 | 参数 | 介绍
 -|-|-
-onEnded | - | 当动画结束后。
+onEnded | - | 当动画结束后
 
-##### 演示
+##### 案例
 
 使用动画实现贴图按钮“点击继续”的「呼吸态」是最常见的实用应用，本演示将提供呼吸态按钮的实现：
 
 ```js
-// 一个位于底部的 点击继续按钮
+// 一个位于底部居中的 点击继续 按钮
 const button = operaData.createFrame(FrameType.createImage, {
   bottom: 20,
   left: '50%',
@@ -750,11 +750,121 @@ storyLineX.add(button, goonButtonAnimationFadeOut);
 
 ### 全局变量
 
+全局变量是外界脚本（C#、JavaScript）与剧情内部“沟通”的桥梁，外界可以修改全局变量使得剧情内部完成基于[条件判断](#条件判断)实现的不同逻辑分支，外界也可以通过监听某个全局变量值来实时监控剧情内部通过[属性修改](#frametypesetparam)产生的一些消息反馈。
+
+有关外界对全局变量的赋值与监听请阅读[API使用文档](./LaunchOpera.md)，本节仅介绍全局变量在剧情编辑时的创建及属性介绍。
+
+#### FrameType.var
+
+全局变量目前以字符串类型进行内容存储，为方便使用一般在剧情最早的时候进行创建并挂载到主故事线中。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+value | String | 变量值
+globalName | String/None | 全局变量名，设置后可供外界访问。缺省则为剧情内部全局变量，外界无法访问。
+
+##### 案例
+
+```js
+const var_Level0 = operaData.createFrame(FrameType.var, {
+  value: '1',
+  globalName: 'level0',   // 外界可根据此名称读取/监听该全局变量
+});
+
+storyLine.add(var_Level0); // 及时挂载到主故事线使其生效
+```
+
 ### 条件判断
 
-条件判断
+#### FrameType.if
+
+可以对某(两)个全局变量进行判断的关键动作帧。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+valueA | String/Frame.var | 需要对比的变量值或全局变量句柄
+valueB | String/Frame.var | 需要对比的变量值或全局变量句柄
+
+##### 事件
+
+事件名 | 参数 | 介绍
+-|-|-
+isTrue | - | 当 valueA == valueB 时
+isFalse | - | 当 valueA != valueB 时
+
+##### 案例
+
+```js
+// 创建变量
+const var_Level0 = operaData.createFrame(FrameType.var, {
+  value: '1',
+  globalName: 'level0',   // 外界可根据此名称读取/监听该全局变量
+});
+
+storyLine.add(var_Level0); // 及时挂载到主故事线使其生效
+
+const if_go_on = operaData.createFrame(FrameType.if, {
+  valueA: var_Level0,
+  valueB: '1',          // 判断 var_Level0 是否 == '1'
+}, [
+  {
+    event: 'isTrue',
+    bind: [ ... ],      // 成立时执行的故事线
+  },
+  {
+    event: 'isFalse',
+    bind: [ ... ],      // 不成立时执行的故事线
+  }
+]);
+```
 
 ### 上报
+
+上报模块有助于帮助开发者量化启动剧情不同阶段的用户曝光情况分析用户体验，因此建议游戏开发者合理接入该能力。
+
+#### FrameType.Report
+
+该上报本质使用的是 [启动场景上报分析](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-action-start-reportScene.html) 能力，因此使用前应阅读该能力文档。
+
+注意：启动上报每个sceneId在一次启动过程中最多只能上报1次，因此在接入故事线打点时请务必确保路径只会执行1次同sceneId的上报。
+
+##### 属性
+
+属性名 | 类型 | 介绍
+-|-|-
+sceneId | String/Frame.var | 自定义上报场景ID
+dimension | String/Frame.var/None | 自定义上报维度JSON字符串，请阅读上报说明填写
+metric | String/Frame.var/None | 自定义上报指标JSON字符串，请阅读上报说明填写
+
+##### 案例
+
+```js
+// 创建好多个 report
+const report_1001 = operaData.createFrame(FrameType.report, {
+  sceneId: '1001',
+});
+const report_1002 = operaData.createFrame(FrameType.report, {
+  sceneId: '1002',
+});
+
+// 合理的位置进行上报
+video0.setEvent({
+  event: 'onEnded',
+  bind: [ report_1001 ],
+});
+
+...
+
+// 合理的位置进行上报
+video1.setEvent({
+  event: 'onEnded',
+  bind: [ report_1002 ],
+});
+```
 
 ## 6.常见Q&A
 
