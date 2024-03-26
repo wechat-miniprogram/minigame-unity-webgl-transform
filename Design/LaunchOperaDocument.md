@@ -221,7 +221,7 @@ storyLine.add(var_GC_GUIDE_STEP, startImg, video1, ... );
 
 主故事线是启动剧情启动后最先执行的内容，当你第一次创建故事线时，那条线也就是主故事线了。
 
-主故事线有一些很常见的用途，比如挂载一些全局变量放到主故事线上就很合理，这样你可以在任何时候对全局变量进行使用，对于全局变量的详细介绍请阅读 [全局变量]() 小节。
+主故事线有一些很常见的用途，比如挂载一些全局变量放到主故事线上就很合理，这样你可以在任何时候对全局变量进行使用，对于全局变量的详细介绍请阅读 [全局变量](#全局变量) 小节。
 
 
 ## 5.API速查
@@ -251,12 +251,9 @@ FrameType | 释义
 [setParamSizeAndPosition](#frametypesetparamsizeandposition)| 同时设置组件的Size、Position属性
 [setTimeout](#frametypesettimeout)| 创建延迟执行
 [createAnimationFunction](#frametypecreateanimationfunction)| 创建动画函数
-
-[var]()| 创建全局变量
-[if]()| 条件判断
-[report]()| 创建上报节点
-[checkPoint]()| 剧情检查点
-[reportCheckPointCount]()| 上报剧情检查点个数
+[var](#frametypevar)| 创建全局变量
+[if](#frametypeif)| 条件判断
+[report](#frametypereport)| 创建上报节点
 
 ### 类型约定
 
