@@ -9,6 +9,14 @@ Others - 其他
 标准版下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)  
 
 团结版下载地址：[微信小游戏团结引擎转换插件](https://tla-1312733274.cos.ap-shanghai.myqcloud.com/InstantGame/Release/tuanjie1231/minigame.202401191135.unitypackage)
+
+## 2024-3-28 【普通更新】
+* 普通：优化对团结版的导出支持
+### Fixed
+* 普通：兼容PlayDelayed播放
+* 普通：兼容FMOD2.02版本
+* 普通：修复FState偶现报错
+* 
 ## 2024-3-5 【普通更新】
 * 普通：WXAssetBundle支持切换CDN
 * 普通：优化VideoPlayer组件
