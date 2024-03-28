@@ -9,14 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 77d040911b51640ea8a6e857528c3a0d, type: 3}
   m_Name: WXVideoSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: WXvideo
-  entryName: "\u89C6\u9891"
-  entryAPI: CreateVideo
-  entryDescription: "\u539F\u751FVideoPlayer\u7EC4\u4EF6\u4F9D\u8D563.1.1\u4EE5\u4E0A\u7684\u57FA\u7840\u5E93\u7248\u672C\uFF0C\u5982\u679C\u5E0C\u671B\u8986\u76D6\u66F4\u591A\u4F4E\u7248\u672C\u7528\u6237\uFF0C\u4F7F\u7528API\u7684\u65B9\u5F0F\u5B9E\u73B0"
-  optionList: []
-  initialButtonText: "\u64AD\u653E\u89C6\u9891"
-  extraButtonList: []
-  initialResultList: []
+  abilityName: "WX\u89C6\u9891"
+  abilitySprite: {fileID: 0}

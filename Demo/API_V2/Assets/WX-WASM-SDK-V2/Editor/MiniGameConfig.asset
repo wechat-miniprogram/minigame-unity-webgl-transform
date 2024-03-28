@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: 'API-Demo '
+    projectName: API-Demo
     Appid: wx7a727ff7d940bb3f
     CDN: 
     assetLoadType: 1
@@ -46,11 +46,11 @@ MonoBehaviour:
     UseMiniGameChat: 1
     PreloadWXFont: 0
   CompileOptions:
-    DevelopBuild: 1
+    DevelopBuild: 0
     AutoProfile: 0
     ScriptOnly: 0
-    Il2CppOptimizeSize: 0
-    profilingFuncs: 0
+    Il2CppOptimizeSize: 1
+    profilingFuncs: 1
     Webgl2: 1
     fbslim: 0
     DeleteStreamingAssets: 1

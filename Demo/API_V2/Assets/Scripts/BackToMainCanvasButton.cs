@@ -12,7 +12,7 @@ public class BackToMainCanvasButton : MonoBehaviour
         // 为按钮添加点击事件监听器
         GetComponent<Button>().onClick.AddListener(OnClick);
     }
-    
+
     // 点击事件处理
     private static void OnClick()
     {
@@ -28,7 +28,7 @@ public class BackToMainCanvasButton : MonoBehaviour
 
                 foreach (Component component in components)
                 {
-                     MethodInfo onDestroyMethod = component.GetType().GetMethod("Destroy", BindingFlags.Public | BindingFlags.Instance);
+                    MethodInfo onDestroyMethod = component.GetType().GetMethod("Destroy", BindingFlags.Public | BindingFlags.Instance);
 
                     if (onDestroyMethod != null)
                     {
