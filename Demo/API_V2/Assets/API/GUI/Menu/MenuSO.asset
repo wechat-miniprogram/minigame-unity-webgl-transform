@@ -21,7 +21,7 @@ MonoBehaviour:
     setStatusBarStyle
 
 '
-  entryDescription: "\u4F7F\u7528setStatusBarStyle\uFF0C\u9700\u8981\u5728json\u91CC\u6DFB\u52A0showStatusBarStyle"
+  entryDescription: "\u4F7F\u7528setStatusBarStyle\uFF0C\u9700\u8981\u5728json\u91CC\u6DFB\u52A0showStatusBar"
   optionList: []
   initialButtonText: "\u8BBE\u7F6E\u83DC\u5355\u6837\u5F0F"
   extraButtonList:
