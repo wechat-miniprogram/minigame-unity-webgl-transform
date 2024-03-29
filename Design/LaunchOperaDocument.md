@@ -762,6 +762,13 @@ storyLineX.add(button, goonButtonAnimationFadeOut);
 value | String | 变量值
 globalName | String/None | 全局变量名，设置后可供外界访问。缺省则为剧情内部全局变量，外界无法访问。
 
+##### 事件
+
+事件名 | 参数 | 介绍
+-|-|-
+onChange | - | 当变量被赋值时触发的事件，重复赋相同值也会发生事件
+onChanged | - | 当变量被赋值且值发生变化时触发的事件
+
 ##### 案例
 
 ```js
