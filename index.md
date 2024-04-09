@@ -8,6 +8,9 @@ hero:
   actions:
     - theme: brand
       text: 现在开始
+      link: /Design/Guide
+    - theme: alt
+      text: 优秀案例
       link: /markdown-examples
     - theme: alt
       text: 在 GitHub 上查看

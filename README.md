@@ -14,7 +14,7 @@
 ## 转换案例
 | 我叫MT2(回合战斗) | 旅行串串(休闲) | 谜题大陆(SLG) | 热血神剑(MMO) | 
 | --- | --- | --- | --- |
-| <img src='image/showcase34.png' width="240"/> | <img src='image/showcase32.png' width="220"/> |  <img src='image/showcase25.png' width="230"/>| <img src='image/showcase33.png' width="230"/> |
+| <img src='./image/showcase34.png' width="240"/> | <img src='./image/showcase32.png' width="220"/> |  <img src='./image/showcase25.png' width="230"/>| <img src='./image/showcase33.png' width="230"/> |
 
 - [更多转换案例](Design/ShowCase.md)
 
