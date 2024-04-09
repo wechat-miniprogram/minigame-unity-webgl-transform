@@ -1,0 +1,17 @@
+{
+  "name": "minigame-unity-webgl-transform",
+  "version": "1.0.0",
+  "description": "Wechat Mini Game Unity engine adapter documents.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev .config",
+    "docs:build": "vitepress build .config",
+    "docs:preview": "vitepress preview .config"
+  },
+  "author": "Wechat MiniGame Team",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^1.0.2"
+  }
+}
