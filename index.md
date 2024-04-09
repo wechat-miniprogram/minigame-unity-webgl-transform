@@ -11,7 +11,7 @@ hero:
       link: /Design/Guide
     - theme: alt
       text: 优秀案例
-      link: /markdown-examples
+      link: /Design/ShowCase
     - theme: alt
       text: 在 GitHub 上查看
       link: https://github.com/wechat-miniprogram/minigame-unity-webgl-transform
