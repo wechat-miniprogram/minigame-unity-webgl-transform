@@ -122,7 +122,7 @@ export default defineConfig({
         text: "版本更新与资源部署",
         items: [
           { text: "小游戏资源部署", link: "/markdown-examples" },
-          { text: "小游戏资源缓存", link: "/api-examples" },
+          { text: "小游戏资源缓存", link: "" },
           { text: "小游戏版本更新", link: "/api-examples" },
         ],
       },
