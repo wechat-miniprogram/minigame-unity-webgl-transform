@@ -30,7 +30,7 @@ jobs:
     - name: Build
       run: |
         rm -rf Demo
-        npm run build
+        npm run docs:build
 
     - name: Deploy to Pages
       uses: peaceiris/actions-gh-pages@v3
