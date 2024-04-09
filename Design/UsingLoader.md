@@ -41,7 +41,7 @@ dataFileSubPrefix: 首包资源相对cdn地址的存放目录，默认首包资�
 ### 3.2 启动界面
 由于Unity WebGL启动加载需要一定时间，因此需要使用视频或图片等内容作为过渡以留住玩家。Unity Loader默认使用视频+进度信息呈现，开发者可以自定义封面/视频，可参考[启动Loader视频规范](video.md)进行配置。
   
-<img src="../image/coverview_loading.png" height="500">
+<img src="../image/coverview_loading.png" height="500"/>
 
 #### 转换插件相关配置
 ```

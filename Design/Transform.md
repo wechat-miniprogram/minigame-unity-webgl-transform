@@ -62,18 +62,18 @@
 导入转换后的`minigame`目录
 
 3. 工具预览
-<img src='../image/devtools_preview.png'>
+<img src='../image/devtools_preview.png'/>
 
 注意：
 > 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权
 
-<img src="../image/addPlugin.png">
+<img src="../image/addPlugin.png"/>
 
 **请前往mp后台-能力地图-生产提效包-快适配，开通使用**
 
-<img src='../image/mp_addplugin.png'>
+<img src='../image/mp_addplugin.png'/>
 
-<img src='../image/auth_plugin.png'>
+<img src='../image/auth_plugin.png'/>
 
 4. 真机预览
 点击**预览**，扫码二维码预览即可。

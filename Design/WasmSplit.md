@@ -100,14 +100,14 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 ## 插件安装
 通过开发者工具的设置-拓展设置-编辑器自定义拓展，安装 wasmCodeSplit 这个插件
 
-<img src="../image/wasmsplit/extension-panel.png">
+<img src="../image/wasmsplit/extension-panel.png"/>
 
 ## 插件更新
 
 开发者工具上（如果用的是stable版，非minigame版）的插件一般是自动更新的
 
 手动更新
-<img src="../image/wasmsplit/update-plugin.png">
+<img src="../image/wasmsplit/update-plugin.png"/>
 ## 插件使用
 
 分包插件按小游戏的md5（wasmcode下的wasm文件名里的md5）来区分不同的小游戏包
@@ -133,23 +133,23 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 #### 启用分包
 
 打开插件开关后，在目录树上的工具栏中，可以看到插件的按钮，如图所示，点击后即可进入插件页：
-   <img src="../image/wasmsplit/enable-plugin-1.png">
+   <img src="../image/wasmsplit/enable-plugin-1.png"/>
 
 #### 输入版本描述
-   <img src="../image/wasmsplit/enable-plugin-2.png">
+   <img src="../image/wasmsplit/enable-plugin-2.png"/>
 
 #### 等待上传文件
-   <img src="../image/wasmsplit/start-split.png">
+   <img src="../image/wasmsplit/start-split.png"/>
 
 #### 等待预处理
-   <img src="../image/wasmsplit/preproc.png">
+   <img src="../image/wasmsplit/preproc.png"/>
 
 **注意：如果出现红框中的提示，说明这里的状态更新已经中断，需要重启开发者工具**
 
 这一步一般是分钟级的耗时，**如果等待超过10分钟，建议先重启下开发者工具**
 
 #### 选择是否增量分包
-   <img src="../image/wasmsplit/increment-update.png">
+   <img src="../image/wasmsplit/increment-update.png"/>
 
 如果这个游戏之前的包已经有用过代码分包，没有比较大的代码修改的情况下（比如大范围的代码重构，更换引擎），可以使用增量更新，也就是选择之前的某个包作为参考
 
@@ -162,11 +162,11 @@ unity 导出小游戏项目后，代码是在一个 wasm 文件里，经过 brot
 **无需担心开启profiling func导致的包体增大，分包工具会优化函数名**
 
 #### 等待分包
-   <img src="../image/wasmsplit/wait-split.png">
+   <img src="../image/wasmsplit/wait-split.png"/>
 
 
 #### <p id="android-and-ios-collection">android收集 + iOS收集</p>
-   <img src="../image/wasmsplit/main.png">
+   <img src="../image/wasmsplit/main.png"/>
 
 分包的收集，一般需要android和iOS单独收集
 
@@ -304,7 +304,7 @@ iOS 高性能模式由于加载子包的实现不同，刚开始收集时又基�
 
 > 请勿使用小游戏版微信开发者工具，会出现插件无法正常更新或安装。请前往：适配文档-安装与使用，下载stable版本微信开发者工具。
 
-<image src="../image/wasmsplit/check-version.png">
+<image src="../image/wasmsplit/check-version.png"/>
 
 ### 分包插件安装失败
 

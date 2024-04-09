@@ -33,7 +33,7 @@
 1. 编译版本仅当导出勾选Profiling-funcs(推荐)或Development时才能在函数堆栈中看到可读函数名。
 2. 特殊情况下，如果游戏勾选Profiling-funcs会导致代码包过大，那么不要使用此选项。此时得到的Profile中函数为数字ID，有两种做法进行解读：
     - 2.1 通过webgl导出目录下的symbols文件对照映射
-    - 2.2 通过[替换脚本](../tools/update_v8_wasm_profile.py)对cpuprofile进行自动映射到真实函数。使用方式：python update_v8_wasm_profile.py $cpuprofile $symbol
+    - 2.2 通过[替换脚本](../tools/update_v8_wasm_profile.py){target="_self"}对cpuprofile进行自动映射到真实函数。使用方式：python update_v8_wasm_profile.py $cpuprofile $symbol
 3. 如希望能从游戏启动立即抓取profile，请在game.js末尾代码稍作修改：
    ```
    const gl = GameGlobal.canvas.getContext('webgl') 

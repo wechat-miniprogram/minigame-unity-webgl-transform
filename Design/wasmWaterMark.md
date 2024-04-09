@@ -36,15 +36,15 @@
 
   正在打水印
 
-  <img src="https://res.wx.qq.com/wechatgame/product/webpack/userupload/20210623/164104/doing.png" width="400">
+  <img src="https://res.wx.qq.com/wechatgame/product/webpack/userupload/20210623/164104/doing.png" width="400"/>
 
   下载中
 
-  <img src="https://res.wx.qq.com/wechatgame/product/webpack/userupload/20210623/164114/downloading.png" width="400">
+  <img src="https://res.wx.qq.com/wechatgame/product/webpack/userupload/20210623/164114/downloading.png" width="400"/>
 
   已完成
 
-  <img src="https://res.wx.qq.com/wechatgame/product/webpack/userupload/20210623/164504/reset.png" width="400">
+  <img src="https://res.wx.qq.com/wechatgame/product/webpack/userupload/20210623/164504/reset.png" width="400"/>
 
   完成后，即可测试小游戏是否正常运行，若有异常，可点击还原wasm文件到初始状态，重新打水印。
 

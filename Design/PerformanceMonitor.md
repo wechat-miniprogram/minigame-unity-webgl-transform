@@ -289,7 +289,7 @@ interface IBaseRequestInfo {
 ## 优化分析工具
 
 ### 微信开发者工具
-<img src="../image/monitor/network-profile.png">
+<img src="../image/monitor/network-profile.png"/>
 
 - step1: 点击调试器-performance
 - step2: 点击录制按钮

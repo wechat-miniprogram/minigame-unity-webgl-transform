@@ -145,7 +145,7 @@ WX.GetOpenDataContext().PostMessage(msg);
 整体流程示意：
 
 
-<img src="../image/opendata/demo1.jpeg" width="30%"> <img src="../image/opendata/demo2.jpeg" width="30%"> <img src="../image/opendata/demo3.jpeg" width="30%"> 
+<img src="../image/opendata/demo1.jpeg" width="30%"/> <img src="../image/opendata/demo2.jpeg" width="30%"/> <img src="../image/opendata/demo3.jpeg" width="30%"/> 
 #### 5.2 群好友排行榜
 1. 为了使用群排行榜，需要调用 WX.UpdateShareMenu 设置分享菜单
 ``` CSharp
@@ -196,7 +196,7 @@ WX.OnShow((OnShowCallbackResult res) =>
 整体流程示意：
 
 
-<img src="../image/opendata/demo6.jpeg" width="24%"> <img src="../image/opendata/demo7.jpeg" width="24%"> <img src="../image/opendata/demo4.jpeg" width="24%"> <img src="../image/opendata/demo5.jpeg" width="24%">
+<img src="../image/opendata/demo6.jpeg" width="24%"/> <img src="../image/opendata/demo7.jpeg" width="24%"/> <img src="../image/opendata/demo4.jpeg" width="24%"/> <img src="../image/opendata/demo5.jpeg" width="24%"/>
 
 
 ## 常见问题QA
