@@ -31,7 +31,7 @@
 - 不自动缓存文件类型：游戏资源CDN下不自动缓存的文件类型，具体参见[AssetBundle缓存](UsingLoader.md)
 - Bundle名中Hash长度：自定义AssetBundle名中Hash长度用于缓存控制，具体参见[AssetBundle缓存](UsingLoader.md)
 - 预下载列表：网络空闲时预下载的资源，[使用预下载](UsingPreload.md)
-- SDK功能选项：[好友关系链](OpenData.md) [音频优化](AudioOptimization.md)
+- SDK功能选项：[好友关系链](OpenData.md)
 - 调试编译选项
 
 ### 2.2 了解转换后目录结构

@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 现在开始
-      link: /Design/Guide
+      link: /README
     - theme: alt
       text: 优秀案例
       link: /Design/ShowCase

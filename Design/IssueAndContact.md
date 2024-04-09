@@ -14,7 +14,7 @@
 * 最好能提供非业务相关的可复现代码片段
 
 
-## 小游戏研发助手
-开发者也可以通过“研发助手号”直接与小游戏团队进行技术交流
+## 小游戏客服助手
+开发者也可以通过客服助手直接与小游戏团队进行技术交流
 
-  <img src='../image/issueandcontact2.jpg' width="200"/>
+  <img src='../image/issueandcontact2.png' width="200"/>

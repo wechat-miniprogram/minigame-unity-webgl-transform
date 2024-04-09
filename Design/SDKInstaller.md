@@ -1,8 +1,14 @@
 # 微信SDK安装
 
+- 请查阅[推荐引擎版本](/Design/UnityVersion.md)，安装时选择 WeiXin MiniGame（团结引擎）或 WebGL（Unity引擎）组件
+- 前往[微信开发者工具下载](https://developers.weixin.qq.com/miniprogram/dev/devtools/stable.html)安装Stable版开发者工具【注意：为保证稳定性，请勿使用小游戏版 Minigame Build】
+- 查阅[小游戏开发者文档-快速上手](https://developers.weixin.qq.com/minigame/dev/guide/)创建小游戏类目应用
+- 登录[MP微信公众平台](https://mp.weixin.qq.com)，能力地图-生产提效包-快适配，开通使用
+- 查阅[快速开始：转换工具导出微信小游戏](/Design/Transform.md)进行小游戏导出转换
+
 为兼容历史团结/Unity版本的使用，微信小游戏团队将SDK分为如下两种模式安装使用。
 
-## 方法一：Package 方式安装
+## 方法一（推荐）：Package 方式安装
 
 目前[团结引擎](https://unity.cn/tuanjie/tuanjieyinqing)、Unity 2019及以后版本推荐使用 Package 方式安装WXSDK。
 
@@ -13,6 +19,12 @@ URL地址为：
 ```
 https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 ```
+
+国内Gitee镜像：
+```
+https://gitee.com/wechat-minigame/minigame-tuanjie-transform-sdk.git
+```
+
 即可完成SDK导入。
 
 ## 方法二：资源包方式安装

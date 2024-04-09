@@ -23,12 +23,12 @@
 
 ## 接入方式
 
-[演示工程源码](/Demo/LaunchOpera)
+[演示工程源码](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/LaunchOpera)
 由于启动剧情为Unity启动加载耗时过久而推出的能力，因此主要配置由 JavaScript 脚本实现（早于WASM初始化）。
 
 ### 步骤一：设计剧情
 
-剧本设计请阅读 [启动剧情剧本自助设计工具及文档](LaunchOperaDocument.md) 完成设计与调试；
+剧情设计由开发者自行准备游戏主题相关视频、图片资源素材并上传至CDN。剧情编辑工具目前有一定的使用学习成本，Beta阶段为了降低开发者的接入难度，具体的剧情设计需联系[研发助手](/Design/IssueAndContact.md#小游戏研发助手)协助设计。
 
 剧本产物：资源目录 `launchOperaPlay`。
 

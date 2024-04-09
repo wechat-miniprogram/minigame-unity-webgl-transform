@@ -55,7 +55,7 @@ Unity Profiler的运行原理是在Unity Editor监听固定端口，Unity WebGL�
 - 工具需要开启development模式，对性能有较大影响
 - 可获取函数热点、内存与模块上报数据（比如物理、动画等）
 - 不是很稳定，部分版本会出现无法连接的情况
-- 内存数据不准确，并不能反应真实使用情况，内存工具请查阅[优化Unity WebGL的内存](Design/OptimizationMemory.md)
+- 内存数据不准确，并不能反应真实使用情况，内存工具请查阅[优化Unity WebGL的内存](/Design/OptimizationMemory.md)
 
 ### 3.3 小游戏云测
 
@@ -69,7 +69,7 @@ Unity Profiler的运行原理是在Unity Editor监听固定端口，Unity WebGL�
 不用使用XML、JSON解析大文件，尤其是在游戏启动阶段，字符串类型解析器将耗费大量CPU算力与产生GC。比如大型游戏在使用Addressable时catalog文件往往会超过10MB，导致解析过慢而影响启动速度，此时应使用其他资源管理比如AssetBundle来减少资源索引文件大小。同样地，在游戏过程中也尽量避免这类CPU消耗。
 
 ### 2. LUA性能
-Unity WebGL环境的lua不支持JIT，因此需要避免用于重度逻辑。可[使用 Android CPU Profiler 性能调优](Design/AndroidProfile.md)查看LUA的耗时占比。
+Unity WebGL环境的lua不支持JIT，因此需要避免用于重度逻辑。可[使用 Android CPU Profiler 性能调优](/Design/AndroidProfile.md)查看LUA的耗时占比。
 
 ### 3. 物理性能
 请参考文档[优化物理性能](https://docs.unity3d.com/cn/2021.3/Manual/iphone-Optimizing-Physics.html)，适当调整Fixed Timestep与 Maximum Allowed Timestep降低计算频率。

@@ -77,7 +77,7 @@ hideAfterCallmain: $HIDE_AFTER_CALLMAIN, // 是否callmain完成立即隐藏封�
 
 ### 3.3 首包资源加载方式
 **加载方式在转换工具导出时就确定好了，开发者一般不需要修改**
-当**游戏资源量比较少**时，可选择将首包资源作为小游戏分包加载，了解[小游戏分包](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/sub-packages.html)
+当**游戏资源量比较少**时，可选择将首包资源作为小游戏分包加载，了解[小游戏分包](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/independent-sub-packages.html)
 wasm代码已是通过代码分包加载，当**wasm代码+首包资源>20M时，资源包不可再使用小游戏分包加载**。
 当首包资源通过小游戏代码分包下载时，会将首包资源存放在minigame/data-package这个分包下
 

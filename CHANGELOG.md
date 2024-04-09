@@ -6,9 +6,7 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
-标准版下载地址：[微信小游戏Unity转换插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)  
-
-团结版下载地址：[微信小游戏团结引擎转换插件](Design/SDKInstaller.md)
+SDK安装指引：[微信小游戏团结引擎转换插件WXSDK](Design/SDKInstaller.md)
 
 ## 2024-4-3 【重要更新】
 包含重要bugfix、特性支持

@@ -38,7 +38,7 @@ Unity中资源按需加载也可以使用老的AssetBundle，然而使用AB需�
 
 [WXAssetBundle](UsingAssetBundle.md#三更节省内存的wxassetbundle)可以减轻iOS的内存压力，对于使用Addressable的项目，需要替换Provider来使用WXAssetBundle。
 
-1. 下载[WXAssetBundleProvider.cs](../tools/WXAssetBundleProvider.cs)，放到WX-WASM-SDK-V2/Runtime/目录下
+1. 下载[WXAssetBundleProvider.cs](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/tools/WXAssetBundleProvider.cs)，放到WX-WASM-SDK-V2/Runtime/目录下
 2. 导入插件后会有WXAssetBundleProvider.cs缺依赖的报错，需要给WX-WASM-SDK-V2/Runtime 增加 Unity.ResourceManager 的引用
 <img src='../image/wxassetbundleprovider1.png' width="600"/>
 

@@ -31,10 +31,11 @@ export default defineConfig({
       {
         text: "基本",
         items: [
-          { text: "简介", link: "/README" },//
+          { text: "简介", link: "/README" },
           { text: "安装与使用", link: "/Design/SDKInstaller" },
           { text: "入门指南", link: "/Design/Guide" },
-          { text: "优秀案例", link: "/Design/ShowCase" },//
+          { text: "优秀案例", link: "/Design/ShowCase" },
+          { text: "更新日志", link: "/CHANGELOG.md" },
         ],
       },
       {
@@ -150,7 +151,7 @@ export default defineConfig({
         items: [
           { text: "技术常见问题QA", link: "/Design/DevelopmentQAList" },
           { text: "问题反馈与联系我们", link: "/Design/IssueAndContact" },
-          { text: "技术沙龙", link: "/" }, //
+          { text: "技术沙龙", link: "/Design/Salon" },
         ],
       },
     ],
@@ -169,6 +170,6 @@ export default defineConfig({
   srcDir: "../",
   base: "/minigame-unity-webgl-transform/",
   outDir: "../docs",
-  ignoreDeadLinks: true,
+  // ignoreDeadLinks: true,
   lang: "zh-cn",
 });
