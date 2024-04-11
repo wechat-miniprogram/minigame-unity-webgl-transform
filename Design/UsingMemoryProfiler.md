@@ -89,8 +89,8 @@ Other： select sum(size) from alloc_used where callback not like "%xxx%" or cal
 - 首先，这是正常情况，因为每次分配内存都会获取堆栈信息导致运行慢
 - Lua会存在大量分配行为，会加重这个问题， 因此我们提供了专门的内存分配器忽略Lua内存，具体做法：
 
-1. 将[simpledlmalloc.c](../tools/simpledlmalloc.c)添加到xLua虚拟机源码目录下参与编译，（和lauxlib.c同一目录）
-2. 参考[lauxlib.c](../tools/lauxlib.c)，在lua源码目录下的同名文件中增加`simple_dlmalloc`，并修改`LUALIB_API lua_State *luaL_newstate (void)` 为如下所示
+1. 将[simpledlmalloc.c](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/tools/simpledlmalloc.c)添加到xLua虚拟机源码目录下参与编译，（和lauxlib.c同一目录）
+2. 参考[lauxlib.c](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/tools/lauxlib.c)，在lua源码目录下的同名文件中增加`simple_dlmalloc`，并修改`LUALIB_API lua_State *luaL_newstate (void)` 为如下所示
    ```C
    #include "simpledlmalloc.c"
     static void *simple_dlmalloc (void *ud, void *ptr, size_t osize, size_t nsize) {

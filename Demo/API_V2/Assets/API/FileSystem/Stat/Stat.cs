@@ -80,11 +80,6 @@ public class Stat : Details
     // 同步获取文件状态
     private void RunSync(string path)
     {
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "StatSync暂无法运行"
-        });
-        return;
         var fileStats = _fileSystemManager.StatSync(PathPrefix + path);
 
         UpdateResults(fileStats);

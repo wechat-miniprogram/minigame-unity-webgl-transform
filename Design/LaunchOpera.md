@@ -23,7 +23,7 @@
 
 ## 接入方式
 
-[演示工程源码](/Demo/LaunchOpera)
+[演示工程源码](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/LaunchOpera)
 由于启动剧情为Unity启动加载耗时过久而推出的能力，因此主要配置由 JavaScript 脚本实现（早于WASM初始化）。
 
 ### 步骤一：设计剧情
@@ -74,6 +74,11 @@ GameGlobal.events.on("launchOperaInit", (operaHandler) => {
   operaHandler.onErr((err) => {
     console.log('发生异常');
     operaHandler.end();       // 发生异常时强制结束，避免用户无法退出剧情插件模式
+  })
+
+  // 弱网处理
+  operaHandler.onWeakNetwork((info) => {
+
   })
 
 });
@@ -135,6 +140,17 @@ GameGlobal.event.on("launchOperaInit", (operaHandler) => {
 ```c#
 launchOpera.percentage = 0.6;     // 开发者输入 .0～1.0 浮点数，对应控制剩余 30%
 ```
+
+### 弱网处理
+
+启动剧情通常以视频内容呈现为主，网络流畅度对用户体验是存在直接关系，除了开发者需要确保使用可靠的CDN服务托管视频资源确保足够的输出带宽，用户的实际网络也是影响的重要因素。微信小游戏启动剧情对可能影响用户体验的弱网情况做了相应的回调事件，也对网络情况做了三个级别的分级，请开发者对弱网的反馈同样做出合理的处理提升用户体验。
+
+弱网级别：
+- 0级：视频、音频数据流畅
+- 1级：存在稍微卡顿但可及时恢复播放。可适当给出Toast提醒网络较弱，并及时弹出可退出剧情的按钮由用户主动放弃剧情。
+- 2级：严重卡顿，长时间等待视频数据缓冲。建议主动提前结束启动剧情，进入原本的loading阶段。
+
+请参阅 [.onWeakNetwork](#onweaknetworkcallback-function) API描述。
 
 ## API执行环境说明
 
@@ -204,6 +220,42 @@ launchOpera.onErr((err) => {
 
 注销当发生异常时的回调事件。
 
+### .onWeakNetwork(callback: Function)
+
+当发生1-2级弱网情况时发生的回调事件。
+
+一种推荐的配置：
+
+```js
+launchOpera.onWeakNetwork((info) => {
+  /**
+   * info 结构：
+   *  interface info {
+   *    level: number;  // 弱网级别
+   *    url: string;  // 产生本次回调的远程资源url
+   *  }
+  */
+  if (info.level == 1) {
+    wx.showToast({
+      title: '网络较弱正在缓冲...',
+      icon: 'none',
+    });
+    // 使用 GlobalVar 显示跳过/退出按钮
+    // code...
+  } else { // 不是 level 1 则为 level 2
+    wx.showToast({
+      title: '网络较差，以为您跳过剧情',
+      icon: 'none',
+    });
+    launchOpera.end();    // 强制结束
+  }
+});
+```
+
+### .offWeakNetwork(callback: Function)
+
+注销当发生弱网情况时的回调事件。
+
 ### .setGlobalVar(globalName: string, value: string)
 
 设置启动剧情全局变量值。
@@ -240,7 +292,7 @@ var launchOperaHandler = WX.GetLaunchOperaHandler();
 
 提前结束启动剧情。
 
-### void onEnd(Action<bool> callback)
+### void onEnd(Action\<bool> callback)
 
 注册当剧情结束时的回调事件。
 
@@ -258,7 +310,7 @@ WX.GetLaunchOperaHandler().onEnd((status) =>
 });
 ```
 
-### void offEnd(Action<bool> callback)
+### void offEnd(Action\<bool> callback)
 
 注销当剧情结束时配置的回调事件。
 

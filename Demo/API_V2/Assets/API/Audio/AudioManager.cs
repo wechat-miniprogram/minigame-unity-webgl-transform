@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.Networking;
 public class AudioManager : MonoBehaviour
 {
     public AudioSource AudioSource;
@@ -38,5 +38,12 @@ public class AudioManager : MonoBehaviour
     public void Stop()
     {
         AudioSource.Stop();
+    }
+
+    public void playDelayed()
+    {
+        AudioSource.clip = AudioClipLong;
+        AudioSource.loop = true;
+        AudioSource.PlayDelayed(3);
     }
 }

@@ -102,7 +102,7 @@ wx.onMessage(data => {
 因此插件内置的示例采用的是微信自研的[轻量级渲染引擎](https://wechat-miniprogram.github.io/minigame-canvas-engine/)，压缩后只有几十k，这需要你掌握一些简单的 Web 开发知识，包括 [Flex布局](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)、[CSS](https://www.w3schools.com/css/)，参照示例修修改改很快能够上手。
  
 ### 5、示例DEMO
-可以参考[Demo/Ranking](../Demo/Ranking)下面的Unity工程。插件导出的 open-data 已经是一个比较功能完备的工程，进行简单的魔改就能够满足需求。
+可以参考[Demo/Ranking](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/Ranking)下面的Unity工程。插件导出的 open-data 已经是一个比较功能完备的工程，进行简单的魔改就能够满足需求。
 
 #### 5.1 好友排行榜
 1. 展示 RawImage 的时候调用 SDK API
@@ -145,7 +145,7 @@ WX.GetOpenDataContext().PostMessage(msg);
 整体流程示意：
 
 
-<img src="../image/opendata/demo1.jpeg" width="30%"> <img src="../image/opendata/demo2.jpeg" width="30%"> <img src="../image/opendata/demo3.jpeg" width="30%"> 
+<img src="../image/opendata/demo1.jpeg" width="30%"/> <img src="../image/opendata/demo2.jpeg" width="30%"/> <img src="../image/opendata/demo3.jpeg" width="30%"/> 
 #### 5.2 群好友排行榜
 1. 为了使用群排行榜，需要调用 WX.UpdateShareMenu 设置分享菜单
 ``` CSharp
@@ -196,7 +196,7 @@ WX.OnShow((OnShowCallbackResult res) =>
 整体流程示意：
 
 
-<img src="../image/opendata/demo6.jpeg" width="24%"> <img src="../image/opendata/demo7.jpeg" width="24%"> <img src="../image/opendata/demo4.jpeg" width="24%"> <img src="../image/opendata/demo5.jpeg" width="24%">
+<img src="../image/opendata/demo6.jpeg" width="24%"/> <img src="../image/opendata/demo7.jpeg" width="24%"/> <img src="../image/opendata/demo4.jpeg" width="24%"/> <img src="../image/opendata/demo5.jpeg" width="24%"/>
 
 
 ## 常见问题QA

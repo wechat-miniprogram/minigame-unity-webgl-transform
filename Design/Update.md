@@ -16,7 +16,7 @@
 #### 2.1 实时检测更新(UpdateManager)
 戏运行期间检查是否有新版本，**当新版本可用后，提示用户重启更新**
 
-<img src="../image/update-dialog.png" width="320">
+<img src="../image/update-dialog.png" width="320"/>
 
 转换插件有提供配置来自动使用这项能力，通过勾选`MiniGameConfig.asset`中的`needCheckUpdate`。
 

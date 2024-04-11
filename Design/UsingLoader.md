@@ -41,7 +41,7 @@ dataFileSubPrefix: 首包资源相对cdn地址的存放目录，默认首包资�
 ### 3.2 启动界面
 由于Unity WebGL启动加载需要一定时间，因此需要使用视频或图片等内容作为过渡以留住玩家。Unity Loader默认使用视频+进度信息呈现，开发者可以自定义封面/视频，可参考[启动Loader视频规范](video.md)进行配置。
   
-<img src="../image/coverview_loading.png" height="500">
+<img src="../image/coverview_loading.png" height="500"/>
 
 #### 转换插件相关配置
 ```
@@ -77,7 +77,7 @@ hideAfterCallmain: $HIDE_AFTER_CALLMAIN, // 是否callmain完成立即隐藏封�
 
 ### 3.3 首包资源加载方式
 **加载方式在转换工具导出时就确定好了，开发者一般不需要修改**
-当**游戏资源量比较少**时，可选择将首包资源作为小游戏分包加载，了解[小游戏分包](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/sub-packages.html)
+当**游戏资源量比较少**时，可选择将首包资源作为小游戏分包加载，了解[小游戏分包](https://developers.weixin.qq.com/minigame/dev/guide/base-ability/independent-sub-packages.html)
 wasm代码已是通过代码分包加载，当**wasm代码+首包资源>20M时，资源包不可再使用小游戏分包加载**。
 当首包资源通过小游戏代码分包下载时，会将首包资源存放在minigame/data-package这个分包下
 

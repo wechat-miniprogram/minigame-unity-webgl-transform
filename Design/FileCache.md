@@ -199,7 +199,7 @@ maxStorage: 最大缓存容量，修改此值需要联系研发助手开通权�
 
 缓存文件在usr目录下
 
-<img src='../image/cache_path.png'>
+<img src='../image/cache_path.png'/>
 
 4. 真机安卓缓存目录：data/com.tencent.mm/MicroMsg/wxanewfiles/随机ID(根据最近使用时间判断是哪个目录)
 5. 未开通`mp后台-能力地图-生产提效包-空间提升`的游戏，修改`maxStorage`超过200MB会导致出现写缓存失败。

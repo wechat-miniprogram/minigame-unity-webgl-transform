@@ -72,7 +72,7 @@
 iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，运行发烫的小游戏。
 
 - 需要该能力的开发者登录[微信公众平台](https://mp.weixin.qq.com) -> 首页能力地图模块 -> 点击进入"生产提效包" -> 点击开通高性能模式。
-  <img src="../image/mp_addplugin.png">
+  <img src="../image/mp_addplugin.png"/>
 - 开通成功后，过配置 game.json 的 iOSHighPerformance 为 true 则可进入高性能模式，通过去掉此开关可以正常回退到普通模式，以便两种模式对比。
 
 ## 高性能模式限制
@@ -103,9 +103,9 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 - 高性能模式下，请不要服务端设置 Cookie，游戏端内因为跨域问题会读取不到 Cookie
 - Android 下载资源无问题，高性能模式提示资源下载失败等网络问题，请参考文档[网络通信适配](UsingNetworking.md#注意事项)关于跨域的问题
 
-### <p id="3-gzip-off-warning">3. iOS 报错提示未开启 gzip/br 压缩
+### <p id="3-gzip-off-warning"/>3. iOS 报错提示未开启 gzip/br 压缩
 
-<img src='../image/contentencoding_error.png' width="500">
+<img src='../image/contentencoding_error.png' width="500"/>
 
 可通过微信开发者工具查看 Content-Encoding 是否为 gzip 或 br
 
@@ -115,11 +115,11 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 解决办法：增加跨域头部`"Access-Control-Expose-Headers": "Content-Length, Content-Encoding",`
 
-<img src="../image/devtools_network.png" width="500">
+<img src="../image/devtools_network.png" width="500"/>
 
-### <p id="4-isTrusted-warning">4. 资源下载提示`isTrusted`
+### <p id="4-isTrusted-warning"/>4. 资源下载提示`isTrusted`
 
-<img src='../image/cors_istrusted.png' width='500'>
+<img src='../image/cors_istrusted.png' width='500'/>
 
 多半由于跨域问题导致，可通过开发者工具查看对应资源的 Response Header 是否有跨域头，
 请参考文档[网络通信适配](UsingNetworking.md#注意事项)关于跨域的问题
@@ -128,11 +128,11 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 - 右上角打开调试，重启小游戏，点三次下方的 Unity logo 打开 vconsole
 - 如果出现资源访问失败，但 Android 和开发者工具却可以下载则参考 QA3 关于跨域问题
-- 15.4 系统出现"Not implemented"与内存问题，此为 Unity & iOS 15.4 的 BUG，微信提供的 wasm 代码分包(推荐)或 Unity WebGL 官方论坛的[临时修复方案](https://forum.unity.com/threads/ios-15-webgl-2-issue.1176116/page-2)
+- 15.4 系统出现"Not implemented"、"Class::FromIl2CppType"，此为 Unity & iOS 15.4 的 BUG，微信提供的 wasm 代码分包(推荐)或 Unity WebGL 官方论坛的[临时修复方案](https://forum.unity.com/threads/ios-15-webgl-2-issue.1176116/page-2)
 - 16.7/17.0系统出现"glGetString (GL_EXTENSIONS) - failure", 苹果官方17.1已fix。对于未更新系统的玩家，也可使用[高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)处理。详情请查阅: [Unity社区讨论](https://forum.unity.com/threads/webgl-context-lost-ios-17-safari.1501193/)，[iOS浏览器Webkit BUG](https://bugs.webkit.org/show_bug.cgi?id=261313),
   
 
-### <p id="6-ui-flicker">6. 个别游戏 UI 会出现闪烁问题
+### <p id="6-ui-flicker"/>6. 个别游戏 UI 会出现闪烁问题
 - 目前已发现iOS 15.4出现若干渲染BUG，如stencil特性支持，请查阅文档[优化Unity WebGL的渲染性能](RenderOptimization.md)
 - 如按上述文档去除依然无法解决，请提供可复现 Unity 工程联系 minigamedevop08
 
@@ -140,10 +140,10 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 - 请参考本文前面部分，如果未使用代码分包的情况下 JIT 编译优化将耗费大量性能
 
-### <p id="8-release-with-no-memory-and-code-size-optimize">8. 使用高性能模式下，不优化内存、WASM 代码包体积就发布上线可以吗？
+### <p id="8-release-with-no-memory-and-code-size-optimize"/>8. 使用高性能模式下，不优化内存、WASM 代码包体积就发布上线可以吗？
 
 - 不建议。iOS 高性能模式虽然能提运行算力，但对内存、WASM 包体积有更苛刻的要求，需要更多的精力做优化。如果不做任何优化的情况下，很有可能会遇到超出内存限制而崩溃，启动时发烫现象严重等问题。**_上线发布时，特别建议使用[WASM 代码分包](WasmSplit.md)+[压缩纹理](CompressedTexture.md)+[UnityHeap](OptimizationMemory.md)预留这几种优化手段。_**
 
-### <p id="9-iOS-high-performance-vs-android">9. iOS 高性能模式与安卓性能对比如何？
+### <p id="9-iOS-high-performance-vs-android"/>9. iOS 高性能模式与安卓性能对比如何？
 
 - 两种系统环境下，WASM 执行都是 JIT 代码。但由于底层虚拟机差异过大以及自身不断迭代，难以横向对比。

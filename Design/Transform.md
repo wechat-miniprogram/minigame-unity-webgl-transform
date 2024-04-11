@@ -31,7 +31,7 @@
 - 不自动缓存文件类型：游戏资源CDN下不自动缓存的文件类型，具体参见[AssetBundle缓存](UsingLoader.md)
 - Bundle名中Hash长度：自定义AssetBundle名中Hash长度用于缓存控制，具体参见[AssetBundle缓存](UsingLoader.md)
 - 预下载列表：网络空闲时预下载的资源，[使用预下载](UsingPreload.md)
-- SDK功能选项：[好友关系链](OpenData.md) [音频优化](AudioOptimization.md)
+- SDK功能选项：[好友关系链](OpenData.md)
 - 调试编译选项
 
 ### 2.2 了解转换后目录结构
@@ -62,18 +62,18 @@
 导入转换后的`minigame`目录
 
 3. 工具预览
-<img src='../image/devtools_preview.png'>
+<img src='../image/devtools_preview.png'/>
 
 注意：
 > 项目使用了小游戏Unity适配插件，若小游戏是第一次使用本插件，在开发者工具会报错提示插件未授权
 
-<img src="../image/addPlugin.png">
+<img src="../image/addPlugin.png"/>
 
 **请前往mp后台-能力地图-生产提效包-快适配，开通使用**
 
-<img src='../image/mp_addplugin.png'>
+<img src='../image/mp_addplugin.png'/>
 
-<img src='../image/auth_plugin.png'>
+<img src='../image/auth_plugin.png'/>
 
 4. 真机预览
 点击**预览**，扫码二维码预览即可。

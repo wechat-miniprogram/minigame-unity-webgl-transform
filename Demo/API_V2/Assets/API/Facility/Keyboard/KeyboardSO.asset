@@ -17,9 +17,10 @@ MonoBehaviour:
   entryAPI: "\u952E\u76D8\u76F8\u5173API"
   entryDescription: 
   optionList: []
-  initialButtonText: "\u5F00\u59CB\u76D1\u542C"
+  initialButtonText: "\u663E\u793A\u591A\u884C\u952E\u76D8"
   extraButtonList:
-  - buttonText: "\u663E\u793A\u952E\u76D8"
+  - buttonText: "\u663E\u793A\u5355\u884C\u952E\u76D8"
   - buttonText: "\u66F4\u65B0\u952E\u76D8\u8F93\u5165\u6846\u5185\u5BB9"
   - buttonText: "\u9690\u85CF\u952E\u76D8"
+  - buttonText: "\u5F00\u59CB\u76D1\u542C"
   initialResultList: []
