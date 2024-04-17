@@ -5,7 +5,7 @@ export default defineConfig({
   title: "微信小游戏团结/Unity快适配",
   description: "Wechat Mini Game Unity engine adapter documents.",
   themeConfig: {
-    logo: '/image/vitepress/6ws3f1.svg',
+    logo: '/image/vitepress/icon.png',
     nav: [
       { text: "主页", link: "/" },
       {
