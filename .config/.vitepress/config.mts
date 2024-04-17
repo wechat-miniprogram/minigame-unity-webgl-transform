@@ -5,6 +5,7 @@ export default defineConfig({
   title: "微信小游戏团结/Unity快适配",
   description: "Wechat Mini Game Unity engine adapter documents.",
   themeConfig: {
+    logo: '/image/vitepress/6ws3f1.svg',
     nav: [
       { text: "主页", link: "/" },
       {
@@ -71,15 +72,15 @@ export default defineConfig({
               },
               { text: "资源按需加载概述", link: "/Design/ResourcesLoading" },
               {
-                text: "AssetBundle 按需加载",
+                text: "使用 AssetBundle 按需加载",
                 link: "/Design/UsingAssetBundle",
               },
               {
-                text: "Addressable 按需加载",
+                text: "使用 Addressable 按需加载",
                 link: "/Design/UsingAddressable",
               },
               {
-                text: "AutoStreaming 按需加载",
+                text: "使用 AutoStreaming 按需加载",
                 link: "/Design/InstantGameGuide",
               },
               { text: "定制启动封面", link: "/Design/CustomLoading" },
@@ -95,16 +96,16 @@ export default defineConfig({
           {
             text: "运行性能",
             items: [
-              { text: "优化Unity WebGL的运行性能", link: "/Design/OptimizationPerformence" },
+              { text: "优化 Unity WebGL 的运行性能", link: "/Design/OptimizationPerformence" },
               {
-                text: "Android CPU Profiler调优",
+                text: "Android CPU Profiler 性能调优",
                 link: "/Design/AndroidProfile",
               },
               {
-                text: "Unity Profiler调优",
+                text: "Unity Profiler 性能调优",
                 link: "/Design/UnityProfiler",
               },
-              { text: "优化Unity WebGL的内存", link: "/Design/OptimizationMemory" },
+              { text: "优化 Unity WebGL 的内存", link: "/Design/OptimizationMemory" },
               {
                 text: "ProfilingMemory分析内存",
                 link: "/Design/UsingMemoryProfiler",
