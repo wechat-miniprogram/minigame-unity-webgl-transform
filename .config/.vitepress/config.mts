@@ -61,7 +61,7 @@ export default defineConfig({
             text: "启动性能",
             items: [
               {
-                text: "提升 Unity WebGL 游戏启动速度",
+                text: "提升游戏启动速度",
                 link: "/Design/StartupOptimization",
               },
               { text: "启动流程与时序", link: "/Design/Startup" },
@@ -71,15 +71,15 @@ export default defineConfig({
               },
               { text: "资源按需加载概述", link: "/Design/ResourcesLoading" },
               {
-                text: "使用 AssetBundle 进行资源按需加载",
+                text: "AssetBundle 按需加载",
                 link: "/Design/UsingAssetBundle",
               },
               {
-                text: "使用 Addressable 进行资源按需加载",
+                text: "Addressable 按需加载",
                 link: "/Design/UsingAddressable",
               },
               {
-                text: "使用 AutoStreaming 进行资源按需加载",
+                text: "AutoStreaming 按需加载",
                 link: "/Design/InstantGameGuide",
               },
               { text: "定制启动封面", link: "/Design/CustomLoading" },
@@ -97,16 +97,16 @@ export default defineConfig({
             items: [
               { text: "优化Unity WebGL的运行性能", link: "/Design/OptimizationPerformence" },
               {
-                text: "使用 Android CPU Profiler 性能调优",
+                text: "Android CPU Profiler调优",
                 link: "/Design/AndroidProfile",
               },
               {
-                text: "使用 Unity Profiler 性能调优",
+                text: "Unity Profiler调优",
                 link: "/Design/UnityProfiler",
               },
               { text: "优化Unity WebGL的内存", link: "/Design/OptimizationMemory" },
               {
-                text: "使用ProfilingMemory分析内存",
+                text: "ProfilingMemory分析内存",
                 link: "/Design/UsingMemoryProfiler",
               },
               { text: "压缩纹理优化", link: "/Design/CompressedTexture" },

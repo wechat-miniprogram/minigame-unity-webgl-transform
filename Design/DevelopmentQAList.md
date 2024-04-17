@@ -42,7 +42,7 @@
 #### 11.开发者工具提示`pluginid: wx7a727ff7d940bb3f, permission deny`字样错误
 Q: 
 
-<image src="../image/rank-demo/addplugin.png" width="400"/>
+<img src='../image/rank-demo/addplugin.png' width="500"/>
 
 A: 新版导出插件使用小游戏插件来渲染关系链数据，因此需要添加插件。可通过微信开发者工具控制台-添加插件的报错信息添加插件，即可正常使用。同时需要注意**实际未使用关系链数据时请删掉game.json中plugins.Layout配置**。如果开发者工具控制台没有添加插件的入口请手动在MP端[添加插件](https://mp.weixin.qq.com/wxopen/plugindevdoc?appid=wx7a727ff7d940bb3f)或者升级至最新版本的开发者工具。
 

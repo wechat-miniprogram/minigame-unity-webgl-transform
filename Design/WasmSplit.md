@@ -304,7 +304,7 @@ iOS 高性能模式由于加载子包的实现不同，刚开始收集时又基�
 
 > 请勿使用小游戏版微信开发者工具，会出现插件无法正常更新或安装。请前往：适配文档-安装与使用，下载stable版本微信开发者工具。
 
-<image src="../image/wasmsplit/check-version.png"/>
+<img src="../image/wasmsplit/check-version.png"/>
 
 ### 分包插件安装失败
 
