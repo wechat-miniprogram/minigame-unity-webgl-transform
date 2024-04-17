@@ -6,3 +6,13 @@
   --vp-c-brand-3:  #fa9c47;
   --vp-sidebar-width: 295px;
 }
+
+
+.VPHero.has-image .text {
+  font-size: 1.7em;
+}
+@media (min-width: 960px) {
+  .VPHero.has-image .text {
+    font-size: 2.4em;
+  }
+}
