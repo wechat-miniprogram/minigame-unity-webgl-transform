@@ -31,6 +31,7 @@ jobs:
       run: |
         rm -rf Demo
         npm run docs:build
+        mkdir ./docs/image
         cp -r ./image/* ./docs/image/
 
     - name: Deploy to Pages
