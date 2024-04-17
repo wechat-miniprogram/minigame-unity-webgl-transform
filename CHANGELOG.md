@@ -8,10 +8,19 @@ Others - 其他
 -->
 SDK安装指引：[微信小游戏团结引擎转换插件WXSDK](Design/SDKInstaller.md)
 
+## 2024-4-17 【普通更新】
+### Feature
+* 普通：编译参数增加ERROR_ON_UNDEFINED_SYMBOLS
+* 适配插件版本升级到1.2.45
+### Fixed
+* 普通：修复团结版dotnet wasm加载报错
+* 普通：修复音频的长度为负数时的异常stop
+* 普通：修复配置文件重置bug
+
 ## 2024-4-3 【重要更新】
 包含重要bugfix、特性支持
 ### Fixed
-* 普通：修复UDP接口处理buffer
+* 重要：修复UDP接口处理buffer
 * 重要：修复unity-namespace.js部分环境变量丢失问题
   
 ## 2024-3-28 【普通更新】
