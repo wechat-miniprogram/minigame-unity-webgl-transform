@@ -12,6 +12,6 @@
   "author": "Wechat MiniGame Team",
   "license": "MIT",
   "devDependencies": {
-    "vitepress": "^1.0.2"
+    "vitepress": "1.0.2"
   }
 }
