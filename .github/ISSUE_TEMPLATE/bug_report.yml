@@ -1,0 +1,25 @@
+name: "Bug report"
+description: 提出Bug以改进WXSDK
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        "请在标题中标注问题发生的功能所属类目或阶段，以便我们更快转交给专业的人员对接。如：构建阶段-转换微信小游戏失败"
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: 描述Bug
+      description: 请简单介绍Bug复现的操作顺序
+      placeholder: 描述Bug
+    validations:
+      required: true
+  - type: textarea
+    id: system-info
+    attributes:
+      label: 运行环境
+      description: 请说明发生问题的操作系统、Unity/团结引擎版本号、WX-SDK版本号、WX-SDK的导入方式、构建平台。
+      render: Text
+      placeholder: Windows11/Unity2021.2.5/minigame.202404171424/Assets导入/WebGL
+    validations:
+      required: true
