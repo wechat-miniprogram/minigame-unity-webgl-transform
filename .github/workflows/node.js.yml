@@ -30,6 +30,7 @@ jobs:
     - name: Build
       run: |
         rm -rf Demo
+        node .config/node/gird.js
         npm run docs:build
         mkdir ./docs/image
         cp -r ./image/* ./docs/image/

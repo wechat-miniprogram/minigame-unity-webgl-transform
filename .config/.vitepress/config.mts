@@ -1,3 +1,4 @@
+import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
