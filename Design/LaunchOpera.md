@@ -4,17 +4,22 @@
 
 ## 剧情效果
 
-### 演示视频
+### 演示视频及演示工程源码
 
-  [https://drive.weixin.qq.com/s?k=AJEAIQdfAAo5x4w6xD](https://drive.weixin.qq.com/s?k=AJEAIQdfAAo5x4w6xD)
+  <video width="320" height="auto" controls>
+    <source src="../image/launch-opera/demo-video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+  </video>
+
+  [演示工程源码](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/LaunchOpera)
 
 ### 优秀作品
 
 首次访问将直接进入剧情模式（不会显示Unity游戏通用Loading界面），二次访问通常删除本地微信小游戏包再次访问游戏可体验剧情内容（部分游戏使用异步模式，若已经注册游戏角色可能会改变剧情内容，需使用新微信账号访问体验）。
 
-魔魔打勇士 | 飞翔之光
--|-
-<img src='../image/launch-opera/app-mmdys.jpeg' width="170"/>|<img src='../image/launch-opera/app-fxzg.jpeg' width="170"/>
+魔魔打勇士 | 飞翔之光 | 镜花异闻录
+-|-|-
+<img src='../image/launch-opera/app-mmdys.jpeg' width="170"/>|<img src='../image/launch-opera/app-fxzg.jpeg' width="170"/>|<img src='../image/launch-opera/app-jhywl.jpeg' width="170"/>
 
 欢迎更多游戏接入成为优秀案例。
 
@@ -33,7 +38,6 @@
 
 ## 接入方式
 
-[演示工程源码](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/LaunchOpera)
 由于启动剧情为Unity启动加载耗时过久而推出的能力，因此主要配置由 JavaScript 脚本实现（早于WASM初始化）。
 
 ### 步骤一：设计剧情
