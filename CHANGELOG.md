@@ -6,7 +6,12 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
-SDK安装指引：[微信小游戏团结引擎转换插件WXSDK](Design/SDKInstaller.md)
+SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/SDKInstaller.md)
+## 2024-4-26 【普通更新】
+### Fixed
+* 普通：修复Unity2018/2019的兼容
+* 普通：兼容Windows 1.0.4版本template问题
+* 普通：修复Android平台导出时的
 
 ## 2024-4-17 【普通更新】
 ### Feature
