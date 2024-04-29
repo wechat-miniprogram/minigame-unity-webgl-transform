@@ -111,7 +111,6 @@ public class DetailsController : MonoBehaviour
     public void Init(EntrySO so)
     {
         ClearDetails();
-
         entrySO = so;
 
         titleText.text = so.entryName;
@@ -190,10 +189,10 @@ public class DetailsController : MonoBehaviour
             .AddButtonListener(action);
     }
 
-    // 获取初始按钮左上角距离画布左上角的相对距离
-    public Vector2 GetInitialButtonPosition()
+    // 获取按钮左上角距离画布左上角的相对距离
+    public Vector2 GetButtonPosition(int index)
     {
-        var button = initialButton;
+        var button = (index == -1) ? initialButton : extraButtonBlockObjects[index].GetComponentInChildren<Button>();
         var canvas = button.GetComponentInParent<Canvas>();
 
         // 获取 Canvas 和按钮的 RectTransform 组件

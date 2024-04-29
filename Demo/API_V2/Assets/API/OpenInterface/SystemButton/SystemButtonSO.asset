@@ -19,8 +19,8 @@ MonoBehaviour:
   optionList: []
   initialButtonText: "\u8FDB\u5165\u5BA2\u670D\u4F1A\u8BDD"
   extraButtonList:
-  - buttonText: "\u9690\u85CF\u6E38\u620F\u5708\u6309\u94AE"
-  - buttonText: "\u9690\u85CF\u610F\u89C1\u53CD\u9988\u6309\u94AE"
+  - buttonText: "\u8FDB\u5165\u6E38\u620F\u5708"
+  - buttonText: "\u6253\u5F00\u610F\u89C1\u53CD\u9988\u9875\u9762"
   - buttonText: "\u8C03\u8D77\u5C0F\u6E38\u620F\u7CFB\u7EDF\u8BA2\u9605\u6D88\u606F\u754C\u9762"
   - buttonText: "\u6253\u5F00\u5FAE\u4FE1\u5BA2\u670D"
   initialResultList: []
