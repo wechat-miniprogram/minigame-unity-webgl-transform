@@ -24,6 +24,7 @@ public class GameRecorder : Details
         {
             Debug.Log("GameRecorder start");
         });
+
         _gameRecorder.On("pause", (res) =>
         {
             Debug.Log("GameRecorder pause");
@@ -41,7 +42,7 @@ public class GameRecorder : Details
         {
             Debug.Log("GameRecorder error:" + JsonUtility.ToJson(res));
         });
-        
+
         GameManager.Instance.detailsController.BindExtraButtonAction(0, PauseRecorder);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, ResumeRecorder);
         GameManager.Instance.detailsController.BindExtraButtonAction(2, StopRecorder);
@@ -53,7 +54,7 @@ public class GameRecorder : Details
     {
         _gameRecorder.Start(new GameRecorderStartOption()
         {
-            hookBgm = false,
+            // hookBgm = false,
         });
     }
 
@@ -68,7 +69,7 @@ public class GameRecorder : Details
     {
         _gameRecorder.Resume();
     }
-    
+
     // 停止
     private void StopRecorder()
     {
@@ -99,8 +100,9 @@ public class GameRecorder : Details
         _gameRecorder.Off("resume");
     }
 
-    private void OnDestroy()
+    public void Destroy()
     {
+        OffEvent();
         _gameRecorder.Stop();
     }
 }
