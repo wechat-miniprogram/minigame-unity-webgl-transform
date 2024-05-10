@@ -138,6 +138,7 @@ export default defineConfig({
           { text: "后端服务指引", link: "/Design/BackendServiceStartup" },
           { text: "网络通信适配", link: "/Design/UsingNetworking" },
           { text: "使用水印保护代码包安全", link: "/Design/wasmWaterMark" },
+          { text: "配置构建模板", link: "/Design/BuildTemplate.md" }
         ],
       },
       {
