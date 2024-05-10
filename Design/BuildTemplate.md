@@ -61,7 +61,7 @@ wechat
 
 ## 构建模板前后不同时机的钩子
 
-有时候简单的覆盖可能并不能满足开发者复杂的修改需要，在构建时提供的不同时机钩子允许开发者使用C#代码来替换或变更是更灵活自由的方案，我们提供了 [BuildTemplateHelper](#buildtemplatehelper介绍) 工具类来便捷的实现这一能力。
+有时候简单的覆盖可能并不能满足开发者复杂的修改需要，在构建时提供的不同时机钩子允许开发者使用C#代码来替换或变更是更灵活自由的方案，我们提供了 [BuildTemplateHelper](#buildtemplatehelper介绍) 工具类来便捷的获得三个目录的绝对路径。
 
 ### 钩子介绍
 
@@ -91,13 +91,73 @@ Assets
 
 ```c#
 // plugin.cs
+using System.IO;
+using UnityEngine;
+using WeChatWASM;
 
-// code...
+/// <summary>
+/// 构建生命周期回调钩子
+/// 注意事项：
+///     请创建脚本在 Editor (子)目录下；
+///     回调钩子请使用 public 声明成员函数
+/// </summary>
+public class PluginDemo : LifeCycleBase
+{
+
+    public override void afterCopyDefault()
+    {
+        // code...
+        Debug.Log("afterCopyDefault");
+    }
+
+    public override void beforeCopyDefault()
+    {
+        // 可使用 Exception 阻止继续构建导出
+        throw new System.Exception("Build Failed.");
+    }
+
+    public override void beforeCoverTemplate()
+    {
+        // 读取你的自定义模板目录并对其中的资源做动态修改
+        var tmp = BuildTemplateHelper.CustomTemplateDir;
+        using (
+          FileStream file = new FileStream(
+            Path.Combine(tmp, "newFile.js"),
+            FileMode.Create, FileAccess.Write))
+        {
+            using (StreamWriter writer = new StreamWriter(file))
+            {
+                writer.WriteLineAsync("Your Code Content.");
+            }
+        }
+        // 尽管你在导出期间动态的创建/修改了自定义模板中的资源
+        // 在导出结束后WXSDK会自动恢复你的修改
+    }
+}
+
 
 ```
 
 ### BuildTemplateHelper介绍
 
-请使用 BuildTemplateHelper 提供的资源访问接口，搭配[钩子介绍](#钩子介绍)小节中的不同阶段，可以任意的对你的 `wechat-default（标准模板）`、`template（自定义模板）`、`wechat/minigame（导出产物）` 中进行新的脚本创建、已有脚本中局部代码的文本替换（例如使用正则替换）甚至是图片等资源的变更。
+BuildTemplateHelper 为你便捷的提供了各个目录的绝对路径：
 
-BuildTemplateHelper 为你提供了一个会**自动复原的“伪沙箱”环境**，在 BuildTemplateHelper 的操作下你可以任意的修改上述三者目录中的内容，在结束导出后不会真实的影响你的游戏工程内容，也不需要你进行资源还原，这对于你托管项目代码很便捷。
+```c#
+// wechat-default（标准模板）
+// 位于 WXSDK 目录下标准模板绝对路径
+string baseDir = BuildTemplateHelper.BaseDir;
+
+
+// template（自定义模板）
+// 游戏工程中 Assets/WX-WASM-SDK-V2/Editor/template/minigame 绝对路径
+string templateDir = BuildTemplateHelper.CustomTemplateDir;
+
+
+// wechat/minigame（导出产物）
+// 开发者在导出面板配置的导出路径的微信开发者工具打开的 minigame(默认) 绝对路径
+string outDir = BuildTemplateHelper.BaseDir;
+```
+
+搭配[钩子介绍](#钩子介绍)小节中的不同阶段，可以任意的对你的 `wechat-default（标准模板）`、`template（自定义模板）`、`wechat/minigame（导出产物）` 中进行新的脚本创建、已有脚本中局部代码的文本替换（例如使用正则替换）甚至是图片等资源的变更。
+
+在导出期间修改你的自定义模板，在结束导出后不会真实的影响你的游戏工程内容，WXSDK已经为你还原，这对于你托管项目代码很便捷。
