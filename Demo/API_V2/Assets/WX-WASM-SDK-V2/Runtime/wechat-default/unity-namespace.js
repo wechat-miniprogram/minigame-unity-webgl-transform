@@ -47,6 +47,8 @@ const unityNamespace = {
     usedAutoStreaming: $USED_AUTO_STREAMING,
     // 是否显示渲染日志(dev only)
     enableRenderAnalysisLog: $ENABLE_RENDER_ANALYSIS_LOG,
+    // 是否dotnet runtime
+    useDotnetRuntime: $USE_DOTNET_RUNTIME,
 };
 // 最佳实践检测配置
 unityNamespace.monitorConfig = {
@@ -99,25 +101,81 @@ unityNamespace.isErasableFile = function (info) {
     }
     return true;
 };
-const { version, SDKVersion, platform, renderer, system } = wx.getSystemInfoSync();
-unityNamespace.version = version;
-unityNamespace.SDKVersion = SDKVersion;
-unityNamespace.platform = platform;
-unityNamespace.renderer = renderer;
-unityNamespace.system = system;
-unityNamespace.isPc = platform === 'windows' || platform === 'mac';
-unityNamespace.isDevtools = platform === 'devtools';
-unityNamespace.isMobile = !unityNamespace.isPc && !unityNamespace.isDevtools;
-unityNamespace.isH5Renderer = unityNamespace.isMobile && unityNamespace.renderer === 'h5';
-unityNamespace.isIOS = platform === 'ios';
-unityNamespace.isAndroid = platform === 'android';
 GameGlobal.WebAssembly = GameGlobal.WXWebAssembly;
 GameGlobal.unityNamespace = GameGlobal.unityNamespace || unityNamespace;
 GameGlobal.realtimeLogManager = wx.getRealtimeLogManager();
 GameGlobal.logmanager = wx.getLogManager({ level: 0 });
+// 提前监听错误并打日志
+function bindGloblException() {
+    // 默认上报小游戏实时日志与用户反馈日志(所有error日志+小程序框架异常)
+    wx.onError((result) => {
+        // 若manager已初始化，则直接用manager打日志即可
+        if (GameGlobal.manager) {
+            GameGlobal.manager.printErr(result.message);
+        }
+        else {
+            GameGlobal.realtimeLogManager.error(result);
+            const isErrorObj = result && result.stack;
+            GameGlobal.logmanager.warn(isErrorObj ? result.stack : result);
+            console.error('onError:', result);
+        }
+    });
+    wx.onUnhandledRejection((result) => {
+        GameGlobal.realtimeLogManager.error(result);
+        const isErrorObj = result && result.reason && result.reason.stack;
+        GameGlobal.logmanager.warn(isErrorObj ? result.reason.stack : result.reason);
+        console.error('unhandledRejection:', result.reason);
+    });
+    // 上报初始信息
+    function printSystemInfo(systemInfo) {
+        GameGlobal.systemInfoCached = systemInfo;
+        const { version, SDKVersion, platform, renderer, system } = systemInfo;
+        unityNamespace.version = version;
+        unityNamespace.SDKVersion = SDKVersion;
+        unityNamespace.platform = platform;
+        unityNamespace.renderer = renderer;
+        unityNamespace.system = system;
+        unityNamespace.isPc = platform === 'windows' || platform === 'mac';
+        unityNamespace.isDevtools = platform === 'devtools';
+        unityNamespace.isMobile = !unityNamespace.isPc && !unityNamespace.isDevtools;
+        unityNamespace.isH5Renderer = unityNamespace.isMobile && unityNamespace.renderer === 'h5';
+        unityNamespace.isIOS = platform === 'ios';
+        unityNamespace.isAndroid = platform === 'android';
+        const bootinfo = {
+            renderer: systemInfo.renderer || '',
+            isH5Plus: GameGlobal.isIOSHighPerformanceModePlus || false,
+            abi: systemInfo.abi || '',
+            brand: systemInfo.brand,
+            model: systemInfo.model,
+            platform: systemInfo.platform,
+            system: systemInfo.system,
+            version: systemInfo.version,
+            SDKVersion: systemInfo.SDKVersion,
+            benchmarkLevel: systemInfo.benchmarkLevel,
+        };
+        GameGlobal.realtimeLogManager.info('game starting', bootinfo);
+        GameGlobal.logmanager.info('game starting', bootinfo);
+        console.info('game starting', bootinfo);
+    }
+    const systemInfoSync = wx.getSystemInfoSync();
+    const isEmptySystemInfo = systemInfoSync && Object.keys(systemInfoSync).length === 0;
+    // iOS会出现getSystemInfoSync返回空对象的情况，使用异步方法替代
+    if (isEmptySystemInfo) {
+        wx.getSystemInfo({
+            success(systemInfo) {
+                printSystemInfo(systemInfo);
+            },
+        });
+    }
+    else {
+        printSystemInfo(systemInfoSync);
+    }
+}
+bindGloblException();
 // eslint-disable-next-line no-multi-assign
 GameGlobal.onCrash = GameGlobal.unityNamespace.onCrash = function () {
     GameGlobal.manager.showAbort();
+    // 避免已经修改屏幕尺寸，故不使用缓存的systeminfo
     const sysInfo = wx.getSystemInfoSync();
     wx.createFeedbackButton({
         type: 'text',

@@ -38,8 +38,8 @@ const isLibVersionValid = compareVersion(SDKVersion, '2.17.0');
 const isH5LibVersionValid = compareVersion(SDKVersion, '2.23.1');
 // 压缩纹理需要iOS系统版本>=14.0，检测到不支持压缩纹理时会提示升级系统
 const isIOSH5SystemVersionValid = compareVersion(systemVersion, '14.0');
-// iOS系统版本>=15支持webgl2
-const isIOSWebgl2SystemVersionValid = compareVersion(systemVersion, '15.0');
+// iOS系统版本>=15支持webgl2，高性能模式+无此系统要求
+const isIOSWebgl2SystemVersionValid = compareVersion(systemVersion, '15.0') || GameGlobal.isIOSHighPerformanceModePlus;
 // Android客户端版本>=8.0.19支持webgl2
 const isAndroidWebGL2ClientVersionValid = compareVersion(version, '8.0.19');
 // 是否用了webgl2

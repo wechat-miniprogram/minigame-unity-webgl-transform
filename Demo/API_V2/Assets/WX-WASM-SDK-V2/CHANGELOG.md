@@ -6,7 +6,37 @@ Removed - 删除功能/接口
 Fixed - 修复问题
 Others - 其他 
 -->
+## 2024-4-26 【普通更新】
+### Fixed
+* 普通：修复Unity2018/2019的兼容
+* 普通：兼容Windows 1.0.4版本template问题
+* 普通：修复Android平台导出时的
+
+## 2024-4-17 【普通更新】
+### Feature
+* 普通：编译参数增加ERROR_ON_UNDEFINED_SYMBOLS
+* 适配插件版本升级到1.2.45
+### Fixed
+* 普通：修复团结版dotnet wasm加载报错
+* 普通：修复音频的长度为负数时的异常stop
+* 普通：修复配置文件重置bug
+
+## 2024-4-3 【重要更新】
+包含重要bugfix、特性支持
+### Fixed
+* 重要：修复UDP接口处理buffer
+* 重要：修复unity-namespace.js部分环境变量丢失问题
+
+## 2024-3-28 【普通更新】
+### Feature
+* 普通：优化对团结版的导出支持
+### Fixed
+* 普通：兼容PlayDelayed播放
+* 普通：兼容FMOD2.02版本
+* 普通：修复FState偶现报错
+
 ## 2024-3-5 【普通更新】
+### Feature
 * 普通：WXAssetBundle支持切换CDN
 * 普通：优化VideoPlayer组件
 * 普通：更新小游戏模板捕获全局错误

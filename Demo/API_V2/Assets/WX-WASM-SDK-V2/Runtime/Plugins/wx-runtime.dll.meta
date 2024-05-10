@@ -12,7 +12,7 @@ PluginImporter:
   validateReferences: 1
   platformData:
   - first:
-      : Any
+      '': Any
     second:
       enabled: 0
       settings:
@@ -61,7 +61,7 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: AnyCPU
+        CPU: x86_64
   - first:
       Standalone: LinuxUniversal
     second:
@@ -88,11 +88,6 @@ PluginImporter:
         CPU: AnyCPU
   - first:
       WebGL: WebGL
-    second:
-      enabled: 1
-      settings: {}
-  - first:
-      WeixinMiniGame: WeixinMiniGame
     second:
       enabled: 1
       settings: {}

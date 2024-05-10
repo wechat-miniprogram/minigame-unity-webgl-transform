@@ -153,6 +153,10 @@ export class AudioChannelInstance {
     gain;
     callback = 0;
     userData = 0;
+    loop = false;
+    loopStart = 0;
+    loopEnd = 0;
+    deleyTime = 0; 
     constructor(callback, userData) {
         if (WEBAudio.audioContext) {
             this.gain = WEBAudio.audioContext.createGain();
@@ -167,6 +171,26 @@ export class AudioChannelInstance {
         this.disconnectSource();
         if (this.gain) {
             this.gain.disconnect();
+        }
+    }
+    setLoop(loop) {
+        this.loop = loop;
+        if (!this.source || this.source.loop == loop) {
+            return;
+        }
+        this.source.loop = loop;
+    }
+    setLoopPoints(loopStart, loopEnd) {
+        this.loopStart = loopStart;
+        this.loopEnd = loopEnd;
+        if (!this.source) {
+            return;
+        }
+        if (this.source.loopStart !== loopStart) {
+            this.source.loopStart = loopStart;
+        }
+        if (this.source.loopEnd !== loopEnd) {
+            this.source.loopEnd = loopEnd;
         }
     }
     playUrl(startTime, url, startOffset, volume, soundClip) {
@@ -186,7 +210,8 @@ export class AudioChannelInstance {
                     this.source.isPlaying = true;
                     if (!this.source.loop && this.source.mediaElement) {
                         const { duration } = this.source.mediaElement;
-                        if (duration) {
+                        
+                        if (duration > 0) {
                             if (this.source.stopTicker) {
                                 clearTimeout(this.source.stopTicker);
                                 this.source.stopTicker = undefined;
@@ -255,7 +280,7 @@ export class AudioChannelInstance {
                     const { duration } = this.source.mediaElement;
                     setTimeout(() => {
                         if (soundClip && this.source && this.source.mediaElement) {
-                            soundClip.length = Math.round(this.source.mediaElement.duration * 44100);
+                            soundClip.length = Math.round(Math.max(this.source.mediaElement.duration, 0) * 44100);
                         }
                     }, 0);
                 }
@@ -265,6 +290,8 @@ export class AudioChannelInstance {
             }
             this.source.canPlayFnList.push(fn);
             this.source.mediaElement.onCanplay(fn);
+            this.source.mediaElement.loop = this.loop;
+            this.deleyTime = startTime;
             this.source.start(startTime, startOffset);
             this.source.playbackStartTime = startTime - startOffset / this.source.playbackRateValue;
         }
@@ -298,6 +325,9 @@ export class AudioChannelInstance {
                     this.gain.gain.value = volume;
                 }
             }
+            this.source.loop = this.loop;
+            this.source.loopStart = this.loopStart;
+            this.source.loopEnd = this.loopEnd;
             this.source.start(startTime, startOffset);
             this.source.playbackStartTime = startTime - startOffset / this.source.playbackRateValue;
         }
@@ -355,7 +385,7 @@ export class AudioChannelInstance {
             return true;
         }
         if (this.source.mediaElement) {
-            return (this.source.mediaElement.paused || this.source.pauseRequested) ?? true;
+            return (!this.source.isPlaying || this.source.pauseRequested) ?? true;
         }
         return false;
     }
@@ -373,9 +403,9 @@ export class AudioChannelInstance {
         }
         const pausedSource = {
             isPausedMockNode: true,
-            loop: source.loop,
-            loopStart: source.loopStart,
-            loopEnd: source.loopEnd,
+            loop: this.loop,
+            loopStart: this.loopStart,
+            loopEnd: this.loopEnd,
             buffer: source.buffer,
             playbackRate: source.playbackRateValue,
             playbackPausedAtPosition: source.estimatePlaybackPosition(),
@@ -396,7 +426,8 @@ export class AudioChannelInstance {
             return;
         }
         if (this.source.mediaElement) {
-            this.source.start();
+            this.source.start(this.deleyTime);
+            delete this.deleyTime;
             return;
         }
         const pausedSource = this.source;
@@ -1043,7 +1074,7 @@ export default {
         if (!channel.source) {
             return;
         }
-        channel.source.loop = loop > 0;
+        channel.setLoop(loop > 0);
     },
     _JS_Sound_SetLoopPoints(channelInstance, loopStart, loopEnd) {
         if (WEBAudio.audioWebEnabled === 0) {
@@ -1056,8 +1087,7 @@ export default {
         if (!channel.source) {
             return;
         }
-        channel.source.loopStart = loopStart;
-        channel.source.loopEnd = loopEnd;
+        channel.setLoopPoints(loopStart, loopEnd);
     },
     _JS_Sound_SetPaused(channelInstance, paused) {
         if (WEBAudio.audioWebEnabled === 0) {
