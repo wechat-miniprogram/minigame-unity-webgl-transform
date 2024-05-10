@@ -25,6 +25,15 @@ WeChatWASM.WX.GetWXFont(fallbackFont, (font) =>
 ```
 
 ## 系统字体字符集
+
+使用GetWXFont加载的字体集合可以在转换面板进行自定义，以减少加载的字体文件大小：
+
+<img src='../image/WXFont.png' width="500"/>
+
+若需要某些特殊Unicode/仅需要部分Unicode，可以直接将需要的字符全部填入自定义Unicode中。
+
+Unicode集合参考：
+
 ```js
 // https://unicode.yunser.com/unicode
 const unicodeRange = [
