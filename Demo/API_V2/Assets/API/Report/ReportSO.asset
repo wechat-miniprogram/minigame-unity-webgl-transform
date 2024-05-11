@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: ReportSO
   m_EditorClassIdentifier: 
-  categoryName: Report
+  categoryName: "\u6570\u636E\u5206\u6790"
   categorySprite: {fileID: 0}
   entryList:
   - {fileID: 11400000, guid: 561537d53954943ce9a54e325b636fad, type: 2}

@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System;
-using Newtonsoft.Json;
-using UnityEngine;
-using WeChatWASM;
+﻿using WeChatWASM;
 
 // 定义自定义数据类型，类型要跟自定义属性中定义的类型一致
 [System.Serializable]

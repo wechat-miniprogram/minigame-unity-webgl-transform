@@ -16,13 +16,13 @@ public class GameManager : MonoBehaviour
     
     // 字体相关
     [Header("Font")]
-    public Font font;
+    [HideInInspector] public Font font;
     public Action<Font> onFontLoaded;
     
     // 用于在 MainCanvas 和 DetailsCanvas 之间切换
     [Header("Canvas Switch")]
-    [SerializeField] private GameObject _mainCanvas;
-    [SerializeField] private GameObject _detailsCanvas;
+    private GameObject _mainCanvas;
+    private GameObject _detailsCanvas;
     private bool _isMainCanvasActive = true;
     
     // 用于获取微信小游戏的系统信息

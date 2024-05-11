@@ -23,13 +23,13 @@ public class Upload : Details
                     url = "https://developers.weixin.qq.com/minigame/dev/api/render/image/wx.createImage.html",
                     filePath = res.tempFiles[0].tempFilePath,
                     name = "data",
-                    success = (res) => {
+                    success = (res2) => {
                         Debug.Log("success: " + JsonUtility.ToJson(res));
                     },
-                    fail = (res) => {
+                    fail = (res2) => {
                         Debug.Log("fail: " + JsonUtility.ToJson(res));
                     },
-                    complete = (res) => {
+                    complete = (res2) => {
                         Debug.Log("complete");
                     }
                 });

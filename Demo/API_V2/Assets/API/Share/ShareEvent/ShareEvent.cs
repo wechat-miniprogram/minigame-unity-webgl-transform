@@ -136,13 +136,13 @@ public class ShareEvent : Details
                 {
                     path = res.tempFilePath,
                     style = "default",
-                    success = (res) => {
+                    success = (res2) => {
                         Debug.Log("success");
                     },
-                    fail = (res) => {
+                    fail = (res2) => {
                         Debug.Log("fail" + res.errMsg);
                     },
-                    complete = (res) => {
+                    complete = (res2) => {
                         Debug.Log("complete");
                     }
                 });

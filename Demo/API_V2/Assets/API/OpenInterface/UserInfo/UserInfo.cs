@@ -56,7 +56,7 @@ public class UserInfo : Details
                 if (res.authSetting["scope.userInfo"]) {
                     WX.GetUserInfo(new GetUserInfoOption
                     {
-                        success = (res) => {
+                        success = (res2) => {
                             Debug.Log("getuserinfo\n" + JsonMapper.ToJson(res));
                         }
                     });

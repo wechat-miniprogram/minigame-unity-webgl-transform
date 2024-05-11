@@ -2,6 +2,7 @@
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using System.Runtime.InteropServices;
+using UnityEngine;
 
 public class PreBuildProcessing : IPreprocessBuildWithReport
 {
@@ -11,8 +12,10 @@ public class PreBuildProcessing : IPreprocessBuildWithReport
     // 请填写为本机实际路径
     public void OnPreprocessBuild(BuildReport report)
     {
+        Debug.LogWarning("PreprocessBuild: OnPreprocessBuild");
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
+            Debug.LogWarning("PreprocessBuild: macOS");
             // macOS
             System.Environment.SetEnvironmentVariable("EMSDK_PYTHON", "/Library/Frameworks/Python.framework/Versions/2.7/bin/python");
         }

@@ -1,13 +1,8 @@
 using UnityEngine;
 using WeChatWASM;
-using UnityEngine.UI;
 using UnityEngine.Networking;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine.Audio;
-using UnityEngine.Networking;
 
 public class AdWithAudio : Details
 {
@@ -53,7 +48,11 @@ public class AdWithAudio : Details
         Uri uri = new Uri(uriString);
         UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.MPEG);
         yield return request.SendWebRequest();
+#if UNITY_2020_1_OR_NEWER
         if (request.result == UnityWebRequest.Result.Success)
+#else
+        if (!request.isNetworkError && !request.isHttpError)
+#endif
         {
             audioClipCDN = DownloadHandlerAudioClip.GetContent(request);
             // yield return new WaitUntil(() => audioClipCDN.loadState == AudioDataLoadState.Loaded);
@@ -86,7 +85,7 @@ public class AdWithAudio : Details
             _rewardedVideoAd.Load(res => {
                 Debug.Log("load success");
                 _rewardedVideoAd.Show();
-            }, err => {
+            }, err2 => {
                 Debug.Log("load fail");
                 Debug.Log(JsonUtility.ToJson(err));
             });
