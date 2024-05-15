@@ -10,7 +10,7 @@ def main(cpuprofile_file, symbol_file):
     symbol_map = {}
     with open(symbol_file) as f:
         symbol_text = f.read()
-        result = re.findall(r"(\d+):'(.*)'", symbol_text)
+        result = re.findall(r'"(\d+)": "(.*)"', symbol_text)
         for p in result:
             symbol_map['wasm-function['+str(p[0])+']'] = p[1]
 
