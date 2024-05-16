@@ -5,14 +5,20 @@ import re
 import os
 
 
-def main(cpuprofile_file, symbol_file):
+def main(cpuprofile_file, symbol_file, is_wasmsplit):
     print('start parse symbol')
     symbol_map = {}
     with open(symbol_file) as f:
         symbol_text = f.read()
         result = re.findall(r'"(\d+)": "(.*)"', symbol_text)
+        count = 0
         for p in result:
-            symbol_map['wasm-function['+str(p[0])+']'] = p[1]
+            func_name = p[1].replace('\\\\', '\\').replace('\\28', '(').replace('\\29', ')').replace('\\20', ' ').replace('\\2c', ',')
+            if is_wasmsplit == 1:
+                symbol_map['"j'+str(p[0]) + '"'] = func_name
+            else:
+                symbol_map['wasm-function['+str(p[0])+']'] = func_name
+                
 
     parts = os.path.splitext(cpuprofile_file)
     out_file = parts[0] + '_out' + parts[1]
@@ -30,7 +36,10 @@ def main(cpuprofile_file, symbol_file):
                     strip_name.append(p)
                 else:
                     all_md5s.append(p)
-            profile_text = profile_text.replace(k, '_'.join(strip_name))
+            if is_wasmsplit == 1:
+                profile_text = profile_text.replace(k, '"' + '_'.join(strip_name) + '"')
+            else:
+                profile_text = profile_text.replace(k, '_'.join(strip_name))
             if count % 1000 == 0:
                 print('symbol {0}/{1}'.format(count, total))
     print('remove md5 count {0}'.format(len(all_md5s)))
@@ -51,7 +60,7 @@ def main(cpuprofile_file, symbol_file):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 3:
-        print('usage: python update_v8_wasm_profile.py xxx.cpuprofile xxx.symbols')
+    if len(sys.argv) != 4:
+        print('usage: python update_v8_wasm_profile.py xxx.cpuprofile xxx.symbols is_wasmsplit(0/1)')
     else:
-        main(sys.argv[1], sys.argv[2])
+        main(sys.argv[1], sys.argv[2], int(sys.argv[3]))
