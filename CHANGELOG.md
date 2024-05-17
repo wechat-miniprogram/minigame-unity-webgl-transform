@@ -7,6 +7,12 @@ Fixed - 修复问题
 Others - 其他 
 -->
 SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/SDKInstaller.md)
+1. UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
+2. PackageManager: [git地址](https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git)
+
+## 2024-5-17 【普通更新】
+### Fixed
+* 普通：修复WXAssetBundle与预下载冲突问题
 
 ## 2024-5-15 【普通更新】
 ### Feature
