@@ -73,7 +73,7 @@ wechat
 例如：
 
 自定义模板 `.../Editor/template/minigame/game.json` ：
-```json
+```js
 {
   "test": "abc123",           // 最终模板将新增该字段与值
   "plugins": {
