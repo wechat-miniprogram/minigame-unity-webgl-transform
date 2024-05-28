@@ -59,6 +59,34 @@ wechat
 
 观察到异常提醒后开发者需要根据提醒前往对比冲突的脚本内容**自行适配**，当冲突的自定义模板文件较冲突前发生变化后提醒也将自动消除。
 
+## JSON配置合并
+
+时常开发者需要对 `game.json` 或 `project.config.json` 配置文件内容的做针对性的修改，当然使用后面小节提及的[钩子能力](#构建模板前后不同时机的钩子)可以很万能的做出内容修改，但这毕竟需要开发者进行一定的代码编写。构建模板能力为开发者提供了一个JSON配置合并能力，只需要自定义模板目录放置JSON，并且只填写你关注的字段，构建模板能够自动帮你完成相同JSON文件的字段合并。
+
+支持合并的文件为：
+
+- game.json
+- project.config.json
+
+合并规则：Key-Value 字段将在**末位**节点新增或覆盖，Array 将整节点新增或覆盖。
+
+例如：
+
+自定义模板 `.../Editor/template/minigame/game.json` ：
+```json
+{
+  "test": "abc123",           // 最终模板将新增该字段与值
+  "plugins": {
+    "UnityPlugin": {
+      "version": "1.2.52"     // 最终模板仅变更该版本号
+    }
+  },
+  "subpackages": [            // 最终模板会因该字段为数组类型，将整节点替换
+    "..."
+  ]
+}
+```
+
 ## 构建模板前后不同时机的钩子
 
 有时候简单的覆盖可能并不能满足开发者复杂的修改需要，在构建时提供的不同时机钩子允许开发者使用C#代码来替换或变更是更灵活自由的方案，我们提供了 [BuildTemplateHelper](#buildtemplatehelper介绍) 工具类来便捷的获得三个目录的绝对路径。
@@ -155,7 +183,7 @@ string templateDir = BuildTemplateHelper.CustomTemplateDir;
 
 // wechat/minigame（导出产物）
 // 开发者在导出面板配置的导出路径的微信开发者工具打开的 minigame(默认) 绝对路径
-string outDir = BuildTemplateHelper.BaseDir;
+string outDir = BuildTemplateHelper.DstMinigameDir;
 ```
 
 搭配[钩子介绍](#钩子介绍)小节中的不同阶段，可以任意的对你的 `wechat-default（标准模板）`、`template（自定义模板）`、`wechat/minigame（导出产物）` 中进行新的脚本创建、已有脚本中局部代码的文本替换（例如使用正则替换）甚至是图片等资源的变更。
