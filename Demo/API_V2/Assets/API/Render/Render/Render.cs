@@ -15,19 +15,22 @@ public class Render : Details
     // 测试 API
     protected override void TestAPI(string[] args)
     {
-        setPreferredFramesPerSecond();
+        setFPS();
     }
 
-    public void setPreferredFramesPerSecond() {
-        WX.SetPreferredFramesPerSecond(50);
+    public void setFPS()
+    {
+        Application.targetFrameRate = 30;
     }
 
-    public void loadFont() {
+    public void loadFont()
+    {
         var font = WX.LoadFont("TencentSans-W7.subset.ttf");
         Debug.Log(font);
     }
 
-    public void Destroy() {
-        WX.SetPreferredFramesPerSecond(60);
+    public void Destroy()
+    {
+        Application.targetFrameRate = 60;
     }
 }
