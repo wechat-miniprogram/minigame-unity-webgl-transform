@@ -4,6 +4,137 @@
         <name>wx-editor</name>
     </assembly>
     <members>
+        <member name="T:WeChatWASM.BuildTemplate">
+            <summary>
+            构建模板工具类
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.BuildTemplate.IgnoreRules">
+            <summary>
+            复制覆盖时不参与覆盖的正则表达式，可在 beforeCoverTemplate（含）前动态修改
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.CheckCustomCoverBaseConflict(System.String,System.String,System.String[])">
+            <summary>
+            防止自定义模板对覆盖基础模板有覆盖在新版本更新后有代码冲突需要做此检查
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.base2out">
+            <summary>
+            基础模板导出至输出目录
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.CheckTemplate(System.String)">
+            <summary>
+            检查是否存在构建模板
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.template2out">
+            <summary>
+            构建模板覆盖至输出目录
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.mergeJSON(System.String,System.String)">
+            <summary>
+            合并JSON
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.mergeJsonA2B(LitJson.JsonData,LitJson.JsonData)">
+            <summary>
+            合并A与B
+                规则：将a中的节点覆盖/新增至b中，其中只会覆盖Key-Value节点，数组节点会整枝覆盖
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.ForceCopy(System.String,System.String,System.String[],System.Boolean)">
+            <summary>
+            强制将 srcDir 目录中资源逐层覆盖至 dstDir 目录中
+            </summary>
+            <param name="srcDir">源目录</param>
+            <param name="dstDir">目标目录</param>
+            <param name="ignoreRules">忽略规则</param>
+            <param name="cleanDstDiffFile">清理dstDir中没有srcDir的资源</param>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.ForceCopy(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            强制将 srcDir 目录中资源逐层覆盖至 dstDir 目录中
+            </summary>
+            <param name="srcDir">源目录</param>
+            <param name="dstDir">目标目录</param>
+            <param name="ignoreRule">忽略规则</param>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.saveAssets">
+            <summary>
+            记录处理前的 Assets 内容
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.BuildTemplate.RecoverAssets">
+            <summary>
+            还原最后一次 SaveAssets 内容
+            </summary>
+        </member>
+        <member name="P:WeChatWASM.BuildTemplateHelper.BaseDir">
+            <summary>
+            基础模板根目录，所有文件变动请勿离开该目录内
+            </summary>
+        </member>
+        <member name="P:WeChatWASM.BuildTemplateHelper.CustomTemplateDir">
+            <summary>
+            自定义模板根目录，所有文件变动请勿离开该目录
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.BuildTemplateHelper.DstMinigameDir">
+            <summary>
+            导出产物 minigame 目录，所有文件变动请勿离开该目录
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.beforeExport">
+            <summary>
+            在正式导出前
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.exportDone">
+            <summary>
+            在完全导出后
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.beforeSwitchActiveBuildTarget">
+            <summary>
+            在切换构建平台前
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.afterSwitchActiveBuildTarget">
+            <summary>
+            在切换构建平台后
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.beforeCopyDefault">
+            <summary>
+            在复制基础模板前
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.afterCopyDefault">
+            <summary>
+            在复制基础模板完成后
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.beforeCoverTemplate">
+            <summary>
+            在覆盖自定义模板前
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.afterCoverTemplate">
+            <summary>
+            在覆盖自定义模板完成后
+            </summary>
+        </member>
+        <member name="M:WeChatWASM.LifeCycleBase.afterBuildTemplate">
+            <summary>
+            在构建模板流程结束后
+            </summary>
+        </member>
         <member name="T:WeChatWASM.WXAssetsTextTools">
             <summary>
             微信团队提供的资源纹理处理工具，可对微信小游戏首包资源、AssetsBundle进行专项的纹理资源处理操作
@@ -492,6 +623,106 @@
             是否使用iOS高性能Plus
             </summary>
         </member>
+        <member name="F:WeChatWASM.CompileOptions.brotliMT">
+            <summary>
+            是否使用brotli多线程压缩
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.CJK_Unified_Ideographs">
+            <summary>
+            基本汉字 [0x4e00, 0x9fff] https://www.unicode.org/charts/PDF/U4E00.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.C0_Controls_and_Basic_Latin">
+            <summary>
+            基本拉丁语（英文大小写、数字、英文标点） [0x0, 0x7f] https://www.unicode.org/charts/PDF/U0000.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.CJK_Symbols_and_Punctuation">
+            <summary>
+            中文标点符号 [0x3000, 0x303f] https://www.unicode.org/charts/PDF/U3000.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.General_Punctuation">
+            <summary>
+            通用标点符号 [0x2000, 0x206f] https://www.unicode.org/charts/PDF/U2000.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Enclosed_CJK_Letters_and_Months">
+            <summary>
+            CJK字母及月份 [0x3200, 0x32ff] http://www.unicode.org/charts/PDF/U3200.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Vertical_Forms">
+            <summary>
+            中文竖排标点 [0xfe10, 0xfe1f] http://www.unicode.org/charts/PDF/UFE10.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.CJK_Compatibility_Forms">
+            <summary>
+            CJK兼容符号 [0xfe30, 0xfe4f] http://www.unicode.org/charts/PDF/UFE30.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Miscellaneous_Symbols">
+            <summary>
+            杂项符号 [0x2600, 0x26ff] http://www.unicode.org/charts/PDF/U2600.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.CJK_Compatibility">
+            <summary>
+            CJK特殊符号 [0x3300, 0x33ff] http://www.unicode.org/charts/PDF/U3300.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Halfwidth_and_Fullwidth_Forms">
+            <summary>
+            全角ASCII、全角中英文标点、半宽片假名、半宽平假名、半宽韩文字母 [0xff00, 0xffef] http://www.unicode.org/charts/PDF/UFF00.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Dingbats">
+            <summary>
+            装饰符号 [0x2700, 0x27bf] http://www.unicode.org/charts/PDF/U2700.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Letterlike_Symbols">
+            <summary>
+            字母式符号 [0x2100, 0x214f] https://www.unicode.org/charts/PDF/U2100.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Enclosed_Alphanumerics">
+            <summary>
+            带圈或括号的字母数字 [0x2460, 0x24ff] https://www.unicode.org/charts/PDF/U2460.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Number_Forms">
+            <summary>
+            数字形式 [0x2150, 0x218f] https://www.unicode.org/charts/PDF/U2150.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Currency_Symbols">
+            <summary>
+            货币符号 [0x20a0, 0x20cf] https://www.unicode.org/charts/PDF/U20A0.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Arrows">
+            <summary>
+            箭头 [0x2190, 0x21ff] https://www.unicode.org/charts/PDF/U2190.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Geometric_Shapes">
+            <summary>
+            几何图形 [0x25a0, 0x25ff] https://www.unicode.org/charts/PDF/U25A0.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.Mathematical_Operators">
+            <summary>
+            数学运算符号 [0x2200, 0x22ff] https://www.unicode.org/charts/PDF/U2200.pdf
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.FontOptions.CustomUnicode">
+            <summary>
+            自定义需要的Unicode字符
+            </summary>
+        </member>
         <member name="F:WeChatWASM.WXEditorScriptObject.CompressTexture">
             <summary>
             压缩纹理配置
@@ -500,6 +731,11 @@
         <member name="F:WeChatWASM.WXEditorScriptObject.PlayerPrefsKeys">
             <summary>
             小游戏里会预先加载的key
+            </summary>
+        </member>
+        <member name="F:WeChatWASM.WXEditorScriptObject.FontOptions">
+            <summary>
+            字体配置
             </summary>
         </member>
     </members>

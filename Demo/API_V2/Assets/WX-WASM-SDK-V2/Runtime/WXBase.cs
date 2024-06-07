@@ -1081,6 +1081,13 @@ namespace WeChatWASM
             WXSDKManagerHandler.Instance.OffGyroscopeChange(result);
         }
 #endregion
+        /// <summary>
+        /// 设置分辨率
+        /// </summary>
+        public static void SetDevicePixelRatio(double ratio)
+        {
+            WXSDKManagerHandler.Instance.SetDevicePixelRatio(ratio);
+        }
     }
 }
 #endif
