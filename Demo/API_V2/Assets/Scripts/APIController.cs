@@ -16,6 +16,9 @@ public class APIController : MonoBehaviour
     
     private void Start()
     {
+        if (GameManager.Instance.systemInfo == null) {
+            return;
+        }
         // 根据系统安全区域调整标题的位置
         title.anchoredPosition = new Vector2(title.anchoredPosition.x,  -125f - (float)GameManager.Instance.systemInfo.safeArea.top);
     }

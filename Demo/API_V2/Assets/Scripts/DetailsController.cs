@@ -38,6 +38,9 @@ public class DetailsController : MonoBehaviour
 
     private void Start()
     {
+        if (GameManager.Instance.systemInfo == null) {
+            return;
+        }
         var res = WX.GetMenuButtonBoundingClientRect();
         var info = WX.GetSystemInfoSync();
         float height = (float)res.height;

@@ -78,7 +78,10 @@ public class UserInfo : Details
 
     private void OnDestroy()
     {
-        _button.Hide();
-        _button.Destroy();
+        if (_button != null)
+        {
+            _button.Hide();
+            _button.Destroy();
+        }
     }
 }
