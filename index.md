@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: 在 GitHub 上查看
       link: https://github.com/wechat-miniprogram/minigame-unity-webgl-transform
+    - theme: alt
+      text: 安装与更新日志
+      link: /CHANGELOG
 
 features:
   - title: 快速移植
