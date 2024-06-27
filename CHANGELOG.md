@@ -16,9 +16,9 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ### Feature
 * 普通：兼容2022新增的音频API
 * 普通：更快的转换打包速度
-* 普通：Unity侧添加设置分辨率接
+* 普通：Unity侧添加设置分辨率接口
 ### Fixed
-* 普通：临时兼容wk 17.5暂停无法恢复的bug
+* 普通：临时兼容wk 17.5暂停音频无法恢复的bug
 * 普通：Touch id在特定情况丢失
 * 普通：使用微信压缩纹理工具sprite atlas版本被修改
 

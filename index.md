@@ -2,7 +2,7 @@
 layout: home
 
 hero:
-  name: "团结/Unity快适配方案"
+  name: "Unity/团结快适配方案"
   text: "基于WebGL + WebAssembly"
   tagline: 无需使用JavaScript重构，快速移植团结/Unity游戏至微信小游戏平台解决方案。
   image:
