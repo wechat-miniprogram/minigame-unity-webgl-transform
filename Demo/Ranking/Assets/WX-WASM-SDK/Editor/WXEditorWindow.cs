@@ -312,7 +312,7 @@ namespace WeChatWASM
 
 #if UNITY_2021_2_OR_NEWER
             // 默认更改为OptimizeSize，减少代码包体积
-            EditorUserBuildSettings.il2CppCodeGeneration = UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize;
+            PlayerSettings.SetIl2CppCodeGeneration (UnityEditor.Build.NamedBuildTarget.WebGL, UnityEditor.Build.Il2CppCodeGeneration.OptimizeSize);
 #endif
 
             UnityEngine.Debug.Log("[Builder] Starting to build WebGL project ... ");
