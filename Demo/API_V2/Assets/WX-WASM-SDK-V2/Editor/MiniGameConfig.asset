@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1795359250, guid: caf6a5421bfe6496f8a0c991240f7876, type: 3}
+  m_Script: {fileID: 1795359250, guid: 1cf430f187a0b40eda7f668318d8be23, type: 3}
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: API-Demo
-    Appid: wx7a727ff7d940bb3f
+    projectName: demo
+    Appid: wxb7d4485dbc1233ca
     CDN: 
-    assetLoadType: 1
+    assetLoadType: 0
     compressDataPackage: 0
     VideoUrl: 
-    DST: 
+    DST: C:/Users/xiaoyuejin/Desktop/demo
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -62,7 +62,6 @@ MonoBehaviour:
     enableRenderAnalysis: 0
     iOSAutoGCInterval: 10000
     enableIOSPerformancePlus: 0
-    brotliMT: 0
   CompressTexture:
     halfSize: 0
     useDXT5: 0

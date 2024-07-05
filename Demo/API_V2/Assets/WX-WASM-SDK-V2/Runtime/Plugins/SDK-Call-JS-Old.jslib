@@ -996,8 +996,5 @@ mergeInto(LibraryManager.library, {
     },
     WX_RegisterOnBLECharacteristicValueChangeCallback: function(callback) {
         window.WXWASMSDK.WX_RegisterOnBLECharacteristicValueChangeCallback(callback);
-    },
-    WX_SetDevicePixelRatio: function(ratio) {
-        window.devicePixelRatio = ratio;
     }
 });

@@ -11,7 +11,7 @@
         </member>
         <member name="F:WeChatWASM.BuildTemplate.IgnoreRules">
             <summary>
-            复制覆盖时不参与覆盖的正则表达式，可在 beforeCoverTemplate（含）前动态修改
+            复制覆盖时不参与覆盖的正则表达式，可动态修改
             </summary>
         </member>
         <member name="M:WeChatWASM.BuildTemplate.CheckCustomCoverBaseConflict(System.String,System.String,System.String[])">
@@ -33,20 +33,6 @@
             <summary>
             构建模板覆盖至输出目录
             </summary>
-        </member>
-        <member name="M:WeChatWASM.BuildTemplate.mergeJSON(System.String,System.String)">
-            <summary>
-            合并JSON
-            </summary>
-        </member>
-        <member name="M:WeChatWASM.BuildTemplate.mergeJsonA2B(LitJson.JsonData,LitJson.JsonData)">
-            <summary>
-            合并A与B
-                规则：将a中的节点覆盖/新增至b中，其中只会覆盖Key-Value节点，数组节点会整枝覆盖
-            </summary>
-            <param name="a"></param>
-            <param name="b"></param>
-            <returns></returns>
         </member>
         <member name="M:WeChatWASM.BuildTemplate.ForceCopy(System.String,System.String,System.String[],System.Boolean)">
             <summary>
@@ -621,11 +607,6 @@
         <member name="F:WeChatWASM.CompileOptions.enableIOSPerformancePlus">
             <summary>
             是否使用iOS高性能Plus
-            </summary>
-        </member>
-        <member name="F:WeChatWASM.CompileOptions.brotliMT">
-            <summary>
-            是否使用brotli多线程压缩
             </summary>
         </member>
         <member name="F:WeChatWASM.FontOptions.CJK_Unified_Ideographs">

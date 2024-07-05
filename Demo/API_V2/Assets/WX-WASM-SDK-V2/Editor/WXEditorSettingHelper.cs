@@ -192,7 +192,6 @@ namespace WeChatWASM
                 this.formCheckbox("showMonitorSuggestModal", "显示优化建议弹窗");
                 this.formCheckbox("enableProfileStats", "显示性能面板");
                 this.formCheckbox("enableRenderAnalysis", "显示渲染日志(dev only)");
-                this.formCheckbox("brotliMT", "brotli多线程压缩(?)", "开启多线程压缩可以提高出包速度，但会降低压缩率。如若不使用wasm代码分包请勿用多线程出包上线");
                 EditorGUILayout.EndVertical();
             }
 
@@ -452,7 +451,6 @@ namespace WeChatWASM
             this.setData("showMonitorSuggestModal", config.CompileOptions.showMonitorSuggestModal);
             this.setData("enableProfileStats", config.CompileOptions.enableProfileStats);
             this.setData("enableRenderAnalysis", config.CompileOptions.enableRenderAnalysis);
-            this.setData("brotliMT", config.CompileOptions.brotliMT);
             this.setData("autoUploadFirstBundle", true);
 
             // font options
@@ -521,7 +519,6 @@ namespace WeChatWASM
             config.CompileOptions.showMonitorSuggestModal = this.getDataCheckbox("showMonitorSuggestModal");
             config.CompileOptions.enableProfileStats = this.getDataCheckbox("enableProfileStats");
             config.CompileOptions.enableRenderAnalysis = this.getDataCheckbox("enableRenderAnalysis");
-            config.CompileOptions.brotliMT = this.getDataCheckbox("brotliMT");
 
             // font options
             config.FontOptions.CJK_Unified_Ideographs = this.getDataCheckbox("CJK_Unified_Ideographs");

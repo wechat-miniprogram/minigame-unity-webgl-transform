@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b73d15ca7bb8a4652850d2c6f0875b8f
+guid: 30bbdd4df4b1a43bb83ed8e59cc42c54
 PluginImporter:
   externalObjects: {}
   serializedVersion: 2
@@ -12,12 +12,14 @@ PluginImporter:
   validateReferences: 1
   platformData:
   - first:
-      : Any
+      '': Any
     second:
       enabled: 0
       settings:
         Exclude Editor: 0
+        Exclude Linux: 1
         Exclude Linux64: 1
+        Exclude LinuxUniversal: 1
         Exclude OSXUniversal: 1
         Exclude WebGL: 1
         Exclude Win: 1
@@ -36,7 +38,31 @@ PluginImporter:
         DefaultValueInitialized: true
         OS: AnyOS
   - first:
+      Facebook: Win
+    second:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+  - first:
+      Facebook: Win64
+    second:
+      enabled: 0
+      settings:
+        CPU: AnyCPU
+  - first:
+      Standalone: Linux
+    second:
+      enabled: 0
+      settings:
+        CPU: x86
+  - first:
       Standalone: Linux64
+    second:
+      enabled: 0
+      settings:
+        CPU: x86_64
+  - first:
+      Standalone: LinuxUniversal
     second:
       enabled: 0
       settings:
@@ -46,19 +72,19 @@ PluginImporter:
     second:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
   - first:
       Standalone: Win
     second:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
   - first:
       Standalone: Win64
     second:
       enabled: 0
       settings:
-        CPU: None
+        CPU: AnyCPU
   - first:
       Windows Store Apps: WindowsStoreApps
     second:

@@ -52,11 +52,6 @@ namespace WeChatWASM
 #else
             WXExtEnvDef.SETDEF("UNITY_EDITOR_OSX", false);
 #endif
-#if UNITY_EDITOR_LINUX
-            WXExtEnvDef.SETDEF("UNITY_EDITOR_LINUX", true);
-#else
-            WXExtEnvDef.SETDEF("UNITY_EDITOR_LINUX", false);
-#endif
 #if UNITY_2020
             WXExtEnvDef.SETDEF("UNITY_2020", true);
 #else
@@ -115,8 +110,7 @@ namespace WeChatWASM
             {
                 return WXConvertCore.UseIL2CPP;
             });
-            WXExtEnvDef.RegisterAction("UnityUtil.GetWxSDKRootPath", (args) =>
-            {
+            WXExtEnvDef.RegisterAction("UnityUtil.GetWxSDKRootPath", (args) => {
 #if UNITY_2018
                 return Path.Combine(Application.dataPath, "WX-WASM-SDK-V2");
 #else
@@ -134,8 +128,7 @@ namespace WeChatWASM
                 return dir.FullName;
 #endif
             });
-            WXExtEnvDef.RegisterAction("UnityUtil.IsAssets", (args) =>
-            {
+            WXExtEnvDef.RegisterAction("UnityUtil.IsAssets", (args) => {
 #if UNITY_2018
                 return true;
 #else

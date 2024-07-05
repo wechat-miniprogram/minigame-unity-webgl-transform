@@ -18,6 +18,6 @@
  * 可直接拷贝本函数到小游戏中使用
  */
 export default function anonymous(it) {
-  const out = `<view id="container"> <text class="tips"  value="${it.tips || ''}"></text></view>`;
-  return out;
+    const out = `<view id="container"> <text class="tips"  value="${it.tips || ''}"></text></view>`;
+    return out;
 }
