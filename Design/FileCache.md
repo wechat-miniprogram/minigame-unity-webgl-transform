@@ -1,4 +1,5 @@
 # 资源缓存
+- [资源缓存](#资源缓存)
 - [介绍](#介绍)
   - [一、什么情况触发资源缓存](#一什么情况触发资源缓存)
   - [二、哪些资源会自动缓存？](#二哪些资源会自动缓存)
@@ -12,9 +13,9 @@
         - [识别纹理资源版本](#识别纹理资源版本)
       - [缓存清理规则](#缓存清理规则)
     - [示例](#示例)
-  - [四、判断是否走缓存](#四判断是否走缓存)
-    - [查看详细日志](#查看详细日志)
-    - [查看缓存日志](#查看缓存日志)
+  - [四、查看缓存日志](#四查看缓存日志)
+    - [判断是否走缓存](#判断是否走缓存)
+    - [其他缓存日志](#其他缓存日志)
   - [五、注意项](#五注意项)
 
 # 介绍
@@ -56,7 +57,7 @@
 ```
 // 业务资源相关
 bundlePathIdentifier: 需要缓存的路径，用 `;`分隔 eg: StreamingAssets;bundles;
-excludeFileExtensions: 不需要缓存的文件类型，用 `;`分隔 eg: .json;.hash
+excludeFileExtensions: 当路径中包含字符时不需要缓存，用 `;`分隔 eg: .json;.hash
 bundleHashLength: bundle中hash占多少长度
 // 纹理相关
 needCacheTextures: 是否缓存纹理
@@ -68,8 +69,8 @@ maxStorage: 最大缓存容量，单位MB，默认值200MB
 ```
 
 其中部分配置可通过转换插件面板快速修改：
-`bundleExcludeExtensions`: 对应`不自动缓存文件类型`配置
-`bundleHashLength`: 对应`Bundle名中Hash长度`配置
+- `bundleExcludeExtensions` 对应 `不自动缓存文件类型` 配置
+- `bundleHashLength` 对应 `Bundle名中Hash长度` 配置
 
 #### 是否缓存规则
 存在业务的bundle资源和使用微信压缩纹理工具后的纹理资源，不同资源的缓存细节略有不同。
@@ -77,7 +78,25 @@ maxStorage: 最大缓存容量，单位MB，默认值200MB
 
 默认URL中包含`StreamingAssets`的请求会被识别为资源文件被自动缓存，可修改 `bundlePathIdentifier` 为你期望的值
 
-并非所有文件都适合持久化缓存，因此缓存规则也支持忽略某些文件，默认`.json`的文件不会被自动缓存，可修改 `bundleExcludeExtensions`。等同于修改**导出插件面板**的`不自动缓存文件类型`配置
+并非所有文件都适合持久化缓存，因此缓存规则也支持忽略某些文件，默认包含 `.json` 的文件不会被自动缓存，可修改 `bundleExcludeExtensions`。等同于修改**导出插件面板**的`不自动缓存文件类型`配置
+
+对应 js 代码，`minigame/unity-namespace.js`
+```ts
+// 判断是否需要自动缓存的文件，返回true自动缓存；false不自动缓存
+unityNamespace.isCacheableFile = function (path) {
+  // 判定为下载bundle的路径标识符，此路径下的下载，会自动缓存
+  const cacheableFileIdentifier = ["StreamingAssets"];
+  // 命中路径标识符的情况下，并不是所有文件都有必要缓存，过滤下不需要缓存的文件
+  const excludeFileIdentifier = [".json"];
+  if (
+    cacheableFileIdentifier.some(identifier => path.includes(identifier)
+        && excludeFileIdentifier.every(excludeIdentifier => !path.includes(excludeIdentifier)))
+  ) {
+    return true;
+  }
+  return false;
+};
+```
 
 ##### 是否缓存纹理
 默认会缓存纹理，修改`needCacheTextures`可控制是否缓存纹理资源。
@@ -145,7 +164,7 @@ unityNamespace.isErasableFile = function (info) {
 URL剔除掉DATA_CDN部分后作为缓存路径
 例如：
 - DATA_CDN=https://weixin.qq.com/webgl
-- 请求路径=https://weixin.qq.com/webgl/StreamingAssets/textures_8d265a9dfd6cb7669cdb8b726f0afb1e
+- 资源下载URL=https://weixin.qq.com/webgl/StreamingAssets/textures_8d265a9dfd6cb7669cdb8b726f0afb1e
 
 那么：
 - 则缓存路径=${wx.env.USER_DATA_PATH}StreamingAssets/textures_8d265a9dfd6cb7669cdb8b726f0afb1e
@@ -176,26 +195,27 @@ defaultReleaseSize: 清理时，默认额外清理的大小，单位Bytes，1MB 
 maxStorage: 最大缓存容量，修改此值需要联系研发助手开通权限，否则无效
 ```
 
-## 四、判断是否走缓存
-### 查看详细日志
-1. `minigame/unity-namespace.js`打开详细日志开关`enableDebugLog: true`
-2. 打开调试
-- 开发者工具：调试器->Console
-- 真机：
-  步骤1(打开调试模式)：右上角菜单->打开调试->出现vconsole 或者 game.js增加代码"wx.setEnableDebug({enableDebug: true})"
-  步骤2(打开vconsole)：点击vconsole打开日志面板（启动阶段点三次封面视频下方Unity Logo出现 vconsole)
+## 四、查看缓存日志
+[查看插件调试日志](UsingLoader.md#_3-6-插件调试日志)
 
-### 查看缓存日志
+### 判断是否走缓存
 1. 自动缓存
 出现以下两种日志，都可认为需要自动缓存
 - `[PLUGIN LOG 10:32.52.915]  CacheXMLHttpRequest_onload: shadowreceiverdepth_9551162e.bundle, 耗时:222ms,无缓存，执行缓存逻辑`
 - `[PLUGIN LOG 10:32.53.073]  缓存 shadowreceiverdepth_9551162e.bundle成功;size: 1.78KB,耗时: 79ms`
 2. 命中本地缓存: `[PLUGIN LOG 20:18.38.275]  CacheXMLHttpRequest_onload: scene999_tw_5b9ef7d7.bundle使用缓存, 耗时:37ms`
 
+### 其他缓存日志
+1. `删除 xxx 旧缓存`：清理同名文件旧缓存
+2. `需要释放xxMB存储空间`：达到缓存上限，需要释放的空间大小
+3. `缓存文件数=xxx, 总文件大小=xxx`：当前缓存目录总文件数和总文件大小（单位 bytes）
+4. `删除文件: xx, md5:xx, size:xx, 耗时: xx`：清理旧缓存或达到缓存上限时删除文件
+
 ## 五、注意项
 1. 文件名需要带上hash [BuildAssetBundleOptions.AppendHashToAssetBundleName](https://docs.unity3d.com/ScriptReference/BuildAssetBundleOptions.AppendHashToAssetBundleName.html)，以便清理掉该文件的旧缓存。默认32位长度，可通过导出选项中`Bundle名中Hash长度`来自定义。比如游戏自己计算了crc，可将`Bundle名中Hash长度`设置为crc长度。
 2. 配置到不自动缓存文件类型中的文件，不会自动缓存，默认值是json，比如addressable打包后生成StreamingAssets/aa/WebGL/catalog.json，这个文件不会自动缓存。
 3. 开发者工具上可以打开文件系统查看缓存文件
+4. 当文件没有正常缓存时，着重检查 缓存规则 中 `资源下载URL` 、`DATA_CDN`、和 `bundlePathIdentifier`，当`资源下载URL`中不包含`DATA_CDN`时，不会走缓存逻辑。
 
 缓存文件在usr目录下
 

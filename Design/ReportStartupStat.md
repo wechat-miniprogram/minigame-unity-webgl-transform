@@ -118,6 +118,19 @@ gameManager.onLaunchProgress = (e) => {
 }
 ```
 
+类型枚举
+```js
+export const launchEventType = {
+  launchPlugin: 0, // 插件启动
+  loadWasm: 1, // 下载wasm代码
+  compileWasm: 2, // wasm代码编译
+  loadAssets: 3, // 下载首资源包
+  unzipAssets: 4, // 解压首资源包
+  readAssets: 5, // 读取首资源包
+  prepareGame: 6, // 引擎初始化
+};
+```
+
 ## 五、获取数据统计
 
 > 请注意！需前往【公众平台 - 能力地图 - 生产提效包 - 快适配 】开通后，方可查看数据

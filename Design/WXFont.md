@@ -10,7 +10,7 @@
 - 安卓微信客户端版本 >= 8.0.34
 - iOS微信客户端版本 >= 8.0.39
 
-若不满足客户端版本要求，首次从网络下载，当符合缓存规则时，后续从[本地文件缓存加载](FileCache.md)
+若不满足客户端版本要求，首次从网络下载；当符合缓存规则时，后续从[本地文件缓存加载](FileCache.md)，因此必须提供 CDN 后备字体。
 
 ## 代码示例
 详细示例可参考[系统字体demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Font)
@@ -23,6 +23,20 @@ WeChatWASM.WX.GetWXFont(fallbackFont, (font) =>
     tmpText.font = TMP_FontAsset.CreateFontAsset(font);
 });
 ```
+
+## 相关日志
+- 打开[插件调试日志](UsingLoader.md#_3-6-插件调试日志)
+- 日志中查看以下字样 `[PLUGIN LOG xxx][font]`，例如
+  - 使用微信字体：
+    - `[PLUGIN LOG xxx][font] load font from local`
+    - `[PLUGIN LOG xxx][font]读取字体文件耗时=xxms, 字体大小=xxMB`
+  - 使用网络字体：
+    - `[PLUGIN LOG xxx][font] load font from network, url=https://www......com/字体文件.ttf`
+    - `[PLUGIN LOG xxx]xhr_onload: 字体文件.ttf,耗时=xxms,size=xx,无缓存`
+
+异常日志：
+- `[PLUGIN LOG xxx][font]无中文字体`：本地无可用系统字体，常见为安卓系统版本低于7.1
+- `[PLUGIN LOG xxx][font]无字体文件内容`：读取字体文件失败，未知原因，可提供微信日志给平台侧排查
 
 ## 系统字体字符集
 
