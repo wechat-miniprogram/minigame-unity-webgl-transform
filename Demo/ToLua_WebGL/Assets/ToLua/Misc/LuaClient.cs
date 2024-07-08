@@ -97,16 +97,14 @@ public class LuaClient : MonoBehaviour
 
     [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
     static int LuaOpen_Socket_Core(IntPtr L)
-    {
-        //return LuaDLL.luaopen_socket_core(L);
-        return 1;
+    {        
+        return LuaDLL.luaopen_socket_core(L);
     }
 
     [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
     static int LuaOpen_Mime_Core(IntPtr L)
     {
-        //return LuaDLL.luaopen_mime_core(L);
-        return 1;
+        return LuaDLL.luaopen_mime_core(L);
     }
 
     protected void OpenLuaSocket()
@@ -122,12 +120,12 @@ public class LuaClient : MonoBehaviour
     //cjson 比较特殊，只new了一个table，没有注册库，这里注册一下
     protected void OpenCJson()
     {
-        //luaState.LuaGetField(LuaIndexes.LUA_REGISTRYINDEX, "_LOADED");
-        //luaState.OpenLibs(LuaDLL.luaopen_cjson);
-        //luaState.LuaSetField(-2, "cjson");
+        luaState.LuaGetField(LuaIndexes.LUA_REGISTRYINDEX, "_LOADED");
+        luaState.OpenLibs(LuaDLL.luaopen_cjson);
+        luaState.LuaSetField(-2, "cjson");
 
-        //luaState.OpenLibs(LuaDLL.luaopen_cjson_safe);
-        //luaState.LuaSetField(-2, "cjson.safe");                               
+        luaState.OpenLibs(LuaDLL.luaopen_cjson_safe);
+        luaState.LuaSetField(-2, "cjson.safe");                               
     }
 
     protected virtual void CallMain()
@@ -158,12 +156,6 @@ public class LuaClient : MonoBehaviour
         LuaCoroutine.Register(luaState, this);        
     }
 
-    IEnumerator Init2()
-    {
-        yield return AssetBundleLoad.Init();
-        Init();
-    }
-
     protected void Init()
     {        
         InitLoader();
@@ -177,9 +169,7 @@ public class LuaClient : MonoBehaviour
     protected void Awake()
     {
         Instance = this;
-        Debug.Log("Lua Awake...");
-
-        StartCoroutine(Init2());
+        Init();
 
 #if UNITY_5_4_OR_NEWER
         SceneManager.sceneLoaded += OnSceneLoaded;

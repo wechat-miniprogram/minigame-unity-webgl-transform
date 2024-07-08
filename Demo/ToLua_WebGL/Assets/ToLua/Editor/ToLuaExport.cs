@@ -293,16 +293,16 @@ public static class ToLuaExport
                     continue;
                 }
 
-                if (args[i].ParameterType.IsByRef && (args[i].Attributes & ParameterAttributes.Out) != ParameterAttributes.None)
+                if (args[i].Attributes != ParameterAttributes.Out)
                 {
-					Type genericClass = typeof(LuaOut<>);
-					Type t = genericClass.MakeGenericType(args[i].ParameterType.GetElementType());
-					list.Add(t);					
+                    list.Add(GetGenericBaseType(method, args[i].ParameterType));
                 }
                 else
                 {
-					list.Add(GetGenericBaseType(method, args[i].ParameterType));
-				}
+                    Type genericClass = typeof(LuaOut<>);
+                    Type t = genericClass.MakeGenericType(args[i].ParameterType.GetElementType());
+                    list.Add(t);
+                }
             }
 
             for (int i = offset; i < list.Count - 1; i++)
@@ -465,7 +465,7 @@ public static class ToLuaExport
             {
                 ParameterInfo param = paramInfos[j];
                 string arg = "arg" + j;
-                bool beOutArg = param.ParameterType.IsByRef && ((param.Attributes & ParameterAttributes.Out) != ParameterAttributes.None);
+                bool beOutArg = param.Attributes == ParameterAttributes.Out;
                 bool beParams = IsParams(param);
                 Type t = GetGenericBaseType(method, param.ParameterType);
                 ProcessArg(t, head, arg, offset + j, j >= checkTypePos, beParams, beOutArg);
@@ -475,14 +475,14 @@ public static class ToLuaExport
             {
                 ParameterInfo param = paramInfos[j];
 
-                if (!param.ParameterType.IsByRef || ((param.Attributes & ParameterAttributes.In) != ParameterAttributes.None))
+                if (!param.ParameterType.IsByRef)
                 {
                     sbArgs.Append("arg");
                 }
                 else
                 {
-                    if ((param.Attributes & ParameterAttributes.Out) != ParameterAttributes.None)
-					{
+                    if (param.Attributes == ParameterAttributes.Out)
+                    {
                         sbArgs.Append("out arg");
                     }
                     else
@@ -2129,10 +2129,6 @@ public static class ToLuaExport
                 {
                     return 1;
                 }
-                else if (list1[0].ParameterType.IsPrimitive)
-                {
-                    return -1;
-                }
 
                 list1.RemoveAt(0);
             }
@@ -2141,10 +2137,6 @@ public static class ToLuaExport
                 if (list2[0].ParameterType == typeof(object))
                 {
                     return -1;
-                }
-                else if (list2[0].ParameterType.IsPrimitive)
-                {
-                    return 1;
                 }
 
                 list2.RemoveAt(0);
@@ -2159,14 +2151,6 @@ public static class ToLuaExport
                 else if (list1[i].ParameterType != typeof(object) && list2[i].ParameterType == typeof(object))
                 {
                     return -1;
-                }
-                else if (list1[i].ParameterType.IsPrimitive && !list2[i].ParameterType.IsPrimitive)
-                {
-                    return -1;
-                }
-                else if (!list1[i].ParameterType.IsPrimitive && list2[i].ParameterType.IsPrimitive)
-                {
-                    return 1;
                 }
                 else if (list1[i].ParameterType.IsPrimitive && list2[i].ParameterType.IsPrimitive)
                 {
@@ -3054,16 +3038,16 @@ public static class ToLuaExport
                 continue;
             }
 
-			if (p[i].ParameterType.IsByRef && (p[i].Attributes & ParameterAttributes.Out) != ParameterAttributes.None)
-			{
-				Type genericClass = typeof(LuaOut<>);
-				Type t = genericClass.MakeGenericType(p[i].ParameterType);
-				list.Add(t);				
-			}
-			else
-			{
-				list.Add(GetGenericBaseType(mb, p[i].ParameterType));
-			}
+            if (p[i].Attributes != ParameterAttributes.Out)
+            {
+                list.Add(GetGenericBaseType(mb, p[i].ParameterType));
+            }
+            else
+            {
+                Type genericClass = typeof(LuaOut<>);
+                Type t = genericClass.MakeGenericType(p[i].ParameterType);
+                list.Add(t);
+            }
         }
 
         for (int i = offset; i < list.Count - 1; i++)
@@ -3572,7 +3556,7 @@ public static class ToLuaExport
                 {
                     sb.AppendFormat("{2}\tfunc.PushByteBuffer(param{1});\r\n", push, i, head);
                 }
-                else if ((pi[i].Attributes & ParameterAttributes.Out) == ParameterAttributes.None)
+                else if (pi[i].Attributes != ParameterAttributes.Out)
                 {
                     sb.AppendFormat("{2}\tfunc.{0}(param{1});\r\n", push, i, head);
                 }
@@ -3996,8 +3980,8 @@ public static class ToLuaExport
 
         for (int i = 0; i < pis.Length; i++)
         {
-            if ((pis[i].Attributes & ParameterAttributes.Out) != ParameterAttributes.None)
-			{
+            if (pis[i].Attributes == ParameterAttributes.Out)
+            {
                 str += string.Format("\t\t\t\tparam{0} = {1};\r\n", i, GetReturnValue(pis[i].ParameterType.GetElementType()));
                 flag = true;
             }

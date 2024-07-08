@@ -132,7 +132,7 @@ public class TestReflection : LuaClient
 #if UNITY_4_6 || UNITY_4_7
         Application.RegisterLogCallback(ShowTips);        
 #else
-        Application.logMessageReceived -= ShowTips;
+        Application.logMessageReceived += ShowTips;
 #endif
         Destroy();
     }
