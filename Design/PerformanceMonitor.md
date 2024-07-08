@@ -42,7 +42,7 @@ unityNamespace.monitorConfig = {
 
 默认检测条件如上。插件并不知道什么时候检测截止，可选择可交互上报后或在引擎初始化完成(`callmain`)后多少ms截止，根据游戏实际情况修改。
 
-1. 有上报游戏可交互[`WX.ReportGameStart()`](ReportStartupStat.md#三上报自定义阶段)的游戏
+1. 有上报游戏可交互[`WX.ReportGameStart()`](ReportStartupStat.md#三、上报自定义阶段)的游戏
 应该设置`showResultAfterLaunch=true`，同时会忽略`monitorDuration`的值
 
 1. 未上报游戏可交互上报的游戏
@@ -89,15 +89,15 @@ unityNamespace.monitorConfig = {
 
 2. `首资源包较大`
 - 条件: `assetContentLength`超过15 * 1024 * 1024，即未压缩的首资源包超过15MB
-- 优化手段: [首资源包下载与体积](StartupOptimization.md#221-首资源包下载与体积)
+- 优化手段: [首资源包下载与体积](StartupOptimization.md#_2-2-1-首资源包下载与体积)
 
 3. `首资源包未开启服务器压缩`
 - 条件: `useContentEncoding`值为`false`，服务器未开启br或gzip
-- 优化手段: [首资源包下载与体积](StartupOptimization.md#221-首资源包下载与体积)
+- 优化手段: [首资源包下载与体积](StartupOptimization.md#_2-2-1-首资源包下载与体积)
 
 4. `callmain耗时较长，请用安卓cpuprofile分析热点函数`
 - 条件: iOS平台`callmainCost>1500`或安卓平台`callmainCost>3000`
-- 优化手段: [引擎初始化与开发者首帧逻辑](StartupOptimization.md#223-引擎初始化与开发者首帧逻辑)
+- 优化手段: [引擎初始化与开发者首帧逻辑](StartupOptimization.md#_2-2-3-引擎初始化与开发者首帧逻辑)
 
 ### 预下载检测
 检查预下载列表使用情况，分为引擎初始化完成(`callmain`)和检测完成时两个结果
@@ -226,15 +226,15 @@ interface IBaseRequestInfo {
 
 3. `请勿缓存settings.json`
 - 条件: `requestBundleSettings=true` 且 `cacheSettings=true`
-- 优化手段: Addressables的`settings.json`文件用来记录打包配置，不应该缓存到本地。取消此文件的自动缓存，[哪些资源会自动缓存](FileCache.md#二哪些资源会自动缓存)
+- 优化手段: Addressables的`settings.json`文件用来记录打包配置，不应该缓存到本地。取消此文件的自动缓存，[哪些资源会自动缓存](FileCache.md#二、哪些资源会自动缓存)
 
 4. `可将catalog.json配置为可缓存文件`
 - 条件: `requestBundleCatalog=true` 且 `cacheCatalog=false`
-- 优化手段: Addressables的`catalog.json`记录了所有资源文件的描述信息和依赖关系，一般大小较大，推荐缓存到本地，[哪些资源会自动缓存](FileCache.md#二哪些资源会自动缓存)
+- 优化手段: Addressables的`catalog.json`记录了所有资源文件的描述信息和依赖关系，一般大小较大，推荐缓存到本地，[哪些资源会自动缓存](FileCache.md#二、哪些资源会自动缓存)
 
 5. `catalog.json被缓存且无hash/版本信息, 会导致无法更新`
 - 条件: `requestBundleCatalog=true` 且 `cacheCatalog=true` 且 `appendHashToCatalog=false`
-- 优化手段: `catalog.json`缓存到本地若无版本标识，会导致无法更新到最新版本, [缓存规则](FileCache.md#三缓存规则)
+- 优化手段: `catalog.json`缓存到本地若无版本标识，会导致无法更新到最新版本, [缓存规则](FileCache.md#三、缓存规则)
 
 6. `请勿请求catalog.hash来做资源热更新，小游戏平台不支持`
 - 条件: `requestCataHash=true`
@@ -242,7 +242,7 @@ interface IBaseRequestInfo {
 
 7. `可缓存文件过少，检查缓存配置`
 - 条件: `cacheableCount < loadCount / 2`，可缓存资源小于总请求数的一半
-- 优化手段: 检查[缓存配置](FileCache.md#二哪些资源会自动缓存)，是否资源文件大部分未缓存。提高可缓存数量
+- 优化手段: 检查[缓存配置](FileCache.md#二、哪些资源会自动缓存)，是否资源文件大部分未缓存。提高可缓存数量
 
 8. `网络并发数过少`
 - 条件: `avgLoadingCount < 5`，平均并发数小于5

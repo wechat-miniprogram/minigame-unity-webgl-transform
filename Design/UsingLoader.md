@@ -103,7 +103,14 @@ let managerConfig = {
 loader会自动按一定规则做文件缓存，加快二次启动速度
 详情参考[资源缓存](FileCache.md)
 
-### 3.6 插件调试信息
-通过修改`minigame/unity-namespace.js` 中 `enableDebugLog=true`，可查看插件详细日志，例如预下载发起和命中、文件缓存等。
+### 3.6 插件调试日志
+1. 通过修改`minigame/unity-namespace.js` 中 `enableDebugLog=true`，可查看插件详细日志，例如预下载发起和命中、文件缓存等。
+2. 打开调试
+- 开发者工具：调试器->Console
+- 真机：
+  - 步骤1(打开调试模式)：右上角菜单->打开调试->出现vconsole 或者 game.js增加代码
+  ```js
+  wx.setEnableDebug({enableDebug: true})
+  ```
+  - 步骤2(打开vconsole)：点击vconsole打开日志面板（启动阶段点三次封面视频下方Unity Logo出现 vconsole)
 
-> 真机需通过右上角菜单-调试-打开调试，查看小游戏日志
