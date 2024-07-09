@@ -90,6 +90,7 @@ export default defineConfig({
               { text: "使用代码分包工具", link: "/Design/WasmSplit" },
               { text: "启动留存数据上报统计", link: "/Design/ReportStartupStat" },
               { text: "最佳实践检测工具", link: "/Design/PerformanceMonitor" },
+              { text: "性能诊断工具", link: "/Design/GameAudits" },
               { text: "微信系统字体", link: "/Design/WXFont" },
             ],
           },
