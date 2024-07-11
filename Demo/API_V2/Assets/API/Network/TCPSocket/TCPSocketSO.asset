@@ -21,4 +21,6 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u8FDE\u63A5"
   - buttonText: "\u5173\u95ED"
+  - buttonText: "\u53D1\u9001String"
+  - buttonText: "\u53D1\u9001Buffer"
   initialResultList: []
