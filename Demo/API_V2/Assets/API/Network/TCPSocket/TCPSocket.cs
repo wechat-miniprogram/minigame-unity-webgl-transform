@@ -69,7 +69,6 @@ public class TCPSocket : Details
     }
 
 
-
     private void connect() {
         if (_tcpSocket != null && !_connected) {
             Debug.Log("connect test start");

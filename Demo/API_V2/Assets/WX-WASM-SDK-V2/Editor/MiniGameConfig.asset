@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: TcpDemo6
+    projectName: TcpDemoUpdated
     Appid: wxb7d4485dbc1233ca
-    CDN: 
+    CDN: http://127.0.0.1:8080
     assetLoadType: 0
     compressDataPackage: 0
     VideoUrl: 
-    DST: C:/Users/xiaoyuejin/Desktop/demo6
+    DST: C:/Users/xiaoyuejin/Desktop/demoUpdated
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
