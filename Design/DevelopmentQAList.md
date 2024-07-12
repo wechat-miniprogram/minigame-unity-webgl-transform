@@ -59,6 +59,19 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
   Debug.LogError("失败");
 }
 ```
+
+#### 14.真机预览时小游戏卡在启动页
+小游戏未触发首帧时会卡在小游戏启动页，常见于iOS 高性能模式下出现 JS 报错
+
+添加如下代码在 `minigame/game.js` 第一行，强制触发首帧
+```js
+// 视情况修改contextType
+// 如果你的游戏使用了 webgl2，则改为GameGlobal.canvas.getContext('webgl2')
+const gl = GameGlobal.canvas.getContext('webgl');
+gl.clear(gl.COLOR_BUFFER_BIT);
+// 多触发一次
+gl.clear(gl.COLOR_BUFFER_BIT);
+```
   
 ## Unity WebGL
 #### 1.能否使用System.Net命名空间下的接口
