@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: NetworkSO
   m_EditorClassIdentifier: 
-  categoryName: "\u4E0B\u8F7D"
-  categorySprite: {fileID: 0}
+  categoryName: "\u7F51\u7EDC"
+  categorySprite: {fileID: 21300000, guid: bb0b97758d57042a296e1ecd925f8088, type: 3}
   entryList:
   - {fileID: 11400000, guid: 8fb54c5918d454eea90d5147f2c316ea, type: 2}
   - {fileID: 11400000, guid: 1e0539509d074443f92d17035efbe40f, type: 2}
