@@ -54,7 +54,7 @@ public class Ranking : MonoBehaviour
          * 4. 开放数据域调用 wx.getGroupCloudStorage 接口拉取获取群同玩成员的游戏数据
          * 5. 将群同玩成员数据绘制到 sharedCanvas
          */
-        WX.OnShow((OnShowCallbackResult res) =>
+        WX.OnShow((res) =>
         {
             string shareTicket = res.shareTicket;
             Dictionary<string, string> query = res.query;
