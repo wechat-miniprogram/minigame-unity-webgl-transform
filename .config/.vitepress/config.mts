@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "微信小游戏团结/Unity快适配",
+  title: "微信小游戏Unity/团结快适配",
   description: "Wechat Mini Game Unity engine adapter documents.",
   themeConfig: {
     logo: '/image/vitepress/icon.png',

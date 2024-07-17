@@ -145,5 +145,5 @@ export const launchEventType = {
 
 ***注：***
 
-1. 若使用的 `转换插件版本<202211101011`（对应`Unity Loader版本<1.1.2`），数据统计报表需要建联[小游戏研发助手](IssueAndContact.md)获取。
+1. 若使用的 `转换插件版本<202211101011`（对应`Unity Loader版本<1.1.2`），数据统计报表需要[联系我们](IssueAndContact.md)获取。
 2. 数据报表数据未来会开放到《小游戏数据助手》。
