@@ -20,7 +20,7 @@ Unity WebGL较多渲染优化特性依赖WebGL2.0, 因此这里需要针对该�
  - iOS高性能使用WebGL2会存在较多问题，平台暂不保证所有能力完善，开发者务必验证游戏所用到的特性支持情况。
  - 对于WebGL2, [高性能+模式](https://developers.weixin.qq.com/minigame/dev/guide/performance/perf-high-performance-plus.html)有更好的兼容性。
    
- 如遇到问题请与小游戏研发助手(微信号:minigamedevop08)联系详细排查。 
+ 如遇到问题请[联系我们](IssueAndContact.md)详细排查。 
  
 ### iOS高性能模式开启GPU Instance，模型闪烁/消失/不绘制等问题
   - **原因**：iOS WebKit对webGL2的支持存在问题，当uniform变量过多时，会出现绘制不正确、不绘制、效率变低等现象；

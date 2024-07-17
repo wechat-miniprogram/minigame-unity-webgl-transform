@@ -1,6 +1,6 @@
 # 网络通信适配
 
-由于安全性的影响，JavaScript 代码没有直接访问 IP 套接字来实现网络连接。因此，该.NET 网络类（System.Net 命名空间中的一切，特别是**_System.Net.Sockets_**）在 WebGL 中不能工作。UnityEngine.Network\* 类也是这样，编译 WebGL 时将找不到这些类。
+由于安全性的影响，JavaScript 代码没有直接访问 IP 套接字来实现网络连接。因此，该.NET 网络类（System.Net 命名空间中的一切，特别是**System.Net.Sockets**）在 WebGL 中不能工作。UnityEngine.Network\* 类也是这样，编译 WebGL 时将找不到这些类。
 
 ## HTTP 通信
 

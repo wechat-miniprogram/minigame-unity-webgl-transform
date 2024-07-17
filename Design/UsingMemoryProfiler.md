@@ -13,7 +13,7 @@
 
 3. 导出内存堆栈数据
 - 方式1：点击性能面板左上角的"ProfilingMemory Dump" 完成导出（开启性能面板可通过修改unity-namespace.js-enableProfileStats或C#调用OpenProfileStats）
-- 方式2：者在微信开发者工具中选择gameContext, 并在Console输入命令: GameGlobal.memprofiler.onDump()。
+- 方式2：在微信开发者工具中选择gameContext, 并在Console输入命令: GameGlobal.memprofiler.onDump()。
 <img src='../image/memoryprofiler2.png' width="600"/>
 
 4. 微信开发者工具-“游戏缓存目录/usr/alloc_used.csv”（Android位于data/com.tencent.mm/MicroMsg/wxanewfiles/最近使用时间的目录）拖拽并以csv方式导入sqlite数据库， 推荐使用[DB Browser for SQLite](https://sqlitebrowser.org/)

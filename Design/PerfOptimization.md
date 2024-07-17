@@ -55,20 +55,22 @@ Unity WebGL导出形式相对于原生APP应用，需要开发者更关注性能
 * 释放不使用的资源
 * 发布前使用压缩纹理工具进行优化
 * 音频资源尽可能勾选强制单声道
+* iOS开启高性能+模式
   
 更多信息请阅读: 
-*  [优化Unity WebGL的内存](OptimizationMemory.md)
-*  [压缩纹理优化](CompressedTexture.md)
-*  [Unity WebGL内存原理详解](https://gameinstitute.qq.com/community/detail/112321)
+* [iOS 高性能与高性能+模式](iOSOptimization.md)
+* [优化Unity WebGL的内存](OptimizationMemory.md)
+* [压缩纹理优化](CompressedTexture.md)
+* [Unity WebGL内存原理详解](https://gameinstitute.qq.com/community/detail/112321)
 
 ### 3.5 降低CPU消耗
 * iOS使用高性能模式
 * 尽量使用Android CPU Profiler在小游戏真机环境Profie计算瓶颈
 * 提前在Unity环境使用Unity Profiler发现问题
 * 物理计算较重的游戏使用Fixed Timestep控制计算频率
-* 在中低端机型限制帧率已减轻设备发烫
+* 在中低端机型限制帧率以减轻设备发烫
 
 更多信息请阅读:
-* [iOS高性能模式](iOSOptimization.md)
+* [iOS 高性能与高性能+模式](iOSOptimization.md)
 * [使用Android CPU Profiler性能调优](AndroidProfile.md)
 * [使用Unity Profiler性能调优](UnityProfiler.md)
