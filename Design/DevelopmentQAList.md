@@ -164,5 +164,7 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 #### 9.微信接口提示“fail require user interaction (only in touchend event)”
  - 个别微信接口（比如订阅消息WX.RequestSubscribeMessage）需要在Touch回调才能被使用，而Unity大部分的UI解决方案都是延迟到下一帧才执行UI事件回调。因此需要开发者手动调用OnTouch监听，在回调内使用这类API。
 
+#### 10. 团结引擎导出的小游戏卡在Loading界面并提示“MONO_WASM: Failed to load config file ./blazor.boot.json”
 
+- 查看`Player Setting`中的`Scripting Backend`选项，将其设置为`IL2CPP`后重试。
 
