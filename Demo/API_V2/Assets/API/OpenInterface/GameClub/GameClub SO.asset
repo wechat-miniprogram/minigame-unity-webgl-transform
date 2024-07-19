@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: GameClub SO
   m_EditorClassIdentifier: 
   entryScriptTypeName: GameClub
-  entryName: "\u6E38\u620F\u5708\u6570\u636E"
-  entryAPI: getGameClubData
+  entryName: "\u6E38\u620F\u5708"
+  entryAPI: "getGameClubData\uFF0C createGameClubButton"
   entryDescription: 
   optionList: []
   initialButtonText: "\u83B7\u53D6\u6E38\u620F\u5708\u6570\u636E"
-  extraButtonList: []
+  extraButtonList:
+  - buttonText: "\u8FDB\u5165\u6E38\u620F\u5708"
   initialResultList: []

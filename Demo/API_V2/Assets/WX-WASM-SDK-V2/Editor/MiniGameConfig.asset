@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectConf:
     projectName: GameClubDemo
-    Appid: wxb7d4485dbc1233ca
-    CDN: http://127.0.0.1:8080
-    assetLoadType: 0
+    Appid: wxf616b60467bcfcaf
+    CDN: 
+    assetLoadType: 1
     compressDataPackage: 0
     VideoUrl: 
-    DST: C:/Users/xiaoyuejin/Desktop/GameClubDemo
+    DST: C:/Users/xiaoyuejin/Desktop/gametest
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
