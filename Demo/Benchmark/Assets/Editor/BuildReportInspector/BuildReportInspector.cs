@@ -406,9 +406,9 @@ public class BuildReportInspector : Editor {
 
     void OnOutputFilesGUI()
     {
-        var longestCommonRoot = report.GetFiles()[0].path;
+        var longestCommonRoot = report.files[0].path;
         var tempRoot = Path.GetFullPath("Temp");
-        foreach (var file in report.GetFiles())
+        foreach (var file in report.files)
         {
             if (file.path.StartsWith(tempRoot))
                 continue;
@@ -422,7 +422,7 @@ public class BuildReportInspector : Editor {
             }
         }
         bool odd = false;
-        foreach (var file in report.GetFiles())
+        foreach (var file in report.files)
         {
             if (file.path.StartsWith(tempRoot))
                 continue;

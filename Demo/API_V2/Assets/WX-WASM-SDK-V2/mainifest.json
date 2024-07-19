@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "com.qq.weixin.minigame": "https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "com.qq.weixin.minigame",
+  "displayName": "WXSDK",
+  "description": "WeChat Mini Game Tuanjie Engine Adapter SDK Package.",
+  "version": "0.1.1",
+  "unity": "2019.4",
+  "unityRelease": "29f1",
+  "keywords": [
+    "Tuanjie",
+    "WX"
+  ],
+  "dependencies": {
+  }
+}

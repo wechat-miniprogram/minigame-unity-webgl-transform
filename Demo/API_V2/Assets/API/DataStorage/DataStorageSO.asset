@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: DataStorageSO
   m_EditorClassIdentifier: 
   categoryName: "\u6570\u636E\u7F13\u5B58"
-  categorySprite: {fileID: 21300000, guid: aedb8ebe6c4a14a13b23dc2e9ab42dcf, type: 3}
+  categorySprite: {fileID: 0}
   entryList:
   - {fileID: 11400000, guid: a587889226c1f491fa6c783db1e12837, type: 2}

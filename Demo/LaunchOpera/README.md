@@ -2,7 +2,7 @@
 
 ## 打开工程
 
-请使用 Unity Editor 打开 Demo/LaunchOpera 工程，推荐使用 2022.3.14f1。
+请使用 Unity Editor 打开 Demo/LaunchOpera 工程，推荐使用 2021.3.16。
 
 修改工程中导出面板 `AppID` 与 `导出目录` 即可，CDN可以无需关注（因为使用包内加载），直接导出微信小游戏并使用微信开发者工具打开 `minigame` 目录。
 

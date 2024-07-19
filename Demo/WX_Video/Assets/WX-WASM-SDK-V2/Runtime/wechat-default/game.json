@@ -1,0 +1,45 @@
+{
+  "deviceOrientation": "$ORIENTATION",
+  "openDataContext": "open-data",
+  "iOSHighPerformance": true,
+  "subpackages": [
+    {
+      "name": "wasmcode",
+      "root": "wasmcode/"
+    },
+    {
+      "name": "data-package",
+      "root": "data-package/"
+    }
+  ],
+  "plugins": {
+    "UnityPlugin": {
+      "version": "1.2.11",
+      "provider": "wxe5a48f1ed5f544b7",
+      "contexts": [
+        {
+          "type": "isolatedContext"
+        }
+      ]
+    },
+    "Layout": {
+      "version": "1.0.1",
+      "provider": "wx7a727ff7d940bb3f",
+      "contexts": [
+        {
+          "type": "openDataContext"
+        }
+      ]
+    },
+    "MiniGameChat": {
+      "version": "latest",
+      "provider": "wx2ea687f4258401a9",
+      "contexts": [
+        {
+          "type": "isolatedContext"
+        }
+      ]
+    }
+  },
+  "workers": "workers"
+}
