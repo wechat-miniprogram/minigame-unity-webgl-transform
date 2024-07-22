@@ -134,7 +134,7 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 ### <p id="6-ui-flicker"/>6. 个别游戏 UI 会出现闪烁问题
 - 目前已发现iOS 15.4出现若干渲染BUG，如stencil特性支持，请查阅文档[优化Unity WebGL的渲染性能](RenderOptimization.md)
-- 如按上述文档去除依然无法解决，请提供可复现 Unity 工程联系 minigamedevop08
+- 如按上述文档去除依然无法解决，请提供可复现 Unity 工程联系 [小游戏客服助手](https://work.weixin.qq.com/kfid/kfcca4feec277f91616)
 
 ### 7. 为什么开启了高性能模式，游戏启动很烫？
 
