@@ -1,5 +1,5 @@
 # 问题反馈与联系我们
-开发者使用转换方案时，如果遇到问题可以随时反馈给我们。目前可通过[Git Issue](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/issues)和“研发助手号”微信两种方式。
+开发者使用转换方案时，如果遇到问题可以随时反馈给我们。目前可通过[Git Issue](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/issues)和“小游戏客服助手”微信客服两种方式。
 
 
 ## Git Issue
