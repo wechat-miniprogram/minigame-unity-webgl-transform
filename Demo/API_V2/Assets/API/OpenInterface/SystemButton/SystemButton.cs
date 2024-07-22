@@ -47,7 +47,7 @@ public class SystemButton : Details
         yield return new WaitForSeconds(delay);
 
         Vector2 size = GameManager.Instance.detailsController.GetInitialButtonSize();
-        Vector2 position = GameManager.Instance.detailsController.GetButtonPosition(1);
+        Vector2 position = GameManager.Instance.detailsController.GetButtonPosition(0);
         var systemInfo = WX.GetSystemInfoSync();
         _feedbackButton = WX.CreateFeedbackButton(new CreateOpenSettingButtonOption()
         {
