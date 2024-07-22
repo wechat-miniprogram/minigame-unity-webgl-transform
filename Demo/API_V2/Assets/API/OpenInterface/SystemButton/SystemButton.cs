@@ -7,12 +7,14 @@ using System.Threading;
 public class SystemButton : Details
 {
     private WXFeedbackButton _feedbackButton;
+    private WXGameClubButton _gameClubButton;
 
     private void Start()
     {
         var result = WX.GetLaunchOptionsSync();
         Debug.Log(JsonUtility.ToJson(result));
 
+        StartCoroutine(CreateGameClubButton(1.0f));
         StartCoroutine(CreateFeedbackButton(1.0f));
 
         WX.GetSetting(new GetSettingOption()
@@ -37,9 +39,30 @@ public class SystemButton : Details
             }
         });
 
-        GameManager.Instance.detailsController.BindExtraButtonAction(0, FeedbackButtonSwitch);
-        GameManager.Instance.detailsController.BindExtraButtonAction(1, RequestSubscribeSystemMessage);
-        GameManager.Instance.detailsController.BindExtraButtonAction(2, OpenCustomerServiceChat);
+        GameManager.Instance.detailsController.BindExtraButtonAction(0, GameClubButtonSwitch);
+        GameManager.Instance.detailsController.BindExtraButtonAction(1, FeedbackButtonSwitch);
+        GameManager.Instance.detailsController.BindExtraButtonAction(2, RequestSubscribeSystemMessage);
+        GameManager.Instance.detailsController.BindExtraButtonAction(3, OpenCustomerServiceChat);
+    }
+
+    IEnumerator CreateGameClubButton(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Vector2 size = GameManager.Instance.detailsController.GetInitialButtonSize();
+        Vector2 position = GameManager.Instance.detailsController.GetButtonPosition(0);
+        var systemInfo = WX.GetSystemInfoSync();
+        _gameClubButton = WX.CreateGameClubButton(new WXCreateGameClubButtonParam()
+        {
+            type = GameClubButtonType.text,
+            style = new GameClubButtonStyle()
+            {
+                left = Math.Abs((int)(position.x / systemInfo.pixelRatio)),
+                top = Math.Abs((int)(position.y / systemInfo.pixelRatio)),
+                width = (int)(size.x * systemInfo.screenWidth / 1080f),
+                height = (int)(size.y * systemInfo.screenWidth / 1080f),
+            }
+        });
     }
 
     IEnumerator CreateFeedbackButton(float delay)
@@ -74,6 +97,25 @@ public class SystemButton : Details
         });
     }
 
+    private bool _isGameClubShow = false;
+
+    // 切换游戏圈按钮显示/隐藏
+    private void GameClubButtonSwitch()
+    {
+        // if (_isGameClubShow)
+        // {
+        //     // 显示游戏圈按钮
+        //     _gameClubButton.Show();
+        //     GameManager.Instance.detailsController.ChangeExtraButtonText(0, "隐藏游戏圈按钮");
+        // }
+        // else
+        // {
+        //     // 隐藏游戏圈按钮
+        //     _gameClubButton.Hide();
+        //     GameManager.Instance.detailsController.ChangeExtraButtonText(0, "显示游戏圈按钮");
+        // }
+        // _isGameClubShow = !_isGameClubShow;
+    }
 
     private bool _isFeedbackShow = true;
 
@@ -144,6 +186,13 @@ public class SystemButton : Details
         _feedbackButton.text = "跳转到意见反馈页面";
     }
 
+
+    private void GameClubButtonDestroy()
+    {
+        Debug.Log("gameclub destroy");
+        _gameClubButton.Destroy();
+    }
+
     private void FeedbackButtonDestroy()
     {
         Debug.Log("feedback destroy");
@@ -152,6 +201,12 @@ public class SystemButton : Details
 
     public void Destroy()
     {
+        if (_gameClubButton != null)
+        {
+            _gameClubButton.Hide();
+            GameClubButtonDestroy();
+            _gameClubButton = null;
+        }
         if (_feedbackButton != null)
         {
             _feedbackButton.Hide();

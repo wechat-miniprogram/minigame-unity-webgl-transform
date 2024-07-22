@@ -20,7 +20,5 @@ MonoBehaviour:
   initialButtonText: "\u521B\u5EFAtcp\u5B9E\u4F8B"
   extraButtonList:
   - buttonText: "\u8FDE\u63A5"
-  - buttonText: "\u53D1\u9001String"
-  - buttonText: "\u53D1\u9001Buffer"
   - buttonText: "\u5173\u95ED"
   initialResultList: []

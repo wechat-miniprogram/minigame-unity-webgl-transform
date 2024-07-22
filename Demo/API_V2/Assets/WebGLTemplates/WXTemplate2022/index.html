@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no" />
+    <title>Unity WebGL Player | {{{ PRODUCT_NAME }}}</title>
+    <style>
+      * {
+        border: 0;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+    <link rel="stylesheet" href="TemplateData/style.css" />
+#if SHOW_DIAGNOSTICS
+    <link rel="stylesheet" href="<<<TemplateData/diagnostics.css>>>" />
+    <script src="<<<TemplateData/diagnostics.js>>>"></script>
+#endif
+  </head>
+  <body>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width={{{ WIDTH }}} height={{{ HEIGHT }}} tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"></div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+#if SHOW_DIAGNOSTICS
+        <img id="diagnostics-icon" src="TemplateData/webmemd-icon.png" />
+#endif
+        <div id="unity-build-title">{{{ PRODUCT_NAME }}}</div>
+      </div>
+    </div>
+    <script>
+            var gameInstance;
+            var container = document.querySelector("#unity-container");
+            var canvas = document.querySelector("#unity-canvas");
+            var loadingBar = document.querySelector("#unity-loading-bar");
+            var progressBarFull = document.querySelector("#unity-progress-bar-full");
+            var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+            var warningBanner = document.querySelector("#unity-warning");
+#if SHOW_DIAGNOSTICS
+            var diagnostics_icon = document.getElementById("diagnostics-icon");
+#endif
+
+            // Shows a temporary message banner/ribbon for a few seconds, or
+            // a permanent error message on top of the canvas if type=='error'.
+            // If type=='warning', a yellow highlight color is used.
+            // Modify or remove this function to customize the visually presented
+            // way that non-critical warnings and error messages are presented to the
+            // user.
+            function unityShowBanner(msg, type) {
+              function updateBannerVisibility() {
+                warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+              }
+              var div = document.createElement('div');
+              div.innerHTML = msg;
+              warningBanner.appendChild(div);
+              if (type == 'error') div.style = 'background: red; padding: 10px;';
+              else {
+                if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+                setTimeout(function() {
+                  warningBanner.removeChild(div);
+                  updateBannerVisibility();
+                }, 5000);
+              }
+              updateBannerVisibility();
+            }
+
+            var buildUrl = "Build";
+            var loaderUrl = buildUrl + "/{{{ LOADER_FILENAME }}}";
+            var config = {
+              dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+              frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+      #if USE_THREADS
+              workerUrl: buildUrl + "/{{{ WORKER_FILENAME }}}",
+      #endif
+      #if USE_WASM
+              codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
+      #endif
+      #if MEMORY_FILENAME
+              memoryUrl: buildUrl + "/{{{ MEMORY_FILENAME }}}",
+      #endif
+      #if SYMBOLS_FILENAME
+              symbolsUrl: buildUrl + "/{{{ SYMBOLS_FILENAME }}}",
+      #endif
+              streamingAssetsUrl: "StreamingAssets",
+              companyName: {{{ JSON.stringify(COMPANY_NAME) }}},
+              productName: {{{ JSON.stringify(PRODUCT_NAME) }}},
+              productVersion: {{{ JSON.stringify(PRODUCT_VERSION) }}},
+              showBanner: unityShowBanner,
+            };
+
+            // By default Unity keeps WebGL canvas render target size matched with
+            // the DOM size of the canvas element (scaled by window.devicePixelRatio)
+            // Set this to false if you want to decouple this synchronization from
+            // happening inside the engine, and you would instead like to size up
+            // the canvas DOM size and WebGL render target sizes yourself.
+            // config.matchWebGLToCanvasSize = false;
+
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+              // Mobile device style: fill the whole browser client area with the game canvas:
+
+              var meta = document.createElement('meta');
+              meta.name = 'viewport';
+              meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+              document.getElementsByTagName('head')[0].appendChild(meta);
+              container.className = "unity-mobile";
+              canvas.className = "unity-mobile";
+
+              // To lower canvas resolution on mobile devices to gain some
+              // performance, uncomment the following line:
+              // config.devicePixelRatio = 1;
+
+      #if SHOW_DIAGNOSTICS
+              // position the diagnostics icon in the corner on the canvas
+              diagnostics_icon.style.position = "fixed";
+              diagnostics_icon.style.bottom = "10px";
+              diagnostics_icon.style.right = "0px";
+              canvas.after(diagnostics_icon);
+      #endif
+
+            } else {
+              // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
+              canvas.style.width = "{{{ WIDTH }}}px";
+              canvas.style.height = "{{{ HEIGHT }}}px";
+            }
+
+      #if BACKGROUND_FILENAME
+            canvas.style.background = "url('" + buildUrl + "/{{{ BACKGROUND_FILENAME.replace(/'/g, '%27') }}}') center / cover";
+      #endif
+            loadingBar.style.display = "block";
+
+            var script = document.createElement("script");
+            script.src = loaderUrl;
+            script.onload = () => {
+              createUnityInstance(canvas, config, (progress) => {
+                progressBarFull.style.width = 100 * progress + "%";
+                    }).then((unityInstance) => {
+                      loadingBar.style.display = "none";
+      #if SHOW_DIAGNOSTICS
+                      diagnostics_icon.onclick = () => {
+                        unityDiagnostics.openDiagnosticsDiv(unityInstance.GetMemoryInfo);
+                      };
+      #endif
+                      fullscreenButton.onclick = () => {
+                        unityInstance.SetFullscreen(1);
+                      };
+                      gameInstance = unityInstance;
+                    }).catch((message) => {
+                      alert(message);
+                    });
+                  };
+
+            document.body.appendChild(script);
+    </script>
+    <script>
+      var storage = {};
+      function getStorageValue(key, defaultValue) {
+        var v = storage[key];
+        if (v === null) {
+          return defaultValue;
+        }
+        if (typeof v !== 'undefined') {
+          return v;
+        }
+        return defaultValue;
+      }
+      var WXWASMSDK = {
+        WXInitializeSDK() {
+          gameInstance.SendMessage('WXSDKManagerHandler', 'Inited', 200);
+        },
+        WXStorageSetIntSync(key, value) {
+          storage[key] = value;
+        },
+        WXStorageGetIntSync(key, defaultValue) {
+          return getStorageValue(key, defaultValue);
+        },
+        WXStorageSetFloatSync(key, value) {
+          storage[key] = value;
+        },
+        WXStorageGetFloatSync(key, defaultValue) {
+          return getStorageValue(key, defaultValue);
+        },
+        WXStorageSetStringSync(key, value) {
+          storage[key] = value;
+        },
+        WXStorageGetStringSync(key, defaultValue) {
+          return getStorageValue(key, defaultValue || '');
+        },
+        WXStorageDeleteAllSync() {
+          storage = {};
+        },
+        WXStorageDeleteKeySync(key) {
+          delete storage[key];
+        },
+        WXStorageHasKeySync(key) {
+          return typeof storage[key] !== 'undefined';
+        },
+        WXCheckSession(s, f, c) {},
+        WXAuthorize(scope, s, f, c) {},
+        WXCreateUserInfoButton(x, y, width, height, lang, withCredentials) {
+          return "";
+        },
+        WXUserInfoButtonShow(id) {},
+        WXUserInfoButtonDestroy(id) {},
+        WXUserInfoButtonHide(id) {},
+        WXUserInfoButtonOffTap(id) {},
+        WXUserInfoButtonOnTap(id) {},
+        WXOnShareAppMessage(conf, isPromise) {},
+        WXOnShareAppMessageResolve(conf) {},
+        WXOffShareAppMessage() {},
+        WXCreateBannerAd(conf) {
+          return Math.random().toString(32);
+        },
+        WXCreateRewardedVideoAd(conf) {
+          return Math.random().toString(32);
+        },
+        WXCreateInterstitialAd(conf) {
+          return Math.random().toString(32);
+        },
+        WXCreateCustomAd(conf) {},
+        WXADStyleChange(id, key, value) {},
+        WXShowAd(id) {},
+        WXHideAd(id) {},
+        WXADGetStyleValue(id, key) {},
+        WXADDestroy(id) {},
+        WXADLoad(id, succ, fail) {},
+        WXToTempFilePathSync(conf) {},
+        WXGetUserDataPath() {},
+        WXWriteFileSync(filePath, data, encoding) {},
+        WXCreateFixedBottomMiddleBannerAd(adUnitId, adIntervals, height) {
+          return Math.random().toString(32);
+        },
+        WXReportGameStart() {},
+        WXReportGameSceneError(sceneId, errorType, errStr, extJsonStr) {},
+        WXWriteLog(str) {},
+        WXWriteWarn(str) {},
+        WXHideLoadingPage() {},
+        WXPreloadConcurrent() {},
+        WXCreateInnerAudioContext() {
+          return Math.random().toString(32);
+        },
+        WXInnerAudioContextSetBool() {},
+        WXInnerAudioContextSetString() {},
+        WXInnerAudioContextSetFloat() {},
+        WXInnerAudioContextGetFloat() {},
+        WXInnerAudioContextGetBool() {},
+        WXInnerAudioContextPlay() {},
+        WXInnerAudioContextPause() {},
+        WXInnerAudioContextStop() {},
+        WXInnerAudioContextDestroy() {},
+        WXInnerAudioContextSeek() {},
+        WXInnerAudioContextAddListener(id, key) {
+          if (key === 'onCanplay') {
+            setTimeout(function () {
+              gameInstance.SendMessage(
+                'WXSDKManagerHandler',
+                'OnAudioCallback',
+                JSON.stringify({
+                  callbackId: id,
+                  errMsg: key,
+                })
+              );
+            }, 100);
+          }
+        },
+        WXInnerAudioContextRemoveListener() {},
+        WXPreDownloadAudios(paths, id) {
+          gameInstance.SendMessage(
+            'WXSDKManagerHandler',
+            'WXPreDownloadAudiosCallback',
+            JSON.stringify({
+              callbackId: id.toString(),
+              errMsg: '0',
+            })
+          );
+        },
+        WXCreateVideo() {
+          return Math.random().toString(32);
+        },
+        WXVideoPlay() {},
+        WXVideoAddListener() {},
+        WXVideoDestroy() {},
+        WXVideoExitFullScreen() {},
+        WXVideoPause() {},
+        WXVideoRequestFullScreen() {},
+        WXVideoSeek() {},
+        WXVideoStop() {},
+        WXVideoRemoveListener() {},
+        WXVideoSetProperty() {},
+        WXShowOpenData() {},
+        WXDownloadTexture(id, type, callback) {
+          var Infos = {
+            Texture: GameGlobal.TextureConfig,
+            SpriteAtlas: GameGlobal.SpriteAtlasConfig,
+          }[type];
+          if (!Infos[id]) {
+            return console.error(type + '映射id 不存在', id);
+          }
+          var path = Infos[id].p;
+          var cid = type + '_' + id;
+          if (downloadedTextures[cid]) {
+            if (downloadedTextures[cid].data) {
+              callback();
+            } else {
+              console.error(type + '映射id data 不存在！', id);
+            }
+          } else if (downloadingTextures[cid]) {
+            downloadingTextures[cid].push(callback);
+          } else {
+            downloadingTextures[cid] = [callback];
+            textureHandler.downloadFile(
+              id,
+              type,
+              GameGlobal.AUDIO_PREFIX.replace(/\/$/, '') + '/' + path.replace(/\\/g, '/')
+            );
+          }
+        },
+        WXCreateGameClubButton() {
+          return Math.random().toString(32);
+        },
+        WXGameClubButtonDestroy() {},
+        WXGameClubButtonHide() {},
+        WXGameClubButtonShow() {},
+        WXGameClubButtonAddListener() {},
+        WXGameClubButtonRemoveListener() {},
+        WXGameClubButtonSetProperty() {},
+        WXGameClubStyleChangeInt() {},
+        WXGameClubStyleChangeStr() {},
+        WXIsCloudTest() {
+          return false;
+        },
+        WXUncaughtException() {},
+        WXSetDataCDN() {},
+        WXSetPreloadList() {},
+        WXGetCachePath() {},
+        WXGetPluginCachePath() {},
+        WXGetFontRawData() {},
+        WXShareFontBuffer() {},
+        WXReportShareBehavior() {},
+        WXShowAd2() {},
+        WXToTempFilePath() {},
+        WXDataContextPostMessage() {},
+        WXHideOpenData() {},
+        WXAccessFileSync() {},
+        WXAccessFile() {},
+        WXCopyFileSync() {},
+        WXCopyFile() {},
+        WXUnlinkSync() {},
+        WXUnlink() {},
+        WXReportUserBehaviorBranchAnalytics() {},
+        WXCallFunction() {},
+        WXCallFunctionInit() {},
+        WXCloudID() {},
+        WXWriteFile() {},
+        WXWriteStringFile() {},
+        WXAppendFile() {},
+        WXAppendStringFile() {},
+        WXWriteBinFileSync() {},
+        WXReadFile() {},
+        WXReadFileSync() {},
+        WXLogManagerDebug() {},
+        WXLogManagerInfo() {},
+        WXLogManagerLog() {},
+        WXLogManagerWarn() {},
+        WXCleanAllFileCache() {},
+        WXCleanFileCache() {},
+        WXRemoveFile() {},
+        WXOnLaunchProgress() {},
+        WXMkdir() {},
+        WXMkdirSync() {},
+        WXRmdir() {},
+        WXRmdirSync() {},
+        WXCameraCreateCamera() {},
+        WXCameraCloseFrameChange() {},
+        WXCameraDestroy() {},
+        WXCameraListenFrameChange() {},
+        WXCameraOnAuthCancel() {},
+        WXCameraOnCameraFrame() {},
+        WXCameraOnStop() {},
+        WX_GetRecorderManager() {},
+        WX_OnRecorderError() {},
+        WX_OnRecorderFrameRecorded() {},
+        WX_OnRecorderInterruptionBegin() {},
+        WX_OnRecorderInterruptionEnd() {},
+        WX_OnRecorderPause() {},
+        WX_OnRecorderResume() {},
+        WX_OnRecorderStart() {},
+        WX_OnRecorderStop() {},
+        WX_RecorderPause() {},
+        WX_RecorderResume() {},
+        WX_RecorderStart() {},
+        WX_RecorderStop() {},
+        WX_UploadFile() {},
+        WXUploadTaskAbort() {},
+        WXUploadTaskOffHeadersReceived() {},
+        WXUploadTaskOffProgressUpdate() {},
+        WXUploadTaskOnHeadersReceived() {},
+        WXUploadTaskOnProgressUpdate() {},
+        WXStat() {},
+        WX_GetGameRecorder() {},
+        WX_GameRecorderOff() {},
+        WX_GameRecorderOn() {},
+        WX_GameRecorderStart() {},
+        WX_GameRecorderAbort() {},
+        WX_GameRecorderPause() {},
+        WX_GameRecorderResume() {},
+        WX_GameRecorderStop() {},
+        WX_OperateGameRecorderVideo() {},
+        WXChatCreate() {},
+        WXChatHide() {},
+        WXChatShow() {},
+        WXChatClose() {},
+        WXChatOpen() {},
+        WXChatSetTabs() {},
+        WXChatOn() {},
+        WXChatOff() {},
+        WXChatSetSignature() {},
+        WXSetArrayBuffer() {},
+        WX_FileSystemManagerReaddirSync() {},
+        WX_FileSystemManagerReadCompressedFileSync() {},
+        WX_FileSystemManagerClose() {},
+        WX_FileSystemManagerFstat() {},
+        WX_FileSystemManagerFtruncate() {},
+        WX_FileSystemManagerGetFileInfo() {},
+        WX_FileSystemManagerGetSavedFileList() {},
+        WX_FileSystemManagerOpen() {},
+        WX_FileSystemManagerRead() {},
+        WX_FileSystemManagerReadCompressedFile() {},
+        WX_FileSystemManagerReadZipEntry() {},
+        WX_FileSystemManagerReaddir() {},
+        WX_FileSystemManagerRemoveSavedFile() {},
+        WX_FileSystemManagerRename() {},
+        WX_FileSystemManagerRenameSync() {},
+        WX_FileSystemManagerSaveFile() {},
+        WX_FileSystemManagerTruncate() {},
+        WX_FileSystemManagerUnzip() {},
+        WX_FileSystemManagerWrite() {},
+        WX_FileSystemManagerReadSync() {},
+        WX_FileSystemManagerFstatSync() {},
+        WX_FileSystemManagerStatSync() {},
+        WX_FileSystemManagerWriteSync() {},
+        WX_FileSystemManagerOpenSync() {},
+        WX_FileSystemManagerSaveFileSync() {},
+        WX_FileSystemManagerCloseSync() {},
+        WX_FileSystemManagerFtruncateSync() {},
+        WX_FileSystemManagerTruncateSync() {},
+        WX_FileSystemManagerAppendFileSync() {},
+        WX_FileSystemManagerAppendFileStringSync() {},
+        WX_FileSystemManagerWriteStringSync() {},
+        WX_FileSystemManagerReadZipEntryString() {},
+        WX_FileSystemManagerWriteString() {},
+        WX_OnNeedPrivacyAuthorization() {},
+        WX_PrivacyAuthorizeResolve() {},
+        WX_OnTouchCancel() {},
+        WX_OffTouchCancel() {},
+        WX_OnTouchEnd() {},
+        WX_OffTouchEnd() {},
+        WX_OnTouchMove() {},
+        WX_OffTouchMove() {},
+        WX_OnTouchStart() {},
+        WX_OffTouchStart() {},
+        WX_RegisterOnTouchCancelCallback() {},
+        WX_RegisterOnTouchEndCallback() {},
+        WX_RegisterOnTouchMoveCallback() {},
+        WX_RegisterOnTouchStartCallback() {},
+        WX_CreateTCPSocket() {},
+        WX_TCPSocketBindWifi() {},
+        WX_TCPSocketClose() {},
+        WX_TCPSocketConnect() {},
+        WX_TCPSocketWriteString() {},
+        WX_TCPSocketWriteBuffer() {},
+        WX_TCPSocketOffBindWifi() {},
+        WX_TCPSocketOffClose() {},
+        WX_TCPSocketOffConnect() {},
+        WX_TCPSocketOffError() {},
+        WX_TCPSocketOffMessage() {},
+        WX_TCPSocketOnBindWifi() {},
+        WX_TCPSocketOnClose() {},
+        WX_TCPSocketOnConnect() {},
+        WX_TCPSocketOnError() {},
+        WX_TCPSocketOnMessage() {},
+        WX_RegisterTCPSocketOnMessageCallback() {},
+        WX_CreateUDPSocket() {},
+        WX_UDPSocketClose() {},
+        WX_UDPSocketConnect() {},
+        WX_UDPSocketOffClose() {},
+        WX_UDPSocketOffError() {},
+        WX_UDPSocketOffListening() {},
+        WX_UDPSocketOffMessage() {},
+        WX_UDPSocketOnClose() {},
+        WX_UDPSocketOnError() {},
+        WX_UDPSocketOnListening() {},
+        WX_UDPSocketOnMessage() {},
+        WX_UDPSocketSendString() {},
+        WX_UDPSocketSendBuffer() {},
+        WX_UDPSocketSetTTL() {},
+        WX_UDPSocketWrite() {},
+        WX_UDPSocketBind() {},
+        WX_RegisterUDPSocketOnMessageCallback() {},
+        WX_OnBLECharacteristicValueChange() {},
+        WX_OffBLECharacteristicValueChange() {},
+        WX_RegisterOnBLECharacteristicValueChangeCallback() {},
+        WX_StartGyroscope() {},
+        WX_StopGyroscope() {},
+        WX_OnGyroscopeChange() {},
+        WX_OffGyroscopeChange() {},
+        WX_RegisterStartGyroscopeCallback() {},
+        WX_RegisterStopGyroscopeCallback() {},
+        WX_RegisterOnGyroscopeChangeCallback() {},
+
+        WX_OneWayFunction(functionName, successType, failType, completeType, conf, callbackId){},
+        WX_OneWayNoFunction_v() {},
+        WX_OneWayNoFunction_vs() {},
+        WX_OneWayNoFunction_vt() {},
+        WX_OneWayNoFunction_vst() {},
+        WX_OneWayNoFunction_vsn() {},
+        WX_OneWayNoFunction_vnns() {},
+        WX_OnEventRegister() {},
+        WX_OffEventRegister() {},
+        WX_OnAddToFavorites() {},
+        WX_OnAddToFavorites_Resolve(conf){},
+        WX_OffAddToFavorites() {},
+        WX_OnCopyUrl() {},
+        WX_OnCopyUrl_Resolve(conf){},
+        WX_OffCopyUrl() {},
+        WX_OnHandoff() {},
+        WX_OnHandoff_Resolve(conf){},
+        WX_OffHandoff() {},
+        WX_OnShareTimeline() {},
+        WX_OnShareTimeline_Resolve(conf){},
+        WX_OffShareTimeline() {},
+        WX_OnGameLiveStateChange() {},
+        WX_OnGameLiveStateChange_Resolve(conf){},
+        WX_OffGameLiveStateChange() {},
+
+        WX_SyncFunction() {
+            return "";
+        },
+        WX_SyncFunction_t() {
+            return "";
+        },
+        WX_SyncFunction_tt() {
+            return "";
+        },
+        WX_SyncFunction_bt() {
+            return false;
+        },
+        WX_SyncFunction_nt() {
+            return 0;
+        },
+        WX_ClassFunction() {return ""},
+        WX_ClassOneWayFunction() {return ""},
+        WX_ClassSetProperty() {},
+        WX_ClassOneWayNoFunction_v() {},
+        WX_ClassOneWayNoFunction_vs() {},
+        WX_ClassOneWayNoFunction_t() {
+            return "";
+        },
+        WX_ClassOneWayNoFunction_vt() {},
+        WX_ClassOnEventFunction() {},
+        WX_ClassOffEventFunction() {},      };
+      var downloadedTextures = {};
+      var downloadingTextures = {};
+      var textureHandler = {
+        downloadFile(textureId, type, prefix) {
+          var url = prefix + '.png';
+          var cid = type + '_' + textureId;
+          var image = new Image();
+          image.src = url;
+          image.onload = function () {
+            downloadedTextures[cid] = {
+              data: image,
+            };
+            if (downloadingTextures[cid] instanceof Array) {
+              downloadingTextures[cid].forEach(v => v());
+            } else {
+              downloadingTextures[cid]();
+            }
+            delete downloadingTextures[cid];
+          };
+          image.onerror = function () {
+            console.error(url + ' 下载失败！');
+          };
+        },
+      };
+
+      var GameGlobal = {
+        TextureConfig: {},
+        SpriteAtlasConfig: {},
+        DownloadedTextures: downloadedTextures,
+        AUDIO_PREFIX: './Assets/Textures/',
+      };
+      window._ScaleRate = 1;
+    </script>
+  </body>
+</html>

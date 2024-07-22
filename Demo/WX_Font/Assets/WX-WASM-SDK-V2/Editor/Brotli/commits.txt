@@ -1,0 +1,2 @@
+https://github.com/Unity-Technologies/brotli
+359ceef04a4eae97cb8a161c4b768fd639eef98b

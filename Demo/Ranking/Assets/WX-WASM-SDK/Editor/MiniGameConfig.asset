@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8958f46b6ca6d6440b590cbfa69e1103, type: 3}
+  m_Name: MiniGameConfig
+  m_EditorClassIdentifier: 
+  ProjectConf:
+    projectName: 
+    Appid: 
+    CDN: 
+    assetLoadType: 0
+    VideoUrl: 
+    DST: 
+    StreamCDN: 
+    bundleHashLength: 32
+    bundlePathIdentifier: StreamingAssets;
+    bundleExcludeExtensions: json;
+    AssetsUrl: 
+    MemorySize: 256
+    HideAfterCallMain: 1
+    preloadFiles: 
+    Orientation: 0
+    bgImageSrc: Assets/WX-WASM-SDK/wechat-default/images/background.jpg
+    dataFileSubPrefix: 
+    maxStorage: 200
+    defaultReleaseSize: 31457280
+    texturesHashLength: 8
+    texturesPath: Assets/Textures
+    needCacheTextures: 1
+    loadingBarWidth: 240
+    needCheckUpdate: 0
+  SDKOptions:
+    UseAudioApi: 0
+    UseFriendRelation: 0
+    UseCompressedTexture: 0
+  CompileOptions:
+    DevelopBuild: 0
+    AutoProfile: 0
+    ScriptOnly: 0
+    profilingFuncs: 0
+    Webgl2: 0
+    DeleteStreamingAssets: 1
+    ProfilingMemory: 0
+    CleanBuild: 0
+    CustomNodePath: 
+  CompressTexture:
+    halfSize: 0
+    useDXT5: 0
+    bundleSuffix: bundle
+    parallelWithBundle: 0
+    bundleDir: 
+    dstMinDir: 
+  PlayerPrefsKeys: []

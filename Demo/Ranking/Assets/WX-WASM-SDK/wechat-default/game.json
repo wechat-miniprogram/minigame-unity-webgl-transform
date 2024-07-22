@@ -1,0 +1,37 @@
+{
+    "deviceOrientation": "$ORIENTATION",
+    "openDataContext": "open-data",
+    "iOSHighPerformance": true,
+    "subpackages": [
+        {
+            "name": "wasmcode",
+            "root": "wasmcode/"
+        },
+        {
+            "name": "data-package",
+            "root": "data-package/"
+        }
+    ],
+    "plugins": {
+        "UnityPlugin": {
+            "version": "1.1.6",
+            "provider": "wxe5a48f1ed5f544b7",
+            "contexts": [
+                {
+                    "type": "isolatedContext"
+                }
+            ]
+        },
+        "Layout": {
+            "version": "0.0.14",
+            "provider": "wx7a727ff7d940bb3f",
+            "contexts":[
+                {
+                    "type":"openDataContext"
+                }
+            ]
+        }  
+    },
+    "workers": "workers"
+}
+

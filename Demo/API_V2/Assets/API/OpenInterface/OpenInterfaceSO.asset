@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: OpenInterfaceSO
   m_EditorClassIdentifier: 
   categoryName: "\u5F00\u653E\u63A5\u53E3"
-  categorySprite: {fileID: 21300000, guid: 655a4cabb9e794434b9c028267c63e10, type: 3}
+  categorySprite: {fileID: 0}
   entryList:
-  - {fileID: 11400000, guid: d0c8de90644082f418ae2ec91900bd8f, type: 2}
   - {fileID: 11400000, guid: 8a4f679875fb6413b9b0df39d1359e57, type: 2}
   - {fileID: 11400000, guid: 2957939a29ac24a2e9ca1d4f6ccdb41e, type: 2}
   - {fileID: 11400000, guid: 2c8c997508e96423fa1031b948386d44, type: 2}
