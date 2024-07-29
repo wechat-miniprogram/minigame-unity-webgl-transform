@@ -43,7 +43,7 @@ public class GameClub : Details
         });
     }
 
-    // ²âÊÔ API
+    // æµ‹è¯•API
     protected override void TestAPI(string[] args)
     {
         getGameClubData();
@@ -82,22 +82,22 @@ public class GameClub : Details
 
     private bool _isGameClubShow = false;
 
-    // ÇĞ»»ÓÎÏ·È¦°´Å¥ÏÔÊ¾/Òş²Ø
+    // åˆ‡æ¢æ¸¸æˆåœˆæŒ‰é’®æ˜¾ç¤º/éšè—
     private void GameClubButtonSwitch()
     {
-        //if (_isGameClubShow)
-        //{
-        //    // ÏÔÊ¾ÓÎÏ·È¦°´Å¥
-        //    _gameClubButton.Show();
-        //    GameManager.Instance.detailsController.ChangeExtraButtonText(0, "Òş²ØÓÎÏ·È¦°´Å¥");
-        //}
-        //else
-        //{
-        //    // Òş²ØÓÎÏ·È¦°´Å¥
-        //    _gameClubButton.Hide();
-        //    GameManager.Instance.detailsController.ChangeExtraButtonText(0, "ÏÔÊ¾ÓÎÏ·È¦°´Å¥");
-        //}
-        //_isGameClubShow = !_isGameClubShow;
+        // if (_isGameClubShow)
+        // {
+        //     // æ˜¾ç¤ºæ¸¸æˆåœˆæŒ‰é’®
+        //     _gameClubButton.Show();
+        //     GameManager.Instance.detailsController.ChangeExtraButtonText(0, "éšè—æ¸¸æˆåœˆæŒ‰é’®");
+        // }
+        // else
+        // {
+        //     // éšè—æ¸¸æˆåœˆæŒ‰é’®
+        //     _gameClubButton.Hide();
+        //     GameManager.Instance.detailsController.ChangeExtraButtonText(0, "æ˜¾ç¤ºæ¸¸æˆåœˆæŒ‰é’®");
+        // }
+        // _isGameClubShow = !_isGameClubShow;
     }
 
     private void GameClubButtonDestroy()
