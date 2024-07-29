@@ -147,10 +147,11 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 #### 5.小游戏是否支持Unity VideoPlayer
 
 - 支持，但是IOS有限制只能同时播放一个，并且需要注意基础库版本限制，低版本无法播放。如果只是单纯使用全屏的视频播放，更推荐使用小游戏API视频播放能力。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
-#### 6.为什么使用Application.targetFrameRate无法限帧率？安卓左上角帧率不对
+#### 6.小游戏应该使用哪个接口进行限制帧率？
 
-- Application.targetFrameRate默认使用timer控制帧率，会导致不平滑，定时不精确
-- 请更换接口WX.SetPreferredFramesPerSecond限制小游戏
+- Application.targetFrameRate
+- 使用导出插件的“性能面板”(ProfileStats)可以看到帧耗时、限帧与当前FPS
+- 使用Perfdog查看帧率并不总是准确，因为30/15等帧率是微信使用raf分帧处理，Perfdog统计的是raf触发帧率而不是分帧后的帧率。
 #### 7.Unity Audio音频是否需要使用小游戏音频适配
 
 - 转换方案已通过WebAudio支持Unity音频，通常无需替换

@@ -45,6 +45,7 @@ export default defineConfig({
           { text: "技术原理", link: "/Design/Summary" },
           { text: "兼容性评估", link: "/Design/Evaluation" },
           { text: "推荐引擎版本", link: "/Design/UnityVersion" },
+          { text: "常见技术问题QA", link: "/Design/DevelopmentQAList"},
         ],
       },
       {
