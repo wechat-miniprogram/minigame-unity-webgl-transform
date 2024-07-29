@@ -1,5 +1,6 @@
 # 使用Unity Profiler性能调优
-1. 导出选项时勾选"Development Build"与"Autoconnec Profiler"
+
+1. 导出选项时勾选"Development Build"与"Autoconnect Profiler"
 
 <img src='../image/profile1.png' width="800"/>
 
@@ -17,7 +18,8 @@
 4. 调整UnityProfiler IP/端口
 
 网页WebGL/小游戏启动后将通过"ws://ip:port"自动连接到“Unity Profiler”， 此地址默认为编译机器的。如果无法连接请查看微信开发者工具Network页签对应的ws链接是否正常可达。
-如需手工调整IP、端口可通修改webgl.framework.js：
+如需手工调整IP、端口可通修改`webgl.wasm.framework.unityweb.js`：
+
 ```
      if(port == 54998) 
      {
