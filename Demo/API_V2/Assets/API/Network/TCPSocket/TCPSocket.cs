@@ -6,6 +6,7 @@ using WeChatWASM;
 public class TCPSocket : Details
 {
     private WXTCPSocket _tcpSocket;
+
     private bool _connected = false;
 
     // 数据
@@ -29,6 +30,7 @@ public class TCPSocket : Details
         if(_tcpSocket == null)
         {
             _tcpSocket = WX.CreateTCPSocket();
+
             Debug.Log("tcpSocket: " + JsonUtility.ToJson(_tcpSocket));
 
             _tcpSocket.OnMessage((res) => {
@@ -48,7 +50,7 @@ public class TCPSocket : Details
             });
         } else 
         {
-            Debug.Log("tcp实例已初始化");
+            Debug.LogError("tcp实例已初始化");
         }
         
     }
@@ -59,9 +61,10 @@ public class TCPSocket : Details
         {
             _tcpSocket.Close();
             _connected = false;
+            _tcpSocket = null;
         } else
         {
-            Debug.Log("关闭失败：tcp实例未初始化或未连接");
+            Debug.LogError("关闭失败：tcp实例未初始化或未连接");
         }
 
     }
@@ -77,7 +80,7 @@ public class TCPSocket : Details
             _connected = true;
         } else
         {
-            Debug.Log("连接失败：tcp实例未初始化或已连接");
+            Debug.LogError("连接失败：tcp实例未初始化或已连接");
         }
     }
 
@@ -102,7 +105,7 @@ public class TCPSocket : Details
             }
         } else
         {
-            Debug.Log("发送失败：tcp实例未初始化或未连接");
+            Debug.LogError("发送失败：tcp实例未初始化或未连接");
         }
     }
 }

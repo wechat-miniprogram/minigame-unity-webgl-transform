@@ -125,6 +125,7 @@ public class UDPSocket : Details
         {
             _udpSocket.Close();
             _connected = false;
+            _udpSocket = null;
         } else
         {
             Debug.LogError("关闭失败：udp实例未初始化或未连接");
