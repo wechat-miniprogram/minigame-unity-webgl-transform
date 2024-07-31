@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProjectConf:
     projectName: GameClubDemo
-    Appid: wxf616b60467bcfcaf
+    Appid: wxb7d4485dbc1233ca
     CDN: 
     assetLoadType: 1
     compressDataPackage: 0
     VideoUrl: 
-    DST: C:/Users/xiaoyuejin/Desktop/gametest
+    DST: C:/Users/xiaoyuejin/Desktop/finaltest
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
