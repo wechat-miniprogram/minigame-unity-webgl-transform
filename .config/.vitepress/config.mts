@@ -147,6 +147,7 @@ export default defineConfig({
         items: [
           { text: "开发错误调试与排查", link: "/Design/DebugAndException" },
           { text: "现网错误日志上报与排查", link: "/Design/IssueForProduction" },
+          { text: "MiniGameConfig.asset 说明", link: "/Design/AssetDescription" },
         ],
       },
       {
