@@ -2,7 +2,7 @@
 
 位于 `Assets/WX-WASM-SDK-V2/Editor/MiniGameConfig.asset` 即为 WXSDK 的导出配置文件，其中部分配置可在微信小游戏导出面板中可视化配置，本节将对配置文件中各项字段进行说明，开发者可直接修改其配置内容。
 
-## Project Config
+## ProjectConfig:
 
 | 字段 | 类型  | 说明 |
 | --- | --- | --- |
@@ -87,7 +87,7 @@
 
 ## FontOptions:
 
-字体相关配置。
+字体相关配置。请阅读 [WXFont章节](./WXFont.md)。
 
 | 字段 | 类型  | 说明 |
 | --- | --- | --- |
