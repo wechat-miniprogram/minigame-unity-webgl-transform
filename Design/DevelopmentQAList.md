@@ -169,3 +169,8 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 
 - 查看`Player Setting`中的`Scripting Backend`选项，将其设置为`IL2CPP`后重试。
 
+#### 11. 使用 WebGL2 URP管线导出小游戏时提示 shader 编译报错 “Hidden/Universal/CoreBlit: invalid pass index 1 in DrawProcedural”
+- 有部分官方 URP 自带的 shader 存在这个问题，在微信开发者工具上可能渲染会异常，一般真机上渲染是正常的
+- 解决这个报错，可以尝试这两种方法：
+  - 第一种方法：升级 URP 版本（有些 URP 版本和 Unity 版本是绑定的，此时可能需要升级 Unity 版本）
+  - 第二种方法：可以把工程 Library/PackageCache 目录下的 unity.rendercom.-pipelines.universal@xxx 包拷贝到本地路径，通过 file 的方式引入 unity.rendercom.-pipelines.universal@xxx 包，然后找到 Shaders/Utils/CoreBlit.shader 并修改它，只保留第一个 Pass （注意：此方法需要确保项目中只使用第一个 Pass）
