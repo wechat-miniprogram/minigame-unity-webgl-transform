@@ -17,7 +17,7 @@
 | bundleHashLength | int | 自定义Bundle文件名中hash部分长度，默认值32，用于缓存控制。 |
 | bundlePathIdentifier | string | 路径中包含特定标识符开始下载bundle，将被自动缓存。半角分号分隔。 |
 | bundleExcludeExtensions | string | 排除路径下指定类型文件不缓存。半角分号分隔。 |
-| *AssetsUrl | string | Assets目录对应CDN地址。 |
+| AssetsUrl | string | 已废弃。 |
 | MemorySize: 256 | int | 游戏内存大小(MB)。 |
 | HideAfterCallMain | bool | callmain完成后是否立即隐藏加载封面。 |
 | preloadFiles | string | 预下载列表。半角分号分隔。 |
@@ -26,7 +26,7 @@
 | dataFileSubPrefix | string | 拼接在DATA_CDN和首包资源文件名的路径，用于首包资源没放到DATA_CDN根目录的情况。 |
 | maxStorage | int | 最大缓存容量，单位MB，设置后若接近容量阈值将自动回收。 |
 | defaultReleaseSize | int | 清理缓存时默认额外清理的大小，单位Bytes，默认值30MB。 |
-| *texturesHashLength | int | 微信压缩纹理工具处理的尾部hash长度，用于识别缓存。 |
+| texturesHashLength | int | 微信压缩纹理工具处理的尾部hash长度，用于识别缓存。 |
 | texturesPath | string | 微信压缩纹理工具处理的纹理CDN拼接路径。 |
 | needCacheTextures | bool | 是否缓存微信压缩纹理工具处理的贴图资源。 |
 | loadingBarWidth | int | 加载进度条的宽度，默认240。 |
