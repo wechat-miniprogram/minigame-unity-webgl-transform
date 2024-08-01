@@ -56,3 +56,4 @@ docs
 node_modules
 .config/.vitepress/dist
 .config/.vitepress/cache
+Demo/API_V2/Assets/WX-WASM-SDK-V2/Editor/MiniGameConfig.asset
