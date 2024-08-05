@@ -15,12 +15,15 @@ MonoBehaviour:
   entryScriptTypeName: TCPSocket
   entryName: "TCP\u901A\u4FE1"
   entryAPI: "TCP \u901A\u4FE1\u76F8\u5173api"
-  entryDescription: "\u9700\u8981\u586B\u5165ip\u548Cport"
-  optionList: []
+  entryDescription: "\u9700\u8981\u5148\u521B\u5EFA\u5B9E\u4F8B\u5E76\u5EFA\u7ACB\u8FDE\u63A5\u624D\u80FD\u53D1\u9001\u4FE1\u606F"
+  optionList:
+  - optionName: "\u53D1\u9001\u4FE1\u606F\u7C7B\u578B"
+    availableOptions:
+    - String
+    - Buffer
   initialButtonText: "\u521B\u5EFAtcp\u5B9E\u4F8B"
   extraButtonList:
   - buttonText: "\u8FDE\u63A5"
-  - buttonText: "\u53D1\u9001String"
-  - buttonText: "\u53D1\u9001Buffer"
+  - buttonText: "\u53D1\u9001"
   - buttonText: "\u5173\u95ED"
   initialResultList: []
