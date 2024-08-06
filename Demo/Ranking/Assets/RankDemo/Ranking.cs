@@ -30,6 +30,7 @@ public class Ranking : MonoBehaviour
     public GameObject RankMask;
     public GameObject RankingBox;
     private CanvasType selectedCanvasType;
+    private WXOpenDataContext openDataContext
 
     void Start()
     {
@@ -70,14 +71,19 @@ public class Ranking : MonoBehaviour
                 string msg = JsonUtility.ToJson(msgData);
 
                 ShowOpenData();
-                WX.GetOpenDataContext().PostMessage(msg);
+                InitOpenDataContext();
+                openDataContext.PostMessage(msg);
             }
         });
     }
 
     void InitOpenDataContext()
     {
-        WX.GetOpenDataContext(new OpenDataContextOption
+        if (openDataContext)
+        {
+            return;
+        }
+        WXOpenDataContext openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
         {
             sharedCanvasMode = selectedCanvasType
         });
@@ -152,7 +158,8 @@ public class Ranking : MonoBehaviour
             msgData.type = "showFriendsRank";
 
             string msg = JsonUtility.ToJson(msgData);
-            WX.GetOpenDataContext().PostMessage(msg);
+            InitOpenDataContext();
+            openDataContext.PostMessage(msg);
         });
 
 
@@ -182,7 +189,8 @@ public class Ranking : MonoBehaviour
             string msg = JsonUtility.ToJson(msgData);
 
             Debug.Log(msg);
-            WX.GetOpenDataContext().PostMessage(msg);
+            InitOpenDataContext();
+            openDataContext.PostMessage(msg);
         });
 
         InitButton.onClick.AddListener(InitOpenDataContext);
