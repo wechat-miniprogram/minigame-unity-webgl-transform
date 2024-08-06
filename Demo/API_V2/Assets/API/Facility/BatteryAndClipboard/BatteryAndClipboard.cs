@@ -3,34 +3,29 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class BatteryAndClipboard : Details
-{
+public class BatteryAndClipboard : Details {
 
-    private void Start()
-    {
+    private void Start() {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, getBatteryInfo);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, getClipboardData);
         GameManager.Instance.detailsController.BindExtraButtonAction(2, setClipboardData);
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         getBatteryInfoSync();
     }
 
     public void getBatteryInfoSync() {
         var res = WX.GetBatteryInfoSync();
 
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
     public void getBatteryInfo() {
-        WX.GetBatteryInfo(new GetBatteryInfoOption 
-        {
+        WX.GetBatteryInfo(new GetBatteryInfoOption {
             success = (res) => {
                 Debug.Log("success" + JsonUtility.ToJson(res));
             },
@@ -44,11 +39,9 @@ public class BatteryAndClipboard : Details
     }
 
     public void getClipboardData() {
-        WX.GetClipboardData(new GetClipboardDataOption
-        {
+        WX.GetClipboardData(new GetClipboardDataOption {
             success = (res) => {
-                WX.ShowModal(new ShowModalOption()
-                {
+                WX.ShowModal(new ShowModalOption() {
                     content = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -62,8 +55,7 @@ public class BatteryAndClipboard : Details
     }
 
     public void setClipboardData() {
-        WX.SetClipboardData(new SetClipboardDataOption
-        {
+        WX.SetClipboardData(new SetClipboardDataOption {
             data = "123",
             success = (res) => {
                 Debug.Log(JsonUtility.ToJson(res));
@@ -77,4 +69,3 @@ public class BatteryAndClipboard : Details
         });
     }
 }
-

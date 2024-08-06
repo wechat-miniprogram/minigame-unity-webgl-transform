@@ -4,19 +4,17 @@ using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
-public class Upload : Details
-{
+public class Upload : Details {
     private WXUploadTask _uploadTask;
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         // 需要修改url
         WX.ChooseMedia(new ChooseMediaOption() {
             count = 1,
-            mediaType = new String[] {"image"},
-            sourceType = new String[] {"album"},
-            sizeType = new String[] {"compressed"},
+            mediaType = new String[] { "image" },
+            sourceType = new String[] { "album" },
+            sizeType = new String[] { "compressed" },
             success = (res) => {
                 Debug.Log(JsonUtility.ToJson(res));
                 _uploadTask = WX.UploadFile(new UploadFileOption() {
@@ -43,6 +41,5 @@ public class Upload : Details
         });
     }
 
-    
-}
 
+}

@@ -4,12 +4,10 @@ using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
-public class RealtimeLog : Details
-{
+public class RealtimeLog : Details {
     private WXRealtimeLogManager _log;
 
-     private void Start()
-    {
+    private void Start() {
         _log = WX.GetRealtimeLogManager();
         _log.AddFilterMsg("test");
 
@@ -18,8 +16,7 @@ public class RealtimeLog : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         _log.Info("info msg");
     }
 

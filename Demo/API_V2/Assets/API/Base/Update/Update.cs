@@ -3,43 +3,34 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class Update : Details
-{
+public class Update : Details {
     private WXUpdateManager _updateManager;
 
-    private void Start()
-    {
+    private void Start() {
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, updateManagerDemo);
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         updateWeChatApp();
     }
 
-    public void updateWeChatApp()
-    {
-        WX.UpdateWeChatApp(new UpdateWeChatAppOption
-        {
-            success = (res) =>
-            {
+    public void updateWeChatApp() {
+        WX.UpdateWeChatApp(new UpdateWeChatAppOption {
+            success = (res) => {
                 Debug.Log("success!");
             },
-            fail = (res) =>
-            {
+            fail = (res) => {
                 Debug.Log("fail:" + res.errMsg);
             },
-            complete = (res) =>
-            {
+            complete = (res) => {
                 Debug.Log("complete!");
             }
         });
     }
 
-    public void updateManagerDemo() 
-    {
+    public void updateManagerDemo() {
         _updateManager = WX.GetUpdateManager();
 
         _updateManager.OnCheckForUpdate((res) => {
@@ -49,8 +40,7 @@ public class Update : Details
 
         _updateManager.OnUpdateReady((r) => {
             Debug.Log("ready" + r);
-            WX.ShowModal(new ShowModalOption 
-            {
+            WX.ShowModal(new ShowModalOption {
                 title = "更新提示",
                 content = "新版本已经准备好，是否重启应用？",
                 success = (res) => {

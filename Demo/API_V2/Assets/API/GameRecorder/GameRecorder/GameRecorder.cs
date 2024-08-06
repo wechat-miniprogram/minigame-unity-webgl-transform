@@ -1,45 +1,36 @@
-﻿using UnityEngine;
+using UnityEngine;
 using WeChatWASM;
 
-public class GameRecorder : Details
-{
+public class GameRecorder : Details {
     private static WXGameRecorder _gameRecorder;
 
-    void Start()
-    {
+    void Start() {
         // 先判断客户端版本大于等于8.0.30，且基础库版本大于等于2.26.1，再使用该功能
         // 该功能无法在IOS高性能模式使用
         // 该功能无法在开发者工具使用
         // GameRecorder是全局唯一的
-        if (_gameRecorder == null)
-        {
+        if (_gameRecorder == null) {
             _gameRecorder = WX.GetGameRecorder();
         }
 
-        _gameRecorder.On("timeUpdate", (res) =>
-        {
+        _gameRecorder.On("timeUpdate", (res) => {
             Debug.Log(res.currentTime);
         });
-        _gameRecorder.On("start", (res) =>
-        {
+        _gameRecorder.On("start", (res) => {
             Debug.Log("GameRecorder start");
         });
 
-        _gameRecorder.On("pause", (res) =>
-        {
+        _gameRecorder.On("pause", (res) => {
             Debug.Log("GameRecorder pause");
         });
-        _gameRecorder.On("resume", (res) =>
-        {
+        _gameRecorder.On("resume", (res) => {
             // IOS客户端resume事件有问题
             Debug.Log("GameRecorder resume");
         });
-        _gameRecorder.On("stop", (res) =>
-        {
+        _gameRecorder.On("stop", (res) => {
             Debug.Log("GameRecorder stop:" + res.duration);
         });
-        _gameRecorder.On("error", (res) =>
-        {
+        _gameRecorder.On("error", (res) => {
             Debug.Log("GameRecorder error:" + JsonUtility.ToJson(res));
         });
 
@@ -50,37 +41,30 @@ public class GameRecorder : Details
     }
 
     // 开始
-    protected override void TestAPI(string[] args)
-    {
-        _gameRecorder.Start(new GameRecorderStartOption()
-        {
+    protected override void TestAPI(string[] args) {
+        _gameRecorder.Start(new GameRecorderStartOption() {
             // hookBgm = false,
         });
     }
 
     // 暂停
-    private void PauseRecorder()
-    {
+    private void PauseRecorder() {
         _gameRecorder.Pause();
     }
 
     // 恢复
-    private void ResumeRecorder()
-    {
+    private void ResumeRecorder() {
         _gameRecorder.Resume();
     }
 
     // 停止
-    private void StopRecorder()
-    {
+    private void StopRecorder() {
         _gameRecorder.Stop();
     }
 
     // 分享
-    private void ShareRecorder()
-    {
-        WX.OperateGameRecorderVideo(new OperateGameRecorderVideoOption()
-        {
+    private void ShareRecorder() {
+        WX.OperateGameRecorderVideo(new OperateGameRecorderVideoOption() {
             title = "游戏标题",
             desc = "游戏简介",
             timeRange = new double[][] {
@@ -91,8 +75,7 @@ public class GameRecorder : Details
         });
     }
 
-    public void OffEvent()
-    {
+    public void OffEvent() {
         _gameRecorder.Off("timeUpdate");
         _gameRecorder.Off("start");
         _gameRecorder.Off("stop");
@@ -100,8 +83,7 @@ public class GameRecorder : Details
         _gameRecorder.Off("resume");
     }
 
-    public void Destroy()
-    {
+    public void Destroy() {
         OffEvent();
         _gameRecorder.Stop();
     }

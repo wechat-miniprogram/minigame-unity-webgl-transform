@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class OpenData : Details
-{
-    private void Start()
-    {
+public class OpenData : Details {
+    private void Start() {
 
         GameManager.Instance.detailsController.BindExtraButtonAction(0, checkSession);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, authorize);
@@ -17,18 +15,15 @@ public class OpenData : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         login();
     }
 
     public void login() {
-        WX.Login(new LoginOption 
-        {
+        WX.Login(new LoginOption {
             timeout = 2000,
             success = (res) => {
-                WX.ShowModal(new ShowModalOption 
-                {
+                WX.ShowModal(new ShowModalOption {
                     content = JsonMapper.ToJson(res)
                 });
             },
@@ -38,12 +33,11 @@ public class OpenData : Details
             complete = (res) => {
                 Debug.Log("complete");
             }
-        }); 
+        });
     }
 
     public void checkSession() {
-        WX.CheckSession(new CheckSessionOption 
-        {
+        WX.CheckSession(new CheckSessionOption {
             success = (res) => {
                 Debug.Log("success");
             },
@@ -57,8 +51,7 @@ public class OpenData : Details
     }
 
     public void authorize() {
-        WX.Authorize(new AuthorizeOption 
-        {
+        WX.Authorize(new AuthorizeOption {
             scope = "scope.writePhotosAlbum",
             success = (res) => {
                 Debug.Log("success");
@@ -73,11 +66,9 @@ public class OpenData : Details
     }
 
     public void getGroupEnterInfo() {
-        WX.GetGroupEnterInfo(new GetGroupEnterInfoOption 
-        {
+        WX.GetGroupEnterInfo(new GetGroupEnterInfoOption {
             success = (res) => {
-                WX.ShowModal(new ShowModalOption 
-                {
+                WX.ShowModal(new ShowModalOption {
                     content = JsonMapper.ToJson(res)
                 });
             },
@@ -91,8 +82,7 @@ public class OpenData : Details
     }
 
     public void requirePrivacyAuthorize() {
-        WX.RequirePrivacyAuthorize(new RequirePrivacyAuthorizeOption 
-        {
+        WX.RequirePrivacyAuthorize(new RequirePrivacyAuthorizeOption {
             success = (res) => {
                 Debug.Log("success");
             },
@@ -106,8 +96,7 @@ public class OpenData : Details
     }
 
     public void openPrivacyContract() {
-        WX.OpenPrivacyContract(new OpenPrivacyContractOption 
-        {
+        WX.OpenPrivacyContract(new OpenPrivacyContractOption {
             success = (res) => {
                 Debug.Log("success");
             },
@@ -121,8 +110,7 @@ public class OpenData : Details
     }
 
     public void getPrivacySetting() {
-        WX.GetPrivacySetting(new GetPrivacySettingOption 
-        {
+        WX.GetPrivacySetting(new GetPrivacySettingOption {
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
             },

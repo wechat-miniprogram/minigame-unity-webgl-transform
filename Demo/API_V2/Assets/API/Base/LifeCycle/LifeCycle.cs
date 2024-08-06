@@ -3,30 +3,26 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class LifeCycle : Details
-{
+public class LifeCycle : Details {
 
     private bool _isListening = false;
 
     private readonly Action<OnShowListenerResult> _onShow = (res) => {
         var result = "onShow\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<GeneralCallbackResult> _onHide = (res) => {
         var result = "onHide\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         if (!_isListening) {
             WX.OnShow(_onShow);
             WX.OnHide(_onHide);
@@ -39,7 +35,7 @@ public class LifeCycle : Details
     }
 
     private void OnDestroy() {
-         WX.OffShow(_onShow);
-         WX.OffHide(_onHide);
+        WX.OffShow(_onShow);
+        WX.OffHide(_onHide);
     }
 }

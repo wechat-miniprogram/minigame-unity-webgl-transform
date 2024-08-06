@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class GetInfo : Details
-{
-    private void Start()
-    {
+public class GetInfo : Details {
+    private void Start() {
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, getSystemSetting);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, getSystemInfoSync);
@@ -19,140 +17,112 @@ public class GetInfo : Details
         GameManager.Instance.detailsController.BindExtraButtonAction(8, getEnterOptionsSync);
     }
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         getWindowInfo();
     }
 
-    public void getWindowInfo()
-    {
+    public void getWindowInfo() {
         var res = WX.GetWindowInfo();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
-    public void getSystemSetting()
-    {
+    public void getSystemSetting() {
         var res = WX.GetSystemSetting();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
-    public void getSystemInfoSync()
-    {
+    public void getSystemInfoSync() {
         var res = WX.GetSystemInfoSync();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
     public void getSystemInfoAsync() {
-        WX.GetSystemInfoAsync(new GetSystemInfoAsyncOption 
-            {
-                success = (res) => 
-                {
-                    WX.ShowModal(new ShowModalOption()
-                    {
-                        content = "Access Success, Result: " + JsonMapper.ToJson(res)
-                    });
-                },
-                fail = (res) =>
-                {
-                    Debug.Log("fail:" + res.errMsg);
-                },
-                complete = (res) =>
-                {
-                    Debug.Log("complete!");
-                }
+        WX.GetSystemInfoAsync(new GetSystemInfoAsyncOption {
+            success = (res) => {
+                WX.ShowModal(new ShowModalOption() {
+                    content = "Access Success, Result: " + JsonMapper.ToJson(res)
+                });
+            },
+            fail = (res) => {
+                Debug.Log("fail:" + res.errMsg);
+            },
+            complete = (res) => {
+                Debug.Log("complete!");
             }
+        }
         );
     }
 
-    public void getSystemInfo() 
-    {
-        WX.GetSystemInfo(new GetSystemInfoOption 
-            {
-                success = (res) => 
-                {
-                    WX.ShowModal(new ShowModalOption()
-                    {
-                        content = "Access Success, Result: " + JsonMapper.ToJson(res)
-                    });
-                },
-                fail = (res) =>
-                {
-                    Debug.Log("fail:" + res.errMsg);
-                },
-                complete = (res) =>
-                {
-                    Debug.Log("complete!");
-                }
+    public void getSystemInfo() {
+        WX.GetSystemInfo(new GetSystemInfoOption {
+            success = (res) => {
+                WX.ShowModal(new ShowModalOption() {
+                    content = "Access Success, Result: " + JsonMapper.ToJson(res)
+                });
+            },
+            fail = (res) => {
+                Debug.Log("fail:" + res.errMsg);
+            },
+            complete = (res) => {
+                Debug.Log("complete!");
             }
+        }
         );
     }
 
-    public void getDeviceInfo() 
-    {
+    public void getDeviceInfo() {
         var res = WX.GetDeviceInfo();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
-    public void getAppBaseInfo() 
-    {
+    public void getAppBaseInfo() {
         var res = WX.GetAppBaseInfo();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
-    public void getAppAuthorizeSetting() 
-    {
+    public void getAppAuthorizeSetting() {
         var res = WX.GetAppAuthorizeSetting();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
-    public void getEnterOptionsSync()
-    {
+    public void getEnterOptionsSync() {
         var res = WX.GetEnterOptionsSync();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }
 
-    public void getLaunchOptionsSync()
-    {
+    public void getLaunchOptionsSync() {
         var res = WX.GetLaunchOptionsSync();
 
         // 访问成功，显示结果
-        WX.ShowModal(new ShowModalOption()
-        {
+        WX.ShowModal(new ShowModalOption() {
             content = "Access Success, Result: " + JsonMapper.ToJson(res)
         });
     }

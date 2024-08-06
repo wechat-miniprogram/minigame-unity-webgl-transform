@@ -3,34 +3,30 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class BluetoothDevice : Details
-{
+public class BluetoothDevice : Details {
 
     private bool _isListening = false;
-    private bool _isListeningDiscovery = false;    
+    private bool _isListeningDiscovery = false;
 
     private readonly Action<OnBluetoothDeviceFoundListenerResult> _onBluetoothDeviceFound = (res) => {
         var result = "onBluetoothDeviceFound\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnBluetoothAdapterStateChangeListenerResult> _onBluetoothAdapterStateChange = (res) => {
         var result = "onBluetoothAdapterStateChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
 
-    private void Start()
-    {
+    private void Start() {
         // 监听搜索到新设备的事件
         WX.OnBluetoothDeviceFound(_onBluetoothDeviceFound);
-        
+
         // 监听蓝牙适配器状态变化事件
         WX.OnBluetoothAdapterStateChange(_onBluetoothAdapterStateChange);
 
@@ -44,15 +40,13 @@ public class BluetoothDevice : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         BluetoothAdapter();
     }
 
     public void BluetoothAdapter() {
         if (!_isListening) {
-            WX.OpenBluetoothAdapter(new OpenBluetoothAdapterOption 
-            {
+            WX.OpenBluetoothAdapter(new OpenBluetoothAdapterOption {
                 mode = "peripheral",
                 success = (res) => {
                     Debug.Log("success " + JsonMapper.ToJson(res));
@@ -65,8 +59,7 @@ public class BluetoothDevice : Details
                 }
             });
         } else {
-            WX.CloseBluetoothAdapter(new CloseBluetoothAdapterOption 
-            {
+            WX.CloseBluetoothAdapter(new CloseBluetoothAdapterOption {
                 success = (res) => {
                     Debug.Log("success " + JsonMapper.ToJson(res));
                 },
@@ -84,8 +77,7 @@ public class BluetoothDevice : Details
 
     public void bluetoothDevicesDiscovery() {
         if (!_isListeningDiscovery) {
-            WX.StartBluetoothDevicesDiscovery(new StartBluetoothDevicesDiscoveryOption 
-            {
+            WX.StartBluetoothDevicesDiscovery(new StartBluetoothDevicesDiscoveryOption {
                 success = (res) => {
                     Debug.Log("success " + JsonMapper.ToJson(res));
                 },
@@ -95,10 +87,9 @@ public class BluetoothDevice : Details
                 complete = (res) => {
                     Debug.Log("complete");
                 }
-            }); 
+            });
         } else {
-            WX.StopBluetoothDevicesDiscovery(new StopBluetoothDevicesDiscoveryOption 
-            {
+            WX.StopBluetoothDevicesDiscovery(new StopBluetoothDevicesDiscoveryOption {
                 success = (res) => {
                     Debug.Log("success " + JsonMapper.ToJson(res));
                 },
@@ -115,8 +106,7 @@ public class BluetoothDevice : Details
     }
 
     public void makeBluetoothPair() {
-        WX.MakeBluetoothPair(new MakeBluetoothPairOption 
-        {
+        WX.MakeBluetoothPair(new MakeBluetoothPairOption {
             deviceId = "xxx",
             pin = "xxx",
             timeout = 20000,
@@ -129,12 +119,11 @@ public class BluetoothDevice : Details
             complete = (res) => {
                 Debug.Log("complete");
             }
-        }); 
+        });
     }
 
     public void isBluetoothDevicePaired() {
-        WX.IsBluetoothDevicePaired(new IsBluetoothDevicePairedOption 
-        {
+        WX.IsBluetoothDevicePaired(new IsBluetoothDevicePairedOption {
             deviceId = "xx",
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
@@ -149,9 +138,8 @@ public class BluetoothDevice : Details
     }
 
     public void getConnectedBluetoothDevices() {
-        WX.GetConnectedBluetoothDevices(new GetConnectedBluetoothDevicesOption 
-        {
-            services = new string[]{"xx", "yy"},
+        WX.GetConnectedBluetoothDevices(new GetConnectedBluetoothDevicesOption {
+            services = new string[] { "xx", "yy" },
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
             },
@@ -165,8 +153,7 @@ public class BluetoothDevice : Details
     }
 
     public void getBluetoothDevices() {
-        WX.GetBluetoothDevices(new GetBluetoothDevicesOption 
-        {
+        WX.GetBluetoothDevices(new GetBluetoothDevicesOption {
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
             },
@@ -180,8 +167,7 @@ public class BluetoothDevice : Details
     }
 
     public void getBluetoothAdapterState() {
-        WX.GetBluetoothAdapterState(new GetBluetoothAdapterStateOption 
-        {
+        WX.GetBluetoothAdapterState(new GetBluetoothAdapterStateOption {
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
             },
@@ -199,4 +185,3 @@ public class BluetoothDevice : Details
         WX.OffBluetoothAdapterStateChange(_onBluetoothAdapterStateChange);
     }
 }
-

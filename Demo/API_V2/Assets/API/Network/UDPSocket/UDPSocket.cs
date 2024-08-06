@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class UDPSocket : Details
-{
+public class UDPSocket : Details {
     private WXUDPSocket _udpSocket;
     private bool _connected = false;
 
@@ -20,10 +19,8 @@ public class UDPSocket : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
-        if(_udpSocket == null)
-        {
+    protected override void TestAPI(string[] args) {
+        if (_udpSocket == null) {
             _udpSocket = WX.CreateUDPSocket();
             var port = _udpSocket.Bind();
 
@@ -44,32 +41,25 @@ public class UDPSocket : Details
             _udpSocket.OnMessage((res) => {
                 Debug.Log("onMessage: " + JsonUtility.ToJson(res));
             });
-        }
-        else
-        {
+        } else {
             Debug.LogError("udp实例已初始化");
         }
     }
 
     private void connect() {
-        if (_udpSocket != null && !_connected)
-        {
-            _udpSocket.Connect(new UDPSocketConnectOption()
-            {
+        if (_udpSocket != null && !_connected) {
+            _udpSocket.Connect(new UDPSocketConnectOption() {
                 address = "www.oooceanworld.com",
                 port = 8101
             });
             _connected = true;
-        } else
-        {
+        } else {
             Debug.LogError("连接失败：udp实例未初始化或已连接");
         }
     }
 
-    private void write()
-    {
-        if (_udpSocket != null && _connected)
-        {
+    private void write() {
+        if (_udpSocket != null && _connected) {
             Debug.LogError("接口有bug暂未修复 当前为placeholder");
             /*
             UDPSocketWriteOption option = new UDPSocketWriteOption()
@@ -87,49 +77,36 @@ public class UDPSocket : Details
             }
             _udpSocket.Write(option);
             */
-        }
-        else
-        {
+        } else {
             Debug.LogError("write失败：udp实例未初始化或未连接");
         }
     }
 
-    private void send()
-    {
-        if (_udpSocket != null)
-        {
-            UDPSocketSendOption option = new UDPSocketSendOption()
-            {
+    private void send() {
+        if (_udpSocket != null) {
+            UDPSocketSendOption option = new UDPSocketSendOption() {
                 address = "www.oooceanworld.com",
                 port = 8101
             };
-            if (options[0] == "String")
-            {
+            if (options[0] == "String") {
                 option.message = _stringData;
-            }
-            else
-            {
+            } else {
                 option.message = _bufferData;
             }
             _udpSocket.Send(option);
             Debug.Log("Message: " + option.message);
-        }
-        else
-        {
+        } else {
             Debug.LogError("send失败：udp实例未初始化");
         }
     }
 
     private void close() {
-        if (_udpSocket != null && _connected)
-        {
+        if (_udpSocket != null && _connected) {
             _udpSocket.Close();
             _connected = false;
             _udpSocket = null;
-        } else
-        {
+        } else {
             Debug.LogError("关闭失败：udp实例未初始化或未连接");
         }
     }
 }
-

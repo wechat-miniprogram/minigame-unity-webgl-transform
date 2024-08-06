@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class Interact : Details
-{
-    private void Start()
-    {
+public class Interact : Details {
+    private void Start() {
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, showModal);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, showLoading);
@@ -16,131 +14,106 @@ public class Interact : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         showToast();
     }
 
     public void showToast() {
-        WX.ShowToast(new ShowToastOption 
-        {
+        WX.ShowToast(new ShowToastOption {
             title = "showToast",
             duration = 5000,
-            success = (res) => 
-            {
+            success = (res) => {
                 Debug.Log(res);
             },
-            fail = (res) =>
-            {
+            fail = (res) => {
                 Debug.Log("fail:" + res.errMsg);
             },
-            complete = (res) =>
-            {
+            complete = (res) => {
                 Debug.Log("complete!");
             }
         });
     }
 
     public void showModal() {
-        WX.ShowModal(new ShowModalOption 
-        {
+        WX.ShowModal(new ShowModalOption {
             title = "showModal",
             content = "show",
             showCancel = true,
             cancelText = "取消",
             confirmText = "确定",
-            success = (res) => 
-            {
+            success = (res) => {
                 Debug.Log("success");
             },
-            fail = (res) =>
-            {
+            fail = (res) => {
                 Debug.Log("fail:" + res.errMsg);
             },
-            complete = (res) =>
-            {
+            complete = (res) => {
                 Debug.Log("complete!");
             }
         });
     }
 
     public void showLoading() {
-        WX.ShowLoading(new ShowLoadingOption 
-        {
+        WX.ShowLoading(new ShowLoadingOption {
             title = "showLoading",
-            success = (res) => 
-            {
+            success = (res) => {
                 Debug.Log("success");
             },
-            fail = (res) =>
-            {
+            fail = (res) => {
                 Debug.Log("fail:" + res.errMsg);
             },
-            complete = (res) =>
-            {
+            complete = (res) => {
                 Debug.Log("complete!");
             }
         });
     }
 
     public void showActionSheet() {
-        WX.ShowActionSheet(new ShowActionSheetOption
-        {
+        WX.ShowActionSheet(new ShowActionSheetOption {
             alertText = "showActionSheet",
-            itemList = new string[] {"1", "2", "3"},
-            success = (res) => 
-            {
+            itemList = new string[] { "1", "2", "3" },
+            success = (res) => {
                 Debug.Log("success");
             },
-            fail = (res) =>
-            {
+            fail = (res) => {
                 Debug.Log("fail:" + res.errMsg);
             },
-            complete = (res) =>
-            {
+            complete = (res) => {
                 Debug.Log("complete!");
             }
         });
     }
 
     public void hideToast() {
-        WX.HideToast(new HideToastOption
-        {
-            success = (res) => 
-            {
+        WX.HideToast(new HideToastOption {
+            success = (res) => {
                 Debug.Log("success");
             },
-            fail = (res) =>
-            {
+            fail = (res) => {
                 Debug.Log("fail:" + res.errMsg);
             },
-            complete = (res) =>
-            {
+            complete = (res) => {
                 Debug.Log("complete!");
             }
         });
     }
 
     public void hideLoading() {
-        WX.HideLoading(new HideLoadingOption
-        {
-            success = (res) => 
-            {
+        WX.HideLoading(new HideLoadingOption {
+            success = (res) => {
                 Debug.Log("success");
             },
-            fail = (res) =>
-            {
+            fail = (res) => {
                 Debug.Log("fail:" + res.errMsg);
             },
-            complete = (res) =>
-            {
+            complete = (res) => {
                 Debug.Log("complete!");
             }
         });
     }
 
     public void Destroy() {
-        WX.HideToast(new HideToastOption{});
-        WX.HideLoading(new HideLoadingOption{});
+        WX.HideToast(new HideToastOption { });
+        WX.HideLoading(new HideLoadingOption { });
     }
 }

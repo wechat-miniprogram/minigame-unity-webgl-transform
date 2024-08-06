@@ -1,7 +1,6 @@
 using System;
 
-namespace UnityWebSocket
-{
+namespace UnityWebSocket {
     /// <summary>
     /// Represents the event data for the <see cref="IWebSocket.OnClose"/> event.
     /// </summary>
@@ -14,31 +13,25 @@ namespace UnityWebSocket
     ///   the <see cref="Code"/> or <see cref="Reason"/> property.
     ///   </para>
     /// </remarks>
-    public class CloseEventArgs : EventArgs
-    {
+    public class CloseEventArgs : EventArgs {
         #region Internal Constructors
 
-        internal CloseEventArgs()
-        {
+        internal CloseEventArgs() {
         }
 
         internal CloseEventArgs(ushort code)
-          : this(code, null)
-        {
+          : this(code, null) {
         }
 
         internal CloseEventArgs(CloseStatusCode code)
-          : this((ushort)code, null)
-        {
+          : this((ushort)code, null) {
         }
 
         internal CloseEventArgs(CloseStatusCode code, string reason)
-          : this((ushort)code, reason)
-        {
+          : this((ushort)code, reason) {
         }
 
-        internal CloseEventArgs(ushort code, string reason)
-        {
+        internal CloseEventArgs(ushort code, string reason) {
             Code = code;
             Reason = reason;
         }
@@ -74,10 +67,8 @@ namespace UnityWebSocket
         /// <summary>
         /// Enum value same as Code
         /// </summary>
-        public CloseStatusCode StatusCode
-        {
-            get
-            {
+        public CloseStatusCode StatusCode {
+            get {
                 if (Enum.IsDefined(typeof(CloseStatusCode), Code))
                     return (CloseStatusCode)Code;
                 return CloseStatusCode.Unknown;

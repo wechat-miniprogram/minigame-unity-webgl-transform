@@ -3,38 +3,33 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class BLE : Details
-{
+public class BLE : Details {
 
     private bool _isListening = false;
 
     private readonly Action<OnBLEMTUChangeListenerResult> _onBLEMTUChange = (res) => {
         var result = "onBLEMTUChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnBLEConnectionStateChangeListenerResult> _onBLEConnectionStateChange = (res) => {
         var result = "onBLEConnectionStateChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnBLECharacteristicValueChangeListenerResult> _onBLECharacteristicValueChange = (res) => {
         var result = "onBLECharacteristicValueChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
 
-    private void Start()
-    {
+    private void Start() {
         // 监听蓝牙低功耗的最大传输单元变化事件（仅安卓触发）
         WX.OnBLEMTUChange(_onBLEMTUChange);
 
@@ -55,15 +50,13 @@ public class BLE : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         createBLEConnection();
     }
 
     public void createBLEConnection() {
         if (!_isListening) {
-            WX.CreateBLEConnection(new CreateBLEConnectionOption 
-            {
+            WX.CreateBLEConnection(new CreateBLEConnectionOption {
                 deviceId = "xxx",
                 timeout = 20000,
                 success = (res) => {
@@ -77,8 +70,7 @@ public class BLE : Details
                 }
             });
         } else {
-            WX.CloseBLEConnection(new CloseBLEConnectionOption 
-            {
+            WX.CloseBLEConnection(new CloseBLEConnectionOption {
                 deviceId = "xxx",
                 success = (res) => {
                     Debug.Log("success " + JsonMapper.ToJson(res));
@@ -97,12 +89,11 @@ public class BLE : Details
 
     // 目前会报param.value类型错误，已知问题，等待修复
     public void writeBLECharacteristicValue() {
-        WX.WriteBLECharacteristicValue(new WriteBLECharacteristicValueOption 
-        {
+        WX.WriteBLECharacteristicValue(new WriteBLECharacteristicValueOption {
             deviceId = "xxx",
             serviceId = "xxx",
             characteristicId = "xxx",
-            value = new byte[] {1, 2, 3},
+            value = new byte[] { 1, 2, 3 },
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
             },
@@ -116,8 +107,7 @@ public class BLE : Details
     }
 
     public void setBLEMTU() {
-        WX.SetBLEMTU(new SetBLEMTUOption 
-        {
+        WX.SetBLEMTU(new SetBLEMTUOption {
             deviceId = "xx",
             mtu = 100,
             success = (res) => {
@@ -133,8 +123,7 @@ public class BLE : Details
     }
 
     public void readBLECharacteristicValue() {
-        WX.ReadBLECharacteristicValue(new ReadBLECharacteristicValueOption 
-        {
+        WX.ReadBLECharacteristicValue(new ReadBLECharacteristicValueOption {
             deviceId = "xx",
             serviceId = "xx",
             characteristicId = "xx",
@@ -170,8 +159,7 @@ public class BLE : Details
     }
 
     public void getBLEMTU() {
-        WX.GetBLEMTU(new GetBLEMTUOption 
-        {
+        WX.GetBLEMTU(new GetBLEMTUOption {
             deviceId = "xx",
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
@@ -186,8 +174,7 @@ public class BLE : Details
     }
 
     public void getBLEDeviceServices() {
-        WX.GetBLEDeviceServices(new GetBLEDeviceServicesOption 
-        {
+        WX.GetBLEDeviceServices(new GetBLEDeviceServicesOption {
             deviceId = "xx",
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
@@ -202,8 +189,7 @@ public class BLE : Details
     }
 
     public void getBLEDeviceRSSI() {
-        WX.GetBLEDeviceRSSI(new GetBLEDeviceRSSIOption 
-        {
+        WX.GetBLEDeviceRSSI(new GetBLEDeviceRSSIOption {
             deviceId = "xx",
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
@@ -218,8 +204,7 @@ public class BLE : Details
     }
 
     public void getBLEDeviceCharacteristics() {
-        WX.GetBLEDeviceCharacteristics(new GetBLEDeviceCharacteristicsOption 
-        {
+        WX.GetBLEDeviceCharacteristics(new GetBLEDeviceCharacteristicsOption {
             deviceId = "xx",
             serviceId = "xx",
             success = (res) => {
@@ -240,4 +225,3 @@ public class BLE : Details
         WX.OffBLECharacteristicValueChange();
     }
 }
-

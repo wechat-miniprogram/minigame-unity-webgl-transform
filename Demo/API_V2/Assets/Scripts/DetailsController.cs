@@ -4,8 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using WeChatWASM;
 
-public class DetailsController : MonoBehaviour
-{
+public class DetailsController : MonoBehaviour {
     [Header("Entry Data")]
     [SerializeField] private EntrySO entrySO;
 
@@ -36,8 +35,7 @@ public class DetailsController : MonoBehaviour
 
     private Details _details;
 
-    private void Start()
-    {
+    private void Start() {
         var res = WX.GetMenuButtonBoundingClientRect();
         var info = WX.GetSystemInfoSync();
         float height = (float)res.height;
@@ -48,22 +46,19 @@ public class DetailsController : MonoBehaviour
     }
 
     // 清除详情信息
-    private void ClearDetails()
-    {
+    private void ClearDetails() {
         // 销毁详情信息
         Destroy(_details);
 
         // 清除选项
-        for (var i = optionsTransform.childCount - 1; i >= 0; i--)
-        {
+        for (var i = optionsTransform.childCount - 1; i >= 0; i--) {
             var child = optionsTransform.GetChild(i);
             Destroy(child.gameObject);
         }
 
         // 清除按钮
         initialButton.onClick.RemoveAllListeners();
-        foreach (var i in extraButtonBlockObjects)
-        {
+        foreach (var i in extraButtonBlockObjects) {
             Destroy(i);
         }
         extraButtonBlockObjects = new List<GameObject>();
@@ -73,29 +68,22 @@ public class DetailsController : MonoBehaviour
     }
 
     // 获取gap block并修改其最低高度
-    public void getGapBlock(GameObject parentGameObject)
-    {
+    public void getGapBlock(GameObject parentGameObject) {
         var canvas = parentGameObject.GetComponentInParent<Canvas>();
         Transform foreTransform = canvas.transform.Find("Foreground");
-        if (foreTransform != null)
-        {
+        if (foreTransform != null) {
             Transform scrollViewTransform = foreTransform.Find("Scroll View");
-            if (scrollViewTransform != null)
-            {
+            if (scrollViewTransform != null) {
                 Transform viewportTransform = scrollViewTransform.Find("Viewport");
-                if (viewportTransform != null)
-                {
+                if (viewportTransform != null) {
                     Transform contentTransform = viewportTransform.Find("Content");
-                    if (contentTransform != null)
-                    {
+                    if (contentTransform != null) {
                         Transform[] gapBlockTransforms = new Transform[2];
                         gapBlockTransforms[0] = contentTransform.Find("Gap Block");
                         gapBlockTransforms[1] = contentTransform.Find("Gap Block2");
 
-                        foreach (Transform gapBlockTransform in gapBlockTransforms)
-                        {
-                            if (gapBlockTransform != null)
-                            {
+                        foreach (Transform gapBlockTransform in gapBlockTransforms) {
+                            if (gapBlockTransform != null) {
                                 GameObject gapBlockObject = gapBlockTransform.gameObject;
                                 LayoutElement layoutElement = gapBlockObject.GetComponent<LayoutElement>();
                                 layoutElement.minHeight = 150;
@@ -108,8 +96,7 @@ public class DetailsController : MonoBehaviour
     }
 
     // 初始化详情信息
-    public void Init(EntrySO so)
-    {
+    public void Init(EntrySO so) {
         ClearDetails();
         entrySO = so;
 
@@ -121,8 +108,7 @@ public class DetailsController : MonoBehaviour
         Transform parentTransform = descriptionText.transform.parent;
         GameObject parentGameObject = parentTransform.gameObject;
         LayoutElement layoutElement = parentGameObject.GetComponent<LayoutElement>();
-        if (layoutElement != null)
-        {
+        if (layoutElement != null) {
             layoutElement.ignoreLayout = true;
 
             RectTransform rectTransform = parentGameObject.GetComponent<RectTransform>();
@@ -135,8 +121,7 @@ public class DetailsController : MonoBehaviour
         _details.Init(entrySO);
 
         // 生成选项
-        for (var i = 0; i < entrySO.optionList.Count; i++)
-        {
+        for (var i = 0; i < entrySO.optionList.Count; i++) {
             var optionObj = Instantiate(optionPrefab, optionsTransform);
             optionObj.name = entrySO.optionList[i].optionName;
             optionObj.GetComponentInChildren<OptionDropdownHandler>().Init(_details, i);
@@ -144,13 +129,11 @@ public class DetailsController : MonoBehaviour
 
         // 设置初始按钮
         ChangeInitialButtonText(entrySO.initialButtonText);
-        initialButton.onClick.AddListener(() =>
-        {
+        initialButton.onClick.AddListener(() => {
             _details.Run();
         });
         // 生成额外的按钮
-        foreach (var button in entrySO.extraButtonList)
-        {
+        foreach (var button in entrySO.extraButtonList) {
             var extraButtonBlock = Instantiate(buttonBlockPrefab, buttonsTransform);
             extraButtonBlockObjects.Add(extraButtonBlock);
             extraButtonBlock.GetComponentInChildren<Text>().text = button.buttonText;
@@ -164,34 +147,29 @@ public class DetailsController : MonoBehaviour
         extraButton.GetComponentInChildren<Button>().GetComponent<Image>().color = transparentColor;
 
         // 生成结果
-        foreach (var result in entrySO.initialResultList)
-        {
+        foreach (var result in entrySO.initialResultList) {
             AddResult(result);
         }
     }
 
     // 更改初始按钮的文本
-    public void ChangeInitialButtonText(string text)
-    {
+    public void ChangeInitialButtonText(string text) {
         startButtonText.text = text;
     }
 
     // 更改额外按钮的文本
-    public void ChangeExtraButtonText(int index, string text)
-    {
+    public void ChangeExtraButtonText(int index, string text) {
         extraButtonBlockObjects[index].GetComponent<ButtonController>().ChangeButtonText(text);
     }
 
     // 绑定额外按钮的操作
-    public void BindExtraButtonAction(int index, UnityAction action)
-    {
+    public void BindExtraButtonAction(int index, UnityAction action) {
         extraButtonBlockObjects[index].GetComponent<ButtonController>()
             .AddButtonListener(action);
     }
 
     // 获取按钮左上角距离画布左上角的相对距离
-    public Vector2 GetButtonPosition(int index)
-    {
+    public Vector2 GetButtonPosition(int index) {
         var button = (index == -1) ? initialButton : extraButtonBlockObjects[index].GetComponentInChildren<Button>();
         var canvas = button.GetComponentInParent<Canvas>();
 
@@ -215,31 +193,26 @@ public class DetailsController : MonoBehaviour
     }
 
     // 获取初始按钮的长宽
-    public Vector2 GetInitialButtonSize()
-    {
+    public Vector2 GetInitialButtonSize() {
         return initialButton.GetComponent<RectTransform>().sizeDelta;
     }
 
     // 添加结果信息
-    public GameObject AddResult(ResultData resultData)
-    {
+    public GameObject AddResult(ResultData resultData) {
         var resultObj = Instantiate(resultPrefab, resultsTransform);
         resultObjects.Add(resultObj);
 
         ChangeResultTitle(resultObjects.Count - 1, resultData.initialTitleText);
         ChangeResultContent(resultObjects.Count - 1, resultData.initialContentText);
-        if (resultData.isDisableInitially)
-        {
+        if (resultData.isDisableInitially) {
             resultObj.SetActive(false);
         }
         return resultObj;
     }
 
     // 移除所有结果信息
-    public void RemoveAllResult()
-    {
-        foreach (var obj in resultObjects)
-        {
+    public void RemoveAllResult() {
+        foreach (var obj in resultObjects) {
             Destroy(obj);
         }
 
@@ -247,10 +220,8 @@ public class DetailsController : MonoBehaviour
     }
 
     // 保留前N个结果
-    public void KeepFirstNResults(int n)
-    {
-        for (var i = n; i < resultObjects.Count; i++)
-        {
+    public void KeepFirstNResults(int n) {
+        for (var i = n; i < resultObjects.Count; i++) {
             Destroy(resultObjects[i]);
         }
 
@@ -258,20 +229,17 @@ public class DetailsController : MonoBehaviour
     }
 
     // 设置结果的活跃状态
-    public void SetResultActive(int index, bool isActive)
-    {
+    public void SetResultActive(int index, bool isActive) {
         resultObjects[index].SetActive(isActive);
     }
 
     // 更改结果的标题
-    public void ChangeResultTitle(int index, string title)
-    {
+    public void ChangeResultTitle(int index, string title) {
         resultObjects[index].GetComponent<ResultController>().ChangeTitle(title);
     }
 
     // 更改结果的内容
-    public void ChangeResultContent(int index, string content)
-    {
+    public void ChangeResultContent(int index, string content) {
         resultObjects[index].GetComponent<ResultController>().ChangeContent(content);
     }
 }

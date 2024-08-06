@@ -4,36 +4,31 @@ using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
-public class Screen : Details
-{
+public class Screen : Details {
 
     private bool _isListening = false;
     private bool _isListening1 = false;
     private System.Random random = new System.Random();
 
     private readonly Action<GeneralCallbackResult> _onUserCaptureScreen = (res) => {
-        WX.ShowToast(new ShowToastOption 
-        {
+        WX.ShowToast(new ShowToastOption {
             title = "截屏触发"
         });
         var result = "_onUserCaptureScreen\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnScreenRecordingStateChangedListenerResult> _onScreenRecordingStateChanged = (res) => {
         var result = "onScreenRecordingStateChanged\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
 
-    private void Start()
-    {
+    private void Start() {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, setScreenBrightness);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, setKeepScreenOn);
         GameManager.Instance.detailsController.BindExtraButtonAction(2, onUserCaptureScreen);
@@ -43,18 +38,15 @@ public class Screen : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
-       setVisualEffectOnCapture();
+    protected override void TestAPI(string[] args) {
+        setVisualEffectOnCapture();
     }
 
-   public void setVisualEffectOnCapture() {
-        WX.SetVisualEffectOnCapture(new SetVisualEffectOnCaptureOption
-        {
+    public void setVisualEffectOnCapture() {
+        WX.SetVisualEffectOnCapture(new SetVisualEffectOnCaptureOption {
             visualEffect = "none",
             success = (res) => {
-                WX.ShowToast(new ShowToastOption()
-                {
+                WX.ShowToast(new ShowToastOption() {
                     title = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -65,14 +57,13 @@ public class Screen : Details
                 Debug.Log("complete");
             }
         });
-   }
+    }
 
     public void setScreenBrightness() {
-        WX.SetScreenBrightness(new SetScreenBrightnessOption{
+        WX.SetScreenBrightness(new SetScreenBrightnessOption {
             value = random.NextDouble(),
             success = (res) => {
-                WX.ShowToast(new ShowToastOption()
-                {
+                WX.ShowToast(new ShowToastOption() {
                     title = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -86,11 +77,10 @@ public class Screen : Details
     }
 
     public void setKeepScreenOn() {
-        WX.SetKeepScreenOn(new SetKeepScreenOnOption{
+        WX.SetKeepScreenOn(new SetKeepScreenOnOption {
             keepScreenOn = true,
             success = (res) => {
-                WX.ShowToast(new ShowToastOption()
-                {
+                WX.ShowToast(new ShowToastOption() {
                     title = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -124,10 +114,9 @@ public class Screen : Details
     }
 
     public void getScreenRecordingState() {
-        WX.GetScreenRecordingState(new GetScreenRecordingStateOption{
+        WX.GetScreenRecordingState(new GetScreenRecordingStateOption {
             success = (res) => {
-                WX.ShowModal(new ShowModalOption()
-                {
+                WX.ShowModal(new ShowModalOption() {
                     content = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -141,10 +130,9 @@ public class Screen : Details
     }
 
     public void getScreenBrightness() {
-        WX.GetScreenBrightness(new GetScreenBrightnessOption{
+        WX.GetScreenBrightness(new GetScreenBrightnessOption {
             success = (res) => {
-                WX.ShowModal(new ShowModalOption()
-                {
+                WX.ShowModal(new ShowModalOption() {
                     content = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -162,4 +150,3 @@ public class Screen : Details
         WX.OffScreenRecordingStateChanged(_onScreenRecordingStateChanged);
     }
 }
-

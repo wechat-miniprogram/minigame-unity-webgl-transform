@@ -6,53 +6,44 @@ using UnityEngine.Networking;
 using System.Collections;
 using WeChatWASM;
 
-public class WebRequest : Details
-{
+public class WebRequest : Details {
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, testPost);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, testGet);
     }
 
     // 测试API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         testPut();
     }
 
-    private void testGet()
-    {
+    private void testGet() {
         StartCoroutine(Get());
     }
 
-    private void testPost()
-    {
+    private void testPost() {
         StartCoroutine(Post());
     }
-    
-    private void testPut()
-    {
+
+    private void testPut() {
         StartCoroutine(Put());
     }
 
-    IEnumerator Get()
-    {
+    IEnumerator Get() {
         UnityWebRequest webRequest = UnityWebRequest.Get("https://postman-echo.com/get");
 
         yield return webRequest.SendWebRequest();
 
         if (webRequest.isHttpError || webRequest.isNetworkError)
             Debug.Log(webRequest.error);
-        else
-        {
+        else {
             Debug.Log("get complete: " + webRequest.downloadHandler.text);
         }
 
     }
 
-    IEnumerator Post()
-    {
+    IEnumerator Post() {
         WWWForm form = new WWWForm();
         //键值对
         form.AddField("key", "value");
@@ -65,24 +56,19 @@ public class WebRequest : Details
 
         if (webRequest.isHttpError || webRequest.isNetworkError)
             Debug.Log(webRequest.error);
-        else
-        {
+        else {
             Debug.Log("post complete: " + webRequest.downloadHandler.text);
         }
     }
 
-    IEnumerator Put()
-    {
+    IEnumerator Put() {
         byte[] myData = System.Text.Encoding.UTF8.GetBytes("This is some test data");
         UnityWebRequest www = UnityWebRequest.Put("https://postman-echo.com/put", myData);
         yield return www.SendWebRequest();
 
-        if (www.result != UnityWebRequest.Result.Success)
-        {
+        if (www.result != UnityWebRequest.Result.Success) {
             Debug.Log(www.error);
-        }
-        else
-        {
+        } else {
             Debug.Log("Put complete: " + www.downloadHandler.text);
         }
     }

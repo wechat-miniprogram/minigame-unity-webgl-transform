@@ -4,17 +4,14 @@ using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
-public class Render : Details
-{
+public class Render : Details {
 
-     private void Start()
-    {
+    private void Start() {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, loadFont);
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         setPreferredFramesPerSecond();
     }
 

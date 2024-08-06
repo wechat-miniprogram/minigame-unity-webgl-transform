@@ -1,21 +1,17 @@
 using System;
 using System.Text;
 
-namespace UnityWebSocket
-{
-    public class MessageEventArgs : EventArgs
-    {
+namespace UnityWebSocket {
+    public class MessageEventArgs : EventArgs {
         private byte[] _rawData;
         private string _data;
 
-        internal MessageEventArgs(Opcode opcode, byte[] rawData)
-        {
+        internal MessageEventArgs(Opcode opcode, byte[] rawData) {
             Opcode = opcode;
             _rawData = rawData;
         }
 
-        internal MessageEventArgs(Opcode opcode, string data)
-        {
+        internal MessageEventArgs(Opcode opcode, string data) {
             Opcode = opcode;
             _data = data;
         }
@@ -36,10 +32,8 @@ namespace UnityWebSocket
         /// text and if decoding it to a string has successfully done;
         /// otherwise, <see langword="null"/>.
         /// </value>
-        public string Data
-        {
-            get
-            {
+        public string Data {
+            get {
                 SetData();
                 return _data;
             }
@@ -51,10 +45,8 @@ namespace UnityWebSocket
         /// <value>
         /// An array of <see cref="byte"/> that represents the message data.
         /// </value>
-        public byte[] RawData
-        {
-            get
-            {
+        public byte[] RawData {
+            get {
                 SetRawData();
                 return _rawData;
             }
@@ -66,10 +58,8 @@ namespace UnityWebSocket
         /// <value>
         /// <c>true</c> if the message type is binary; otherwise, <c>false</c>.
         /// </value>
-        public bool IsBinary
-        {
-            get
-            {
+        public bool IsBinary {
+            get {
                 return Opcode == Opcode.Binary;
             }
         }
@@ -80,32 +70,26 @@ namespace UnityWebSocket
         /// <value>
         /// <c>true</c> if the message type is text; otherwise, <c>false</c>.
         /// </value>
-        public bool IsText
-        {
-            get
-            {
+        public bool IsText {
+            get {
                 return Opcode == Opcode.Text;
             }
         }
 
-        private void SetData()
-        {
+        private void SetData() {
             if (_data != null) return;
 
-            if (RawData == null)
-            {
+            if (RawData == null) {
                 return;
             }
 
             _data = Encoding.UTF8.GetString(RawData);
         }
 
-        private void SetRawData()
-        {
+        private void SetRawData() {
             if (_rawData != null) return;
 
-            if (_data == null)
-            {
+            if (_data == null) {
                 return;
             }
 

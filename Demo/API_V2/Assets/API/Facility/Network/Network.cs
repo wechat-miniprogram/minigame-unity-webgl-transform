@@ -3,37 +3,32 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class Network : Details
-{
+public class Network : Details {
 
     private bool _isListening = false;
 
     private readonly Action<OnNetworkWeakChangeListenerResult> _onNetworkWeakChange = (res) => {
         var result = "onNetworkWeakChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnNetworkStatusChangeListenerResult> _onNetworkStatusChange = (res) => {
         var result = "onNetworkStatusChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
 
-    private void Start()
-    {
+    private void Start() {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, getNetworkType);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, getLocalIPAddress);
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         if (!_isListening) {
             WX.OnNetworkWeakChange(_onNetworkWeakChange);
             WX.OnNetworkStatusChange(_onNetworkStatusChange);
@@ -46,11 +41,9 @@ public class Network : Details
     }
 
     public void getNetworkType() {
-        WX.GetNetworkType(new GetNetworkTypeOption
-        {
+        WX.GetNetworkType(new GetNetworkTypeOption {
             success = (res) => {
-                WX.ShowModal(new ShowModalOption()
-                {
+                WX.ShowModal(new ShowModalOption() {
                     content = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -64,11 +57,9 @@ public class Network : Details
     }
 
     public void getLocalIPAddress() {
-        WX.GetLocalIPAddress(new GetLocalIPAddressOption
-        {
+        WX.GetLocalIPAddress(new GetLocalIPAddressOption {
             success = (res) => {
-                WX.ShowModal(new ShowModalOption()
-                {
+                WX.ShowModal(new ShowModalOption() {
                     content = "Access Success, Result: " + JsonMapper.ToJson(res)
                 });
             },
@@ -86,4 +77,3 @@ public class Network : Details
         WX.OffNetworkStatusChange(_onNetworkStatusChange);
     }
 }
-

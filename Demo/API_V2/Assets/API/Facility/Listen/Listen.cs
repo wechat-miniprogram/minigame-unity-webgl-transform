@@ -4,8 +4,7 @@ using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
-public class Listen : Details
-{
+public class Listen : Details {
 
     private bool _isListeningAccelerometer = false;
     private bool _isListeningCompass = false;
@@ -15,46 +14,40 @@ public class Listen : Details
 
     private readonly Action<OnAccelerometerChangeListenerResult> _onAccelerometerChange = (res) => {
         var result = "onAccelerometerChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnCompassChangeListenerResult> _onCompassChange = (res) => {
         var result = "onCompassChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnDeviceMotionChangeListenerResult> _onDeviceMotionChange = (res) => {
         var result = "onDeviceMotionChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnDeviceOrientationChangeListenerResult> _onDeviceOrientationChange = (res) => {
         var result = "onDeviceOrientationChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnGyroscopeChangeListenerResult> _onGyroscopeChange = (res) => {
         var result = "onGyroscopeChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
-    private void Start()
-    {
+    private void Start() {
         // 监听转屏事件
         WX.OnDeviceOrientationChange(_onDeviceOrientationChange);
 
@@ -65,19 +58,16 @@ public class Listen : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         Accelerometer();
     }
 
     public void Accelerometer() {
         if (!_isListeningAccelerometer) {
-            WX.StartAccelerometer(new StartAccelerometerOption
-            {
+            WX.StartAccelerometer(new StartAccelerometerOption {
                 interval = "normal",
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -90,11 +80,9 @@ public class Listen : Details
             });
             WX.OnAccelerometerChange(_onAccelerometerChange);
         } else {
-            WX.StopAccelerometer(new StopAccelerometerOption
-            {
+            WX.StopAccelerometer(new StopAccelerometerOption {
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -113,11 +101,9 @@ public class Listen : Details
 
     public void Compass() {
         if (!_isListeningCompass) {
-            WX.StartCompass(new StartCompassOption
-            {
+            WX.StartCompass(new StartCompassOption {
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -130,11 +116,9 @@ public class Listen : Details
             });
             WX.OnCompassChange(_onCompassChange);
         } else {
-            WX.StopCompass(new StopCompassOption
-            {
+            WX.StopCompass(new StopCompassOption {
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -153,12 +137,10 @@ public class Listen : Details
 
     public void DeviceMotion() {
         if (!_isListeningDeviceMotion) {
-            WX.StartDeviceMotionListening(new StartDeviceMotionListeningOption
-            {
+            WX.StartDeviceMotionListening(new StartDeviceMotionListeningOption {
                 interval = "normal",
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -171,11 +153,9 @@ public class Listen : Details
             });
             WX.OnDeviceMotionChange(_onDeviceMotionChange);
         } else {
-            WX.StopDeviceMotionListening(new StopDeviceMotionListeningOption
-            {
+            WX.StopDeviceMotionListening(new StopDeviceMotionListeningOption {
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -193,8 +173,7 @@ public class Listen : Details
     }
 
     public void DeviceOrientation() {
-        WX.SetDeviceOrientation(new SetDeviceOrientationOption
-        {
+        WX.SetDeviceOrientation(new SetDeviceOrientationOption {
             value = !_isPortrait ? "portrait" : "landscape",
             success = (res) => {
                 Debug.Log("success");
@@ -211,12 +190,10 @@ public class Listen : Details
 
     public void Gyroscope() {
         if (!_isListeningGyroscope) {
-            WX.StartGyroscope(new StartGyroscopeOption
-            {
+            WX.StartGyroscope(new StartGyroscopeOption {
                 interval = "normal",
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -229,11 +206,9 @@ public class Listen : Details
             });
             WX.OnGyroscopeChange(_onGyroscopeChange);
         } else {
-            WX.StopGyroscope(new StopGyroscopeOption
-            {
+            WX.StopGyroscope(new StopGyroscopeOption {
                 success = (res) => {
-                    WX.ShowToast(new ShowToastOption()
-                    {
+                    WX.ShowToast(new ShowToastOption() {
                         title = "Access Success, Result: " + JsonMapper.ToJson(res)
                     });
                 },
@@ -258,4 +233,3 @@ public class Listen : Details
         WX.OffGyroscopeChange(_onGyroscopeChange);
     }
 }
-

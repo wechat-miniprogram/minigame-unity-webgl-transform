@@ -3,35 +3,30 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class Beacon : Details
-{
+public class Beacon : Details {
 
     private bool _isListening = false;
 
     private readonly Action<OnBeaconUpdateListenerResult> _onBeaconUpdate = (res) => {
         var result = "onBeaconUpdate\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnBeaconServiceChangeListenerResult> _onBeaconServiceChange = (res) => {
         var result = "onBeaconServiceChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
-    private void Start()
-    {
+    private void Start() {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, getBeacons);
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         if (!_isListening) {
             startBeaconDiscovery();
             WX.OnBeaconUpdate(_onBeaconUpdate);
@@ -47,9 +42,8 @@ public class Beacon : Details
 
     public void startBeaconDiscovery() {
         //需要更改uuids才能监测到蓝牙-信标
-        WX.StartBeaconDiscovery(new StartBeaconDiscoveryOption
-        {
-            uuids = new string[] {"xxxxxxxxxx"},
+        WX.StartBeaconDiscovery(new StartBeaconDiscoveryOption {
+            uuids = new string[] { "xxxxxxxxxx" },
             success = (res) => {
                 Debug.Log(JsonUtility.ToJson(res));
             },
@@ -63,8 +57,7 @@ public class Beacon : Details
     }
 
     public void stopBeaconDiscovery() {
-        WX.StopBeaconDiscovery(new StopBeaconDiscoveryOption
-        {
+        WX.StopBeaconDiscovery(new StopBeaconDiscoveryOption {
             success = (res) => {
                 Debug.Log(JsonUtility.ToJson(res));
             },
@@ -78,8 +71,7 @@ public class Beacon : Details
     }
 
     public void getBeacons() {
-        WX.GetBeacons(new GetBeaconsOption
-        {
+        WX.GetBeacons(new GetBeaconsOption {
             success = (res) => {
                 Debug.Log(JsonUtility.ToJson(res));
             },
@@ -98,4 +90,3 @@ public class Beacon : Details
         WX.OffBeaconServiceChange(_onBeaconServiceChange);
     }
 }
-

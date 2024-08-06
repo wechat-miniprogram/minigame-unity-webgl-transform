@@ -2,29 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UnityWebSocket
-{
+namespace UnityWebSocket {
     [DefaultExecutionOrder(-10000)]
-    internal class WebSocketManager : MonoBehaviour
-    {
+    internal class WebSocketManager : MonoBehaviour {
         private const string rootName = "[UnityWebSocket]";
         private static WebSocketManager _instance;
-        public static WebSocketManager Instance
-        {
-            get
-            {
+        public static WebSocketManager Instance {
+            get {
                 if (!_instance) CreateInstance();
                 return _instance;
             }
         }
 
-        private void Awake()
-        {
+        private void Awake() {
             DontDestroyOnLoad(gameObject);
         }
 
-        public static void CreateInstance()
-        {
+        public static void CreateInstance() {
             GameObject go = GameObject.Find("/" + rootName);
             if (!go) go = new GameObject(rootName);
             _instance = go.GetComponent<WebSocketManager>();
@@ -33,23 +27,19 @@ namespace UnityWebSocket
 
         private readonly List<WebSocket> sockets = new List<WebSocket>();
 
-        public void Add(WebSocket socket)
-        {
+        public void Add(WebSocket socket) {
             if (!sockets.Contains(socket))
                 sockets.Add(socket);
         }
 
-        public void Remove(WebSocket socket)
-        {
+        public void Remove(WebSocket socket) {
             if (sockets.Contains(socket))
                 sockets.Remove(socket);
         }
 
-        private void Update()
-        {
+        private void Update() {
             if (sockets.Count <= 0) return;
-            for (int i = sockets.Count - 1; i >= 0; i--)
-            {
+            for (int i = sockets.Count - 1; i >= 0; i--) {
                 sockets[i].Update();
             }
         }

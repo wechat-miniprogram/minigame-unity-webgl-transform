@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class Navigate : Details
-{
-    private void Start()
-    {
+public class Navigate : Details {
+    private void Start() {
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, navigateToMiniProgram);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, exitMiniProgram);
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         restartMiniProgram();
     }
 
     public void restartMiniProgram() {
-        WX.RestartMiniProgram(new RestartMiniProgramOption{});
+        WX.RestartMiniProgram(new RestartMiniProgramOption { });
     }
 
     public void navigateToMiniProgram() {
@@ -33,7 +30,7 @@ public class Navigate : Details
             envVersion = "develop",
             success = (res) => {
                 Debug.Log("success: " + JsonUtility.ToJson(res));
-            }, 
+            },
             fail = (res) => {
                 Debug.Log("fail: " + JsonUtility.ToJson(res));
             },
@@ -44,6 +41,6 @@ public class Navigate : Details
     }
 
     public void exitMiniProgram() {
-        WX.ExitMiniProgram(new ExitMiniProgramOption{});
+        WX.ExitMiniProgram(new ExitMiniProgramOption { });
     }
 }

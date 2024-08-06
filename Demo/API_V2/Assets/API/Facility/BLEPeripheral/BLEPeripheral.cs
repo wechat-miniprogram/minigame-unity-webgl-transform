@@ -3,56 +3,48 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-public class BLEPeripheral : Details
-{
+public class BLEPeripheral : Details {
 
     private bool _isListening = false;
     private BLEPeripheralServer _server;
 
     private readonly Action<OnBLEPeripheralConnectionStateChangedListenerResult> _onBLEPeripheralConnectionStateChanged = (res) => {
         var result = "onBLEPeripheralConnectionStateChanged\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnCharacteristicReadRequestListenerResult> _onCharacteristicReadRequest = (res) => {
         var result = "onCharacteristicReadRequest\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnCharacteristicSubscribedListenerResult> _onCharacteristicSubscribed = (res) => {
         var result = "onCharacteristicSubscribed\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnCharacteristicSubscribedListenerResult> _onCharacteristicUnsubscribed = (res) => {
         var result = "onCharacteristicUnsubscribed\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<OnCharacteristicWriteRequestListenerResult> _onCharacteristicWriteRequest = (res) => {
         var result = "onCharacteristicWriteRequest\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
-    private void Start()
-    {
-        WX.CreateBLEPeripheralServer(new CreateBLEPeripheralServerOption 
-        {
+    private void Start() {
+        WX.CreateBLEPeripheralServer(new CreateBLEPeripheralServerOption {
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
                 _server = res.server;
@@ -76,8 +68,7 @@ public class BLEPeripheral : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
+    protected override void TestAPI(string[] args) {
         addService();
     }
 
@@ -102,7 +93,7 @@ public class BLEPeripheral : Details
         var descriptors1 = new Descriptor {
             uuid = "zz",
             permission = descriptorpermission1,
-            value = new byte[] {1, 2, 3}
+            value = new byte[] { 1, 2, 3 }
         };
 
         var characteristics1 = new Characteristic {
@@ -112,13 +103,12 @@ public class BLEPeripheral : Details
             properties = properties1,
         };
 
-       var service1 = new BLEPeripheralService {
+        var service1 = new BLEPeripheralService {
             uuid = "xx",
             characteristics = new Characteristic[] { characteristics1 }
-       };
+        };
 
-       _server.addService(new AddServiceOption 
-       {
+        _server.addService(new AddServiceOption {
             service = service1,
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
@@ -129,12 +119,11 @@ public class BLEPeripheral : Details
             complete = (res) => {
                 Debug.Log("complete");
             }
-       });
+        });
     }
 
     public void removeService() {
-        _server.removeService(new RemoveServiceOption 
-        {
+        _server.removeService(new RemoveServiceOption {
             serviceId = "xx",
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
@@ -158,7 +147,7 @@ public class BLEPeripheral : Details
 
         var manufacturerData1 = new ManufacturerData {
             manufacturerId = "0x1111",
-            manufacturerSpecificData = new byte[] {1, 2, 3}
+            manufacturerSpecificData = new byte[] { 1, 2, 3 }
         };
 
         var advertiseRequest1 = new AdvertiseReqObj {
@@ -166,11 +155,10 @@ public class BLEPeripheral : Details
             connectable = true,
             deviceName = "x",
             manufacturerData = new ManufacturerData[] { manufacturerData1 },
-            serviceUuids = new string[] {"xx", "yy", "aa"}
+            serviceUuids = new string[] { "xx", "yy", "aa" }
         };
 
-        _server.startAdvertising(new StartAdvertisingObject 
-        {
+        _server.startAdvertising(new StartAdvertisingObject {
             advertiseRequest = advertiseRequest1,
             powerLevel = "medium",
             success = (res) => {
@@ -186,8 +174,7 @@ public class BLEPeripheral : Details
     }
 
     public void stopAdvertising() {
-        _server.stopAdvertising(new StopAdvertisingOption 
-        {
+        _server.stopAdvertising(new StopAdvertisingOption {
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
             },
@@ -201,12 +188,11 @@ public class BLEPeripheral : Details
     }
 
     public void writeCharacteristicValue() {
-        _server.writeCharacteristicValue(new WriteCharacteristicValueObject 
-        {
+        _server.writeCharacteristicValue(new WriteCharacteristicValueObject {
             characteristicId = "xx",
             needNotify = true,
             serviceId = "yy",
-            value = new byte[] {1, 2, 3},
+            value = new byte[] { 1, 2, 3 },
             callbackId = 100,
             success = (res) => {
                 Debug.Log("success " + JsonMapper.ToJson(res));
@@ -245,4 +231,3 @@ public class BLEPeripheral : Details
         _server = null;
     }
 }
-

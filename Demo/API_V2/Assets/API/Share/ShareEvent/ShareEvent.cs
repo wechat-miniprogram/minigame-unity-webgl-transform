@@ -4,14 +4,12 @@ using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
-public class ShareEvent : Details
-{
+public class ShareEvent : Details {
 
     private bool _isListeningShareTimeline = false;
 
     private readonly Action<Action<OnShareTimelineListenerResult>> _onShareTimelineCallback = (callback) => {
-        callback(new OnShareTimelineListenerResult 
-        {
+        callback(new OnShareTimelineListenerResult {
             imageUrl = "xxx",
             imagePreviewUrl = "yy",
             imagePreviewUrlId = "xx",
@@ -24,15 +22,13 @@ public class ShareEvent : Details
 
     private readonly Action<OnShareMessageToFriendListenerResult> _onShareMessageToFriend = (res) => {
         var result = "onShareMessageToFriend\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
+        GameManager.Instance.detailsController.AddResult(new ResultData() {
             initialContentText = result
         });
     };
 
     private readonly Action<Action<WXShareAppMessageParam>> _onShareAppMessageCallback = (callback) => {
-        callback(new WXShareAppMessageParam 
-        {
+        callback(new WXShareAppMessageParam {
             title = "转发标题",
             imageUrl = "xx",
             query = "key1=val1&key2=val2"
@@ -40,8 +36,7 @@ public class ShareEvent : Details
     };
 
 
-    private void Start()
-    {
+    private void Start() {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, showShareMenu);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, hideShareMenu);
         GameManager.Instance.detailsController.BindExtraButtonAction(2, showShareImageMenu);
@@ -53,9 +48,8 @@ public class ShareEvent : Details
     }
 
     // 测试 API
-    protected override void TestAPI(string[] args)
-    {
-       updateShareMenu();
+    protected override void TestAPI(string[] args) {
+        updateShareMenu();
     }
 
     public void updateShareMenu() {
@@ -70,18 +64,16 @@ public class ShareEvent : Details
                 }
         };
 
-        var info = new UpdatableMessageFrontEndTemplateInfo{
+        var info = new UpdatableMessageFrontEndTemplateInfo {
             parameterList = parameter
         };
 
-        WX.UpdateShareMenu(new UpdateShareMenuOption
-        {
+        WX.UpdateShareMenu(new UpdateShareMenuOption {
             isPrivateMessage = true,
             activityId = "xxx",
             templateInfo = info,
             success = (res) => {
-                WX.ShowToast(new ShowToastOption 
-                {
+                WX.ShowToast(new ShowToastOption {
                     title = "设置成功"
                 });
             },
@@ -95,12 +87,11 @@ public class ShareEvent : Details
     }
 
     public void showShareMenu() {
-        WX.ShowShareMenu(new ShowShareMenuOption 
-        {
+        WX.ShowShareMenu(new ShowShareMenuOption {
             withShareTicket = true,
-            menus = new string[] {"shareAppMessage", "shareTimeline"},
+            menus = new string[] { "shareAppMessage", "shareTimeline" },
             success = (res) => {
-               Debug.Log("success");
+                Debug.Log("success");
             },
             fail = (res) => {
                 Debug.Log("fail" + res.errMsg);
@@ -112,11 +103,10 @@ public class ShareEvent : Details
     }
 
     public void hideShareMenu() {
-        WX.HideShareMenu(new HideShareMenuOption 
-        {
-            menus = new string[] {"shareAppMessage", "shareTimeline"},
+        WX.HideShareMenu(new HideShareMenuOption {
+            menus = new string[] { "shareAppMessage", "shareTimeline" },
             success = (res) => {
-               Debug.Log("success");
+                Debug.Log("success");
             },
             fail = (res) => {
                 Debug.Log("fail" + res.errMsg);
@@ -128,12 +118,10 @@ public class ShareEvent : Details
     }
 
     public void showShareImageMenu() {
-        WX.DownloadFile(new DownloadFileOption 
-        {
+        WX.DownloadFile(new DownloadFileOption {
             url = "xxxxx",
             success = (res) => {
-                WX.ShowShareImageMenu(new ShowShareImageMenuOption 
-                {
+                WX.ShowShareImageMenu(new ShowShareImageMenuOption {
                     path = res.tempFilePath,
                     style = "default",
                     success = (res) => {
@@ -151,22 +139,19 @@ public class ShareEvent : Details
     }
 
     public void setMessageToFriendQuery() {
-        var isSuccess = WX.SetMessageToFriendQuery(new SetMessageToFriendQueryOption 
-        {
+        var isSuccess = WX.SetMessageToFriendQuery(new SetMessageToFriendQueryOption {
             shareMessageToFriendScene = 1,
             query = "abcd"
         });
-         WX.ShowToast(new ShowToastOption 
-        {
-            title = isSuccess ? "true" : "false" 
+        WX.ShowToast(new ShowToastOption {
+            title = isSuccess ? "true" : "false"
         });
     }
 
     public void setHandoffQuery() {
         var isSuccess = WX.SetHandoffQuery("xxx");
-         WX.ShowToast(new ShowToastOption 
-        {
-            title = isSuccess ? "true" : "false" 
+        WX.ShowToast(new ShowToastOption {
+            title = isSuccess ? "true" : "false"
         });
     }
 
@@ -185,8 +170,7 @@ public class ShareEvent : Details
     }
 
     public void onShareAppMessage() {
-        var defaultParam = new WXShareAppMessageParam 
-        {
+        var defaultParam = new WXShareAppMessageParam {
             title = "转发标题",
             imageUrl = "xx",
             query = "key1=val1&key2=val2"
@@ -198,4 +182,3 @@ public class ShareEvent : Details
         WX.OffShareTimeline(_onShareTimelineCallback);
     }
 }
-
