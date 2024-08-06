@@ -30,7 +30,7 @@ public class Ranking : MonoBehaviour
     public GameObject RankMask;
     public GameObject RankingBox;
     private CanvasType selectedCanvasType;
-    private WXOpenDataContext openDataContext
+    private WXOpenDataContext openDataContext;
 
     void Start()
     {
@@ -64,14 +64,15 @@ public class Ranking : MonoBehaviour
 
             if (!string.IsNullOrEmpty(shareTicket) && query != null && query["minigame_action"] == "show_group_list")
             {
+                InitOpenDataContext();
+                ShowOpenData();
+
                 OpenDataMessage msgData = new OpenDataMessage();
                 msgData.type = "showGroupFriendsRank";
                 msgData.shareTicket = shareTicket;
 
                 string msg = JsonUtility.ToJson(msgData);
 
-                ShowOpenData();
-                InitOpenDataContext();
                 openDataContext.PostMessage(msg);
             }
         });
@@ -79,14 +80,13 @@ public class Ranking : MonoBehaviour
 
     void InitOpenDataContext()
     {
-        if (openDataContext)
+        if (openDataContext == null)
         {
-            return;
+            WXOpenDataContext openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
+            {
+                sharedCanvasMode = selectedCanvasType
+            });
         }
-        WXOpenDataContext openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
-        {
-            sharedCanvasMode = selectedCanvasType
-        });
     }
 
     void ShowOpenData()
@@ -152,13 +152,13 @@ public class Ranking : MonoBehaviour
 
         ShowButton.onClick.AddListener(() =>
         {
+            InitOpenDataContext();
             ShowOpenData();
 
             OpenDataMessage msgData = new OpenDataMessage();
             msgData.type = "showFriendsRank";
 
             string msg = JsonUtility.ToJson(msgData);
-            InitOpenDataContext();
             openDataContext.PostMessage(msg);
         });
 
