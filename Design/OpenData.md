@@ -20,7 +20,7 @@ Unity 里面要实现 sharedCanvas 的绘制，核心在于 hook Unity 的渲染
 
 **重点更新：**
 **我们在基础库3.5.5版本支持了 screenCanvas 类型的开放数据域**
-* 区别：SharedCanvas变成了在屏类型（screenCanvas），不再需要依赖游戏域循环刷新渲染
+* 区别：sharedCanvas 变成了在屏类型（screenCanvas），不再需要依赖游戏域循环刷新渲染
 * 好处：减少由于渲染离屏Canvas产生的干扰问题
 * 如何实现：
 ``` CSharp
@@ -51,7 +51,7 @@ void InitOpenDataContext()
   }
 }
 ```
-`CanvasType`有`OffScreenCanvas`和`ScreenCanvas`两种类型，`OffScreenCanvas`为旧版本，优先推进使用`ScreenCanvas`
+`CanvasType`有`OffScreenCanvas`和`ScreenCanvas`两种类型，`OffScreenCanvas`为旧版本，推荐使用`ScreenCanvas`
 
 #### 2.2 通过 PostMessage 向开放数据域传递消息
 
