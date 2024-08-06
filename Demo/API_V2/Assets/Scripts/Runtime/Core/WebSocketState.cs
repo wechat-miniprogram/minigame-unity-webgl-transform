@@ -1,4 +1,5 @@
-namespace UnityWebSocket {
+namespace UnityWebSocket
+{
     /// <summary>
     /// Reference html5 WebSocket ReadyState Properties
     /// Indicates the state of a WebSocket connection.
@@ -8,7 +9,8 @@ namespace UnityWebSocket {
     /// <see href="http://www.w3.org/TR/websockets/#dom-websocket-readystate">
     /// The WebSocket API</see>.
     /// </remarks>
-    public enum WebSocketState : ushort {
+    public enum WebSocketState : ushort
+    {
         /// <summary>
         /// Equivalent to numeric value 0. Indicates that the connection has not
         /// yet been established.

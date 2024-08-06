@@ -3,13 +3,16 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(APISO))]
-public class APISOEditor : Editor {
-    public override void OnInspectorGUI() {
+public class APISOEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
         base.OnInspectorGUI();
 
         var apiSO = (APISO)target;
 
-        if (GUILayout.Button("强制刷新")) {
+        if (GUILayout.Button("强制刷新"))
+        {
             APIAssetPostprocessor.UpdateAPISO(apiSO);
         }
     }

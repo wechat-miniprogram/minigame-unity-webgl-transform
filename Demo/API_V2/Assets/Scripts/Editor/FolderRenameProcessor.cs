@@ -3,10 +3,13 @@ using System;
 using UnityEditor;
 using System.IO;
 
-public class FolderRenameProcessor : AssetPostprocessor {
-    private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths) {
+public class FolderRenameProcessor : AssetPostprocessor
+{
+    private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+    {
         // 重命名文件夹下的脚本与SO
-        foreach (var movedAsset in movedAssets) {
+        foreach (var movedAsset in movedAssets)
+        {
             // 跳过非文件夹
             if (!AssetDatabase.IsValidFolder(movedAsset)) continue;
 
@@ -17,11 +20,13 @@ public class FolderRenameProcessor : AssetPostprocessor {
 
             var filePaths = Directory.GetFiles(movedAsset);
 
-            foreach (var filePath in filePaths) {
+            foreach (var filePath in filePaths)
+            {
                 var fileExtension = Path.GetExtension(filePath);
                 string newFileName;
 
-                switch (fileExtension) {
+                switch (fileExtension)
+                {
                     case ".cs":
                         newFileName = newFolderName + fileExtension;
                         break;
@@ -40,13 +45,15 @@ public class FolderRenameProcessor : AssetPostprocessor {
         }
     }
 
-    private static bool IsSubdirectory(string folderPath, string parentFolderPath) {
+    private static bool IsSubdirectory(string folderPath, string parentFolderPath)
+    {
         // 获取绝对路径
         var absoluteFolderPath = Path.GetFullPath(folderPath);
         var absoluteParentFolderPath = Path.GetFullPath(parentFolderPath);
 
         // 确保路径以目录分隔符结尾
-        if (!absoluteParentFolderPath.EndsWith(Path.DirectorySeparatorChar.ToString())) {
+        if (!absoluteParentFolderPath.EndsWith(Path.DirectorySeparatorChar.ToString()))
+        {
             absoluteParentFolderPath += Path.DirectorySeparatorChar;
         }
 

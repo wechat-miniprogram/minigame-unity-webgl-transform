@@ -1,7 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AbilitySO")]
-public class AbilitySO : ScriptableObject {
+public class AbilitySO : ScriptableObject
+{
     public string abilityName;
 
     public Sprite abilitySprite;

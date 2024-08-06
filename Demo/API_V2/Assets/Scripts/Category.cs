@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Category : MonoBehaviour {
+public class Category : MonoBehaviour
+{
     private RectTransform _contentRectTransform;
 
     [Header("Category Data")]
@@ -22,17 +23,20 @@ public class Category : MonoBehaviour {
     [Header("Button")]
     [SerializeField] private Button button;
 
-    private void Awake() {
+    private void Awake()
+    {
         // 获取父对象的 RectTransform 组件
         _contentRectTransform = transform.parent.GetComponent<RectTransform>();
     }
 
-    private void Start() {
+    private void Start()
+    {
         button.onClick.AddListener(OnClick);
     }
 
     // 初始化 Category，设置对应的 CategorySO 和条目
-    public void Init(CategorySO so) {
+    public void Init(CategorySO so)
+    {
         categorySO = so;
 
         gameObject.name = categorySO.categoryName;
@@ -40,19 +44,22 @@ public class Category : MonoBehaviour {
         categoryImage.sprite = categorySO.categorySprite;
 
         // 为每个条目实例化一个预制体并初始化
-        foreach (var entry in categorySO.entryList) {
+        foreach (var entry in categorySO.entryList)
+        {
             var entryObj = Instantiate(entryPrefab, entries.transform);
             entryObj.GetComponent<Entry>().Init(entry);
         }
     }
 
     // 设置颜色的透明度
-    private static Color SetColorWithAlpha(Color color, float alpha) {
+    private static Color SetColorWithAlpha(Color color, float alpha)
+    {
         return new Color(color.r, color.g, color.b, alpha);
     }
 
     // 点击事件处理
-    public void OnClick() {
+    public void OnClick()
+    {
         // 切换展开状态
         _isExpanded = !_isExpanded;
 

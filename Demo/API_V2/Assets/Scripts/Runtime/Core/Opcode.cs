@@ -1,4 +1,5 @@
-namespace UnityWebSocket {
+namespace UnityWebSocket
+{
     /// <summary>
     /// Indicates the WebSocket frame type.
     /// </summary>
@@ -7,7 +8,8 @@ namespace UnityWebSocket {
     /// <see href="http://tools.ietf.org/html/rfc6455#section-5.2">
     /// Section 5.2</see> of RFC 6455.
     /// </remarks>
-    public enum Opcode : byte {
+    public enum Opcode : byte
+    {
         /// <summary>
         /// Equivalent to numeric value 1. Indicates text frame.
         /// </summary>

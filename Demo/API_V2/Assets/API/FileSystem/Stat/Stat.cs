@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using WeChatWASM;
 
-public class Stat : Details {
+public class Stat : Details
+{
     private WXFileSystemManager _fileSystemManager;
 
     // 路径
@@ -15,35 +16,43 @@ public class Stat : Details {
     private static readonly string Path9 = PathPrefix + "/dir/Nine.txt";
 
     // 失败回调
-    private Action<WXStatResponse> onFail = (res) => {
-        WX.ShowModal(new ShowModalOption() {
+    private Action<WXStatResponse> onFail = (res) =>
+    {
+        WX.ShowModal(new ShowModalOption()
+        {
             content = "Stat Fail"
         });
     };
 
-    private void Start() {
+    private void Start()
+    {
         // 获取全局唯一的文件管理器
         _fileSystemManager = WX.GetFileSystemManager();
 
         // 检查并创建目录
-        if (_fileSystemManager.AccessSync(DirPath) != "access:ok") {
+        if (_fileSystemManager.AccessSync(DirPath) != "access:ok")
+        {
             _fileSystemManager.MkdirSync(DirPath, true);
         }
 
         // 创建文件
-        _fileSystemManager.OpenSync(new OpenSyncOption() {
+        _fileSystemManager.OpenSync(new OpenSyncOption()
+        {
             filePath = Path5,
             flag = "w+"
         });
-        _fileSystemManager.OpenSync(new OpenSyncOption() {
+        _fileSystemManager.OpenSync(new OpenSyncOption()
+        {
             filePath = Path6,
             flag = "w+"
         });
-        _fileSystemManager.OpenSync(new OpenSyncOption() {
+        _fileSystemManager.OpenSync(new OpenSyncOption()
+        {
             filePath = Path8,
             flag = "w+"
         });
-        _fileSystemManager.OpenSync(new OpenSyncOption() {
+        _fileSystemManager.OpenSync(new OpenSyncOption()
+        {
             filePath = Path9,
             flag = "w+"
         });
@@ -56,50 +65,70 @@ public class Stat : Details {
     }
 
     // 获取文件状态
-    protected override void TestAPI(string[] args) {
-        if (args[0] == "同步执行") {
+    protected override void TestAPI(string[] args)
+    {
+        if (args[0] == "同步执行")
+        {
             RunSync(args[1]);
-        } else {
+        }
+        else
+        {
             RunAsync(args[1], args[2]);
         }
     }
 
     // 同步获取文件状态
-    private void RunSync(string path) {
+    private void RunSync(string path)
+    {
         var fileStats = _fileSystemManager.StatSync(PathPrefix + path);
 
         UpdateResults(fileStats);
-        WX.ShowToast(new ShowToastOption() {
+        WX.ShowToast(new ShowToastOption()
+        {
             title = "StatSync Success"
         });
     }
 
     // 异步获取文件状态
-    private void RunAsync(string path, string recursive) {
-        if (recursive == "null") {
-            _fileSystemManager.Stat(new WXStatOption() {
+    private void RunAsync(string path, string recursive)
+    {
+        if (recursive == "null")
+        {
+            _fileSystemManager.Stat(new WXStatOption()
+            {
                 path = PathPrefix + path,
-                success = (res) => {
+                success = (res) =>
+                {
                     UpdateResults(res.stats.ToArray());
-                    WX.ShowToast(new ShowToastOption() {
+                    WX.ShowToast(new ShowToastOption()
+                    {
                         title = "Stat Success"
                     });
                 },
                 fail = onFail
             });
-        } else {
-            _fileSystemManager.Stat(new WXStatOption() {
+        }
+        else
+        {
+            _fileSystemManager.Stat(new WXStatOption()
+            {
                 path = PathPrefix + path,
                 recursive = recursive == "true",
-                success = (res) => {
-                    if (recursive == "true") {
+                success = (res) =>
+                {
+                    if (recursive == "true")
+                    {
                         UpdateResults(res.stats.ToArray());
-                        WX.ShowToast(new ShowToastOption() {
+                        WX.ShowToast(new ShowToastOption()
+                        {
                             title = "Stat Success"
                         });
-                    } else {
+                    }
+                    else
+                    {
                         UpdateResults(res.one_stat);
-                        WX.ShowToast(new ShowToastOption() {
+                        WX.ShowToast(new ShowToastOption()
+                        {
                             title = "Stat Success"
                         });
                     }
@@ -111,16 +140,20 @@ public class Stat : Details {
     }
 
     // 清除结果
-    private void ClearResults() {
+    private void ClearResults()
+    {
         GameManager.Instance.detailsController.KeepFirstNResults(5);
     }
 
     // 更新结果
-    private void UpdateResults(WXStat[] fileStats) {
+    private void UpdateResults(WXStat[] fileStats)
+    {
         ClearResults();
 
-        foreach (var fileStat in fileStats) {
-            GameManager.Instance.detailsController.AddResult(new ResultData() {
+        foreach (var fileStat in fileStats)
+        {
+            GameManager.Instance.detailsController.AddResult(new ResultData()
+            {
                 initialContentText = "文件路径：" + fileStat.path
                                                     + "\n文件的类型和存取的权限：" + fileStat.stats.mode
                                                     + "\n文件大小，单位：B：" + fileStat.stats.size
@@ -131,10 +164,12 @@ public class Stat : Details {
     }
 
     // 更新结果
-    private void UpdateResults(WXStatInfo stats) {
+    private void UpdateResults(WXStatInfo stats)
+    {
         ClearResults();
 
-        GameManager.Instance.detailsController.AddResult(new ResultData() {
+        GameManager.Instance.detailsController.AddResult(new ResultData()
+        {
             initialContentText = "文件的类型和存取的权限：" + stats.mode
                                                 + "\n文件大小，单位：B：" + stats.size
                                                 + "\n文件最近一次被存取或被执行的时间：" + stats.lastAccessedTime

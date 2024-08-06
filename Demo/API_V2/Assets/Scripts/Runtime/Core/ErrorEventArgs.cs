@@ -1,6 +1,7 @@
 using System;
 
-namespace UnityWebSocket {
+namespace UnityWebSocket
+{
     /// <summary>
     /// Represents the event data for the <see cref="IWebSocket.OnError"/> event.
     /// </summary>
@@ -17,14 +18,17 @@ namespace UnityWebSocket {
     ///   the <see cref="Exception"/> property.
     ///   </para>
     /// </remarks>
-    public class ErrorEventArgs : EventArgs {
+    public class ErrorEventArgs : EventArgs
+    {
         #region Internal Constructors
 
         internal ErrorEventArgs(string message)
-          : this(message, null) {
+          : this(message, null)
+        {
         }
 
-        internal ErrorEventArgs(string message, Exception exception) {
+        internal ErrorEventArgs(string message, Exception exception)
+        {
             this.Message = message;
             this.Exception = exception;
         }

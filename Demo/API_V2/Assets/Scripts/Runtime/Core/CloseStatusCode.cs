@@ -1,4 +1,5 @@
-namespace UnityWebSocket {
+namespace UnityWebSocket
+{
     /// <summary>
     /// Indicates the status code for the WebSocket connection close.
     /// </summary>
@@ -13,7 +14,8 @@ namespace UnityWebSocket {
     ///   closing handshake by an endpoint.
     ///   </para>
     /// </remarks>
-    public enum CloseStatusCode : ushort {
+    public enum CloseStatusCode : ushort
+    {
         Unknown = 65534,
         /// <summary>
         /// Equivalent to close status 1000. Indicates normal close.
