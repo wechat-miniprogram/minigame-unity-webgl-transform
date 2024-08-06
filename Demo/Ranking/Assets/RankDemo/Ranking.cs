@@ -19,14 +19,17 @@ public class OpenDataMessage
 
 public class Ranking : MonoBehaviour
 {
+    public Dropdown CanvasDropdown;
+    public Button InitButton;
     public Button ShowButton;
     public Button ShareButton;
     public Button ReportButton;
-
-
+    public Button TestBeforeButton;
+    public Button TestAfterButton;
     public RawImage RankBody;
     public GameObject RankMask;
     public GameObject RankingBox;
+    private CanvasType selectedCanvasType;
 
     void Start()
     {
@@ -34,7 +37,6 @@ public class Ranking : MonoBehaviour
         {
             Init();
         });
-
 
         /**
          * 使用群排行功能需要特殊设置分享功能，详情可见链接
@@ -73,6 +75,14 @@ public class Ranking : MonoBehaviour
         });
     }
 
+    void InitOpenDataContext()
+    {
+        WX.GetOpenDataContext(new OpenDataContextOption
+        {
+            sharedCanvasMode = selectedCanvasType
+        });
+    }
+
     void ShowOpenData()
     {
         RankMask.SetActive(true);
@@ -96,8 +106,43 @@ public class Ranking : MonoBehaviour
         WX.ShowOpenData(RankBody.texture, (int)p.x, Screen.height - (int)p.y, (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width), (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height));
     }
 
+    private void TestToTempFilePath()
+    {
+        var info = WX.GetSystemInfoSync();
+        // Test ToTempFilePath
+        WXCanvas.ToTempFilePath(new WXToTempFilePathParam()
+        {
+                success = (result) =>
+                {
+                    Debug.Log("ToTempFilePath success:" + JsonUtility.ToJson(result));
+                    // Test PreviewImage
+                    WX.PreviewImage(new PreviewImageOption
+                    {
+                        urls = new string[] {result.tempFilePath},
+                        showmenu = true,
+                        success = (res) => 
+                        {
+                            Debug.Log("PreviewImage success:" + JsonUtility.ToJson(result));
+                        },
+                        fail = (res) =>
+                        {
+                            Debug.Log("PreviewImage fail:" + JsonUtility.ToJson(result));
+                        }
+                    });
+                },
+                fail = (result) =>
+                {
+                    Debug.Log("ToTempFilePath fail:" + JsonUtility.ToJson(result));
+                }
+        });
+    }
+
     void Init()
     {
+        CanvasDropdown.onValueChanged.AddListener((int selectedIndex) =>
+        {
+            selectedCanvasType = (CanvasType)selectedIndex;
+        });
 
         ShowButton.onClick.AddListener(() =>
         {
@@ -132,14 +177,16 @@ public class Ranking : MonoBehaviour
         {
             OpenDataMessage msgData = new OpenDataMessage();
             msgData.type = "setUserRecord";
-            msgData.score =  Random.Range(1, 1000);
-
+            msgData.score = Random.Range(1, 1000);
 
             string msg = JsonUtility.ToJson(msgData);
 
             Debug.Log(msg);
             WX.GetOpenDataContext().PostMessage(msg);
         });
-    }
 
+        InitButton.onClick.AddListener(InitOpenDataContext);
+        TestBeforeButton.onClick.AddListener(TestToTempFilePath);
+        TestAfterButton.onClick.AddListener(TestToTempFilePath);
+    }
 }

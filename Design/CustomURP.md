@@ -98,7 +98,7 @@
     - Light Probe 光照探头 (可以简化)
     - 材质 UnityPerMaterial 属性 (用不到的属性可以剔除掉)
     - Lightmap 光照贴图 (可以简化)
-    - Shader 优化 (多余的 Uniform 变量、半精度、简化计算等）
+    - Shader 优化 (多余的 Uniform 变量、半精度、简化计算等)
     - 简化阴影 Shadow Cascades (可以简化)
     - Light Cookie (根据项目需要，看是否去掉)
     - ScreenSpaceShadows、ScreenSpaceOcclusion (屏幕空间阴影、遮蔽，根据项目需要，看是否去掉)
