@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using UnityEngine;
 using WeChatWASM;
@@ -23,18 +23,11 @@ public class ReportEvent : Details
     // 事件上报
     private void Report(string stringdata, string intdata)
     {
-        EventData eventData = new EventData
-        {
-            data1 = stringdata,
-            data2 = int.Parse(intdata)
-        };
+        EventData eventData = new EventData { data1 = stringdata, data2 = int.Parse(intdata) };
 
         WX.ReportEvent("test", eventData);
 
         // 显示成功的提示
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "事件已上传，可以到we分析平台中查看"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "事件已上传，可以到we分析平台中查看" });
     }
 }

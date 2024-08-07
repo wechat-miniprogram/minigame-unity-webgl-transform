@@ -1,78 +1,74 @@
 ﻿namespace BuildReportTool
 {
-	/// <summary>
-	/// Per platform identification.
-	/// Needed to handle special cases.
-	/// Example: some platforms have a compressed build, some do not.
-	/// Also, native plugins are handled differently in each platform.
-	/// </summary>
-	public enum BuildPlatform
-	{
-		None = 0,
+    /// <summary>
+    /// Per platform identification.
+    /// Needed to handle special cases.
+    /// Example: some platforms have a compressed build, some do not.
+    /// Also, native plugins are handled differently in each platform.
+    /// </summary>
+    public enum BuildPlatform
+    {
+        None = 0,
 
-		// -------
-		// Mobiles
-		// -------
+        // -------
+        // Mobiles
+        // -------
 
-		Android = 1,
-		iOS,
-		Blackberry,
-		WindowsPhone8,
-		Tizen,
+        Android = 1,
+        iOS,
+        Blackberry,
+        WindowsPhone8,
+        Tizen,
 
+        // --------
+        // Web
+        // --------
 
-		// --------
-		// Web
-		// --------
+        Web = 100,
+        Flash,
+        WebGL, // upcoming
 
-		Web = 100,
-		Flash,
-		WebGL, // upcoming
+        // --------
+        // Desktops
+        // --------
 
+        // distinctions between 32 or 64 bit need to be made to
+        // determine which existing native plugins are used or not
 
-		// --------
-		// Desktops
-		// --------
+        MacOSX32 = 200,
+        MacOSX64,
+        MacOSXUniversal,
 
-		// distinctions between 32 or 64 bit need to be made to
-		// determine which existing native plugins are used or not
+        Windows32 = 300,
+        Windows64,
+        WindowsStoreApp,
 
-		MacOSX32 = 200,
-		MacOSX64,
-		MacOSXUniversal,
+        Linux32 = 400,
+        Linux64,
+        LinuxUniversal,
 
-		Windows32 = 300,
-		Windows64,
-		WindowsStoreApp,
+        // ------
+        // Consoles (7th gen)
+        // ------
 
-		Linux32 = 400,
-		Linux64,
-		LinuxUniversal,
+        // currently not handled in any special way (probably needs to be):
+        XBOX360 = 500,
+        PS3,
+        Wii, // for posterity
 
+        // ------
+        // Consoles (8th gen)
+        // ------
 
-		// ------
-		// Consoles (7th gen)
-		// ------
+        XBOXOne = 600,
 
-		// currently not handled in any special way (probably needs to be):
-		XBOX360 = 500,
-		PS3,
-		Wii, // for posterity
+        PS4,
+        PSVitaNative,
+        PSMobile,
 
+        WiiU,
+        Nintendo3DS,
 
-		// ------
-		// Consoles (8th gen)
-		// ------
-
-		XBOXOne = 600,
-
-		PS4,
-		PSVitaNative,
-		PSMobile,
-
-		WiiU,
-		Nintendo3DS,
-
-		Switch,
-	}
+        Switch,
+    }
 }

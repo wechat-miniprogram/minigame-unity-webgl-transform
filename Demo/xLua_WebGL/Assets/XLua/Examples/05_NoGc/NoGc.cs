@@ -6,8 +6,8 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
-using UnityEngine;
 using System;
+using UnityEngine;
 using XLua;
 
 namespace XLuaTest
@@ -30,6 +30,7 @@ namespace XLuaTest
             c = p2;
             e.c = (byte)p1;
         }
+
         public int a;
         public int b;
         public decimal c;
@@ -85,12 +86,16 @@ namespace XLuaTest
 
         [NonSerialized]
         public double[] a1 = new double[] { 1, 2 };
+
         [NonSerialized]
         public Vector3[] a2 = new Vector3[] { new Vector3(1, 2, 3), new Vector3(4, 5, 6) };
+
         [NonSerialized]
         public MyStruct[] a3 = new MyStruct[] { new MyStruct(1, 2), new MyStruct(3, 4) };
+
         [NonSerialized]
         public MyEnum[] a4 = new MyEnum[] { MyEnum.E1, MyEnum.E2 };
+
         [NonSerialized]
         public decimal[] a5 = new decimal[] { 1.00001M, 2.00002M };
 
@@ -122,7 +127,8 @@ namespace XLuaTest
         // Use this for initialization
         void Start()
         {
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
                 function id(...)
                     return ...
                 end
@@ -158,7 +164,8 @@ namespace XLuaTest
 
                 A = { B = { C = 789}}
                 GDATA = 1234;
-            ");
+            "
+            );
 
             luaenv.Global.Set("monoBehaviour", this);
 
@@ -181,7 +188,6 @@ namespace XLuaTest
             luaenv.Global.Get(123, out i);
             Debug.Log("123:" + i);
         }
-
 
         // Update is called once per frame
         void Update()
@@ -235,7 +241,7 @@ namespace XLuaTest
 
         void OnDestroy()
         {
-            f1 =  null;
+            f1 = null;
             f2 = null;
             f3 = null;
             f4 = null;

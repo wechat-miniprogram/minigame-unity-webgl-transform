@@ -1,24 +1,24 @@
 ﻿using System;
-using System.Xml;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using UnityEngine;
-using UnityEditor;
 using System.Reflection;
-using UnityEditorInternal;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Xml;
+using UnityEditor;
+using UnityEditorInternal;
+using UnityEngine;
 
 public class InjectionBlackListGenerator : EditorWindow
 {
-    public static string blackListFilePath = CustomSettings.injectionFilesPath + "InjectionBlackList.txt";
+    public static string blackListFilePath =
+        CustomSettings.injectionFilesPath + "InjectionBlackList.txt";
     public static Action onBlackListGenerated;
 
     static string pathsInfoSavedPath;
-    static HashSet<string> specifiedDropType = new HashSet<string>
-    {
-    };
-    const string nestRegex = @"     (?<=
+    static HashSet<string> specifiedDropType = new HashSet<string> { };
+    const string nestRegex =
+        @"     (?<=
                                         (?<!/{2,}.*)                #Ignore Comment
                                     )
                                     (
@@ -30,18 +30,26 @@ public class InjectionBlackListGenerator : EditorWindow
                                         |
                                         (?<=namespace\s+)           #Capture namespace name
                                         ((\b(\w+)\b\.?){1,})
-                                    )";/// match class or struct
-    const string namespaceRegex = @"(?<=
+                                    )";
+
+    /// match class or struct
+    const string namespaceRegex =
+        @"(?<=
                                         (?<=
                                             (?<!/{2,}.*)            #Ignore Comment
                                         )
                                         namespace\s+
-                                    )";/// match namespace Name
+                                    )";
+
+    /// match namespace Name
     List<string> paths;
     ReorderableList pathUIList;
     Vector2 scrollPosition = Vector2.zero;
     HashSet<string> blackList = new HashSet<string>();
-    Dictionary<string, System.Action<HashSet<string>, string>> assetExtentions = new Dictionary<string, System.Action<HashSet<string>, string>>
+    Dictionary<string, System.Action<HashSet<string>, string>> assetExtentions = new Dictionary<
+        string,
+        System.Action<HashSet<string>, string>
+    >
     {
         { "*.cs", SearchTypeInCSFile },
         { "*.dll", SearchTypeInAssembly },
@@ -190,17 +198,26 @@ public class InjectionBlackListGenerator : EditorWindow
         {
             foreach (var extention in assetExtentions)
             {
-                var files = from fileName in Directory.GetFiles(path, extention.Key, SearchOption.AllDirectories)
-                            let validFullFileName = fileName.Replace("\\", "/")
-                            let bEditorScriptFile = validFullFileName.Contains("/Editor/")
-                            //let bToluaGeneratedFile = validFullFileName.Contains("/GenerateWrapFiles/")
-                            where !bEditorScriptFile /*&& !bToluaGeneratedFile*/
-                            select validFullFileName;
+                var files =
+                    from fileName in Directory.GetFiles(
+                        path,
+                        extention.Key,
+                        SearchOption.AllDirectories
+                    )
+                    let validFullFileName = fileName.Replace("\\", "/")
+                    let bEditorScriptFile = validFullFileName.Contains("/Editor/")
+                    //let bToluaGeneratedFile = validFullFileName.Contains("/GenerateWrapFiles/")
+                    where !bEditorScriptFile /*&& !bToluaGeneratedFile*/
+                    select validFullFileName;
 
                 int index = 0;
                 foreach (var fileFullPath in files)
                 {
-                    EditorUtility.DisplayProgressBar("Searching", fileFullPath, (float)index / files.Count());
+                    EditorUtility.DisplayProgressBar(
+                        "Searching",
+                        fileFullPath,
+                        (float)index / files.Count()
+                    );
                     extention.Value(blackList, fileFullPath);
                     ++index;
                 }
@@ -244,11 +261,18 @@ public class InjectionBlackListGenerator : EditorWindow
             }
 
             lastTypeMatchedIndex = nestIndexStack.Count > 0 ? nestIndexStack.Peek() : 0;
-            string matchSubString = fileContent.Substring(lastTypeMatchedIndex, matchResult.Index - lastTypeMatchedIndex);
+            string matchSubString = fileContent.Substring(
+                lastTypeMatchedIndex,
+                matchResult.Index - lastTypeMatchedIndex
+            );
             var beginBraceMatchResult = Regex.Matches(matchSubString, "(?<!/{2,}.*){");
             var endBraceMatchResult = Regex.Matches(matchSubString, "(?<!/{2,}.*)}");
             int compareTag = beginBraceMatchResult.Count - endBraceMatchResult.Count;
-            bool bNamespaceMatched = Regex.IsMatch(matchSubString, namespaceRegex, RegexOptions.IgnorePatternWhitespace);
+            bool bNamespaceMatched = Regex.IsMatch(
+                matchSubString,
+                namespaceRegex,
+                RegexOptions.IgnorePatternWhitespace
+            );
             nestIndexStack.Push(matchResult.Index);
 
             if (compareTag == 0)
@@ -317,7 +341,8 @@ public class InjectionBlackListGenerator : EditorWindow
         {
             foreach (Type t in assembly.GetTypes())
             {
-                bool bNotPrimitiveType = t.IsClass || (t.IsValueType && !t.IsPrimitive && !t.IsEnum);
+                bool bNotPrimitiveType =
+                    t.IsClass || (t.IsValueType && !t.IsPrimitive && !t.IsEnum);
                 bool bCustomType = bNotPrimitiveType && !t.FullName.Contains("<");
                 if (bCustomType && !typeSet.Contains(t.FullName) && !t.ContainsGenericParameters)
                 {
@@ -349,7 +374,12 @@ public class InjectionBlackListGenerator : EditorWindow
         else
         {
             paths = new List<string>();
-            string toluaPath = GetRelativePath(CustomSettings.injectionFilesPath.Substring(0, CustomSettings.injectionFilesPath.Length - "Injection/".Length));
+            string toluaPath = GetRelativePath(
+                CustomSettings.injectionFilesPath.Substring(
+                    0,
+                    CustomSettings.injectionFilesPath.Length - "Injection/".Length
+                )
+            );
             paths.Add(toluaPath + "Core/");
             paths.Add(toluaPath + "Injection/");
             paths.Add(toluaPath + "Misc/");

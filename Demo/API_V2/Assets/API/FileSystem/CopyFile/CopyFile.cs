@@ -24,17 +24,11 @@ public class CopyFile : Details
         }
 
         // 打开文件并写入数据
-        var fd = _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path,
-            flag = "w+"
-        });
+        var fd = _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path, flag = "w+" });
 
-        _fileSystemManager.WriteSync(new WriteSyncStringOption()
-        {
-            fd = fd,
-            data = "Original Data "
-        });
+        _fileSystemManager.WriteSync(
+            new WriteSyncStringOption() { fd = fd, data = "Original Data " }
+        );
 
         // 如果复制的文件已存在，则删除
         if (_fileSystemManager.AccessSync(SyncPath) == "access:ok")
@@ -66,40 +60,54 @@ public class CopyFile : Details
     // 异步复制文件
     private void RunAsync()
     {
-        _fileSystemManager.CopyFile(new CopyFileParam()
-        {
-            srcPath = Path,
-            destPath = AsyncPath,
-            success = (res) =>
+        _fileSystemManager.CopyFile(
+            new CopyFileParam()
             {
-                // 显示成功的模态对话框
-                WX.ShowModal(new ShowModalOption()
+                srcPath = Path,
+                destPath = AsyncPath,
+                success = (res) =>
                 {
-                    content = "CopeFile Success, Result: " + JsonMapper.ToJson(res)
-                                                           + "\nCopied File Content: " + _fileSystemManager.ReadFileSync(AsyncPath, "utf8")
-                });
-                UpdateResults(); // 更新结果
-            },
-            fail = (res) =>
-            {
-                // 显示失败的模态对话框
-                WX.ShowModal(new ShowModalOption()
+                    // 显示成功的模态对话框
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content =
+                                "CopeFile Success, Result: "
+                                + JsonMapper.ToJson(res)
+                                + "\nCopied File Content: "
+                                + _fileSystemManager.ReadFileSync(AsyncPath, "utf8")
+                        }
+                    );
+                    UpdateResults(); // 更新结果
+                },
+                fail = (res) =>
                 {
-                    content = "CopyFile Fail, Result: " + JsonMapper.ToJson(res)
-                });
+                    // 显示失败的模态对话框
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "CopyFile Fail, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     // 同步复制文件
     private void RunSync()
     {
         // 显示同步复制文件的结果
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "CopyFileSync Result: " + _fileSystemManager.CopyFileSync(Path, SyncPath)
-            + "\nCopied File Content: " + _fileSystemManager.ReadFileSync(Path, "utf8")
-        });
+        WX.ShowModal(
+            new ShowModalOption()
+            {
+                content =
+                    "CopyFileSync Result: "
+                    + _fileSystemManager.CopyFileSync(Path, SyncPath)
+                    + "\nCopied File Content: "
+                    + _fileSystemManager.ReadFileSync(Path, "utf8")
+            }
+        );
         UpdateResults(); // 更新结果
     }
 
@@ -119,17 +127,23 @@ public class CopyFile : Details
         UpdateResults(); // 更新结果
 
         // 显示已清除复制文件的提示
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "已清除复制文件"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "已清除复制文件" });
     }
 
     // 更新结果显示
     private void UpdateResults()
     {
-        GameManager.Instance.detailsController.SetResultActive(0, _fileSystemManager.AccessSync(Path) == "access:ok");
-        GameManager.Instance.detailsController.SetResultActive(1, _fileSystemManager.AccessSync(SyncPath) == "access:ok");
-        GameManager.Instance.detailsController.SetResultActive(2, _fileSystemManager.AccessSync(AsyncPath) == "access:ok");
+        GameManager.Instance.detailsController.SetResultActive(
+            0,
+            _fileSystemManager.AccessSync(Path) == "access:ok"
+        );
+        GameManager.Instance.detailsController.SetResultActive(
+            1,
+            _fileSystemManager.AccessSync(SyncPath) == "access:ok"
+        );
+        GameManager.Instance.detailsController.SetResultActive(
+            2,
+            _fileSystemManager.AccessSync(AsyncPath) == "access:ok"
+        );
     }
 }

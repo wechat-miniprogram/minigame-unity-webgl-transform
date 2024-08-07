@@ -11,9 +11,7 @@ namespace XLuaTest
         private int tick = 0;
 
         // Use this for initialization
-        void Start()
-        {
-        }
+        void Start() { }
 
         // Update is called once per frame
         void Update()
@@ -28,17 +26,20 @@ namespace XLuaTest
         {
             if (GUI.Button(new Rect(10, 10, 300, 80), "Hotfix"))
             {
-                luaenv.DoString(@"
+                luaenv.DoString(
+                    @"
                 xlua.hotfix(CS.XLuaTest.HotfixTest, 'Update', function(self)
                     self.tick = self.tick + 1
                     if (self.tick % 50) == 0 then
                         print('<<<<<<<<Update in lua, tick = ' .. self.tick)
                     end
                 end)
-            ");
+            "
+                );
             }
 
-            string chHint = @"在运行该示例之前，请细致阅读xLua文档，并执行以下步骤：
+            string chHint =
+                @"在运行该示例之前，请细致阅读xLua文档，并执行以下步骤：
 
 1.宏定义：添加 HOTFIX_ENABLE 到 'Edit > Project Settings > Player > Other Settings > Scripting Define Symbols'。
 （注意：各平台需要分别设置）
@@ -46,7 +47,8 @@ namespace XLuaTest
 2.生成代码：执行 'XLua > Generate Code' 菜单，等待Unity编译完成。
 
 3.注入：执行 'XLua > Hotfix Inject In Editor' 菜单。注入成功会打印 'hotfix inject finish!' 或者 'had injected!' 。";
-            string enHint = @"Read documents carefully before you run this example, then follow the steps below:
+            string enHint =
+                @"Read documents carefully before you run this example, then follow the steps below:
 
 1. Define: Add 'HOTFIX_ENABLE' to 'Edit > Project Settings > Player > Other Settings > Scripting Define Symbols'.
 (Note: Each platform needs to set this respectively)

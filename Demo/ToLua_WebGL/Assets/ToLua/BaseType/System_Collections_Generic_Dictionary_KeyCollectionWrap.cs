@@ -1,7 +1,7 @@
 ﻿using System;
-using LuaInterface;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using LuaInterface;
 
 public class System_Collections_Generic_Dictionary_KeyCollectionWrap
 {
@@ -33,7 +33,10 @@ public class System_Collections_Generic_Dictionary_KeyCollectionWrap
             }
             else
             {
-                return LuaDLL.luaL_throw(L, "invalid arguments to ctor method: System.Collections.Generic.Dictionary.KeyCollection.New");
+                return LuaDLL.luaL_throw(
+                    L,
+                    "invalid arguments to ctor method: System.Collections.Generic.Dictionary.KeyCollection.New"
+                );
             }
         }
         catch (Exception e)
@@ -49,7 +52,12 @@ public class System_Collections_Generic_Dictionary_KeyCollectionWrap
         {
             ToLua.CheckArgsCount(L, 3);
             Type kt = null;
-            object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>.KeyCollection), out kt);
+            object obj = ToLua.CheckGenericObject(
+                L,
+                1,
+                typeof(Dictionary<,>.KeyCollection),
+                out kt
+            );
             object arg0 = ToLua.CheckObject(L, 2, kt.MakeArrayType());
             int arg1 = (int)LuaDLL.luaL_checknumber(L, 3);
             LuaMethodCache.CallSingleMethod("CopyTo", obj, arg0, arg1);
@@ -96,4 +104,3 @@ public class System_Collections_Generic_Dictionary_KeyCollectionWrap
         }
     }
 }
-

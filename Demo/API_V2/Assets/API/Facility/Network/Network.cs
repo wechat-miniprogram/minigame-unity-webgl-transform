@@ -3,29 +3,26 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Network : Details
 {
-
     private bool _isListening = false;
 
     private readonly Action<OnNetworkWeakChangeListenerResult> _onNetworkWeakChange = (res) =>
     {
         var result = "onNetworkWeakChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
     private readonly Action<OnNetworkStatusChangeListenerResult> _onNetworkStatusChange = (res) =>
     {
         var result = "onNetworkStatusChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
-
 
     private void Start()
     {
@@ -47,51 +44,61 @@ public class Network : Details
             WX.OffNetworkStatusChange(_onNetworkStatusChange);
         }
         _isListening = !_isListening;
-        GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
+        GameManager.Instance.detailsController.ChangeInitialButtonText(
+            _isListening ? "取消监听" : "开始监听"
+        );
     }
 
     public void getNetworkType()
     {
-        WX.GetNetworkType(new GetNetworkTypeOption
-        {
-            success = (res) =>
+        WX.GetNetworkType(
+            new GetNetworkTypeOption
             {
-                WX.ShowModal(new ShowModalOption()
+                success = (res) =>
                 {
-                    content = "Access Success, Result: " + JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Access Success, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void getLocalIPAddress()
     {
-        WX.GetLocalIPAddress(new GetLocalIPAddressOption
-        {
-            success = (res) =>
+        WX.GetLocalIPAddress(
+            new GetLocalIPAddressOption
             {
-                WX.ShowModal(new ShowModalOption()
+                success = (res) =>
                 {
-                    content = "Access Success, Result: " + JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Access Success, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     private void OnDestroy()

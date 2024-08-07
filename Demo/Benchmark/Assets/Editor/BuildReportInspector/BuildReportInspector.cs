@@ -1,14 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using System.IO;
+using UnityEngine;
 
 [CustomEditor(typeof(BuildReport))]
-public class BuildReportInspector : Editor {
-
+public class BuildReportInspector : Editor
+{
     [MenuItem("Window/Open Last Build Report", true)]
     static bool ValidateOpenLastBuild()
     {
@@ -23,27 +23,31 @@ public class BuildReportInspector : Editor {
             Directory.CreateDirectory(buildReportDir);
 
         var date = File.GetLastWriteTime("Library/LastBuild.buildreport");
-        var assetPath = buildReportDir + "/Build_" + date.ToString("yyyy-dd-MMM-HH-mm-ss") + ".buildreport";
+        var assetPath =
+            buildReportDir + "/Build_" + date.ToString("yyyy-dd-MMM-HH-mm-ss") + ".buildreport";
         File.Copy("Library/LastBuild.buildreport", assetPath, true);
         AssetDatabase.ImportAsset(assetPath);
         Selection.objects = new[] { AssetDatabase.LoadAssetAtPath<BuildReport>(assetPath) };
     }
 
-    BuildReport report {
+    BuildReport report
+    {
         get
         {
-            return target as BuildReport;             ;
+            return target as BuildReport;
+            ;
         }
     }
 
     static GUIStyle s_SizeStyle;
-    GUIStyle sizeStyle {
+    GUIStyle sizeStyle
+    {
         get
         {
             if (s_SizeStyle == null)
                 s_SizeStyle = new GUIStyle(GUI.skin.label);
             s_SizeStyle.alignment = TextAnchor.MiddleRight;
-            return s_SizeStyle;   
+            return s_SizeStyle;
         }
     }
 
@@ -111,7 +115,8 @@ public class BuildReportInspector : Editor {
         Stripping,
     };
 
-    string[] ReportDisplayModeStrings = {
+    string[] ReportDisplayModeStrings =
+    {
         "BuildSteps",
         "SourceAssets",
         "OutputFiles",
@@ -132,7 +137,13 @@ public class BuildReportInspector : Editor {
 
     public static string FormatTime(System.TimeSpan t)
     {
-        return t.Hours + ":" + t.Minutes.ToString("D2") + ":" + t.Seconds.ToString("D2") + "." + t.Milliseconds.ToString("D3");
+        return t.Hours
+            + ":"
+            + t.Minutes.ToString("D2")
+            + ":"
+            + t.Seconds.ToString("D2")
+            + "."
+            + t.Milliseconds.ToString("D3");
     }
 
     public override void OnInspectorGUI()
@@ -154,10 +165,11 @@ public class BuildReportInspector : Editor {
         mode = (ReportDisplayMode)GUILayout.Toolbar((int)mode, ReportDisplayModeStrings);
 
         if (mode == ReportDisplayMode.SourceAssets)
-            sourceDispMode = (SourceAssetsDisplayMode)EditorGUILayout.EnumPopup("Sort by:", sourceDispMode);
+            sourceDispMode = (SourceAssetsDisplayMode)
+                EditorGUILayout.EnumPopup("Sort by:", sourceDispMode);
 
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-        switch(mode)
+        switch (mode)
         {
             case ReportDisplayMode.BuildSteps:
                 OnBuildStepGUI();
@@ -176,6 +188,7 @@ public class BuildReportInspector : Editor {
     }
 
     Dictionary<string, bool> stepsFoldout = new Dictionary<string, bool>();
+
     void OnBuildStepGUI()
     {
         var oldBackColor = GUI.backgroundColor;
@@ -183,20 +196,31 @@ public class BuildReportInspector : Editor {
         foreach (var step in report.steps)
         {
             odd = !odd;
-            GUILayout.BeginVertical(odd? OddStyle : EvenStyle);
+            GUILayout.BeginVertical(odd ? OddStyle : EvenStyle);
             GUILayout.BeginHorizontal();
             GUILayout.Space(10);
 
             if (!stepsFoldout.ContainsKey(step.name))
                 stepsFoldout[step.name] = false;
             if (step.messages.Any())
-                stepsFoldout[step.name] = EditorGUILayout.Foldout(stepsFoldout[step.name], step.name);
+                stepsFoldout[step.name] = EditorGUILayout.Foldout(
+                    stepsFoldout[step.name],
+                    step.name
+                );
             else
                 GUILayout.Label(step.name);
 
             GUILayout.FlexibleSpace();
 
-            GUILayout.Label(step.duration.Hours + ":" + step.duration.Minutes.ToString("D2") + ":" + step.duration.Seconds.ToString("D2") + "." + step.duration.Milliseconds.ToString("D3"));
+            GUILayout.Label(
+                step.duration.Hours
+                    + ":"
+                    + step.duration.Minutes.ToString("D2")
+                    + ":"
+                    + step.duration.Seconds.ToString("D2")
+                    + "."
+                    + step.duration.Milliseconds.ToString("D3")
+            );
             GUILayout.EndHorizontal();
 
             if (stepsFoldout[step.name])
@@ -219,7 +243,10 @@ public class BuildReportInspector : Editor {
                             break;
                     }
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label(EditorGUIUtility.IconContent(icon), GUILayout.ExpandWidth(false));
+                    GUILayout.Label(
+                        EditorGUIUtility.IconContent(icon),
+                        GUILayout.ExpandWidth(false)
+                    );
                     EditorGUILayout.LabelField(new GUIContent(message.content, message.content));
                     GUILayout.EndHorizontal();
                     GUI.color = oldCol;
@@ -233,8 +260,8 @@ public class BuildReportInspector : Editor {
     {
         if (size < 1024)
             return size + " B";
-        if (size < 1024*1024)
-            return (size/1024.00).ToString("F2") + " KB";
+        if (size < 1024 * 1024)
+            return (size / 1024.00).ToString("F2") + " KB";
         if (size < 1024 * 1024 * 1024)
             return (size / (1024.0 * 1024.0)).ToString("F2") + " MB";
         return (size / (1024.0 * 1024.0 * 1024.0)).ToString("F2") + " GB";
@@ -249,7 +276,12 @@ public class BuildReportInspector : Editor {
         public Texture icon;
     }
 
-    void ShowAssets(List<AssetEntry> assets, ref float vPos, string fileFilter = null, string typeFilter = null)
+    void ShowAssets(
+        List<AssetEntry> assets,
+        ref float vPos,
+        string fileFilter = null,
+        string typeFilter = null
+    )
     {
         GUILayout.BeginVertical();
         var odd = false;
@@ -266,7 +298,13 @@ public class BuildReportInspector : Editor {
                 GUILayout.BeginHorizontal(odd ? OddStyle : EvenStyle);
 
                 GUILayout.Label(entry.icon, GUILayout.MaxHeight(16), GUILayout.Width(20));
-                if (GUILayout.Button(new GUIContent(Path.GetFileName(entry.path), entry.path), GUI.skin.label, GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth - 110)))
+                if (
+                    GUILayout.Button(
+                        new GUIContent(Path.GetFileName(entry.path), entry.path),
+                        GUI.skin.label,
+                        GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth - 110)
+                    )
+                )
                     EditorGUIUtility.PingObject(AssetDatabase.LoadAssetAtPath<Object>(entry.path));
                 GUILayout.Label(FormatSize(entry.size), sizeStyle);
                 GUILayout.EndHorizontal();
@@ -285,7 +323,6 @@ public class BuildReportInspector : Editor {
     List<AssetEntry> assets = null;
     Dictionary<string, int> outputFiles = null;
     Dictionary<string, int> assetTypes = null;
-
 
     void OnAssetsGUI()
     {
@@ -320,7 +357,9 @@ public class BuildReportInspector : Editor {
                                     for (int j = 0; j < contents.arraySize; j++)
                                     {
                                         var entry = contents.GetArrayElementAtIndex(j);
-                                        var entryPathProp = entry.FindPropertyRelative("buildTimeAssetPath");
+                                        var entryPathProp = entry.FindPropertyRelative(
+                                            "buildTimeAssetPath"
+                                        );
                                         if (entryPathProp != null)
                                         {
                                             var entryPath = entryPathProp.stringValue;
@@ -328,10 +367,15 @@ public class BuildReportInspector : Editor {
                                             {
                                                 AssetEntry assetEntry = new AssetEntry();
                                                 var asset = AssetImporter.GetAtPath(entryPath);
-                                                var type = asset != null? asset.GetType().Name : "Unknown";
+                                                var type =
+                                                    asset != null
+                                                        ? asset.GetType().Name
+                                                        : "Unknown";
                                                 if (type.EndsWith("Importer"))
                                                     type = type.Substring(0, type.Length - 8);
-                                                var sizeProp = entry.FindPropertyRelative("packedSize");
+                                                var sizeProp = entry.FindPropertyRelative(
+                                                    "packedSize"
+                                                );
                                                 if (!assetTypes.ContainsKey(type))
                                                     assetTypes[type] = 0;
                                                 if (sizeProp != null)
@@ -340,7 +384,9 @@ public class BuildReportInspector : Editor {
                                                     outputFiles[path] += sizeProp.intValue;
                                                     assetTypes[type] += sizeProp.intValue;
                                                 }
-                                                assetEntry.icon = AssetDatabase.GetCachedIcon(entryPath);
+                                                assetEntry.icon = AssetDatabase.GetCachedIcon(
+                                                    entryPath
+                                                );
                                                 assetEntry.outputFile = path;
                                                 assetEntry.type = type;
                                                 assetEntry.path = entryPath;
@@ -354,8 +400,12 @@ public class BuildReportInspector : Editor {
                     }
                 }
                 assets = assets.OrderBy(p => -p.size).ToList();
-                outputFiles = outputFiles.OrderBy(p => -p.Value).ToDictionary(x => x.Key, x => x.Value);
-                assetTypes = assetTypes.OrderBy(p => -p.Value).ToDictionary(x => x.Key, x => x.Value);
+                outputFiles = outputFiles
+                    .OrderBy(p => -p.Value)
+                    .ToDictionary(x => x.Key, x => x.Value);
+                assetTypes = assetTypes
+                    .OrderBy(p => -p.Value)
+                    .ToDictionary(x => x.Key, x => x.Value);
             }
             switch (sourceDispMode)
             {
@@ -370,7 +420,11 @@ public class BuildReportInspector : Editor {
 
                         GUILayout.BeginHorizontal();
                         GUILayout.Space(10);
-                        assetsFoldout[outputFile.Key] = EditorGUILayout.Foldout(assetsFoldout[outputFile.Key], outputFile.Key, DataFileStyle);
+                        assetsFoldout[outputFile.Key] = EditorGUILayout.Foldout(
+                            assetsFoldout[outputFile.Key],
+                            outputFile.Key,
+                            DataFileStyle
+                        );
                         GUILayout.Label(FormatSize(outputFile.Value), sizeStyle);
                         GUILayout.EndHorizontal();
 
@@ -388,7 +442,11 @@ public class BuildReportInspector : Editor {
 
                         GUILayout.BeginHorizontal();
                         GUILayout.Space(10);
-                        assetsFoldout[outputFile.Key] = EditorGUILayout.Foldout(assetsFoldout[outputFile.Key], outputFile.Key, DataFileStyle);
+                        assetsFoldout[outputFile.Key] = EditorGUILayout.Foldout(
+                            assetsFoldout[outputFile.Key],
+                            outputFile.Key,
+                            DataFileStyle
+                        );
                         GUILayout.Label(FormatSize(outputFile.Value), sizeStyle);
                         GUILayout.EndHorizontal();
 
@@ -396,11 +454,11 @@ public class BuildReportInspector : Editor {
 
                         if (assetsFoldout[outputFile.Key])
                             ShowAssets(assets, ref vPos, null, outputFile.Key);
-                    }             
+                    }
                     break;
-            }                           
+            }
         }
-        else 
+        else
             GUILayout.Label("No Appendices property found");
     }
 
@@ -426,13 +484,15 @@ public class BuildReportInspector : Editor {
         {
             if (file.path.StartsWith(tempRoot))
                 continue;
-            GUILayout.BeginHorizontal(odd? OddStyle:EvenStyle);
+            GUILayout.BeginHorizontal(odd ? OddStyle : EvenStyle);
             odd = !odd;
-            GUILayout.Label(new GUIContent(file.path.Substring(longestCommonRoot.Length), file.path), GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth - 260));
+            GUILayout.Label(
+                new GUIContent(file.path.Substring(longestCommonRoot.Length), file.path),
+                GUILayout.MaxWidth(EditorGUIUtility.currentViewWidth - 260)
+            );
             GUILayout.Label(file.role);
             GUILayout.Label(FormatSize((int)file.size), sizeStyle);
             GUILayout.EndHorizontal();
-
         }
     }
 
@@ -440,6 +500,7 @@ public class BuildReportInspector : Editor {
     Dictionary<string, int> strippingSizes = new Dictionary<string, int>();
 
     static Dictionary<string, Texture> iconCache = new Dictionary<string, Texture>();
+
     Texture StrippingEntityIcon(string iconString)
     {
         if (iconCache.ContainsKey(iconString))
@@ -447,17 +508,30 @@ public class BuildReportInspector : Editor {
 
         if (iconString.StartsWith("class/"))
         {
-            var type = System.Type.GetType("UnityEngine." + iconString.Substring(6) + ",UnityEngine");
+            var type = System.Type.GetType(
+                "UnityEngine." + iconString.Substring(6) + ",UnityEngine"
+            );
             if (type != null)
             {
-                var image = EditorGUIUtility.ObjectContent(null, System.Type.GetType("UnityEngine." + iconString.Substring(6) + ",UnityEngine")).image;
+                var image = EditorGUIUtility
+                    .ObjectContent(
+                        null,
+                        System.Type.GetType(
+                            "UnityEngine." + iconString.Substring(6) + ",UnityEngine"
+                        )
+                    )
+                    .image;
                 if (image != null)
                     iconCache[iconString] = image;
             }
         }
         if (iconString.StartsWith("package/"))
         {
-            var path = EditorApplication.applicationContentsPath + "/Resources/PackageManager/Editor/" + iconString.Substring(8) + "/.icon.png";
+            var path =
+                EditorApplication.applicationContentsPath
+                + "/Resources/PackageManager/Editor/"
+                + iconString.Substring(8)
+                + "/.icon.png";
             if (File.Exists(path))
             {
                 Texture2D tex = new Texture2D(2, 2);
@@ -467,17 +541,20 @@ public class BuildReportInspector : Editor {
         }
 
         if (!iconCache.ContainsKey(iconString))
-            iconCache[iconString] = EditorGUIUtility.ObjectContent(null, typeof(DefaultAsset)).image;
+            iconCache[iconString] = EditorGUIUtility
+                .ObjectContent(null, typeof(DefaultAsset))
+                .image;
 
         return iconCache[iconString];
     }
 
     Dictionary<string, bool> strippingReasonsFoldout = new Dictionary<string, bool>();
+
     void StrippingEntityGUI(string entity, ref bool odd)
     {
         GUILayout.BeginHorizontal(odd ? OddStyle : EvenStyle);
         odd = !odd;
-        GUILayout.Space(15); 
+        GUILayout.Space(15);
         var reasons = report.strippingInfo.GetReasonsForIncluding(entity);
         if (!strippingIcons.ContainsKey(entity))
             strippingIcons[entity] = StrippingEntityIcon(entity);
@@ -486,10 +563,17 @@ public class BuildReportInspector : Editor {
         {
             if (!strippingReasonsFoldout.ContainsKey(entity))
                 strippingReasonsFoldout[entity] = false;
-            strippingReasonsFoldout[entity] = EditorGUILayout.Foldout(strippingReasonsFoldout[entity], new GUIContent(entity, icon));
+            strippingReasonsFoldout[entity] = EditorGUILayout.Foldout(
+                strippingReasonsFoldout[entity],
+                new GUIContent(entity, icon)
+            );
         }
         else
-            EditorGUILayout.LabelField(new GUIContent(entity, icon), GUILayout.Height(16), GUILayout.MaxWidth(1000));
+            EditorGUILayout.LabelField(
+                new GUIContent(entity, icon),
+                GUILayout.Height(16),
+                GUILayout.MaxWidth(1000)
+            );
 
         GUILayout.FlexibleSpace();
 
@@ -506,7 +590,6 @@ public class BuildReportInspector : Editor {
             EditorGUI.indentLevel--;
         }
     }
-
 
     void OnStrippingGUI()
     {
@@ -525,15 +608,26 @@ public class BuildReportInspector : Editor {
             {
                 var sp = serializedDependencies.GetArrayElementAtIndex(i);
                 var depKey = sp.FindPropertyRelative("key").stringValue;
-                strippingIcons[depKey] = StrippingEntityIcon(sp.FindPropertyRelative("icon").stringValue);
+                strippingIcons[depKey] = StrippingEntityIcon(
+                    sp.FindPropertyRelative("icon").stringValue
+                );
                 strippingSizes[depKey] = sp.FindPropertyRelative("size").intValue;
                 if (strippingSizes[depKey] != 0)
                     hasSizes = true;
             }
         }
 
-        var analyzeMethod = report.strippingInfo.GetType().GetMethod("Analyze", System.Reflection.BindingFlags.FlattenHierarchy | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
-        if (/*!hasSizes &&*/ analyzeMethod != null)
+        var analyzeMethod = report
+            .strippingInfo.GetType()
+            .GetMethod(
+                "Analyze",
+                System.Reflection.BindingFlags.FlattenHierarchy
+                    | System.Reflection.BindingFlags.Instance
+                    | System.Reflection.BindingFlags.Public
+            );
+        if ( /*!hasSizes &&*/
+            analyzeMethod != null
+        )
         {
             if (GUILayout.Button("Analyze size"))
                 analyzeMethod.Invoke(report.strippingInfo, null);

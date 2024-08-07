@@ -5,14 +5,19 @@ using UnityEngine.UI;
 public class Ability : MonoBehaviour
 {
     [Header("Ability Data")]
-    [SerializeField] private AbilitySO abilitySO;
+    [SerializeField]
+    private AbilitySO abilitySO;
 
     [Header("References")]
-    [SerializeField] private Text abilityText;
-    [SerializeField] private Image abilityImage;
+    [SerializeField]
+    private Text abilityText;
+
+    [SerializeField]
+    private Image abilityImage;
 
     [Header("Button")]
-    [SerializeField] private Button button;
+    [SerializeField]
+    private Button button;
 
     private void Start()
     {

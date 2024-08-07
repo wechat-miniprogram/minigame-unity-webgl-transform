@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using LuaInterface;
+using UnityEngine;
 
 public class ToLua_System_String
 {
     [NoToLuaAttribute]
     public static string ToLua_System_StringDefined =
-@"        try
+        @"        try
         {
             LuaTypes luatype = LuaDLL.lua_type(L, 1);
 
@@ -27,8 +27,5 @@ public class ToLua_System_String
         }";
 
     [UseDefinedAttribute]
-    public ToLua_System_String()
-    {
-
-    }
+    public ToLua_System_String() { }
 }

@@ -23,16 +23,12 @@ public class Access : Details
         }
 
         // 打开文件并写入数据
-        var fd = _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = FilePath,
-            flag = "w+"
-        });
-        _fileSystemManager.WriteSync(new WriteSyncStringOption()
-        {
-            fd = fd,
-            data = "Original Data "
-        });
+        var fd = _fileSystemManager.OpenSync(
+            new OpenSyncOption() { filePath = FilePath, flag = "w+" }
+        );
+        _fileSystemManager.WriteSync(
+            new WriteSyncStringOption() { fd = fd, data = "Original Data " }
+        );
     }
 
     // 测试 API
@@ -51,35 +47,43 @@ public class Access : Details
     // 异步访问文件
     private void RunAsync(string path)
     {
-        _fileSystemManager.Access(new AccessParam()
-        {
-            path = PathPrefix + path,
-            success = (res) =>
+        _fileSystemManager.Access(
+            new AccessParam()
             {
-                // 访问成功，显示结果
-                WX.ShowModal(new ShowModalOption()
+                path = PathPrefix + path,
+                success = (res) =>
                 {
-                    content = "Access Success, Result: " + JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                // 访问失败，显示结果
-                WX.ShowModal(new ShowModalOption()
+                    // 访问成功，显示结果
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Access Success, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                },
+                fail = (res) =>
                 {
-                    content = "Access Fail, Result: " + JsonMapper.ToJson(res)
-                });
+                    // 访问失败，显示结果
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Access Fail, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     // 同步访问文件
     private void RunSync(string path)
     {
         // 显示同步访问的结果
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "AccessSync Result: " + _fileSystemManager.AccessSync(PathPrefix + path)
-        });
+        WX.ShowModal(
+            new ShowModalOption()
+            {
+                content = "AccessSync Result: " + _fileSystemManager.AccessSync(PathPrefix + path)
+            }
+        );
     }
 }

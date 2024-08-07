@@ -1,13 +1,17 @@
 ﻿using System;
-using LuaInterface;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using LuaInterface;
 
 public class System_Collections_Generic_Dictionary_ValueCollectionWrap
 {
     public static void Register(LuaState L)
     {
-        L.BeginClass(typeof(Dictionary<,>.ValueCollection), typeof(System.Object), "ValueCollection");
+        L.BeginClass(
+            typeof(Dictionary<,>.ValueCollection),
+            typeof(System.Object),
+            "ValueCollection"
+        );
         L.RegFunction("CopyTo", CopyTo);
         L.RegFunction("GetEnumerator", GetEnumerator);
         L.RegFunction("New", _CreateSystem_Collections_Generic_Dictionary_ValueCollection);
@@ -33,7 +37,10 @@ public class System_Collections_Generic_Dictionary_ValueCollectionWrap
             }
             else
             {
-                return LuaDLL.luaL_throw(L, "invalid arguments to ctor method: System.Collections.Generic.Dictionary.ValueCollection.New");
+                return LuaDLL.luaL_throw(
+                    L,
+                    "invalid arguments to ctor method: System.Collections.Generic.Dictionary.ValueCollection.New"
+                );
             }
         }
         catch (Exception e)
@@ -48,8 +55,15 @@ public class System_Collections_Generic_Dictionary_ValueCollectionWrap
         try
         {
             ToLua.CheckArgsCount(L, 3);
-            Type kt, kv;
-            object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>.ValueCollection), out kt, out kv);
+            Type kt,
+                kv;
+            object obj = ToLua.CheckGenericObject(
+                L,
+                1,
+                typeof(Dictionary<,>.ValueCollection),
+                out kt,
+                out kv
+            );
             object arg0 = ToLua.CheckObject(L, 2, kv.MakeArrayType());
             int arg1 = (int)LuaDLL.luaL_checknumber(L, 3);
             LuaMethodCache.CallSingleMethod("CopyTo", obj, arg0, arg1);
@@ -96,4 +110,3 @@ public class System_Collections_Generic_Dictionary_ValueCollectionWrap
         }
     }
 }
-

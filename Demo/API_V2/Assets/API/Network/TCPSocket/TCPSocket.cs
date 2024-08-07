@@ -14,7 +14,6 @@ public class TCPSocket : Details
     private string _stringData1 = "String Data";
     private string _stringData2 = "123\n";
 
-
     private byte[] _bufferData1 = { 66, 117, 102, 102, 101, 114, 32, 68, 97, 116, 97, 32 };
     private byte[] _bufferData2 = { 0xab, 0x05, 0xd7, 0x05 };
     private byte[] _bufferData3 = new byte[8];
@@ -35,31 +34,38 @@ public class TCPSocket : Details
 
             Debug.Log("tcpSocket: " + JsonUtility.ToJson(_tcpSocket));
 
-            _tcpSocket.OnMessage((res) =>
-            {
-                Debug.Log("onMessage: " + JsonUtility.ToJson(res));
-            });
+            _tcpSocket.OnMessage(
+                (res) =>
+                {
+                    Debug.Log("onMessage: " + JsonUtility.ToJson(res));
+                }
+            );
 
-            _tcpSocket.OnConnect((res) =>
-            {
-                Debug.Log("onConnect: " + JsonUtility.ToJson(res));
-            });
+            _tcpSocket.OnConnect(
+                (res) =>
+                {
+                    Debug.Log("onConnect: " + JsonUtility.ToJson(res));
+                }
+            );
 
-            _tcpSocket.OnError((res) =>
-            {
-                Debug.Log("onError: " + JsonUtility.ToJson(res));
-            });
+            _tcpSocket.OnError(
+                (res) =>
+                {
+                    Debug.Log("onError: " + JsonUtility.ToJson(res));
+                }
+            );
 
-            _tcpSocket.OnClose((res) =>
-            {
-                Debug.Log("onClose: " + JsonUtility.ToJson(res));
-            });
+            _tcpSocket.OnClose(
+                (res) =>
+                {
+                    Debug.Log("onClose: " + JsonUtility.ToJson(res));
+                }
+            );
         }
         else
         {
             Debug.LogError("tcp实例已初始化");
         }
-
     }
 
     private void close()
@@ -74,19 +80,15 @@ public class TCPSocket : Details
         {
             Debug.LogError("关闭失败：tcp实例未初始化或未连接");
         }
-
     }
-
 
     private void connect()
     {
         if (_tcpSocket != null && !_connected)
         {
-            _tcpSocket.Connect(new TCPSocketConnectOption()
-            {
-                address = "www.oooceanworld.com",
-                port = 8101
-            });
+            _tcpSocket.Connect(
+                new TCPSocketConnectOption() { address = "www.oooceanworld.com", port = 8101 }
+            );
             _connected = true;
         }
         else

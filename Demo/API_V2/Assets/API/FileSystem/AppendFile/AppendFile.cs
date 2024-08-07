@@ -19,19 +19,20 @@ public class AppendFile : Details
     private Action<WXTextResponse> onSuccess = (res) =>
     {
         // 显示成功的模态对话框
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "AppendFile Success, Result: " + JsonMapper.ToJson(res)
-        });
+        WX.ShowModal(
+            new ShowModalOption()
+            {
+                content = "AppendFile Success, Result: " + JsonMapper.ToJson(res)
+            }
+        );
         UpdateResult(); // 更新结果
     };
     private Action<WXTextResponse> onFail = (res) =>
     {
         // 显示失败的模态对话框
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "AppendFile Fail, Result: " + JsonMapper.ToJson(res)
-        });
+        WX.ShowModal(
+            new ShowModalOption() { content = "AppendFile Fail, Result: " + JsonMapper.ToJson(res) }
+        );
     };
 
     private void Start()
@@ -46,17 +47,11 @@ public class AppendFile : Details
         }
 
         // 打开文件并写入数据
-        var fd = _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path,
-            flag = "w+"
-        });
+        var fd = _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path, flag = "w+" });
 
-        _fileSystemManager.WriteSync(new WriteSyncStringOption()
-        {
-            fd = fd,
-            data = "Original Data "
-        });
+        _fileSystemManager.WriteSync(
+            new WriteSyncStringOption() { fd = fd, data = "Original Data " }
+        );
 
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, ResetFile);
@@ -82,48 +77,56 @@ public class AppendFile : Details
         {
             if (encoding == "null")
             {
-                _fileSystemManager.AppendFile(new WriteFileParam()
-                {
-                    filePath = Path,
-                    data = _bufferData,
-                    success = onSuccess,
-                    fail = onFail
-                });
+                _fileSystemManager.AppendFile(
+                    new WriteFileParam()
+                    {
+                        filePath = Path,
+                        data = _bufferData,
+                        success = onSuccess,
+                        fail = onFail
+                    }
+                );
             }
             else
             {
-                _fileSystemManager.AppendFile(new WriteFileParam()
-                {
-                    filePath = Path,
-                    data = _bufferData,
-                    encoding = encoding,
-                    success = onSuccess,
-                    fail = onFail
-                });
+                _fileSystemManager.AppendFile(
+                    new WriteFileParam()
+                    {
+                        filePath = Path,
+                        data = _bufferData,
+                        encoding = encoding,
+                        success = onSuccess,
+                        fail = onFail
+                    }
+                );
             }
         }
         else
         {
             if (encoding == "null")
             {
-                _fileSystemManager.AppendFile(new WriteFileStringParam()
-                {
-                    filePath = Path,
-                    data = _stringData,
-                    success = onSuccess,
-                    fail = onFail
-                });
+                _fileSystemManager.AppendFile(
+                    new WriteFileStringParam()
+                    {
+                        filePath = Path,
+                        data = _stringData,
+                        success = onSuccess,
+                        fail = onFail
+                    }
+                );
             }
             else
             {
-                _fileSystemManager.AppendFile(new WriteFileStringParam()
-                {
-                    filePath = Path,
-                    data = _stringData,
-                    encoding = encoding,
-                    success = onSuccess,
-                    fail = onFail
-                });
+                _fileSystemManager.AppendFile(
+                    new WriteFileStringParam()
+                    {
+                        filePath = Path,
+                        data = _stringData,
+                        encoding = encoding,
+                        success = onSuccess,
+                        fail = onFail
+                    }
+                );
             }
         }
     }
@@ -157,39 +160,30 @@ public class AppendFile : Details
         UpdateResult(); // 更新结果
 
         // 显示成功的提示
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "AppendFileSync Success"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "AppendFileSync Success" });
     }
 
     // 更新文件内容显示结果
     private static void UpdateResult()
     {
-        GameManager.Instance.detailsController.ChangeResultContent(0, _fileSystemManager.ReadFileSync(Path, "utf8"));
+        GameManager.Instance.detailsController.ChangeResultContent(
+            0,
+            _fileSystemManager.ReadFileSync(Path, "utf8")
+        );
     }
 
     // 重置文件内容
     private void ResetFile()
     {
         // 重新打开文件并写入原始数据
-        var fd = _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path,
-            flag = "w+"
-        });
-        _fileSystemManager.WriteSync(new WriteSyncStringOption()
-        {
-            fd = fd,
-            data = "Original Data "
-        });
+        var fd = _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path, flag = "w+" });
+        _fileSystemManager.WriteSync(
+            new WriteSyncStringOption() { fd = fd, data = "Original Data " }
+        );
 
         UpdateResult(); // 更新结果
 
         // 显示已重置文件的提示
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "已重置文件"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "已重置文件" });
     }
 }

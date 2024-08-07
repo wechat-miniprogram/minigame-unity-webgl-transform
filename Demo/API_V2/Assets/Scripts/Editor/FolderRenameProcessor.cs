@@ -5,16 +5,23 @@ using System.IO;
 
 public class FolderRenameProcessor : AssetPostprocessor
 {
-    private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+    private static void OnPostprocessAllAssets(
+        string[] importedAssets,
+        string[] deletedAssets,
+        string[] movedAssets,
+        string[] movedFromAssetPaths
+    )
     {
         // 重命名文件夹下的脚本与SO
         foreach (var movedAsset in movedAssets)
         {
             // 跳过非文件夹
-            if (!AssetDatabase.IsValidFolder(movedAsset)) continue;
+            if (!AssetDatabase.IsValidFolder(movedAsset))
+                continue;
 
             // 跳过非 Assets/API 下的文件夹
-            if (!IsSubdirectory(movedAsset, "Assets/API")) continue;
+            if (!IsSubdirectory(movedAsset, "Assets/API"))
+                continue;
 
             var newFolderName = Path.GetFileName(movedAsset);
 
@@ -58,7 +65,10 @@ public class FolderRenameProcessor : AssetPostprocessor
         }
 
         // 判断第一个文件夹的路径是否以第二个文件夹的路径开头
-        return absoluteFolderPath.StartsWith(absoluteParentFolderPath, StringComparison.OrdinalIgnoreCase);
+        return absoluteFolderPath.StartsWith(
+            absoluteParentFolderPath,
+            StringComparison.OrdinalIgnoreCase
+        );
     }
 }
 #endif

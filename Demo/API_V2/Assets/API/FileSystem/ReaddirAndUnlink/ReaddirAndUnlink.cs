@@ -68,40 +68,36 @@ public class ReaddirAndUnlink : Details
     // 同步创建文件
     private void OpenSync(string filePath)
     {
-        _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = PathPrefix + filePath,
-            flag = "w+"
-        });
+        _fileSystemManager.OpenSync(
+            new OpenSyncOption() { filePath = PathPrefix + filePath, flag = "w+" }
+        );
 
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "同步创建文件成功"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "同步创建文件成功" });
     }
 
     // 异步创建文件
     private void OpenAsync(string filePath)
     {
-        _fileSystemManager.Open(new OpenOption()
-        {
-            filePath = PathPrefix + filePath,
-            flag = "w+",
-            success = (res) =>
+        _fileSystemManager.Open(
+            new OpenOption()
             {
-                WX.ShowToast(new ShowToastOption()
+                filePath = PathPrefix + filePath,
+                flag = "w+",
+                success = (res) =>
                 {
-                    title = "异步创建文件成功"
-                });
-            },
-            fail = (res) =>
-            {
-                WX.ShowModal(new ShowModalOption()
+                    WX.ShowToast(new ShowToastOption() { title = "异步创建文件成功" });
+                },
+                fail = (res) =>
                 {
-                    content = "Open Fail, Result: " + JsonMapper.ToJson(res)
-                });
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Open Fail, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     // 同步删除文件
@@ -109,33 +105,36 @@ public class ReaddirAndUnlink : Details
     {
         var res = _fileSystemManager.UnlinkSync(PathPrefix + filePath);
 
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "UnlinkSync Result: " + res
-        });
+        WX.ShowModal(new ShowModalOption() { content = "UnlinkSync Result: " + res });
     }
 
     // 异步删除文件
     private void UnlinkAsync(string filePath)
     {
-        _fileSystemManager.Unlink(new UnlinkParam()
-        {
-            filePath = PathPrefix + filePath,
-            success = (res) =>
+        _fileSystemManager.Unlink(
+            new UnlinkParam()
             {
-                WX.ShowToast(new ShowToastOption()
+                filePath = PathPrefix + filePath,
+                success = (res) =>
                 {
-                    title = "Unlink Success, Result: " + JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                WX.ShowModal(new ShowModalOption()
+                    WX.ShowToast(
+                        new ShowToastOption()
+                        {
+                            title = "Unlink Success, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                },
+                fail = (res) =>
                 {
-                    content = "Unlink Fail, Result: " + JsonMapper.ToJson(res)
-                });
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Unlink Fail, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     // 同步获取目录下的文件列表
@@ -146,36 +145,36 @@ public class ReaddirAndUnlink : Details
         // 更新文件列表
         UpdateResults(res);
 
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "ReadDirSync Success"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "ReadDirSync Success" });
     }
 
     // 异步获取目录下的文件列表
     private void ReaddirAsync()
     {
-        _fileSystemManager.Readdir(new ReaddirOption()
-        {
-            dirPath = PathPrefix,
-            success = (res) =>
+        _fileSystemManager.Readdir(
+            new ReaddirOption()
             {
-                // 更新文件列表
-                UpdateResults(res.files);
+                dirPath = PathPrefix,
+                success = (res) =>
+                {
+                    // 更新文件列表
+                    UpdateResults(res.files);
 
-                WX.ShowModal(new ShowModalOption()
+                    WX.ShowModal(
+                        new ShowModalOption() { content = "ReadDir Success, Result: " + res.errMsg }
+                    );
+                },
+                fail = (res) =>
                 {
-                    content = "ReadDir Success, Result: " + res.errMsg
-                });
-            },
-            fail = (res) =>
-            {
-                WX.ShowModal(new ShowModalOption()
-                {
-                    content = "ReadDir Fail, Result: " + JsonMapper.ToJson(res)
-                });
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "ReadDir Fail, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     // 更新文件列表
@@ -187,10 +186,9 @@ public class ReaddirAndUnlink : Details
         // 遍历文件列表，将每个文件添加到结果列表中
         foreach (var file in fileList)
         {
-            GameManager.Instance.detailsController.AddResult(new ResultData()
-            {
-                initialContentText = file
-            });
+            GameManager.Instance.detailsController.AddResult(
+                new ResultData() { initialContentText = file }
+            );
         }
     }
 }

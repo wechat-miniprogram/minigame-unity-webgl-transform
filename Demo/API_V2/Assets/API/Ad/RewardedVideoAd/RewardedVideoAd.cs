@@ -16,60 +16,65 @@ public class RewardedVideoAd : Details
     protected override void TestAPI(string[] args)
     {
         // 创建激励视频广告组件
-        _rewardedVideoAd = WX.CreateRewardedVideoAd(new WXCreateRewardedVideoAdParam()
-        {
-            // adUnitId 请填写自己的广告位 ID
-            adUnitId = "adunit-xxxxxxxxxxxxxxxx"
-        });
+        _rewardedVideoAd = WX.CreateRewardedVideoAd(
+            new WXCreateRewardedVideoAdParam()
+            {
+                // adUnitId 请填写自己的广告位 ID
+                adUnitId = "adunit-xxxxxxxxxxxxxxxx"
+            }
+        );
 
-        _rewardedVideoAd.OnLoad((res) =>
-        {
-            WX.ShowModal(new ShowModalOption()
+        _rewardedVideoAd.OnLoad(
+            (res) =>
             {
-                content = "RewardedVideoAd OnLoad Result:" + JsonUtility.ToJson(res)
-            });
-        });
-        _rewardedVideoAd.OnError((res) =>
-        {
-            WX.ShowModal(new ShowModalOption()
+                WX.ShowModal(
+                    new ShowModalOption()
+                    {
+                        content = "RewardedVideoAd OnLoad Result:" + JsonUtility.ToJson(res)
+                    }
+                );
+            }
+        );
+        _rewardedVideoAd.OnError(
+            (res) =>
             {
-                content = "RewardedVideoAd onError Result:" + JsonUtility.ToJson(res)
-            });
-        });
-        _rewardedVideoAd.OnClose((res) =>
-        {
-            WX.ShowModal(new ShowModalOption()
+                WX.ShowModal(
+                    new ShowModalOption()
+                    {
+                        content = "RewardedVideoAd onError Result:" + JsonUtility.ToJson(res)
+                    }
+                );
+            }
+        );
+        _rewardedVideoAd.OnClose(
+            (res) =>
             {
-                content = "RewardedVideoAd onClose Result:" + JsonUtility.ToJson(res)
-            });
-        });
+                WX.ShowModal(
+                    new ShowModalOption()
+                    {
+                        content = "RewardedVideoAd onClose Result:" + JsonUtility.ToJson(res)
+                    }
+                );
+            }
+        );
         // 预加载广告
         _rewardedVideoAd.Load();
 
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "已创建并加载广告"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "已创建并加载广告" });
     }
 
     // 展示广告
     private void ShowAd()
     {
         _rewardedVideoAd.Show();
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "已展示广告"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "已展示广告" });
     }
 
     // 销毁广告
     private void DestroyAd()
     {
         _rewardedVideoAd.Destroy();
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "已销毁广告"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "已销毁广告" });
     }
 
     private void OnDestroy()

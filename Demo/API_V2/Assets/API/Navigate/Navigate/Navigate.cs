@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Navigate : Details
 {
     private void Start()
@@ -28,25 +29,27 @@ public class Navigate : Details
         Dictionary<string, string> myDictionary = new Dictionary<string, string>();
         myDictionary.Add("key1", "value1");
         myDictionary.Add("key2", "value2");
-        WX.NavigateToMiniProgram(new NavigateToMiniProgramOption()
-        {
-            appId = "wx7a727ff7d940bb3f",
-            path = "?id=123",
-            extraData = myDictionary,
-            envVersion = "develop",
-            success = (res) =>
+        WX.NavigateToMiniProgram(
+            new NavigateToMiniProgramOption()
             {
-                Debug.Log("success: " + JsonUtility.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail: " + JsonUtility.ToJson(res));
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                appId = "wx7a727ff7d940bb3f",
+                path = "?id=123",
+                extraData = myDictionary,
+                envVersion = "develop",
+                success = (res) =>
+                {
+                    Debug.Log("success: " + JsonUtility.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail: " + JsonUtility.ToJson(res));
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void exitMiniProgram()

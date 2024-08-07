@@ -8,25 +8,28 @@ public class Camera : Details
     private bool _firstLoad = true;
 
     private bool _isListening = false;
+
     private void Start()
     {
         // 该功能无法在IOS高性能模式使用
         // 该功能无法在开发者工具使用
-        _camera = WX.CreateCamera(new CreateCameraOption()
-        {
-            x = -144,
-            y = -256,
-            width = 144,
-            height = 256,
-            success = (res) =>
+        _camera = WX.CreateCamera(
+            new CreateCameraOption()
             {
-                Debug.Log("创建相机成功" + JsonUtility.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("创建相机失败" + JsonUtility.ToJson(res));
+                x = -144,
+                y = -256,
+                width = 144,
+                height = 256,
+                success = (res) =>
+                {
+                    Debug.Log("创建相机成功" + JsonUtility.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("创建相机失败" + JsonUtility.ToJson(res));
+                }
             }
-        });
+        );
 
         _camera.OnAuthCancel(() =>
         {
@@ -40,11 +43,13 @@ public class Camera : Details
             Debug.Log("摄像头暂停，如退出后台");
         });
 
-        _camera.OnCameraFrame((response) =>
-        {
-            // 获取每帧数据
-            RenderTexture(response.data, response.width, response.height);
-        });
+        _camera.OnCameraFrame(
+            (response) =>
+            {
+                // 获取每帧数据
+                RenderTexture(response.data, response.width, response.height);
+            }
+        );
     }
 
     protected override void TestAPI(string[] args)

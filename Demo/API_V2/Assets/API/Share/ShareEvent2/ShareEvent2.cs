@@ -6,36 +6,33 @@ using WeChatWASM;
 
 public class ShareEvent2 : Details
 {
-
     private bool _isListeningHandoff = false;
     private bool _isListeningCopyUrl = false;
     private bool _isListeningAddToFavorites = false;
 
     private readonly Action<Action<OnHandoffListenerResult>> _onHandoff = (callback) =>
     {
-        callback(new OnHandoffListenerResult
-        {
-            query = "xxxx"
-        });
+        callback(new OnHandoffListenerResult { query = "xxxx" });
     };
 
     private readonly Action<Action<OnCopyUrlListenerResult>> _onCopyUrl = (callback) =>
     {
-        callback(new OnCopyUrlListenerResult
-        {
-            query = "xx"
-        });
+        callback(new OnCopyUrlListenerResult { query = "xx" });
     };
 
-    private readonly Action<Action<OnAddToFavoritesListenerResult>> _onAddToFavorites = (callback) =>
+    private readonly Action<Action<OnAddToFavoritesListenerResult>> _onAddToFavorites = (
+        callback
+    ) =>
     {
-        callback(new OnAddToFavoritesListenerResult
-        {
-            title = "收藏标题",
-            imageUrl = "xx",
-            query = "key1=val1&key2=val2",
-            disableForward = false
-        });
+        callback(
+            new OnAddToFavoritesListenerResult
+            {
+                title = "收藏标题",
+                imageUrl = "xx",
+                query = "key1=val1&key2=val2",
+                disableForward = false
+            }
+        );
     };
 
     private void Start()
@@ -63,7 +60,9 @@ public class ShareEvent2 : Details
             WX.OffHandoff(_onHandoff);
         }
         _isListeningHandoff = !_isListeningHandoff;
-        GameManager.Instance.detailsController.ChangeInitialButtonText(_isListeningHandoff ? "取消监听在电脑上打开" : "开始监听在电脑上打开");
+        GameManager.Instance.detailsController.ChangeInitialButtonText(
+            _isListeningHandoff ? "取消监听在电脑上打开" : "开始监听在电脑上打开"
+        );
     }
 
     public void onCopyUrl()
@@ -77,7 +76,10 @@ public class ShareEvent2 : Details
             WX.OffCopyUrl(_onCopyUrl);
         }
         _isListeningCopyUrl = !_isListeningCopyUrl;
-        GameManager.Instance.detailsController.ChangeExtraButtonText(0, _isListeningCopyUrl ? "取消监听复制链接" : "开始监听复制链接");
+        GameManager.Instance.detailsController.ChangeExtraButtonText(
+            0,
+            _isListeningCopyUrl ? "取消监听复制链接" : "开始监听复制链接"
+        );
     }
 
     public void onAddToFavorites()
@@ -91,51 +93,58 @@ public class ShareEvent2 : Details
             WX.OffAddToFavorites(_onAddToFavorites);
         }
         _isListeningAddToFavorites = !_isListeningAddToFavorites;
-        GameManager.Instance.detailsController.ChangeExtraButtonText(1, _isListeningAddToFavorites ? "取消监听收藏" : "开始监听收藏");
+        GameManager.Instance.detailsController.ChangeExtraButtonText(
+            1,
+            _isListeningAddToFavorites ? "取消监听收藏" : "开始监听收藏"
+        );
     }
 
     public void getShareInfo()
     {
-        WX.GetShareInfo(new GetShareInfoOption
-        {
-            shareTicket = "xxx",
-            timeout = 2000,
-            success = (res) =>
+        WX.GetShareInfo(
+            new GetShareInfoOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                shareTicket = "xxx",
+                timeout = 2000,
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void authPrivateMessage()
     {
-        WX.AuthPrivateMessage(new AuthPrivateMessageOption
-        {
-            shareTicket = "xxxxxx",
-            success = (res) =>
+        WX.AuthPrivateMessage(
+            new AuthPrivateMessageOption
             {
-                Debug.Log("authPrivateMessage success" + JsonMapper.ToJson(res));
-                // res
-                // {
-                //   errMsg: 'authPrivateMessage:ok'
-                //   valid: true
-                //   iv: 'xxxx',
-                //   encryptedData: 'xxxxxx'
-                // }
-            },
-            fail = (res) =>
-            {
-                Debug.Log("authPrivateMessage fail" + res.errMsg);
+                shareTicket = "xxxxxx",
+                success = (res) =>
+                {
+                    Debug.Log("authPrivateMessage success" + JsonMapper.ToJson(res));
+                    // res
+                    // {
+                    //   errMsg: 'authPrivateMessage:ok'
+                    //   valid: true
+                    //   iv: 'xxxx',
+                    //   encryptedData: 'xxxxxx'
+                    // }
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("authPrivateMessage fail" + res.errMsg);
+                }
             }
-        });
+        );
     }
 
     private void OnDestroy()

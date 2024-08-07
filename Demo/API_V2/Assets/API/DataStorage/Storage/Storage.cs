@@ -1,7 +1,8 @@
+using System;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
-using System;
+
 // 缓存数据类型
 [System.Serializable]
 public class Data
@@ -15,17 +16,15 @@ public class Storage : Details
     private readonly Action<OnBackgroundFetchDataListenerResult> _onBackgroundFetchData = (res) =>
     {
         var result = "onBackgroundFetchData\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
     private void Start()
     {
         // 监听收到 backgroundFetch 数据事件。
         WX.OnBackgroundFetchData(_onBackgroundFetchData);
-
 
         GameManager.Instance.detailsController.BindExtraButtonAction(0, getStorage);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, removeStorage);
@@ -45,81 +44,65 @@ public class Storage : Details
 
     public void setStorageSync()
     {
-        var d = new Data
-        {
-            data1 = "test",
-            data2 = 1
-        };
+        var d = new Data { data1 = "test", data2 = 1 };
         PlayerPrefs.SetString("test1", JsonUtility.ToJson(d));
         PlayerPrefs.Save();
-        WX.ShowToast(new ShowToastOption
-        {
-            title = "设置成功"
-        });
+        WX.ShowToast(new ShowToastOption { title = "设置成功" });
     }
-
 
     public void removeStorageSync()
     {
         WX.RemoveStorageSync("test1");
-        WX.ShowToast(new ShowToastOption
-        {
-            title = "删除test1成功"
-        });
+        WX.ShowToast(new ShowToastOption { title = "删除test1成功" });
     }
 
     public void removeStorage()
     {
-        WX.RemoveStorage(new RemoveStorageOption
-        {
-            key = "test2",
-            success = (res) =>
+        WX.RemoveStorage(
+            new RemoveStorageOption
             {
-                WX.ShowToast(new ShowToastOption
+                key = "test2",
+                success = (res) =>
                 {
-                    title = "删除test2成功"
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail: " + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowToast(new ShowToastOption { title = "删除test2成功" });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail: " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void getStorageInfoSync()
     {
         GetStorageInfoSyncOption res = WX.GetStorageInfoSync();
-        WX.ShowModal(new ShowModalOption
-        {
-            content = JsonMapper.ToJson(res)
-        });
+        WX.ShowModal(new ShowModalOption { content = JsonMapper.ToJson(res) });
     }
 
     public void getStorageInfo()
     {
-        WX.GetStorageInfo(new GetStorageInfoOption
-        {
-            success = (res) =>
+        WX.GetStorageInfo(
+            new GetStorageInfoOption
             {
-                WX.ShowModal(new ShowModalOption
+                success = (res) =>
                 {
-                    content = JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail: " + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowModal(new ShowModalOption { content = JsonMapper.ToJson(res) });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail: " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void getStorage()
@@ -127,77 +110,71 @@ public class Storage : Details
         var res = PlayerPrefs.GetString("test1");
         Debug.Log("playerperfs: " + res);
 
-        WX.ShowModal(new ShowModalOption
-        {
-            content = res
-        });
+        WX.ShowModal(new ShowModalOption { content = res });
     }
 
     public void setBackgroundFetchToken()
     {
-        WX.SetBackgroundFetchToken(new SetBackgroundFetchTokenOption
-        {
-            token = "abcdefghijklmn",
-            success = (res) =>
+        WX.SetBackgroundFetchToken(
+            new SetBackgroundFetchTokenOption
             {
-                WX.ShowToast(new ShowToastOption
+                token = "abcdefghijklmn",
+                success = (res) =>
                 {
-                    title = "设置成功"
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail: " + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowToast(new ShowToastOption { title = "设置成功" });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail: " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void getBackgroundFetchToken()
     {
-        WX.GetBackgroundFetchToken(new GetBackgroundFetchTokenOption
-        {
-            success = (res) =>
+        WX.GetBackgroundFetchToken(
+            new GetBackgroundFetchTokenOption
             {
-                WX.ShowModal(new ShowModalOption
+                success = (res) =>
                 {
-                    content = JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail: " + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowModal(new ShowModalOption { content = JsonMapper.ToJson(res) });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail: " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void getBackgroundFetchData()
     {
-        WX.GetBackgroundFetchData(new GetBackgroundFetchDataOption
-        {
-            fetchType = "pre",
-            success = (res) =>
+        WX.GetBackgroundFetchData(
+            new GetBackgroundFetchDataOption
             {
-                WX.ShowModal(new ShowModalOption
+                fetchType = "pre",
+                success = (res) =>
                 {
-                    content = JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail: " + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowModal(new ShowModalOption { content = JsonMapper.ToJson(res) });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail: " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 }

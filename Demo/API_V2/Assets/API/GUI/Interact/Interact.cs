@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Interact : Details
 {
     private void Start()
@@ -23,126 +24,138 @@ public class Interact : Details
 
     public void showToast()
     {
-        WX.ShowToast(new ShowToastOption
-        {
-            title = "showToast",
-            duration = 5000,
-            success = (res) =>
+        WX.ShowToast(
+            new ShowToastOption
             {
-                Debug.Log(res);
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                title = "showToast",
+                duration = 5000,
+                success = (res) =>
+                {
+                    Debug.Log(res);
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void showModal()
     {
-        WX.ShowModal(new ShowModalOption
-        {
-            title = "showModal",
-            content = "show",
-            showCancel = true,
-            cancelText = "取消",
-            confirmText = "确定",
-            success = (res) =>
+        WX.ShowModal(
+            new ShowModalOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                title = "showModal",
+                content = "show",
+                showCancel = true,
+                cancelText = "取消",
+                confirmText = "确定",
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void showLoading()
     {
-        WX.ShowLoading(new ShowLoadingOption
-        {
-            title = "showLoading",
-            success = (res) =>
+        WX.ShowLoading(
+            new ShowLoadingOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                title = "showLoading",
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void showActionSheet()
     {
-        WX.ShowActionSheet(new ShowActionSheetOption
-        {
-            alertText = "showActionSheet",
-            itemList = new string[] { "1", "2", "3" },
-            success = (res) =>
+        WX.ShowActionSheet(
+            new ShowActionSheetOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                alertText = "showActionSheet",
+                itemList = new string[] { "1", "2", "3" },
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void hideToast()
     {
-        WX.HideToast(new HideToastOption
-        {
-            success = (res) =>
+        WX.HideToast(
+            new HideToastOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void hideLoading()
     {
-        WX.HideLoading(new HideLoadingOption
-        {
-            success = (res) =>
+        WX.HideLoading(
+            new HideLoadingOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void Destroy()

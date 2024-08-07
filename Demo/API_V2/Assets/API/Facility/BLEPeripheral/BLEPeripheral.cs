@@ -3,75 +3,77 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class BLEPeripheral : Details
 {
-
     private bool _isListening = false;
     private BLEPeripheralServer _server;
 
-    private readonly Action<OnBLEPeripheralConnectionStateChangedListenerResult> _onBLEPeripheralConnectionStateChanged = (res) =>
-    {
-        var result = "onBLEPeripheralConnectionStateChanged\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
+    private readonly Action<OnBLEPeripheralConnectionStateChangedListenerResult> _onBLEPeripheralConnectionStateChanged =
+        (res) =>
         {
-            initialContentText = result
-        });
-    };
+            var result = "onBLEPeripheralConnectionStateChanged\n" + JsonMapper.ToJson(res);
+            GameManager.Instance.detailsController.AddResult(
+                new ResultData() { initialContentText = result }
+            );
+        };
 
-    private readonly Action<OnCharacteristicReadRequestListenerResult> _onCharacteristicReadRequest = (res) =>
-    {
-        var result = "onCharacteristicReadRequest\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
+    private readonly Action<OnCharacteristicReadRequestListenerResult> _onCharacteristicReadRequest =
+        (res) =>
         {
-            initialContentText = result
-        });
-    };
+            var result = "onCharacteristicReadRequest\n" + JsonMapper.ToJson(res);
+            GameManager.Instance.detailsController.AddResult(
+                new ResultData() { initialContentText = result }
+            );
+        };
 
-    private readonly Action<OnCharacteristicSubscribedListenerResult> _onCharacteristicSubscribed = (res) =>
-    {
-        var result = "onCharacteristicSubscribed\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
+    private readonly Action<OnCharacteristicSubscribedListenerResult> _onCharacteristicSubscribed =
+        (res) =>
         {
-            initialContentText = result
-        });
-    };
+            var result = "onCharacteristicSubscribed\n" + JsonMapper.ToJson(res);
+            GameManager.Instance.detailsController.AddResult(
+                new ResultData() { initialContentText = result }
+            );
+        };
 
-    private readonly Action<OnCharacteristicSubscribedListenerResult> _onCharacteristicUnsubscribed = (res) =>
-    {
-        var result = "onCharacteristicUnsubscribed\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
+    private readonly Action<OnCharacteristicSubscribedListenerResult> _onCharacteristicUnsubscribed =
+        (res) =>
         {
-            initialContentText = result
-        });
-    };
+            var result = "onCharacteristicUnsubscribed\n" + JsonMapper.ToJson(res);
+            GameManager.Instance.detailsController.AddResult(
+                new ResultData() { initialContentText = result }
+            );
+        };
 
-    private readonly Action<OnCharacteristicWriteRequestListenerResult> _onCharacteristicWriteRequest = (res) =>
-    {
-        var result = "onCharacteristicWriteRequest\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
+    private readonly Action<OnCharacteristicWriteRequestListenerResult> _onCharacteristicWriteRequest =
+        (res) =>
         {
-            initialContentText = result
-        });
-    };
+            var result = "onCharacteristicWriteRequest\n" + JsonMapper.ToJson(res);
+            GameManager.Instance.detailsController.AddResult(
+                new ResultData() { initialContentText = result }
+            );
+        };
 
     private void Start()
     {
-        WX.CreateBLEPeripheralServer(new CreateBLEPeripheralServerOption
-        {
-            success = (res) =>
+        WX.CreateBLEPeripheralServer(
+            new CreateBLEPeripheralServerOption
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-                _server = res.server;
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                    _server = res.server;
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
 
         // 监听当前外围设备被连接或断开连接事件
         WX.OnBLEPeripheralConnectionStateChanged(_onBLEPeripheralConnectionStateChanged);
@@ -91,11 +93,7 @@ public class BLEPeripheral : Details
 
     public void addService()
     {
-        var permission1 = new CharacteristicPermission
-        {
-            readable = true,
-            writeable = true
-        };
+        var permission1 = new CharacteristicPermission { readable = true, writeable = true };
 
         var properties1 = new CharacteristicProperties
         {
@@ -105,11 +103,7 @@ public class BLEPeripheral : Details
             indicate = true
         };
 
-        var descriptorpermission1 = new DescriptorPermission
-        {
-            read = true,
-            write = true,
-        };
+        var descriptorpermission1 = new DescriptorPermission { read = true, write = true, };
 
         var descriptors1 = new Descriptor
         {
@@ -132,42 +126,46 @@ public class BLEPeripheral : Details
             characteristics = new Characteristic[] { characteristics1 }
         };
 
-        _server.addService(new AddServiceOption
-        {
-            service = service1,
-            success = (res) =>
+        _server.addService(
+            new AddServiceOption
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                service = service1,
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void removeService()
     {
-        _server.removeService(new RemoveServiceOption
-        {
-            serviceId = "xx",
-            success = (res) =>
+        _server.removeService(
+            new RemoveServiceOption
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                serviceId = "xx",
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void startAdvertising()
@@ -195,66 +193,72 @@ public class BLEPeripheral : Details
             serviceUuids = new string[] { "xx", "yy", "aa" }
         };
 
-        _server.startAdvertising(new StartAdvertisingObject
-        {
-            advertiseRequest = advertiseRequest1,
-            powerLevel = "medium",
-            success = (res) =>
+        _server.startAdvertising(
+            new StartAdvertisingObject
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                advertiseRequest = advertiseRequest1,
+                powerLevel = "medium",
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void stopAdvertising()
     {
-        _server.stopAdvertising(new StopAdvertisingOption
-        {
-            success = (res) =>
+        _server.stopAdvertising(
+            new StopAdvertisingOption
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void writeCharacteristicValue()
     {
-        _server.writeCharacteristicValue(new WriteCharacteristicValueObject
-        {
-            characteristicId = "xx",
-            needNotify = true,
-            serviceId = "yy",
-            value = new byte[] { 1, 2, 3 },
-            callbackId = 100,
-            success = (res) =>
+        _server.writeCharacteristicValue(
+            new WriteCharacteristicValueObject
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                characteristicId = "xx",
+                needNotify = true,
+                serviceId = "yy",
+                value = new byte[] { 1, 2, 3 },
+                callbackId = 100,
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void listen()
@@ -274,7 +278,10 @@ public class BLEPeripheral : Details
             _server.offCharacteristicWriteRequest(_onCharacteristicWriteRequest);
         }
         _isListening = !_isListening;
-        GameManager.Instance.detailsController.ChangeExtraButtonText(4, _isListening ? "取消监听" : "开始监听");
+        GameManager.Instance.detailsController.ChangeExtraButtonText(
+            4,
+            _isListening ? "取消监听" : "开始监听"
+        );
     }
 
     private void OnDestroy()

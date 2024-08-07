@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
-using WeChatWASM;
 using UnityEngine.UI;
-
+using WeChatWASM;
 
 public class VideoDecoder : Details
 {
@@ -49,7 +48,6 @@ public class VideoDecoder : Details
         _videoDecoder.On("bufferchange", _onBufferchange);
         _videoDecoder.On("ended", _onEnded);
 
-
         GameManager.Instance.detailsController.BindExtraButtonAction(0, stop);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, seek);
         GameManager.Instance.detailsController.BindExtraButtonAction(2, getFrameData);
@@ -58,13 +56,16 @@ public class VideoDecoder : Details
     // 开始
     protected override void TestAPI(string[] args)
     {
-        _videoDecoder.Start(new VideoDecoderStartOption()
-        {
-            source = "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20190812/video.mp4",
-            mode = 1,
-            abortAudio = false,
-            abortVideo = false,
-        });
+        _videoDecoder.Start(
+            new VideoDecoderStartOption()
+            {
+                source =
+                    "https://res.wx.qq.com/wechatgame/product/webpack/userupload/20190812/video.mp4",
+                mode = 1,
+                abortAudio = false,
+                abortVideo = false,
+            }
+        );
     }
 
     // 停止

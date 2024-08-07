@@ -1,7 +1,7 @@
 ﻿using System;
+using CSObjectWrapEditor;
 using UnityEditor;
 using UnityEngine;
-using CSObjectWrapEditor;
 using XLua;
 
 namespace XLuaTest
@@ -14,7 +14,9 @@ namespace XLuaTest
         [MenuItem("XLua/Examples/13_BuildFromCLI")]
         public static void BuildFromUnityMenu()
         {
-            var outputDir = Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length) + "/output";
+            var outputDir =
+                Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length)
+                + "/output";
             var packageName = "xLuaGame.exe";
             build(outputDir, packageName);
         }
@@ -24,7 +26,9 @@ namespace XLuaTest
         /// </summary>
         public static void Build()
         {
-            var outputDir = Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length) + "/output";
+            var outputDir =
+                Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length)
+                + "/output";
             var packageName = "xLuaGame.exe";
             build(outputDir, packageName);
         }

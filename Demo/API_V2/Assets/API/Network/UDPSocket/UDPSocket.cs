@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class UDPSocket : Details
 {
     private WXUDPSocket _udpSocket;
@@ -30,25 +31,33 @@ public class UDPSocket : Details
 
             Debug.Log("udpSocket: " + JsonUtility.ToJson(_udpSocket));
 
-            _udpSocket.OnListening((res) =>
-            {
-                Debug.Log("onListening: " + JsonUtility.ToJson(res));
-            });
+            _udpSocket.OnListening(
+                (res) =>
+                {
+                    Debug.Log("onListening: " + JsonUtility.ToJson(res));
+                }
+            );
 
-            _udpSocket.OnError((res) =>
-            {
-                Debug.Log("onError: " + JsonUtility.ToJson(res));
-            });
+            _udpSocket.OnError(
+                (res) =>
+                {
+                    Debug.Log("onError: " + JsonUtility.ToJson(res));
+                }
+            );
 
-            _udpSocket.OnClose((res) =>
-            {
-                Debug.Log("onClose: " + JsonUtility.ToJson(res));
-            });
+            _udpSocket.OnClose(
+                (res) =>
+                {
+                    Debug.Log("onClose: " + JsonUtility.ToJson(res));
+                }
+            );
 
-            _udpSocket.OnMessage((res) =>
-            {
-                Debug.Log("onMessage: " + JsonUtility.ToJson(res));
-            });
+            _udpSocket.OnMessage(
+                (res) =>
+                {
+                    Debug.Log("onMessage: " + JsonUtility.ToJson(res));
+                }
+            );
         }
         else
         {
@@ -60,11 +69,9 @@ public class UDPSocket : Details
     {
         if (_udpSocket != null && !_connected)
         {
-            _udpSocket.Connect(new UDPSocketConnectOption()
-            {
-                address = "www.oooceanworld.com",
-                port = 8101
-            });
+            _udpSocket.Connect(
+                new UDPSocketConnectOption() { address = "www.oooceanworld.com", port = 8101 }
+            );
             _connected = true;
         }
         else

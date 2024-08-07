@@ -19,10 +19,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using UnityEngine;
 using System;
-using System.Runtime.InteropServices;
 using System.Collections;
+using System.Runtime.InteropServices;
+using UnityEngine;
 
 namespace LuaInterface
 {
@@ -85,7 +85,7 @@ namespace LuaInterface
         public LuaByteBuffer ToLuaByteBuffer(IntPtr L, int stackPos)
         {
             return new LuaByteBuffer(ToLua.ToByteBuffer(L, stackPos));
-        }   
+        }
 
         public IEnumerator ToIter(IntPtr L, int stackPos)
         {
@@ -163,7 +163,7 @@ namespace LuaInterface
         {
             double ret = LuaDLL.luaL_checknumber(L, stackPos);
             return Convert.ToDecimal(ret);
-        }     
+        }
 
         public float CheckFloat(IntPtr L, int stackPos)
         {
@@ -175,7 +175,7 @@ namespace LuaInterface
         {
             LuaTypes luaType = LuaDLL.lua_type(L, stackPos);
 
-            switch(luaType)
+            switch (luaType)
             {
                 case LuaTypes.LUA_TNIL:
                     return IntPtr.Zero;
@@ -184,7 +184,7 @@ namespace LuaInterface
                 default:
                     LuaDLL.luaL_typerror(L, stackPos, "IntPtr");
                     return IntPtr.Zero;
-            }            
+            }
         }
 
         public UIntPtr CheckUIntPtr(IntPtr L, int stackPos)
@@ -517,7 +517,9 @@ namespace LuaInterface
                 return null;
             }
 
-            float x = 0, y = 0, z = 0;
+            float x = 0,
+                y = 0,
+                z = 0;
             LuaDLL.tolua_getvec3(L, stackPos, out x, out y, out z);
             return new Vector3(x, y, z);
         }
@@ -529,7 +531,10 @@ namespace LuaInterface
                 return null;
             }
 
-            float x, y, z, w;
+            float x,
+                y,
+                z,
+                w;
             LuaDLL.tolua_getquat(L, stackPos, out x, out y, out z, out w);
             return new Quaternion(x, y, z, w);
         }
@@ -541,10 +546,11 @@ namespace LuaInterface
                 return null;
             }
 
-            float x, y;
+            float x,
+                y;
             LuaDLL.tolua_getvec2(L, stackPos, out x, out y);
             return new Vector2(x, y);
-        }        
+        }
 
         public Nullable<Color> ToNullColor(IntPtr L, int stackPos)
         {
@@ -553,10 +559,13 @@ namespace LuaInterface
                 return null;
             }
 
-            float r, g, b, a;
+            float r,
+                g,
+                b,
+                a;
             LuaDLL.tolua_getclr(L, stackPos, out r, out g, out b, out a);
             return new Color(r, g, b, a);
-        }      
+        }
 
         public Nullable<Vector4> ToNullVec4(IntPtr L, int stackPos)
         {
@@ -565,10 +574,13 @@ namespace LuaInterface
                 return null;
             }
 
-            float x, y, z, w;
+            float x,
+                y,
+                z,
+                w;
             LuaDLL.tolua_getvec4(L, stackPos, out x, out y, out z, out w);
             return new Vector4(x, y, z, w);
-        }   
+        }
 
         public Nullable<Ray> ToNullRay(IntPtr L, int stackPos)
         {
@@ -578,7 +590,7 @@ namespace LuaInterface
             }
 
             return ToLua.ToRay(L, stackPos);
-        }  
+        }
 
         public Nullable<Bounds> ToNullBounds(IntPtr L, int stackPos)
         {
@@ -588,7 +600,7 @@ namespace LuaInterface
             }
 
             return ToLua.ToBounds(L, stackPos);
-        }      
+        }
 
         public Nullable<LayerMask> ToNullLayerMask(IntPtr L, int stackPos)
         {
@@ -837,7 +849,7 @@ namespace LuaInterface
             }
 
             return ToLua.CheckQuaternion(L, stackPos);
-        }     
+        }
 
         public Nullable<Vector2> CheckNullVec2(IntPtr L, int stackPos)
         {
@@ -847,7 +859,7 @@ namespace LuaInterface
             }
 
             return ToLua.CheckVector2(L, stackPos);
-        }   
+        }
 
         public Nullable<Color> CheckNullColor(IntPtr L, int stackPos)
         {
@@ -857,7 +869,7 @@ namespace LuaInterface
             }
 
             return ToLua.CheckColor(L, stackPos);
-        }    
+        }
 
         public Nullable<Vector4> CheckNullVec4(IntPtr L, int stackPos)
         {
@@ -867,7 +879,7 @@ namespace LuaInterface
             }
 
             return ToLua.CheckVector4(L, stackPos);
-        }      
+        }
 
         public Nullable<Ray> CheckNullRay(IntPtr L, int stackPos)
         {
@@ -877,7 +889,7 @@ namespace LuaInterface
             }
 
             return ToLua.CheckRay(L, stackPos);
-        }       
+        }
 
         public Nullable<Bounds> CheckNullBounds(IntPtr L, int stackPos)
         {
@@ -887,7 +899,7 @@ namespace LuaInterface
             }
 
             return ToLua.CheckBounds(L, stackPos);
-        }    
+        }
 
         public Nullable<LayerMask> CheckNullLayerMask(IntPtr L, int stackPos)
         {
@@ -922,7 +934,7 @@ namespace LuaInterface
         public Vector4[] CheckVec4Array(IntPtr L, int stackPos)
         {
             return ToLua.CheckStructArray<Vector4>(L, stackPos);
-        }        
+        }
 
         public Type[] CheckTypeArray(IntPtr L, int stackPos)
         {

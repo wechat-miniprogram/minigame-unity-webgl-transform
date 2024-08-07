@@ -28,16 +28,12 @@ public class Rename : Details
         }
 
         // 创建并写入初始数据到文件
-        var fd = _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path1,
-            flag = "w+"
-        });
-        _fileSystemManager.WriteSync(new WriteSyncStringOption()
-        {
-            fd = fd,
-            data = "Original Data "
-        });
+        var fd = _fileSystemManager.OpenSync(
+            new OpenSyncOption() { filePath = Path1, flag = "w+" }
+        );
+        _fileSystemManager.WriteSync(
+            new WriteSyncStringOption() { fd = fd, data = "Original Data " }
+        );
     }
 
     // 重命名文件
@@ -56,27 +52,33 @@ public class Rename : Details
     // 异步重命名文件
     private void RunAsync(string newPath)
     {
-        _fileSystemManager.Rename(new RenameOption()
-        {
-            newPath = PathPrefix + newPath,
-            oldPath = PathPrefix + _oldPath,
-            success = (res) =>
+        _fileSystemManager.Rename(
+            new RenameOption()
             {
-                _oldPath = newPath;
-                UpdateResults();
-                WX.ShowModal(new ShowModalOption()
+                newPath = PathPrefix + newPath,
+                oldPath = PathPrefix + _oldPath,
+                success = (res) =>
                 {
-                    content = "Rename Success, Result: " + JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) =>
-            {
-                WX.ShowModal(new ShowModalOption()
+                    _oldPath = newPath;
+                    UpdateResults();
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Rename Success, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                },
+                fail = (res) =>
                 {
-                    content = "Rename Fail, Result: " + JsonMapper.ToJson(res)
-                });
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Rename Fail, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     // 同步重命名文件
@@ -86,17 +88,23 @@ public class Rename : Details
 
         _oldPath = newPath;
         UpdateResults();
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "Rename Success"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "Rename Success" });
     }
 
     // 更新结果
     private void UpdateResults()
     {
-        GameManager.Instance.detailsController.SetResultActive(0, _fileSystemManager.AccessSync(Path1) == "access:ok");
-        GameManager.Instance.detailsController.SetResultActive(1, _fileSystemManager.AccessSync(Path2) == "access:ok");
-        GameManager.Instance.detailsController.SetResultActive(2, _fileSystemManager.AccessSync(Path3) == "access:ok");
+        GameManager.Instance.detailsController.SetResultActive(
+            0,
+            _fileSystemManager.AccessSync(Path1) == "access:ok"
+        );
+        GameManager.Instance.detailsController.SetResultActive(
+            1,
+            _fileSystemManager.AccessSync(Path2) == "access:ok"
+        );
+        GameManager.Instance.detailsController.SetResultActive(
+            2,
+            _fileSystemManager.AccessSync(Path3) == "access:ok"
+        );
     }
 }

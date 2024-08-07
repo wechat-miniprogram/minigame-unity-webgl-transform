@@ -16,39 +16,43 @@ public class Setting : Details
 
     public void openSetting()
     {
-        WX.OpenSetting(new OpenSettingOption()
-        {
-            success = res =>
+        WX.OpenSetting(
+            new OpenSettingOption()
             {
-                Debug.Log("success " + JsonUtility.ToJson(res));
-            },
-            fail = res =>
-            {
-                Debug.Log("fail " + JsonUtility.ToJson(res));
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete " + JsonUtility.ToJson(res));
+                success = res =>
+                {
+                    Debug.Log("success " + JsonUtility.ToJson(res));
+                },
+                fail = res =>
+                {
+                    Debug.Log("fail " + JsonUtility.ToJson(res));
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete " + JsonUtility.ToJson(res));
+                }
             }
-        });
+        );
     }
 
     public void getSetting()
     {
-        WX.GetSetting(new GetSettingOption()
-        {
-            success = res =>
+        WX.GetSetting(
+            new GetSettingOption()
             {
-                Debug.Log("success " + JsonUtility.ToJson(res));
-            },
-            fail = res =>
-            {
-                Debug.Log("fail " + JsonUtility.ToJson(res));
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete " + JsonUtility.ToJson(res));
+                success = res =>
+                {
+                    Debug.Log("success " + JsonUtility.ToJson(res));
+                },
+                fail = res =>
+                {
+                    Debug.Log("fail " + JsonUtility.ToJson(res));
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete " + JsonUtility.ToJson(res));
+                }
             }
-        });
+        );
     }
 }

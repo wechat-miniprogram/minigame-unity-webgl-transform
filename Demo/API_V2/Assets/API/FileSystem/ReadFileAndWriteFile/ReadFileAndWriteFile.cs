@@ -19,17 +19,18 @@ public class ReadFileAndWriteFile : Details
     private Action<WXTextResponse> onWriteFileSuccess = (res) =>
     {
         UpdateFileContent();
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "WriteFile Success, Result: " + JsonMapper.ToJson(res)
-        });
+        WX.ShowModal(
+            new ShowModalOption()
+            {
+                content = "WriteFile Success, Result: " + JsonMapper.ToJson(res)
+            }
+        );
     };
     private Action<WXTextResponse> onWriteFileFail = (res) =>
     {
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "WriteFile Fail, Result: " + JsonMapper.ToJson(res)
-        });
+        WX.ShowModal(
+            new ShowModalOption() { content = "WriteFile Fail, Result: " + JsonMapper.ToJson(res) }
+        );
     };
 
     // 在 Start 方法中初始化
@@ -45,18 +46,12 @@ public class ReadFileAndWriteFile : Details
         }
 
         // 创建文件
-        var fd = _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path,
-            flag = "w+"
-        });
+        var fd = _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path, flag = "w+" });
 
         // 写入初始数据
-        _fileSystemManager.WriteSync(new WriteSyncStringOption()
-        {
-            fd = fd,
-            data = "Original Data "
-        });
+        _fileSystemManager.WriteSync(
+            new WriteSyncStringOption() { fd = fd, data = "Original Data " }
+        );
 
         // 绑定按钮事件
         GameManager.Instance.detailsController.BindExtraButtonAction(0, WriteFile);
@@ -93,51 +88,52 @@ public class ReadFileAndWriteFile : Details
     {
         if (encoding == "null")
         {
-            var readResult = _fileSystemManager.ReadFileSync(Path,
+            var readResult = _fileSystemManager.ReadFileSync(
+                Path,
                 position == "null" ? null : (long?)int.Parse(position),
-                length == "null" ? null : (long?)int.Parse(length));
+                length == "null" ? null : (long?)int.Parse(length)
+            );
             UpdateReadResult(readResult);
         }
         else
         {
-            var readResult = _fileSystemManager.ReadFileSync(Path, encoding,
+            var readResult = _fileSystemManager.ReadFileSync(
+                Path,
+                encoding,
                 position == "null" ? null : (long?)int.Parse(position),
-                length == "null" ? null : (long?)int.Parse(length));
+                length == "null" ? null : (long?)int.Parse(length)
+            );
             UpdateReadResult(readResult);
         }
 
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "ReadFileSync Success"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "ReadFileSync Success" });
     }
 
     // 异步读取文件
     private void ReadFileAsync(string encoding, string position, string length)
     {
-        _fileSystemManager.ReadFile(new ReadFileParam()
-        {
-            filePath = Path,
-            encoding = encoding == "null" ? null : encoding,
-            position = position == "null" ? null : (long?)int.Parse(position),
-            length = length == "null" ? null : (long?)int.Parse(length),
-            success = (res) =>
+        _fileSystemManager.ReadFile(
+            new ReadFileParam()
             {
-                // 若encoding为null，则数据位于res.binData，否则数据位于res.stringData
-                if (encoding == "null")
+                filePath = Path,
+                encoding = encoding == "null" ? null : encoding,
+                position = position == "null" ? null : (long?)int.Parse(position),
+                length = length == "null" ? null : (long?)int.Parse(length),
+                success = (res) =>
                 {
-                    UpdateReadResult(res.binData);
+                    // 若encoding为null，则数据位于res.binData，否则数据位于res.stringData
+                    if (encoding == "null")
+                    {
+                        UpdateReadResult(res.binData);
+                    }
+                    else
+                    {
+                        UpdateReadResult(res.stringData);
+                    }
+                    WX.ShowToast(new ShowToastOption() { title = "ReadFile Success" });
                 }
-                else
-                {
-                    UpdateReadResult(res.stringData);
-                }
-                WX.ShowToast(new ShowToastOption()
-                {
-                    title = "ReadFile Success"
-                });
             }
-        });
+        );
     }
 
     // 同步写入文件
@@ -168,10 +164,7 @@ public class ReadFileAndWriteFile : Details
 
         // 更新文件内容
         UpdateFileContent();
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "WriteFile Success"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "WriteFile Success" });
     }
 
     // 异步写入文件
@@ -181,48 +174,56 @@ public class ReadFileAndWriteFile : Details
         {
             if (encoding == "null")
             {
-                _fileSystemManager.WriteFile(new WriteFileStringParam()
-                {
-                    filePath = Path,
-                    data = _stringData,
-                    success = onWriteFileSuccess,
-                    fail = onWriteFileFail
-                });
+                _fileSystemManager.WriteFile(
+                    new WriteFileStringParam()
+                    {
+                        filePath = Path,
+                        data = _stringData,
+                        success = onWriteFileSuccess,
+                        fail = onWriteFileFail
+                    }
+                );
             }
             else
             {
-                _fileSystemManager.WriteFile(new WriteFileStringParam()
-                {
-                    filePath = Path,
-                    data = _stringData,
-                    encoding = encoding,
-                    success = onWriteFileSuccess,
-                    fail = onWriteFileFail
-                });
+                _fileSystemManager.WriteFile(
+                    new WriteFileStringParam()
+                    {
+                        filePath = Path,
+                        data = _stringData,
+                        encoding = encoding,
+                        success = onWriteFileSuccess,
+                        fail = onWriteFileFail
+                    }
+                );
             }
         }
         else
         {
             if (encoding == "null")
             {
-                _fileSystemManager.WriteFile(new WriteFileParam()
-                {
-                    filePath = Path,
-                    data = _bufferData,
-                    success = onWriteFileSuccess,
-                    fail = onWriteFileFail
-                });
+                _fileSystemManager.WriteFile(
+                    new WriteFileParam()
+                    {
+                        filePath = Path,
+                        data = _bufferData,
+                        success = onWriteFileSuccess,
+                        fail = onWriteFileFail
+                    }
+                );
             }
             else
             {
-                _fileSystemManager.WriteFile(new WriteFileParam()
-                {
-                    filePath = Path,
-                    data = _bufferData,
-                    encoding = encoding,
-                    success = onWriteFileSuccess,
-                    fail = onWriteFileFail
-                });
+                _fileSystemManager.WriteFile(
+                    new WriteFileParam()
+                    {
+                        filePath = Path,
+                        data = _bufferData,
+                        encoding = encoding,
+                        success = onWriteFileSuccess,
+                        fail = onWriteFileFail
+                    }
+                );
             }
         }
     }
@@ -230,7 +231,10 @@ public class ReadFileAndWriteFile : Details
     // 更新读取结果（字节数组）
     private void UpdateReadResult(byte[] readResult)
     {
-        GameManager.Instance.detailsController.ChangeResultContent(0, JsonMapper.ToJson(readResult));
+        GameManager.Instance.detailsController.ChangeResultContent(
+            0,
+            JsonMapper.ToJson(readResult)
+        );
     }
 
     // 更新读取结果（字符串）
@@ -243,6 +247,9 @@ public class ReadFileAndWriteFile : Details
     private static void UpdateFileContent()
     {
         // 使用UTF8编码显示文件内容
-        GameManager.Instance.detailsController.ChangeResultContent(1, _fileSystemManager.ReadFileSync(Path, "utf8"));
+        GameManager.Instance.detailsController.ChangeResultContent(
+            1,
+            _fileSystemManager.ReadFileSync(Path, "utf8")
+        );
     }
 }

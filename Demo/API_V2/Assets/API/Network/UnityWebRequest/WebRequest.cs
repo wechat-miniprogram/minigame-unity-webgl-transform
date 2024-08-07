@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 using WeChatWASM;
 
 public class WebRequest : Details
@@ -48,7 +48,6 @@ public class WebRequest : Details
         {
             Debug.Log("get complete: " + webRequest.downloadHandler.text);
         }
-
     }
 
     IEnumerator Post()

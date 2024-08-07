@@ -18,10 +18,7 @@ public class Stat : Details
     // 失败回调
     private Action<WXStatResponse> onFail = (res) =>
     {
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = "Stat Fail"
-        });
+        WX.ShowModal(new ShowModalOption() { content = "Stat Fail" });
     };
 
     private void Start()
@@ -36,26 +33,10 @@ public class Stat : Details
         }
 
         // 创建文件
-        _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path5,
-            flag = "w+"
-        });
-        _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path6,
-            flag = "w+"
-        });
-        _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path8,
-            flag = "w+"
-        });
-        _fileSystemManager.OpenSync(new OpenSyncOption()
-        {
-            filePath = Path9,
-            flag = "w+"
-        });
+        _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path5, flag = "w+" });
+        _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path6, flag = "w+" });
+        _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path8, flag = "w+" });
+        _fileSystemManager.OpenSync(new OpenSyncOption() { filePath = Path9, flag = "w+" });
 
         // 写入文件内容
         _fileSystemManager.WriteFileSync(Path5, "Five words form this statement.");
@@ -83,10 +64,7 @@ public class Stat : Details
         var fileStats = _fileSystemManager.StatSync(PathPrefix + path);
 
         UpdateResults(fileStats);
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "StatSync Success"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "StatSync Success" });
     }
 
     // 异步获取文件状态
@@ -94,48 +72,42 @@ public class Stat : Details
     {
         if (recursive == "null")
         {
-            _fileSystemManager.Stat(new WXStatOption()
-            {
-                path = PathPrefix + path,
-                success = (res) =>
+            _fileSystemManager.Stat(
+                new WXStatOption()
                 {
-                    UpdateResults(res.stats.ToArray());
-                    WX.ShowToast(new ShowToastOption()
+                    path = PathPrefix + path,
+                    success = (res) =>
                     {
-                        title = "Stat Success"
-                    });
-                },
-                fail = onFail
-            });
+                        UpdateResults(res.stats.ToArray());
+                        WX.ShowToast(new ShowToastOption() { title = "Stat Success" });
+                    },
+                    fail = onFail
+                }
+            );
         }
         else
         {
-            _fileSystemManager.Stat(new WXStatOption()
-            {
-                path = PathPrefix + path,
-                recursive = recursive == "true",
-                success = (res) =>
+            _fileSystemManager.Stat(
+                new WXStatOption()
                 {
-                    if (recursive == "true")
+                    path = PathPrefix + path,
+                    recursive = recursive == "true",
+                    success = (res) =>
                     {
-                        UpdateResults(res.stats.ToArray());
-                        WX.ShowToast(new ShowToastOption()
+                        if (recursive == "true")
                         {
-                            title = "Stat Success"
-                        });
-                    }
-                    else
-                    {
-                        UpdateResults(res.one_stat);
-                        WX.ShowToast(new ShowToastOption()
+                            UpdateResults(res.stats.ToArray());
+                            WX.ShowToast(new ShowToastOption() { title = "Stat Success" });
+                        }
+                        else
                         {
-                            title = "Stat Success"
-                        });
-                    }
-
-                },
-                fail = onFail
-            });
+                            UpdateResults(res.one_stat);
+                            WX.ShowToast(new ShowToastOption() { title = "Stat Success" });
+                        }
+                    },
+                    fail = onFail
+                }
+            );
         }
     }
 
@@ -152,14 +124,22 @@ public class Stat : Details
 
         foreach (var fileStat in fileStats)
         {
-            GameManager.Instance.detailsController.AddResult(new ResultData()
-            {
-                initialContentText = "文件路径：" + fileStat.path
-                                                    + "\n文件的类型和存取的权限：" + fileStat.stats.mode
-                                                    + "\n文件大小，单位：B：" + fileStat.stats.size
-                                                    + "\n文件最近一次被存取或被执行的时间：" + fileStat.stats.lastAccessedTime
-                                                    + "\n文件最后一次被修改的时间：" + fileStat.stats.lastModifiedTime
-            });
+            GameManager.Instance.detailsController.AddResult(
+                new ResultData()
+                {
+                    initialContentText =
+                        "文件路径："
+                        + fileStat.path
+                        + "\n文件的类型和存取的权限："
+                        + fileStat.stats.mode
+                        + "\n文件大小，单位：B："
+                        + fileStat.stats.size
+                        + "\n文件最近一次被存取或被执行的时间："
+                        + fileStat.stats.lastAccessedTime
+                        + "\n文件最后一次被修改的时间："
+                        + fileStat.stats.lastModifiedTime
+                }
+            );
         }
     }
 
@@ -168,12 +148,19 @@ public class Stat : Details
     {
         ClearResults();
 
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = "文件的类型和存取的权限：" + stats.mode
-                                                + "\n文件大小，单位：B：" + stats.size
-                                                + "\n文件最近一次被存取或被执行的时间：" + stats.lastAccessedTime
-                                                + "\n文件最后一次被修改的时间：" + stats.lastModifiedTime
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData()
+            {
+                initialContentText =
+                    "文件的类型和存取的权限："
+                    + stats.mode
+                    + "\n文件大小，单位：B："
+                    + stats.size
+                    + "\n文件最近一次被存取或被执行的时间："
+                    + stats.lastAccessedTime
+                    + "\n文件最后一次被修改的时间："
+                    + stats.lastModifiedTime
+            }
+        );
     }
 }

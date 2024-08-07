@@ -21,7 +21,11 @@ namespace UnityWebSocket.Demo
         private void OnGUI()
         {
             var scale = UnityEngine.Screen.width / 800f;
-            GUI.matrix = Matrix4x4.TRS(new Vector3(0, 0, 0), Quaternion.identity, new Vector3(scale, scale, 1));
+            GUI.matrix = Matrix4x4.TRS(
+                new Vector3(0, 0, 0),
+                Quaternion.identity,
+                new Vector3(scale, scale, 1)
+            );
             var width = GUILayout.Width(UnityEngine.Screen.width / scale - 10);
             var w = UnityEngine.Screen.width / scale - 10;
             WebSocketState state = socket == null ? WebSocketState.Closed : socket.ReadyState;
@@ -30,11 +34,19 @@ namespace UnityWebSocket.Demo
             style.fontSize = 26;
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("", GUILayout.Width(UnityEngine.Screen.width / scale - 100), GUILayout.Height(250));
+            GUILayout.Label(
+                "",
+                GUILayout.Width(UnityEngine.Screen.width / scale - 100),
+                GUILayout.Height(250)
+            );
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            GUILayout.Label("SDK Version: " + Settings.VERSION, style, GUILayout.Width(UnityEngine.Screen.width / scale - 300));
+            GUILayout.Label(
+                "SDK Version: " + Settings.VERSION,
+                style,
+                GUILayout.Width(UnityEngine.Screen.width / scale - 300)
+            );
             GUI.color = green;
             GUILayout.Label($"FPS: {fps:F2}", style, GUILayout.Width(300));
             GUI.color = Color.white;
@@ -42,7 +54,12 @@ namespace UnityWebSocket.Demo
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("State: ", style, GUILayout.Width(70));
-            GUI.color = WebSocketState.Closed == state ? red : WebSocketState.Open == state ? green : wait;
+            GUI.color =
+                WebSocketState.Closed == state
+                    ? red
+                    : WebSocketState.Open == state
+                        ? green
+                        : wait;
             GUILayout.Label($"{state}", style, GUILayout.Width(300));
             GUI.color = Color.white;
             GUILayout.EndHorizontal();
@@ -57,7 +74,14 @@ namespace UnityWebSocket.Demo
             style.normal.background = MakeTex(2, 2, Color.grey);
 
             GUI.enabled = state == WebSocketState.Closed;
-            if (GUILayout.Button(state == WebSocketState.Connecting ? "Connecting..." : "Connect", style, GUILayout.Width(w / 2), GUILayout.Height(45)))
+            if (
+                GUILayout.Button(
+                    state == WebSocketState.Connecting ? "Connecting..." : "Connect",
+                    style,
+                    GUILayout.Width(w / 2),
+                    GUILayout.Height(45)
+                )
+            )
             {
                 if (WebSocketState.Connecting != 0)
                 {
@@ -73,7 +97,14 @@ namespace UnityWebSocket.Demo
             }
 
             GUI.enabled = state == WebSocketState.Open;
-            if (GUILayout.Button(state == WebSocketState.Closing ? "Closing..." : "Close", style, GUILayout.Width(w / 2), GUILayout.Height(45)))
+            if (
+                GUILayout.Button(
+                    state == WebSocketState.Closing ? "Closing..." : "Close",
+                    style,
+                    GUILayout.Width(w / 2),
+                    GUILayout.Height(45)
+                )
+            )
             {
                 AddLog(string.Format("Closing..."));
                 socket.CloseAsync();
@@ -93,13 +124,19 @@ namespace UnityWebSocket.Demo
 
             GUILayout.BeginHorizontal();
             style.alignment = TextAnchor.MiddleCenter;
-            if (GUILayout.Button("Send", style, GUILayout.Width(w / 2), GUILayout.Height(45)) && !string.IsNullOrEmpty(sendText))
+            if (
+                GUILayout.Button("Send", style, GUILayout.Width(w / 2), GUILayout.Height(45))
+                && !string.IsNullOrEmpty(sendText)
+            )
             {
                 socket.SendAsync(sendText);
                 AddLog(string.Format("Send: {0}", sendText));
                 sendCount += 1;
             }
-            if (GUILayout.Button("Send Bytes", style, GUILayout.Width(w / 2), GUILayout.Height(45)) && !string.IsNullOrEmpty(sendText))
+            if (
+                GUILayout.Button("Send Bytes", style, GUILayout.Width(w / 2), GUILayout.Height(45))
+                && !string.IsNullOrEmpty(sendText)
+            )
             {
                 var bytes = System.Text.Encoding.UTF8.GetBytes(sendText);
                 socket.SendAsync(bytes);
@@ -109,7 +146,10 @@ namespace UnityWebSocket.Demo
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            if (GUILayout.Button("Send x100", style, GUILayout.Width(w / 2), GUILayout.Height(45)) && !string.IsNullOrEmpty(sendText))
+            if (
+                GUILayout.Button("Send x100", style, GUILayout.Width(w / 2), GUILayout.Height(45))
+                && !string.IsNullOrEmpty(sendText)
+            )
             {
                 for (int i = 0; i < 100; i++)
                 {
@@ -119,7 +159,14 @@ namespace UnityWebSocket.Demo
                     sendCount += 1;
                 }
             }
-            if (GUILayout.Button("Send Bytes x100", style, GUILayout.Width(w / 2), GUILayout.Height(45)) && !string.IsNullOrEmpty(sendText))
+            if (
+                GUILayout.Button(
+                    "Send Bytes x100",
+                    style,
+                    GUILayout.Width(w / 2),
+                    GUILayout.Height(45)
+                ) && !string.IsNullOrEmpty(sendText)
+            )
             {
                 for (int i = 0; i < 100; i++)
                 {
@@ -150,7 +197,11 @@ namespace UnityWebSocket.Demo
                 sendCount = 0;
             }
             style.alignment = TextAnchor.UpperLeft;
-            scrollPos = GUILayout.BeginScrollView(scrollPos, GUILayout.MaxHeight(UnityEngine.Screen.height / scale - 270), width);
+            scrollPos = GUILayout.BeginScrollView(
+                scrollPos,
+                GUILayout.MaxHeight(UnityEngine.Screen.height / scale - 270),
+                width
+            );
             style.normal.background = null;
             GUILayout.Label(log, style);
             GUILayout.EndScrollView();
@@ -158,8 +209,10 @@ namespace UnityWebSocket.Demo
 
         private void AddLog(string str)
         {
-            if (!logMessage) return;
-            if (str.Length > 100) str = str.Substring(0, 100) + "...";
+            if (!logMessage)
+                return;
+            if (str.Length > 100)
+                str = str.Substring(0, 100) + "...";
             log += str + "\n";
             if (log.Length > 22 * 1024)
             {
@@ -221,6 +274,7 @@ namespace UnityWebSocket.Demo
         private int frame = 0;
         private float time = 0;
         private float fps = 0;
+
         private void Update()
         {
             frame += 1;

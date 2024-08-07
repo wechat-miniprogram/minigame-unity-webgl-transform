@@ -8,7 +8,8 @@ public class BackToMainSceneButton : MonoBehaviour
     private void Awake()
     {
         // 为按钮添加点击事件监听器
-        GetComponent<Button>().onClick.AddListener(OnClick);
+        GetComponent<Button>()
+            .onClick.AddListener(OnClick);
     }
 
     // 点击事件处理

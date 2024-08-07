@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using LuaInterface;
 using System.Collections.Generic;
-using System;
+using LuaInterface;
+using UnityEngine;
 
 //需要导出委托类型如下：
 //System.Predicate<int>
@@ -135,7 +135,6 @@ public class UseList : LuaClient
             end
         ";
 
-
     protected override LuaFileUtils InitLoader()
     {
         return new LuaResLoader();
@@ -150,7 +149,7 @@ public class UseList : LuaClient
         Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
-#endif          
+#endif
         base.OnLoadFinished();
         luaState.DoString(script, "UseList.cs");
         List<int> list1 = new List<int>();
@@ -165,7 +164,7 @@ public class UseList : LuaClient
         func.PCall();
         func.EndPCall();
         func.Dispose();
-        func = null;        
+        func = null;
     }
 
     string tips;

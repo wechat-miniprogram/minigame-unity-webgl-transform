@@ -12,7 +12,6 @@ public class BuildMenu
         buildPlayerOptions.scenes = new[]
         {
             "Assets/Scenes/Results.unity",
-
             "Assets/Scenes/2D Physics Boxes.unity",
             "Assets/Scenes/2D Physics Polygons.unity",
             "Assets/Scenes/2D Physics Spheres.unity",
@@ -27,10 +26,12 @@ public class BuildMenu
             "Assets/Scenes/Physics Cubes.unity",
             "Assets/Scenes/Physics Meshes.unity",
             "Assets/Scenes/Physics Spheres.unity"
-            
-//            "Assets/Scenes/Mandelbrot GPU.unity",
+
+            //            "Assets/Scenes/Mandelbrot GPU.unity",
         };
-        buildPlayerOptions.locationPathName = PlayerSettings.WebGL.threadsSupport ? "builds/WebMT" : "builds/Web";
+        buildPlayerOptions.locationPathName = PlayerSettings.WebGL.threadsSupport
+            ? "builds/WebMT"
+            : "builds/Web";
         buildPlayerOptions.target = BuildTarget.WebGL;
         buildPlayerOptions.options = BuildOptions.None;
 
@@ -55,7 +56,7 @@ public class BuildMenu
         PlayerSettings.WebGL.threadsSupport = true;
 
         BuildWeb();
-        
+
         PlayerSettings.WebGL.threadsSupport = threadsSupport;
     }
 }

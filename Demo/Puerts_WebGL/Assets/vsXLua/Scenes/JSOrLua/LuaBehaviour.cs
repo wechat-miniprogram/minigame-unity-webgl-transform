@@ -1,10 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 using XLua;
 
 public class LuaBehaviour : MonoBehaviour
-{   
+{
     public virtual string ScriptName { get; }
 
     public static Action ScriptUpdate = null;
@@ -14,8 +14,10 @@ public class LuaBehaviour : MonoBehaviour
 
     void Start()
     {
-        if (env == null) env = new LuaEnv();
-        if (ScriptName == "" || ScriptName == null) throw new Exception("ScriptName is empty");
+        if (env == null)
+            env = new LuaEnv();
+        if (ScriptName == "" || ScriptName == null)
+            throw new Exception("ScriptName is empty");
 
         var scriptEnv = env.NewTable();
         LuaTable meta = env.NewTable();
@@ -28,16 +30,20 @@ public class LuaBehaviour : MonoBehaviour
     }
 
     static int lastUpdateFrameCount = 0;
+
     void Update()
     {
         if (lastUpdateFrameCount != UnityEngine.Time.frameCount)
         {
             env.Tick();
-            if (ScriptUpdate != null) ScriptUpdate();
+            if (ScriptUpdate != null)
+                ScriptUpdate();
         }
     }
+
     void OnDestroy()
     {
-        if (ScriptOnDestroy != null) ScriptOnDestroy();
+        if (ScriptOnDestroy != null)
+            ScriptOnDestroy();
     }
 }

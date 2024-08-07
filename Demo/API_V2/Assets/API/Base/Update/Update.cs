@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Update : Details
 {
     private WXUpdateManager _updateManager;
@@ -21,55 +22,65 @@ public class Update : Details
 
     public void updateWeChatApp()
     {
-        WX.UpdateWeChatApp(new UpdateWeChatAppOption
-        {
-            success = (res) =>
+        WX.UpdateWeChatApp(
+            new UpdateWeChatAppOption
             {
-                Debug.Log("success!");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                success = (res) =>
+                {
+                    Debug.Log("success!");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void updateManagerDemo()
     {
         _updateManager = WX.GetUpdateManager();
 
-        _updateManager.OnCheckForUpdate((res) =>
-        {
-            // 请求完新版本信息的回调
-            Debug.Log("Isupdate: " + res.hasUpdate);
-        });
-
-        _updateManager.OnUpdateReady((r) =>
-        {
-            Debug.Log("ready" + r);
-            WX.ShowModal(new ShowModalOption
+        _updateManager.OnCheckForUpdate(
+            (res) =>
             {
-                title = "更新提示",
-                content = "新版本已经准备好，是否重启应用？",
-                success = (res) =>
-                {
-                    if (res.confirm)
-                    {
-                        // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-                        _updateManager.ApplyUpdate();
-                    }
-                }
-            });
-        });
+                // 请求完新版本信息的回调
+                Debug.Log("Isupdate: " + res.hasUpdate);
+            }
+        );
 
-        _updateManager.OnUpdateFailed((res) =>
-        {
-            // 新版本下载失败
-            Debug.Log("fail" + res);
-        });
+        _updateManager.OnUpdateReady(
+            (r) =>
+            {
+                Debug.Log("ready" + r);
+                WX.ShowModal(
+                    new ShowModalOption
+                    {
+                        title = "更新提示",
+                        content = "新版本已经准备好，是否重启应用？",
+                        success = (res) =>
+                        {
+                            if (res.confirm)
+                            {
+                                // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+                                _updateManager.ApplyUpdate();
+                            }
+                        }
+                    }
+                );
+            }
+        );
+
+        _updateManager.OnUpdateFailed(
+            (res) =>
+            {
+                // 新版本下载失败
+                Debug.Log("fail" + res);
+            }
+        );
     }
 }

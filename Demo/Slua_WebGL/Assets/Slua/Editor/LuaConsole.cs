@@ -1,17 +1,17 @@
 ﻿// The MIT License (MIT)
 
 // Copyright 2015 Siney/Pangweiwei siney@yeah.net / jiangzhhhh  jiangzhhhh@gmail.com
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,18 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
-using System.Text;
-using System;
 
 namespace SLua
 {
     public class LuaConsole : EditorWindow
     {
         #region COMMON_DEFINE
-        const string COMMON_DEFINE = @"
+        const string COMMON_DEFINE =
+            @"
 local function prettyTabToStr(tab, level, path, visited)
     local result = ''
     if level == nil then
@@ -180,12 +181,15 @@ end
         struct OutputRecord
         {
             public string text;
+
             public enum OutputType
             {
                 Log = 0,
                 Err = 1,
             }
+
             public OutputType type;
+
             public OutputRecord(string text, OutputType type)
             {
                 this.type = type;
@@ -204,8 +208,8 @@ end
         StringBuilder outputBuffer = new StringBuilder();
         List<OutputRecord> recordList = new List<OutputRecord>();
 
-		List<string> history = new List<string>();
-		int historyIndex = 0;
+        List<string> history = new List<string>();
+        int historyIndex = 0;
 
         Vector2 scrollPosition = Vector2.zero;
         GUIStyle textAreaStyle = new GUIStyle();
@@ -246,7 +250,10 @@ end
                 {
                     if (record.text.IndexOf(keyword) >= 0)
                     {
-                        string highlightText = string.Format("<color=#ffff00ff>{0}</color>", keyword);
+                        string highlightText = string.Format(
+                            "<color=#ffff00ff>{0}</color>",
+                            keyword
+                        );
                         string displayText = record.text.Replace(keyword, highlightText);
                         outputBuffer.AppendLine(displayText);
                     }
@@ -275,6 +282,7 @@ end
         }
 
         int stateIndex = -1;
+
         void OnGUI()
         {
             if (!initedStyle)
@@ -285,20 +293,20 @@ end
                 initedStyle = true;
             }
 
-
             string[] statehints = new string[LuaState.statemap.Count];
             LuaState[] states = new LuaState[LuaState.statemap.Count];
             int n = 0;
-            foreach(var k in LuaState.statemap.Values) {
+            foreach (var k in LuaState.statemap.Values)
+            {
                 states[n] = k;
                 statehints[n++] = k.Name;
             }
 
-            stateIndex = EditorGUILayout.Popup(stateIndex,statehints);
+            stateIndex = EditorGUILayout.Popup(stateIndex, statehints);
 
             LuaState l = null;
-            if (stateIndex >= 0 && stateIndex <states.Length)
-				l = states[stateIndex];
+            if (stateIndex >= 0 && stateIndex < states.Length)
+                l = states[stateIndex];
 
             if (current != null && current != l)
             {
@@ -306,18 +314,20 @@ end
                 current.errorDelegate -= AddError;
             }
 
-            if(current!=l && l!=null) {
-				l.logDelegate += AddLog;
-				l.errorDelegate += AddError;
-				current = l;
+            if (current != l && l != null)
+            {
+                l.logDelegate += AddLog;
+                l.errorDelegate += AddError;
+                current = l;
             }
 
-
-
-
             //Output Text Area
-			scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(Screen.width), GUILayout.ExpandHeight(true));
-			EditorGUILayout.TextArea(outputText, textAreaStyle, GUILayout.ExpandHeight(true));
+            scrollPosition = GUILayout.BeginScrollView(
+                scrollPosition,
+                GUILayout.Width(Screen.width),
+                GUILayout.ExpandHeight(true)
+            );
+            EditorGUILayout.TextArea(outputText, textAreaStyle, GUILayout.ExpandHeight(true));
             GUILayout.EndScrollView();
 
             //Filter Option Toggles
@@ -341,7 +351,11 @@ end
             }
             GUILayout.EndHorizontal();
 
-            if (toggleLog != oldToggleLog || toggleErr != oldToggleErr || filterText != oldFilterPattern)
+            if (
+                toggleLog != oldToggleLog
+                || toggleErr != oldToggleErr
+                || filterText != oldFilterPattern
+            )
             {
                 ConsoleFlush();
             }
@@ -426,11 +440,11 @@ end
             GUILayout.Space(4);
 
             Event e = Event.current;
-			#if UNITY_2017_3_OR_NEWER
-			if (e.type == EventType.MouseDown && dragSpliterRect.Contains(e.mousePosition))
-			#else
+#if UNITY_2017_3_OR_NEWER
+            if (e.type == EventType.MouseDown && dragSpliterRect.Contains(e.mousePosition))
+#else
             if (e.type == EventType.mouseDown && dragSpliterRect.Contains(e.mousePosition))
-			#endif
+#endif
             {
                 e.Use();
                 inputAreaResizing = true;
@@ -483,27 +497,27 @@ end
             }
         }
 
-        void Do(string tail,string type) {
+        void Do(string tail, string type)
+        {
             LuaState.printTrace = false;
-			LuaFunction f = current.doString(COMMON_DEFINE + type, "LuaConsole") as LuaFunction;
-			f.call(tail);
-			f.Dispose();
+            LuaFunction f = current.doString(COMMON_DEFINE + type, "LuaConsole") as LuaFunction;
+            f.call(tail);
+            f.Dispose();
             LuaState.printTrace = true;
-		}
-
+        }
 
         [MenuItem("CONTEXT/Component/Push Component To Lua")]
         static void PushComponentObjectToLua(MenuCommand cmd)
         {
             Component com = cmd.context as Component;
-			if (com == null)
+            if (com == null)
                 return;
 
             LuaState luaState = current;
             if (luaState == null)
                 return;
 
-			LuaObject.pushObject(luaState.L, com);
+            LuaObject.pushObject(luaState.L, com);
             LuaDLL.lua_setglobal(luaState.L, "_");
         }
 

@@ -1,10 +1,10 @@
-﻿#if !UNITY_WSA || UNITY_EDITOR
+﻿using System;
+#if !UNITY_WSA || UNITY_EDITOR
 using System.Security.Cryptography;
 #else
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 #endif
-using System;
 
 namespace XLua
 {
@@ -26,12 +26,16 @@ namespace XLua
             rsa.ImportCspBlob(Convert.FromBase64String(publicKey));
             sha = new SHA1CryptoServiceProvider();
 #else
-            rsa = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaSignPkcs1Sha1);
-            key = rsa.ImportPublicKey(CryptographicBuffer.DecodeFromBase64String(publicKey), CryptographicPublicKeyBlobType.Capi1PublicKey);
+            rsa = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(
+                AsymmetricAlgorithmNames.RsaSignPkcs1Sha1
+            );
+            key = rsa.ImportPublicKey(
+                CryptographicBuffer.DecodeFromBase64String(publicKey),
+                CryptographicPublicKeyBlobType.Capi1PublicKey
+            );
 #endif
             userLoader = loader;
         }
-
 
         byte[] load_and_verify(ref string filepath)
         {
@@ -56,14 +60,19 @@ namespace XLua
                 throw new InvalidProgramException(filepath + " has invalid signature!");
             }
 #else
-            if (!CryptographicEngine.VerifySignature(key, CryptographicBuffer.CreateFromByteArray(filecontent), CryptographicBuffer.CreateFromByteArray(sig)))
+            if (
+                !CryptographicEngine.VerifySignature(
+                    key,
+                    CryptographicBuffer.CreateFromByteArray(filecontent),
+                    CryptographicBuffer.CreateFromByteArray(sig)
+                )
+            )
             {
                 throw new InvalidProgramException(filepath + " has invalid signature!");
             }
 #endif
             return filecontent;
         }
-
 
         public static implicit operator LuaEnv.CustomLoader(SignatureLoader signatureLoader)
         {

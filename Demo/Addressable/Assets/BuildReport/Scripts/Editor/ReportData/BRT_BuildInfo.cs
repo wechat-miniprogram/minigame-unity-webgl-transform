@@ -2,210 +2,203 @@ using UnityEditor;
 
 namespace BuildReportTool
 {
-	/// <summary>
-	/// Class for holding a Build Report.
-	/// This is the class that is serialized when saving a Build Report to a file.
-	/// </summary>
-	[System.Serializable, System.Xml.Serialization.XmlRoot("BuildInfo")]
-	public partial class BuildInfo
-	{
-		// General Info
-		// ==================================================================================
+    /// <summary>
+    /// Class for holding a Build Report.
+    /// This is the class that is serialized when saving a Build Report to a file.
+    /// </summary>
+    [System.Serializable, System.Xml.Serialization.XmlRoot("BuildInfo")]
+    public partial class BuildInfo
+    {
+        // General Info
+        // ==================================================================================
 
-		/// <summary>
-		/// Name of project folder.
-		/// </summary>
-		public string ProjectName;
+        /// <summary>
+        /// Name of project folder.
+        /// </summary>
+        public string ProjectName;
 
-		/// <summary>
-		/// Type of build, as reported by the Unity Editor log, but as a string.
-		/// </summary>
-		public string BuildType;
+        /// <summary>
+        /// Type of build, as reported by the Unity Editor log, but as a string.
+        /// </summary>
+        public string BuildType;
 
-		/// <summary>
-		/// When build was created.
-		/// </summary>
-		public System.DateTime TimeGot;
+        /// <summary>
+        /// When build was created.
+        /// </summary>
+        public System.DateTime TimeGot;
 
-		/// <inheritdoc cref="_reportGenerationTime"/>
-		[System.Xml.Serialization.XmlElement("ReportGenerationTime")]
-		public long ReportGenerationTimeInTicks
-		{
-			get { return _reportGenerationTime.Ticks; }
-			set { _reportGenerationTime = new System.TimeSpan(value); }
-		}
+        /// <inheritdoc cref="_reportGenerationTime"/>
+        [System.Xml.Serialization.XmlElement("ReportGenerationTime")]
+        public long ReportGenerationTimeInTicks
+        {
+            get { return _reportGenerationTime.Ticks; }
+            set { _reportGenerationTime = new System.TimeSpan(value); }
+        }
 
-		/// <summary>
-		/// When build was created, in readable format.
-		/// </summary>
-		public string TimeGotReadable;
+        /// <summary>
+        /// When build was created, in readable format.
+        /// </summary>
+        public string TimeGotReadable;
 
-		/// <summary>
-		/// Version of Unity that was used in building project.
-		/// </summary>
-		public string UnityVersion = "";
+        /// <summary>
+        /// Version of Unity that was used in building project.
+        /// </summary>
+        public string UnityVersion = "";
 
-		/// <summary>
-		/// Value of <see cref="EditorApplication.applicationContentsPath"/> during time of build.
-		/// This is the full path where the Unity Editor executable is.
-		/// </summary>
-		public string EditorAppContentsPath = "";
+        /// <summary>
+        /// Value of <see cref="EditorApplication.applicationContentsPath"/> during time of build.
+        /// This is the full path where the Unity Editor executable is.
+        /// </summary>
+        public string EditorAppContentsPath = "";
 
-		/// <summary>
-		/// Value of <see cref="UnityEngine.Application.dataPath"/> during time of build.
-		/// This is the full path where the project folder is.
-		/// </summary>
-		public string ProjectAssetsPath = "";
+        /// <summary>
+        /// Value of <see cref="UnityEngine.Application.dataPath"/> during time of build.
+        /// This is the full path where the project folder is.
+        /// </summary>
+        public string ProjectAssetsPath = "";
 
-		/// <summary>
-		/// Value of <see cref="EditorUserBuildSettings.GetBuildLocation"/> during time of build.
-		/// This is the full path where the build output is.
-		/// </summary>
-		public string BuildFilePath = "";
+        /// <summary>
+        /// Value of <see cref="EditorUserBuildSettings.GetBuildLocation"/> during time of build.
+        /// This is the full path where the build output is.
+        /// </summary>
+        public string BuildFilePath = "";
 
+        // Build Settings at time of Build Report creation
+        // ==================================================================================
 
-		// Build Settings at time of Build Report creation
-		// ==================================================================================
+        /// <summary>
+        /// If this Build Report recorded the various Build Settings when project was built.
+        /// </summary>
+        public bool HasUnityBuildSettings;
 
-		/// <summary>
-		/// If this Build Report recorded the various Build Settings when project was built.
-		/// </summary>
-		public bool HasUnityBuildSettings;
+        /// <summary>
+        /// Various Build Settings when project was built.
+        /// </summary>
+        public UnityBuildSettings UnityBuildSettings;
 
-		/// <summary>
-		/// Various Build Settings when project was built.
-		/// </summary>
-		public UnityBuildSettings UnityBuildSettings;
+        // Unity/OS environment values at time of Build Report creation
+        // ==================================================================================
 
+        //public string[] PrefabsUsedInScenes;
 
-		// Unity/OS environment values at time of Build Report creation
-		// ==================================================================================
+        /// <summary>
+        /// If the output for an Android build additionally had an .obb file beside the .apk file.
+        /// </summary>
+        public bool AndroidUseAPKExpansionFiles;
 
-		//public string[] PrefabsUsedInScenes;
+        /// <summary>
+        /// If the output for an Android build was a project instead of an .apk file.
+        /// </summary>
+        public bool AndroidCreateProject;
 
-		/// <summary>
-		/// If the output for an Android build additionally had an .obb file beside the .apk file.
-		/// </summary>
-		public bool AndroidUseAPKExpansionFiles;
+        // Total sizes
+        // ==================================================================================
 
-		/// <summary>
-		/// If the output for an Android build was a project instead of an .apk file.
-		/// </summary>
-		public bool AndroidCreateProject;
+        /// <summary>
+        /// Total size of output, in readable format.
+        /// </summary>
+        public string TotalBuildSize = "";
 
+        /// <summary>
+        /// Not used anymore. This is kept here for compatibility
+        /// with opening and displaying old Build Report files.
+        /// This was the total size of output, in readable format.
+        /// </summary>
+        public string CompressedBuildSize = "";
 
-		// Total sizes
-		// ==================================================================================
+        /// <summary>
+        /// Total size of all assets used in the build, in readable format.
+        /// </summary>
+        public string UsedTotalSize = "";
 
-		/// <summary>
-		/// Total size of output, in readable format.
-		/// </summary>
-		public string TotalBuildSize = "";
+        /// <summary>
+        /// Total size of all assets *not* used in the build, in readable format.
+        /// </summary>
+        public string UnusedTotalSize = "";
 
-		/// <summary>
-		/// Not used anymore. This is kept here for compatibility
-		/// with opening and displaying old Build Report files.
-		/// This was the total size of output, in readable format.
-		/// </summary>
-		public string CompressedBuildSize = "";
+        /// <summary>
+        /// Total size of StreamingAssets folder (if present), in readable format.
+        /// </summary>
+        public string StreamingAssetsSize = "";
 
-		/// <summary>
-		/// Total size of all assets used in the build, in readable format.
-		/// </summary>
-		public string UsedTotalSize = "";
+        // Per-platform specific sizes
+        // -------------------------------------------
 
-		/// <summary>
-		/// Total size of all assets *not* used in the build, in readable format.
-		/// </summary>
-		public string UnusedTotalSize = "";
+        /// <summary>
+        /// Not used anymore. This is kept here for compatibility
+        /// with opening and displaying old Build Report files.
+        /// This was the size of the .unity3d web build file, in readable format.
+        /// </summary>
+        public string WebFileBuildSize = "";
 
-		/// <summary>
-		/// Total size of StreamingAssets folder (if present), in readable format.
-		/// </summary>
-		public string StreamingAssetsSize = "";
+        /// <summary>
+        /// For Android builds, this is the size of the .apk file, in readable format.
+        /// </summary>
+        public string AndroidApkFileBuildSize = "";
 
+        /// <summary>
+        /// For Android builds that generated an additional .obb file,
+        /// this is the size of the .obb file, in readable format.
+        /// </summary>
+        public string AndroidObbFileBuildSize = "";
 
-		// Per-platform specific sizes
-		// -------------------------------------------
+        // Category Sizes
+        // ==================================================================================
 
-		/// <summary>
-		/// Not used anymore. This is kept here for compatibility
-		/// with opening and displaying old Build Report files.
-		/// This was the size of the .unity3d web build file, in readable format.
-		/// </summary>
-		public string WebFileBuildSize = "";
+        public BuildReportTool.SizePart[] BuildSizes;
 
-		/// <summary>
-		/// For Android builds, this is the size of the .apk file, in readable format.
-		/// </summary>
-		public string AndroidApkFileBuildSize = "";
+        // File entries
+        // ==================================================================================
 
-		/// <summary>
-		/// For Android builds that generated an additional .obb file,
-		/// this is the size of the .obb file, in readable format.
-		/// </summary>
-		public string AndroidObbFileBuildSize = "";
+        /// <summary>
+        /// All Mono/.NET DLL files used in the build, and their file sizes.
+        /// </summary>
+        public BuildReportTool.SizePart[] MonoDLLs;
 
+        /// <summary>
+        /// All managed DLL files from the project's Assets folder
+        /// that were used in the build, and their file sizes.
+        /// </summary>
+        public BuildReportTool.SizePart[] ScriptDLLs;
 
-		// Category Sizes
-		// ==================================================================================
+        /// <summary>
+        /// All the Unity API managed DLL files
+        /// that were used in the build, and their file sizes.
+        /// </summary>
+        public BuildReportTool.SizePart[] UnityEngineDLLs;
 
-		public BuildReportTool.SizePart[] BuildSizes;
+        /// <summary>
+        /// File filters used at time of Build Report creation
+        /// </summary>
+        public FileFilterGroup FileFilters;
 
+        /// <summary>
+        /// All files from the project's Assets folder
+        /// that were included in the build, and their file sizes.
+        /// </summary>
+        public AssetList UsedAssets;
 
-		// File entries
-		// ==================================================================================
+        /// <summary>
+        /// All files from the project's Assets folder
+        /// that were *not* included in the build, and their file sizes.
+        /// </summary>
+        public AssetList UnusedAssets;
 
-		/// <summary>
-		/// All Mono/.NET DLL files used in the build, and their file sizes.
-		/// </summary>
-		public BuildReportTool.SizePart[] MonoDLLs;
+        /// <summary>
+        /// Scenes included in the build
+        /// </summary>
+        public SceneInBuild[] ScenesInBuild;
 
-		/// <summary>
-		/// All managed DLL files from the project's Assets folder
-		/// that were used in the build, and their file sizes.
-		/// </summary>
-		public BuildReportTool.SizePart[] ScriptDLLs;
+        // Build Report Tool Options used at time of Build Report creation
+        // ==================================================================================
 
-		/// <summary>
-		/// All the Unity API managed DLL files
-		/// that were used in the build, and their file sizes.
-		/// </summary>
-		public BuildReportTool.SizePart[] UnityEngineDLLs;
+        public bool IncludedSvnInUnused;
+        public bool IncludedGitInUnused;
 
-		/// <summary>
-		/// File filters used at time of Build Report creation
-		/// </summary>
-		public FileFilterGroup FileFilters;
+        public bool UsedAssetsIncludedInCreation;
+        public bool UnusedAssetsIncludedInCreation;
+        public bool UnusedPrefabsIncludedInCreation;
 
-		/// <summary>
-		/// All files from the project's Assets folder
-		/// that were included in the build, and their file sizes.
-		/// </summary>
-		public AssetList UsedAssets;
-
-		/// <summary>
-		/// All files from the project's Assets folder
-		/// that were *not* included in the build, and their file sizes.
-		/// </summary>
-		public AssetList UnusedAssets;
-
-		/// <summary>
-		/// Scenes included in the build
-		/// </summary>
-		public SceneInBuild[] ScenesInBuild;
-
-
-		// Build Report Tool Options used at time of Build Report creation
-		// ==================================================================================
-
-		public bool IncludedSvnInUnused;
-		public bool IncludedGitInUnused;
-
-		public bool UsedAssetsIncludedInCreation;
-		public bool UnusedAssetsIncludedInCreation;
-		public bool UnusedPrefabsIncludedInCreation;
-
-		public int UnusedAssetsEntriesPerBatch;
-	}
+        public int UnusedAssetsEntriesPerBatch;
+    }
 } // namespace BuildReportTool

@@ -1,16 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
 using Puerts.TSLoader;
+using UnityEngine;
 
 public class BoxWithJS : JSBehaviour
 {
     public static int TotalBoxCount = 0;
-    
+
     public Transform target;
 
-    public override string ScriptName { get { return "box.mjs"; } }
+    public override string ScriptName
+    {
+        get { return "box.mjs"; }
+    }
 
     void Start()
     {
@@ -25,7 +28,7 @@ public class BoxWithJS : JSBehaviour
         this.transform.rotation = rotationSetter;
 #endif
     }
-    
+
     void Update()
     {
         ScriptBehaviourManager.InvokeUpdate(this);
@@ -40,7 +43,7 @@ public class BoxWithJS : JSBehaviour
 
     public int GetPositionSetterPointer()
     {
-        unsafe 
+        unsafe
         {
             fixed (Vector3* ptr = &positionSetter)
             {
@@ -48,9 +51,10 @@ public class BoxWithJS : JSBehaviour
             }
         }
     }
+
     public int GetRotationSetterPointer()
     {
-        unsafe 
+        unsafe
         {
             fixed (Quaternion* ptr = &rotationSetter)
             {

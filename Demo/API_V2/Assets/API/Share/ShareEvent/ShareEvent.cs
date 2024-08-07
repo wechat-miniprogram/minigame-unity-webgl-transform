@@ -6,42 +6,47 @@ using WeChatWASM;
 
 public class ShareEvent : Details
 {
-
     private bool _isListeningShareTimeline = false;
 
-    private readonly Action<Action<OnShareTimelineListenerResult>> _onShareTimelineCallback = (callback) =>
+    private readonly Action<Action<OnShareTimelineListenerResult>> _onShareTimelineCallback = (
+        callback
+    ) =>
     {
-        callback(new OnShareTimelineListenerResult
-        {
-            imageUrl = "xxx",
-            imagePreviewUrl = "yy",
-            imagePreviewUrlId = "xx",
-            imageUrlId = "xxx",
-            path = "xx",
-            query = "xx",
-            title = "test",
-        });
+        callback(
+            new OnShareTimelineListenerResult
+            {
+                imageUrl = "xxx",
+                imagePreviewUrl = "yy",
+                imagePreviewUrlId = "xx",
+                imageUrlId = "xxx",
+                path = "xx",
+                query = "xx",
+                title = "test",
+            }
+        );
     };
 
     private readonly Action<OnShareMessageToFriendListenerResult> _onShareMessageToFriend = (res) =>
     {
         var result = "onShareMessageToFriend\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
-    private readonly Action<Action<WXShareAppMessageParam>> _onShareAppMessageCallback = (callback) =>
+    private readonly Action<Action<WXShareAppMessageParam>> _onShareAppMessageCallback = (
+        callback
+    ) =>
     {
-        callback(new WXShareAppMessageParam
-        {
-            title = "转发标题",
-            imageUrl = "xx",
-            query = "key1=val1&key2=val2"
-        });
+        callback(
+            new WXShareAppMessageParam
+            {
+                title = "转发标题",
+                imageUrl = "xx",
+                query = "key1=val1&key2=val2"
+            }
+        );
     };
-
 
     private void Start()
     {
@@ -63,134 +68,125 @@ public class ShareEvent : Details
 
     public void updateShareMenu()
     {
-        var parameter = new UpdatableMessageFrontEndParameter[] {
-                new UpdatableMessageFrontEndParameter {
-                    name = "xxx",
-                    value = "yyy"
-                },
-                new UpdatableMessageFrontEndParameter {
-                    name = "zz",
-                    value = "kk"
-                }
+        var parameter = new UpdatableMessageFrontEndParameter[]
+        {
+            new UpdatableMessageFrontEndParameter { name = "xxx", value = "yyy" },
+            new UpdatableMessageFrontEndParameter { name = "zz", value = "kk" }
         };
 
-        var info = new UpdatableMessageFrontEndTemplateInfo
-        {
-            parameterList = parameter
-        };
+        var info = new UpdatableMessageFrontEndTemplateInfo { parameterList = parameter };
 
-        WX.UpdateShareMenu(new UpdateShareMenuOption
-        {
-            isPrivateMessage = true,
-            activityId = "xxx",
-            templateInfo = info,
-            success = (res) =>
+        WX.UpdateShareMenu(
+            new UpdateShareMenuOption
             {
-                WX.ShowToast(new ShowToastOption
+                isPrivateMessage = true,
+                activityId = "xxx",
+                templateInfo = info,
+                success = (res) =>
                 {
-                    title = "设置成功"
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    WX.ShowToast(new ShowToastOption { title = "设置成功" });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void showShareMenu()
     {
-        WX.ShowShareMenu(new ShowShareMenuOption
-        {
-            withShareTicket = true,
-            menus = new string[] { "shareAppMessage", "shareTimeline" },
-            success = (res) =>
+        WX.ShowShareMenu(
+            new ShowShareMenuOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                withShareTicket = true,
+                menus = new string[] { "shareAppMessage", "shareTimeline" },
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void hideShareMenu()
     {
-        WX.HideShareMenu(new HideShareMenuOption
-        {
-            menus = new string[] { "shareAppMessage", "shareTimeline" },
-            success = (res) =>
+        WX.HideShareMenu(
+            new HideShareMenuOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                menus = new string[] { "shareAppMessage", "shareTimeline" },
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void showShareImageMenu()
     {
-        WX.DownloadFile(new DownloadFileOption
-        {
-            url = "xxxxx",
-            success = (res) =>
+        WX.DownloadFile(
+            new DownloadFileOption
             {
-                WX.ShowShareImageMenu(new ShowShareImageMenuOption
+                url = "xxxxx",
+                success = (res) =>
                 {
-                    path = res.tempFilePath,
-                    style = "default",
-                    success = (res) =>
-                    {
-                        Debug.Log("success");
-                    },
-                    fail = (res) =>
-                    {
-                        Debug.Log("fail" + res.errMsg);
-                    },
-                    complete = (res) =>
-                    {
-                        Debug.Log("complete");
-                    }
-                });
+                    WX.ShowShareImageMenu(
+                        new ShowShareImageMenuOption
+                        {
+                            path = res.tempFilePath,
+                            style = "default",
+                            success = (res) =>
+                            {
+                                Debug.Log("success");
+                            },
+                            fail = (res) =>
+                            {
+                                Debug.Log("fail" + res.errMsg);
+                            },
+                            complete = (res) =>
+                            {
+                                Debug.Log("complete");
+                            }
+                        }
+                    );
+                }
             }
-        });
+        );
     }
 
     public void setMessageToFriendQuery()
     {
-        var isSuccess = WX.SetMessageToFriendQuery(new SetMessageToFriendQueryOption
-        {
-            shareMessageToFriendScene = 1,
-            query = "abcd"
-        });
-        WX.ShowToast(new ShowToastOption
-        {
-            title = isSuccess ? "true" : "false"
-        });
+        var isSuccess = WX.SetMessageToFriendQuery(
+            new SetMessageToFriendQueryOption { shareMessageToFriendScene = 1, query = "abcd" }
+        );
+        WX.ShowToast(new ShowToastOption { title = isSuccess ? "true" : "false" });
     }
 
     public void setHandoffQuery()
     {
         var isSuccess = WX.SetHandoffQuery("xxx");
-        WX.ShowToast(new ShowToastOption
-        {
-            title = isSuccess ? "true" : "false"
-        });
+        WX.ShowToast(new ShowToastOption { title = isSuccess ? "true" : "false" });
     }
 
     public void onShareTimeline()
@@ -204,7 +200,10 @@ public class ShareEvent : Details
             WX.OffShareTimeline(_onShareTimelineCallback);
         }
         _isListeningShareTimeline = !_isListeningShareTimeline;
-        GameManager.Instance.detailsController.ChangeExtraButtonText(5, _isListeningShareTimeline ? "取消监听分享到朋友圈" : "开始监听分享到朋友圈");
+        GameManager.Instance.detailsController.ChangeExtraButtonText(
+            5,
+            _isListeningShareTimeline ? "取消监听分享到朋友圈" : "开始监听分享到朋友圈"
+        );
     }
 
     public void onShareMessageToFriend()

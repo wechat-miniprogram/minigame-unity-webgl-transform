@@ -3,22 +3,34 @@ using UnityEngine;
 public class APIController : MonoBehaviour
 {
     [Header("API Data")]
-    [SerializeField] private APISO apiSO;
+    [SerializeField]
+    private APISO apiSO;
 
     [Header("Elements")]
-    [SerializeField] private GameObject categoryPrefab;
-    [SerializeField] private Transform apiCategoriesTransform;
-    [SerializeField] private GameObject abilityPrefab;
-    [SerializeField] private Transform abilitiesTransform;
+    [SerializeField]
+    private GameObject categoryPrefab;
+
+    [SerializeField]
+    private Transform apiCategoriesTransform;
+
+    [SerializeField]
+    private GameObject abilityPrefab;
+
+    [SerializeField]
+    private Transform abilitiesTransform;
 
     [Header("Title Transform")]
-    [SerializeField] private RectTransform title;
+    [SerializeField]
+    private RectTransform title;
 
     private void Start()
     {
         Init();
         // 根据系统安全区域调整标题的位置
-        title.anchoredPosition = new Vector2(title.anchoredPosition.x, -125f - (float)GameManager.Instance.systemInfo.safeArea.top);
+        title.anchoredPosition = new Vector2(
+            title.anchoredPosition.x,
+            -125f - (float)GameManager.Instance.systemInfo.safeArea.top
+        );
     }
 
     // 清除所有分类

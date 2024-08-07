@@ -5,10 +5,7 @@ namespace XLuaTest
     [XLua.Hotfix]
     public class StatefullTest
     {
-        public StatefullTest()
-        {
-
-        }
+        public StatefullTest() { }
 
         public StatefullTest(int a, int b)
         {
@@ -32,46 +29,25 @@ namespace XLuaTest
             Debug.Log("b=" + b);
         }
 
-        public int AProp
-        {
-            get;
-            set;
-        }
+        public int AProp { get; set; }
 
         public event System.Action<int, double> AEvent;
 
         public int this[string field]
         {
-            get
-            {
-                return 1;
-            }
-            set
-            {
-            }
+            get { return 1; }
+            set { }
         }
 
-        public void Start()
-        {
+        public void Start() { }
 
-        }
+        void Update() { }
 
-        void Update()
-        {
+        public void GenericTest<T>(T a) { }
 
-        }
+        public static void StaticFunc(int a, int b) { }
 
-        public void GenericTest<T>(T a)
-        {
-
-        }
-
-        static public void StaticFunc(int a, int b)
-        {
-        }
-        static public void StaticFunc(string a, int b, int c)
-        {
-        }
+        public static void StaticFunc(string a, int b, int c) { }
 
         ~StatefullTest()
         {
@@ -79,4 +55,3 @@ namespace XLuaTest
         }
     }
 }
-

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using LuaInterface;
-using System;
+﻿using System;
 using System.Collections;
+using LuaInterface;
+using UnityEngine;
 
 public class HelloWorld : MonoBehaviour
 {
@@ -10,10 +10,7 @@ public class HelloWorld : MonoBehaviour
         yield return AssetBundleLoad.Init();
     }
 
-    void Init()
-    {
-
-    }
+    void Init() { }
 
     void Awake()
     {
@@ -25,7 +22,7 @@ public class HelloWorld : MonoBehaviour
             @"                
                 print('hello tolua#')                                  
             ";
-        
+
         lua.DoString(hello, "HelloWorld.cs");
         lua.CheckTop();
         lua.Dispose();

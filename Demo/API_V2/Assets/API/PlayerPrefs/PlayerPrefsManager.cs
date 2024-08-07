@@ -10,13 +10,11 @@ public class PlayerPrefsManager : MonoBehaviour
         PlayerPrefs.SetInt("myintkey", 123);
         PlayerPrefs.SetFloat("myfloatkey", 1.23f);
 
-        var res = $"PlayerPrefs mystringkey:{PlayerPrefs.GetString("mystringkey")}"
-                  + $"\nPlayerPrefs myintkey:{PlayerPrefs.GetInt("myintkey")}"
-                  + $"\nPlayerPrefs myfloatkey:{PlayerPrefs.GetFloat("myfloatkey")}";
+        var res =
+            $"PlayerPrefs mystringkey:{PlayerPrefs.GetString("mystringkey")}"
+            + $"\nPlayerPrefs myintkey:{PlayerPrefs.GetInt("myintkey")}"
+            + $"\nPlayerPrefs myfloatkey:{PlayerPrefs.GetFloat("myfloatkey")}";
 
-        WX.ShowModal(new ShowModalOption()
-        {
-            content = res
-        });
+        WX.ShowModal(new ShowModalOption() { content = res });
     }
 }

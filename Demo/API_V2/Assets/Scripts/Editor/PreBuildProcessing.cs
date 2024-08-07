@@ -14,7 +14,10 @@ public class PreBuildProcessing : IPreprocessBuildWithReport
         if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
         {
             // macOS
-            System.Environment.SetEnvironmentVariable("EMSDK_PYTHON", "/Library/Frameworks/Python.framework/Versions/2.7/bin/python");
+            System.Environment.SetEnvironmentVariable(
+                "EMSDK_PYTHON",
+                "/Library/Frameworks/Python.framework/Versions/2.7/bin/python"
+            );
         }
         else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {

@@ -23,9 +23,7 @@ namespace UnityWebSocket
         #region Internal Constructors
 
         internal ErrorEventArgs(string message)
-          : this(message, null)
-        {
-        }
+            : this(message, null) { }
 
         internal ErrorEventArgs(string message, Exception exception)
         {

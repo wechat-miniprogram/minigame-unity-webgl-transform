@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using LitJson;
-using WeChatWASM;
 using System.Threading;
+using LitJson;
+using UnityEngine;
+using WeChatWASM;
 
 public class GameClub : Details
 {
@@ -30,17 +30,19 @@ public class GameClub : Details
         Vector2 size = GameManager.Instance.detailsController.GetInitialButtonSize();
         Vector2 position = GameManager.Instance.detailsController.GetButtonPosition(0);
         var systemInfo = WX.GetSystemInfoSync();
-        _gameClubButton = WX.CreateGameClubButton(new WXCreateGameClubButtonParam()
-        {
-            type = GameClubButtonType.text,
-            style = new GameClubButtonStyle()
+        _gameClubButton = WX.CreateGameClubButton(
+            new WXCreateGameClubButtonParam()
             {
-                left = Math.Abs((int)(position.x / systemInfo.pixelRatio)),
-                top = Math.Abs((int)(position.y / systemInfo.pixelRatio)),
-                width = (int)(size.x * systemInfo.screenWidth / 1080f),
-                height = (int)(size.y * systemInfo.screenWidth / 1080f),
+                type = GameClubButtonType.text,
+                style = new GameClubButtonStyle()
+                {
+                    left = Math.Abs((int)(position.x / systemInfo.pixelRatio)),
+                    top = Math.Abs((int)(position.y / systemInfo.pixelRatio)),
+                    width = (int)(size.x * systemInfo.screenWidth / 1080f),
+                    height = (int)(size.y * systemInfo.screenWidth / 1080f),
+                }
             }
-        });
+        );
     }
 
     // 测试API
@@ -115,5 +117,4 @@ public class GameClub : Details
             _gameClubButton = null;
         }
     }
-
 }

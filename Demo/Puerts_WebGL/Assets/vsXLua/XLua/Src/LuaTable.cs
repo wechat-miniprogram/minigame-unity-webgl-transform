@@ -6,6 +6,10 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
 #if USE_UNI_LUA
 using LuaAPI = UniLua.Lua;
 using RealStatePtr = UniLua.ILuaState;
@@ -16,18 +20,12 @@ using RealStatePtr = System.IntPtr;
 using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 #endif
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
-
 namespace XLua
 {
     public partial class LuaTable : LuaBase
     {
-        public LuaTable(int reference, LuaEnv luaenv) : base(reference, luaenv)
-        {
-        }
+        public LuaTable(int reference, LuaEnv luaenv)
+            : base(reference, luaenv) { }
 
         // no boxing version get
         public void Get<TKey, TValue>(TKey key, out TValue value)
@@ -53,7 +51,9 @@ namespace XLua
                 Type type_of_value = typeof(TValue);
                 if (lua_type == LuaTypes.LUA_TNIL && type_of_value.IsValueType())
                 {
-                    throw new InvalidCastException("can not assign nil to " + type_of_value.GetFriendlyName());
+                    throw new InvalidCastException(
+                        "can not assign nil to " + type_of_value.GetFriendlyName()
+                    );
                 }
 
                 try
@@ -93,7 +93,7 @@ namespace XLua
                     throw new Exception("get field [" + key + "] error:" + err);
                 }
 
-                bool ret =  LuaAPI.lua_type(L, -1) != LuaTypes.LUA_TNIL;
+                bool ret = LuaAPI.lua_type(L, -1) != LuaTypes.LUA_TNIL;
 
                 LuaAPI.lua_settop(L, oldTop);
 
@@ -129,7 +129,6 @@ namespace XLua
 #endif
         }
 
-
         public T GetInPath<T>(string path)
         {
 #if THREAD_SAFE || HOTFIX_ENABLE
@@ -147,7 +146,9 @@ namespace XLua
                 LuaTypes lua_type = LuaAPI.lua_type(L, -1);
                 if (lua_type == LuaTypes.LUA_TNIL && typeof(T).IsValueType())
                 {
-                    throw new InvalidCastException("can not assign nil to " + typeof(T).GetFriendlyName());
+                    throw new InvalidCastException(
+                        "can not assign nil to " + typeof(T).GetFriendlyName()
+                    );
                 }
 
                 T value;
@@ -193,27 +194,15 @@ namespace XLua
         [Obsolete("use no boxing version: GetInPath/SetInPath Get/Set instead!")]
         public object this[string field]
         {
-            get
-            {
-                return GetInPath<object>(field);
-            }
-            set
-            {
-                SetInPath(field, value);
-            }
+            get { return GetInPath<object>(field); }
+            set { SetInPath(field, value); }
         }
 
         [Obsolete("use no boxing version: GetInPath/SetInPath Get/Set instead!")]
         public object this[object field]
         {
-            get
-            {
-                return Get<object>(field);
-            }
-            set
-            {
-                Set(field, value);
-            }
+            get { return Get<object>(field); }
+            set { Set(field, value); }
         }
 
         public void ForEach<TKey, TValue>(Action<TKey, TValue> action)
@@ -370,6 +359,7 @@ namespace XLua
         {
             LuaAPI.lua_getref(L, luaReference);
         }
+
         public override string ToString()
         {
             return "table :" + luaReference;

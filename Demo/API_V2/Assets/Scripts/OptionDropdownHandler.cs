@@ -6,9 +6,12 @@ public class OptionDropdownHandler : MonoBehaviour
     private Dropdown _dropdown;
 
     private Details _details;
-    [SerializeField] private int dropdownIndex;
 
-    [SerializeField] private Text optionNameText;
+    [SerializeField]
+    private int dropdownIndex;
+
+    [SerializeField]
+    private Text optionNameText;
 
     private void Awake()
     {

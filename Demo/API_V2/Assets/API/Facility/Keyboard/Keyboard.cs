@@ -3,66 +3,59 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Keyboard : Details
 {
-
     private bool _isListening = false;
     private System.Random random = new System.Random();
 
     private readonly Action<OnKeyDownListenerResult> _onKeyUp = (res) =>
     {
         var result = "onKeyUp\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
     private readonly Action<OnKeyDownListenerResult> _onKeyDown = (res) =>
     {
         var result = "onKeyDown\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
     private readonly Action<OnKeyboardInputListenerResult> _onKeyboardInput = (res) =>
     {
         var result = "onKeyboardInput\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
     private readonly Action<OnKeyboardInputListenerResult> _onKeyboardComplete = (res) =>
     {
         var result = "onKeyboardComplete\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
     private readonly Action<OnKeyboardInputListenerResult> _onKeyboardConfirm = (res) =>
     {
         var result = "onKeyboardConfirm\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
     private readonly Action<OnKeyboardHeightChangeListenerResult> _onKeyboardHeightChange = (res) =>
     {
         var result = "onKeyboardHeightChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
-
 
     private void Start()
     {
@@ -100,98 +93,106 @@ public class Keyboard : Details
             WX.OffKeyboardComplete(_onKeyboardComplete);
         }
         _isListening = !_isListening;
-        GameManager.Instance.detailsController.ChangeExtraButtonText(3, _isListening ? "取消监听" : "开始监听");
+        GameManager.Instance.detailsController.ChangeExtraButtonText(
+            3,
+            _isListening ? "取消监听" : "开始监听"
+        );
     }
 
     public void showMultipleKeyboard()
     {
-        WX.ShowKeyboard(new ShowKeyboardOption
-        {
-            defaultValue = "test",
-            maxLength = 20,
-            multiple = true,
-            confirmHold = false,
-            confirmType = "done",
-            success = (res) =>
+        WX.ShowKeyboard(
+            new ShowKeyboardOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                defaultValue = "test",
+                maxLength = 20,
+                multiple = true,
+                confirmHold = false,
+                confirmType = "done",
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void showKeyboard()
     {
-        WX.ShowKeyboard(new ShowKeyboardOption
-        {
-            defaultValue = "test",
-            maxLength = 20,
-            multiple = false,
-            confirmHold = false,
-            confirmType = "done",
-            success = (res) =>
+        WX.ShowKeyboard(
+            new ShowKeyboardOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                defaultValue = "test",
+                maxLength = 20,
+                multiple = false,
+                confirmHold = false,
+                confirmType = "done",
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void updateKeyboard()
     {
-        WX.UpdateKeyboard(new UpdateKeyboardOption
-        {
-            value = "test" + random.Next(0, 100),
-            success = (res) =>
+        WX.UpdateKeyboard(
+            new UpdateKeyboardOption
             {
-                Debug.Log("success");
-                WX.ShowToast(new ShowToastOption
+                value = "test" + random.Next(0, 100),
+                success = (res) =>
                 {
-                    title = "更改成功"
-                });
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                    Debug.Log("success");
+                    WX.ShowToast(new ShowToastOption { title = "更改成功" });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void hideKeyboard()
     {
-        WX.HideKeyboard(new HideKeyboardOption
-        {
-            success = (res) =>
+        WX.HideKeyboard(
+            new HideKeyboardOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void Destroy()

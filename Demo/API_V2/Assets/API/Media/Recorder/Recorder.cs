@@ -31,21 +31,25 @@ public class Recorder : Details
             Debug.Log("recorder onResume");
         });
 
-        _recorderManager.OnStop((res) =>
-        {
-            Debug.Log("recorder onStop");
-            Debug.Log(res.tempFilePath);
-            Debug.Log(res.duration);
-            Debug.Log(res.fileSize);
-            _tempFilePath = res.tempFilePath;
-        });
+        _recorderManager.OnStop(
+            (res) =>
+            {
+                Debug.Log("recorder onStop");
+                Debug.Log(res.tempFilePath);
+                Debug.Log(res.duration);
+                Debug.Log(res.fileSize);
+                _tempFilePath = res.tempFilePath;
+            }
+        );
 
-        _recorderManager.OnFrameRecorded((res) =>
-        {
-            Debug.Log("recorder onFrameRecorded");
-            Debug.Log(res.frameBuffer.Length);
-            Debug.Log(res.isLastFrame);
-        });
+        _recorderManager.OnFrameRecorded(
+            (res) =>
+            {
+                Debug.Log("recorder onFrameRecorded");
+                Debug.Log(res.frameBuffer.Length);
+                Debug.Log(res.isLastFrame);
+            }
+        );
 
         _recorderManager.OnInterruptionBegin(() =>
         {
@@ -67,15 +71,17 @@ public class Recorder : Details
     // 开始
     protected override void TestAPI(string[] args)
     {
-        _recorderManager.Start(new RecorderManagerStartOption()
-        {
-            duration = 10000,
-            sampleRate = 44100,
-            numberOfChannels = 1,
-            encodeBitRate = 192000,
-            format = "aac",
-            frameSize = 50
-        });
+        _recorderManager.Start(
+            new RecorderManagerStartOption()
+            {
+                duration = 10000,
+                sampleRate = 44100,
+                numberOfChannels = 1,
+                encodeBitRate = 192000,
+                format = "aac",
+                frameSize = 50
+            }
+        );
     }
 
     // 暂停
@@ -111,51 +117,59 @@ public class Recorder : Details
             Debug.Log("recorder audio OnCanplay");
             audioPlayRightNow.Play();
         });
-        audioPlayRightNow.OnError((res) =>
-        {
-            Debug.Log("recorder audio OnError");
-        });
+        audioPlayRightNow.OnError(
+            (res) =>
+            {
+                Debug.Log("recorder audio OnError");
+            }
+        );
     }
 
     // 上传
     public void UploadFile()
     {
-        _uploadTask = WX.UploadFile(new UploadFileOption()
-        {
-            url = "xxxxxxxx", // 此处填写开发者自己的后台地址
-            filePath = _tempFilePath,
-            name = "test",
-            timeout = 10000,
-            success = (successResult) =>
+        _uploadTask = WX.UploadFile(
+            new UploadFileOption()
             {
-                Debug.Log("successResult");
-                Debug.Log(JsonUtility.ToJson(successResult));
-            },
-            fail = (failResult) =>
-            {
-                Debug.Log("failResult");
-                Debug.Log(JsonUtility.ToJson(failResult));
-            },
-            complete = (completeResult) =>
-            {
-                Debug.Log("completeResult");
-                Debug.Log(JsonUtility.ToJson(completeResult));
+                url = "xxxxxxxx", // 此处填写开发者自己的后台地址
+                filePath = _tempFilePath,
+                name = "test",
+                timeout = 10000,
+                success = (successResult) =>
+                {
+                    Debug.Log("successResult");
+                    Debug.Log(JsonUtility.ToJson(successResult));
+                },
+                fail = (failResult) =>
+                {
+                    Debug.Log("failResult");
+                    Debug.Log(JsonUtility.ToJson(failResult));
+                },
+                complete = (completeResult) =>
+                {
+                    Debug.Log("completeResult");
+                    Debug.Log(JsonUtility.ToJson(completeResult));
+                }
             }
-        });
+        );
 
-        _uploadTask.OnHeadersReceived((data) =>
-        {
-            Debug.Log("onHeadersReceived");
-            Debug.Log(JsonUtility.ToJson(data.header));
-        });
+        _uploadTask.OnHeadersReceived(
+            (data) =>
+            {
+                Debug.Log("onHeadersReceived");
+                Debug.Log(JsonUtility.ToJson(data.header));
+            }
+        );
 
-        _uploadTask.OnProgressUpdate((data) =>
-        {
-            Debug.Log("onProgressUpdate");
-            Debug.Log(data.progress);
-            Debug.Log(data.totalBytesSent);
-            Debug.Log(data.totalBytesExpectedToSend);
-        });
+        _uploadTask.OnProgressUpdate(
+            (data) =>
+            {
+                Debug.Log("onProgressUpdate");
+                Debug.Log(data.progress);
+                Debug.Log(data.totalBytesSent);
+                Debug.Log(data.totalBytesExpectedToSend);
+            }
+        );
     }
 
     private void OnDestroy()

@@ -12,10 +12,6 @@ public class ShareAppMessage : Details
     // 分享
     private void Share()
     {
-        WX.ShareAppMessage(new ShareAppMessageOption()
-        {
-            title = "小游戏分享"
-        });
+        WX.ShareAppMessage(new ShareAppMessageOption() { title = "小游戏分享" });
     }
-
 }

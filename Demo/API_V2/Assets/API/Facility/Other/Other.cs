@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Other : Details
 {
-
     private bool _isListening = false;
 
     private readonly Action<OnMemoryWarningListenerResult> _onMemoryWarning = (res) =>
     {
         var result = "onMemoryWarning\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
-
 
     private void Start()
     {
@@ -42,67 +40,75 @@ public class Other : Details
             WX.OffMemoryWarning(_onMemoryWarning);
         }
         _isListening = !_isListening;
-        GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听内存告警" : "开始监听内存告警");
+        GameManager.Instance.detailsController.ChangeInitialButtonText(
+            _isListening ? "取消监听内存告警" : "开始监听内存告警"
+        );
     }
 
     public void scanCode()
     {
-        WX.ScanCode(new ScanCodeOption
-        {
-            onlyFromCamera = false,
-            scanType = new string[] { "barCode", "qrcode" },
-            success = (res) =>
+        WX.ScanCode(
+            new ScanCodeOption
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                onlyFromCamera = false,
+                scanType = new string[] { "barCode", "qrcode" },
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void vibrateShort()
     {
-        WX.VibrateShort(new VibrateShortOption
-        {
-            type = "heavy",
-            success = (res) =>
+        WX.VibrateShort(
+            new VibrateShortOption
             {
-                Debug.Log("success ");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                type = "heavy",
+                success = (res) =>
+                {
+                    Debug.Log("success ");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     public void vibrateLong()
     {
-        WX.VibrateLong(new VibrateLongOption
-        {
-            success = (res) =>
+        WX.VibrateLong(
+            new VibrateLongOption
             {
-                Debug.Log("success ");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete");
+                success = (res) =>
+                {
+                    Debug.Log("success ");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
     private void OnDestroy()

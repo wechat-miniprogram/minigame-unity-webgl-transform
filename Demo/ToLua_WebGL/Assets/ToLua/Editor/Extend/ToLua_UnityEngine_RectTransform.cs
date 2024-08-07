@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using LuaInterface;
+using UnityEngine;
 
 public class ToLua_UnityEngine_RectTransform
 {
     public static string GetLocalCornersDefined =
-@"            if (count == 1)
+        @"            if (count == 1)
             {
                 UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
                 UnityEngine.Vector3[] arg0 = new UnityEngine.Vector3[4];
@@ -15,7 +15,7 @@ public class ToLua_UnityEngine_RectTransform
             }";
 
     public static string GetWorldCornersDefined =
-@"            if (count == 1)
+        @"            if (count == 1)
             {
                 UnityEngine.RectTransform obj = (UnityEngine.RectTransform)ToLua.CheckObject(L, 1, typeof(UnityEngine.RectTransform));
                 UnityEngine.Vector3[] arg0 = new UnityEngine.Vector3[4];
