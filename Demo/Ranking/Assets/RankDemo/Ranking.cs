@@ -19,14 +19,18 @@ public class OpenDataMessage
 
 public class Ranking : MonoBehaviour
 {
+    public Dropdown CanvasDropdown;
+    public Button InitButton;
     public Button ShowButton;
     public Button ShareButton;
     public Button ReportButton;
-
-
+    public Button TestBeforeButton;
+    public Button TestAfterButton;
     public RawImage RankBody;
     public GameObject RankMask;
     public GameObject RankingBox;
+    private CanvasType selectedCanvasType;
+    private WXOpenDataContext openDataContext;
 
     void Start()
     {
@@ -34,7 +38,6 @@ public class Ranking : MonoBehaviour
         {
             Init();
         });
-
 
         /**
          * 使用群排行功能需要特殊设置分享功能，详情可见链接
@@ -61,16 +64,29 @@ public class Ranking : MonoBehaviour
 
             if (!string.IsNullOrEmpty(shareTicket) && query != null && query["minigame_action"] == "show_group_list")
             {
+                InitOpenDataContext();
+                ShowOpenData();
+
                 OpenDataMessage msgData = new OpenDataMessage();
                 msgData.type = "showGroupFriendsRank";
                 msgData.shareTicket = shareTicket;
 
                 string msg = JsonUtility.ToJson(msgData);
 
-                ShowOpenData();
-                WX.GetOpenDataContext().PostMessage(msg);
+                openDataContext.PostMessage(msg);
             }
         });
+    }
+
+    void InitOpenDataContext()
+    {
+        if (openDataContext == null)
+        {
+            WXOpenDataContext openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
+            {
+                sharedCanvasMode = selectedCanvasType
+            });
+        }
     }
 
     void ShowOpenData()
@@ -96,18 +112,54 @@ public class Ranking : MonoBehaviour
         WX.ShowOpenData(RankBody.texture, (int)p.x, Screen.height - (int)p.y, (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width), (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height));
     }
 
+    private void TestToTempFilePath()
+    {
+        var info = WX.GetSystemInfoSync();
+        // Test ToTempFilePath
+        WXCanvas.ToTempFilePath(new WXToTempFilePathParam()
+        {
+                success = (result) =>
+                {
+                    Debug.Log("ToTempFilePath success:" + JsonUtility.ToJson(result));
+                    // Test PreviewImage
+                    WX.PreviewImage(new PreviewImageOption
+                    {
+                        urls = new string[] {result.tempFilePath},
+                        showmenu = true,
+                        success = (res) => 
+                        {
+                            Debug.Log("PreviewImage success:" + JsonUtility.ToJson(result));
+                        },
+                        fail = (res) =>
+                        {
+                            Debug.Log("PreviewImage fail:" + JsonUtility.ToJson(result));
+                        }
+                    });
+                },
+                fail = (result) =>
+                {
+                    Debug.Log("ToTempFilePath fail:" + JsonUtility.ToJson(result));
+                }
+        });
+    }
+
     void Init()
     {
+        CanvasDropdown.onValueChanged.AddListener((int selectedIndex) =>
+        {
+            selectedCanvasType = (CanvasType)selectedIndex;
+        });
 
         ShowButton.onClick.AddListener(() =>
         {
+            InitOpenDataContext();
             ShowOpenData();
 
             OpenDataMessage msgData = new OpenDataMessage();
             msgData.type = "showFriendsRank";
 
             string msg = JsonUtility.ToJson(msgData);
-            WX.GetOpenDataContext().PostMessage(msg);
+            openDataContext.PostMessage(msg);
         });
 
 
@@ -132,14 +184,17 @@ public class Ranking : MonoBehaviour
         {
             OpenDataMessage msgData = new OpenDataMessage();
             msgData.type = "setUserRecord";
-            msgData.score =  Random.Range(1, 1000);
-
+            msgData.score = Random.Range(1, 1000);
 
             string msg = JsonUtility.ToJson(msgData);
 
             Debug.Log(msg);
-            WX.GetOpenDataContext().PostMessage(msg);
+            InitOpenDataContext();
+            openDataContext.PostMessage(msg);
         });
-    }
 
+        InitButton.onClick.AddListener(InitOpenDataContext);
+        TestBeforeButton.onClick.AddListener(TestToTempFilePath);
+        TestAfterButton.onClick.AddListener(TestToTempFilePath);
+    }
 }
