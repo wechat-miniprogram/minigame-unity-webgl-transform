@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "docs:dev": "vitepress dev .config",
     "docs:build": "vitepress build .config",
-    "docs:preview": "vitepress preview .config"
+    "docs:preview": "vitepress preview .config",
+    "format": "dotnet csharpier ."
   },
   "author": "Wechat MiniGame Team",
   "license": "MIT",
