@@ -8,7 +8,7 @@ public class RealtimeLog : Details
 {
     private WXRealtimeLogManager _log;
 
-     private void Start()
+    private void Start()
     {
         _log = WX.GetRealtimeLogManager();
         _log.AddFilterMsg("test");
@@ -23,11 +23,13 @@ public class RealtimeLog : Details
         _log.Info("info msg");
     }
 
-    private void error() {
+    private void error()
+    {
         _log.Error("error msg");
     }
 
-    private void warn() {
+    private void warn()
+    {
         _log.Warn("warn msg");
     }
 }

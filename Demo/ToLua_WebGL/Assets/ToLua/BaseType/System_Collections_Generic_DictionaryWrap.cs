@@ -1,8 +1,8 @@
 ﻿using System;
-using LuaInterface;
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using System.Collections;
+using LuaInterface;
 
 public class System_Collections_Generic_DictionaryWrap
 {
@@ -43,7 +43,6 @@ public class System_Collections_Generic_DictionaryWrap
             object o = LuaMethodCache.CallSingleMethod("get_Item", obj, arg0);
             ToLua.Push(L, o);
             return 1;
-
         }
         catch (Exception e)
         {
@@ -57,13 +56,13 @@ public class System_Collections_Generic_DictionaryWrap
         try
         {
             ToLua.CheckArgsCount(L, 3);
-            Type kt, vt;
+            Type kt,
+                vt;
             object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>), out kt, out vt);
             object arg0 = ToLua.CheckVarObject(L, 2, kt);
             object arg1 = ToLua.CheckVarObject(L, 3, vt);
             LuaMethodCache.CallSingleMethod("set_Item", obj, arg0, arg1);
             return 0;
-
         }
         catch (Exception e)
         {
@@ -111,7 +110,8 @@ public class System_Collections_Generic_DictionaryWrap
         try
         {
             ToLua.CheckArgsCount(L, 3);
-            Type kt, vt;
+            Type kt,
+                vt;
             object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>), out kt, out vt);
             object arg0 = ToLua.CheckVarObject(L, 2, kt);
             object arg1 = ToLua.CheckVarObject(L, 3, vt);
@@ -158,7 +158,8 @@ public class System_Collections_Generic_DictionaryWrap
         try
         {
             ToLua.CheckArgsCount(L, 3);
-            Type kt, vt;
+            Type kt,
+                vt;
             object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>), out kt, out vt);
 
             if (kt == typeof(int))
@@ -182,7 +183,8 @@ public class System_Collections_Generic_DictionaryWrap
         try
         {
             ToLua.CheckArgsCount(L, 3);
-            Type kt, vt;
+            Type kt,
+                vt;
             object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>), out kt, out vt);
             object arg0 = ToLua.CheckVarObject(L, 2, kt);
             object arg1 = ToLua.CheckVarObject(L, 3, vt);
@@ -236,7 +238,8 @@ public class System_Collections_Generic_DictionaryWrap
         try
         {
             ToLua.CheckArgsCount(L, 2);
-            Type kt, vt;
+            Type kt,
+                vt;
             object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>), out kt, out vt);
             object arg0 = ToLua.CheckVarObject(L, 2, vt);
             bool o = (bool)LuaMethodCache.CallSingleMethod("ContainsValue", obj, arg0);
@@ -256,8 +259,10 @@ public class System_Collections_Generic_DictionaryWrap
         {
             ToLua.CheckArgsCount(L, 3);
             object obj = ToLua.CheckGenericObject(L, 1, typeof(Dictionary<,>));
-            SerializationInfo arg0 = (SerializationInfo)ToLua.CheckObject(L, 2, typeof(SerializationInfo));
-            StreamingContext arg1 = (StreamingContext)ToLua.CheckObject(L, 3, typeof(StreamingContext));
+            SerializationInfo arg0 = (SerializationInfo)
+                ToLua.CheckObject(L, 2, typeof(SerializationInfo));
+            StreamingContext arg1 = (StreamingContext)
+                ToLua.CheckObject(L, 3, typeof(StreamingContext));
             LuaMethodCache.CallSingleMethod("GetObjectData", obj, arg0, arg1);
             return 0;
         }
@@ -414,4 +419,3 @@ public class System_Collections_Generic_DictionaryWrap
         }
     }
 }
-

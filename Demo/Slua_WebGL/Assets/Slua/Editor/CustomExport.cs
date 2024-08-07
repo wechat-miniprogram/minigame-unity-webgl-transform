@@ -1,17 +1,17 @@
 ﻿// The MIT License (MIT)
 
 // Copyright 2015 Siney/Pangweiwei siney@yeah.net
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -22,22 +22,21 @@
 
 namespace SLua
 {
-    using System.Collections.Generic;
     using System;
-    using UnityEngine.Rendering;
+    using System.Collections.Generic;
     using UnityEngine;
+    using UnityEngine.Rendering;
 
     public class CustomExport
     {
-        public static void OnGetAssemblyToGenerateExtensionMethod(out List<string> list) {
-            list = new List<string> {
-                "Assembly-CSharp",
-            };
+        public static void OnGetAssemblyToGenerateExtensionMethod(out List<string> list)
+        {
+            list = new List<string> { "Assembly-CSharp", };
         }
 
         public static void OnAddCustomClass(LuaCodeGen.ExportGenericDelegate add)
         {
-			// below lines only used for demostrate how to add custom class to export, can be delete on your app
+            // below lines only used for demostrate how to add custom class to export, can be delete on your app
 
             add(typeof(System.Func<int>), null);
             add(typeof(System.Action<int, string>), null);
@@ -49,12 +48,10 @@ namespace SLua
             add(typeof(List<UnityEngine.UICharInfo>), null);
             add(typeof(List<String>), null);
 
-
             // 新增
 
             add(typeof(UnityEngine.Networking.UnityWebRequest), null);
             add(typeof(UnityEngine.AI.NavMeshAgent), null);
-
 
             add(typeof(UnityEngine.AI.NavMeshPath), null);
             add(typeof(UnityEngine.AI.NavMeshHit), null);
@@ -65,7 +62,6 @@ namespace SLua
             // type is what you want to export
             // typename used for simplify generic type name or rename, like List<int> named to "ListInt", if not a generic type keep typename as null or rename as new type name
         }
-
 
         public static void OnAddCustomURPClass(LuaCodeGen.ExportGenericDelegate add)
         {
@@ -88,11 +84,10 @@ namespace SLua
             ////add(typeof(UnityEngine.Experiemntal.Rendering.Universal.Flip), null);
             ////add(typeof(UnityEngine.Experiemntal.Rendering.Universal.RadialBlur), null);
             //add(typeof(UnityEngine.Rendering.Universal.Bloom), null);
-            
+
             //add(typeof(UnityEngine.Rendering.Universal.UniversalRenderPipeline), null);
             //add(typeof(UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset), null);
         }
-
 
         public static void OnAddCustomAssembly(ref List<string> list)
         {
@@ -111,7 +106,6 @@ namespace SLua
             };
         }
 
-
         public static HashSet<string> OnAddCustomNamespace()
         {
             return new HashSet<string>
@@ -129,10 +123,7 @@ namespace SLua
             };
         }
 
-        public static List<string> UnsafeParameter = new List<string>()
-        {
-            "ReadOnlySpan`1",
-        };
+        public static List<string> UnsafeParameter = new List<string>() { "ReadOnlySpan`1", };
 
         public static List<string> FunctionFilterList = new List<string>()
         {
@@ -157,14 +148,13 @@ namespace SLua
             "UnityEngine.AudioSource.SetGamepadSpeakerMixLevelDefault",
             "UnityEngine.AudioSource.SetGamepadSpeakerRestrictedAudio",
             "UnityEngine.AudioSource.GamepadSpeakerSupportsOutputType",
-
         };
 
         // black list if white list not given
         public static void OnGetNoUseList(out List<string> list)
         {
             list = new List<string>
-            {      
+            {
                 "HideInInspector",
                 "ExecuteInEditMode",
                 "AddComponentMenu",
@@ -173,7 +163,7 @@ namespace SLua
                 "DisallowMultipleComponent",
                 "SerializeField",
                 "AssemblyIsEditorAssembly",
-                "Attribute", 
+                "Attribute",
                 "Types",
                 "UnitySurrogateSelector",
                 "TrackedReference",
@@ -196,7 +186,7 @@ namespace SLua
                 "TextClipping",
                 "Gizmos",
                 "ADBannerView",
-                "ADInterstitialAd",            
+                "ADInterstitialAd",
                 "Android",
                 "Tizen",
                 "jvalue",
@@ -212,7 +202,7 @@ namespace SLua
                 "Handheld",
                 "LocalNotification",
                 "NotificationServices",
-                "RemoteNotificationType",      
+                "RemoteNotificationType",
                 "RemoteNotification",
                 "SamsungTV",
                 "TextureCompressionQuality",
@@ -220,7 +210,7 @@ namespace SLua
                 "TouchScreenKeyboard",
                 "MovieTexture",
                 "UnityEngineInternal",
-                "Terrain",                            
+                "Terrain",
                 "Tree",
                 "SplatPrototype",
                 "DetailPrototype",
@@ -228,8 +218,8 @@ namespace SLua
                 "MeshSubsetCombineUtility",
                 "AOT",
                 "Social",
-                "Enumerator",       
-                "SendMouseEvents",               
+                "Enumerator",
+                "SendMouseEvents",
                 "Cursor",
                 "Flash",
                 "ActionScript",
@@ -241,15 +231,15 @@ namespace SLua
                 "GraphicRebuildTracker",
                 "Advertisements",
                 "UnityEditor",
-			    "WSA",
-			    "EventProvider",
-			    "Apple",
-			    "ClusterInput",
-				"Motion",
+                "WSA",
+                "EventProvider",
+                "Apple",
+                "ClusterInput",
+                "Motion",
                 "UnityEngine.UI.ReflectionMethodsCache",
-				"NativeLeakDetection",
-				"NativeLeakDetectionMode",
-				"WWWAudioExtensions",
+                "NativeLeakDetection",
+                "NativeLeakDetectionMode",
+                "WWWAudioExtensions",
                 "UnityEngine.Experimental",
                 "Unity.Jobs",
                 "Unity.Collections",
@@ -261,7 +251,6 @@ namespace SLua
                 "UnityEngine.LightProbeGroup",
                 "UnityEngine.Playables",
                 "UnityEngine.Rendering",
-
                 "AI",
                 "VR",
                 "AdvertisingIdentifierCallback",

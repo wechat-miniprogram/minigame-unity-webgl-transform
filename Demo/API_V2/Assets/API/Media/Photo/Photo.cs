@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Photo : Details
 {
-
     private void Start()
     {
         // 绑定额外的按钮操作
@@ -22,115 +22,125 @@ public class Photo : Details
     }
 
     // 图片路径需使用本地路径
-    public void saveImageToPhotosAlbum() {
-        WX.SaveImageToPhotosAlbum(new SaveImageToPhotosAlbumOption
-        {
-            filePath = "xxxx",
-            success = (res) => 
+    public void saveImageToPhotosAlbum()
+    {
+        WX.SaveImageToPhotosAlbum(
+            new SaveImageToPhotosAlbumOption
             {
-               Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
-            }
-        });
-    }
-
-    public void previewMedia() {
-        WX.PreviewMedia(new PreviewMediaOption
-        {
-            sources = new MediaSource[] {
-                new MediaSource {
-                    url = "xxxxx",
-                    type = "image"
+                filePath = "xxxx",
+                success = (res) =>
+                {
+                    Debug.Log("success");
                 },
-                new MediaSource {
-                    url = "yyyy",
-                    type = "image"
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
                 }
-            },
-            current = 0,
-            showmenu = true,
-            referrerPolicy = "no-referrer",
-            success = (res) => 
-            {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
             }
-        });
+        );
     }
 
-    public void previewImage() {
-        WX.PreviewImage(new PreviewImageOption
-        {
-            urls = new string[] {"xxx", "yyy"},
-            showmenu = true,
-            success = (res) => 
+    public void previewMedia()
+    {
+        WX.PreviewMedia(
+            new PreviewMediaOption
             {
-                Debug.Log("success");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                sources = new MediaSource[]
+                {
+                    new MediaSource { url = "xxxxx", type = "image" },
+                    new MediaSource { url = "yyyy", type = "image" }
+                },
+                current = 0,
+                showmenu = true,
+                referrerPolicy = "no-referrer",
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
-    public void compressImage() {
-        WX.CompressImage(new CompressImageOption
-        {
-            src = "xxxx",
-            quality = 80,
-            compressedWidth = 500,
-            compressedHeight = 500,
-            success = (res) => 
+    public void previewImage()
+    {
+        WX.PreviewImage(
+            new PreviewImageOption
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                urls = new string[] { "xxx", "yyy" },
+                showmenu = true,
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
-    public void chooseMessageFile() {
-        WX.ChooseMessageFile(new ChooseMessageFileOption
-        {
-            count = 10,
-            type = "image",
-            success = (res) => 
+    public void compressImage()
+    {
+        WX.CompressImage(
+            new CompressImageOption
             {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                src = "xxxx",
+                quality = 80,
+                compressedWidth = 500,
+                compressedHeight = 500,
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
+    }
+
+    public void chooseMessageFile()
+    {
+        WX.ChooseMessageFile(
+            new ChooseMessageFileOption
+            {
+                count = 10,
+                type = "image",
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
+            }
+        );
     }
 }

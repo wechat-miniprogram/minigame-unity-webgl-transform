@@ -20,11 +20,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Collections;
 using System.Text;
+using UnityEngine;
 
 namespace LuaInterface
 {
@@ -41,11 +41,7 @@ namespace LuaInterface
 
                 return instance;
             }
-
-            protected set
-            {
-                instance = value;
-            }
+            protected set { instance = value; }
         }
 
         //beZip = false 在search path 中查找读取lua文件。否则从外部设置过来bundel文件中读取lua文件
@@ -165,7 +161,9 @@ namespace LuaInterface
 #if !UNITY_WEBPLAYER
                     str = File.ReadAllBytes(path);
 #else
-                    throw new LuaException("can't run in web platform, please switch to other platform");
+                    throw new LuaException(
+                        "can't run in web platform, please switch to other platform"
+                    );
 #endif
                 }
 
@@ -207,13 +205,19 @@ namespace LuaInterface
                     if (pos > 0)
                     {
                         int tmp = pos + 1;
-                        sb.Append("\n\tno file '").Append(fileName, tmp, fileName.Length - tmp).Append(".lua' in ").Append("lua_");
+                        sb.Append("\n\tno file '")
+                            .Append(fileName, tmp, fileName.Length - tmp)
+                            .Append(".lua' in ")
+                            .Append("lua_");
                         tmp = sb.Length;
                         sb.Append(fileName, 0, pos).Replace('/', '_', tmp, pos).Append(".unity3d");
                     }
                     else
                     {
-                        sb.Append("\n\tno file '").Append(fileName).Append(".lua' in ").Append("lua.unity3d");
+                        sb.Append("\n\tno file '")
+                            .Append(fileName)
+                            .Append(".lua' in ")
+                            .Append("lua.unity3d");
                     }
                 }
 

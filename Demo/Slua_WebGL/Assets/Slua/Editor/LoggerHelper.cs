@@ -38,7 +38,10 @@ namespace SLua
                     string path = AssetDatabase.GUIDToAssetPath(guids[j]);
                     if (System.IO.Path.GetFileName(path).Equals(filename))
                     {
-                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(path, linenumber);
+                        UnityEditorInternal.InternalEditorUtility.OpenFileAtLineExternal(
+                            path,
+                            linenumber
+                        );
                         return true;
                     }
                 }
@@ -46,12 +49,23 @@ namespace SLua
             return false;
         }
 
-        static Type ConsoleWindowType = typeof(EditorWindow).Assembly.GetType("UnityEditor.ConsoleWindow");
+        static Type ConsoleWindowType = typeof(EditorWindow).Assembly.GetType(
+            "UnityEditor.ConsoleWindow"
+        );
+
         // static Type ListViewStateType = typeof(EditorWindow).Assembly.GetType("UnityEditor.ListViewState");
-        static FieldInfo ConsoleWindowField = ConsoleWindowType.GetField("ms_ConsoleWindow", BindingFlags.Static | BindingFlags.NonPublic);
+        static FieldInfo ConsoleWindowField = ConsoleWindowType.GetField(
+            "ms_ConsoleWindow",
+            BindingFlags.Static | BindingFlags.NonPublic
+        );
+
         // static FieldInfo ListViewField = ConsoleWindowType.GetField("m_ListView", BindingFlags.Instance | BindingFlags.NonPublic);
         // static FieldInfo RowField = ListViewStateType.GetField("row", BindingFlags.Instance | BindingFlags.Public);
-        static FieldInfo ActiveTextField = ConsoleWindowType.GetField("m_ActiveText", BindingFlags.Instance | BindingFlags.NonPublic);
+        static FieldInfo ActiveTextField = ConsoleWindowType.GetField(
+            "m_ActiveText",
+            BindingFlags.Instance | BindingFlags.NonPublic
+        );
+
         static string GetStackTrace()
         {
             var instance = ConsoleWindowField.GetValue(null);

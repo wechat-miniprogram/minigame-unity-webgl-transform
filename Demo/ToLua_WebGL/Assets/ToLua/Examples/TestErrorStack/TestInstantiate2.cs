@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using LuaInterface;
+using UnityEngine;
 
-public class TestInstantiate2 : MonoBehaviour 
+public class TestInstantiate2 : MonoBehaviour
 {
     void Awake()
     {

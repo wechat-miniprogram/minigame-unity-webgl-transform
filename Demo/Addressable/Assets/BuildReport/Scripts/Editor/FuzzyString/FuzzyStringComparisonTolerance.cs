@@ -5,14 +5,14 @@ using System.Text;
 
 namespace FuzzyString
 {
-	public enum FuzzyStringComparisonTolerance
-	{
-		Strong,
+    public enum FuzzyStringComparisonTolerance
+    {
+        Strong,
 
-		Normal,
+        Normal,
 
-		Weak,
+        Weak,
 
-		Manual
-	}
+        Manual
+    }
 }

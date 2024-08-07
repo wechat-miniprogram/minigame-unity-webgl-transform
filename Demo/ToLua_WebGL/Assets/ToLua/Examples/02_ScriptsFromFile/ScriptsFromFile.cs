@@ -1,27 +1,27 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using LuaInterface;
-using System;
 using System.IO;
+using LuaInterface;
+using UnityEngine;
 
 //展示searchpath 使用，require 与 dofile 区别
-public class ScriptsFromFile : MonoBehaviour 
+public class ScriptsFromFile : MonoBehaviour
 {
     LuaState lua = null;
-    private string strLog = "";    
+    private string strLog = "";
 
-	void Start () 
+    void Start()
     {
-#if UNITY_5 || UNITY_2017 || UNITY_2018		
+#if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived += Log;
 #else
         Application.RegisterLogCallback(Log);
-#endif         
-        lua = new LuaState();                
-        lua.Start();        
+#endif
+        lua = new LuaState();
+        lua.Start();
         //如果移动了ToLua目录，自己手动修复吧，只是例子就不做配置了
         string fullPath = Application.dataPath + "\\ToLua/Examples/02_ScriptsFromFile";
-        lua.AddSearchPath(fullPath);        
+        lua.AddSearchPath(fullPath);
     }
 
     void Log(string msg, string stackTrace, LogType type)
@@ -37,12 +37,12 @@ public class ScriptsFromFile : MonoBehaviour
         if (GUI.Button(new Rect(50, 50, 120, 45), "DoFile"))
         {
             strLog = "";
-            lua.DoFile("ScriptsFromFile.lua");                        
+            lua.DoFile("ScriptsFromFile.lua");
         }
         else if (GUI.Button(new Rect(50, 150, 120, 45), "Require"))
         {
-            strLog = "";            
-            lua.Require("ScriptsFromFile");            
+            strLog = "";
+            lua.Require("ScriptsFromFile");
         }
 
         lua.Collect();
@@ -53,10 +53,10 @@ public class ScriptsFromFile : MonoBehaviour
     {
         lua.Dispose();
         lua = null;
-#if UNITY_5 || UNITY_2017 || UNITY_2018	
+#if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived -= Log;
 #else
         Application.RegisterLogCallback(null);
-#endif 
+#endif
     }
 }

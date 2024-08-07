@@ -6,18 +6,19 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
-using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using XLua;
-using System;
 
 namespace Tutorial
 {
     public class CSCallLua : MonoBehaviour
     {
         LuaEnv luaenv = null;
-        string script = @"
+        string script =
+            @"
         a = 1
         b = 'hello world'
         c = true
@@ -76,11 +77,10 @@ namespace Tutorial
             Debug.Log("_G.b = " + luaenv.Global.Get<string>("b"));
             Debug.Log("_G.c = " + luaenv.Global.Get<bool>("c"));
 
-
-            DClass d = luaenv.Global.Get<DClass>("d");//映射到有对应字段的class，by value
+            DClass d = luaenv.Global.Get<DClass>("d"); //映射到有对应字段的class，by value
             Debug.Log("_G.d = {f1=" + d.f1 + ", f2=" + d.f2 + "}");
 
-            Dictionary<string, double> d1 = luaenv.Global.Get<Dictionary<string, double>>("d");//映射到Dictionary<string, double>，by value
+            Dictionary<string, double> d1 = luaenv.Global.Get<Dictionary<string, double>>("d"); //映射到Dictionary<string, double>，by value
             Debug.Log("_G.d = {f1=" + d1["f1"] + ", f2=" + d1["f2"] + "}, d.Count=" + d1.Count);
 
             List<double> d2 = luaenv.Global.Get<List<double>>("d"); //映射到List<double>，by value
@@ -91,25 +91,23 @@ namespace Tutorial
             Debug.Log("_G.d = {f1=" + d3.f1 + ", f2=" + d3.f2 + "}");
             Debug.Log("_G.d:add(1, 2)=" + d3.add(1, 2));
 
-            LuaTable d4 = luaenv.Global.Get<LuaTable>("d");//映射到LuaTable，by ref
+            LuaTable d4 = luaenv.Global.Get<LuaTable>("d"); //映射到LuaTable，by ref
             Debug.Log("_G.d = {f1=" + d4.Get<int>("f1") + ", f2=" + d4.Get<int>("f2") + "}");
 
-
-            Action e = luaenv.Global.Get<Action>("e");//映射到一个delgate，要求delegate加到生成列表，否则返回null，建议用法
+            Action e = luaenv.Global.Get<Action>("e"); //映射到一个delgate，要求delegate加到生成列表，否则返回null，建议用法
             e();
 
             FDelegate f = luaenv.Global.Get<FDelegate>("f");
             DClass d_ret;
-            int f_ret = f(100, "John", out d_ret);//lua的多返回值映射：从左往右映射到c#的输出参数，输出参数包括返回值，out参数，ref参数
+            int f_ret = f(100, "John", out d_ret); //lua的多返回值映射：从左往右映射到c#的输出参数，输出参数包括返回值，out参数，ref参数
             Debug.Log("ret.d = {f1=" + d_ret.f1 + ", f2=" + d_ret.f2 + "}, ret=" + f_ret);
 
-            GetE ret_e = luaenv.Global.Get<GetE>("ret_e");//delegate可以返回更复杂的类型，甚至是另外一个delegate
+            GetE ret_e = luaenv.Global.Get<GetE>("ret_e"); //delegate可以返回更复杂的类型，甚至是另外一个delegate
             e = ret_e();
             e();
 
             LuaFunction d_e = luaenv.Global.Get<LuaFunction>("e");
             d_e.Call();
-
         }
 
         // Update is called once per frame

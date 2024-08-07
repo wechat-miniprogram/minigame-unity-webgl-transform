@@ -20,32 +20,20 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 using System;
-using UnityEngine;
 using LuaInterface;
+using UnityEngine;
 
-public class LuaLooper : MonoBehaviour 
-{    
-    public LuaBeatEvent UpdateEvent
-    {
-        get;
-        private set;
-    }
+public class LuaLooper : MonoBehaviour
+{
+    public LuaBeatEvent UpdateEvent { get; private set; }
 
-    public LuaBeatEvent LateUpdateEvent
-    {
-        get;
-        private set;
-    }
+    public LuaBeatEvent LateUpdateEvent { get; private set; }
 
-    public LuaBeatEvent FixedUpdateEvent
-    {
-        get;
-        private set;
-    }
+    public LuaBeatEvent FixedUpdateEvent { get; private set; }
 
     public LuaState luaState = null;
 
-    void Start() 
+    void Start()
     {
         try
         {
@@ -57,8 +45,8 @@ public class LuaLooper : MonoBehaviour
         {
             Destroy(this);
             throw e;
-        }        
-	}
+        }
+    }
 
     LuaBeatEvent GetEvent(string name)
     {
@@ -78,7 +66,7 @@ public class LuaLooper : MonoBehaviour
     void ThrowException()
     {
         string error = luaState.LuaToString(-1);
-        luaState.LuaPop(2);                
+        luaState.LuaPop(2);
         throw new LuaException(error, LuaException.GetLastError());
     }
 

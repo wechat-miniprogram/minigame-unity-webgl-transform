@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using LuaInterface;
+﻿using LuaInterface;
+using UnityEngine;
 
 public class AccessingArray : MonoBehaviour
 {

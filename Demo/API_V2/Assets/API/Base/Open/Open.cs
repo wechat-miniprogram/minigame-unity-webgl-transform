@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Open : Details
 {
     private void Start()
@@ -19,39 +20,43 @@ public class Open : Details
 
     public void openSystemBluetoothSetting()
     {
-        WX.OpenSystemBluetoothSetting(new OpenSystemBluetoothSettingOption
-        {
-            success = (res) =>
+        WX.OpenSystemBluetoothSetting(
+            new OpenSystemBluetoothSettingOption
             {
-                Debug.Log("success!");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                success = (res) =>
+                {
+                    Debug.Log("success!");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 
     public void openAppAuthorizeSetting()
     {
-        WX.OpenAppAuthorizeSetting(new OpenAppAuthorizeSettingOption
-        {
-            success = (res) =>
+        WX.OpenAppAuthorizeSetting(
+            new OpenAppAuthorizeSettingOption
             {
-                Debug.Log("success!");
-            },
-            fail = (res) =>
-            {
-                Debug.Log("fail:" + res.errMsg);
-            },
-            complete = (res) =>
-            {
-                Debug.Log("complete!");
+                success = (res) =>
+                {
+                    Debug.Log("success!");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail:" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete!");
+                }
             }
-        });
+        );
     }
 }

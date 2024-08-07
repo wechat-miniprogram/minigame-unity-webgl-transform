@@ -1,6 +1,6 @@
-﻿using System.IO;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,28 +23,26 @@ public class Ranking : MonoBehaviour
     public Button ShareButton;
     public Button ReportButton;
 
-
     public RawImage RankBody;
     public GameObject RankMask;
     public GameObject RankingBox;
 
     void Start()
     {
-        WX.InitSDK((code) =>
-        {
-            Init();
-        });
-
+        WX.InitSDK(
+            (code) =>
+            {
+                Init();
+            }
+        );
 
         /**
          * 使用群排行功能需要特殊设置分享功能，详情可见链接
          * https://developers.weixin.qq.com/minigame/dev/guide/open-ability/share/share.html
          */
-        WX.UpdateShareMenu(new UpdateShareMenuOption()
-        {
-            withShareTicket = true,
-            isPrivateMessage = true,
-        });
+        WX.UpdateShareMenu(
+            new UpdateShareMenuOption() { withShareTicket = true, isPrivateMessage = true, }
+        );
 
         /**
          * 群排行榜功能需要配合 WX.OnShow 来使用，整体流程为：
@@ -54,30 +52,36 @@ public class Ranking : MonoBehaviour
          * 4. 开放数据域调用 wx.getGroupCloudStorage 接口拉取获取群同玩成员的游戏数据
          * 5. 将群同玩成员数据绘制到 sharedCanvas
          */
-        WX.OnShow((res) =>
-        {
-            string shareTicket = res.shareTicket;
-            Dictionary<string, string> query = res.query;
-
-            if (!string.IsNullOrEmpty(shareTicket) && query != null && query["minigame_action"] == "show_group_list")
+        WX.OnShow(
+            (res) =>
             {
-                OpenDataMessage msgData = new OpenDataMessage();
-                msgData.type = "showGroupFriendsRank";
-                msgData.shareTicket = shareTicket;
+                string shareTicket = res.shareTicket;
+                Dictionary<string, string> query = res.query;
 
-                string msg = JsonUtility.ToJson(msgData);
+                if (
+                    !string.IsNullOrEmpty(shareTicket)
+                    && query != null
+                    && query["minigame_action"] == "show_group_list"
+                )
+                {
+                    OpenDataMessage msgData = new OpenDataMessage();
+                    msgData.type = "showGroupFriendsRank";
+                    msgData.shareTicket = shareTicket;
 
-                ShowOpenData();
-                WX.GetOpenDataContext().PostMessage(msg);
+                    string msg = JsonUtility.ToJson(msgData);
+
+                    ShowOpenData();
+                    WX.GetOpenDataContext().PostMessage(msg);
+                }
             }
-        });
+        );
     }
 
     void ShowOpenData()
     {
         RankMask.SetActive(true);
         RankingBox.SetActive(true);
-        // 
+        //
         // 注意这里传x,y,width,height是为了点击区域能正确点击，x,y 是距离屏幕左上角的距离，宽度传 (int)RankBody.rectTransform.rect.width是在canvas的UI Scale Mode为 Constant Pixel Size的情况下设置的。
         /**
          * 如果父元素占满整个窗口的话，pivot 设置为（0，0），rotation设置为180，则左上角就是离屏幕的距离
@@ -93,12 +97,17 @@ public class Ranking : MonoBehaviour
         var referenceResolution = scaler.referenceResolution;
         var p = RankBody.transform.position;
 
-        WX.ShowOpenData(RankBody.texture, (int)p.x, Screen.height - (int)p.y, (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width), (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height));
+        WX.ShowOpenData(
+            RankBody.texture,
+            (int)p.x,
+            Screen.height - (int)p.y,
+            (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width),
+            (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height)
+        );
     }
 
     void Init()
     {
-
         ShowButton.onClick.AddListener(() =>
         {
             ShowOpenData();
@@ -110,30 +119,33 @@ public class Ranking : MonoBehaviour
             WX.GetOpenDataContext().PostMessage(msg);
         });
 
-
-        RankMask.GetComponent<Button>().onClick.AddListener(() =>
-        {
-            RankMask.SetActive(false);
-            RankingBox.SetActive(false);
-            WX.HideOpenData();
-        });
+        RankMask
+            .GetComponent<Button>()
+            .onClick.AddListener(() =>
+            {
+                RankMask.SetActive(false);
+                RankingBox.SetActive(false);
+                WX.HideOpenData();
+            });
 
         ShareButton.onClick.AddListener(() =>
         {
-            WX.ShareAppMessage(new ShareAppMessageOption()
-            {
-                title = "最强战力排行榜！谁是第一？",
-                query = "minigame_action=show_group_list",
-                imageUrl = "https://mmgame.qpic.cn/image/5f9144af9f0e32d50fb878e5256d669fa1ae6fdec77550849bfee137be995d18/0",
-            });
+            WX.ShareAppMessage(
+                new ShareAppMessageOption()
+                {
+                    title = "最强战力排行榜！谁是第一？",
+                    query = "minigame_action=show_group_list",
+                    imageUrl =
+                        "https://mmgame.qpic.cn/image/5f9144af9f0e32d50fb878e5256d669fa1ae6fdec77550849bfee137be995d18/0",
+                }
+            );
         });
 
         ReportButton.onClick.AddListener(() =>
         {
             OpenDataMessage msgData = new OpenDataMessage();
             msgData.type = "setUserRecord";
-            msgData.score =  Random.Range(1, 1000);
-
+            msgData.score = Random.Range(1, 1000);
 
             string msg = JsonUtility.ToJson(msgData);
 
@@ -141,5 +153,4 @@ public class Ranking : MonoBehaviour
             WX.GetOpenDataContext().PostMessage(msg);
         });
     }
-
 }

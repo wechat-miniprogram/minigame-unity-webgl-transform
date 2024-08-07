@@ -24,7 +24,7 @@ using System;
 namespace LuaInterface
 {
     public class LuaThread : LuaBaseRef
-    {        
+    {
         public LuaThread(int reference, LuaState state)
         {
             this.luaState = state;
@@ -48,16 +48,16 @@ namespace LuaInterface
                     LuaDLL.lua_settop(L, top);
                 }
 
-                error = LuaDLL.lua_tostring(L, -1);                
+                error = LuaDLL.lua_tostring(L, -1);
                 luaState.LuaSetTop(0);
                 throw new LuaException(error);
             }
-            
+
             return ret;
         }
 
         public int Resume()
-        {                                    
+        {
             luaState.Push(this);
             IntPtr L = luaState.LuaToThread(-1);
             luaState.LuaPop(1);
@@ -73,7 +73,7 @@ namespace LuaInterface
         {
             luaState.Push(this);
             IntPtr L = luaState.LuaToThread(-1);
-            luaState.LuaPop(1);            
+            luaState.LuaPop(1);
             StackTraits<T1>.Push(L, arg1);
             int ret = Resume(L, 1);
             if (ret == 0)
@@ -89,7 +89,7 @@ namespace LuaInterface
             IntPtr L = luaState.LuaToThread(-1);
             luaState.LuaPop(1);
             StackTraits<T1>.Push(L, arg1);
-            StackTraits<T2>.Push(L, arg2);                        
+            StackTraits<T2>.Push(L, arg2);
             int ret = Resume(L, 2);
             if (ret == 0)
             {
@@ -140,7 +140,7 @@ namespace LuaInterface
             luaState.Push(this);
             IntPtr L = luaState.LuaToThread(-1);
             luaState.LuaPop(1);
-            StackTraits<T1>.Push(L, arg1);            
+            StackTraits<T1>.Push(L, arg1);
             int ret = Resume(L, 1);
 
             if (ret == 0)

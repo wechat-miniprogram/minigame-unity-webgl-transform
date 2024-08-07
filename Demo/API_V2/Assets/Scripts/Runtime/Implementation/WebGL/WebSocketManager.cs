@@ -126,7 +126,8 @@ namespace UnityWebSocket
 
         internal static int AllocateInstance(string address)
         {
-            if (!isInitialized) Initialize();
+            if (!isInitialized)
+                Initialize();
             return WebSocketAllocate(address);
         }
 

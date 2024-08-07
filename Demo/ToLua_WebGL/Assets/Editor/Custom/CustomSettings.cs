@@ -1,12 +1,10 @@
-﻿
-using UnityEngine;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using LuaInterface;
 using UnityEditor;
-
+using UnityEngine;
 using BindType = ToLuaMenu.BindType;
-using System.Reflection;
 
 public static class CustomSettings
 {
@@ -45,7 +43,7 @@ public static class CustomSettings
 
     //在这里添加你要导出注册到lua的类型列表
     public static BindType[] customTypeList =
-    {                
+    {
         //------------------------为例子导出--------------------------------
         //_GT(typeof(TestEventListener)),
         //_GT(typeof(TestProtol)),
@@ -56,16 +54,18 @@ public static class CustomSettings
         //_GT(typeof(Dictionary<int, TestAccount>.ValueCollection)),
         //_GT(typeof(TestExport)),
         //_GT(typeof(TestExport.Space)),
-        //-------------------------------------------------------------------        
-                        
+        //-------------------------------------------------------------------
+
         _GT(typeof(LuaInjectionStation)),
         _GT(typeof(InjectType)),
-        _GT(typeof(Debugger)).SetNameSpace(null),          
-
+        _GT(typeof(Debugger)).SetNameSpace(null),
 #if USING_DOTWEENING
         _GT(typeof(DG.Tweening.DOTween)),
-        _GT(typeof(DG.Tweening.Tween)).SetBaseType(typeof(System.Object)).AddExtendType(typeof(DG.Tweening.TweenExtensions)),
-        _GT(typeof(DG.Tweening.Sequence)).AddExtendType(typeof(DG.Tweening.TweenSettingsExtensions)),
+        _GT(typeof(DG.Tweening.Tween))
+            .SetBaseType(typeof(System.Object))
+            .AddExtendType(typeof(DG.Tweening.TweenExtensions)),
+        _GT(typeof(DG.Tweening.Sequence))
+            .AddExtendType(typeof(DG.Tweening.TweenSettingsExtensions)),
         _GT(typeof(DG.Tweening.Tweener)).AddExtendType(typeof(DG.Tweening.TweenSettingsExtensions)),
         _GT(typeof(DG.Tweening.LoopType)),
         _GT(typeof(DG.Tweening.PathMode)),
@@ -79,9 +79,9 @@ public static class CustomSettings
         _GT(typeof(Camera)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
         _GT(typeof(AudioSource)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
         //_GT(typeof(LineRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
-        //_GT(typeof(TrailRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),    
+        //_GT(typeof(TrailRenderer)).AddExtendType(typeof(DG.Tweening.ShortcutExtensions)),
 #else
-                                         
+
         _GT(typeof(Component)),
         _GT(typeof(Transform)),
         _GT(typeof(Material)),
@@ -92,7 +92,6 @@ public static class CustomSettings
         //_GT(typeof(LineRenderer))
         //_GT(typeof(TrailRenderer))
 #endif
-      
         _GT(typeof(Behaviour)),
         _GT(typeof(MonoBehaviour)),
         _GT(typeof(GameObject)),
@@ -121,14 +120,12 @@ public static class CustomSettings
         _GT(typeof(Input)),
         _GT(typeof(KeyCode)),
         _GT(typeof(SkinnedMeshRenderer)),
-        _GT(typeof(Space)),      
-       
-
+        _GT(typeof(Space)),
         //_GT(typeof(MeshRenderer)),
 #if !UNITY_5_4_OR_NEWER
         _GT(typeof(ParticleEmitter)),
         _GT(typeof(ParticleRenderer)),
-        _GT(typeof(ParticleAnimator)), 
+        _GT(typeof(ParticleAnimator)),
 #endif
 
         _GT(typeof(BoxCollider)),
@@ -136,7 +133,6 @@ public static class CustomSettings
         _GT(typeof(SphereCollider)),
         _GT(typeof(CharacterController)),
         _GT(typeof(CapsuleCollider)),
-
         _GT(typeof(Animation)),
         _GT(typeof(AnimationClip)).SetBaseType(typeof(UnityEngine.Object)),
         _GT(typeof(AnimationState)),
@@ -144,7 +140,6 @@ public static class CustomSettings
         _GT(typeof(QueueMode)),
         _GT(typeof(PlayMode)),
         _GT(typeof(WrapMode)),
-
         _GT(typeof(QualitySettings)),
         _GT(typeof(RenderSettings)),
         _GT(typeof(SkinWeights)),
@@ -167,11 +162,9 @@ public static class CustomSettings
         typeof(SphereCollider),
         typeof(CharacterController),
         typeof(CapsuleCollider),
-
         typeof(Animation),
         typeof(AnimationClip),
         typeof(AnimationState),
-
         typeof(SkinWeights),
         typeof(RenderTexture),
         typeof(Rigidbody),
@@ -179,10 +172,7 @@ public static class CustomSettings
 
     //重载函数，相同参数个数，相同位置out参数匹配出问题时, 需要强制匹配解决
     //使用方法参见例子14
-    public static List<Type> outList = new List<Type>()
-    {
-
-    };
+    public static List<Type> outList = new List<Type>() { };
 
     //ngui优化，下面的类没有派生类，可以作为sealed class
     public static List<Type> sealedList = new List<Type>()
@@ -206,7 +196,7 @@ public static class CustomSettings
         typeof(UIEventListener),
         typeof(UIScrollBar),
         typeof(UICenterOnChild),
-        typeof(UIScrollView),        
+        typeof(UIScrollView),
         typeof(UIButton),
         typeof(UITextList),
         typeof(UIPlayTween),
@@ -234,7 +224,6 @@ public static class CustomSettings
     {
         return new DelegateType(t);
     }
-
 
     [MenuItem("Lua/Attach Profiler", false, 151)]
     static void AttachProfiler()

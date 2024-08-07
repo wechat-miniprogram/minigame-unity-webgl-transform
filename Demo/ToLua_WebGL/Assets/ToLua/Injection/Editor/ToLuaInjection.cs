@@ -10,7 +10,7 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Unity.CecilTools;
 using Unity.CecilTools.Extensions;
-using CustomCecilRocks; 
+using CustomCecilRocks;
 using System.Reflection;
 using LuaInterface;
 using UnityEditor.Callbacks;
@@ -45,23 +45,35 @@ public static class ToLuaInjection
     static MethodReference injectedFuncGetter;
     static HashSet<string> dropTypeGroup = new HashSet<string>();
     static HashSet<string> injectableTypeGroup = new HashSet<string>();
-    static Dictionary<MethodDefinition, VariableDefinition> resultTableGroup = new Dictionary<MethodDefinition, VariableDefinition>();
-    static SortedDictionary<string, List<InjectedMethodInfo>> bridgeInfo = new SortedDictionary<string, List<InjectedMethodInfo>>();
-    static OpCode[] ldargs = new OpCode[] { OpCodes.Ldarg_0, OpCodes.Ldarg_1, OpCodes.Ldarg_2, OpCodes.Ldarg_3 };
-    static OpCode[] ldcI4s = new OpCode[] { OpCodes.Ldc_I4_1, OpCodes.Ldc_I4_2, OpCodes.Ldc_I4_4, OpCodes.Ldc_I4_8 };
+    static Dictionary<MethodDefinition, VariableDefinition> resultTableGroup =
+        new Dictionary<MethodDefinition, VariableDefinition>();
+    static SortedDictionary<string, List<InjectedMethodInfo>> bridgeInfo =
+        new SortedDictionary<string, List<InjectedMethodInfo>>();
+    static OpCode[] ldargs = new OpCode[]
+    {
+        OpCodes.Ldarg_0,
+        OpCodes.Ldarg_1,
+        OpCodes.Ldarg_2,
+        OpCodes.Ldarg_3
+    };
+    static OpCode[] ldcI4s = new OpCode[]
+    {
+        OpCodes.Ldc_I4_1,
+        OpCodes.Ldc_I4_2,
+        OpCodes.Ldc_I4_4,
+        OpCodes.Ldc_I4_8
+    };
     const string assemblyPath = "./Library/ScriptAssemblies/Assembly-CSharp.dll";
-    const InjectType injectType = InjectType.After | InjectType.Before | InjectType.Replace | InjectType.ReplaceWithPreInvokeBase | InjectType.ReplaceWithPostInvokeBase;
-    const InjectFilter injectIgnoring = InjectFilter.IgnoreGeneric | InjectFilter.IgnoreConstructor;// | InjectFilter.IgnoreNoToLuaAttr | InjectFilter.IgnoreProperty;
-    static HashSet<string> dropGenericNameGroup = new HashSet<string>
-    {
-    };
-    static HashSet<string> dropNamespaceGroup = new HashSet<string>
-    {
-        "LuaInterface",
-    };
-    static HashSet<string> forceInjectTypeGroup = new HashSet<string>
-    {
-    };
+    const InjectType injectType =
+        InjectType.After
+        | InjectType.Before
+        | InjectType.Replace
+        | InjectType.ReplaceWithPreInvokeBase
+        | InjectType.ReplaceWithPostInvokeBase;
+    const InjectFilter injectIgnoring = InjectFilter.IgnoreGeneric | InjectFilter.IgnoreConstructor; // | InjectFilter.IgnoreNoToLuaAttr | InjectFilter.IgnoreProperty;
+    static HashSet<string> dropGenericNameGroup = new HashSet<string> { };
+    static HashSet<string> dropNamespaceGroup = new HashSet<string> { "LuaInterface", };
+    static HashSet<string> forceInjectTypeGroup = new HashSet<string> { };
 
     static ToLuaInjection()
     {
@@ -77,7 +89,10 @@ public static class ToLuaInjection
             return;
         }
 
-        bool bInjectInterupted = !LoadBlackList() || ToLuaMenu.UpdateMonoCecil(ref EnableSymbols) != 0 || !LoadBridgeEditorInfo();
+        bool bInjectInterupted =
+            !LoadBlackList()
+            || ToLuaMenu.UpdateMonoCecil(ref EnableSymbols) != 0
+            || !LoadBridgeEditorInfo();
         if (!bInjectInterupted)
         {
             CacheInjectableTypeGroup();
@@ -117,7 +132,7 @@ public static class ToLuaInjection
             EditorPrefs.SetInt(Application.dataPath + "WaitForInjection", 0);
         }
     }
-	
+
     [MenuItem("Lua/Inject All &i", false, 5)]
     static void InjectByMenu()
     {
@@ -146,10 +161,12 @@ public static class ToLuaInjection
         };
         AssemblyDefinition assembly = AssemblyDefinition.ReadAssembly(assemblyPath, assemblyReader);
 
-        var alreadyInjected = assembly.CustomAttributes.Any((attr) =>
-        {
-            return attr.AttributeType.FullName == "LuaInterface.UseDefinedAttribute";
-        });
+        var alreadyInjected = assembly.CustomAttributes.Any(
+            (attr) =>
+            {
+                return attr.AttributeType.FullName == "LuaInterface.UseDefinedAttribute";
+            }
+        );
         EditorPrefs.SetInt(Application.dataPath + "InjectStatus", alreadyInjected ? 1 : 0);
 
         if (bPulse)
@@ -175,7 +192,11 @@ public static class ToLuaInjection
                     foreach (var type in module.Types)
                     {
                         ++cursor;
-                        EditorUtility.DisplayProgressBar("Injecting:" + module.FullyQualifiedName, type.FullName, (float)cursor / typesCount);
+                        EditorUtility.DisplayProgressBar(
+                            "Injecting:" + module.FullyQualifiedName,
+                            type.FullName,
+                            (float)cursor / typesCount
+                        );
                         if (!InjectProcess(assembly, type))
                         {
                             EditorUtility.ClearProgressBar();
@@ -216,18 +237,32 @@ public static class ToLuaInjection
             return false;
         }
         resultTableGroup.Clear();
-        var injectAttrType = assembly.MainModule.Types.Single(type => type.FullName == "LuaInterface.UseDefinedAttribute");
+        var injectAttrType = assembly.MainModule.Types.Single(type =>
+            type.FullName == "LuaInterface.UseDefinedAttribute"
+        );
         var attrCtorInfo = injectAttrType.Methods.Single(method => method.IsConstructor);
         assembly.CustomAttributes.Add(new CustomAttribute(attrCtorInfo));
 
         intTypeRef = assembly.MainModule.TypeSystem.Int32;
         injectFlagTypeRef = assembly.MainModule.TypeSystem.Byte;
-        noToLuaAttrTypeRef = assembly.MainModule.Types.Single(type => type.FullName == "LuaInterface.NoToLuaAttribute");
-        injectStationTypeDef = assembly.MainModule.Types.Single(type => type.FullName == "LuaInterface.LuaInjectionStation");
-        luaFunctionTypeDef = assembly.MainModule.Types.Single(method => method.FullName == "LuaInterface.LuaFunction");
-        luaTableTypeDef = assembly.MainModule.Types.Single(method => method.FullName == "LuaInterface.LuaTable");
-        injectFlagGetter = injectStationTypeDef.Methods.Single(method => method.Name == "GetInjectFlag");
-        injectedFuncGetter = injectStationTypeDef.Methods.Single(method => method.Name == "GetInjectionFunction");
+        noToLuaAttrTypeRef = assembly.MainModule.Types.Single(type =>
+            type.FullName == "LuaInterface.NoToLuaAttribute"
+        );
+        injectStationTypeDef = assembly.MainModule.Types.Single(type =>
+            type.FullName == "LuaInterface.LuaInjectionStation"
+        );
+        luaFunctionTypeDef = assembly.MainModule.Types.Single(method =>
+            method.FullName == "LuaInterface.LuaFunction"
+        );
+        luaTableTypeDef = assembly.MainModule.Types.Single(method =>
+            method.FullName == "LuaInterface.LuaTable"
+        );
+        injectFlagGetter = injectStationTypeDef.Methods.Single(method =>
+            method.Name == "GetInjectFlag"
+        );
+        injectedFuncGetter = injectStationTypeDef.Methods.Single(method =>
+            method.Name == "GetInjectionFunction"
+        );
 
         return true;
     }
@@ -236,11 +271,11 @@ public static class ToLuaInjection
     {
         DefaultAssemblyResolver resolver = new DefaultAssemblyResolver();
 
-        AppDomain.CurrentDomain
-                .GetAssemblies()
-                .Select(assem => Path.GetDirectoryName(assem.ManifestModule.FullyQualifiedName))
-                .Distinct()
-                .Foreach(dir => resolver.AddSearchDirectory(dir));
+        AppDomain
+            .CurrentDomain.GetAssemblies()
+            .Select(assem => Path.GetDirectoryName(assem.ManifestModule.FullyQualifiedName))
+            .Distinct()
+            .Foreach(dir => resolver.AddSearchDirectory(dir));
 
         return resolver;
     }
@@ -311,14 +346,20 @@ public static class ToLuaInjection
         offset = targetBody.Instructions.IndexOf(startInsertPos);
     }
 
-#region GenericMethod
-    static void InjectGenericMethod(AssemblyDefinition assembly, MethodDefinition target, int methodIndex)
-    {
-    }
-#endregion GenericMethod
+    #region GenericMethod
+    static void InjectGenericMethod(
+        AssemblyDefinition assembly,
+        MethodDefinition target,
+        int methodIndex
+    ) { }
+    #endregion GenericMethod
 
-#region Coroutine
-    static void InjectCoroutine(AssemblyDefinition assembly, MethodDefinition target, int methodIndex)
+    #region Coroutine
+    static void InjectCoroutine(
+        AssemblyDefinition assembly,
+        MethodDefinition target,
+        int methodIndex
+    )
     {
         InjectType runtimeInjectType = GetMethodRuntimeInjectType(target);
         if (runtimeInjectType == InjectType.None)
@@ -352,12 +393,19 @@ public static class ToLuaInjection
 
             il.InsertBefore(cursor, il.Create(OpCodes.Ldloc, funcDef));
             FillArgs(target, cursor, null);
-            il.InsertBefore(cursor, il.Create(OpCodes.Call, GetLuaMethodInvoker(target, false, false)));
+            il.InsertBefore(
+                cursor,
+                il.Create(OpCodes.Call, GetLuaMethodInvoker(target, false, false))
+            );
             il.InsertBefore(cursor, il.Create(OpCodes.Ret));
         }
     }
 
-    static void FillCoroutineMonitor(MethodDefinition target, InjectType runtimeInjectType, int methodIndex)
+    static void FillCoroutineMonitor(
+        MethodDefinition target,
+        InjectType runtimeInjectType,
+        int methodIndex
+    )
     {
         if (runtimeInjectType == InjectType.None)
         {
@@ -378,11 +426,22 @@ public static class ToLuaInjection
         CopyCreatorArgsToCarrier(target, coroutineCarrier);
         FillBegin(coroutineCarrier, methodIndex);
         var fillInjectInfoFunc = GetCoroutineInjectInfoFiller(target, hostField);
-        FillInjectMethod(coroutineCarrier, fillInjectInfoFunc, runtimeInjectType & InjectType.After);
-        FillInjectMethod(coroutineCarrier, fillInjectInfoFunc, runtimeInjectType & InjectType.Before);
+        FillInjectMethod(
+            coroutineCarrier,
+            fillInjectInfoFunc,
+            runtimeInjectType & InjectType.After
+        );
+        FillInjectMethod(
+            coroutineCarrier,
+            fillInjectInfoFunc,
+            runtimeInjectType & InjectType.Before
+        );
     }
 
-    static Action<MethodDefinition, InjectType> GetCoroutineInjectInfoFiller(MethodDefinition coroutineCreator, FieldDefinition hostRef)
+    static Action<MethodDefinition, InjectType> GetCoroutineInjectInfoFiller(
+        MethodDefinition coroutineCreator,
+        FieldDefinition hostRef
+    )
     {
         return (coroutineCarrier, runtimeInjectType) =>
         {
@@ -398,17 +457,28 @@ public static class ToLuaInjection
             CopyCarrierFieldsToArg(coroutineCreator, coroutineCarrier);
             FillCoroutineState(coroutineCarrier);
 
-            il.InsertBefore(cursor, il.Create(OpCodes.Call, GetLuaMethodInvoker(coroutineCreator, true, true)));
+            il.InsertBefore(
+                cursor,
+                il.Create(OpCodes.Call, GetLuaMethodInvoker(coroutineCreator, true, true))
+            );
         };
     }
 
-    static void CopyCoroutineCreatorReference(MethodDefinition coroutineCreator, TypeDefinition coroutineCarrier, ref FieldDefinition hostField)
+    static void CopyCoroutineCreatorReference(
+        MethodDefinition coroutineCreator,
+        TypeDefinition coroutineCarrier,
+        ref FieldDefinition hostField
+    )
     {
         if (coroutineCreator.HasThis)
         {
             ILProcessor il = coroutineCreator.Body.GetILProcessor();
 
-            hostField = new FieldDefinition("__iHost", Mono.Cecil.FieldAttributes.Public, coroutineCreator.DeclaringType);
+            hostField = new FieldDefinition(
+                "__iHost",
+                Mono.Cecil.FieldAttributes.Public,
+                coroutineCreator.DeclaringType
+            );
             coroutineCarrier.Fields.Add(hostField);
             il.InsertBefore(cursor, il.Create(OpCodes.Ldloc_0));
             il.InsertBefore(cursor, il.Create(OpCodes.Ldarg_0));
@@ -416,35 +486,42 @@ public static class ToLuaInjection
         }
     }
 
-    static void CopyCreatorArgsToCarrier(MethodDefinition coroutineCreator, MethodDefinition coroutineCarrier)
+    static void CopyCreatorArgsToCarrier(
+        MethodDefinition coroutineCreator,
+        MethodDefinition coroutineCarrier
+    )
     {
         ILProcessor il = coroutineCreator.Body.GetILProcessor();
         var carrierFields = coroutineCarrier.DeclaringType.Fields;
 
-        coroutineCreator
-            .Parameters
-            .Foreach(param =>
+        coroutineCreator.Parameters.Foreach(param =>
+        {
+            var name = "<$>" + param.Name;
+            if (!carrierFields.Any(field => field.Name == name))
             {
-                var name = "<$>" + param.Name;
-                if (!carrierFields.Any(field => field.Name == name))
-                {
-                    var hostArg = new FieldDefinition(name, Mono.Cecil.FieldAttributes.Public, param.ParameterType);
-                    carrierFields.Add(hostArg);
-                    il.InsertBefore(cursor, il.Create(OpCodes.Ldloc_0));
-                    il.InsertBefore(cursor, il.Create(OpCodes.Ldarg, param));
-                    il.InsertBefore(cursor, il.Create(OpCodes.Stfld, hostArg));
-                }
-            });
+                var hostArg = new FieldDefinition(
+                    name,
+                    Mono.Cecil.FieldAttributes.Public,
+                    param.ParameterType
+                );
+                carrierFields.Add(hostArg);
+                il.InsertBefore(cursor, il.Create(OpCodes.Ldloc_0));
+                il.InsertBefore(cursor, il.Create(OpCodes.Ldarg, param));
+                il.InsertBefore(cursor, il.Create(OpCodes.Stfld, hostArg));
+            }
+        });
     }
 
-    static void CopyCarrierFieldsToArg(MethodDefinition coroutineCreator, MethodDefinition coroutineCarrier)
+    static void CopyCarrierFieldsToArg(
+        MethodDefinition coroutineCreator,
+        MethodDefinition coroutineCarrier
+    )
     {
         ILProcessor il = coroutineCarrier.Body.GetILProcessor();
         var carrierFields = coroutineCarrier.DeclaringType.Fields;
 
         coroutineCreator
-            .Parameters
-            .Select(param => "<$>" + param.Name)
+            .Parameters.Select(param => "<$>" + param.Name)
             .Foreach(name =>
             {
                 var arg = carrierFields.Single(field => field.Name == name);
@@ -463,9 +540,9 @@ public static class ToLuaInjection
         il.InsertBefore(cursor, il.Create(OpCodes.Ldfld, stateField));
     }
 
-#endregion Coroutine
+    #endregion Coroutine
 
-#region NormalMethod
+    #region NormalMethod
     static void InjectMethod(AssemblyDefinition assembly, MethodDefinition target, int methodIndex)
     {
         target.Body.SimplifyMacros();
@@ -476,7 +553,11 @@ public static class ToLuaInjection
         target.Body.OptimizeMacros();
     }
 
-    static void FillInjectMethod(MethodDefinition target, Action<MethodDefinition, InjectType> fillInjectInfo, InjectType runtimeInjectType)
+    static void FillInjectMethod(
+        MethodDefinition target,
+        Action<MethodDefinition, InjectType> fillInjectInfo,
+        InjectType runtimeInjectType
+    )
     {
         if (runtimeInjectType == InjectType.None)
         {
@@ -485,7 +566,11 @@ public static class ToLuaInjection
 
         MethodBody targetBody = target.Body;
         ILProcessor il = targetBody.GetILProcessor();
-        cursor = GetMethodNextInsertPosition(target, null, runtimeInjectType.HasFlag(InjectType.After));
+        cursor = GetMethodNextInsertPosition(
+            target,
+            null,
+            runtimeInjectType.HasFlag(InjectType.After)
+        );
 
         while (cursor != null)
         {
@@ -501,12 +586,20 @@ public static class ToLuaInjection
                 il.InsertAfter(targetBody.Instructions[replaceIndex], endPos);
                 cursor = targetBody.Instructions[replaceIndex + 1];
             }
-            else il.InsertBefore(cursor, startPos);
+            else
+                il.InsertBefore(cursor, startPos);
             il.InsertBefore(cursor, il.Create(ldcI4s[(int)InjectType.After / 2]));
-            il.InsertBefore(cursor, il.Create(bAfterInject ? OpCodes.Bne_Un : OpCodes.Ble_Un, cursor));
+            il.InsertBefore(
+                cursor,
+                il.Create(bAfterInject ? OpCodes.Bne_Un : OpCodes.Ble_Un, cursor)
+            );
 
             fillInjectInfo(target, runtimeInjectType);
-            cursor = GetMethodNextInsertPosition(target, cursor, runtimeInjectType.HasFlag(InjectType.After));
+            cursor = GetMethodNextInsertPosition(
+                target,
+                cursor,
+                runtimeInjectType.HasFlag(InjectType.After)
+            );
         }
     }
 
@@ -522,7 +615,9 @@ public static class ToLuaInjection
     {
         MethodBody targetBody = target.Body;
         ILProcessor il = targetBody.GetILProcessor();
-        InjectType curBaseInjectType = preCall ? InjectType.ReplaceWithPreInvokeBase : InjectType.ReplaceWithPostInvokeBase;
+        InjectType curBaseInjectType = preCall
+            ? InjectType.ReplaceWithPreInvokeBase
+            : InjectType.ReplaceWithPostInvokeBase;
 
         if (runtimeInjectType.HasFlag(curBaseInjectType))
         {
@@ -557,7 +652,10 @@ public static class ToLuaInjection
         }
 
         FillArgs(target, cursor, ParseArgumentReference);
-        il.InsertBefore(cursor, il.Create(OpCodes.Call, GetLuaMethodInvoker(target, bConfirmPopReturnValue, false)));
+        il.InsertBefore(
+            cursor,
+            il.Create(OpCodes.Call, GetLuaMethodInvoker(target, bConfirmPopReturnValue, false))
+        );
 
         CacheResultTable(target, bConfirmPopReturnValue);
         UpdatePassedByReferenceParams(target, bConfirmPopReturnValue);
@@ -596,7 +694,9 @@ public static class ToLuaInjection
         int updateCount = 0;
         ILProcessor il = target.Body.GetILProcessor();
         VariableDefinition luaTable = GetResultTable(target);
-        var rawGetGenericMethod = luaTableTypeDef.Methods.Single(method => method.Name == "RawGetIndex");
+        var rawGetGenericMethod = luaTableTypeDef.Methods.Single(method =>
+            method.Name == "RawGetIndex"
+        );
 
         foreach (var param in target.Parameters)
         {
@@ -609,7 +709,10 @@ public static class ToLuaInjection
             il.InsertBefore(cursor, il.Create(OpCodes.Ldarg, param));
             il.InsertBefore(cursor, il.Create(OpCodes.Ldloc, luaTable));
             il.InsertBefore(cursor, il.Create(OpCodes.Ldc_I4, ++updateCount));
-            il.InsertBefore(cursor, il.Create(OpCodes.Call, rawGetGenericMethod.MakeGenericMethod(paramType)));
+            il.InsertBefore(
+                cursor,
+                il.Create(OpCodes.Call, rawGetGenericMethod.MakeGenericMethod(paramType))
+            );
             if (paramType.IsValueType)
             {
                 il.InsertBefore(cursor, il.Create(OpCodes.Stobj, paramType));
@@ -624,7 +727,10 @@ public static class ToLuaInjection
         {
             il.InsertBefore(cursor, il.Create(OpCodes.Ldloc, luaTable));
             il.InsertBefore(cursor, il.Create(OpCodes.Ldc_I4, ++updateCount));
-            il.InsertBefore(cursor, il.Create(OpCodes.Call, rawGetGenericMethod.MakeGenericMethod(target.ReturnType)));
+            il.InsertBefore(
+                cursor,
+                il.Create(OpCodes.Call, rawGetGenericMethod.MakeGenericMethod(target.ReturnType))
+            );
         }
     }
 
@@ -671,7 +777,10 @@ public static class ToLuaInjection
                     il.InsertBefore(cursor, popIns);
                 }
                 il.InsertBefore(retIns, il.Create(ldcI4s[(int)InjectType.Before / 2]));
-                il.InsertBefore(retIns, il.Create(OpCodes.Ble_Un, bGotReturnValue ? popIns : cursor));
+                il.InsertBefore(
+                    retIns,
+                    il.Create(OpCodes.Ble_Un, bGotReturnValue ? popIns : cursor)
+                );
             }
         }
         else if (cursor.Previous.OpCode == OpCodes.Nop)
@@ -679,9 +788,13 @@ public static class ToLuaInjection
             targetBody.Instructions.Remove(cursor.Previous);
         }
     }
-#endregion NormalMethod
+    #endregion NormalMethod
 
-    static void FillArgs(MethodDefinition target, Instruction endPoint, Action<MethodDefinition, Instruction, int> parseReferenceProcess)
+    static void FillArgs(
+        MethodDefinition target,
+        Instruction endPoint,
+        Action<MethodDefinition, Instruction, int> parseReferenceProcess
+    )
     {
         MethodBody targetBody = target.Body;
         ILProcessor il = targetBody.GetILProcessor();
@@ -709,7 +822,11 @@ public static class ToLuaInjection
         }
     }
 
-    static void PostProcessBaseMethodArg(MethodDefinition target, Instruction endPoint, int paramIndex)
+    static void PostProcessBaseMethodArg(
+        MethodDefinition target,
+        Instruction endPoint,
+        int paramIndex
+    )
     {
         var declaringType = target.DeclaringType;
         ILProcessor il = target.Body.GetILProcessor();
@@ -720,7 +837,11 @@ public static class ToLuaInjection
         }
     }
 
-    static void ParseArgumentReference(MethodDefinition target, Instruction endPoint, int paramIndex)
+    static void ParseArgumentReference(
+        MethodDefinition target,
+        Instruction endPoint,
+        int paramIndex
+    )
     {
         ParameterDefinition param = null;
         ILProcessor il = target.Body.GetILProcessor();
@@ -755,27 +876,32 @@ public static class ToLuaInjection
         }
     }
 
-    static Instruction GetMethodNextInsertPosition(MethodDefinition target, Instruction curPoint, bool bInsertBeforeRet)
+    static Instruction GetMethodNextInsertPosition(
+        MethodDefinition target,
+        Instruction curPoint,
+        bool bInsertBeforeRet
+    )
     {
         MethodBody targetBody = target.Body;
         if (target.IsConstructor || bInsertBeforeRet)
         {
             if (curPoint != null)
             {
-                return targetBody.Instructions
-                    .SkipWhile(ins => ins != curPoint)
+                return targetBody
+                    .Instructions.SkipWhile(ins => ins != curPoint)
                     .FirstOrDefault(ins => ins != curPoint && ins.OpCode == OpCodes.Ret);
             }
             else
             {
-                return targetBody.Instructions
-                    .FirstOrDefault(ins => ins.OpCode == OpCodes.Ret);
+                return targetBody.Instructions.FirstOrDefault(ins => ins.OpCode == OpCodes.Ret);
             }
         }
         else
         {
-            if (curPoint != null) return null;
-            else return targetBody.Instructions[offset];
+            if (curPoint != null)
+                return null;
+            else
+                return targetBody.Instructions[offset];
         }
     }
 
@@ -806,19 +932,34 @@ public static class ToLuaInjection
         return type;
     }
 
-    static MethodReference GetLuaMethodInvoker(MethodDefinition prototypeMethod, bool bIgnoreReturnValue, bool bAppendCoroutineState)
+    static MethodReference GetLuaMethodInvoker(
+        MethodDefinition prototypeMethod,
+        bool bIgnoreReturnValue,
+        bool bAppendCoroutineState
+    )
     {
         MethodReference injectMethod = null;
 
         GetLuaInvoker(prototypeMethod, bIgnoreReturnValue, bAppendCoroutineState, ref injectMethod);
-        FillLuaInvokerGenericArguments(prototypeMethod, bIgnoreReturnValue, bAppendCoroutineState, ref injectMethod);
+        FillLuaInvokerGenericArguments(
+            prototypeMethod,
+            bIgnoreReturnValue,
+            bAppendCoroutineState,
+            ref injectMethod
+        );
 
         return injectMethod;
     }
 
-    static void GetLuaInvoker(MethodDefinition prototypeMethod, bool bIgnoreReturnValue, bool bAppendCoroutineState, ref MethodReference invoker)
+    static void GetLuaInvoker(
+        MethodDefinition prototypeMethod,
+        bool bIgnoreReturnValue,
+        bool bAppendCoroutineState,
+        ref MethodReference invoker
+    )
     {
-        bool bRequireResult = prototypeMethod.GotPassedByReferenceParam()
+        bool bRequireResult =
+            prototypeMethod.GotPassedByReferenceParam()
             || (!bIgnoreReturnValue && !prototypeMethod.ReturnVoid());
         string methodName = bRequireResult ? "Invoke" : "Call";
         int paramCount = prototypeMethod.Parameters.Count;
@@ -827,7 +968,9 @@ public static class ToLuaInjection
         paramCount += paramExtraCount;
         invoker = luaFunctionTypeDef.Methods.FirstOrDefault(method =>
         {
-            return method.Name == methodName && method.Parameters.Count == paramCount && bRequireResult == !method.ReturnVoid();
+            return method.Name == methodName
+                && method.Parameters.Count == paramCount
+                && bRequireResult == !method.ReturnVoid();
         });
 
         if (invoker == null)
@@ -836,11 +979,18 @@ public static class ToLuaInjection
         }
     }
 
-    static void FillLuaInvokerGenericArguments(MethodDefinition prototypeMethod, bool bIgnoreReturnValue, bool bAppendCoroutineState, ref MethodReference invoker)
+    static void FillLuaInvokerGenericArguments(
+        MethodDefinition prototypeMethod,
+        bool bIgnoreReturnValue,
+        bool bAppendCoroutineState,
+        ref MethodReference invoker
+    )
     {
         if (invoker.HasGenericParameters)
         {
-            GenericInstanceMethod genericInjectMethod = new GenericInstanceMethod(invoker.CloneMethod());
+            GenericInstanceMethod genericInjectMethod = new GenericInstanceMethod(
+                invoker.CloneMethod()
+            );
 
             if (prototypeMethod.HasThis)
             {
@@ -848,7 +998,9 @@ public static class ToLuaInjection
             }
             foreach (ParameterDefinition parameter in prototypeMethod.Parameters)
             {
-                var paramType = parameter.ParameterType.IsByReference ? ElementType.For(parameter.ParameterType) : parameter.ParameterType;
+                var paramType = parameter.ParameterType.IsByReference
+                    ? ElementType.For(parameter.ParameterType)
+                    : parameter.ParameterType;
                 genericInjectMethod.GenericArguments.Add(paramType);
             }
             if (bAppendCoroutineState)
@@ -870,25 +1022,27 @@ public static class ToLuaInjection
 
     static void UpdateInjectionCacheSize()
     {
-        var staticConstructor = injectStationTypeDef.Methods.Single((method) =>
-        {
-            return method.Name == ".cctor";
-        });
+        var staticConstructor = injectStationTypeDef.Methods.Single(
+            (method) =>
+            {
+                return method.Name == ".cctor";
+            }
+        );
 
         var il = staticConstructor.Body.GetILProcessor();
         Instruction loadStaticFieldIns = null;
-        loadStaticFieldIns = staticConstructor
-            .Body
-            .Instructions
-            .FirstOrDefault(ins =>
-            {
-                return ins.OpCode == OpCodes.Ldsfld
-                       && (ins.Operand as FieldReference).Name == "cacheSize";
-            });
+        loadStaticFieldIns = staticConstructor.Body.Instructions.FirstOrDefault(ins =>
+        {
+            return ins.OpCode == OpCodes.Ldsfld
+                && (ins.Operand as FieldReference).Name == "cacheSize";
+        });
 
         var loadCacheSizeIns = il.Create(OpCodes.Ldc_I4, methodCounter + 1);
         il.InsertBefore(loadStaticFieldIns, loadCacheSizeIns);
-        il.InsertBefore(loadStaticFieldIns, il.Create(OpCodes.Stsfld, (loadStaticFieldIns.Operand as FieldReference)));
+        il.InsertBefore(
+            loadStaticFieldIns,
+            il.Create(OpCodes.Stsfld, (loadStaticFieldIns.Operand as FieldReference))
+        );
     }
 
     static void WriteInjectedAssembly(AssemblyDefinition assembly, string assemblyPath)
@@ -909,12 +1063,12 @@ public static class ToLuaInjection
             typeInfo => typeInfo.Key,
             typeinfo =>
             {
-                return typeinfo.Value
-                            .OrderBy(methodInfo => methodInfo.methodPublishedName)
-                            .ToDictionary(
-                                methodInfo => methodInfo.methodPublishedName,
-                                methodInfo => methodInfo.methodIndex
-                            );
+                return typeinfo
+                    .Value.OrderBy(methodInfo => methodInfo.methodPublishedName)
+                    .ToDictionary(
+                        methodInfo => methodInfo.methodPublishedName,
+                        methodInfo => methodInfo.methodIndex
+                    );
             }
         );
 
@@ -922,7 +1076,10 @@ public static class ToLuaInjection
         sb.Append("return ");
         ToLuaText.TransferDic(temp, sb);
         sb.Remove(sb.Length - 1, 1);
-        File.WriteAllText(CustomSettings.baseLuaDir + "System/Injection/InjectionBridgeInfo.lua", StringBuilderCache.GetStringAndRelease(sb));
+        File.WriteAllText(
+            CustomSettings.baseLuaDir + "System/Injection/InjectionBridgeInfo.lua",
+            StringBuilderCache.GetStringAndRelease(sb)
+        );
     }
 
     static int AppendMethod(MethodDefinition method)
@@ -942,7 +1099,9 @@ public static class ToLuaInjection
         }
         else
         {
-            InjectedMethodInfo existInfo = typeMethodIndexGroup.Find(info => info.methodOverloadSignature == methodSignature);
+            InjectedMethodInfo existInfo = typeMethodIndexGroup.Find(info =>
+                info.methodOverloadSignature == methodSignature
+            );
 
             if (existInfo == null)
             {
@@ -961,7 +1120,12 @@ public static class ToLuaInjection
             {
                 if (existInfo.methodFullSignature != methodFullSignature)
                 {
-                    Debug.LogError(typeName + "." + existInfo.methodPublishedName + " 签名跟历史签名不一致，无法增量，Injection中断，请修改函数签名、或者直接删掉InjectionBridgeEditorInfo.xml（该操作会导致无法兼容线上版的包体，需要强制换包）！");
+                    Debug.LogError(
+                        typeName
+                            + "."
+                            + existInfo.methodPublishedName
+                            + " 签名跟历史签名不一致，无法增量，Injection中断，请修改函数签名、或者直接删掉InjectionBridgeEditorInfo.xml（该操作会导致无法兼容线上版的包体，需要强制换包）！"
+                    );
                     EditorPrefs.SetInt(Application.dataPath + "WaitForInjection", 0);
                     return -1;
                 }
@@ -995,7 +1159,8 @@ public static class ToLuaInjection
 
     static void ExportInjectionEditorInfo(SortedDictionary<string, List<InjectedMethodInfo>> data)
     {
-        string incrementalFilePath = CustomSettings.injectionFilesPath + "InjectionBridgeEditorInfo.xml";
+        string incrementalFilePath =
+            CustomSettings.injectionFilesPath + "InjectionBridgeEditorInfo.xml";
         if (File.Exists(incrementalFilePath))
         {
             File.Delete(incrementalFilePath);
@@ -1032,7 +1197,8 @@ public static class ToLuaInjection
     {
         bridgeInfo.Clear();
         methodCounter = 0;
-        string incrementalFilePath = CustomSettings.injectionFilesPath + "InjectionBridgeEditorInfo.xml";
+        string incrementalFilePath =
+            CustomSettings.injectionFilesPath + "InjectionBridgeEditorInfo.xml";
         if (!File.Exists(incrementalFilePath))
         {
             return true;
@@ -1093,7 +1259,10 @@ public static class ToLuaInjection
 
     static bool DoesTypeInjectable(Type type)
     {
-        if (dropTypeGroup.Contains(type.FullName) || (type.DeclaringType != null && dropTypeGroup.Contains(type.DeclaringType.FullName)))
+        if (
+            dropTypeGroup.Contains(type.FullName)
+            || (type.DeclaringType != null && dropTypeGroup.Contains(type.DeclaringType.FullName))
+        )
         {
             return false;
         }
@@ -1169,9 +1338,10 @@ public static class ToLuaInjection
                 return false;
             }
 
-            bool bIgnoreConstructor = injectIgnoring.HasFlag(InjectFilter.IgnoreConstructor)
-                                    || method.DeclaringType.IsAssignableTo("UnityEngine.MonoBehaviour")
-                                    || method.DeclaringType.IsAssignableTo("UnityEngine.ScriptableObject");
+            bool bIgnoreConstructor =
+                injectIgnoring.HasFlag(InjectFilter.IgnoreConstructor)
+                || method.DeclaringType.IsAssignableTo("UnityEngine.MonoBehaviour")
+                || method.DeclaringType.IsAssignableTo("UnityEngine.ScriptableObject");
             if (method.IsConstructor)
             {
                 if (bIgnoreConstructor)
@@ -1189,13 +1359,22 @@ public static class ToLuaInjection
             }
         }
 
-        if (method.Name.Contains("<") || method.IsUnmanaged || method.IsAbstract || method.IsPInvokeImpl || !method.HasBody)
+        if (
+            method.Name.Contains("<")
+            || method.IsUnmanaged
+            || method.IsAbstract
+            || method.IsPInvokeImpl
+            || !method.HasBody
+        )
         {
             return false;
         }
 
         /// Skip Unsafe
-        if (method.Body.Variables.Any(var => var.VariableType.IsPointer) || method.Parameters.Any(param => param.ParameterType.IsPinned))
+        if (
+            method.Body.Variables.Any(var => var.VariableType.IsPointer)
+            || method.Parameters.Any(param => param.ParameterType.IsPinned)
+        )
         {
             return false;
         }
@@ -1206,7 +1385,10 @@ public static class ToLuaInjection
             return false;
         }
 
-        if ((method.IsGetter || method.IsSetter) && injectIgnoring.HasFlag(InjectFilter.IgnoreProperty))
+        if (
+            (method.IsGetter || method.IsSetter)
+            && injectIgnoring.HasFlag(InjectFilter.IgnoreProperty)
+        )
         {
             return false;
         }
@@ -1238,12 +1420,21 @@ public static class ToLuaInjection
     {
         if (File.Exists(InjectionBlackListGenerator.blackListFilePath))
         {
-            dropTypeGroup.UnionWith(File.ReadAllLines(InjectionBlackListGenerator.blackListFilePath));
+            dropTypeGroup.UnionWith(
+                File.ReadAllLines(InjectionBlackListGenerator.blackListFilePath)
+            );
             dropTypeGroup.ExceptWith(forceInjectTypeGroup);
         }
         else
         {
-            if (EditorUtility.DisplayDialog("警告", "由于Injection会额外增加代码量，故可以先设置一些Injection跳过的代码目录(比如NGUI插件代码目录)，减少生成的代码量", "设置黑名单", "全量生成"))
+            if (
+                EditorUtility.DisplayDialog(
+                    "警告",
+                    "由于Injection会额外增加代码量，故可以先设置一些Injection跳过的代码目录(比如NGUI插件代码目录)，减少生成的代码量",
+                    "设置黑名单",
+                    "全量生成"
+                )
+            )
             {
                 InjectionBlackListGenerator.Open();
                 InjectionBlackListGenerator.onBlackListGenerated += InjectAll;

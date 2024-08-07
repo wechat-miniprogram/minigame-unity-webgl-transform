@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Text;
-using System.Reflection;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 
 public interface LuaSerialization
 {
@@ -21,7 +21,10 @@ public static class ToLuaText
     static ToLuaText()
     {
         var classType = typeof(ToLuaText);
-        customTransferGenericMethod = classType.GetMethod("TransferCustomData", BindingFlags.Static | BindingFlags.NonPublic);
+        customTransferGenericMethod = classType.GetMethod(
+            "TransferCustomData",
+            BindingFlags.Static | BindingFlags.NonPublic
+        );
         listTransferGenericMethod = classType.GetMethod("TransferList");
         arrayTransferGenericMethod = classType.GetMethod("TransferArray");
         dictionaryTransferGenericMethod = classType.GetMethod("TransferDic");
@@ -55,7 +58,8 @@ public static class ToLuaText
         if (!IsCommonData(typeof(T)))
             sb.Append("\n");
         else
-            sb.Remove(sb.Length - 2, 2);///移除最后一个", "字符组,为了部分满足强迫症
+            sb.Remove(sb.Length - 2, 2);
+        ///移除最后一个", "字符组,为了部分满足强迫症
 
         if (bSerializeSuc)
             NestEnd(sb, indent);
@@ -73,7 +77,9 @@ public static class ToLuaText
 
         NestBegin(sb, indent);
 
-        if (dic.Count <= 0/* || !IsDataTypeSerializable(keyType)*/)
+        if (
+            dic.Count <= 0 /* || !IsDataTypeSerializable(keyType)*/
+        )
         {
             bSerializeSuc = false;
             WipeInvalidContent(sb, validContentLength);
@@ -129,13 +135,19 @@ public static class ToLuaText
         sb.Remove(validLength, sb.Length - validLength);
     }
 
-    static bool TransferCustomData<T>(T data, StringBuilder sb, int indent = 0) where T : LuaSerialization
+    static bool TransferCustomData<T>(T data, StringBuilder sb, int indent = 0)
+        where T : LuaSerialization
     {
         LuaSerialization serializor = data as LuaSerialization;
         return serializor.Serialize(sb, indent);
     }
 
-    static bool SerializeNestData<T>(StringBuilder sb, int indent, T data, MethodInfo transferMethod)
+    static bool SerializeNestData<T>(
+        StringBuilder sb,
+        int indent,
+        T data,
+        MethodInfo transferMethod
+    )
     {
         bool bSerializeSuc = false;
         int validContentLength = sb.Length;
@@ -179,11 +191,17 @@ public static class ToLuaText
         if (typeof(LuaSerialization).IsAssignableFrom(collectionType))
             method = customTransferGenericMethod.MakeGenericMethod(collectionType);
         else if (collectionType.GetGenericTypeDefinition() == dictionaryTypeDefinition)
-            method = dictionaryTransferGenericMethod.MakeGenericMethod(collectionType.GetGenericArguments());
+            method = dictionaryTransferGenericMethod.MakeGenericMethod(
+                collectionType.GetGenericArguments()
+            );
         else if (collectionType.GetGenericTypeDefinition() == listTypeDefinition)
-            method = listTransferGenericMethod.MakeGenericMethod(collectionType.GetGenericArguments());
+            method = listTransferGenericMethod.MakeGenericMethod(
+                collectionType.GetGenericArguments()
+            );
         else if (collectionType.IsArray)
-            method = arrayTransferGenericMethod.MakeGenericMethod(new Type[] { collectionType.GetElementType() });
+            method = arrayTransferGenericMethod.MakeGenericMethod(
+                new Type[] { collectionType.GetElementType() }
+            );
 
         return method;
     }
@@ -205,7 +223,9 @@ public static class ToLuaText
         if (type != typeof(int) && type != typeof(string))
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(string.Format("Can't Serialize Specify Data Type : {0} To Lua", type));
+            Console.WriteLine(
+                string.Format("Can't Serialize Specify Data Type : {0} To Lua", type)
+            );
             return false;
         }
 

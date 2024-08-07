@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -12,23 +12,27 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     // 隐藏的公共属性，用于访问 DetailsController 脚本
-    [HideInInspector] public DetailsController detailsController;
-    
+    [HideInInspector]
+    public DetailsController detailsController;
+
     // 字体相关
     [Header("Font")]
     public Font font;
     public Action<Font> onFontLoaded;
-    
+
     // 用于在 MainCanvas 和 DetailsCanvas 之间切换
     [Header("Canvas Switch")]
-    [SerializeField] private GameObject _mainCanvas;
-    [SerializeField] private GameObject _detailsCanvas;
+    [SerializeField]
+    private GameObject _mainCanvas;
+
+    [SerializeField]
+    private GameObject _detailsCanvas;
     private bool _isMainCanvasActive = true;
-    
+
     // 用于获取微信小游戏的系统信息
     [Header("System Info")]
     public SystemInfo systemInfo;
-    
+
     private void Awake()
     {
         // 如果已经有一个 GameManager 实例，销毁当前实例并返回
@@ -37,35 +41,41 @@ public class GameManager : MonoBehaviour
             Destroy(this);
             return;
         }
-        
+
         // 设置当前实例为单例实例
         Instance = this;
-        
+
         // 当场景切换时，不销毁 GameManager 实例
         DontDestroyOnLoad(gameObject);
-        
-        GetReferences();
-        
-        // 初始化微信小游戏 SDK
-        WX.InitSDK((code) =>
-        {
-            Debug.Log("InitSDK: " + code);
 
-            // 获取微信小游戏的字体
-            var fallbackFont = Application.streamingAssetsPath + "/Fz.ttf";
-            WX.GetWXFont(fallbackFont, (font) =>
+        GetReferences();
+
+        // 初始化微信小游戏 SDK
+        WX.InitSDK(
+            (code) =>
             {
-                if (!font) return;
-                
-                this.font = font;
-                onFontLoaded?.Invoke(font);
-            });
-            
-            // 获取微信小游戏的系统信息
-            systemInfo = WX.GetSystemInfoSync();
-        });
+                Debug.Log("InitSDK: " + code);
+
+                // 获取微信小游戏的字体
+                var fallbackFont = Application.streamingAssetsPath + "/Fz.ttf";
+                WX.GetWXFont(
+                    fallbackFont,
+                    (font) =>
+                    {
+                        if (!font)
+                            return;
+
+                        this.font = font;
+                        onFontLoaded?.Invoke(font);
+                    }
+                );
+
+                // 获取微信小游戏的系统信息
+                systemInfo = WX.GetSystemInfoSync();
+            }
+        );
     }
-    
+
     private void Start()
     {
         _mainCanvas.SetActive(true);
@@ -79,7 +89,7 @@ public class GameManager : MonoBehaviour
         _mainCanvas.SetActive(_isMainCanvasActive);
         _detailsCanvas.SetActive(!_isMainCanvasActive);
     }
-    
+
     // 加载指定名称的场景
     public void LoadScene(string sceneName)
     {
