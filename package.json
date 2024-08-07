@@ -8,6 +8,7 @@
     "docs:dev": "vitepress dev .config",
     "docs:build": "vitepress build .config",
     "docs:preview": "vitepress preview .config",
+    "preformat": "dotnet tool restore",
     "format": "dotnet csharpier ."
   },
   "author": "Wechat MiniGame Team",
