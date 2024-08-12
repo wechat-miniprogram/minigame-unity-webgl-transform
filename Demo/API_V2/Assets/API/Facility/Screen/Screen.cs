@@ -10,7 +10,7 @@ public class Screen : Details
     private bool _isListening1 = false;
     private System.Random random = new System.Random();
 
-    private readonly Action<GeneralCallbackResult> _onUserCaptureScreen = (res) =>
+    private readonly Action<OnUserCaptureScreenListenerResult> _onUserCaptureScreen = (res) =>
     {
         WX.ShowToast(new ShowToastOption { title = "截屏触发" });
         var result = "_onUserCaptureScreen\n" + JsonMapper.ToJson(res);

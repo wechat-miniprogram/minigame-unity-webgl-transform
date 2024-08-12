@@ -82,7 +82,7 @@ public class GameClub : Details
         WX.GetGameClubData(option);
     }
 
-    private bool _isGameClubShow = false;
+    // private bool _isGameClubShow = false;
 
     // 切换游戏圈按钮显示/隐藏
     private void GameClubButtonSwitch()

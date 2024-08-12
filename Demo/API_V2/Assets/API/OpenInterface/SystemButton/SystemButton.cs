@@ -89,7 +89,7 @@ public class SystemButton : Details
         );
     }
 
-    private bool _isFeedbackShow = true;
+    // private bool _isFeedbackShow = true;
 
     // 切换意见反馈按钮显示/隐藏
     private void FeedbackButtonSwitch()
