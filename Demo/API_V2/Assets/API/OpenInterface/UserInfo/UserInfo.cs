@@ -30,9 +30,9 @@ public class UserInfo : Details
         Vector2 position = GameManager.Instance.detailsController.GetButtonPosition(-1);
         Debug.Log(position);
         Debug.Log(size);
-        var systemInfo = WX.GetSystemInfoSync();
-        var canvasWidth = (int)(systemInfo.screenWidth * systemInfo.pixelRatio);
-        var canvasHeight = (int)(systemInfo.screenHeight * systemInfo.pixelRatio);
+        var windowInfo = GameManager.Instance.WindowInfo;
+        var canvasWidth = (int)(windowInfo.screenWidth * windowInfo.pixelRatio);
+        var canvasHeight = (int)(windowInfo.screenHeight * windowInfo.pixelRatio);
         _button = WX.CreateUserInfoButton(
             Math.Abs((int)position.x),
             Math.Abs((int)position.y),

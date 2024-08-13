@@ -65,9 +65,9 @@ public class DetailsController : MonoBehaviour
     private void Start()
     {
         var res = WX.GetMenuButtonBoundingClientRect();
-        var info = WX.GetSystemInfoSync();
+        var info = GameManager.Instance.WindowInfo;
         float height = (float)res.height;
-        float safeArea = (float)GameManager.Instance.systemInfo.safeArea.top;
+        float safeArea = (float)GameManager.Instance.WindowInfo.safeArea.top;
         // 根据系统安全区域调整标题和返回按钮的位置
         titleTransform.anchoredPosition = new Vector2(
             titleTransform.anchoredPosition.x,

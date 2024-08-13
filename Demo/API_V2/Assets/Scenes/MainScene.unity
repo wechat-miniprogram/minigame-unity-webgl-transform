@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657886, g: 0.49641275, b: 0.5748176, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6075,7 +6075,7 @@ LightingSettings:
   m_AlbedoBoost: 1
   m_IndirectOutputScale: 1
   m_UsingShadowmask: 1
-  m_BakeBackend: 1
+  m_BakeBackend: 2
   m_LightmapMaxSize: 512
   m_BakeResolution: 10
   m_Padding: 2
@@ -24723,8 +24723,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   detailsController: {fileID: 0}
   font: {fileID: 0}
-  _mainCanvas: {fileID: 0}
-  _detailsCanvas: {fileID: 0}
+  mainCanvas: {fileID: 0}
+  detailsCanvas: {fileID: 0}
 --- !u!4 &1274177269
 Transform:
   m_ObjectHideFlags: 0
