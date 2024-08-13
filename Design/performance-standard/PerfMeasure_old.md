@@ -25,7 +25,7 @@
 
 指标与测量方法
 
-Unity小游戏的启动可参考[启动流程与时序](Startup.md)
+Unity小游戏的启动可参考[启动流程与时序](../Startup.md)
 |   |定义|测量方法|
 | --- | --- |--- |
 | 首资源包 | 游戏首个data资源文件|位于导出目录/webgl/md5.webgl.data.unityweb.bin.txt, CDN使用gzip压缩
@@ -34,7 +34,7 @@ Unity小游戏的启动可参考[启动流程与时序](Startup.md)
 | callmain |引擎和首场景(Loading)初始化 |通过timelog,或日志查看“callMain耗时”
 | 游戏初始化完成 |引擎和手场景完成，出现首个业务场景|通过timelog, 或日志查看“游戏启动耗时”
 | 游戏可交互完成 |游戏核心场景完成|业务自定义，典型地：休闲游戏为核心玩法，RPG游戏为创角
-| 内存 | 内存峰值 | 进程内存峰值，测量方法请参考[优化Unity WebGL的内存](OptimizationMemory.md)
+| 内存 | 内存峰值 | 进程内存峰值，测量方法请参考[优化Unity WebGL的内存](../OptimizationMemory.md)
 | 帧率 | 核心玩法的平均帧率 | 测量5分钟以上游戏核心玩法帧率，取平均值
 
 
