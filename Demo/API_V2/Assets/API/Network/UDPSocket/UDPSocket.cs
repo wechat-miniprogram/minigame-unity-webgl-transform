@@ -95,6 +95,7 @@ public class UDPSocket : Details
                 option.message = _bufferData;
             }
             _udpSocket.Write(option);
+            Debug.Log("Message: " + option.message);
         }
         else
         {
