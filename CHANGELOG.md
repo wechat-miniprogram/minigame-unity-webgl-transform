@@ -11,12 +11,12 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 1. UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
 2. PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 
-## 2024-7-31 【预发布】
-PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.18
+## 2024-8-13 【重要更新】
 ### Feature
 * 普通: 横竖屏切换，PC窗口大小自动适配
+* 普通: PC分辨率模糊，自动调节dpr属性
 ### Fixed
-* 严重：修复多点触控异常
+* 严重：修复多点触控产生的异常
 * 普通：适配2021，去_JS_Focus_Window
 * 普通：修复多线程压缩的扩展名判定
 
