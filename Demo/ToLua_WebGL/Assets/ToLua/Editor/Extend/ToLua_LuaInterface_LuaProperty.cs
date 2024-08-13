@@ -4,7 +4,7 @@ using LuaInterface;
 public class ToLua_LuaInterface_LuaProperty
 {
     public static string GetDefined =
-@"		try
+        @"		try
 		{			
 			LuaProperty obj = (LuaProperty)ToLua.CheckObject(L, 1, typeof(LuaProperty));            
             return obj.Get(L);						
@@ -15,7 +15,7 @@ public class ToLua_LuaInterface_LuaProperty
 		}";
 
     public static string SetDefined =
-@"		try
+        @"		try
 		{			
             LuaProperty obj = (LuaProperty)ToLua.CheckObject(L, 1, typeof(LuaProperty));            
             return obj.Set(L);
@@ -24,7 +24,6 @@ public class ToLua_LuaInterface_LuaProperty
 		{
 			return LuaDLL.toluaL_exception(L, e);
 		}";
-
 
     [UseDefinedAttribute]
     public int Set(IntPtr L)

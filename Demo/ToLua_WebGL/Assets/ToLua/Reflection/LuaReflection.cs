@@ -40,7 +40,7 @@ namespace LuaInterface
             LoadAssembly("mscorlib");
             LoadAssembly("UnityEngine");
             //注释避免放在插件目录无法加载，需要可从lua代码loadassembly
-            //LoadAssembly("Assembly-CSharp"); 
+            //LoadAssembly("Assembly-CSharp");
         }
 
         public static void OpenLibs(IntPtr L)
@@ -51,7 +51,7 @@ namespace LuaInterface
             LuaDLL.lua_pushcfunction(L, FindType);
             LuaDLL.lua_rawset(L, -3);
 
-            LuaDLL.lua_pushstring(L, "loadassembly");            
+            LuaDLL.lua_pushstring(L, "loadassembly");
             LuaDLL.tolua_pushcfunction(L, LoadAssembly);
             LuaDLL.lua_rawset(L, -3);
 
@@ -83,7 +83,7 @@ namespace LuaInterface
 
             LuaState state = LuaState.Get(L);
             state.BeginPreLoad();
-            state.AddPreLoad("tolua.reflection", OpenReflectionLibs);            
+            state.AddPreLoad("tolua.reflection", OpenReflectionLibs);
             state.EndPreLoad();
         }
 
@@ -107,7 +107,7 @@ namespace LuaInterface
                 LuaInterface_LuaMethodWrap.Register(state);
                 LuaInterface_LuaPropertyWrap.Register(state);
                 LuaInterface_LuaFieldWrap.Register(state);
-                LuaInterface_LuaConstructorWrap.Register(state);                
+                LuaInterface_LuaConstructorWrap.Register(state);
                 state.EndModule();
                 state.EndModule();
                 return 0;
@@ -122,9 +122,9 @@ namespace LuaInterface
         static int FindType(IntPtr L)
         {
             string name = ToLua.CheckString(L, 1);
-            LuaReflection reflection = LuaReflection.Get(L);            
+            LuaReflection reflection = LuaReflection.Get(L);
             List<Assembly> list = reflection.list;
-            Type t = null;            
+            Type t = null;
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -134,7 +134,7 @@ namespace LuaInterface
                 {
                     break;
                 }
-            }            
+            }
 
             ToLua.Push(L, t);
             return 1;
@@ -149,7 +149,7 @@ namespace LuaInterface
                 string name = ToLua.CheckString(L, 1);
                 LuaDLL.lua_pushboolean(L, reflection.LoadAssembly(name));
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return LuaDLL.toluaL_exception(L, e);
             }
@@ -187,9 +187,10 @@ namespace LuaInterface
                     for (int i = 3; i <= count; i++)
                     {
                         Type ti = ToLua.CheckMonoType(L, i);
-                        if (ti == null) LuaDLL.luaL_typerror(L, i, "Type");
+                        if (ti == null)
+                            LuaDLL.luaL_typerror(L, i, "Type");
                         types[i - 3] = ti;
-                    }                                       
+                    }
                 }
 
                 MethodInfo md = null;
@@ -205,7 +206,7 @@ namespace LuaInterface
 
                 PushLuaMethod(L, md, t, types);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return LuaDLL.toluaL_exception(L, e);
             }
@@ -232,7 +233,7 @@ namespace LuaInterface
             try
             {
                 int count = LuaDLL.lua_gettop(L);
-                Type t = (Type)ToLua.CheckObject(L, 1, typeof(Type));                
+                Type t = (Type)ToLua.CheckObject(L, 1, typeof(Type));
                 Type[] types = null;
 
                 if (count > 1)
@@ -242,7 +243,8 @@ namespace LuaInterface
                     for (int i = 2; i <= count; i++)
                     {
                         Type ti = ToLua.CheckMonoType(L, i);
-                        if (ti == null) LuaDLL.luaL_typerror(L, i, "Type");
+                        if (ti == null)
+                            LuaDLL.luaL_typerror(L, i, "Type");
                         types[i - 2] = ti;
                     }
                 }
@@ -263,13 +265,13 @@ namespace LuaInterface
         {
             try
             {
-                int count = LuaDLL.lua_gettop(L);                
+                int count = LuaDLL.lua_gettop(L);
 
                 if (count == 2 && TypeChecker.CheckTypes<Type, string>(L, 1))
                 {
                     Type obj = (Type)ToLua.ToObject(L, 1);
                     string arg0 = ToLua.ToString(L, 2);
-                    MethodInfo o = obj.GetMethod(arg0);                    
+                    MethodInfo o = obj.GetMethod(arg0);
                     PushLuaMethod(L, o, obj, null);
                     return 1;
                 }
@@ -291,7 +293,10 @@ namespace LuaInterface
                     PushLuaMethod(L, o, obj, null);
                     return 1;
                 }
-                else if (count == 4 && TypeChecker.CheckTypes<Type, string, Type[], ParameterModifier[]>(L, 1))
+                else if (
+                    count == 4
+                    && TypeChecker.CheckTypes<Type, string, Type[], ParameterModifier[]>(L, 1)
+                )
                 {
                     Type obj = (Type)ToLua.ToObject(L, 1);
                     string arg0 = ToLua.ToString(L, 2);
@@ -301,7 +306,17 @@ namespace LuaInterface
                     PushLuaMethod(L, o, obj, arg1);
                     return 1;
                 }
-                else if (count == 6 && TypeChecker.CheckTypes<Type, string, uint, Binder, Type[], ParameterModifier[]> (L, 1))
+                else if (
+                    count == 6
+                    && TypeChecker.CheckTypes<
+                        Type,
+                        string,
+                        uint,
+                        Binder,
+                        Type[],
+                        ParameterModifier[]
+                    >(L, 1)
+                )
                 {
                     System.Type obj = (System.Type)ToLua.ToObject(L, 1);
                     string arg0 = ToLua.ToString(L, 2);
@@ -313,7 +328,18 @@ namespace LuaInterface
                     PushLuaMethod(L, o, obj, arg3);
                     return 1;
                 }
-                else if (count == 7 && TypeChecker.CheckTypes<Type, string, uint, Binder, CallingConventions, Type[], ParameterModifier[]> (L, 1))
+                else if (
+                    count == 7
+                    && TypeChecker.CheckTypes<
+                        Type,
+                        string,
+                        uint,
+                        Binder,
+                        CallingConventions,
+                        Type[],
+                        ParameterModifier[]
+                    >(L, 1)
+                )
                 {
                     Type obj = (Type)ToLua.ToObject(L, 1);
                     string arg0 = ToLua.ToString(L, 2);
@@ -355,13 +381,13 @@ namespace LuaInterface
         {
             try
             {
-                int count = LuaDLL.lua_gettop(L);                
+                int count = LuaDLL.lua_gettop(L);
 
                 if (count == 2 && TypeChecker.CheckTypes<Type, string>(L, 1))
                 {
                     Type obj = (Type)ToLua.ToObject(L, 1);
                     string arg0 = ToLua.ToString(L, 2);
-                    PropertyInfo o = obj.GetProperty(arg0);                    
+                    PropertyInfo o = obj.GetProperty(arg0);
                     PushLuaProperty(L, o, obj);
                     return 1;
                 }
@@ -402,7 +428,10 @@ namespace LuaInterface
                     PushLuaProperty(L, o, obj);
                     return 1;
                 }
-                else if (count == 5 && TypeChecker.CheckTypes<Type, string, Type, Type[], ParameterModifier[]> (L, 1))
+                else if (
+                    count == 5
+                    && TypeChecker.CheckTypes<Type, string, Type, Type[], ParameterModifier[]>(L, 1)
+                )
                 {
                     Type obj = (Type)ToLua.ToObject(L, 1);
                     string arg0 = ToLua.ToString(L, 2);
@@ -413,7 +442,18 @@ namespace LuaInterface
                     PushLuaProperty(L, o, obj);
                     return 1;
                 }
-                else if (count == 7 && TypeChecker.CheckTypes<Type, string, uint, Binder, Type, Type[], ParameterModifier[]> (L, 1))
+                else if (
+                    count == 7
+                    && TypeChecker.CheckTypes<
+                        Type,
+                        string,
+                        uint,
+                        Binder,
+                        Type,
+                        Type[],
+                        ParameterModifier[]
+                    >(L, 1)
+                )
                 {
                     Type obj = (Type)ToLua.ToObject(L, 1);
                     string arg0 = ToLua.ToString(L, 2);
@@ -434,7 +474,7 @@ namespace LuaInterface
             catch (Exception e)
             {
                 return LuaDLL.toluaL_exception(L, e);
-            }            
+            }
         }
 
         static void PushLuaField(IntPtr L, FieldInfo f, Type t)
@@ -455,7 +495,7 @@ namespace LuaInterface
         {
             try
             {
-                int count = LuaDLL.lua_gettop(L);                
+                int count = LuaDLL.lua_gettop(L);
 
                 if (count == 2 && TypeChecker.CheckTypes<Type, string>(L, 1))
                 {
@@ -483,7 +523,7 @@ namespace LuaInterface
             {
                 return LuaDLL.toluaL_exception(L, e);
             }
-        }           
+        }
 
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int CreateInstance(IntPtr L)
@@ -491,7 +531,8 @@ namespace LuaInterface
             try
             {
                 Type t = ToLua.CheckMonoType(L, 1);
-                if (t == null) LuaDLL.luaL_typerror(L, 1, "Type");
+                if (t == null)
+                    LuaDLL.luaL_typerror(L, 1, "Type");
                 int count = LuaDLL.lua_gettop(L);
                 object obj = null;
 
@@ -529,7 +570,7 @@ namespace LuaInterface
                 {
                     return true;
                 }
-            }                
+            }
 
             Assembly assembly = Assembly.Load(name);
 

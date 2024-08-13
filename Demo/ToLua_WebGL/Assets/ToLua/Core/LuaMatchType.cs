@@ -19,16 +19,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine;
 
 namespace LuaInterface
 {
     public class LuaMatchType
     {
         public bool CheckNumber(IntPtr L, int pos)
-        {            
+        {
             return LuaDLL.lua_type(L, pos) == LuaTypes.LUA_TNUMBER;
         }
 
@@ -46,10 +46,10 @@ namespace LuaInterface
                 case LuaTypes.LUA_TNUMBER:
                     return true;
                 case LuaTypes.LUA_TUSERDATA:
-                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Int64;                    
+                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Int64;
                 default:
                     return false;
-            }                        
+            }
         }
 
         public bool CheckULong(IntPtr L, int pos)
@@ -61,7 +61,7 @@ namespace LuaInterface
                 case LuaTypes.LUA_TNUMBER:
                     return LuaDLL.lua_tonumber(L, pos) >= 0;
                 case LuaTypes.LUA_TUSERDATA:
-                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.UInt64;                    
+                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.UInt64;
                 default:
                     return false;
             }
@@ -90,7 +90,7 @@ namespace LuaInterface
                 case LuaTypes.LUA_TNUMBER:
                     return true;
                 case LuaTypes.LUA_TUSERDATA:
-                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Int64;                    
+                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Int64;
                 default:
                     return false;
             }
@@ -107,7 +107,7 @@ namespace LuaInterface
                 case LuaTypes.LUA_TNUMBER:
                     return true;
                 case LuaTypes.LUA_TUSERDATA:
-                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.UInt64;                    
+                    return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.UInt64;
                 default:
                     return false;
             }
@@ -127,7 +127,7 @@ namespace LuaInterface
                     return CheckClassType(typeof(string), L, pos);
                 default:
                     return false;
-            }            
+            }
         }
 
         public bool CheckByteArray(IntPtr L, int pos)
@@ -172,7 +172,7 @@ namespace LuaInterface
             {
                 case LuaTypes.LUA_TNIL:
                     return true;
-                case LuaTypes.LUA_TTABLE:                                
+                case LuaTypes.LUA_TTABLE:
                     return true;
                 case LuaTypes.LUA_TUSERDATA:
                     return CheckClassType(t, L, pos);
@@ -249,13 +249,13 @@ namespace LuaInterface
         public bool CheckObjectArray(IntPtr L, int pos)
         {
             return CheckArray(typeof(object[]), L, pos);
-        }        
+        }
 
         bool CheckValueType(IntPtr L, int pos, int valueType, Type nt)
         {
             if (LuaDLL.lua_type(L, pos) == LuaTypes.LUA_TTABLE)
             {
-                int vt = LuaDLL.tolua_getvaluetype(L, pos);                
+                int vt = LuaDLL.tolua_getvaluetype(L, pos);
                 return vt == valueType;
             }
 
@@ -269,7 +269,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Vector3;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckQuat(IntPtr L, int pos)
@@ -279,7 +279,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Quaternion;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckVec2(IntPtr L, int pos)
@@ -289,7 +289,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Vector2;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckColor(IntPtr L, int pos)
@@ -299,7 +299,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Color;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckVec4(IntPtr L, int pos)
@@ -309,7 +309,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Vector4;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckRay(IntPtr L, int pos)
@@ -319,7 +319,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Ray;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckBounds(IntPtr L, int pos)
@@ -329,7 +329,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Bounds;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckTouch(IntPtr L, int pos)
@@ -339,7 +339,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Touch;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckLayerMask(IntPtr L, int pos)
@@ -349,7 +349,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.LayerMask;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckRaycastHit(IntPtr L, int pos)
@@ -359,7 +359,7 @@ namespace LuaInterface
                 return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.RaycastHit;
             }
 
-            return false;            
+            return false;
         }
 
         public bool CheckNullVec3(IntPtr L, int pos)
@@ -565,7 +565,7 @@ namespace LuaInterface
         {
             LuaTypes luaType = LuaDLL.lua_type(L, pos);
 
-            switch(luaType)
+            switch (luaType)
             {
                 case LuaTypes.LUA_TNIL:
                     return true;
@@ -577,7 +577,7 @@ namespace LuaInterface
                     return true;
                 default:
                     return false;
-            }            
+            }
         }
 
         public bool CheckByteBuffer(IntPtr L, int pos)
@@ -609,7 +609,7 @@ namespace LuaInterface
             {
                 case LuaTypes.LUA_TNIL:
                     return true;
-                case LuaTypes.LUA_TUSERDATA:                    
+                case LuaTypes.LUA_TUSERDATA:
                     int udata = LuaDLL.tolua_rawnetobj(L, pos);
 
                     if (udata != -1)
@@ -618,7 +618,7 @@ namespace LuaInterface
                         object obj = translator.GetObject(udata);
                         return obj == null ? true : obj is IEnumerator;
                     }
-                    return false;                    
+                    return false;
                 default:
                     return false;
             }
@@ -653,7 +653,7 @@ namespace LuaInterface
             {
                 case LuaTypes.LUA_TNIL:
                     return true;
-                case LuaTypes.LUA_TUSERDATA:                    
+                case LuaTypes.LUA_TUSERDATA:
                     int udata = LuaDLL.tolua_rawnetobj(L, pos);
 
                     if (udata != -1)
@@ -663,7 +663,7 @@ namespace LuaInterface
                         return obj == null ? true : obj is Transform;
                     }
 
-                    return false;                    
+                    return false;
                 default:
                     return false;
             }
@@ -683,8 +683,8 @@ namespace LuaInterface
                     return CheckClassType(monoType, L, pos);
                 default:
                     return false;
-            }            
-        }        
+            }
+        }
 
         public bool CheckVariant(IntPtr L, int pos)
         {
@@ -692,11 +692,11 @@ namespace LuaInterface
         }
 
         bool CheckClassType(Type t, IntPtr L, int pos)
-        {            
+        {
             int udata = LuaDLL.tolua_rawnetobj(L, pos);
 
             if (udata != -1)
-            {                
+            {
                 ObjectTranslator translator = ObjectTranslator.Get(L);
                 object obj = translator.GetObject(udata);
                 return obj == null ? true : obj.GetType() == t;
@@ -706,4 +706,3 @@ namespace LuaInterface
         }
     }
 }
-

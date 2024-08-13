@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public abstract class Details : MonoBehaviour
 {
@@ -22,10 +22,10 @@ public abstract class Details : MonoBehaviour
     public void OnDropdownValueChanged(int dropdownIndex, int optionIndex)
     {
         var selectedOption = entrySO.optionList[dropdownIndex].availableOptions[optionIndex];
-        
+
         options[dropdownIndex] = selectedOption;
     }
-    
+
     // 运行测试 API
     public void Run()
     {

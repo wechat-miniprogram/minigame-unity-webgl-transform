@@ -61,7 +61,8 @@ namespace LuaInterface
             base.Dispose();
         }
 
-        public T ToDelegate<T>() where T : class
+        public T ToDelegate<T>()
+            where T : class
         {
             return DelegateTraits<T>.Create(this) as T;
         }
@@ -171,7 +172,14 @@ namespace LuaInterface
             EndPCall();
         }
 
-        public void Call<T1, T2, T3, T4, T5, T6>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public void Call<T1, T2, T3, T4, T5, T6>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -184,7 +192,15 @@ namespace LuaInterface
             EndPCall();
         }
 
-        public void Call<T1, T2, T3, T4, T5, T6, T7>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public void Call<T1, T2, T3, T4, T5, T6, T7>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -198,7 +214,16 @@ namespace LuaInterface
             EndPCall();
         }
 
-        public void Call<T1, T2, T3, T4, T5, T6, T7, T8>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public void Call<T1, T2, T3, T4, T5, T6, T7, T8>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -213,7 +238,17 @@ namespace LuaInterface
             EndPCall();
         }
 
-        public void Call<T1, T2, T3, T4, T5, T6, T7, T8, T9>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public void Call<T1, T2, T3, T4, T5, T6, T7, T8, T9>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -298,7 +333,14 @@ namespace LuaInterface
             return ret1;
         }
 
-        public R1 Invoke<T1, T2, T3, T4, T5, T6, R1>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6)
+        public R1 Invoke<T1, T2, T3, T4, T5, T6, R1>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -313,7 +355,15 @@ namespace LuaInterface
             return ret1;
         }
 
-        public R1 Invoke<T1, T2, T3, T4, T5, T6, T7, R1>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7)
+        public R1 Invoke<T1, T2, T3, T4, T5, T6, T7, R1>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -329,7 +379,16 @@ namespace LuaInterface
             return ret1;
         }
 
-        public R1 Invoke<T1, T2, T3, T4, T5, T6, T7, T8, R1>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8)
+        public R1 Invoke<T1, T2, T3, T4, T5, T6, T7, T8, R1>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -346,7 +405,17 @@ namespace LuaInterface
             return ret1;
         }
 
-        public R1 Invoke<T1, T2, T3, T4, T5, T6, T7, T8, T9, R1>(T1 arg1, T2 arg2, T3 arg3, T4 arg4, T5 arg5, T6 arg6, T7 arg7, T8 arg8, T9 arg9)
+        public R1 Invoke<T1, T2, T3, T4, T5, T6, T7, T8, T9, R1>(
+            T1 arg1,
+            T2 arg2,
+            T3 arg3,
+            T4 arg4,
+            T5 arg5,
+            T6 arg6,
+            T7 arg7,
+            T8 arg8,
+            T9 arg9
+        )
         {
             BeginPCall();
             PushGeneric(arg1);
@@ -357,7 +426,7 @@ namespace LuaInterface
             PushGeneric(arg6);
             PushGeneric(arg7);
             PushGeneric(arg8);
-            PushGeneric(arg9);            
+            PushGeneric(arg9);
             PCall();
             R1 ret1 = CheckValue<R1>();
             EndPCall();
@@ -376,7 +445,7 @@ namespace LuaInterface
                 EndPCall();
                 throw new LuaException("stack overflow");
             }
-            
+
             PushArgs(args);
             PCall();
             object[] objs = luaState.CheckObjects(oldTop);
@@ -584,7 +653,8 @@ namespace LuaInterface
             }
         }
 
-        public void PushValue<T>(T value) where T : struct
+        public void PushValue<T>(T value)
+            where T : struct
         {
             try
             {
@@ -947,5 +1017,5 @@ namespace LuaInterface
                 throw e;
             }
         }
-    }    
+    }
 }

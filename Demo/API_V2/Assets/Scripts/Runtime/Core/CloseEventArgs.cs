@@ -18,24 +18,16 @@ namespace UnityWebSocket
     {
         #region Internal Constructors
 
-        internal CloseEventArgs()
-        {
-        }
+        internal CloseEventArgs() { }
 
         internal CloseEventArgs(ushort code)
-          : this(code, null)
-        {
-        }
+            : this(code, null) { }
 
         internal CloseEventArgs(CloseStatusCode code)
-          : this((ushort)code, null)
-        {
-        }
+            : this((ushort)code, null) { }
 
         internal CloseEventArgs(CloseStatusCode code, string reason)
-          : this((ushort)code, reason)
-        {
-        }
+            : this((ushort)code, reason) { }
 
         internal CloseEventArgs(ushort code, string reason)
         {

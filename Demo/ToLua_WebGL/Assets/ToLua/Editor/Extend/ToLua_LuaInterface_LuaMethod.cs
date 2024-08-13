@@ -4,7 +4,7 @@ using LuaInterface;
 public class ToLua_LuaInterface_LuaMethod
 {
     public static string CallDefined =
-@"		try
+        @"		try
 		{			
 			LuaMethod obj = (LuaMethod)ToLua.CheckObject(L, 1, typeof(LuaMethod));            
 			return obj.Call(L);						
@@ -15,7 +15,7 @@ public class ToLua_LuaInterface_LuaMethod
 		}";
 
     public static string DestroyDefined =
-@"		try
+        @"		try
 		{
 			ToLua.CheckArgsCount(L, 1);
 			LuaMethod obj = (LuaMethod)ToLua.CheckObject(L, 1, typeof(LuaMethod));
@@ -35,8 +35,5 @@ public class ToLua_LuaInterface_LuaMethod
     }
 
     [UseDefinedAttribute]
-    public void Destroy()
-    {
-
-    }
+    public void Destroy() { }
 }

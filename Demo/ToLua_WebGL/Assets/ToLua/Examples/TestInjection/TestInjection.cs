@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using LuaInterface;
-using System.Collections;
+using UnityEngine;
 
 [LuaInterface.NoToLua]
 public class TestInjection : MonoBehaviour
@@ -60,7 +60,9 @@ public class TestInjection : MonoBehaviour
             Debug.Log("TestOverload ref result:" + state);
             test.TestOverload(state, 1);
             int refResult = test.TestRef(ref counter);
-            Debug.Log(string.Format("TestRef return result:{0}; ref result:{1}", refResult, counter));
+            Debug.Log(
+                string.Format("TestRef return result:{0}; ref result:{1}", refResult, counter)
+            );
 
             Debug.Log("Property Get Test:" + test.PropertyTest);
             test.PropertyTest = 2;
@@ -124,7 +126,11 @@ public class TestInjection : MonoBehaviour
         luaState = null;
     }
 
-    Vector2 MousePoisition { get { return new Vector2(-Input.mousePosition.x, Input.mousePosition.y); } }
+    Vector2 MousePoisition
+    {
+        get { return new Vector2(-Input.mousePosition.x, Input.mousePosition.y); }
+    }
+
     //鼠标拖拽控制
     private void MouseDragView(ref Vector2 viewPos)
     {

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class OpenData : Details
 {
     private void Start()
     {
-
         GameManager.Instance.detailsController.BindExtraButtonAction(0, checkSession);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, authorize);
         GameManager.Instance.detailsController.BindExtraButtonAction(2, getGroupEnterInfo);
@@ -22,116 +22,152 @@ public class OpenData : Details
         login();
     }
 
-    public void login() {
-        WX.Login(new LoginOption 
-        {
-            timeout = 2000,
-            success = (res) => {
-                WX.ShowModal(new ShowModalOption 
+    public void login()
+    {
+        WX.Login(
+            new LoginOption
+            {
+                timeout = 2000,
+                success = (res) =>
                 {
-                    content = JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) => {
-                Debug.Log("fail : " + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
-            }
-        }); 
-    }
-
-    public void checkSession() {
-        WX.CheckSession(new CheckSessionOption 
-        {
-            success = (res) => {
-                Debug.Log("success");
-            },
-            fail = (res) => {
-                Debug.Log("fail : " + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
-            }
-        });
-    }
-
-    public void authorize() {
-        WX.Authorize(new AuthorizeOption 
-        {
-            scope = "scope.writePhotosAlbum",
-            success = (res) => {
-                Debug.Log("success");
-            },
-            fail = (res) => {
-                Debug.Log("fail : " + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
-            }
-        });
-    }
-
-    public void getGroupEnterInfo() {
-        WX.GetGroupEnterInfo(new GetGroupEnterInfoOption 
-        {
-            success = (res) => {
-                WX.ShowModal(new ShowModalOption 
+                    WX.ShowModal(new ShowModalOption { content = JsonMapper.ToJson(res) });
+                },
+                fail = (res) =>
                 {
-                    content = JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) => {
-                Debug.Log("fail : " + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
+                    Debug.Log("fail : " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
-    public void requirePrivacyAuthorize() {
-        WX.RequirePrivacyAuthorize(new RequirePrivacyAuthorizeOption 
-        {
-            success = (res) => {
-                Debug.Log("success");
-            },
-            fail = (res) => {
-                Debug.Log("fail : " + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
+    public void checkSession()
+    {
+        WX.CheckSession(
+            new CheckSessionOption
+            {
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail : " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
-    public void openPrivacyContract() {
-        WX.OpenPrivacyContract(new OpenPrivacyContractOption 
-        {
-            success = (res) => {
-                Debug.Log("success");
-            },
-            fail = (res) => {
-                Debug.Log("fail : " + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
+    public void authorize()
+    {
+        WX.Authorize(
+            new AuthorizeOption
+            {
+                scope = "scope.writePhotosAlbum",
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail : " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
-    public void getPrivacySetting() {
-        WX.GetPrivacySetting(new GetPrivacySettingOption 
-        {
-            success = (res) => {
-                Debug.Log("success " + JsonMapper.ToJson(res));
-            },
-            fail = (res) => {
-                Debug.Log("fail : " + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
+    public void getGroupEnterInfo()
+    {
+        WX.GetGroupEnterInfo(
+            new GetGroupEnterInfoOption
+            {
+                success = (res) =>
+                {
+                    WX.ShowModal(new ShowModalOption { content = JsonMapper.ToJson(res) });
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail : " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
+    }
+
+    public void requirePrivacyAuthorize()
+    {
+        WX.RequirePrivacyAuthorize(
+            new RequirePrivacyAuthorizeOption
+            {
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail : " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
+            }
+        );
+    }
+
+    public void openPrivacyContract()
+    {
+        WX.OpenPrivacyContract(
+            new OpenPrivacyContractOption
+            {
+                success = (res) =>
+                {
+                    Debug.Log("success");
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail : " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
+            }
+        );
+    }
+
+    public void getPrivacySetting()
+    {
+        WX.GetPrivacySetting(
+            new GetPrivacySettingOption
+            {
+                success = (res) =>
+                {
+                    Debug.Log("success " + JsonMapper.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail : " + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
+            }
+        );
     }
 }

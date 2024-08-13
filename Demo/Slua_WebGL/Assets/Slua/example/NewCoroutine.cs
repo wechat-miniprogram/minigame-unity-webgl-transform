@@ -1,6 +1,6 @@
 using System.Collections;
-using UnityEngine;
 using SLua;
+using UnityEngine;
 
 [CustomLuaClass]
 public class NewCoroutine : MonoBehaviour
@@ -14,14 +14,17 @@ public class NewCoroutine : MonoBehaviour
         Debug.Assert(false, "never reach here");
     }
 
-	void Start () {
-		var svr = new LuaSvr();
-		svr.init(null, () =>
-		{
-            var func = (LuaFunction)svr.start("new_coroutine");
-            func.call(this);
-				func.Dispose();
-		});
-	}
-	
+    void Start()
+    {
+        var svr = new LuaSvr();
+        svr.init(
+            null,
+            () =>
+            {
+                var func = (LuaFunction)svr.start("new_coroutine");
+                func.call(this);
+                func.Dispose();
+            }
+        );
+    }
 }

@@ -20,7 +20,13 @@
 
 ## 安装与使用
 
-下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)并导入至游戏项目中，版本更新请查看[更新日志](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/CHANGELOG.html)，团结版或Package安装请查阅[SDK安装指引](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/Design/SDKInstaller.html)
+
+
+PackageManager(git安装URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
+
+UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
+
+版本更新请查看[更新日志](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/CHANGELOG.html)，Unity/团结引擎详细安装请查阅[SDK安装指引](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/Design/SDKInstaller.html)
 
 - 请查阅[推荐引擎版本](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/Design/UnityVersion.html)，安装时选择WebGL组件
 - 前往[微信开发者工具下载](https://developers.weixin.qq.com/miniprogram/dev/devtools/stable.html)安装Stable版开发者工具【注意：为保证稳定性，请勿使用小游戏版 Minigame Build】

@@ -25,7 +25,7 @@ public class ResultController : MonoBehaviour
         // 设置标题文本
         _titleText.text = title;
     }
-    
+
     // 改变内容
     public void ChangeContent(string content)
     {

@@ -1,13 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-
+﻿using System.Collections;
+using UnityEngine;
 
 namespace TMPro.Examples
 {
-
     public class VertexShakeA : MonoBehaviour
     {
-
         public float AngleMultiplier = 1.0f;
         public float SpeedMultiplier = 1.0f;
         public float ScaleMultiplier = 1.0f;
@@ -15,7 +12,6 @@ namespace TMPro.Examples
 
         private TMP_Text m_TextComponent;
         private bool hasTextChanged;
-
 
         void Awake()
         {
@@ -33,12 +29,10 @@ namespace TMPro.Examples
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(ON_TEXT_CHANGED);
         }
 
-
         void Start()
         {
             StartCoroutine(AnimateVertexColors());
         }
-
 
         void ON_TEXT_CHANGED(Object obj)
         {
@@ -52,7 +46,6 @@ namespace TMPro.Examples
         /// <returns></returns>
         IEnumerator AnimateVertexColors()
         {
-
             // We force an update of the text object since it would only be updated at the end of the frame. Ie. before this code is executed on the first frame.
             // Alternatively, we could yield and wait until the end of the frame when the text object will be generated.
             m_TextComponent.ForceMeshUpdate();
@@ -66,7 +59,7 @@ namespace TMPro.Examples
 
             while (true)
             {
-                // Allocate new vertices 
+                // Allocate new vertices
                 if (hasTextChanged)
                 {
                     if (copyOfVertices.Length < textInfo.meshInfo.Length)
@@ -95,13 +88,20 @@ namespace TMPro.Examples
                 // Iterate through each line of the text.
                 for (int i = 0; i < lineCount; i++)
                 {
-
                     int first = textInfo.lineInfo[i].firstCharacterIndex;
                     int last = textInfo.lineInfo[i].lastCharacterIndex;
 
                     // Determine the center of each line
-                    Vector3 centerOfLine = (textInfo.characterInfo[first].bottomLeft + textInfo.characterInfo[last].topRight) / 2;
-                    Quaternion rotation = Quaternion.Euler(0, 0, Random.Range(-0.25f, 0.25f) * RotationMultiplier);
+                    Vector3 centerOfLine =
+                        (
+                            textInfo.characterInfo[first].bottomLeft
+                            + textInfo.characterInfo[last].topRight
+                        ) / 2;
+                    Quaternion rotation = Quaternion.Euler(
+                        0,
+                        0,
+                        Random.Range(-0.25f, 0.25f) * RotationMultiplier
+                    );
 
                     // Iterate through each character of the line.
                     for (int j = first; j <= last; j++)
@@ -121,22 +121,37 @@ namespace TMPro.Examples
 
                         // Need to translate all 4 vertices of each quad to aligned with center of character.
                         // This is needed so the matrix TRS is applied at the origin for each character.
-                        copyOfVertices[materialIndex][vertexIndex + 0] = sourceVertices[vertexIndex + 0] - centerOfLine;
-                        copyOfVertices[materialIndex][vertexIndex + 1] = sourceVertices[vertexIndex + 1] - centerOfLine;
-                        copyOfVertices[materialIndex][vertexIndex + 2] = sourceVertices[vertexIndex + 2] - centerOfLine;
-                        copyOfVertices[materialIndex][vertexIndex + 3] = sourceVertices[vertexIndex + 3] - centerOfLine;
+                        copyOfVertices[materialIndex][vertexIndex + 0] =
+                            sourceVertices[vertexIndex + 0] - centerOfLine;
+                        copyOfVertices[materialIndex][vertexIndex + 1] =
+                            sourceVertices[vertexIndex + 1] - centerOfLine;
+                        copyOfVertices[materialIndex][vertexIndex + 2] =
+                            sourceVertices[vertexIndex + 2] - centerOfLine;
+                        copyOfVertices[materialIndex][vertexIndex + 3] =
+                            sourceVertices[vertexIndex + 3] - centerOfLine;
 
                         // Determine the random scale change for each character.
-                        float randomScale = Random.Range(0.995f - 0.001f * ScaleMultiplier, 1.005f + 0.001f * ScaleMultiplier);
+                        float randomScale = Random.Range(
+                            0.995f - 0.001f * ScaleMultiplier,
+                            1.005f + 0.001f * ScaleMultiplier
+                        );
 
                         // Setup the matrix rotation.
                         matrix = Matrix4x4.TRS(Vector3.one, rotation, Vector3.one * randomScale);
 
                         // Apply the matrix TRS to the individual characters relative to the center of the current line.
-                        copyOfVertices[materialIndex][vertexIndex + 0] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 0]);
-                        copyOfVertices[materialIndex][vertexIndex + 1] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 1]);
-                        copyOfVertices[materialIndex][vertexIndex + 2] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 2]);
-                        copyOfVertices[materialIndex][vertexIndex + 3] = matrix.MultiplyPoint3x4(copyOfVertices[materialIndex][vertexIndex + 3]);
+                        copyOfVertices[materialIndex][vertexIndex + 0] = matrix.MultiplyPoint3x4(
+                            copyOfVertices[materialIndex][vertexIndex + 0]
+                        );
+                        copyOfVertices[materialIndex][vertexIndex + 1] = matrix.MultiplyPoint3x4(
+                            copyOfVertices[materialIndex][vertexIndex + 1]
+                        );
+                        copyOfVertices[materialIndex][vertexIndex + 2] = matrix.MultiplyPoint3x4(
+                            copyOfVertices[materialIndex][vertexIndex + 2]
+                        );
+                        copyOfVertices[materialIndex][vertexIndex + 3] = matrix.MultiplyPoint3x4(
+                            copyOfVertices[materialIndex][vertexIndex + 3]
+                        );
 
                         // Revert the translation change.
                         copyOfVertices[materialIndex][vertexIndex + 0] += centerOfLine;
@@ -156,6 +171,5 @@ namespace TMPro.Examples
                 yield return new WaitForSeconds(0.1f);
             }
         }
-
     }
 }

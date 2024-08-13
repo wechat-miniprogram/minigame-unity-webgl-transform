@@ -64,22 +64,22 @@
 | iOSAutoGCInterval | int | iOS高性能模式自动GC间隔(毫秒)。 |
 | enableIOSPerformancePlus | bool | 是否使用iOS高性能Plus。 |
 | brotliMT: 1 | bool | 是否使用brotli多线程压缩 |
+| autoAdaptScreen | bool | 是否使用自适应屏幕尺寸变化 |
 
 ## CompressTexture:
 
 以下是微信压缩纹理工具涉及配置，如未使用微信压缩纹理工具可以不予设置。
 
-| 字段 | 类型  | 说明 |
-| --- | --- | --- |
-| halfSize | bool | 已废弃。|
-| useDXT5 | bool | 是否开启PC压缩纹理。 |
-| bundleSuffix | string | 已废弃。|
-| parallelWithBundle | int | 已废弃。 |
-| bundleDir | string | 自定义AB包目录路径。 |
-| dstMinDir | string | 压缩纹理产物输出目录。 |
-| debugMode | bool | 是否开启仅ASTC模式。 |
-| force | bool | 是否强制重新执行。 |
-
+| 字段               | 类型   | 说明                   |
+| ------------------ | ------ | ---------------------- |
+| halfSize           | bool   | 已废弃。               |
+| useDXT5            | bool   | 是否开启 PC 压缩纹理。 |
+| bundleSuffix       | string | 已废弃。               |
+| parallelWithBundle | int    | 已废弃。               |
+| bundleDir          | string | 自定义 AB 包目录路径。 |
+| dstMinDir          | string | 压缩纹理产物输出目录。 |
+| debugMode          | bool   | 是否开启仅 ASTC 模式。 |
+| force              | bool   | 是否强制重新执行。     |
 
 ## PlayerPrefsKeys:
 
@@ -89,24 +89,24 @@
 
 字体相关配置。请阅读 [WXFont章节](./WXFont.md)。
 
-| 字段 | 类型  | 说明 |
-| --- | --- | --- |
-|CJK_Unified_Ideographs | bool | - |
-|C0_Controls_and_Basic_Latin | bool | - |
-|CJK_Symbols_and_Punctuation | bool | - |
-|General_Punctuation | bool | - |
-|Enclosed_CJK_Letters_and_Months | bool | - |
-|Vertical_Forms | bool | - |
-|CJK_Compatibility_Forms | bool | - |
-|Miscellaneous_Symbols | bool | - |
-|CJK_Compatibility | bool | - |
-|Halfwidth_and_Fullwidth_Forms | bool | - |
-|Dingbats | bool | - |
-|Letterlike_Symbols | bool | - |
-|Enclosed_Alphanumerics | bool | - |
-|Number_Forms | bool | - |
-|Currency_Symbols | bool | - |
-|Arrows | bool | - |
-|Geometric_Shapes | bool | - |
-|Mathematical_Operators | bool | - |
-|CustomUnicode | bool | - |
+| 字段                            | 类型 | 说明 |
+| ------------------------------- | ---- | ---- |
+| CJK_Unified_Ideographs          | bool | -    |
+| C0_Controls_and_Basic_Latin     | bool | -    |
+| CJK_Symbols_and_Punctuation     | bool | -    |
+| General_Punctuation             | bool | -    |
+| Enclosed_CJK_Letters_and_Months | bool | -    |
+| Vertical_Forms                  | bool | -    |
+| CJK_Compatibility_Forms         | bool | -    |
+| Miscellaneous_Symbols           | bool | -    |
+| CJK_Compatibility               | bool | -    |
+| Halfwidth_and_Fullwidth_Forms   | bool | -    |
+| Dingbats                        | bool | -    |
+| Letterlike_Symbols              | bool | -    |
+| Enclosed_Alphanumerics          | bool | -    |
+| Number_Forms                    | bool | -    |
+| Currency_Symbols                | bool | -    |
+| Arrows                          | bool | -    |
+| Geometric_Shapes                | bool | -    |
+| Mathematical_Operators          | bool | -    |
+| CustomUnicode                   | bool | -    |

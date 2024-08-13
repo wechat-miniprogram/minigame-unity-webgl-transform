@@ -85,7 +85,7 @@ public class ToLuaInjectionTest : BaseTest
     public void NoInject(bool param1, int param2)
     {
         int a = 0;
-        int b = ++a;        
+        int b = ++a;
     }
 
     public void Inject(bool param1, int param2)

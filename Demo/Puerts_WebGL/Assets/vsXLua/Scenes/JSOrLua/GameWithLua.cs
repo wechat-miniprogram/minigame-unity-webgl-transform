@@ -9,12 +9,16 @@ public class GameWithLua : LuaBehaviour
     public Text FpsText;
     public Text BoxText;
 
-    public override string ScriptName { get { return "game.lua"; } }
+    public override string ScriptName
+    {
+        get { return "game.lua"; }
+    }
+
     void Start()
     {
         ScriptBehaviourManager.InvokeStarter(this, this.ScriptName);
     }
-    
+
     void Update()
     {
         ScriptBehaviourManager.InvokeUpdate(this);

@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using LuaInterface;
+using UnityEngine;
 
-public class ToLua_UnityEngine_Object     
-{        
+public class ToLua_UnityEngine_Object
+{
     public static string DestroyDefined =
-@"        try
+        @"        try
         {
             int count = LuaDLL.lua_gettop(L);
 
@@ -33,9 +33,9 @@ public class ToLua_UnityEngine_Object
         {
             return LuaDLL.toluaL_exception(L, e);
         }";
-    
+
     public static string DestroyImmediateDefined =
-@"        try
+        @"        try
         {
             int count = LuaDLL.lua_gettop(L);
 
@@ -65,7 +65,7 @@ public class ToLua_UnityEngine_Object
         }";
 
     public static string InstantiateDefined =
-@"		IntPtr L0 = LuaException.L;
+        @"		IntPtr L0 = LuaException.L;
 
         try
         {
@@ -199,34 +199,18 @@ public class ToLua_UnityEngine_Object
             return LuaDLL.toluaL_exception(L, e);
         }";
 
+    [UseDefinedAttribute]
+    public static void Destroy(Object obj) { }
 
     [UseDefinedAttribute]
-    public static void Destroy(Object obj)
-    {
-        
-    }
-
-    [UseDefinedAttribute]
-    public static void DestroyImmediate(Object obj)
-    {
-
-    }
+    public static void DestroyImmediate(Object obj) { }
 
     [NoToLuaAttribute]
-    public static void DestroyObject(Object obj)
-    {
-
-    }
+    public static void DestroyObject(Object obj) { }
 
     [NoToLuaAttribute]
-    public static void DestroyObject(Object obj, float t)
-    {
-
-    }
+    public static void DestroyObject(Object obj, float t) { }
 
     [UseDefinedAttribute]
-    public static void Instantiate(Object original)
-    {
-
-    }
+    public static void Instantiate(Object original) { }
 }

@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Network : Details
 {
-
     private bool _isListening = false;
 
-    private readonly Action<OnNetworkWeakChangeListenerResult> _onNetworkWeakChange = (res) => {
+    private readonly Action<OnNetworkWeakChangeListenerResult> _onNetworkWeakChange = (res) =>
+    {
         var result = "onNetworkWeakChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
 
-    private readonly Action<OnNetworkStatusChangeListenerResult> _onNetworkStatusChange = (res) => {
+    private readonly Action<OnNetworkStatusChangeListenerResult> _onNetworkStatusChange = (res) =>
+    {
         var result = "onNetworkStatusChange\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
     };
-
 
     private void Start()
     {
@@ -34,56 +33,77 @@ public class Network : Details
     // 测试 API
     protected override void TestAPI(string[] args)
     {
-        if (!_isListening) {
+        if (!_isListening)
+        {
             WX.OnNetworkWeakChange(_onNetworkWeakChange);
             WX.OnNetworkStatusChange(_onNetworkStatusChange);
-        } else {
+        }
+        else
+        {
             WX.OffNetworkWeakChange(_onNetworkWeakChange);
             WX.OffNetworkStatusChange(_onNetworkStatusChange);
         }
         _isListening = !_isListening;
-        GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
+        GameManager.Instance.detailsController.ChangeInitialButtonText(
+            _isListening ? "取消监听" : "开始监听"
+        );
     }
 
-    public void getNetworkType() {
-        WX.GetNetworkType(new GetNetworkTypeOption
-        {
-            success = (res) => {
-                WX.ShowModal(new ShowModalOption()
+    public void getNetworkType()
+    {
+        WX.GetNetworkType(
+            new GetNetworkTypeOption
+            {
+                success = (res) =>
                 {
-                    content = "Access Success, Result: " + JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) => {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
-            }
-        });
-    }
-
-    public void getLocalIPAddress() {
-        WX.GetLocalIPAddress(new GetLocalIPAddressOption
-        {
-            success = (res) => {
-                WX.ShowModal(new ShowModalOption()
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Access Success, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                },
+                fail = (res) =>
                 {
-                    content = "Access Success, Result: " + JsonMapper.ToJson(res)
-                });
-            },
-            fail = (res) => {
-                Debug.Log("fail" + res.errMsg);
-            },
-            complete = (res) => {
-                Debug.Log("complete");
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
-    private void OnDestroy() {
+    public void getLocalIPAddress()
+    {
+        WX.GetLocalIPAddress(
+            new GetLocalIPAddressOption
+            {
+                success = (res) =>
+                {
+                    WX.ShowModal(
+                        new ShowModalOption()
+                        {
+                            content = "Access Success, Result: " + JsonMapper.ToJson(res)
+                        }
+                    );
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail" + res.errMsg);
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
+            }
+        );
+    }
+
+    private void OnDestroy()
+    {
         WX.OffNetworkWeakChange(_onNetworkWeakChange);
         WX.OffNetworkStatusChange(_onNetworkStatusChange);
     }
 }
-

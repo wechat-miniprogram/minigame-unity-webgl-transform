@@ -4,7 +4,7 @@ using LuaInterface;
 public class ToLua_LuaInterface_LuaField
 {
     public static string GetDefined =
-@"		try
+        @"		try
 		{			
 			LuaField obj = (LuaField)ToLua.CheckObject(L, 1, typeof(LuaField));            
             return obj.Get(L);						
@@ -15,7 +15,7 @@ public class ToLua_LuaInterface_LuaField
 		}";
 
     public static string SetDefined =
-@"		try
+        @"		try
 		{			
             LuaField obj = (LuaField)ToLua.CheckObject(L, 1, typeof(LuaField));            
             return obj.Set(L);

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using LuaInterface;
-using System;
 using System.Runtime.InteropServices;
+using LuaInterface;
+using UnityEngine;
 
 //检测合理报错
 public class TestLuaStack : MonoBehaviour
@@ -16,19 +16,19 @@ public class TestLuaStack : MonoBehaviour
 
     private static GameObject testGo = null;
     private string tips = "";
-    public static TestLuaStack Instance = null;    
+    public static TestLuaStack Instance = null;
 
     [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
     static int Test1(IntPtr L)
     {
         try
-        {                                                    
+        {
             show.BeginPCall();
             show.PCall();
             show.EndPCall();
         }
         catch (Exception e)
-        {            
+        {
             return LuaDLL.toluaL_exception(L, e);
         }
 
@@ -93,7 +93,7 @@ public class TestLuaStack : MonoBehaviour
     {
         try
         {
-            test4.BeginPCall();            
+            test4.BeginPCall();
             test4.PCall();
             bool ret = test4.CheckBoolean();
             ret = !ret;
@@ -109,15 +109,15 @@ public class TestLuaStack : MonoBehaviour
 
     [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
     static int Test6(IntPtr L)
-    {        
+    {
         try
         {
             throw new LuaException("this a lua exception");
         }
         catch (Exception e)
-        {            
-            return LuaDLL.toluaL_exception(L, e);            
-        }       
+        {
+            return LuaDLL.toluaL_exception(L, e);
+        }
     }
 
     [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
@@ -133,18 +133,18 @@ public class TestLuaStack : MonoBehaviour
         catch (Exception e)
         {
             return LuaDLL.toluaL_exception(L, e);
-        }        
+        }
     }
 
     [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
     static int TestArgError(IntPtr L)
-    {                
+    {
         try
         {
             LuaDLL.luaL_typerror(L, 1, "number");
         }
         catch (Exception e)
-        {            
+        {
             return LuaDLL.toluaL_exception(L, e);
         }
 
@@ -158,11 +158,11 @@ public class TestLuaStack : MonoBehaviour
         {
             LuaTable table = ToLua.CheckLuaTable(L, 1);
             string str = (string)table["name"];
-            ToLua.Push(L, str);            
+            ToLua.Push(L, str);
             return 1;
         }
         catch (Exception e)
-        {            
+        {
             return LuaDLL.toluaL_exception(L, e);
         }
     }
@@ -196,7 +196,7 @@ public class TestLuaStack : MonoBehaviour
 
                 LuaDLL.lua_pushnumber(L, n1 + n2);
             }
-            
+
             return 1;
         }
         catch (Exception e)
@@ -215,7 +215,7 @@ public class TestLuaStack : MonoBehaviour
             return 1;
         }
         catch (Exception e)
-        {            
+        {
             return LuaDLL.toluaL_exception(L, e);
         }
     }
@@ -269,12 +269,11 @@ public class TestLuaStack : MonoBehaviour
             func.PCall();
             func.EndPCall();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
             state.ThrowLuaException(e);
         }
     }
-    
 
     LuaState state = null;
     public TextAsset text = null;
@@ -283,17 +282,17 @@ public class TestLuaStack : MonoBehaviour
 
     void Awake()
     {
-#if UNITY_5 || UNITY_2017 || UNITY_2018	
+#if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
 #endif
         Instance = this;
         new LuaResLoader();
-        testGo = gameObject;                
+        testGo = gameObject;
         state = new LuaState();
         state.Start();
-        LuaBinder.Bind(state);        
+        LuaBinder.Bind(state);
 
         state.BeginModule(null);
         state.RegFunction("TestArgError", TestArgError);
@@ -302,14 +301,14 @@ public class TestLuaStack : MonoBehaviour
         state.RegFunction("TestNull", TestNull);
         state.RegFunction("TestAddComponent", TestAddComponent);
         state.RegFunction("TestOutOfBound", TestOutOfBound);
-        state.RegFunction("TestMulStack", TestMulStack);            
+        state.RegFunction("TestMulStack", TestMulStack);
         state.BeginStaticLibs("TestStack");
         state.RegFunction("Test1", Test1);
         state.RegFunction("PushLuaError", PushLuaError);
         state.RegFunction("Test3", Test3);
         state.RegFunction("Test4", Test4);
         state.RegFunction("Test5", Test5);
-        state.RegFunction("Test6", Test6);            
+        state.RegFunction("Test6", Test6);
         state.EndStaticLibs();
         state.EndModule();
 
@@ -393,7 +392,7 @@ public class TestLuaStack : MonoBehaviour
             LuaFunction func = state.GetFunction("TestRay");
             func.BeginPCall();
             func.PCall();
-            func.CheckRay();        //返回值出错
+            func.CheckRay(); //返回值出错
             func.EndPCall();
             func.Dispose();
         }
@@ -403,7 +402,7 @@ public class TestLuaStack : MonoBehaviour
             LuaFunction func = state.GetFunction("TestRay");
             func.BeginPCall();
             func.Push(Instance);
-            func.PCall();            
+            func.PCall();
             func.EndPCall();
             func.Dispose();
         }
@@ -480,12 +479,12 @@ public class TestLuaStack : MonoBehaviour
         else if (GUI.Button(new Rect(10, 610, 120, 40), "AddComponent"))
         {
             tips = "";
-            LuaFunction func = state.GetFunction("TestAddComponent");            
+            LuaFunction func = state.GetFunction("TestAddComponent");
             func.BeginPCall();
             func.Push(gameObject);
             func.PCall();
             func.EndPCall();
-            func.Dispose();            
+            func.Dispose();
         }
         else if (GUI.Button(new Rect(210, 10, 120, 40), "TableGetSet"))
         {
@@ -497,7 +496,7 @@ public class TestLuaStack : MonoBehaviour
             {
                 state.Push(table);
                 state.LuaGetField(-1, "Add");
-                LuaFunction func = state.CheckLuaFunction(-1);                
+                LuaFunction func = state.CheckLuaFunction(-1);
 
                 if (func != null)
                 {
@@ -528,9 +527,9 @@ public class TestLuaStack : MonoBehaviour
                 state.LuaPop(1);
 
                 state.Push("look");
-                state.Push(456789);                
-                state.LuaSetTable(-3);                
-                                
+                state.Push(456789);
+                state.LuaSetTable(-3);
+
                 state.LuaGetField(-1, "look");
                 n = (int)state.LuaCheckNumber(-1);
                 Debugger.Log("look: " + n);
@@ -540,13 +539,13 @@ public class TestLuaStack : MonoBehaviour
                 state.LuaSetTop(top);
                 throw e;
             }
-                        
+
             state.LuaSetTop(top);
         }
         else if (GUI.Button(new Rect(210, 60, 120, 40), "TestTableInCo"))
         {
             tips = "";
-            LuaFunction func = state.GetFunction("TestCoTable");            
+            LuaFunction func = state.GetFunction("TestCoTable");
             func.BeginPCall();
             func.PCall();
             func.EndPCall();
@@ -573,7 +572,7 @@ public class TestLuaStack : MonoBehaviour
             int n = 20;
             LuaFunction func = state.GetFunction("TestCycle");
             func.BeginPCall();
-            func.Push(n);            
+            func.Push(n);
             func.PCall();
             int c = (int)func.CheckNumber();
             func.EndPCall();
@@ -583,7 +582,7 @@ public class TestLuaStack : MonoBehaviour
         else if (GUI.Button(new Rect(210, 260, 120, 40), "TestNull"))
         {
             tips = "";
-            Action action = ()=>
+            Action action = () =>
             {
                 LuaFunction func = state.GetFunction("TestNull");
                 func.BeginPCall();

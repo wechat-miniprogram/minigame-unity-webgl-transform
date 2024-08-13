@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Performance : Details
 {
     private void Start()
@@ -17,23 +18,15 @@ public class Performance : Details
         triggerGC();
     }
 
-    public void triggerGC() 
+    public void triggerGC()
     {
         WX.TriggerGC();
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "成功调用triggerGC"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "成功调用triggerGC" });
     }
 
-    public void reportPerformance() 
+    public void reportPerformance()
     {
         WX.ReportPerformance(1101, 6880, "custom");
-        WX.ShowToast(new ShowToastOption()
-        {
-            title = "成功上报"
-        });
+        WX.ShowToast(new ShowToastOption() { title = "成功上报" });
     }
-
-    
 }

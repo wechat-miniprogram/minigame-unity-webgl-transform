@@ -14,10 +14,12 @@ namespace UnityWebSocket
         /// Equivalent to numeric value 1. Indicates text frame.
         /// </summary>
         Text = 0x1,
+
         /// <summary>
         /// Equivalent to numeric value 2. Indicates binary frame.
         /// </summary>
         Binary = 0x2,
+
         /// <summary>
         /// Equivalent to numeric value 8. Indicates connection close frame.
         /// </summary>

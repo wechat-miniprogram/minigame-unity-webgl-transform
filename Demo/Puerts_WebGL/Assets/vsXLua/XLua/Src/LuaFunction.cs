@@ -6,6 +6,8 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
+using System;
+using System.Collections.Generic;
 #if USE_UNI_LUA
 using LuaAPI = UniLua.Lua;
 using RealStatePtr = UniLua.ILuaState;
@@ -16,16 +18,12 @@ using RealStatePtr = System.IntPtr;
 using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 #endif
 
-using System;
-using System.Collections.Generic;
-
 namespace XLua
 {
     public partial class LuaFunction : LuaBase
     {
-        public LuaFunction(int reference, LuaEnv luaenv) : base(reference, luaenv)
-        {
-        }
+        public LuaFunction(int reference, LuaEnv luaenv)
+            : base(reference, luaenv) { }
 
         //Action和Func是方便使用的无gc api，如果需要用到out，ref参数，建议使用delegate
         //如果需要其它个数的Action和Func， 这个类声明为partial，可以自己加
@@ -231,5 +229,4 @@ namespace XLua
             return "function :" + luaReference;
         }
     }
-
 }

@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayerPrefsScene.unity
     guid: a75f69b44a1434b28a1d89e25ac2611b
+  - enabled: 1
+    path: Assets/Scenes/UnityWebSocketScene.unity
+    guid: 65671216fb4e42d4f89ed6eeca36060d
   m_configObjects: {}

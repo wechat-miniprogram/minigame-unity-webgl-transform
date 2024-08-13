@@ -13,7 +13,8 @@ namespace UnityWebSocket
         {
             get
             {
-                if (!_instance) CreateInstance();
+                if (!_instance)
+                    CreateInstance();
                 return _instance;
             }
         }
@@ -26,9 +27,11 @@ namespace UnityWebSocket
         public static void CreateInstance()
         {
             GameObject go = GameObject.Find("/" + rootName);
-            if (!go) go = new GameObject(rootName);
+            if (!go)
+                go = new GameObject(rootName);
             _instance = go.GetComponent<WebSocketManager>();
-            if (!_instance) _instance = go.AddComponent<WebSocketManager>();
+            if (!_instance)
+                _instance = go.AddComponent<WebSocketManager>();
         }
 
         private readonly List<WebSocket> sockets = new List<WebSocket>();
@@ -47,7 +50,8 @@ namespace UnityWebSocket
 
         private void Update()
         {
-            if (sockets.Count <= 0) return;
+            if (sockets.Count <= 0)
+                return;
             for (int i = sockets.Count - 1; i >= 0; i--)
             {
                 sockets[i].Update();

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using WeChatWASM;
 
 public class GameRecorder : Details
@@ -16,32 +16,50 @@ public class GameRecorder : Details
             _gameRecorder = WX.GetGameRecorder();
         }
 
-        _gameRecorder.On("timeUpdate", (res) =>
-        {
-            Debug.Log(res.currentTime);
-        });
-        _gameRecorder.On("start", (res) =>
-        {
-            Debug.Log("GameRecorder start");
-        });
+        _gameRecorder.On(
+            "timeUpdate",
+            (res) =>
+            {
+                Debug.Log(res.currentTime);
+            }
+        );
+        _gameRecorder.On(
+            "start",
+            (res) =>
+            {
+                Debug.Log("GameRecorder start");
+            }
+        );
 
-        _gameRecorder.On("pause", (res) =>
-        {
-            Debug.Log("GameRecorder pause");
-        });
-        _gameRecorder.On("resume", (res) =>
-        {
-            // IOS客户端resume事件有问题
-            Debug.Log("GameRecorder resume");
-        });
-        _gameRecorder.On("stop", (res) =>
-        {
-            Debug.Log("GameRecorder stop:" + res.duration);
-        });
-        _gameRecorder.On("error", (res) =>
-        {
-            Debug.Log("GameRecorder error:" + JsonUtility.ToJson(res));
-        });
+        _gameRecorder.On(
+            "pause",
+            (res) =>
+            {
+                Debug.Log("GameRecorder pause");
+            }
+        );
+        _gameRecorder.On(
+            "resume",
+            (res) =>
+            {
+                // IOS客户端resume事件有问题
+                Debug.Log("GameRecorder resume");
+            }
+        );
+        _gameRecorder.On(
+            "stop",
+            (res) =>
+            {
+                Debug.Log("GameRecorder stop:" + res.duration);
+            }
+        );
+        _gameRecorder.On(
+            "error",
+            (res) =>
+            {
+                Debug.Log("GameRecorder error:" + JsonUtility.ToJson(res));
+            }
+        );
 
         GameManager.Instance.detailsController.BindExtraButtonAction(0, PauseRecorder);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, ResumeRecorder);
@@ -52,10 +70,12 @@ public class GameRecorder : Details
     // 开始
     protected override void TestAPI(string[] args)
     {
-        _gameRecorder.Start(new GameRecorderStartOption()
-        {
-            // hookBgm = false,
-        });
+        _gameRecorder.Start(
+            new GameRecorderStartOption()
+            {
+                // hookBgm = false,
+            }
+        );
     }
 
     // 暂停
@@ -79,16 +99,19 @@ public class GameRecorder : Details
     // 分享
     private void ShareRecorder()
     {
-        WX.OperateGameRecorderVideo(new OperateGameRecorderVideoOption()
-        {
-            title = "游戏标题",
-            desc = "游戏简介",
-            timeRange = new double[][] {
-              new double[] { 0, 2000 },
-              new double[] { 5000, 8000 },
-            },
-            query = "test=123456",
-        });
+        WX.OperateGameRecorderVideo(
+            new OperateGameRecorderVideoOption()
+            {
+                title = "游戏标题",
+                desc = "游戏简介",
+                timeRange = new double[][]
+                {
+                    new double[] { 0, 2000 },
+                    new double[] { 5000, 8000 },
+                },
+                query = "test=123456",
+            }
+        );
     }
 
     public void OffEvent()

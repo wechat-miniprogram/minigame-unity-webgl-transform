@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +6,9 @@ using UnityEngine;
 public class EntrySO : ScriptableObject
 {
     public string entryScriptTypeName;
-    
+
     private Type _entryScriptType;
-    
+
     public Type EntryScriptType
     {
         get
@@ -26,19 +26,19 @@ public class EntrySO : ScriptableObject
             // Debug.Log($"EntryScriptType changed to: {entryScriptTypeName}");
         }
     }
-    
+
     public string entryName;
-    
+
     [TextArea(1, 5)]
     public string entryAPI;
-    
+
     [TextArea(8, 12)]
     public string entryDescription;
-    
+
     public List<OptionData> optionList;
-    
+
     public string initialButtonText = "运行";
     public List<ButtonData> extraButtonList;
-    
+
     public List<ResultData> initialResultList;
 }
