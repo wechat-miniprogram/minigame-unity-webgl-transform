@@ -42,7 +42,7 @@ public class WebRequest : Details
 
         yield return webRequest.SendWebRequest();
 
-        if (webRequest.isHttpError || webRequest.isNetworkError)
+        if (webRequest.result is UnityWebRequest.Result.ProtocolError or UnityWebRequest.Result.ConnectionError)
             Debug.Log(webRequest.error);
         else
         {
@@ -62,7 +62,7 @@ public class WebRequest : Details
 
         yield return webRequest.SendWebRequest();
 
-        if (webRequest.isHttpError || webRequest.isNetworkError)
+        if (webRequest.result is UnityWebRequest.Result.ProtocolError or UnityWebRequest.Result.ConnectionError)
             Debug.Log(webRequest.error);
         else
         {

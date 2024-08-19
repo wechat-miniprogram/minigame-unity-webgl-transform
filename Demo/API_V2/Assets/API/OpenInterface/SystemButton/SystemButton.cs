@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using WeChatWASM;
 
@@ -59,7 +58,7 @@ public class SystemButton : Details
 
         Vector2 size = GameManager.Instance.detailsController.GetInitialButtonSize();
         Vector2 position = GameManager.Instance.detailsController.GetButtonPosition(0);
-        var systemInfo = WX.GetSystemInfoSync();
+        var windowInfo = GameManager.Instance.WindowInfo;
         _feedbackButton = WX.CreateFeedbackButton(
             new CreateOpenSettingButtonOption()
             {
@@ -67,10 +66,10 @@ public class SystemButton : Details
                 text = "",
                 style = new OptionStyle()
                 {
-                    left = Math.Abs((int)(position.x / systemInfo.pixelRatio)),
-                    top = Math.Abs((int)(position.y / systemInfo.pixelRatio)),
-                    width = (int)(size.x * systemInfo.screenWidth / 1080f),
-                    height = (int)(size.y * systemInfo.screenWidth / 1080f),
+                    left = Math.Abs((int)(position.x / windowInfo.pixelRatio)),
+                    top = Math.Abs((int)(position.y / windowInfo.pixelRatio)),
+                    width = (int)(size.x * windowInfo.screenWidth / 1080f),
+                    height = (int)(size.y * windowInfo.screenWidth / 1080f),
                 }
             }
         );
@@ -89,7 +88,7 @@ public class SystemButton : Details
         );
     }
 
-    private bool _isFeedbackShow = true;
+    // private bool _isFeedbackShow = true;
 
     // 切换意见反馈按钮显示/隐藏
     private void FeedbackButtonSwitch()

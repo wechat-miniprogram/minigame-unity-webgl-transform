@@ -64,18 +64,16 @@ public class DetailsController : MonoBehaviour
 
     private void Start()
     {
-        var res = WX.GetMenuButtonBoundingClientRect();
-        var info = WX.GetSystemInfoSync();
-        float height = (float)res.height;
-        float safeArea = (float)GameManager.Instance.systemInfo.safeArea.top;
+        var clientRect = GameManager.Instance.MenuButtonBoundingClientRect;
+        var info = GameManager.Instance.WindowInfo;
         // 根据系统安全区域调整标题和返回按钮的位置
         titleTransform.anchoredPosition = new Vector2(
             titleTransform.anchoredPosition.x,
-            -(float)((res.top + res.height / 4) * info.pixelRatio)
+            -(float)((clientRect.top + clientRect.height / 4) * info.pixelRatio)
         );
         backButtonTransform.anchoredPosition = new Vector2(
             backButtonTransform.anchoredPosition.x,
-            -(float)((res.top + res.height / 4) * info.pixelRatio)
+            -(float)((clientRect.top + clientRect.height / 4) * info.pixelRatio)
         );
     }
 
@@ -104,42 +102,6 @@ public class DetailsController : MonoBehaviour
         RemoveAllResult();
     }
 
-    // 获取gap block并修改其最低高度
-    public void getGapBlock(GameObject parentGameObject)
-    {
-        var canvas = parentGameObject.GetComponentInParent<Canvas>();
-        Transform foreTransform = canvas.transform.Find("Foreground");
-        if (foreTransform != null)
-        {
-            Transform scrollViewTransform = foreTransform.Find("Scroll View");
-            if (scrollViewTransform != null)
-            {
-                Transform viewportTransform = scrollViewTransform.Find("Viewport");
-                if (viewportTransform != null)
-                {
-                    Transform contentTransform = viewportTransform.Find("Content");
-                    if (contentTransform != null)
-                    {
-                        Transform[] gapBlockTransforms = new Transform[2];
-                        gapBlockTransforms[0] = contentTransform.Find("Gap Block");
-                        gapBlockTransforms[1] = contentTransform.Find("Gap Block2");
-
-                        foreach (Transform gapBlockTransform in gapBlockTransforms)
-                        {
-                            if (gapBlockTransform != null)
-                            {
-                                GameObject gapBlockObject = gapBlockTransform.gameObject;
-                                LayoutElement layoutElement =
-                                    gapBlockObject.GetComponent<LayoutElement>();
-                                layoutElement.minHeight = 150;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     // 初始化详情信息
     public void Init(EntrySO so)
     {
@@ -149,20 +111,6 @@ public class DetailsController : MonoBehaviour
         titleText.text = so.entryName;
         APIText.text = so.entryAPI;
         descriptionText.text = so.entryDescription;
-
-        // 限制 Text 的宽度
-        Transform parentTransform = descriptionText.transform.parent;
-        GameObject parentGameObject = parentTransform.gameObject;
-        LayoutElement layoutElement = parentGameObject.GetComponent<LayoutElement>();
-        if (layoutElement != null)
-        {
-            layoutElement.ignoreLayout = true;
-
-            RectTransform rectTransform = parentGameObject.GetComponent<RectTransform>();
-            rectTransform.sizeDelta = new Vector2(1000f, rectTransform.sizeDelta.y);
-
-            getGapBlock(parentGameObject);
-        }
 
         _details = (Details)gameObject.AddComponent(entrySO.EntryScriptType);
         _details.Init(entrySO);
@@ -188,13 +136,6 @@ public class DetailsController : MonoBehaviour
             extraButtonBlockObjects.Add(extraButtonBlock);
             extraButtonBlock.GetComponentInChildren<Text>().text = button.buttonText;
         }
-
-        // 添加一个新的透明按钮
-        var extraButton = Instantiate(buttonBlockPrefab, buttonsTransform);
-        extraButtonBlockObjects.Add(extraButton);
-        extraButton.GetComponentInChildren<Text>().text = "";
-        Color transparentColor = new Color(0, 0, 0, 0);
-        extraButton.GetComponentInChildren<Button>().GetComponent<Image>().color = transparentColor;
 
         // 生成结果
         foreach (var result in entrySO.initialResultList)

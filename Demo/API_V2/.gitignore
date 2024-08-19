@@ -83,3 +83,7 @@ crashlytics-build.properties
 
 # Idea
 .idea/
+
+.vscode/
+wxbuild/
+wxbuild2/

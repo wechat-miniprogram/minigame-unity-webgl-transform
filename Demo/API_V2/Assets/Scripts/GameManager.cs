@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WeChatWASM;
-using SystemInfo = WeChatWASM.SystemInfo;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,20 +17,21 @@ public class GameManager : MonoBehaviour
     // 字体相关
     [Header("Font")]
     public Font font;
-    public Action<Font> onFontLoaded;
+    public Action<Font> OnFontLoaded;
 
     // 用于在 MainCanvas 和 DetailsCanvas 之间切换
     [Header("Canvas Switch")]
     [SerializeField]
-    private GameObject _mainCanvas;
+    private GameObject mainCanvas;
 
     [SerializeField]
-    private GameObject _detailsCanvas;
+    private GameObject detailsCanvas;
     private bool _isMainCanvasActive = true;
 
     // 用于获取微信小游戏的系统信息
     [Header("System Info")]
-    public SystemInfo systemInfo;
+    public WindowInfo WindowInfo;
+    public ClientRect MenuButtonBoundingClientRect;
 
     private void Awake()
     {
@@ -60,34 +60,40 @@ public class GameManager : MonoBehaviour
                 var fallbackFont = Application.streamingAssetsPath + "/Fz.ttf";
                 WX.GetWXFont(
                     fallbackFont,
-                    (font) =>
+                    (wxFont) =>
                     {
-                        if (!font)
+                        if (!wxFont)
                             return;
 
-                        this.font = font;
-                        onFontLoaded?.Invoke(font);
+                        this.font = wxFont;
+                        OnFontLoaded?.Invoke(wxFont);
                     }
                 );
 
                 // 获取微信小游戏的系统信息
-                systemInfo = WX.GetSystemInfoSync();
+#if UNITY_WEBGL && !UNITY_EDITOR
+                WindowInfo = WX.GetWindowInfo();
+                MenuButtonBoundingClientRect = WX.GetMenuButtonBoundingClientRect();
+#else
+                WindowInfo = new WindowInfo { safeArea = new SafeArea() };
+                MenuButtonBoundingClientRect = new ClientRect();
+#endif
             }
         );
     }
 
     private void Start()
     {
-        _mainCanvas.SetActive(true);
-        _detailsCanvas.SetActive(false);
+        mainCanvas.SetActive(true);
+        detailsCanvas.SetActive(false);
     }
 
     // 切换 MainCanvas 和 DetailsCanvas 的显示状态
     public void SwitchCanvas()
     {
         _isMainCanvasActive = !_isMainCanvasActive;
-        _mainCanvas.SetActive(_isMainCanvasActive);
-        _detailsCanvas.SetActive(!_isMainCanvasActive);
+        mainCanvas.SetActive(_isMainCanvasActive);
+        detailsCanvas.SetActive(!_isMainCanvasActive);
     }
 
     // 加载指定名称的场景
@@ -102,7 +108,7 @@ public class GameManager : MonoBehaviour
         var asyncOperation = SceneManager.LoadSceneAsync(sceneName);
 
         // 等待场景加载完成
-        while (!asyncOperation.isDone)
+        while (asyncOperation != null && !asyncOperation.isDone)
         {
             yield return null;
         }
@@ -117,17 +123,17 @@ public class GameManager : MonoBehaviour
     // 获取场景中的引用
     private void GetReferences()
     {
-        _mainCanvas = GetSceneRootGO("Main Canvas");
-        _detailsCanvas = GetSceneRootGO("Details Canvas");
-        detailsController = _detailsCanvas.GetComponent<DetailsController>();
+        mainCanvas = GetSceneRootGO("Main Canvas");
+        detailsCanvas = GetSceneRootGO("Details Canvas");
+        detailsController = detailsCanvas.GetComponent<DetailsController>();
     }
 
     // 根据名称获取场景中的根游戏对象
-    public GameObject GetSceneRootGO(string name)
+    private GameObject GetSceneRootGO(string goName)
     {
         // 获取当前场景中的所有根物体
         var rootObjects = SceneManager.GetActiveScene().GetRootGameObjects();
         // 遍历所有顶层游戏对象，找到名字为name的游戏对象则返回，否则返回null
-        return rootObjects.FirstOrDefault(obj => obj.name == name);
+        return rootObjects.FirstOrDefault(obj => obj.name == goName);
     }
 }

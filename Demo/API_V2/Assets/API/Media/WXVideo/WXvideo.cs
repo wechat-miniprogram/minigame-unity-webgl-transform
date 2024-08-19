@@ -19,7 +19,7 @@ public class WXvideo : MonoBehaviour
 
     private void AutoPlayVideo()
     {
-        var systemInfo = WX.GetSystemInfoSync();
+        var windowInfo = GameManager.Instance.WindowInfo;
         _video = WX.CreateVideo(
             new WXCreateVideoParam()
             {
@@ -31,8 +31,8 @@ public class WXvideo : MonoBehaviour
                 autoplay = true,
                 showCenterPlayBtn = false,
                 underGameView = true,
-                width = ((int)systemInfo.screenWidth),
-                height = ((int)systemInfo.screenHeight),
+                width = ((int)windowInfo.screenWidth),
+                height = ((int)windowInfo.screenHeight),
             }
         );
         _video.OnPlay(() =>

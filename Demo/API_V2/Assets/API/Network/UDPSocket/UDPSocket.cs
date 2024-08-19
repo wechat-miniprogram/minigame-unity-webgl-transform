@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
@@ -84,9 +81,7 @@ public class UDPSocket : Details
     {
         if (_udpSocket != null && _connected)
         {
-            Debug.LogError("接口有bug暂未修复 当前为placeholder");
-            /*
-            UDPSocketWriteOption option = new UDPSocketWriteOption()
+            UDPSocketSendOption option = new UDPSocketSendOption()
             {
                 address = "www.oooceanworld.com",
                 port = 8101
@@ -100,7 +95,7 @@ public class UDPSocket : Details
                 option.message = _bufferData;
             }
             _udpSocket.Write(option);
-            */
+            Debug.Log("Message: " + option.message);
         }
         else
         {
