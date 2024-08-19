@@ -34,7 +34,8 @@ namespace XLuaTest
         [CSharpCallLua]
         public delegate ICalc CalcNew(int mult, params string[] args);
 
-        private string script = @"
+        private string script =
+            @"
                 local calc_mt = {
                     __index = {
                         Add = function(self, a, b)
@@ -85,11 +86,12 @@ namespace XLuaTest
                     end
                 }
 	        ";
+
         // Use this for initialization
         void Start()
         {
             LuaEnv luaenv = new LuaEnv();
-            Test(luaenv);//调用了带可变参数的delegate，函数结束都不会释放delegate，即使置空并调用GC
+            Test(luaenv); //调用了带可变参数的delegate，函数结束都不会释放delegate，即使置空并调用GC
             luaenv.Dispose();
         }
 
@@ -121,9 +123,6 @@ namespace XLuaTest
         }
 
         // Update is called once per frame
-        void Update()
-        {
-
-        }
+        void Update() { }
     }
 }

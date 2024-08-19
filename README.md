@@ -1,6 +1,6 @@
-# 微信小游戏团结/Unity适配方案
+# 微信小游戏Unity/团结引擎适配方案
 
-欢迎使用 Unity WebGL 小游戏适配方案(又称团结Unity快适配)，本方案设计目的是**降低 Unity 游戏转换到微信小游戏的开发成本**。基于WebAssembly技术，无需更换Unity引擎与重写核心代码的情况下将原有游戏项目适配到微信小游戏。
+欢迎使用 Unity WebGL 小游戏适配方案(又称Unity/团结引擎快适配)，本方案设计目的是**降低 Unity 游戏转换到微信小游戏的开发成本**。基于WebAssembly技术，无需更换Unity引擎与重写核心代码的情况下将原有游戏项目适配到微信小游戏。
 
 **官方文档：[https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/)**
 
@@ -20,7 +20,13 @@
 
 ## 安装与使用
 
-下载 [Unity插件](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)并导入至游戏项目中，版本更新请查看[更新日志](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/CHANGELOG.html)，团结版 or Package安装请查阅[SDK安装指引](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/Design/SDKInstaller.html)
+
+
+PackageManager(git安装URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
+
+UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
+
+版本更新请查看[更新日志](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/CHANGELOG.html)，Unity/团结引擎详细安装请查阅[SDK安装指引](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/Design/SDKInstaller.html)
 
 - 请查阅[推荐引擎版本](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/Design/UnityVersion.html)，安装时选择WebGL组件
 - 前往[微信开发者工具下载](https://developers.weixin.qq.com/miniprogram/dev/devtools/stable.html)安装Stable版开发者工具【注意：为保证稳定性，请勿使用小游戏版 Minigame Build】

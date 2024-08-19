@@ -71,7 +71,7 @@
 
 iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，运行发烫的小游戏。
 
-- 需要该能力的开发者登录[微信公众平台](https://mp.weixin.qq.com) -> 首页能力地图模块 -> 点击进入"生产提效包" -> 点击开通高性能模式。
+- 需要该能力的开发者登录[微信公众平台](https://mp.weixin.qq.com) -> 能力地图 -> 研发能力 -> 生产提效包 -> 点击开通高性能模式。
   <img src="../image/mp_addplugin.png"/>
 - 开通成功后，过配置 game.json 的 iOSHighPerformance 为 true 则可进入高性能模式，通过去掉此开关可以正常回退到普通模式，以便两种模式对比。
 
@@ -134,7 +134,7 @@ iOS 端小游戏高性能模式适用于遇到 iOS 环境运行性能不足，�
 
 ### <p id="6-ui-flicker"/>6. 个别游戏 UI 会出现闪烁问题
 - 目前已发现iOS 15.4出现若干渲染BUG，如stencil特性支持，请查阅文档[优化Unity WebGL的渲染性能](RenderOptimization.md)
-- 如按上述文档去除依然无法解决，请提供可复现 Unity 工程联系 minigamedevop08
+- 如按上述文档去除依然无法解决，请提供可复现 Unity 工程联系 [小游戏客服助手](https://work.weixin.qq.com/kfid/kfcca4feec277f91616)
 
 ### 7. 为什么开启了高性能模式，游戏启动很烫？
 

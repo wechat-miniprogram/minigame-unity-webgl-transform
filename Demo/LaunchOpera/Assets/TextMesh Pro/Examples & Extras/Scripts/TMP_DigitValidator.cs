@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System;
-
+﻿using System;
+using UnityEngine;
 
 namespace TMPro
 {

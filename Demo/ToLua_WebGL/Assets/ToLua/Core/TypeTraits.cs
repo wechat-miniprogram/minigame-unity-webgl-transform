@@ -19,32 +19,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
-using UnityEngine;
 using System;
 using System.Collections;
+using UnityEngine;
 
 namespace LuaInterface
 {
     public static class TypeTraits<T>
-    {        
-        static public Func<IntPtr, int, bool> Check = DefaultCheck;
-        static public Type type = typeof(T);
-        static public bool IsValueType = type.IsValueType;
-        static public bool IsArray = type.IsArray;
+    {
+        public static Func<IntPtr, int, bool> Check = DefaultCheck;
+        public static Type type = typeof(T);
+        public static bool IsValueType = type.IsValueType;
+        public static bool IsArray = type.IsArray;
 
-        static string typeName = string.Empty;                
+        static string typeName = string.Empty;
         static int nilType = -1;
         static int metaref = -1;
 
-        static public void Init(Func<IntPtr, int, bool> check)
-        {            
+        public static void Init(Func<IntPtr, int, bool> check)
+        {
             if (check != null)
             {
                 Check = check;
             }
         }
 
-        static public string GetTypeName()
+        public static string GetTypeName()
         {
             if (typeName == string.Empty)
             {
@@ -54,13 +54,13 @@ namespace LuaInterface
             return typeName;
         }
 
-        static public int GetLuaReference(IntPtr L)
+        public static int GetLuaReference(IntPtr L)
         {
 #if MULTI_STATE
             return LuaStatic.GetMetaReference(L, type);
 #else
             if (metaref > 0)
-            {                
+            {
                 return metaref;
             }
 
@@ -68,15 +68,18 @@ namespace LuaInterface
 
             if (metaref > 0)
             {
-                LuaState.Get(L).OnDestroy += () => { metaref = -1; };
+                LuaState.Get(L).OnDestroy += () =>
+                {
+                    metaref = -1;
+                };
             }
 
             return metaref;
 #endif
-        }   
+        }
 
         static bool DefaultCheck(IntPtr L, int pos)
-        {            
+        {
             LuaTypes luaType = LuaDLL.lua_type(L, pos);
 
             switch (luaType)
@@ -89,7 +92,7 @@ namespace LuaInterface
                     return IsUserTable(L, pos);
                 default:
                     return false;
-            }            
+            }
         }
 
         static bool IsNilType()
@@ -112,7 +115,7 @@ namespace LuaInterface
             }
 
             nilType = 0;
-            return false;            
+            return false;
         }
 
         static bool IsUserData(IntPtr L, int pos)
@@ -139,7 +142,7 @@ namespace LuaInterface
         }
 
         static bool IsUserTable(IntPtr L, int pos)
-        {            
+        {
             if (type == typeof(LuaTable))
             {
                 return true;
@@ -160,23 +163,25 @@ namespace LuaInterface
 
             return false;
         }
-    }    
+    }
 
     public static class DelegateTraits<T>
-    {        
-        static DelegateFactory.DelegateCreate _Create = null;        
+    {
+        static DelegateFactory.DelegateCreate _Create = null;
 
-        static public void Init(DelegateFactory.DelegateCreate func)
+        public static void Init(DelegateFactory.DelegateCreate func)
         {
-            _Create = func;            
+            _Create = func;
         }
 
-        static public Delegate Create(LuaFunction func)
+        public static Delegate Create(LuaFunction func)
         {
 #if UNITY_EDITOR
             if (_Create == null)
             {
-                throw new LuaException(string.Format("Delegate {0} not register", TypeTraits<T>.GetTypeName()));
+                throw new LuaException(
+                    string.Format("Delegate {0} not register", TypeTraits<T>.GetTypeName())
+                );
             }
 #endif
             if (func != null)
@@ -197,15 +202,17 @@ namespace LuaInterface
                 }
             }
 
-            return _Create(null, null, false);            
+            return _Create(null, null, false);
         }
 
-        static public Delegate Create(LuaFunction func, LuaTable self)
+        public static Delegate Create(LuaFunction func, LuaTable self)
         {
 #if UNITY_EDITOR
             if (_Create == null)
             {
-                throw new LuaException(string.Format("Delegate {0} not register", TypeTraits<T>.GetTypeName()));
+                throw new LuaException(
+                    string.Format("Delegate {0} not register", TypeTraits<T>.GetTypeName())
+                );
             }
 #endif
             if (func != null)
@@ -226,17 +233,21 @@ namespace LuaInterface
                 }
             }
 
-            return _Create(null, null, true);            
+            return _Create(null, null, true);
         }
     }
 
     public static class StackTraits<T>
     {
-        static public Action<IntPtr, T> Push = SelectPush();
-        static public Func<IntPtr, int, T> Check = DefaultCheck;
-        static public Func<IntPtr, int, T> To = DefaultTo;               
+        public static Action<IntPtr, T> Push = SelectPush();
+        public static Func<IntPtr, int, T> Check = DefaultCheck;
+        public static Func<IntPtr, int, T> To = DefaultTo;
 
-        static public void Init(Action<IntPtr, T> push, Func<IntPtr, int, T> check, Func<IntPtr, int, T> to)
+        public static void Init(
+            Action<IntPtr, T> push,
+            Func<IntPtr, int, T> check,
+            Func<IntPtr, int, T> to
+        )
         {
             if (push != null)
             {
@@ -251,7 +262,7 @@ namespace LuaInterface
             if (check != null)
             {
                 Check = check;
-            }            
+            }
         }
 
         static Action<IntPtr, T> SelectPush()
@@ -296,11 +307,11 @@ namespace LuaInterface
         static T DefaultTo(IntPtr L, int pos)
         {
             return (T)ToLua.ToObject(L, pos);
-        }           
-        
+        }
+
         static T DefaultCheck(IntPtr L, int stackPos)
         {
-            int udata = LuaDLL.tolua_rawnetobj(L, stackPos);            
+            int udata = LuaDLL.tolua_rawnetobj(L, stackPos);
 
             if (udata != -1)
             {
@@ -308,13 +319,21 @@ namespace LuaInterface
                 object obj = translator.GetObject(udata);
 
                 if (obj != null)
-                {                    
+                {
                     if (obj is T)
                     {
                         return (T)obj;
                     }
 
-                    LuaDLL.luaL_argerror(L, stackPos, string.Format("{0} expected, got {1}", TypeTraits<T>.GetTypeName(), obj.GetType().FullName));
+                    LuaDLL.luaL_argerror(
+                        L,
+                        stackPos,
+                        string.Format(
+                            "{0} expected, got {1}",
+                            TypeTraits<T>.GetTypeName(),
+                            obj.GetType().FullName
+                        )
+                    );
                 }
 
                 if (!TypeTraits<T>.IsValueType)
@@ -328,7 +347,7 @@ namespace LuaInterface
             }
 
             LuaDLL.luaL_typerror(L, stackPos, TypeTraits<T>.GetTypeName());
-            return default(T);            
+            return default(T);
         }
     }
 }

@@ -1,26 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using LuaInterface;
-using System;
 using System.Reflection;
+using LuaInterface;
+using UnityEngine;
 
 public class TestEnum
 {
-    public TestEnum()
-    {
+    public TestEnum() { }
 
-    }
-
-    public void Test(UnityEngine.Space e)
-    {
-
-    }
+    public void Test(UnityEngine.Space e) { }
 }
 
 public sealed class TestExport
 {
     [LuaByteBufferAttribute]
-    public delegate void TestBuffer(byte[] buffer);       
+    public delegate void TestBuffer(byte[] buffer);
 
     public enum Space
     {
@@ -39,15 +33,8 @@ public sealed class TestExport
     private int number = 123;
     public int Number
     {
-        get
-        {            
-            return number;
-        }
-
-        set
-        {            
-            number = value;            
-        }
+        get { return number; }
+        set { number = value; }
     }
 
     public int this[int pos]
@@ -65,16 +52,27 @@ public sealed class TestExport
     [LuaByteBufferAttribute]
     public byte[] buffer;
 
-    public static int get_Item(string pos) { return 0; }
-    public static int get_Item(double pos) { return 0; }
-    public static int get_Item(int i, int j, int k) { return 0; }
-
-    public static int set_Item(double pos) { return 0; }
-
-    public void TestByteBuffer(TestBuffer tb)
+    public static int get_Item(string pos)
     {
-
+        return 0;
     }
+
+    public static int get_Item(double pos)
+    {
+        return 0;
+    }
+
+    public static int get_Item(int i, int j, int k)
+    {
+        return 0;
+    }
+
+    public static int set_Item(double pos)
+    {
+        return 0;
+    }
+
+    public void TestByteBuffer(TestBuffer tb) { }
 
     public int Test(object o, string str)
     {
@@ -132,13 +130,11 @@ public sealed class TestExport
         return 3;
     }
 
-
     public int Test(int i, int j)
     {
         Debugger.Log("call Test(int i, int j)");
         return 5;
     }
-
 
     public int Test(string str)
     {
@@ -194,7 +190,8 @@ public sealed class TestExport
         return 14;
     }
 
-    public int TestGeneric<T> (T t) where T : Component
+    public int TestGeneric<T>(T t)
+        where T : Component
     {
         Debugger.Log("TestGeneric(T t) Call");
         return 11;
@@ -234,13 +231,10 @@ public sealed class TestExport
 
     public static void TestReflection()
     {
-        Debugger.Log("call TestReflection()");        
+        Debugger.Log("call TestReflection()");
     }
 
-    public static void TestRefGameObject(ref GameObject go)
-    {
-
-    }
+    public static void TestRefGameObject(ref GameObject go) { }
 
     public void DoClick()
     {
@@ -277,7 +271,7 @@ public sealed class TestExport
 public class TestOverload : MonoBehaviour
 {
     private string script =
-@"                  
+        @"                  
         require 'TestExport'                                        
         local out = require 'tolua.out'
         local GameObject = UnityEngine.GameObject                                
@@ -307,19 +301,19 @@ public class TestOverload : MonoBehaviour
             print(v.z)
         end
     ";
-    
-    void Awake ()
+
+    void Awake()
     {
         LuaState state = new LuaState();
         state.Start();
         LuaBinder.Bind(state);
-        Bind(state);        
+        Bind(state);
         state.DoString(script, "TestOverload.cs");
 
         TestExport to = new TestExport();
         LuaFunction func = state.GetFunction("Test");
-        func.Call(to);          
-        state.Dispose();                     
+        func.Call(to);
+        state.Dispose();
     }
 
     void Bind(LuaState state)

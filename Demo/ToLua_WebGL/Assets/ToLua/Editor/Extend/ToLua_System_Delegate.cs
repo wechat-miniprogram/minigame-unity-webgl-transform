@@ -2,12 +2,12 @@
 using LuaInterface;
 
 public class ToLua_System_Delegate
-{    
+{
     public static string AdditionNameSpace = "System.Collections.Generic";
 
     [NoToLuaAttribute]
     public static string op_AdditionDefined =
-@"        try
+        @"        try
         {                        
             LuaTypes type = LuaDLL.lua_type(L, 1);
 
@@ -42,7 +42,7 @@ public class ToLua_System_Delegate
 
     [NoToLuaAttribute]
     public static string op_SubtractionDefined =
-@"        try
+        @"        try
         {            
             Delegate arg0 = (Delegate)ToLua.CheckObject<Delegate>(L, 1);
             LuaTypes type = LuaDLL.lua_type(L, 2);
@@ -104,7 +104,6 @@ public class ToLua_System_Delegate
         return null;
     }
 
-
     public override bool Equals(object other)
     {
         return false;
@@ -116,7 +115,7 @@ public class ToLua_System_Delegate
     }
 
     public static string DestroyDefined =
-@"        Delegate arg0 = (Delegate)ToLua.CheckObject<Delegate>(L, 1);
+        @"        Delegate arg0 = (Delegate)ToLua.CheckObject<Delegate>(L, 1);
         Delegate[] ds = arg0.GetInvocationList();
 
         for (int i = 0; i < ds.Length; i++)
@@ -132,7 +131,5 @@ public class ToLua_System_Delegate
         return 0;";
 
     [UseDefinedAttribute]
-    public static void Destroy(object obj)
-    {
-    }
+    public static void Destroy(object obj) { }
 }

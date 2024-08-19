@@ -6,6 +6,7 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
+using System;
 #if USE_UNI_LUA
 using LuaAPI = UniLua.Lua;
 using RealStatePtr = UniLua.ILuaState;
@@ -16,8 +17,6 @@ using RealStatePtr = System.IntPtr;
 using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 #endif
 
-using System;
-
 namespace XLua
 {
     public abstract class LuaBase : IDisposable
@@ -27,9 +26,18 @@ namespace XLua
         protected readonly LuaEnv luaEnv;
 
 #if UNITY_EDITOR || XLUA_GENERAL
-        protected int _errorFuncRef { get { return luaEnv.errorFuncRef; } }
-        protected RealStatePtr _L { get { return luaEnv.L; } }
-        protected ObjectTranslator _translator { get { return luaEnv.translator; } }
+        protected int _errorFuncRef
+        {
+            get { return luaEnv.errorFuncRef; }
+        }
+        protected RealStatePtr _L
+        {
+            get { return luaEnv.L; }
+        }
+        protected ObjectTranslator _translator
+        {
+            get { return luaEnv.translator; }
+        }
 #endif
 
         public LuaBase(int reference, LuaEnv luaenv)
@@ -66,7 +74,13 @@ namespace XLua
                         }
                         else //will dispse by LuaEnv.GC
                         {
-                            luaEnv.equeueGCAction(new LuaEnv.GCAction { Reference = luaReference, IsDelegate = is_delegate });
+                            luaEnv.equeueGCAction(
+                                new LuaEnv.GCAction
+                                {
+                                    Reference = luaReference,
+                                    IsDelegate = is_delegate
+                                }
+                            );
                         }
 #if THREAD_SAFE || HOTFIX_ENABLE
                     }
@@ -98,7 +112,8 @@ namespace XLua
                 }
 #endif
             }
-            else return false;
+            else
+                return false;
         }
 
         public override int GetHashCode()

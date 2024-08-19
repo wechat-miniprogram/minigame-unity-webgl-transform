@@ -4,7 +4,7 @@ using LuaInterface;
 public class ToLua_System_Enum
 {
     public static string ToIntDefined =
-@"		try
+        @"		try
         {
             object arg0 = ToLua.CheckObject<System.Enum>(L, 1);
             int ret = Convert.ToInt32(arg0);
@@ -17,7 +17,7 @@ public class ToLua_System_Enum
         }";
 
     public static string ParseDefined =
-@"		try
+        @"		try
 		{
 			int count = LuaDLL.lua_gettop(L);
 
@@ -49,7 +49,7 @@ public class ToLua_System_Enum
 		}";
 
     public static string ToObjectDefined =
-@"		try
+        @"		try
 		{
 			int count = LuaDLL.lua_gettop(L);
 
@@ -80,9 +80,7 @@ public class ToLua_System_Enum
 		}";
 
     [UseDefinedAttribute]
-    public static void ToInt(System.Enum obj)
-    {
-    }
+    public static void ToInt(System.Enum obj) { }
 
     [UseDefinedAttribute]
     public static object ToObject(Type enumType, int value)

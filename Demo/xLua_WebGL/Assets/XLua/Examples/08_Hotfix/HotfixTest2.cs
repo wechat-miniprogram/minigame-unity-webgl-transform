@@ -44,14 +44,9 @@ namespace XLuaTest
             return 0;
         }
 
-        public static void Test4<T>(T a)
-        {
-        }
+        public static void Test4<T>(T a) { }
 
-        public void Test5<T>(int a, params T[] arg)
-        {
-
-        }
+        public void Test5<T>(int a, params T[] arg) { }
     }
 
     public class NoHotfixCalc
@@ -104,10 +99,7 @@ namespace XLuaTest
         }
     }
 
-    public class BaseTestHelper
-    {
-
-    }
+    public class BaseTestHelper { }
 
     public class BaseTestBase<T> : BaseTestHelper
     {
@@ -141,6 +133,7 @@ namespace XLuaTest
     public struct StructTest
     {
         GameObject go;
+
         public StructTest(GameObject go)
         {
             this.go = go;
@@ -180,7 +173,6 @@ namespace XLuaTest
 
     public class HotfixTest2 : MonoBehaviour
     {
-
         // Use this for initialization
         void Start()
         {
@@ -208,32 +200,43 @@ namespace XLuaTest
             Debug.Log("drop:" + ((d1 - d2) / d1));
 
             Debug.Log("Before Fix: 2 + 1 = " + calc.Add(2, 1));
-            Debug.Log("Before Fix: Vector3(2, 3, 4) + Vector3(1, 2, 3) = " + calc.Add(new Vector3(2, 3, 4), new Vector3(1, 2, 3)));
-            luaenv.DoString(@"
+            Debug.Log(
+                "Before Fix: Vector3(2, 3, 4) + Vector3(1, 2, 3) = "
+                    + calc.Add(new Vector3(2, 3, 4), new Vector3(1, 2, 3))
+            );
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.HotfixCalc, 'Add', function(self, a, b)
                 return a + b
             end)
-        ");
+        "
+            );
             Debug.Log("After Fix: 2 + 1 = " + calc.Add(2, 1));
-            Debug.Log("After Fix: Vector3(2, 3, 4) + Vector3(1, 2, 3) = " + calc.Add(new Vector3(2, 3, 4), new Vector3(1, 2, 3)));
+            Debug.Log(
+                "After Fix: Vector3(2, 3, 4) + Vector3(1, 2, 3) = "
+                    + calc.Add(new Vector3(2, 3, 4), new Vector3(1, 2, 3))
+            );
 
             double num;
             string str = "hehe";
             int ret = calc.TestOut(100, out num, ref str);
             Debug.Log("ret = " + ret + ", num = " + num + ", str = " + str);
 
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.HotfixCalc, 'TestOut', function(self, a, c, go)
                     print('TestOut', self, a, c, go)
                     if go then error('test error') end
                     return a + 10, a + 20, 'right version'
                 end)
-        ");
+        "
+            );
             str = "hehe";
             ret = calc.TestOut(100, out num, ref str);
             Debug.Log("ret = " + ret + ", num = " + num + ", str = " + str);
 
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.HotfixCalc, {
                  Test1 = function(self)
                     print('Test1', self)
@@ -254,7 +257,8 @@ namespace XLuaTest
                     print('Test4', self, a, ...)
                  end
             })
-        ");
+        "
+            );
 
             int r1 = calc.Test1<int>();
             double r2 = calc.Test1<double>();
@@ -278,7 +282,8 @@ namespace XLuaTest
             TestStateful();
             System.GC.Collect();
             System.GC.WaitForPendingFinalizers();
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             local util = require 'xlua.util'
             xlua.hotfix(CS.XLuaTest.StatefullTest, {
                 ['.ctor'] = function(csobj)
@@ -328,7 +333,8 @@ namespace XLuaTest
                    print('Finalize', self)
                 end
            })
-        ");
+        "
+            );
             Debug.Log("----------------------after------------------------");
             TestStateful();
             luaenv.FullGc();
@@ -338,7 +344,8 @@ namespace XLuaTest
             var genericObj = new GenericClass<double>(1.1);
             genericObj.Func1();
             Debug.Log(genericObj.Func2());
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.GenericClass(CS.System.Double), {
                 ['.ctor'] = function(obj, a)
                     print('GenericClass<double>', obj, a)
@@ -351,39 +358,46 @@ namespace XLuaTest
                     return 1314
                 end
             })
-        ");
+        "
+            );
             genericObj = new GenericClass<double>(1.1);
             genericObj.Func1();
             Debug.Log(genericObj.Func2());
 
             InnerTypeTest itt = new InnerTypeTest();
             itt.Foo();
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.InnerTypeTest, 'Bar', function(obj)
                     print('lua Bar', obj)
                     return {x = 10, y = 20}
                 end)
-        ");
+        "
+            );
             itt.Foo();
 
             StructTest st = new StructTest(gameObject);
             Debug.Log("go=" + st.GetGo(123, "john"));
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.StructTest, 'GetGo', function(self, a, b)
                     print('GetGo', self, a, b)
                     return nil
                 end)
-        ");
+        "
+            );
             Debug.Log("go=" + st.GetGo(123, "john"));
 
             GenericStruct<int> gs = new GenericStruct<int>(1);
             Debug.Log("gs.GetA()=" + gs.GetA(123));
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.GenericStruct(CS.System.Int32), 'GetA', function(self, a)
                     print('GetA',self, a)
                     return 789
                 end)
-        ");
+        "
+            );
             Debug.Log("gs.GetA()=" + gs.GetA(123));
 
             try
@@ -395,19 +409,20 @@ namespace XLuaTest
                 Debug.Log("throw in lua an catch in c# ok, e.Message:" + e.Message);
             }
 
-
             BaseTestBase<InnerTypeTest> bt = new BaseTest();
             bt.Foo(1);
             Debug.Log(bt);
 
-            luaenv.DoString(@"
+            luaenv.DoString(
+                @"
             xlua.hotfix(CS.XLuaTest.BaseTest, 'Foo', function(self, p)
                     print('BaseTest', p)
                 end)
             xlua.hotfix(CS.XLuaTest.BaseTest, 'ToString', function(self)
                     return '>>>' .. base(self):ToString()
                 end)
-        ");
+        "
+            );
             bt.Foo(2);
             Debug.Log(bt);
         }
@@ -435,10 +450,6 @@ namespace XLuaTest
         }
 
         // Update is called once per frame
-        void Update()
-        {
-
-        }
+        void Update() { }
     }
 }
-

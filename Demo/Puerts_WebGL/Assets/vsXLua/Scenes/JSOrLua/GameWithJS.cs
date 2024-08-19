@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System;
 using Puerts;
 using Puerts.TSLoader;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class GameWithJS : JSBehaviour
 {
@@ -12,13 +12,16 @@ public class GameWithJS : JSBehaviour
     public Text FpsText;
     public Text BoxText;
 
-    public override string ScriptName { get { return "game.mjs"; } }
+    public override string ScriptName
+    {
+        get { return "game.mjs"; }
+    }
 
     void Start()
     {
         ScriptBehaviourManager.InvokeStarter(this, this.ScriptName);
     }
-    
+
     void Update()
     {
         ScriptBehaviourManager.InvokeUpdate(this);

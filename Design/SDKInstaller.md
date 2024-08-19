@@ -14,13 +14,13 @@
 
 ### 安装指南
 
-`打开游戏工程` -> `团结/Unity Editor 菜单栏` -> `Package Manager` -> `右上方 “+”` -> `Add package from git URL`
+`打开游戏工程` -> `Unity/团结引擎 Editor 菜单栏` -> `Package Manager` -> `右上方 “+”` -> `Add package from git URL`
 URL地址为：
 ```
 https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 ```
 
-国内Gitee镜像：
+或国内Gitee镜像：
 ```
 https://gitee.com/wechat-minigame/minigame-tuanjie-transform-sdk.git
 ```
@@ -37,7 +37,7 @@ https://gitee.com/wechat-minigame/minigame-tuanjie-transform-sdk.git
 
 ## 目录结构说明
 
-我们希望SDK与工程代码节藕，如此一来也更方便开发者的代码版本维护。因此 PackageManager 模式下，微信SDK内容将不再存放在游戏工程的Assets目录中。为兼容需要，仍然会自动在 Assets 目录下创建 `WX-WASM-SDK-V2` 数据目录，如需保持相关的应用配置应始终保留该目录内容。
+我们希望SDK与工程代码解耦，如此一来也更方便开发者的代码版本维护。因此 PackageManager 模式下，微信SDK内容将不再存放在游戏工程的Assets目录中。为兼容需要，仍然会自动在 Assets 目录下创建 `WX-WASM-SDK-V2` 数据目录，如需保持相关的应用配置应始终保留该目录内容。
 
 ## 常见问题
 

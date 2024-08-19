@@ -26,48 +26,34 @@ namespace LuaInterface
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class MonoPInvokeCallbackAttribute : Attribute
     {
-        public MonoPInvokeCallbackAttribute(Type type)
-        {
-        }
+        public MonoPInvokeCallbackAttribute(Type type) { }
     }
 
     public class NoToLuaAttribute : System.Attribute
     {
-        public NoToLuaAttribute()
-        {
-
-        }
+        public NoToLuaAttribute() { }
     }
 
     public class UseDefinedAttribute : System.Attribute
     {
-        public UseDefinedAttribute()
-        {
-
-        }
+        public UseDefinedAttribute() { }
     }
 
-    public class OverrideDefinedAttribute: System.Attribute
+    public class OverrideDefinedAttribute : System.Attribute
     {
-        public OverrideDefinedAttribute()
-        {
-
-        }
+        public OverrideDefinedAttribute() { }
     }
-    
+
     public sealed class LuaByteBufferAttribute : Attribute
-    {                
-        public LuaByteBufferAttribute()
-        {
-        }       
+    {
+        public LuaByteBufferAttribute() { }
     }
 
     [AttributeUsage(AttributeTargets.Method)]
     public sealed class LuaRenameAttribute : Attribute
     {
         public string Name;
-        public LuaRenameAttribute()
-        {
-        }
+
+        public LuaRenameAttribute() { }
     }
 }

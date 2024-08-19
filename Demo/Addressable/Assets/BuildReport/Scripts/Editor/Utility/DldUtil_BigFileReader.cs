@@ -4,279 +4,281 @@ using System.IO;
 
 namespace DldUtil
 {
-	public static class BigFileReader
-	{
-		public static bool FileHasText(string path, params string[] seekText)
-		{
-			if (!File.Exists(path))
-			{
-				return false;
-			}
+    public static class BigFileReader
+    {
+        public static bool FileHasText(string path, params string[] seekText)
+        {
+            if (!File.Exists(path))
+            {
+                return false;
+            }
 
-			FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-			BufferedStream bs = new BufferedStream(fs);
-			StreamReader sr = new StreamReader(bs);
+            FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BufferedStream bs = new BufferedStream(fs);
+            StreamReader sr = new StreamReader(bs);
 
-			while (true)
-			{
-				var line = sr.ReadLine();
+            while (true)
+            {
+                var line = sr.ReadLine();
 
-				if (line == null)
-				{
-					break;
-				}
+                if (line == null)
+                {
+                    break;
+                }
 
-				for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
-				{
-					if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
-					{
-						sr.Close();
-						bs.Close();
-						fs.Close();
+                for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
+                {
+                    if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
+                    {
+                        sr.Close();
+                        bs.Close();
+                        fs.Close();
 
-						return true;
-					}
-				}
-			}
+                        return true;
+                    }
+                }
+            }
 
-			sr.Close();
-			bs.Close();
-			fs.Close();
+            sr.Close();
+            bs.Close();
+            fs.Close();
 
-			return false;
-		}
+            return false;
+        }
 
-		public static string SeekText(string path, params string[] seekText)
-		{
-			FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-			BufferedStream bs = new BufferedStream(fs);
-			StreamReader sr = new StreamReader(bs);
+        public static string SeekText(string path, params string[] seekText)
+        {
+            FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BufferedStream bs = new BufferedStream(fs);
+            StreamReader sr = new StreamReader(bs);
 
-			//long currentLine = 0;
-			while (true)
-			{
-				//++currentLine;
-				var line = sr.ReadLine();
-				//Debug.LogFormat("seeking... line number {0}: {1}", currentLine, line);
+            //long currentLine = 0;
+            while (true)
+            {
+                //++currentLine;
+                var line = sr.ReadLine();
+                //Debug.LogFormat("seeking... line number {0}: {1}", currentLine, line);
 
-				// reached end of file?
-				if (line == null)
-				{
-					break;
-				}
+                // reached end of file?
+                if (line == null)
+                {
+                    break;
+                }
 
-				for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
-				{
-					if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
-					{
-						return line;
-					}
-				}
-			}
+                for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
+                {
+                    if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
+                    {
+                        return line;
+                    }
+                }
+            }
 
-			return string.Empty;
-		}
+            return string.Empty;
+        }
 
-		public struct FoundText
-		{
-			public long LineNumber;
-			public string Text;
-		}
+        public struct FoundText
+        {
+            public long LineNumber;
+            public string Text;
+        }
 
-		public static List<FoundText> SeekAllText(string path, params string[] seekText)
-		{
-			FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-			BufferedStream bs = new BufferedStream(fs);
-			StreamReader sr = new StreamReader(bs);
+        public static List<FoundText> SeekAllText(string path, params string[] seekText)
+        {
+            FileStream fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            BufferedStream bs = new BufferedStream(fs);
+            StreamReader sr = new StreamReader(bs);
 
-			List<FoundText> returnValue = new List<FoundText>();
+            List<FoundText> returnValue = new List<FoundText>();
 
-			long currentLine = 0;
-			while (true)
-			{
-				++currentLine;
-				var line = sr.ReadLine();
-				//Debug.LogFormat("seeking... line number {0}: {1}", currentLine, line);
+            long currentLine = 0;
+            while (true)
+            {
+                ++currentLine;
+                var line = sr.ReadLine();
+                //Debug.LogFormat("seeking... line number {0}: {1}", currentLine, line);
 
-				// reached end of file?
-				if (line == null)
-				{
-					break;
-				}
+                // reached end of file?
+                if (line == null)
+                {
+                    break;
+                }
 
-				for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
-				{
-					if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
-					{
-						FoundText newFoundText;
-						newFoundText.LineNumber = currentLine;
-						newFoundText.Text = line;
-						returnValue.Add(newFoundText);
-					}
-				}
-			}
+                for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
+                {
+                    if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
+                    {
+                        FoundText newFoundText;
+                        newFoundText.LineNumber = currentLine;
+                        newFoundText.Text = line;
+                        returnValue.Add(newFoundText);
+                    }
+                }
+            }
 
-			return returnValue;
-		}
+            return returnValue;
+        }
 
-		public static IEnumerable<string> ReadFile(string path, params string[] seekText)
-		{
-			return ReadFile(path, true, seekText);
-		}
+        public static IEnumerable<string> ReadFile(string path, params string[] seekText)
+        {
+            return ReadFile(path, true, seekText);
+        }
 
-		public static IEnumerable<string> ReadFile(string path, bool startAfterSeekedText, params string[] seekText)
-		{
-			var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-			var bs = new BufferedStream(fs);
-			var sr = new StreamReader(bs);
+        public static IEnumerable<string> ReadFile(
+            string path,
+            bool startAfterSeekedText,
+            params string[] seekText
+        )
+        {
+            var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var bs = new BufferedStream(fs);
+            var sr = new StreamReader(bs);
 
-			string line;
+            string line;
 
-			bool seekTextRequested = (seekText != null) && (seekText.Length > 0) && !string.IsNullOrEmpty(seekText[0]);
+            bool seekTextRequested =
+                (seekText != null) && (seekText.Length > 0) && !string.IsNullOrEmpty(seekText[0]);
 
+            long seekTextFoundAtLine = -1;
 
-			long seekTextFoundAtLine = -1;
+            if (seekTextRequested)
+            {
+                long currentLine = 0;
+                while (true)
+                {
+                    ++currentLine;
+                    line = sr.ReadLine();
+                    //Debug.LogFormat("seeking... line number {0}: {1}", currentLine, line);
 
+                    // reached end of file?
+                    if (line == null)
+                    {
+                        break;
+                    }
 
-			if (seekTextRequested)
-			{
-				long currentLine = 0;
-				while (true)
-				{
-					++currentLine;
-					line = sr.ReadLine();
-					//Debug.LogFormat("seeking... line number {0}: {1}", currentLine, line);
+                    var atLeastOneSeekTextFound = false;
+                    for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
+                    {
+                        if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
+                        {
+                            atLeastOneSeekTextFound = true;
+                            break;
+                        }
+                    }
 
-					// reached end of file?
-					if (line == null)
-					{
-						break;
-					}
+                    // if seekText not found yet, continue search
+                    if (!atLeastOneSeekTextFound)
+                    {
+                        continue;
+                    }
 
-					var atLeastOneSeekTextFound = false;
-					for (var seekTextIdx = 0; seekTextIdx < seekText.Length; ++seekTextIdx)
-					{
-						if (line.IndexOf(seekText[seekTextIdx], StringComparison.Ordinal) >= 0)
-						{
-							atLeastOneSeekTextFound = true;
-							break;
-						}
-					}
+                    seekTextFoundAtLine = currentLine;
 
-					// if seekText not found yet, continue search
-					if (!atLeastOneSeekTextFound)
-					{
-						continue;
-					}
+                    //Debug.Log("seeking: " + line);
+                    //Debug.LogFormat("seekText found at line number {0}: {1}", currentLine, line);
+                }
+                //Debug.Log("done seeking");
 
-					seekTextFoundAtLine = currentLine;
+                if (seekTextFoundAtLine != -1)
+                {
+                    fs.Seek(0, SeekOrigin.Begin);
 
-					//Debug.Log("seeking: " + line);
-					//Debug.LogFormat("seekText found at line number {0}: {1}", currentLine, line);
-				}
-				//Debug.Log("done seeking");
+                    currentLine = 0;
+                    while (true)
+                    {
+                        ++currentLine;
+                        line = sr.ReadLine();
 
-				if (seekTextFoundAtLine != -1)
-				{
-					fs.Seek(0, SeekOrigin.Begin);
+                        if (line == null)
+                        {
+                            break;
+                        }
 
-					currentLine = 0;
-					while (true)
-					{
-						++currentLine;
-						line = sr.ReadLine();
+                        if (startAfterSeekedText && currentLine <= seekTextFoundAtLine)
+                        {
+                            continue;
+                        }
 
-						if (line == null)
-						{
-							break;
-						}
+                        if (!startAfterSeekedText && currentLine < seekTextFoundAtLine)
+                        {
+                            continue;
+                        }
 
-						if (startAfterSeekedText && currentLine <= seekTextFoundAtLine)
-						{
-							continue;
-						}
+                        //Debug.Log("seeked: " + line);
 
-						if (!startAfterSeekedText && currentLine < seekTextFoundAtLine)
-						{
-							continue;
-						}
+                        yield return line;
+                    }
+                }
+            }
+            else
+            {
+                while (true)
+                {
+                    line = sr.ReadLine();
 
-						//Debug.Log("seeked: " + line);
+                    if (line == null)
+                    {
+                        break;
+                    }
 
-						yield return line;
-					}
-				}
-			}
-			else
-			{
-				while (true)
-				{
-					line = sr.ReadLine();
+                    yield return line;
+                }
+            }
 
-					if (line == null)
-					{
-						break;
-					}
+            sr.Close();
+            bs.Close();
+            fs.Close();
+        }
 
-					yield return line;
-				}
-			}
+        public static IEnumerable<string> ReadFile(string path)
+        {
+            var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var bs = new BufferedStream(fs);
+            var sr = new StreamReader(bs);
 
-			sr.Close();
-			bs.Close();
-			fs.Close();
-		}
+            while (true)
+            {
+                var line = sr.ReadLine();
 
+                if (line == null)
+                {
+                    break;
+                }
 
-		public static IEnumerable<string> ReadFile(string path)
-		{
-			var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-			var bs = new BufferedStream(fs);
-			var sr = new StreamReader(bs);
+                yield return line;
+            }
 
-			while (true)
-			{
-				var line = sr.ReadLine();
+            sr.Close();
+            bs.Close();
+            fs.Close();
+        }
 
-				if (line == null)
-				{
-					break;
-				}
+        public static IEnumerable<FoundText> ReadFileWithLine(string path)
+        {
+            var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            var bs = new BufferedStream(fs);
+            var sr = new StreamReader(bs);
 
-				yield return line;
-			}
+            long currentLineNumber = 0;
+            while (true)
+            {
+                ++currentLineNumber;
+                var line = sr.ReadLine();
 
-			sr.Close();
-			bs.Close();
-			fs.Close();
-		}
+                if (line == null)
+                {
+                    break;
+                }
 
-		public static IEnumerable<FoundText> ReadFileWithLine(string path)
-		{
-			var fs = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-			var bs = new BufferedStream(fs);
-			var sr = new StreamReader(bs);
+                FoundText text;
+                text.Text = line;
+                text.LineNumber = currentLineNumber;
+                yield return text;
+            }
 
-			long currentLineNumber = 0;
-			while (true)
-			{
-				++currentLineNumber;
-				var line = sr.ReadLine();
-
-				if (line == null)
-				{
-					break;
-				}
-
-				FoundText text;
-				text.Text = line;
-				text.LineNumber = currentLineNumber;
-				yield return text;
-			}
-
-			sr.Close();
-			bs.Close();
-			fs.Close();
-		}
-	}
+            sr.Close();
+            bs.Close();
+            fs.Close();
+        }
+    }
 }

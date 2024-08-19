@@ -1,6 +1,6 @@
 ﻿using System;
-using LuaInterface;
 using System.Collections.Generic;
+using LuaInterface;
 
 public class System_Collections_Generic_KeyValuePairWrap
 {
@@ -49,4 +49,3 @@ public class System_Collections_Generic_KeyValuePairWrap
         }
     }
 }
-

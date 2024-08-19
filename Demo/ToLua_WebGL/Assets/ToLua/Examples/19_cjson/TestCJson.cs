@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using LuaInterface;
+using UnityEngine;
 
 public class TestCJson : LuaClient
 {
-    string script = @"
+    string script =
+        @"
     local json = require 'cjson'
 
     function Test(str)
@@ -14,15 +15,16 @@ public class TestCJson : LuaClient
 	    print(s)
     end
 ";
+
     protected override LuaFileUtils InitLoader()
     {
         return new LuaResLoader();
     }
-    
+
     protected override void OpenLibs()
     {
         base.OpenLibs();
-        OpenCJson();                   
+        OpenCJson();
     }
 
     protected override void OnLoadFinished()
@@ -31,7 +33,7 @@ public class TestCJson : LuaClient
         Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
-#endif  
+#endif
         base.OnLoadFinished();
 
         TextAsset text = (TextAsset)Resources.Load("jsonexample", typeof(TextAsset));
@@ -42,7 +44,7 @@ public class TestCJson : LuaClient
         func.Push(str);
         func.PCall();
         func.EndPCall();
-        func.Dispose();                        
+        func.Dispose();
     }
 
     //屏蔽，例子不需要运行
@@ -60,7 +62,7 @@ public class TestCJson : LuaClient
     {
         base.OnApplicationQuit();
 
-#if UNITY_5 || UNITY_2017 || UNITY_2018	
+#if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived -= ShowTips;
 #else
         Application.RegisterLogCallback(null);

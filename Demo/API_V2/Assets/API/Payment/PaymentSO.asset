@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: PaymentSO
   m_EditorClassIdentifier: 
-  categoryName: Payment
+  categoryName: "\u865A\u62DF\u652F\u4ED8"
   categorySprite: {fileID: 0}
   entryList:
   - {fileID: 11400000, guid: dd332abe9d9fb41af85b675e4c8ea9f5, type: 2}

@@ -38,17 +38,14 @@ namespace LuaInterface
 
         public override string StackTrace
         {
-            get
-            {
-                return _stack;
-            }
+            get { return _stack; }
         }
 
-        protected string _stack = string.Empty;        
+        protected string _stack = string.Empty;
 
         public LuaException(string msg, Exception e = null, int skip = 1)
             : base(msg)
-        {                                  
+        {
             if (e != null)
             {
                 if (e is LuaException)
@@ -56,13 +53,13 @@ namespace LuaInterface
                     _stack = e.StackTrace;
                 }
                 else
-                {                                        
+                {
                     StackTrace trace = new StackTrace(e, true);
                     StringBuilder sb = new StringBuilder();
-                    ExtractFormattedStackTrace(trace, sb);                    
+                    ExtractFormattedStackTrace(trace, sb);
                     StackTrace self = new StackTrace(skip, true);
                     ExtractFormattedStackTrace(self, sb, trace);
-                    _stack = sb.ToString();                    
+                    _stack = sb.ToString();
                 }
             }
             else
@@ -71,7 +68,7 @@ namespace LuaInterface
                 StringBuilder sb = new StringBuilder();
                 ExtractFormattedStackTrace(self, sb);
                 _stack = sb.ToString();
-            }                        
+            }
         }
 
         public static Exception GetLastError()
@@ -81,7 +78,11 @@ namespace LuaInterface
             return last;
         }
 
-        public static void ExtractFormattedStackTrace(StackTrace trace, StringBuilder sb, StackTrace skip = null)
+        public static void ExtractFormattedStackTrace(
+            StackTrace trace,
+            StringBuilder sb,
+            StackTrace skip = null
+        )
         {
             int begin = 0;
 
@@ -98,7 +99,7 @@ namespace LuaInterface
                     {
                         begin = i + 1;
                         break;
-                    }                    
+                    }
                 }
 
                 sb.AppendLineEx();
@@ -112,13 +113,23 @@ namespace LuaInterface
                 if (method == null || method.DeclaringType == null)
                 {
                     continue;
-                }                               
+                }
 
                 Type declaringType = method.DeclaringType;
                 string str = declaringType.Namespace;
 
-                if ( (InstantiateCount == 0 && declaringType == typeof(UnityEngine.Object) &&  method.Name == "Instantiate") //(method.Name == "Internal_CloneSingle"
-                    || (SendMsgCount == 0 && declaringType == typeof(GameObject) && method.Name == "SendMessage"))
+                if (
+                    (
+                        InstantiateCount == 0
+                        && declaringType == typeof(UnityEngine.Object)
+                        && method.Name == "Instantiate"
+                    ) //(method.Name == "Internal_CloneSingle"
+                    || (
+                        SendMsgCount == 0
+                        && declaringType == typeof(GameObject)
+                        && method.Name == "SendMessage"
+                    )
+                )
                 {
                     break;
                 }
@@ -153,7 +164,7 @@ namespace LuaInterface
                 }
 
                 sb.Append(")");
-                string fileName = frame.GetFileName();                
+                string fileName = frame.GetFileName();
 
                 if (fileName != null)
                 {
@@ -162,7 +173,10 @@ namespace LuaInterface
 
                     if (fileName.StartsWith(projectFolder))
                     {
-                        fileName = fileName.Substring(projectFolder.Length, fileName.Length - projectFolder.Length);
+                        fileName = fileName.Substring(
+                            projectFolder.Length,
+                            fileName.Length - projectFolder.Length
+                        );
                     }
 
                     sb.Append(fileName);
@@ -182,7 +196,10 @@ namespace LuaInterface
         {
             L = L0;
             Type type = typeof(StackTraceUtility);
-            FieldInfo field = type.GetField("projectFolder", BindingFlags.Static | BindingFlags.GetField | BindingFlags.NonPublic);
+            FieldInfo field = type.GetField(
+                "projectFolder",
+                BindingFlags.Static | BindingFlags.GetField | BindingFlags.NonPublic
+            );
             LuaException.projectFolder = (string)field.GetValue(null);
             projectFolder = projectFolder.Replace('\\', '/');
 #if DEVELOPER

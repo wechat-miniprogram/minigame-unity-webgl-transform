@@ -30,7 +30,7 @@
 
 ## Unity InstantGame版本获取
 
-中国特供版[下载地址](https://unity.cn/instantgame/docs/WechatMinigame/InstallUnity)
+中国特供版[下载地址](https://unity.cn/instantgame/docs/WechatMinigame/InstallUnityWithTuanjieBackport/)
 
 
 ## QA

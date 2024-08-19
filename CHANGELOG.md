@@ -7,8 +7,28 @@ Fixed - 修复问题
 Others - 其他 
 -->
 SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/SDKInstaller.md)
+## 稳定版本
 1. UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
-2. PackageManager: [git地址](https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git)
+2. PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
+
+## 2024-8-13 【重要更新】
+### Feature
+* 普通: 横竖屏切换，PC窗口大小自动适配
+* 普通: PC分辨率模糊，自动调节dpr属性
+### Fixed
+* 严重：修复多点触控产生的异常
+* 普通：适配2021，去_JS_Focus_Window
+* 普通：修复多线程压缩的扩展名判定
+
+## 2024-7-09 【普通更新】
+### Feature
+* 普通：兼容2022新增的音频API
+* 普通：更快的转换打包速度
+* 普通：Unity侧添加设置分辨率接口
+### Fixed
+* 普通：临时兼容wk 17.5暂停音频无法恢复的bug
+* 普通：Touch id在特定情况丢失
+* 普通：使用微信压缩纹理工具sprite atlas版本被修改
 
 ## 2024-5-17 【普通更新】
 ### Fixed

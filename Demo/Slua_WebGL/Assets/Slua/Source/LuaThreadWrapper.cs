@@ -1,17 +1,17 @@
 // The MIT License (MIT)
 
 // Copyright 2015 Siney/Pangweiwei siney@yeah.net
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,9 +30,9 @@ namespace SLua
     public class LuaThreadWrapper : LuaVar
     {
         private IntPtr _thread;
-        
+
         public LuaThreadWrapper(LuaFunction func)
-         : base()
+            : base()
         {
             // Logger.Log(string.Format("LuaThreadWrapper.ctor/1: {0}", LuaDLL.lua_gettop(func.L)));
             state = LuaState.get(func.L);
@@ -40,7 +40,7 @@ namespace SLua
             valueref = LuaDLL.luaL_ref(func.L, LuaIndexes.LUA_REGISTRYINDEX);
             func.push(func.L);
             LuaDLL.lua_xmove(func.L, _thread, 1);
-			// Logger.Log(string.Format("LuaThreadWrapper.ctor/2: {0}", LuaDLL.lua_gettop(func.L)));
+            // Logger.Log(string.Format("LuaThreadWrapper.ctor/2: {0}", LuaDLL.lua_gettop(func.L)));
         }
 
         ~LuaThreadWrapper()
@@ -49,7 +49,7 @@ namespace SLua
             Dispose(false);
         }
 
-		public override void Dispose(bool disposeManagedResources)
+        public override void Dispose(bool disposeManagedResources)
         {
             base.Dispose(disposeManagedResources);
             _thread = IntPtr.Zero;
@@ -96,7 +96,7 @@ namespace SLua
                 return false;
             }
             var size = args != null ? args.Length : 0;
-            for (var i = 0; i < size; ++i) 
+            for (var i = 0; i < size; ++i)
             {
                 LuaObject.pushVar(_thread, args[i]);
             }

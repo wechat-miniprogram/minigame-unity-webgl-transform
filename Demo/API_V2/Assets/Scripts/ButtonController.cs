@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -14,7 +14,7 @@ public class ButtonController : MonoBehaviour
         // 获取子对象的 Text 组件
         _text = transform.Find("Button/Text").GetComponent<Text>();
     }
-    
+
     // 添加按钮监听事件
     public void AddButtonListener(UnityAction action)
     {

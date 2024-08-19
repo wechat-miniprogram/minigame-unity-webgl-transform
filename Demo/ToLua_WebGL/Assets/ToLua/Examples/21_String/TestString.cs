@@ -1,14 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using LuaInterface;
-using System;
 using System.Reflection;
 using System.Text;
+using LuaInterface;
+using UnityEngine;
 
 public class TestString : LuaClient
 {
     string script =
-@"           
+        @"           
     function Test()
         local str = System.String.New('男儿当自强')
         local index = str:IndexOfAny('儿自')
@@ -36,7 +36,7 @@ public class TestString : LuaClient
         Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
-#endif  
+#endif
         base.OnLoadFinished();
         luaState.DoString(script);
         LuaFunction func = luaState.GetFunction("Test");
@@ -57,7 +57,7 @@ public class TestString : LuaClient
     {
         base.OnApplicationQuit();
 
-#if UNITY_5 || UNITY_2017 || UNITY_2018	
+#if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived -= ShowTips;
 #else
         Application.RegisterLogCallback(null);

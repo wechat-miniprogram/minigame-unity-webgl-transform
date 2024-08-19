@@ -6,8 +6,7 @@ using WeChatWASM;
 
 public class Render : Details
 {
-
-     private void Start()
+    private void Start()
     {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, loadFont);
     }

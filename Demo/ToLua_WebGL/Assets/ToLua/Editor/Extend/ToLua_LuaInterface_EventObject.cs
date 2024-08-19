@@ -5,7 +5,7 @@ public class ToLua_LuaInterface_EventObject
 {
     [NoToLuaAttribute]
     public static string op_AdditionDefined =
-@"        try
+        @"        try
         {
             EventObject arg0 = (EventObject)ToLua.CheckObject(L, 1, typeof(EventObject));
             arg0.func = ToLua.CheckDelegate(arg0.type, L, 2);
@@ -20,7 +20,7 @@ public class ToLua_LuaInterface_EventObject
 
     [NoToLuaAttribute]
     public static string op_SubtractionDefined =
-@"        try
+        @"        try
         {
             EventObject arg0 = (EventObject)ToLua.CheckObject(L, 1, typeof(EventObject));
             arg0.func = ToLua.CheckDelegate(arg0.type, L, 2);
@@ -34,13 +34,19 @@ public class ToLua_LuaInterface_EventObject
         }";
 
     [UseDefinedAttribute]
-    public static ToLua_LuaInterface_EventObject operator +(ToLua_LuaInterface_EventObject a, ToLua_LuaInterface_EventObject b)
+    public static ToLua_LuaInterface_EventObject operator +(
+        ToLua_LuaInterface_EventObject a,
+        ToLua_LuaInterface_EventObject b
+    )
     {
         return null;
     }
 
     [UseDefinedAttribute]
-    public static ToLua_LuaInterface_EventObject operator -(ToLua_LuaInterface_EventObject a, ToLua_LuaInterface_EventObject b)
+    public static ToLua_LuaInterface_EventObject operator -(
+        ToLua_LuaInterface_EventObject a,
+        ToLua_LuaInterface_EventObject b
+    )
     {
         return null;
     }

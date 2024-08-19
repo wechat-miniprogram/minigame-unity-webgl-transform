@@ -6,6 +6,7 @@ namespace XLuaTest
     public class CoroutineTest : MonoBehaviour
     {
         LuaEnv luaenv = null;
+
         // Use this for initialization
         void Start()
         {

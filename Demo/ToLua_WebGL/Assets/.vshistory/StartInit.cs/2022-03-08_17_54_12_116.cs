@@ -5,10 +5,7 @@ using UnityEngine;
 public class StartInit : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    void Start() { }
 
     IEnumerator StartInit()
     {
@@ -26,6 +23,6 @@ public class StartInit : MonoBehaviour
 
 #if UNITY_5_4_OR_NEWER
         SceneManager.sceneLoaded += OnSceneLoaded;
-#endif        
+#endif
     }
 }

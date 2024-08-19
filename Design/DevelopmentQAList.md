@@ -146,11 +146,12 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 - 不行，不提供内嵌webview或跳转的能力
 #### 5.小游戏是否支持Unity VideoPlayer
 
-- 不行，小游戏支持视频播放能力，但暂无法直接使用VideoPlayer。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
-#### 6.为什么使用Application.targetFrameRate无法限帧率？安卓左上角帧率不对
+- 支持，但是IOS有限制只能同时播放一个，并且需要注意基础库版本限制，低版本无法播放。如果只是单纯使用全屏的视频播放，更推荐使用小游戏API视频播放能力。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
+#### 6.小游戏应该使用哪个接口进行限制帧率？
 
-- Application.targetFrameRate默认使用timer控制帧率，会导致不平滑，定时不精确
-- 请更换接口WX.SetPreferredFramesPerSecond限制小游戏
+- Application.targetFrameRate
+- 使用导出插件的“性能面板”(ProfileStats)可以看到帧耗时、限帧与当前FPS
+- 使用Perfdog查看帧率并不总是准确，因为30/15等帧率是微信使用raf分帧处理，Perfdog统计的是raf触发帧率而不是分帧后的帧率。
 #### 7.Unity Audio音频是否需要使用小游戏音频适配
 
 - 转换方案已通过WebAudio支持Unity音频，通常无需替换
@@ -164,5 +165,12 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 #### 9.微信接口提示“fail require user interaction (only in touchend event)”
  - 个别微信接口（比如订阅消息WX.RequestSubscribeMessage）需要在Touch回调才能被使用，而Unity大部分的UI解决方案都是延迟到下一帧才执行UI事件回调。因此需要开发者手动调用OnTouch监听，在回调内使用这类API。
 
+#### 10. 团结引擎导出的小游戏卡在Loading界面并提示“MONO_WASM: Failed to load config file ./blazor.boot.json”
 
+- 查看`Player Setting`中的`Scripting Backend`选项，将其设置为`IL2CPP`后重试。
 
+#### 11. 使用 WebGL2 URP管线导出小游戏时提示 shader 编译报错 “Hidden/Universal/CoreBlit: invalid pass index 1 in DrawProcedural”
+- 有部分官方 URP 自带的 shader 存在这个问题，在微信开发者工具上可能渲染会异常，一般真机上渲染是正常的
+- 解决这个报错，可以尝试这两种方法：
+  - 第一种方法：升级 URP 版本（有些 URP 版本和 Unity 版本是绑定的，此时可能需要升级 Unity 版本）
+  - 第二种方法：可以把工程 Library/PackageCache 目录下的 unity.rendercom.-pipelines.universal@xxx 包拷贝到本地路径，通过 file 的方式引入 unity.rendercom.-pipelines.universal@xxx 包，然后找到 Shaders/Utils/CoreBlit.shader 并修改它，只保留第一个 Pass （注意：此方法需要确保项目中只使用第一个 Pass）

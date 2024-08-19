@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: API-Demo
-    Appid: wx7a727ff7d940bb3f
-    CDN: 
-    assetLoadType: 1
+    projectName: NetworkDemo
+    Appid: wxb7d4485dbc1233ca
+    CDN: http://127.0.0.1:8080
+    assetLoadType: 0
     compressDataPackage: 0
     VideoUrl: 
-    DST: /Users/lujinhao/Desktop/unitygame
+    DST: C:/Users/xiaoyuejin/Desktop/Network
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -43,7 +43,7 @@ MonoBehaviour:
   SDKOptions:
     UseFriendRelation: 0
     UseCompressedTexture: 0
-    UseMiniGameChat: 1
+    UseMiniGameChat: 0
     PreloadWXFont: 0
   CompileOptions:
     DevelopBuild: 0
@@ -51,17 +51,18 @@ MonoBehaviour:
     ScriptOnly: 0
     Il2CppOptimizeSize: 1
     profilingFuncs: 1
-    Webgl2: 1
+    Webgl2: 0
     fbslim: 0
     DeleteStreamingAssets: 1
     ProfilingMemory: 0
     CleanBuild: 0
     CustomNodePath: 
-    showMonitorSuggestModal: 0
+    showMonitorSuggestModal: 1
     enableProfileStats: 0
     enableRenderAnalysis: 0
     iOSAutoGCInterval: 10000
     enableIOSPerformancePlus: 0
+    brotliMT: 1
   CompressTexture:
     halfSize: 0
     useDXT5: 0
@@ -72,3 +73,23 @@ MonoBehaviour:
     debugMode: 0
     force: 0
   PlayerPrefsKeys: []
+  FontOptions:
+    CJK_Unified_Ideographs: 1
+    C0_Controls_and_Basic_Latin: 1
+    CJK_Symbols_and_Punctuation: 1
+    General_Punctuation: 1
+    Enclosed_CJK_Letters_and_Months: 1
+    Vertical_Forms: 1
+    CJK_Compatibility_Forms: 1
+    Miscellaneous_Symbols: 1
+    CJK_Compatibility: 1
+    Halfwidth_and_Fullwidth_Forms: 1
+    Dingbats: 1
+    Letterlike_Symbols: 1
+    Enclosed_Alphanumerics: 1
+    Number_Forms: 1
+    Currency_Symbols: 1
+    Arrows: 1
+    Geometric_Shapes: 1
+    Mathematical_Operators: 1
+    CustomUnicode: 

@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: "团结/Unity快适配方案"
+  name: "Unity/团结快适配方案"
   text: "基于WebGL + WebAssembly"
-  tagline: 无需使用JavaScript重构，快速移植团结/Unity游戏至微信小游戏平台解决方案。
+  tagline: 无需使用JavaScript重构，快速移植Unity/团结引擎游戏至微信小游戏平台解决方案。
   image:
     src: /image/vitepress/home.png
     alt: WeChatGame & Unity
@@ -18,6 +18,9 @@ hero:
     - theme: alt
       text: 在 GitHub 上查看
       link: https://github.com/wechat-miniprogram/minigame-unity-webgl-transform
+    - theme: alt
+      text: 安装与更新日志
+      link: /CHANGELOG
 
 features:
   - title: 快速移植

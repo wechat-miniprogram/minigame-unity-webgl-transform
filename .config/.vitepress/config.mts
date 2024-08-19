@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "微信小游戏团结/Unity快适配",
+  title: "微信小游戏Unity/团结快适配",
   description: "Wechat Mini Game Unity engine adapter documents.",
   themeConfig: {
     logo: '/image/vitepress/icon.png',
@@ -45,6 +45,7 @@ export default defineConfig({
           { text: "技术原理", link: "/Design/Summary" },
           { text: "兼容性评估", link: "/Design/Evaluation" },
           { text: "推荐引擎版本", link: "/Design/UnityVersion" },
+          { text: "技术常见问题QA", link: "/Design/DevelopmentQAList" },
         ],
       },
       {
@@ -146,6 +147,7 @@ export default defineConfig({
         items: [
           { text: "开发错误调试与排查", link: "/Design/DebugAndException" },
           { text: "现网错误日志上报与排查", link: "/Design/IssueForProduction" },
+          { text: "MiniGameConfig.asset 说明", link: "/Design/AssetDescription" },
         ],
       },
       {

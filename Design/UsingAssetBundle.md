@@ -97,7 +97,7 @@ public static void Build()
 
 - 使用说明
 
-  Addressable也可使用，可参考[使用WXAssetBundleProvider节省内存](UsingAddressable.md#24-使用wxassetbundleprovider节省内存) 修改Provider。
+  Addressable也可使用，可参考[使用WXAssetBundleProvider节省内存](UsingAddressable.md#_2-4-使用wxassetbundleprovider节省内存) 修改Provider。
 
   AssetBundle目前只支持异步加载。参考示例如下：
 

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LuaInterface;
+using UnityEngine;
 
-public class AccessingLuaVariables : MonoBehaviour 
+public class AccessingLuaVariables : MonoBehaviour
 {
     private string script =
         @"
@@ -21,7 +21,7 @@ public class AccessingLuaVariables : MonoBehaviour
             end
         ";
 
-	void Start () 
+    void Start()
     {
 #if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived += ShowTips;
@@ -36,7 +36,7 @@ public class AccessingLuaVariables : MonoBehaviour
 
         //通过LuaState访问
         Debugger.Log("Read var from lua: {0}", lua["var2read"]);
-        Debugger.Log("Read table var from lua: {0}", lua["varTable.default"]);  //LuaState 拆串式table
+        Debugger.Log("Read table var from lua: {0}", lua["varTable.default"]); //LuaState 拆串式table
 
         LuaFunction func = lua["TestFunc"] as LuaFunction;
         func.Call();
@@ -44,8 +44,12 @@ public class AccessingLuaVariables : MonoBehaviour
 
         //cache成LuaTable进行访问
         LuaTable table = lua.GetTable("varTable");
-        Debugger.Log("Read varTable from lua, default: {0} name: {1}", table["default"], table["map.name"]);
-        table["map.name"] = "new";  //table 字符串只能是key
+        Debugger.Log(
+            "Read varTable from lua, default: {0} name: {1}",
+            table["default"],
+            table["map.name"]
+        );
+        table["map.name"] = "new"; //table 字符串只能是key
         Debugger.Log("Modify varTable name: {0}", table["map.name"]);
 
         table.AddTable("newmap");
@@ -68,10 +72,10 @@ public class AccessingLuaVariables : MonoBehaviour
             Debugger.Log("varTable[{0}], is {1}", i, list[i]);
         }
 
-        table.Dispose();                        
+        table.Dispose();
         lua.CheckTop();
         lua.Dispose();
-	}
+    }
 
     private void OnApplicationQuit()
     {

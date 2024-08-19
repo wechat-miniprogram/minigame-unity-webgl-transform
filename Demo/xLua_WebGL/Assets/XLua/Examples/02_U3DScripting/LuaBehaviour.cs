@@ -6,11 +6,11 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
-using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using XLua;
-using System;
 
 namespace XLuaTest
 {
@@ -29,7 +29,7 @@ namespace XLuaTest
 
         internal static LuaEnv luaEnv = new LuaEnv(); //all lua behaviour shared one luaenv only!
         internal static float lastGCTime = 0;
-        internal const float GCInterval = 1;//1 second 
+        internal const float GCInterval = 1; //1 second
 
         private Action luaStart;
         private Action luaUpdate;

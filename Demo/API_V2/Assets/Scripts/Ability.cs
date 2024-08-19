@@ -1,18 +1,23 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Ability : MonoBehaviour
 {
     [Header("Ability Data")]
-    [SerializeField] private AbilitySO abilitySO;
-    
+    [SerializeField]
+    private AbilitySO abilitySO;
+
     [Header("References")]
-    [SerializeField] private Text abilityText;
-    [SerializeField] private Image abilityImage;
-    
+    [SerializeField]
+    private Text abilityText;
+
+    [SerializeField]
+    private Image abilityImage;
+
     [Header("Button")]
-    [SerializeField] private Button button;
+    [SerializeField]
+    private Button button;
 
     private void Start()
     {
@@ -23,7 +28,7 @@ public class Ability : MonoBehaviour
     public void Init(AbilitySO so)
     {
         abilitySO = so;
-        
+
         gameObject.name = abilitySO.abilityName;
         abilityText.text = abilitySO.abilityName;
         abilityImage.sprite = abilitySO.abilitySprite;

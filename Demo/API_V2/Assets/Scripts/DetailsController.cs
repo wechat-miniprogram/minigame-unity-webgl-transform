@@ -7,32 +7,58 @@ using WeChatWASM;
 public class DetailsController : MonoBehaviour
 {
     [Header("Entry Data")]
-    [SerializeField] private EntrySO entrySO;
+    [SerializeField]
+    private EntrySO entrySO;
 
     [Header("Elements")]
-    [SerializeField] private GameObject optionPrefab;
-    [SerializeField] private Transform optionsTransform;
+    [SerializeField]
+    private GameObject optionPrefab;
+
+    [SerializeField]
+    private Transform optionsTransform;
 
     [Header("Text")]
-    [SerializeField] private Text titleText;
-    [SerializeField] private Text APIText;
-    [SerializeField] private Text descriptionText;
-    [SerializeField] private Text startButtonText;
+    [SerializeField]
+    private Text titleText;
+
+    [SerializeField]
+    private Text APIText;
+
+    [SerializeField]
+    private Text descriptionText;
+
+    [SerializeField]
+    private Text startButtonText;
 
     [Header("Button")]
-    [SerializeField] private Button initialButton;
-    [SerializeField] private GameObject buttonBlockPrefab;
-    [SerializeField] private Transform buttonsTransform;
-    [HideInInspector] public List<GameObject> extraButtonBlockObjects;
+    [SerializeField]
+    private Button initialButton;
+
+    [SerializeField]
+    private GameObject buttonBlockPrefab;
+
+    [SerializeField]
+    private Transform buttonsTransform;
+
+    [HideInInspector]
+    public List<GameObject> extraButtonBlockObjects;
 
     [Header("Result")]
-    [SerializeField] private GameObject resultPrefab;
-    [SerializeField] private Transform resultsTransform;
-    [HideInInspector] public List<GameObject> resultObjects;
+    [SerializeField]
+    private GameObject resultPrefab;
+
+    [SerializeField]
+    private Transform resultsTransform;
+
+    [HideInInspector]
+    public List<GameObject> resultObjects;
 
     [Header("Title Transform")]
-    [SerializeField] private RectTransform titleTransform;
-    [SerializeField] private RectTransform backButtonTransform;
+    [SerializeField]
+    private RectTransform titleTransform;
+
+    [SerializeField]
+    private RectTransform backButtonTransform;
 
     private Details _details;
 
@@ -43,8 +69,14 @@ public class DetailsController : MonoBehaviour
         float height = (float)res.height;
         float safeArea = (float)GameManager.Instance.systemInfo.safeArea.top;
         // 根据系统安全区域调整标题和返回按钮的位置
-        titleTransform.anchoredPosition = new Vector2(titleTransform.anchoredPosition.x, -(float)((res.top + res.height / 4) * info.pixelRatio));
-        backButtonTransform.anchoredPosition = new Vector2(backButtonTransform.anchoredPosition.x, -(float)((res.top + res.height / 4) * info.pixelRatio));
+        titleTransform.anchoredPosition = new Vector2(
+            titleTransform.anchoredPosition.x,
+            -(float)((res.top + res.height / 4) * info.pixelRatio)
+        );
+        backButtonTransform.anchoredPosition = new Vector2(
+            backButtonTransform.anchoredPosition.x,
+            -(float)((res.top + res.height / 4) * info.pixelRatio)
+        );
     }
 
     // 清除详情信息
@@ -97,7 +129,8 @@ public class DetailsController : MonoBehaviour
                             if (gapBlockTransform != null)
                             {
                                 GameObject gapBlockObject = gapBlockTransform.gameObject;
-                                LayoutElement layoutElement = gapBlockObject.GetComponent<LayoutElement>();
+                                LayoutElement layoutElement =
+                                    gapBlockObject.GetComponent<LayoutElement>();
                                 layoutElement.minHeight = 150;
                             }
                         }
@@ -185,14 +218,16 @@ public class DetailsController : MonoBehaviour
     // 绑定额外按钮的操作
     public void BindExtraButtonAction(int index, UnityAction action)
     {
-        extraButtonBlockObjects[index].GetComponent<ButtonController>()
-            .AddButtonListener(action);
+        extraButtonBlockObjects[index].GetComponent<ButtonController>().AddButtonListener(action);
     }
 
     // 获取按钮左上角距离画布左上角的相对距离
     public Vector2 GetButtonPosition(int index)
     {
-        var button = (index == -1) ? initialButton : extraButtonBlockObjects[index].GetComponentInChildren<Button>();
+        var button =
+            (index == -1)
+                ? initialButton
+                : extraButtonBlockObjects[index].GetComponentInChildren<Button>();
         var canvas = button.GetComponentInParent<Canvas>();
 
         // 获取 Canvas 和按钮的 RectTransform 组件
@@ -200,14 +235,26 @@ public class DetailsController : MonoBehaviour
         RectTransform buttonRectTransform = button.GetComponent<RectTransform>();
 
         // 计算 Canvas 左上角的局部位置
-        Vector2 canvasTopLeftLocalPosition = new Vector2(-canvasRectTransform.rect.width * canvasRectTransform.pivot.x, canvasRectTransform.rect.height * (1 - canvasRectTransform.pivot.y));
+        Vector2 canvasTopLeftLocalPosition = new Vector2(
+            -canvasRectTransform.rect.width * canvasRectTransform.pivot.x,
+            canvasRectTransform.rect.height * (1 - canvasRectTransform.pivot.y)
+        );
 
         // 计算按钮左上角的局部位置
-        Vector2 buttonTopLeftLocalPosition = new Vector2(buttonRectTransform.anchoredPosition.x - buttonRectTransform.rect.width * buttonRectTransform.pivot.x, buttonRectTransform.anchoredPosition.y + buttonRectTransform.rect.height * (1 - buttonRectTransform.pivot.y));
+        Vector2 buttonTopLeftLocalPosition = new Vector2(
+            buttonRectTransform.anchoredPosition.x
+                - buttonRectTransform.rect.width * buttonRectTransform.pivot.x,
+            buttonRectTransform.anchoredPosition.y
+                + buttonRectTransform.rect.height * (1 - buttonRectTransform.pivot.y)
+        );
 
         // 将 Canvas 和按钮左上角的局部位置转换为世界坐标系中的位置
-        Vector3 canvasTopLeftWorldPosition = canvasRectTransform.TransformPoint(canvasTopLeftLocalPosition);
-        Vector3 buttonTopLeftWorldPosition = buttonRectTransform.TransformPoint(buttonTopLeftLocalPosition);
+        Vector3 canvasTopLeftWorldPosition = canvasRectTransform.TransformPoint(
+            canvasTopLeftLocalPosition
+        );
+        Vector3 buttonTopLeftWorldPosition = buttonRectTransform.TransformPoint(
+            buttonTopLeftLocalPosition
+        );
 
         var x = canvasTopLeftWorldPosition.x - buttonTopLeftWorldPosition.x;
         var y = canvasTopLeftWorldPosition.y - buttonTopLeftWorldPosition.y;

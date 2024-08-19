@@ -1,19 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
 using LuaInterface;
-using System;
-using System.Collections;
+using UnityEngine;
 
 public class HelloWorld : MonoBehaviour
 {
-    IEnumerator Init2()
+    void Awake()
     {
-        yield return AssetBundleLoad.Init();
-        Init();
-    }
-
-    void Init()
-    {
-
         LuaState lua = new LuaState();
         lua.Start();
         string hello =
@@ -25,14 +17,5 @@ public class HelloWorld : MonoBehaviour
         lua.CheckTop();
         lua.Dispose();
         lua = null;
-    }
-
-    void Awake()
-    {
-        StartCoroutine(Init2());
-
-        WeChatWASM.WX.OpenProfileStats();
-       
-
     }
 }

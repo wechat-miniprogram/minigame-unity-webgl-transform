@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using LuaInterface;
-using System;
+using UnityEngine;
 
 public class ToLua_UnityEngine_GameObject
 {
     public static string SendMessageDefined =
-@"		IntPtr L0 = LuaException.L;
+        @"		IntPtr L0 = LuaException.L;
 
 		try
 		{
@@ -101,7 +101,7 @@ public class ToLua_UnityEngine_GameObject
 		}";
 
     public static string SendMessageUpwardsDefined =
-@"		IntPtr L0 = LuaException.L;
+        @"		IntPtr L0 = LuaException.L;
 
 		try
 		{
@@ -196,7 +196,7 @@ public class ToLua_UnityEngine_GameObject
 		}";
 
     public static string BroadcastMessageDefined =
-@"		IntPtr L0 = LuaException.L;
+        @"		IntPtr L0 = LuaException.L;
     
 		try
 		{
@@ -290,9 +290,8 @@ public class ToLua_UnityEngine_GameObject
 			return LuaDLL.toluaL_exception(L, e);
 		}";
 
-
-    public static string AddComponentDefined = 
-@"		IntPtr L0 = LuaException.L;
+    public static string AddComponentDefined =
+        @"		IntPtr L0 = LuaException.L;
 
         try
         {
@@ -321,25 +320,16 @@ public class ToLua_UnityEngine_GameObject
             --LuaException.InstantiateCount;
             return LuaDLL.toluaL_exception(L, e);
 		}";
-    [UseDefinedAttribute]
-    public void SendMessage(string methodName)
-    {
-    }
 
     [UseDefinedAttribute]
-    public void SendMessageUpwards(string methodName)
-    {
-    }
+    public void SendMessage(string methodName) { }
 
     [UseDefinedAttribute]
-    public void BroadcastMessage(string methodName)
-    {
-
-    }
+    public void SendMessageUpwards(string methodName) { }
 
     [UseDefinedAttribute]
-    public void AddComponent(Type t)
-    {
+    public void BroadcastMessage(string methodName) { }
 
-    }
+    [UseDefinedAttribute]
+    public void AddComponent(Type t) { }
 }
