@@ -29,7 +29,7 @@ loadingPageConfig: {
    */
   designWidth: 0, // 设计宽度，单位px
   designHeight: 0, // 设计高度，单位px
-  scaleMode: '', // 缩放模式, 取值和效果参考，https://docs.egret.com/engine/docs/screenAdaptation/zoomMode
+  scaleMode: '', // 缩放模式, 取值和效果参考，https://github.com/egret-labs/egret-docs/blob/master/Engine2D/screenAdaptation/zoomMode/README.md
   // 以下配置的样式，尺寸相对设计宽高
   textConfig: {
     firstStartText: '首次加载请耐心等待', // 首次启动时提示文案
@@ -147,7 +147,7 @@ loadingPageConfig: {
 
 - `scaleMode`取值
 ```js
-// https://docs.egret.com/engine/docs/screenAdaptation/zoomMode
+// https://github.com/egret-labs/egret-docs/blob/master/Engine2D/screenAdaptation/zoomMode/README.md
 export const scaleMode = {
   noBorder: 'NO_BORDER', // 常用之一，不留黑边
   exactFit: 'EXACT_FIT',
