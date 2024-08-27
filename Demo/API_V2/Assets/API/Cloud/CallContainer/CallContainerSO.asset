@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: CallContainerSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: CallContainer
+  entryName: "\u4E91\u6258\u7BA1"
+  entryAPI: WX.cloud.CallContainer
+  entryDescription: "<color=red>\u8BF7\u5C06\u53C2\u6570\u6309\u5B9E\u9645\u60C5\u51B5\u8FDB\u884C\u66FF\u6362</color>\n\u6709\u5173\u5FEB\u901F\u90E8\u7F72\u4E91\u6258\u7BA1\u8BE6\u89C1https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/quickstart/template/"
+  optionList: []
+  initialButtonText: "\u4F7F\u7528\u9ED8\u8BA4\u4E91\u5F00\u53D1\u64CD\u4F5C\u5B9E\u4F8B\u8C03\u7528\u4E91\u6258\u7BA1"
+  extraButtonList:
+  - buttonText: "\u65B0\u5EFA\u4E91\u5F00\u53D1\u64CD\u4F5C\u5B9E\u4F8B\u8C03\u7528\u4E91\u6258\u7BA1"
+  initialResultList: []

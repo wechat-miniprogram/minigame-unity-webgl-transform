@@ -1,7 +1,7 @@
 using UnityEngine;
 using WeChatWASM;
 
-public class Camera : Details
+public class CameraAPI : Details
 {
     private WXCamera _camera;
     private Texture2D _texture;
