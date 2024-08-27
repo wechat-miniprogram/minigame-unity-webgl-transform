@@ -74,16 +74,18 @@ crashlytics-build.properties
 # macOS
 .DS_Store
 
-# Dist
-/Dist/*
-/D:/*
-
 # WXAssetsTools
 /TextToolDatas/*
 
 # Idea
 .idea/
 
+# WX-WASM-SDK-V2
+# Assets/WX-WASM-SDK-V2/Editor/MiniGameConfig.asset
+
+# vscode
 .vscode/
+
+# WXBuild
 wxbuild/
 wxbuild2/

@@ -8,6 +8,7 @@
 **/Assets/AssetStoreTools*
 **/SerializedBuildInfo/
 **/WebGLTemplates/
+**/WebGLTemplates.meta
 **/UserSettings/
 **/.vs/
 **/TextToolDatas/
@@ -51,9 +52,9 @@ Plugins.meta
 !minigame.texturecompressed.backup.unitypackage
 !minigame.202305172131.unitypackage
 !Demo/LaunchOpera/Assets/WebGLTemplates
+!Demo/LaunchOpera/Assets/WebGLTemplates.meta
 
 docs
 node_modules
 .config/.vitepress/dist
 .config/.vitepress/cache
-Demo/API_V2/Assets/WX-WASM-SDK-V2/Editor/MiniGameConfig.asset
