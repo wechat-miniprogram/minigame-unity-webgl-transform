@@ -91,4 +91,4 @@ python3 -m pip install brotli
 字体必须打包到项目中，才能正常展示。
 
 5. 音频被切到后台会停止
-小游戏被切到后台会停止播放音频需代码中监听 [WX.OnShow](https://developers.weixin.qq.com/minigame/dev/api/base/app/life-cycle/wx.onShow.html)事件和 [WX.OnAudioInterruptionEnd](https://developers.weixin.qq.com/minigame/dev/api/base/app/app-event/wx.onAudioInterruptionEnd.html)事件，在该事件之后重新播放音频
+小游戏被切到后台会停止播放音频需代码中监听[WX.OnAudioInterruptionEnd](https://developers.weixin.qq.com/minigame/dev/api/base/app/app-event/wx.onAudioInterruptionEnd.html)事件，在该事件之后重新播放音频

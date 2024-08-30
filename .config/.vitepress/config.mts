@@ -133,6 +133,7 @@ export default defineConfig({
         text: "能力适配",
         items: [
           { text: "WX SDK 平台能力适配", link: "/Design/WX_SDK" },
+          { text: "音频视频适配", link: "/Design/AudioAndVideo" },
           { text: "屏幕适配", link: "/Design/fixScreen" },
           { text: "输入法适配", link: "/Design/InputAdaptation" },
           { text: "排行榜与微信关系数据", link: "/Design/OpenData" },

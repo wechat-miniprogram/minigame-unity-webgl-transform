@@ -146,7 +146,7 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 - 不行，不提供内嵌webview或跳转的能力
 #### 5.小游戏是否支持Unity VideoPlayer
 
-- 支持，但是IOS有限制只能同时播放一个，并且需要注意基础库版本限制，低版本无法播放。如果只是单纯使用全屏的视频播放，更推荐使用小游戏API视频播放能力。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
+- 支持，详情查看[音频视频适配](AudioAndVideo.md)
 #### 6.小游戏应该使用哪个接口进行限制帧率？
 
 - Application.targetFrameRate

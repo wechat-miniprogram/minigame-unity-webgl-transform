@@ -109,7 +109,6 @@ bundleHashLength -- bundle名中hash长度
 preloadFiles -- 预下载文件列表，用;分隔
 // SDK功能
 UseFriendRelation -- 使用好友关系链
-UseAudioApi -- 使用微信音频API
 // 调试编译选项
 DevelopBuild -- Development Build
 AutoProfile -- Autoconnect Profiler
