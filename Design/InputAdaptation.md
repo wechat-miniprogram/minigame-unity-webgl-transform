@@ -10,6 +10,8 @@
 
 以UGUI的Input组件为例，需要给Input 绑定以下脚本：
 ```
+#if UNITY_WEBGL || UNITY_EDITOR
+
 using UnityEngine;
 using System.Collections;
 using WeChatWASM;
@@ -93,4 +95,7 @@ public class Inputs : MonoBehaviour, IPointerClickHandler, IPointerExitHandler
         }
     }
 }
+
+#endif
+
 ```
