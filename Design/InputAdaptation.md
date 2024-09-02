@@ -9,7 +9,7 @@
 详细示例请参考[API Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/API)
 
 以UGUI的Input组件为例，需要给Input 绑定以下脚本：
-```
+```csharp
 using UnityEngine;
 using System.Collections;
 using WeChatWASM;

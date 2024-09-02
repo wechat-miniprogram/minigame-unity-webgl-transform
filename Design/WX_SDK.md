@@ -10,7 +10,7 @@ API可以直接看`WX.cs`这个文件，里面有`详细注释说明`。
 
 本Unity的SDK的API大体与[官网](https://developers.weixin.qq.com/minigame/dev/guide/)的JS版本API类似，使用时可以参考之。
 如JS版的banner广告的调用如下：
-```
+```js
     var bannerAd = wx.createBannerAd({
         adUnitId: "xxxx",
         adIntervals: 30,
@@ -29,7 +29,7 @@ API可以直接看`WX.cs`这个文件，里面有`详细注释说明`。
     });
 ```
 而对于Unity版的调用如下：
-```
+```csharp
 
     var bannerAd = WX.CreateBannerAd(new WXCreateBannerAdParam()
     {
@@ -64,7 +64,7 @@ API可以直接看`WX.cs`这个文件，里面有`详细注释说明`。
 1. 只保留game.js前面import部分，其余删除，即不运行游戏逻辑。
 2. 增加以下代码：
 
-``` 
+```js
     const gl = GameGlobal.canvas.getContext('webgl') 
     gl.clear(gl.COLOR_BUFFER_BIT);
 ```

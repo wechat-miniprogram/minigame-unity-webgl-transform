@@ -29,7 +29,7 @@
 1. 已验证Unity版本：2018.3/2018.4LTS、2019.2/2019.4LTS
 安装时选择WebGL组件
 2. 如果你用的是Big Sur版本的Mac系统，并且Unity 版本小于 2019.4.14, 则需另外安装 [python3](https://www.python.org/downloads/)，并安装brotli 命令如下
-```
+```sh
 python3 -m pip install brotli  
 ```
 

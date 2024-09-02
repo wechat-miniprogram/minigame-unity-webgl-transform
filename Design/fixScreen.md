@@ -11,7 +11,7 @@ var info = WX.GetWindowInfo();
 float py = (float)info.safeArea.top / (float)info.windowHeight;
 // Rootrect初始时设置其Anchor，使其与父节点一样大，也就是屏幕的大小
 // 调整屏幕移到刘海屏下面,
-Rootrect.anchorMin = new Vector2((float)info.safeArea.left / (float)info.windowWidth, -(float)info.safeArea.top / (float)info.windowHeight );
+Rootrect.anchorMin = new Vector2((float)info.safeArea.left / (float)info.windowWidth, -(float)info.safeArea.top / (float)info.windowHeight);
 // 重新计算缩放，让高度占满刘海屏以下的区域
 cs.referenceResolution = new Vector2(cs.referenceResolution.x, cs.referenceResolution.y * (1.0f+py));
 ```
