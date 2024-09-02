@@ -85,7 +85,7 @@ Unity WebGL环境的lua不支持JIT，因此需要避免用于重度逻辑。可
 
 <img src='../image/optimizationperformence2.png'  width="800"/>
 
-如需设置iOS的设备分辨率可以在【导出面板-更多配置项-Project Conf】中修改配置 IOS Device Pixel Ratio 为 2：
+如需设置iOS的设备分辨率可以在【导出面板-更多配置项-Project Conf】中修改配置 `IOS Device Pixel Ratio` 为 2：
 
 <img src='../image/IOSDevicePixelRatio.png'  width="200"/>
 
