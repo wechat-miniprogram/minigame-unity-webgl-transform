@@ -174,3 +174,7 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 - 解决这个报错，可以尝试这两种方法：
   - 第一种方法：升级 URP 版本（有些 URP 版本和 Unity 版本是绑定的，此时可能需要升级 Unity 版本）
   - 第二种方法：可以把工程 Library/PackageCache 目录下的 unity.rendercom.-pipelines.universal@xxx 包拷贝到本地路径，通过 file 的方式引入 unity.rendercom.-pipelines.universal@xxx 包，然后找到 Shaders/Utils/CoreBlit.shader 并修改它，只保留第一个 Pass （注意：此方法需要确保项目中只使用第一个 Pass）
+
+#### 12. PC端输入框无法输入，移动端正常
+- https://developers.weixin.qq.com/minigame/dev/api/device/keyboard/wx.showKeyboard.html
+需要传一下maxLength参数
