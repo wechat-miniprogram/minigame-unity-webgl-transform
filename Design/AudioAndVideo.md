@@ -42,6 +42,10 @@ FMOD 原理：
 
 -   推荐 mp3 或者 aac 格式，在双端有较好的兼容
 
+7. FMOD returns error code 36
+
+-   旧版本引擎已知问题，推荐使用已修复的 Unity 引擎版本，参考[Unity社区回答](https://developer.unity.cn/ask/question/65b3435fedbc2a001ee80796)
+
 ## 视频
 
 目前 VideoPlayer 已自动适配微信小游戏
@@ -75,3 +79,4 @@ FMOD 原理：
 4. 是否应该使用 VideoPlayer？
 
 -   如果只是单纯使用全屏的视频播放，更推荐使用小游戏 API 视频播放能力。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
+
