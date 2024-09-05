@@ -35,6 +35,7 @@ export default defineConfig({
           { text: "简介", link: "/README" },
           { text: "安装与使用", link: "/Design/SDKInstaller" },
           { text: "入门指南", link: "/Design/Guide" },
+          { text: "快速开始", link: "/Design/Transform" },
           { text: "优秀案例", link: "/Design/ShowCase" },
           { text: "更新日志", link: "/CHANGELOG.md" },
         ],
