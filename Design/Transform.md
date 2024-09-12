@@ -12,7 +12,7 @@
 ## 二、适配小游戏
 
 ### 2.1 转换小游戏
-顶部菜单栏 点击 微信小游戏 -> 转换小游戏， 填写相应参数，点击`导出WEBGL并转换为小游戏`按钮 ，等待转换完成。
+顶部菜单栏 点击 微信小游戏 -> 转换小游戏， 填写相应参数，点击`生成并转换`按钮 ，等待转换完成。
 
 <img src='../image/export.png' width="600"/>
 
@@ -109,7 +109,6 @@ bundleHashLength -- bundle名中hash长度
 preloadFiles -- 预下载文件列表，用;分隔
 // SDK功能
 UseFriendRelation -- 使用好友关系链
-UseAudioApi -- 使用微信音频API
 // 调试编译选项
 DevelopBuild -- Development Build
 AutoProfile -- Autoconnect Profiler

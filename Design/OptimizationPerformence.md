@@ -85,10 +85,10 @@ Unity WebGL环境的lua不支持JIT，因此需要避免用于重度逻辑。可
 
 <img src='../image/optimizationperformence2.png'  width="800"/>
 
-如需设置iOS的设备分辨率可以在game.js增加以下代码：
-```
-if(wx.getSystemInfoSync().platform == 'ios') window.devicePixelRatio = 2; 
-``` 
+如需设置iOS的设备分辨率可以在【导出面板-更多配置项-Project Conf】中修改配置 `IOS Device Pixel Ratio` 为 2：
+
+<img src='../image/IOSDevicePixelRatio.png'  width="200"/>
+
 - 可降低渲染压力可明显降低设备发热量
 - 减少内存使用，降低分辨率后可降低50-100MB内存
 - 需开发者自行评估DevicePixelRatio降低后的品质变化
