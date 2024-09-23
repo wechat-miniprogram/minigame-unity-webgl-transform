@@ -47,7 +47,6 @@ var bannerAd = WX.CreateBannerAd(new WXCreateBannerAdParam()
         height = 200
     }
 });
-
 bannerAd.OnLoad(()=> {
     bannerAd.Show();
 });

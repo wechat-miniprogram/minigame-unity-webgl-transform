@@ -103,6 +103,8 @@
 - 如果手机发烫比较严重，可以适当调小一点渲染分辨率，看发烫是否有改善
     - 以 iOS为例，如果dpr（Device Pixel Ratio）默认是3.0，那么可以尝试设置 [2.0 ～ 2.5]
     - 这个方法可能会牺牲一点画质效果，需要画质和性能之前取一个平衡
+    - 如需强制设置iOS的设备分辨率可以在【导出面板-更多配置项-Project Conf】中修改配置 `IOS Device Pixel Ratio` 为 2：
+    <img src='../image/IOSDevicePixelRatio.png'  width="200"/>
 
 >>### 后处理
 - 后处理的销不小，加上 WebGL 游戏在可用内存和性能对比 App 有差距

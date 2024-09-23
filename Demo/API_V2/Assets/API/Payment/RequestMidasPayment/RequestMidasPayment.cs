@@ -17,9 +17,10 @@ public class RequestMidasPayment : Details
             new RequestMidasPaymentOption()
             {
                 mode = "game",
-                env = 0,
-                offerId = "xxxx", //在米大师侧申请的应用 id
+                env = 0, // 0:正式环境，1:沙箱环境
+                offerId = "xxxx", // 在米大师侧申请的应用 id
                 currencyType = "CNY",
+                outTradeNo = "xxxx", // 业务订单号
                 success = (res) =>
                 {
                     Debug.Log("pay success!");
