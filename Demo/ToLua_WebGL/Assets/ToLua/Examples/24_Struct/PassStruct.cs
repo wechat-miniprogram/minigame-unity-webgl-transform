@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
 using LuaInterface;
-using System;
+using UnityEngine;
 using Debugger = LuaInterface.Debugger;
 
 namespace LuaInterface
@@ -11,7 +11,7 @@ namespace LuaInterface
     }
 }
 
-public class PassStruct : LuaClient 
+public class PassStruct : LuaClient
 {
     private string script =
         @"
@@ -80,7 +80,7 @@ public class PassStruct : LuaClient
 
     bool CheckRectType(IntPtr L, int pos)
     {
-        return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Rect;        
+        return LuaDLL.tolua_getvaluetype(L, pos) == LuaValueType.Rect;
     }
 
     bool CheckNullRectType(IntPtr L, int pos)
@@ -118,7 +118,7 @@ public class PassStruct : LuaClient
         Application.logMessageReceived -= ShowTips;
 #else
         Application.RegisterLogCallback(null);
-#endif                  
+#endif
     }
 
     new void Awake()
@@ -138,13 +138,16 @@ public class PassStruct : LuaClient
 
         NewRect = luaState.GetFunction("Rect.New");
         GetRect = luaState.GetFunction("Rect.Get");
-        StackTraits<Rect>.Init(PushRect, CheckRectValue, ToRectValue);           //支持压入lua以及从lua栈读取
-        TypeTraits<Rect>.Init(CheckRectType);                                    //支持重载函数TypeCheck.CheckTypes
-        TypeTraits<Nullable<Rect>>.Init(CheckNullRectType);                      //支持重载函数TypeCheck.CheckTypes
-        LuaValueTypeName.names[LuaValueType.Rect] = "Rect";                      //CheckType失败提示的名字
-        TypeChecker.LuaValueTypeMap[LuaValueType.Rect] = typeof(Rect);           //用于支持类型匹配检查操作
-        ToLua.ToVarMap[LuaValueType.Rect] = ToRectTable;                         //Rect作为object读取
-        ToLua.VarPushMap[typeof(Rect)] = (L, o) => { PushRect(L, (Rect)o); };    //Rect作为object压入
+        StackTraits<Rect>.Init(PushRect, CheckRectValue, ToRectValue); //支持压入lua以及从lua栈读取
+        TypeTraits<Rect>.Init(CheckRectType); //支持重载函数TypeCheck.CheckTypes
+        TypeTraits<Nullable<Rect>>.Init(CheckNullRectType); //支持重载函数TypeCheck.CheckTypes
+        LuaValueTypeName.names[LuaValueType.Rect] = "Rect"; //CheckType失败提示的名字
+        TypeChecker.LuaValueTypeMap[LuaValueType.Rect] = typeof(Rect); //用于支持类型匹配检查操作
+        ToLua.ToVarMap[LuaValueType.Rect] = ToRectTable; //Rect作为object读取
+        ToLua.VarPushMap[typeof(Rect)] = (L, o) =>
+        {
+            PushRect(L, (Rect)o);
+        }; //Rect作为object压入
 
         //测试例子
         LuaFunction func = luaState.GetFunction("PrintRect");
@@ -158,7 +161,7 @@ public class PassStruct : LuaClient
     }
 
     LuaFunction NewRect = null;
-    LuaFunction GetRect = null;    
+    LuaFunction GetRect = null;
 
     protected override LuaFileUtils InitLoader()
     {
@@ -167,7 +170,7 @@ public class PassStruct : LuaClient
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width / 2 - 220, Screen.height / 2 - 200, 400, 400), tips);        
+        GUI.Label(new Rect(Screen.width / 2 - 220, Screen.height / 2 - 200, 400, 400), tips);
     }
 
     //屏蔽，例子不需要运行

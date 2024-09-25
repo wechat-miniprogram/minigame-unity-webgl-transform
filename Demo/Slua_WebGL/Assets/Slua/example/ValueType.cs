@@ -1,19 +1,24 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using SLua;
+using UnityEngine;
 
-public class ValueType : MonoBehaviour {
-
-    class Foo{}
+public class ValueType : MonoBehaviour
+{
+    class Foo { }
 
     LuaSvr l;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start()
+    {
         l = new LuaSvr();
-		l.init(null, () =>
-		{
-			l.start("valuetype");
-		});
+        l.init(
+            null,
+            () =>
+            {
+                l.start("valuetype");
+            }
+        );
 
         using (LuaState newState = new LuaState())
         {
@@ -37,10 +42,8 @@ public class ValueType : MonoBehaviour {
             Assert.IsTrue((Color)table["col"] == col);
             Assert.IsTrue(table["foo"] == foo);
         }
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    }
+
+    // Update is called once per frame
+    void Update() { }
 }

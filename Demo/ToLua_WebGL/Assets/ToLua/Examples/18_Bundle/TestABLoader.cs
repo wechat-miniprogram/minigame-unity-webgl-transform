@@ -1,12 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using LuaInterface;
-using System;
+using UnityEngine;
 
 //click Lua/Build lua bundle
-public class TestABLoader : MonoBehaviour 
+public class TestABLoader : MonoBehaviour
 {
     int bundleCount = int.MaxValue;
     string tips = null;
@@ -32,7 +32,7 @@ public class TestABLoader : MonoBehaviour
             --bundleCount;
             LuaFileUtils.Instance.AddSearchBundle(name, www.assetBundle);
             www.Dispose();
-        }                     
+        }
     }
 
     IEnumerator LoadFinished()
@@ -58,11 +58,22 @@ public class TestABLoader : MonoBehaviour
         WWW www = new WWW(main);
         yield return www;
 
-        AssetBundleManifest manifest = (AssetBundleManifest)www.assetBundle.LoadAsset("AssetBundleManifest");
-        List<string> list = new List<string>(manifest.GetAllAssetBundles());        
+        AssetBundleManifest manifest = (AssetBundleManifest)
+            www.assetBundle.LoadAsset("AssetBundleManifest");
+        List<string> list = new List<string>(manifest.GetAllAssetBundles());
 #else
         //此处应该配表获取
-        List<string> list = new List<string>() { "lua.unity3d", "lua_cjson.unity3d", "lua_system.unity3d", "lua_unityengine.unity3d", "lua_protobuf.unity3d", "lua_misc.unity3d", "lua_socket.unity3d", "lua_system_reflection.unity3d" };
+        List<string> list = new List<string>()
+        {
+            "lua.unity3d",
+            "lua_cjson.unity3d",
+            "lua_system.unity3d",
+            "lua_unityengine.unity3d",
+            "lua_protobuf.unity3d",
+            "lua_misc.unity3d",
+            "lua_socket.unity3d",
+            "lua_system_reflection.unity3d"
+        };
 #endif
         bundleCount = list.Count;
 
@@ -76,7 +87,7 @@ public class TestABLoader : MonoBehaviour
             string path = "file:///" + streamingPath + "/" + LuaConst.osDir + "/" + str;
 #endif
             string name = Path.GetFileNameWithoutExtension(str);
-            StartCoroutine(CoLoadBundle(name, path));            
+            StartCoroutine(CoLoadBundle(name, path));
         }
 
         yield return StartCoroutine(LoadFinished());
@@ -94,7 +105,9 @@ public class TestABLoader : MonoBehaviour
 #if UNITY_ANDROID && UNITY_EDITOR
         if (IntPtr.Size == 8)
         {
-            throw new Exception("can't run this in unity5.x process for 64 bits, switch to pc platform, or run it in android mobile");
+            throw new Exception(
+                "can't run this in unity5.x process for 64 bits, switch to pc platform, or run it in android mobile"
+            );
         }
 #endif
         StartCoroutine(LoadBundles());
@@ -121,7 +134,7 @@ public class TestABLoader : MonoBehaviour
     }
 
     void OnBundleLoad()
-    {                
+    {
         LuaState state = new LuaState();
         state.Start();
         state.DoString("print('hello tolua#:'..tostring(Vector3.zero))");
@@ -131,5 +144,5 @@ public class TestABLoader : MonoBehaviour
         func.Dispose();
         state.Dispose();
         state = null;
-	}	
+    }
 }

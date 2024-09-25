@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
 using LuaInterface;
+using UnityEngine;
 
-public class TestInstantiate : MonoBehaviour 
+public class TestInstantiate : MonoBehaviour
 {
     void Awake()
     {
@@ -18,7 +18,7 @@ public class TestInstantiate : MonoBehaviour
             func = null;
         }
         catch (Exception e)
-        {            
+        {
             state.ThrowLuaException(e);
         }
     }

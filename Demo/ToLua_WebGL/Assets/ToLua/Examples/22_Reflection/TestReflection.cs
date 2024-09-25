@@ -1,14 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections.Generic;
-using LuaInterface;
-using System;
 using System.Reflection;
-
+using LuaInterface;
+using UnityEngine;
 
 public class TestReflection : LuaClient
 {
     string script =
-@"    
+        @"    
     require 'tolua.reflection'          
     tolua.loadassembly('Assembly-CSharp')        
     local BindingFlags = require 'System.Reflection.BindingFlags'
@@ -68,7 +67,7 @@ public class TestReflection : LuaClient
     protected override LuaFileUtils InitLoader()
     {
 #if UNITY_4_6 || UNITY_4_7
-        Application.RegisterLogCallback(ShowTips);        
+        Application.RegisterLogCallback(ShowTips);
 #else
         Application.logMessageReceived += ShowTips;
 #endif
@@ -84,7 +83,7 @@ public class TestReflection : LuaClient
     }
 
     protected override void OnLoadFinished()
-    {        
+    {
         base.OnLoadFinished();
 
         /*Type t = typeof(TestExport);
@@ -130,15 +129,15 @@ public class TestReflection : LuaClient
     new void OnApplicationQuit()
     {
 #if UNITY_4_6 || UNITY_4_7
-        Application.RegisterLogCallback(ShowTips);        
+        Application.RegisterLogCallback(ShowTips);
 #else
-        Application.logMessageReceived -= ShowTips;
+        Application.logMessageReceived += ShowTips;
 #endif
         Destroy();
     }
 
     void OnGUI()
     {
-        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height / 2 - 150, 500, 300), tips);       
+        GUI.Label(new Rect(Screen.width / 2 - 250, Screen.height / 2 - 150, 500, 300), tips);
     }
 }

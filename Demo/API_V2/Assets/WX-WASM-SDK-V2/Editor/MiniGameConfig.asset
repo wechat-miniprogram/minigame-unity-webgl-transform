@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1795359250, guid: caf6a5421bfe6496f8a0c991240f7876, type: 3}
+  m_Script: {fileID: 1795359250, guid: 1cf430f187a0b40eda7f668318d8be23, type: 3}
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: API-Demo
-    Appid: wx7a727ff7d940bb3f
-    CDN: 
-    assetLoadType: 1
+    projectName: 
+    Appid: 
+    CDN: http://127.0.0.1:8080
+    assetLoadType: 0
     compressDataPackage: 0
     VideoUrl: 
     DST: 
@@ -46,7 +46,7 @@ MonoBehaviour:
     UseMiniGameChat: 0
     PreloadWXFont: 0
   CompileOptions:
-    DevelopBuild: 0
+    DevelopBuild: 1
     AutoProfile: 0
     ScriptOnly: 0
     Il2CppOptimizeSize: 1
@@ -57,7 +57,8 @@ MonoBehaviour:
     ProfilingMemory: 0
     CleanBuild: 0
     CustomNodePath: 
-    showMonitorSuggestModal: 1
+    autoAdaptScreen: 0
+    showMonitorSuggestModal: 0
     enableProfileStats: 0
     enableRenderAnalysis: 0
     iOSAutoGCInterval: 10000

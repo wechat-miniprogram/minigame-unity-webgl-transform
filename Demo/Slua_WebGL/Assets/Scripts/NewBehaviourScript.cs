@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-
 using SLua;
+using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
@@ -16,14 +15,15 @@ public class NewBehaviourScript : MonoBehaviour
     {
         Debug.LogError("=====NoStart======");
         l = new LuaSvr();
-        l.init(null, () => {
-            LuaSvr.mainState.doString("print('=========lua hello world===')");
-        });
+        l.init(
+            null,
+            () =>
+            {
+                LuaSvr.mainState.doString("print('=========lua hello world===')");
+            }
+        );
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 }

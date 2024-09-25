@@ -1,13 +1,17 @@
-using Puerts;
 using System;
 using System.Collections.Generic;
+using Puerts;
 
 [Configure]
-public class PuerCfg {
+public class PuerCfg
+{
     [Binding]
-    public static List<Type> types {
-        get {
-            return new List<Type>{
+    public static List<Type> types
+    {
+        get
+        {
+            return new List<Type>
+            {
                 typeof(UnityEngine.Vector3),
                 typeof(UnityEngine.Vector2),
                 typeof(UnityEngine.Quaternion),
@@ -24,7 +28,7 @@ public class PuerCfg {
                 typeof(System.Delegate),
                 typeof(Puerts.TSLoader.TSLoader),
                 typeof(Puerts.DefaultLoader),
-                typeof(Joystick), 
+                typeof(Joystick),
                 typeof(GameWithJS),
                 typeof(BoxWithJS),
                 typeof(JSBehaviour),
@@ -34,12 +38,14 @@ public class PuerCfg {
     }
 
     [Filter]
-    public static bool Filter(System.Reflection.MemberInfo mb) 
+    public static bool Filter(System.Reflection.MemberInfo mb)
     {
-        if (mb.DeclaringType == typeof(UnityEngine.MonoBehaviour) && mb.Name == "runInEditMode") {
+        if (mb.DeclaringType == typeof(UnityEngine.MonoBehaviour) && mb.Name == "runInEditMode")
+        {
             return true;
         }
-        if (mb.DeclaringType == typeof(UnityEngine.UI.Text) && mb.Name == "OnRebuildRequested") {
+        if (mb.DeclaringType == typeof(UnityEngine.UI.Text) && mb.Name == "OnRebuildRequested")
+        {
             return true;
         }
         return false;

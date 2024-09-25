@@ -1,19 +1,19 @@
 ﻿using System;
-using UnityEngine;
-using System.Collections.Generic;
-using LuaInterface;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using LuaInterface;
+using UnityEngine;
 
-public class TestPerformance : MonoBehaviour 
+public class TestPerformance : MonoBehaviour
 {
-    LuaState state = null;        
+    LuaState state = null;
     private string tips = "";
 
     private void Start()
     {
 #if UNITY_4_6 || UNITY_4_7
-        Application.RegisterLogCallback(ShowTips);        
+        Application.RegisterLogCallback(ShowTips);
 #else
         Application.logMessageReceived += ShowTips;
 #endif
@@ -21,7 +21,7 @@ public class TestPerformance : MonoBehaviour
         state = new LuaState();
         state.Start();
         LuaBinder.Bind(state);
-        state.DoFile("TestPerf.lua");                              
+        state.DoFile("TestPerf.lua");
     }
 
     void ShowTips(string msg, string stackTrace, LogType type)
@@ -33,7 +33,7 @@ public class TestPerformance : MonoBehaviour
     void OnApplicationQuit()
     {
 #if UNITY_4_6 || UNITY_4_7
-        Application.RegisterLogCallback(null);        
+        Application.RegisterLogCallback(null);
 #else
         Application.logMessageReceived -= ShowTips;
 #endif
@@ -42,12 +42,12 @@ public class TestPerformance : MonoBehaviour
     }
 
     void OnGUI()
-    {        
+    {
         GUI.Label(new Rect(Screen.width / 2 - 220, Screen.height / 2 - 200, 400, 400), tips);
 
         if (GUI.Button(new Rect(50, 50, 120, 45), "Test1"))
         {
-            float time = Time.realtimeSinceStartup;            
+            float time = Time.realtimeSinceStartup;
 
             for (int i = 0; i < 200000; i++)
             {
@@ -57,7 +57,7 @@ public class TestPerformance : MonoBehaviour
 
             time = Time.realtimeSinceStartup - time;
             tips = "";
-            Debugger.Log("c# Transform getset cost time: " + time);            
+            Debugger.Log("c# Transform getset cost time: " + time);
             transform.position = Vector3.zero;
 
             LuaFunction func = state.GetFunction("Test1");
@@ -66,7 +66,7 @@ public class TestPerformance : MonoBehaviour
             func.PCall();
             func.EndPCall();
             func.Dispose();
-            func = null;            
+            func = null;
         }
         else if (GUI.Button(new Rect(50, 150, 120, 45), "Test2"))
         {
@@ -87,11 +87,11 @@ public class TestPerformance : MonoBehaviour
             func.PCall();
             func.EndPCall();
             func.Dispose();
-            func = null;    
+            func = null;
         }
         else if (GUI.Button(new Rect(50, 250, 120, 45), "Test3"))
         {
-            float time = Time.realtimeSinceStartup;            
+            float time = Time.realtimeSinceStartup;
 
             for (int i = 0; i < 2000000; i++)
             {
@@ -100,12 +100,12 @@ public class TestPerformance : MonoBehaviour
 
             time = Time.realtimeSinceStartup - time;
             tips = "";
-            Debugger.Log("c# new Vector3 cost time: " + time);            
+            Debugger.Log("c# new Vector3 cost time: " + time);
 
             LuaFunction func = state.GetFunction("Test3");
             func.Call();
             func.Dispose();
-            func = null;  
+            func = null;
         }
         else if (GUI.Button(new Rect(50, 350, 120, 45), "Test4"))
         {
@@ -127,7 +127,7 @@ public class TestPerformance : MonoBehaviour
             func = null;
         }
         else if (GUI.Button(new Rect(50, 450, 120, 45), "Test5"))
-        {            
+        {
             int[] array = new int[1024];
 
             for (int i = 0; i < 1024; i++)
@@ -169,27 +169,27 @@ public class TestPerformance : MonoBehaviour
             LuaFunction func = state.GetFunction("TestTable");
             func.Call();
             func.Dispose();
-            func = null;            
+            func = null;
         }
         else if (GUI.Button(new Rect(50, 550, 120, 40), "Test7"))
-        {            
+        {
             float time = Time.realtimeSinceStartup;
             Vector3 v1 = Vector3.zero;
 
             for (int i = 0; i < 200000; i++)
             {
-                Vector3 v = new Vector3(i,i,i);
+                Vector3 v = new Vector3(i, i, i);
                 v = Vector3.Normalize(v);
                 v1 = v + v1;
             }
 
-            time = Time.realtimeSinceStartup - time;            
+            time = Time.realtimeSinceStartup - time;
             tips = "";
             Debugger.Log("Vector3 New Normalize cost: " + time);
             LuaFunction func = state.GetFunction("Test7");
             func.Call();
             func.Dispose();
-            func = null;  
+            func = null;
         }
         else if (GUI.Button(new Rect(250, 50, 120, 40), "Test8"))
         {
@@ -197,7 +197,7 @@ public class TestPerformance : MonoBehaviour
 
             for (int i = 0; i < 200000; i++)
             {
-		        Quaternion q1 = Quaternion.Euler(i, i, i);
+                Quaternion q1 = Quaternion.Euler(i, i, i);
                 Quaternion q2 = Quaternion.Euler(i * 2, i * 2, i * 2);
                 Quaternion.Slerp(q1, q2, 0.5f);
             }

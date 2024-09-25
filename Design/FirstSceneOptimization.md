@@ -42,7 +42,7 @@
 ## CallMain Profile分析
 1.改造小游戏代码
 因为安卓采集Profile文件需要手动控制，而CallMain会在码包下载编译完成和首包资源下载完成后就执行，为了录制启动阶段完整的Profile，需要保证Profile的录制开始之后才真正执行游戏开始逻辑，找到项目的game.js文件，改造最后几行即可：
-```
+```js
 // gameManager.startGame();
 
 wx.onTouchStart((result) => {

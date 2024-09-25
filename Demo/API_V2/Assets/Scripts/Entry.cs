@@ -3,10 +3,12 @@ using UnityEngine.UI;
 
 public class Entry : MonoBehaviour
 {
-    [SerializeField] private EntrySO entrySO;
+    [SerializeField]
+    private EntrySO entrySO;
 
-    [SerializeField] private Text entryNameText;
-    
+    [SerializeField]
+    private Text entryNameText;
+
     private Button _button;
 
     private void Awake()

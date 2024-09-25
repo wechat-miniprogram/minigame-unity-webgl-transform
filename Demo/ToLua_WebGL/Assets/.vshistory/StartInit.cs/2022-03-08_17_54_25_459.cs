@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class StartInit : MonoBehaviour
 {
-
-
     IEnumerator Init()
     {
         yield return AssetBundleLoad.Init();
@@ -22,6 +20,6 @@ public class StartInit : MonoBehaviour
 
 #if UNITY_5_4_OR_NEWER
         SceneManager.sceneLoaded += OnSceneLoaded;
-#endif        
+#endif
     }
 }

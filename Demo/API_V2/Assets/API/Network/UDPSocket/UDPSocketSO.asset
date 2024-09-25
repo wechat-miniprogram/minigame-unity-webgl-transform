@@ -15,10 +15,18 @@ MonoBehaviour:
   entryScriptTypeName: UDPSocket
   entryName: "UDP\u901A\u4FE1"
   entryAPI: "UDP \u901A\u4FE1\u76F8\u5173api"
-  entryDescription: "\u9700\u8981\u586B\u5165ip\u548Cport"
-  optionList: []
+  entryDescription: "write\u7528\u6CD5\u4E0E send \u65B9\u6CD5\u76F8\u540C\uFF0C\u5982\u679C\u6CA1\u6709\u9884\u5148\u8C03\u7528
+    connect \u5219\u4E0E send \u65E0\u5DEE\u5F02\uFF08\u6CE8\u610F\u5373\u4F7F\u8C03\u7528\u4E86
+    connect \u4E5F\u9700\u8981\u5728\u672C\u63A5\u53E3\u586B\u5165\u5730\u5740\u548C\u7AEF\u53E3\u53C2\u6570\uFF09"
+  optionList:
+  - optionName: "\u53D1\u9001\u4FE1\u606F\u7C7B\u578B"
+    availableOptions:
+    - String
+    - Buffer
   initialButtonText: "\u521B\u5EFAudp\u5B9E\u4F8B"
   extraButtonList:
   - buttonText: "\u8FDE\u63A5"
+  - buttonText: Write
+  - buttonText: Send
   - buttonText: "\u5173\u95ED"
   initialResultList: []

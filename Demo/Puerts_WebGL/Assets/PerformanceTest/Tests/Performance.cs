@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Puerts;
+using Puerts.TSLoader;
 using UnityEngine;
 using UnityEngine.UI;
-using Puerts.TSLoader;
-using Puerts;
 
 [XLua.LuaCallCSharp]
 public class PerformanceHelper
@@ -13,6 +13,7 @@ public class PerformanceHelper
     {
         return num;
     }
+
     public static Vector3 ReturnVector(int x, int y, int z)
     {
         return new Vector3(x, y, z);
@@ -50,12 +51,13 @@ public class Performance : MonoBehaviour
 
         Puerts.JsEnv JsEnv = Puerts.WebGL.MainEnv.Get(new TSLoader());
         JsEnv.ExecuteModule("performance.mjs");
-        
+
         XLua.LuaEnv env = new XLua.LuaEnv();
         env.DoString(Resources.Load<TextAsset>("performance.lua").text);
 
         var start = (DateTime.Now - ZERO).TotalMilliseconds;
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 100000; i++)
+        {
             fibonacci(12);
         }
         double csTime = (DateTime.Now - ZERO).TotalMilliseconds - start;
@@ -63,14 +65,14 @@ public class Performance : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void Update() { }
+
+    int fibonacci(int level)
     {
-        
-    }
-    
-    int fibonacci(int level) {
-        if (level == 0) return 0;
-        if (level == 1) return 1;
+        if (level == 0)
+            return 0;
+        if (level == 1)
+            return 1;
         return fibonacci(level - 1) + fibonacci(level - 2);
     }
 }

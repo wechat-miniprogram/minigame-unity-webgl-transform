@@ -6,18 +6,17 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using XLua;
-using System.Collections.Generic;
-using System;
-using UnityEngine.Events;
 
 namespace XLuaTest
 {
     public class MessageBox : MonoBehaviour
     {
-
         public static void ShowAlertBox(string message, string title, Action onFinished = null)
         {
             var alertPanel = GameObject.Find("Canvas").transform.Find("AlertBox");
@@ -48,7 +47,11 @@ namespace XLuaTest
             alertPanel.gameObject.SetActive(true);
         }
 
-        public static void ShowConfirmBox(string message, string title, Action<bool> onFinished = null)
+        public static void ShowConfirmBox(
+            string message,
+            string title,
+            Action<bool> onFinished = null
+        )
         {
             var confirmPanel = GameObject.Find("Canvas").transform.Find("ConfirmBox");
             if (confirmPanel == null)
@@ -102,10 +105,10 @@ namespace XLuaTest
     {
         [CSharpCallLua]
         public static List<Type> CSharpCallLua = new List<Type>()
-    {
-        typeof(Action),
-        typeof(Action<bool>),
-        typeof(UnityAction),
-    };
+        {
+            typeof(Action),
+            typeof(Action<bool>),
+            typeof(UnityAction),
+        };
     }
 }

@@ -3,10 +3,10 @@ using XLua;
 
 namespace XLuaTest
 {
-
     public class GenericMethodExample : MonoBehaviour
     {
-        private const string script = @"
+        private const string script =
+            @"
         local foo1 = CS.XLuaTest.Foo1Child()
         local foo2 = CS.XLuaTest.Foo2Child()
 

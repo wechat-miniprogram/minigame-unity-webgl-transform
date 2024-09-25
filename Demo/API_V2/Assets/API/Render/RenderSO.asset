@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RenderSO
   m_EditorClassIdentifier: 
   categoryName: "\u6E32\u67D3"
-  categorySprite: {fileID: 0}
+  categorySprite: {fileID: 21300000, guid: 9e35ae4b7c6f04df08ba76b6b663edc0, type: 3}
   entryList:
   - {fileID: 11400000, guid: 3742edf3f50854504ba8632134064e94, type: 2}
+  - {fileID: 11400000, guid: c185ac653050d49608ea734a26e8dbaa, type: 2}

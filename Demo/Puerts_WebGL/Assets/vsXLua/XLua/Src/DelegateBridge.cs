@@ -6,6 +6,9 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 #if USE_UNI_LUA
 using LuaAPI = UniLua.Lua;
 using RealStatePtr = UniLua.ILuaState;
@@ -15,10 +18,6 @@ using LuaAPI = XLua.LuaDLL.Lua;
 using RealStatePtr = System.IntPtr;
 using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 #endif
-
-using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace XLua
 {
@@ -32,14 +31,15 @@ namespace XLua
 
         protected int errorFuncRef;
 
-        public DelegateBridgeBase(int reference, LuaEnv luaenv) : base(reference, luaenv)
+        public DelegateBridgeBase(int reference, LuaEnv luaenv)
+            : base(reference, luaenv)
         {
             errorFuncRef = luaenv.errorFuncRef;
         }
 
         public bool TryGetDelegate(Type key, out Delegate value)
         {
-            if(key == firstKey)
+            if (key == firstKey)
             {
                 value = firstValue;
                 return true;
@@ -56,10 +56,12 @@ namespace XLua
         {
             if (key == firstKey)
             {
-                throw new ArgumentException("An element with the same key already exists in the dictionary.");
+                throw new ArgumentException(
+                    "An element with the same key already exists in the dictionary."
+                );
             }
 
-            if (firstKey == null && bindTo == null) // nothing 
+            if (firstKey == null && bindTo == null) // nothing
             {
                 firstKey = key;
                 firstValue = value;
@@ -90,13 +92,13 @@ namespace XLua
         [DllImport("__Internal", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool xlua_get_hotfix_flag(int idx);
 
-        
         [DllImport("__Internal", CallingConvention = CallingConvention.Cdecl)]
         public static extern void xlua_set_hotfix_flag(int idx, bool flag);
 #else
         public static bool xlua_get_hotfix_flag(int idx)
         {
-            return (idx < DelegateBridge.DelegateBridgeList.Length) && (DelegateBridge.DelegateBridgeList[idx] != null);
+            return (idx < DelegateBridge.DelegateBridgeList.Length)
+                && (DelegateBridge.DelegateBridgeList[idx] != null);
         }
 #endif
 
@@ -129,9 +131,8 @@ namespace XLua
 
         public static bool Gen_Flag = false;
 
-        public DelegateBridge(int reference, LuaEnv luaenv) : base(reference, luaenv)
-        {
-        }
+        public DelegateBridge(int reference, LuaEnv luaenv)
+            : base(reference, luaenv) { }
 
         public void PCall(IntPtr L, int nArgs, int nResults, int errFunc)
         {
@@ -156,7 +157,12 @@ namespace XLua
 
         public void Invoke(int nRet)
         {
-            int error = LuaAPI.lua_pcall(luaEnv.L, LuaAPI.lua_gettop(luaEnv.L) - _oldTop - 2, nRet, _oldTop + 1);
+            int error = LuaAPI.lua_pcall(
+                luaEnv.L,
+                LuaAPI.lua_gettop(luaEnv.L) - _oldTop - 2,
+                nRet,
+                _oldTop + 1
+            );
             if (error != 0)
             {
                 var lastOldTop = _oldTop;

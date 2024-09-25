@@ -42,7 +42,8 @@ namespace UnityWebSocket
         public event EventHandler<MessageEventArgs> OnMessage;
 
         private ClientWebSocket socket;
-        private bool isOpening => socket != null && socket.State == System.Net.WebSockets.WebSocketState.Open;
+        private bool isOpening =>
+            socket != null && socket.State == System.Net.WebSockets.WebSocketState.Open;
 
         #region APIs
         public WebSocket(string address)
@@ -67,20 +68,23 @@ namespace UnityWebSocket
 
         public void CloseAsync()
         {
-            if (!isOpening) return;
+            if (!isOpening)
+                return;
             SendBufferAsync(new SendBuffer(null, WebSocketMessageType.Close));
         }
 
         public void SendAsync(byte[] data)
         {
-            if (!isOpening) return;
+            if (!isOpening)
+                return;
             var buffer = new SendBuffer(data, WebSocketMessageType.Binary);
             SendBufferAsync(buffer);
         }
 
         public void SendAsync(string text)
         {
-            if (!isOpening) return;
+            if (!isOpening)
+                return;
             var data = Encoding.UTF8.GetBytes(text);
             var buffer = new SendBuffer(data, WebSocketMessageType.Text);
             SendBufferAsync(buffer);
@@ -116,6 +120,7 @@ namespace UnityWebSocket
         {
             public byte[] data;
             public WebSocketMessageType type;
+
             public SendBuffer(byte[] data, WebSocketMessageType type)
             {
                 this.data = data;
@@ -164,13 +169,24 @@ namespace UnityWebSocket
                     if (buffer.type == WebSocketMessageType.Close)
                     {
                         Log($"Close Send Begin ...");
-                        await socket.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "Normal Closure", CancellationToken.None);
+                        await socket.CloseOutputAsync(
+                            WebSocketCloseStatus.NormalClosure,
+                            "Normal Closure",
+                            CancellationToken.None
+                        );
                         Log($"Close Send End !");
                     }
                     else
                     {
-                        Log($"Send, type: {buffer.type}, size: {buffer.data.Length}, queue left: {sendQueue.Count}");
-                        await socket.SendAsync(new ArraySegment<byte>(buffer.data), buffer.type, true, CancellationToken.None);
+                        Log(
+                            $"Send, type: {buffer.type}, size: {buffer.data.Length}, queue left: {sendQueue.Count}"
+                        );
+                        await socket.SendAsync(
+                            new ArraySegment<byte>(buffer.data),
+                            buffer.type,
+                            true,
+                            CancellationToken.None
+                        );
                     }
                 }
             }
@@ -202,7 +218,8 @@ namespace UnityWebSocket
                 {
                     var result = await socket.ReceiveAsync(segment, CancellationToken.None);
                     ms.Write(segment.Array, 0, result.Count);
-                    if (!result.EndOfMessage) continue;
+                    if (!result.EndOfMessage)
+                        continue;
                     var data = ms.ToArray();
                     ms.SetLength(0);
                     switch (result.MessageType)
@@ -288,6 +305,7 @@ namespace UnityWebSocket
 #if !UNITY_WEB_SOCKET_ENABLE_ASYNC
         private readonly Queue<EventArgs> eventQueue = new Queue<EventArgs>();
         private readonly object eventQueueLock = new object();
+
         private void HandleEventSync(EventArgs eventArgs)
         {
             lock (eventQueueLock)
@@ -330,10 +348,12 @@ namespace UnityWebSocket
         [System.Diagnostics.Conditional("UNITY_WEB_SOCKET_LOG")]
         static void Log(string msg)
         {
-            UnityEngine.Debug.Log($"<color=yellow>[UnityWebSocket]</color>" +
-                $"<color=green>[T-{Thread.CurrentThread.ManagedThreadId:D3}]</color>" +
-                $"<color=red>[{DateTime.Now.TimeOfDay}]</color>" +
-                $" {msg}");
+            UnityEngine.Debug.Log(
+                $"<color=yellow>[UnityWebSocket]</color>"
+                    + $"<color=green>[T-{Thread.CurrentThread.ManagedThreadId:D3}]</color>"
+                    + $"<color=red>[{DateTime.Now.TimeOfDay}]</color>"
+                    + $" {msg}"
+            );
         }
     }
 }

@@ -55,7 +55,7 @@ while(!www.isDone) {}
 
 ## TCP 网络通信
 
-如果游戏使用 TCP 进行网络通信，在 Unity WebGL 中开发者可以使用微信基础库中的TCPSocket（**需要微信基础库3.1.1**），也可以使用 Websocket 进行替代。
+如果游戏使用 TCP 进行网络通信，在 Unity WebGL 中开发者可以使用微信基础库中的TCPSocket（**需要微信基础库版本>=3.1.1**），也可以使用 Websocket 进行替代。
 
 ### TCPSocket
 

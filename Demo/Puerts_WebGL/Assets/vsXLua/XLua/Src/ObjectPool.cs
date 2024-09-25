@@ -16,6 +16,7 @@ namespace XLua
     {
         const int LIST_END = -1;
         const int ALLOCED = -2;
+
         struct Slot
         {
             public int next;
@@ -134,7 +135,12 @@ namespace XLua
             return null;
         }
 
-        public int Check(int check_pos, int max_check, Func<object, bool> checker, Dictionary<object, int> reverse_map)
+        public int Check(
+            int check_pos,
+            int max_check,
+            Func<object, bool> checker,
+            Dictionary<object, int> reverse_map
+        )
         {
             if (count == 0)
             {
@@ -143,7 +149,10 @@ namespace XLua
             for (int i = 0; i < Math.Min(max_check, count); ++i)
             {
                 check_pos %= count;
-                if (list[check_pos].next == ALLOCED && !Object.ReferenceEquals(list[check_pos].obj, null))
+                if (
+                    list[check_pos].next == ALLOCED
+                    && !Object.ReferenceEquals(list[check_pos].obj, null)
+                )
                 {
                     if (!checker(list[check_pos].obj))
                     {

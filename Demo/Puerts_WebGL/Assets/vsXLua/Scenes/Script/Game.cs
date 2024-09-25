@@ -19,10 +19,11 @@ public class Game : MonoBehaviour
     public Text FpsText;
 
     public Text BoxText;
-    
+
     // Update is called once per frame
     private float timeCount = 0;
     private float tenFrameDeltaTime = 0;
+
     void Update()
     {
         timeCount += Time.deltaTime;
@@ -35,11 +36,12 @@ public class Game : MonoBehaviour
 
             SubObject.GetComponent<Box>().target = Main.transform;
         }
-        if (Box.TotalBoxCount >= 4000) {
+        if (Box.TotalBoxCount >= 4000)
+        {
             timeCount = 0;
         }
 
-        if (Time.frameCount % 10 == 0) 
+        if (Time.frameCount % 10 == 0)
         {
             FpsText.text = "FPS:" + (10 / tenFrameDeltaTime).ToString("0.00");
             tenFrameDeltaTime = 0;

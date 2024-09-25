@@ -1,2 +1,0 @@
-m_EditorVersion: 2021.3.11f1c2
-m_EditorVersionWithRevision: 2021.3.11f1c2 (2c7757f00bfe)

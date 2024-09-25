@@ -1,30 +1,32 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class BenchmarkHUD : MonoBehaviour {
+public class BenchmarkHUD : MonoBehaviour
+{
+    public Text testLabel;
+    public Text score;
+    public Text fps;
+    public Image background;
 
-	public Text testLabel;
-	public Text score;
-	public Text fps;
-	public Image background;
+    TestBase test;
 
-	TestBase test;
+    void Start()
+    {
+        test = FindObjectOfType<TestBase>();
+        testLabel.text = SceneManager.GetActiveScene().name;
+    }
 
-	void Start () {
-		test = FindObjectOfType<TestBase>();
-		testLabel.text = SceneManager.GetActiveScene().name;
-	}
-	
-	void Update () {
-		score.text = test.score.ToString("D7");
-		if (test.done)
-		{
-			score.color = Color.grey;
-			testLabel.color = Color.grey;
-			background.color = Color.black;
-		}
+    void Update()
+    {
+        score.text = test.score.ToString("D7");
+        if (test.done)
+        {
+            score.color = Color.grey;
+            testLabel.color = Color.grey;
+            background.color = Color.black;
+        }
         /*		var curFPS = test.curFPS;
                 if (curFPS > 0)
         //			fps.text = "FPS: " + test.curFPS.ToString("F1");

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.qq.weixin.minigame": "https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git",
     "com.unity.addressables": "1.19.19",
     "com.unity.collab-proxy": "1.15.13",
     "com.unity.ide.rider": "3.0.12",

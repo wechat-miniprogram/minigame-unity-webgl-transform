@@ -1,15 +1,17 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
-
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace TMPro.Examples
 {
-
     public class TMP_ExampleScript_01 : MonoBehaviour
     {
-        public enum objectType { TextMeshPro = 0, TextMeshProUGUI = 1 };
+        public enum objectType
+        {
+            TextMeshPro = 0,
+            TextMeshProUGUI = 1
+        };
 
         public objectType ObjectType;
         public bool isStatic;
@@ -25,17 +27,20 @@ namespace TMPro.Examples
         void Awake()
         {
             // Get a reference to the TMP text component if one already exists otherwise add one.
-            // This example show the convenience of having both TMP components derive from TMP_Text. 
+            // This example show the convenience of having both TMP components derive from TMP_Text.
             if (ObjectType == 0)
                 m_text = GetComponent<TextMeshPro>() ?? gameObject.AddComponent<TextMeshPro>();
             else
-                m_text = GetComponent<TextMeshProUGUI>() ?? gameObject.AddComponent<TextMeshProUGUI>();
+                m_text =
+                    GetComponent<TextMeshProUGUI>() ?? gameObject.AddComponent<TextMeshProUGUI>();
 
             // Load a new font asset and assign it to the text object.
             m_text.font = Resources.Load<TMP_FontAsset>("Fonts & Materials/Anton SDF");
 
             // Load a new material preset which was created with the context menu duplicate.
-            m_text.fontSharedMaterial = Resources.Load<Material>("Fonts & Materials/Anton SDF - Drop Shadow");
+            m_text.fontSharedMaterial = Resources.Load<Material>(
+                "Fonts & Materials/Anton SDF - Drop Shadow"
+            );
 
             // Set the size of the font.
             m_text.fontSize = 120;
@@ -50,7 +55,6 @@ namespace TMPro.Examples
             m_text.rectTransform.sizeDelta = new Vector2(size.x, size.y);
         }
 
-
         void Update()
         {
             if (!isStatic)
@@ -59,6 +63,5 @@ namespace TMPro.Examples
                 count += 1;
             }
         }
-
     }
 }

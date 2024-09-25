@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using Puerts;
-using System;
 using UnityEngine;
 
 [Configure]
@@ -34,17 +34,24 @@ public class PuertsTestCfg
     }
 
     [Filter]
-    public static bool F(System.Reflection.MemberInfo mi) 
+    public static bool F(System.Reflection.MemberInfo mi)
     {
-        if (mi.Name == "SetLightDirty" || mi.Name == "shadowAngle" || mi.Name == "Radius") return true;
-        if (mi.Name == "MakeGenericSignatureType" || mi.Name == "IsCollectible" || mi.Name == "OnRebuildRequested") return true;
+        if (mi.Name == "SetLightDirty" || mi.Name == "shadowAngle" || mi.Name == "Radius")
+            return true;
+        if (
+            mi.Name == "MakeGenericSignatureType"
+            || mi.Name == "IsCollectible"
+            || mi.Name == "OnRebuildRequested"
+        )
+            return true;
         return false;
     }
 
     [XLua.BlackList]
-    public static List<List<string>> BlackList = new List<List<string>> {
-        new List<string>() { "UnityEngine.Light", "shadowRadius"},
-        new List<string>() { "UnityEngine.Light", "shadowAngle"},
-        new List<string>() { "UnityEngine.Light", "SetLightDirty"},
+    public static List<List<string>> BlackList = new List<List<string>>
+    {
+        new List<string>() { "UnityEngine.Light", "shadowRadius" },
+        new List<string>() { "UnityEngine.Light", "shadowAngle" },
+        new List<string>() { "UnityEngine.Light", "SetLightDirty" },
     };
 }

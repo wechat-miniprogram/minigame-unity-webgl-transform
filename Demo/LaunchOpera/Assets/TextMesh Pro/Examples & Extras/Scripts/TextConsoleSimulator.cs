@@ -1,6 +1,5 @@
-using UnityEngine;
 using System.Collections;
-
+using UnityEngine;
 
 namespace TMPro.Examples
 {
@@ -14,13 +13,11 @@ namespace TMPro.Examples
             m_TextComponent = gameObject.GetComponent<TMP_Text>();
         }
 
-
         void Start()
         {
             StartCoroutine(RevealCharacters(m_TextComponent));
             //StartCoroutine(RevealWords(m_TextComponent));
         }
-
 
         void OnEnable()
         {
@@ -33,13 +30,11 @@ namespace TMPro.Examples
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(ON_TEXT_CHANGED);
         }
 
-
         // Event received when the text object has changed.
         void ON_TEXT_CHANGED(Object obj)
         {
             hasTextChanged = true;
         }
-
 
         /// <summary>
         /// Method revealing the text one character at a time.
@@ -59,7 +54,7 @@ namespace TMPro.Examples
                 if (hasTextChanged)
                 {
                     totalVisibleCharacters = textInfo.characterCount; // Update visible character count.
-                    hasTextChanged = false; 
+                    hasTextChanged = false;
                 }
 
                 if (visibleCount > totalVisibleCharacters)
@@ -75,7 +70,6 @@ namespace TMPro.Examples
                 yield return null;
             }
         }
-
 
         /// <summary>
         /// Method revealing the text one word at a time.
@@ -99,7 +93,8 @@ namespace TMPro.Examples
                 if (currentWord == 0) // Display no words.
                     visibleCount = 0;
                 else if (currentWord < totalWordCount) // Display all other words with the exception of the last one.
-                    visibleCount = textComponent.textInfo.wordInfo[currentWord - 1].lastCharacterIndex + 1;
+                    visibleCount =
+                        textComponent.textInfo.wordInfo[currentWord - 1].lastCharacterIndex + 1;
                 else if (currentWord == totalWordCount) // Display last word and all remaining characters.
                     visibleCount = totalVisibleCharacters;
 
@@ -116,6 +111,5 @@ namespace TMPro.Examples
                 yield return new WaitForSeconds(0.1f);
             }
         }
-
     }
 }

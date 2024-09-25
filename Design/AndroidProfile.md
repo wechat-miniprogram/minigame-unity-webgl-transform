@@ -35,7 +35,7 @@
     - 2.1 通过webgl导出目录下的symbols文件对照映射
     - 2.2 通过[替换脚本](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/tools/update_v8_wasm_profile.py)对cpuprofile进行自动映射到真实函数。使用方式：python update_v8_wasm_profile.py $cpuprofile $symbol
 3. 如希望能从游戏启动立即抓取profile，请在game.js末尾代码稍作修改：
-   ```
+   ```js
    const gl = GameGlobal.canvas.getContext('webgl') 
        gl.clear(gl.COLOR_BUFFER_BIT);
        setTimeout(() => {

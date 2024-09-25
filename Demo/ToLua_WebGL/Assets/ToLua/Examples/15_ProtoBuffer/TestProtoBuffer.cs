@@ -1,10 +1,9 @@
 ﻿//#define USE_PROTOBUF_NET
-using UnityEngine;
-using System.Collections;
-using LuaInterface;
 using System;
+using System.Collections;
 using System.IO;
-
+using LuaInterface;
+using UnityEngine;
 #if USE_PROTOBUF_NET
 using ProtoBuf;
 
@@ -23,6 +22,7 @@ class Person
 {
     [ProtoMember(1, IsRequired = true)]
     public Header header { get; set; }
+
     [ProtoMember(2, IsRequired = true)]
     public long id { get; set; }
 
@@ -38,12 +38,12 @@ class Person
     [ProtoMember(6, IsRequired = true)]
     public int[] array;
 }
-
 #endif
 
 public class TestProtoBuffer : LuaClient
 {
-    private string script = @"      
+    private string script =
+        @"      
         local common_pb = require 'Protol.common_pb'
         local person_pb = require 'Protol.person_pb'
        
@@ -76,15 +76,15 @@ public class TestProtoBuffer : LuaClient
 
     //实际应用如Socket.Send(LuaStringBuffer buffer)函数发送协议, 在lua中调用Socket.Send(pb_data)
     //读取协议 Socket.PeekMsgPacket() {return MsgPacket}; lua 中，取协议字节流 MsgPack.data 为 LuaStringBuffer类型
-    //msg = Socket.PeekMsgPacket() 
-    //pb_data = msg.data    
+    //msg = Socket.PeekMsgPacket()
+    //pb_data = msg.data
     new void Awake()
     {
 #if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
-#endif  
+#endif
         base.Awake();
     }
 

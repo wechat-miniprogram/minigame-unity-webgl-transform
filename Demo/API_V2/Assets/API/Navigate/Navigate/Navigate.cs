@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
+
 public class Navigate : Details
 {
     private void Start()
@@ -18,32 +19,41 @@ public class Navigate : Details
         restartMiniProgram();
     }
 
-    public void restartMiniProgram() {
-        WX.RestartMiniProgram(new RestartMiniProgramOption{});
+    public void restartMiniProgram()
+    {
+        WX.RestartMiniProgram(new RestartMiniProgramOption { });
     }
 
-    public void navigateToMiniProgram() {
+    public void navigateToMiniProgram()
+    {
         Dictionary<string, string> myDictionary = new Dictionary<string, string>();
         myDictionary.Add("key1", "value1");
         myDictionary.Add("key2", "value2");
-        WX.NavigateToMiniProgram(new NavigateToMiniProgramOption() {
-            appId = "wx7a727ff7d940bb3f",
-            path = "?id=123",
-            extraData = myDictionary,
-            envVersion = "develop",
-            success = (res) => {
-                Debug.Log("success: " + JsonUtility.ToJson(res));
-            }, 
-            fail = (res) => {
-                Debug.Log("fail: " + JsonUtility.ToJson(res));
-            },
-            complete = (res) => {
-                Debug.Log("complete");
+        WX.NavigateToMiniProgram(
+            new NavigateToMiniProgramOption()
+            {
+                appId = "wx7a727ff7d940bb3f",
+                path = "?id=123",
+                extraData = myDictionary,
+                envVersion = "develop",
+                success = (res) =>
+                {
+                    Debug.Log("success: " + JsonUtility.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    Debug.Log("fail: " + JsonUtility.ToJson(res));
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
             }
-        });
+        );
     }
 
-    public void exitMiniProgram() {
-        WX.ExitMiniProgram(new ExitMiniProgramOption{});
+    public void exitMiniProgram()
+    {
+        WX.ExitMiniProgram(new ExitMiniProgramOption { });
     }
 }
