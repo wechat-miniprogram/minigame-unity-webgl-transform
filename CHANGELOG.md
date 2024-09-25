@@ -20,6 +20,8 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ### Fixed
 * 普通: 修复.net8 OnApplicationFocus/Pause适配
 * 普通: 修复插件自动调节dpr后，获取不到实际dpr
+* 重要: 修复iOS18微信系统字体丢失
+* 重要: 修复游戏圈文案默认显示'打开游戏圈'的问题
 
 ## 2024-8-13 【重要更新】
 ### Feature
