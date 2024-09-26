@@ -20,7 +20,10 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ### Fixed
 * 普通: 修复.net8 OnApplicationFocus/Pause适配
 * 普通: 修复插件自动调节dpr后，获取不到实际dpr
+* 普通: 修复音频设置timeSamples不生效
 * 重要: 修复iOS18微信系统字体丢失
+* 重要: 修复iOS17.5以上音频退后台无法恢复
+* 重要: 修复音频PC端异常循环播放
 * 重要: 修复游戏圈文案默认显示'打开游戏圈'的问题
 
 ## 2024-8-13 【重要更新】
