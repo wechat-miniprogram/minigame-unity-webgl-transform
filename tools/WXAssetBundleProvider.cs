@@ -778,7 +778,7 @@ namespace UnityEngine.ResourceManagement.ResourceProviders
                 else
 #endif
                 {
-                    m_RequestOperation = WXAssetBundle.LoadFromFileAsync(
+                    m_RequestOperation = AssetBundle.LoadFromFileAsync(
                         m_TransformedInternalId,
                         m_Options == null ? 0 : m_Options.Crc
                     );
