@@ -78,7 +78,7 @@ public class DetailsController : MonoBehaviour
     }
 
     // 清除详情信息
-    private void ClearDetails()
+    public void ClearDetails()
     {
         // 销毁详情信息
         Destroy(_details);
@@ -105,7 +105,7 @@ public class DetailsController : MonoBehaviour
     // 初始化详情信息
     public void Init(EntrySO so)
     {
-        ClearDetails();
+        // ClearDetails();
         entrySO = so;
 
         titleText.text = so.entryName;

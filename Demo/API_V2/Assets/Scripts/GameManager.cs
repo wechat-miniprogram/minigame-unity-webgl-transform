@@ -91,6 +91,11 @@ public class GameManager : MonoBehaviour
     // 切换 MainCanvas 和 DetailsCanvas 的显示状态
     public void SwitchCanvas()
     {
+        if (!_isMainCanvasActive)
+        {
+            // 提前销毁时机 防止预期外的行为发生
+            detailsController.ClearDetails();
+        }
         _isMainCanvasActive = !_isMainCanvasActive;
         mainCanvas.SetActive(_isMainCanvasActive);
         detailsCanvas.SetActive(!_isMainCanvasActive);
