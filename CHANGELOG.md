@@ -12,7 +12,7 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 2. PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 
 ## 2024-10-18 【预发布】
-PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.21
+PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.22
 ### Feature
 * 普通: WXSDK代码简化
 * 普通: 增强JsonMapper报错信息
