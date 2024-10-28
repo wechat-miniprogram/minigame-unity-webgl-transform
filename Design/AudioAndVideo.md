@@ -44,7 +44,7 @@ FMOD 原理：
 
 7. FMOD returns error code 36
 
--   旧版本引擎已知问题，推荐使用已修复的 Unity 引擎版本，参考[Unity社区回答](https://developer.unity.cn/ask/question/65b3435fedbc2a001ee80796)
+-   旧版本引擎已知问题，推荐使用已修复的 Unity 引擎版本，参考[Unity 社区回答](https://developer.unity.cn/ask/question/65b3435fedbc2a001ee80796)
 
 ## 视频
 
@@ -80,6 +80,10 @@ FMOD 原理：
 
 -   如果只是单纯使用全屏的视频播放，更推荐使用小游戏 API 视频播放能力。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
 
-5. WXVideo真机播放正常，开发者工具无法播放
+5. WXVideo 真机播放正常，开发者工具无法播放
 
-- 开发者工具暂时有异常，先主动切换到`3.4.10`版本基础库查看
+-   开发者工具暂时有异常，先主动切换到`3.4.10`版本基础库查看
+
+6. WXVideo 在 IOS 设置 underGameView 之后黑屏，有声音没画面
+
+-   需要开启高性能模式
