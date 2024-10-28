@@ -48,15 +48,15 @@ FMOD 原理：
 
 ## 视频
 
-目前 VideoPlayer 已自动适配微信小游戏
+在微信小游戏中有两种播放视频的方式，目前 VideoPlayer 组件已自动适配微信小游戏，只有全屏视频的场景也可以选择使用[WXVideo API](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
 
-### 支持版本
+### VideoPlayer 支持版本
 
 不同客户端的支持情况不同，以下为最低支持版本：
 
 | 参数        | 版本                        |
 | ----------- | --------------------------- |
-| IOS 高性能+ | 8.0.51                      |
+| IOS 高性能+ | 暂不支持                    |
 | IOS 高性能  | 8.0.41                      |
 | 安卓        | 8.0.40                      |
 | PC          | 基础库 3.2.1                |
@@ -64,26 +64,27 @@ FMOD 原理：
 
 ### QA
 
-1. 视频在 IOS 无法播放，在其他平台都可以播放？
+1. VideoPlayer 视频在 IOS 无法播放，在其他平台都可以播放？
 
 -   可以尝试把视频播放链接替换我们这个视频链接试试看是否正常，一般这种情况都是服务端设置问题，会报错`Origin weapp://wechat-game-runtime is not allowed by Access-Control-Allow-Origin`，但是没有打印到客户端，只需要配置服务端允许微信跨域访问即可（视频链接：https://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400 ）
 
-2. 视频在 IOS 播放有声音没画面？
+2. VideoPlayer 视频在 IOS 播放有声音没画面？
 
 -   开启了高性能+，先临时关闭高性能+
 
-3. 为什么 IOS 高性能模式只能同时播放一个视频？
+3. VideoPlayer 为什么在 IOS 高性能模式只能同时播放一个视频？
 
 -   IOS 的播放策略，只能从逻辑上兼容
 
-4. 是否应该使用 VideoPlayer？
+4. 应该使用 VideoPlayer 还是 WXVideo？
 
 -   如果只是单纯使用全屏的视频播放，更推荐使用小游戏 API 视频播放能力。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
 
-5. WXVideo 真机播放正常，开发者工具无法播放
+5. WXVideo 真机播放正常，开发者工具无法播放？
 
 -   开发者工具暂时有异常，先主动切换到`3.4.10`版本基础库查看
 
-6. WXVideo 在 IOS 设置 underGameView 之后黑屏，有声音没画面
+6. WXVideo 在 IOS 设置 underGameView 之后黑屏，有声音没画面？
 
 -   需要开启高性能模式
+
