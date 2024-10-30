@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Collections;
 using WeChatWASM;
 
 public class WebRequest : Details
@@ -30,7 +30,7 @@ public class WebRequest : Details
     {
         StartCoroutine(Post());
     }
-    
+
     private void testPut()
     {
         StartCoroutine(Put());
@@ -42,13 +42,12 @@ public class WebRequest : Details
 
         yield return webRequest.SendWebRequest();
 
-        if (webRequest.isHttpError || webRequest.isNetworkError)
+        if (webRequest.result is UnityWebRequest.Result.ProtocolError or UnityWebRequest.Result.ConnectionError)
             Debug.Log(webRequest.error);
         else
         {
             Debug.Log("get complete: " + webRequest.downloadHandler.text);
         }
-
     }
 
     IEnumerator Post()
@@ -63,7 +62,7 @@ public class WebRequest : Details
 
         yield return webRequest.SendWebRequest();
 
-        if (webRequest.isHttpError || webRequest.isNetworkError)
+        if (webRequest.result is UnityWebRequest.Result.ProtocolError or UnityWebRequest.Result.ConnectionError)
             Debug.Log(webRequest.error);
         else
         {

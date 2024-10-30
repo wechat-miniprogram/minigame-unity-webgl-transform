@@ -11,12 +11,34 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 1. UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
 2. PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 
-## 2024-7-31 【预发布】
-PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.18
+## 2024-10-18 【预发布】
+PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.22
+### Feature
+* 普通: WXSDK代码简化
+* 普通: 增强JsonMapper报错信息
+### Fixed
+* 普通: WX.Cloud.Init() 自定义环境报错
+
+## 2024-10-8 【重要更新】
+### Feature
+* 普通: UDPSocket.write适配
+* 普通: 部分JS API接口更新
+* 普通: 云开发/云托管支持
+### Fixed
+* 普通: 修复.net8 OnApplicationFocus/Pause适配
+* 普通: 修复插件自动调节dpr后，获取不到实际dpr
+* 普通: 修复音频设置timeSamples不生效
+* 重要: 修复iOS18微信系统字体丢失
+* 重要: 修复iOS17.5以上音频退后台无法恢复
+* 重要: 修复音频PC端异常循环播放
+* 重要: 修复游戏圈文案默认显示'打开游戏圈'的问题
+
+## 2024-8-13 【重要更新】
 ### Feature
 * 普通: 横竖屏切换，PC窗口大小自动适配
+* 普通: PC分辨率模糊，自动调节dpr属性
 ### Fixed
-* 严重：修复多点触控异常
+* 严重：修复多点触控产生的异常
 * 普通：适配2021，去_JS_Focus_Window
 * 普通：修复多线程压缩的扩展名判定
 

@@ -1,24 +1,26 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
-public class MandelbrotGPU : FPSTest {
-
-	public Material output;
+public class MandelbrotGPU : FPSTest
+{
+    public Material output;
     public RectTransform image;
 
-/*    float scale = 1.0f;
-    float xShift = 0;
-    int MaxIterations = 1;
-  */
+    /*    float scale = 1.0f;
+        float xShift = 0;
+        int MaxIterations = 1;
+      */
     float scale = 0.1f;
     float xShift = 1.2f;
     int accumulatedScore = 0;
+
     //int MaxIterations = 1;
 
-	public override void UpdateTest () {
-        output.SetFloat ("_Scale", scale);
-        output.SetFloat ("_xShift", xShift);
+    public override void UpdateTest()
+    {
+        output.SetFloat("_Scale", scale);
+        output.SetFloat("_xShift", xShift);
         //output.SetFloat ("_MaxIter", MaxIterations);
 
         if (curFPS != -1)
@@ -28,9 +30,10 @@ public class MandelbrotGPU : FPSTest {
             else
             {
                 accumulatedScore += (int)(image.sizeDelta.x * image.sizeDelta.y);
-                RectTransform newImage = Instantiate(image.gameObject).GetComponent<RectTransform>();
+                RectTransform newImage = Instantiate(image.gameObject)
+                    .GetComponent<RectTransform>();
                 newImage.parent = image.parent;
-                newImage.SetSiblingIndex(image.GetSiblingIndex()+1);
+                newImage.SetSiblingIndex(image.GetSiblingIndex() + 1);
                 newImage.pivot = image.pivot;
                 newImage.anchoredPosition = image.anchoredPosition;
                 image = newImage;
@@ -38,5 +41,5 @@ public class MandelbrotGPU : FPSTest {
             }
             score = accumulatedScore + (int)(image.sizeDelta.x * image.sizeDelta.y);
         }
-	}
+    }
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 // 添加 Text 组件的依赖
@@ -23,14 +23,14 @@ public class TextInit : MonoBehaviour
         else
         {
             // 如果字体还未加载，添加字体加载事件监听器
-            GameManager.Instance.onFontLoaded += OnFontLoaded;
+            GameManager.Instance.OnFontLoaded += OnFontLoaded;
         }
     }
 
     private void OnDestroy()
     {
         // 移除字体加载事件监听器
-        GameManager.Instance.onFontLoaded -= OnFontLoaded;
+        GameManager.Instance.OnFontLoaded -= OnFontLoaded;
     }
 
     // 当字体加载完成时，设置 Text 的字体

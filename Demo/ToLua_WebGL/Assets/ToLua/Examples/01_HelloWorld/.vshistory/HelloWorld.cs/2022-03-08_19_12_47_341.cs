@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
 using LuaInterface;
-using System;
+using UnityEngine;
 
 public class HelloWorld : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class HelloWorld : MonoBehaviour
             @"                
                 print('hello tolua#')                                  
             ";
-        
+
         lua.DoString(hello, "HelloWorld.cs");
         lua.CheckTop();
         lua.Dispose();

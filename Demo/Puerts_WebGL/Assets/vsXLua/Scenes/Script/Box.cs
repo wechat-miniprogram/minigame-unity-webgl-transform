@@ -9,21 +9,17 @@ public class Box : MonoBehaviour
     private static readonly float boxRange = 24f;
 
     public static int TotalBoxCount = 0;
-    
+
     public Transform target;
 
     // Start is called before the first frame update
     void Start()
     {
         TotalBoxCount++;
-        
+
         var randomX = Random.Range(-boxRange / 2, boxRange / 2) + target.position.x;
         var randomZ = Random.Range(-boxRange / 2, boxRange / 2) + target.position.z;
-        transform.position = new Vector3(
-            randomX,
-            0.2f,
-            randomZ
-        );
+        transform.position = new Vector3(randomX, 0.2f, randomZ);
         Vector3 delta = target.transform.position - transform.position;
         transform.position = transform.position - delta.normalized;
     }
@@ -37,9 +33,11 @@ public class Box : MonoBehaviour
             Destroy(gameObject);
             TotalBoxCount--;
             return;
-        } 
- 
+        }
+
         transform.position += delta.normalized * (Time.deltaTime * boxSpeed);
-        transform.rotation = Quaternion.LookRotation(target.transform.position - transform.position);
+        transform.rotation = Quaternion.LookRotation(
+            target.transform.position - transform.position
+        );
     }
 }

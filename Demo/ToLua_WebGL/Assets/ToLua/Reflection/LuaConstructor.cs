@@ -34,7 +34,7 @@ namespace LuaInterface
         [NoToLuaAttribute]
         public LuaConstructor(ConstructorInfo func, Type[] types)
         {
-            method = func;            
+            method = func;
 
             if (types != null)
             {

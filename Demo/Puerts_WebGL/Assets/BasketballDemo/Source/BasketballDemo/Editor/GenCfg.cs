@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using Puerts;
-using System;
 using UnityEngine;
 
 [Configure]
@@ -28,16 +28,18 @@ public class ExamplesCfg
             };
         }
     }
-    
+
     [Filter]
     static bool FilterMethods(System.Reflection.MemberInfo mb)
     {
-        if (mb.Name == "IsJoystickPreconfigured") {
+        if (mb.Name == "IsJoystickPreconfigured")
+        {
             return true;
         }
-        if (mb.Name == "MakeGenericSignatureType" || mb.Name == "IsCollectible") {
+        if (mb.Name == "MakeGenericSignatureType" || mb.Name == "IsCollectible")
+        {
             return true;
         }
         return false;
-    } 
+    }
 }

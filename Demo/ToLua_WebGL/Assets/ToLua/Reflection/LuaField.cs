@@ -25,7 +25,7 @@ using System.Globalization;
 using System.Reflection;
 
 namespace LuaInterface
-{    
+{
     //代表一个反射属性
     public sealed class LuaField
     {
@@ -36,14 +36,14 @@ namespace LuaInterface
         public LuaField(FieldInfo info, Type t)
         {
             field = info;
-            kclass = t;            
+            kclass = t;
         }
 
         public int Get(IntPtr L)
         {
             try
             {
-                ToLua.CheckArgsCount(L, 2);                
+                ToLua.CheckArgsCount(L, 2);
                 object arg0 = ToLua.CheckObject(L, 2, kclass);
                 object o = field.GetValue(arg0);
 
@@ -69,7 +69,7 @@ namespace LuaInterface
             catch (Exception e)
             {
                 return LuaDLL.toluaL_exception(L, e);
-            }            
+            }
         }
 
         public int Set(IntPtr L)
@@ -82,7 +82,8 @@ namespace LuaInterface
                 {
                     object arg0 = ToLua.CheckVarObject(L, 2, kclass);
                     object arg1 = ToLua.ToVarObject(L, 3);
-                    if (arg1 != null) arg1 = TypeChecker.ChangeType(arg1, field.FieldType);
+                    if (arg1 != null)
+                        arg1 = TypeChecker.ChangeType(arg1, field.FieldType);
                     field.SetValue(arg0, arg1);
                     return 0;
                 }
@@ -90,10 +91,11 @@ namespace LuaInterface
                 {
                     object arg0 = ToLua.CheckVarObject(L, 2, kclass);
                     object arg1 = ToLua.ToVarObject(L, 3);
-                    if (arg1 != null) arg1 = TypeChecker.ChangeType(arg1, field.FieldType);
+                    if (arg1 != null)
+                        arg1 = TypeChecker.ChangeType(arg1, field.FieldType);
                     BindingFlags arg2 = (BindingFlags)LuaDLL.luaL_checknumber(L, 4);
                     Binder arg3 = (Binder)ToLua.CheckObject(L, 5, typeof(Binder));
-                    CultureInfo arg4 = (CultureInfo)ToLua.CheckObject(L, 6, typeof(CultureInfo));                    
+                    CultureInfo arg4 = (CultureInfo)ToLua.CheckObject(L, 6, typeof(CultureInfo));
                     field.SetValue(arg0, arg1, arg2, arg3, arg4);
                     return 0;
                 }

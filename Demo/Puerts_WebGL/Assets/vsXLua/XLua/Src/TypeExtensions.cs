@@ -4,7 +4,6 @@ using System.Reflection;
 
 namespace XLua
 {
-
     internal static class TypeExtensions
     {
         public static bool IsValueType(this Type type)
@@ -120,7 +119,7 @@ namespace XLua
             return type.IsNestedPublic;
 #else
             return type.GetTypeInfo().IsNestedPublic;
-#endif        
+#endif
         }
 
         public static bool IsPublic(this Type type)
@@ -129,7 +128,7 @@ namespace XLua
             return type.IsPublic;
 #else
             return type.GetTypeInfo().IsPublic;
-#endif        
+#endif
         }
 
         public static string GetFriendlyName(this Type type)
@@ -153,8 +152,13 @@ namespace XLua
             else if (type == typeof(string))
                 return "string";
             else if (type.IsGenericType())
-                return type.FullName.Split('`')[0] + "<" + string.Join(", ", type.GetGenericArguments()
-                    .Select(x => GetFriendlyName(x)).ToArray()) + ">";
+                return type.FullName.Split('`')[0]
+                    + "<"
+                    + string.Join(
+                        ", ",
+                        type.GetGenericArguments().Select(x => GetFriendlyName(x)).ToArray()
+                    )
+                    + ">";
             else
                 return type.FullName;
         }

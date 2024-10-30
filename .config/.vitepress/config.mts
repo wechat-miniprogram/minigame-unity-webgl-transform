@@ -35,6 +35,7 @@ export default defineConfig({
           { text: "简介", link: "/README" },
           { text: "安装与使用", link: "/Design/SDKInstaller" },
           { text: "入门指南", link: "/Design/Guide" },
+          { text: "快速开始", link: "/Design/Transform" },
           { text: "优秀案例", link: "/Design/ShowCase" },
           { text: "更新日志", link: "/CHANGELOG.md" },
         ],
@@ -133,6 +134,7 @@ export default defineConfig({
         text: "能力适配",
         items: [
           { text: "WX SDK 平台能力适配", link: "/Design/WX_SDK" },
+          { text: "音频视频适配", link: "/Design/AudioAndVideo" },
           { text: "屏幕适配", link: "/Design/fixScreen" },
           { text: "输入法适配", link: "/Design/InputAdaptation" },
           { text: "排行榜与微信关系数据", link: "/Design/OpenData" },

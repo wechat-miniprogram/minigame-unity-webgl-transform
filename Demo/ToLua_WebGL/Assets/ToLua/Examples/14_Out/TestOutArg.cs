@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using LuaInterface;
-using System;
+using UnityEngine;
 
-public class TestOutArg : MonoBehaviour 
-{            
+public class TestOutArg : MonoBehaviour
+{
     string script =
         @"                                
             local box = UnityEngine.BoxCollider
@@ -25,7 +25,7 @@ public class TestOutArg : MonoBehaviour
     LuaFunction func = null;
     string tips = string.Empty;
 
-    void Start () 
+    void Start()
     {
 #if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived += ShowTips;
@@ -37,8 +37,8 @@ public class TestOutArg : MonoBehaviour
         LuaBinder.Bind(state);
         state.Start();
         state.DoString(script, "TestOutArg.cs");
-        func = state.GetFunction("TestPick");        
-	}
+        func = state.GetFunction("TestPick");
+    }
 
     void ShowTips(string msg, string stackTrace, LogType type)
     {
@@ -52,7 +52,7 @@ public class TestOutArg : MonoBehaviour
         Application.logMessageReceived -= ShowTips;
 #else
         Application.RegisterLogCallback(null);
-#endif        
+#endif
     }
 
     private void OnGUI()
@@ -65,13 +65,18 @@ public class TestOutArg : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Camera camera = Camera.main;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);                  
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            bool flag = Physics.Raycast(ray, out hit, 5000, 1 << LayerMask.NameToLayer("Default"));            
+            bool flag = Physics.Raycast(ray, out hit, 5000, 1 << LayerMask.NameToLayer("Default"));
 
             if (flag)
             {
-                Debugger.Log("pick from c#, point: [{0}, {1}, {2}]", hit.point.x, hit.point.y, hit.point.z);
+                Debugger.Log(
+                    "pick from c#, point: [{0}, {1}, {2}]",
+                    hit.point.x,
+                    hit.point.y,
+                    hit.point.z
+                );
             }
 
             func.BeginPCall();

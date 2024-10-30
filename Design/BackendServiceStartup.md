@@ -71,7 +71,7 @@ exports.main = async (event, context) => {
 
 修改 config.json，增加对 openapi.security.msgSecCheck 的声明，如没有用到 openapi 则无需修改 config.json:
 
-```
+```json
   "permissions": {
     "openapi": [
         "security.msgSecCheck"

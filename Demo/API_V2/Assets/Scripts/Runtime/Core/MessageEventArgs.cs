@@ -68,10 +68,7 @@ namespace UnityWebSocket
         /// </value>
         public bool IsBinary
         {
-            get
-            {
-                return Opcode == Opcode.Binary;
-            }
+            get { return Opcode == Opcode.Binary; }
         }
 
         /// <summary>
@@ -82,15 +79,13 @@ namespace UnityWebSocket
         /// </value>
         public bool IsText
         {
-            get
-            {
-                return Opcode == Opcode.Text;
-            }
+            get { return Opcode == Opcode.Text; }
         }
 
         private void SetData()
         {
-            if (_data != null) return;
+            if (_data != null)
+                return;
 
             if (RawData == null)
             {
@@ -102,7 +97,8 @@ namespace UnityWebSocket
 
         private void SetRawData()
         {
-            if (_rawData != null) return;
+            if (_rawData != null)
+                return;
 
             if (_data == null)
             {

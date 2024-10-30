@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using LitJson;
 using WeChatWASM;
-using System.Threading;
 
 public class GameClub : Details
 {
@@ -29,18 +26,20 @@ public class GameClub : Details
 
         Vector2 size = GameManager.Instance.detailsController.GetInitialButtonSize();
         Vector2 position = GameManager.Instance.detailsController.GetButtonPosition(0);
-        var systemInfo = WX.GetSystemInfoSync();
-        _gameClubButton = WX.CreateGameClubButton(new WXCreateGameClubButtonParam()
-        {
-            type = GameClubButtonType.text,
-            style = new GameClubButtonStyle()
+        var windowInfo = GameManager.Instance.WindowInfo;
+        _gameClubButton = WX.CreateGameClubButton(
+            new WXCreateGameClubButtonParam()
             {
-                left = Math.Abs((int)(position.x / systemInfo.pixelRatio)),
-                top = Math.Abs((int)(position.y / systemInfo.pixelRatio)),
-                width = (int)(size.x * systemInfo.screenWidth / 1080f),
-                height = (int)(size.y * systemInfo.screenWidth / 1080f),
+                type = GameClubButtonType.text,
+                style = new GameClubButtonStyle()
+                {
+                    left = Math.Abs((int)(position.x / windowInfo.pixelRatio)),
+                    top = Math.Abs((int)(position.y / windowInfo.pixelRatio)),
+                    width = (int)(size.x * windowInfo.screenWidth / 1080f),
+                    height = (int)(size.y * windowInfo.screenWidth / 1080f),
+                }
             }
-        });
+        );
     }
 
     // 测试API
@@ -80,7 +79,7 @@ public class GameClub : Details
         WX.GetGameClubData(option);
     }
 
-    private bool _isGameClubShow = false;
+    // private bool _isGameClubShow = false;
 
     // 切换游戏圈按钮显示/隐藏
     private void GameClubButtonSwitch()
@@ -115,7 +114,4 @@ public class GameClub : Details
             _gameClubButton = null;
         }
     }
-
 }
-
-

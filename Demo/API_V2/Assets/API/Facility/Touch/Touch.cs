@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
@@ -11,65 +11,68 @@ public class Touch : Details
     private static GameObject _squarePrefab;
 
     private static Dictionary<int, GameObject> _activeSquares;
-    
+
     private readonly Action<OnTouchStartListenerResult> _onTouchStart = (res) =>
     {
         var result = "Touch Start\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
-        
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
+
         foreach (var touch in res.changedTouches)
         {
-            var square = Instantiate(_squarePrefab, GameManager.Instance.detailsController.transform);
+            var square = Instantiate(
+                _squarePrefab,
+                GameManager.Instance.detailsController.transform
+            );
             square.transform.position = new Vector3(touch.clientX, touch.clientY, 0);
             _activeSquares.Add(touch.identifier, square);
         }
     };
-    
+
     private readonly Action<OnTouchStartListenerResult> _onTouchEnd = (res) =>
     {
         var result = "Touch End\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
 
         foreach (var touch in res.changedTouches)
         {
-            if (!_activeSquares.ContainsKey(touch.identifier)) continue;
-            
+            if (!_activeSquares.ContainsKey(touch.identifier))
+                continue;
+
             var square = _activeSquares[touch.identifier];
             Destroy(square);
             _activeSquares.Remove(touch.identifier);
         }
     };
-    
+
     private readonly Action<OnTouchStartListenerResult> _onTouchCancel = (res) =>
     {
         var result = "Touch Cancel\n" + JsonMapper.ToJson(res);
-        GameManager.Instance.detailsController.AddResult(new ResultData()
-        {
-            initialContentText = result
-        });
-        
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
+
         foreach (var touch in res.changedTouches)
         {
-            if (!_activeSquares.ContainsKey(touch.identifier)) continue;
-            
+            if (!_activeSquares.ContainsKey(touch.identifier))
+                continue;
+
             var square = _activeSquares[touch.identifier];
             Destroy(square);
             _activeSquares.Remove(touch.identifier);
         }
     };
-    
+
     private readonly Action<OnTouchStartListenerResult> _OnTouchMove = (res) =>
     {
         foreach (var touch in res.changedTouches)
         {
-            if (!_activeSquares.ContainsKey(touch.identifier)) continue;
-            
+            if (!_activeSquares.ContainsKey(touch.identifier))
+                continue;
+
             var square = _activeSquares[touch.identifier];
             square.transform.position = new Vector3(touch.clientX, touch.clientY, 0);
         }
@@ -79,7 +82,6 @@ public class Touch : Details
     {
         _activeSquares = new Dictionary<int, GameObject>();
     }
-
 
     private void Start()
     {
@@ -106,7 +108,9 @@ public class Touch : Details
             WX.OffTouchMove(_OnTouchMove);
         }
         _isListening = !_isListening;
-        GameManager.Instance.detailsController.ChangeInitialButtonText(_isListening ? "取消监听" : "开始监听");
+        GameManager.Instance.detailsController.ChangeInitialButtonText(
+            _isListening ? "取消监听" : "开始监听"
+        );
     }
 
     // 清除结果
@@ -114,7 +118,7 @@ public class Touch : Details
     {
         GameManager.Instance.detailsController.KeepFirstNResults(1);
     }
-    
+
     private void OnDestroy()
     {
         WX.OffTouchStart(_onTouchStart);

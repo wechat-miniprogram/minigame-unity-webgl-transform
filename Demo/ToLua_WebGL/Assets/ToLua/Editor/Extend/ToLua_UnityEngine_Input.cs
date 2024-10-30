@@ -1,10 +1,10 @@
-﻿using UnityEngine;
-using LuaInterface;
+﻿using LuaInterface;
+using UnityEngine;
 
 public class ToLua_UnityEngine_Input
 {
     public static string GetTouchDefined =
-@"        try
+        @"        try
         {
 		    int arg0 = (int)LuaDLL.luaL_checknumber(L, 1);
             int arg1 = LuaDLL.luaL_optinteger(L, 2, TouchBits.ALL);        
@@ -19,7 +19,7 @@ public class ToLua_UnityEngine_Input
 
     [UseDefinedAttribute]
     public static Touch GetTouch(int index, int flag)
-    {        
+    {
         return new Touch();
     }
 }

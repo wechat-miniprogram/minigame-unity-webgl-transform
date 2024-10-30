@@ -146,7 +146,7 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 - 不行，不提供内嵌webview或跳转的能力
 #### 5.小游戏是否支持Unity VideoPlayer
 
-- 支持，但是IOS有限制只能同时播放一个，并且需要注意基础库版本限制，低版本无法播放。如果只是单纯使用全屏的视频播放，更推荐使用小游戏API视频播放能力。请参考[小游戏开发者文档](https://developers.weixin.qq.com/minigame/dev/api/media/video/wx.createVideo.html)以及示例[Video Demo](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/WX_Video)
+- 支持，详情查看[音频视频适配](AudioAndVideo.md)
 #### 6.小游戏应该使用哪个接口进行限制帧率？
 
 - Application.targetFrameRate
@@ -174,3 +174,7 @@ if (WXConvertCore.DoExport() == WXConvertCore.WXExportError.SUCCEED) {
 - 解决这个报错，可以尝试这两种方法：
   - 第一种方法：升级 URP 版本（有些 URP 版本和 Unity 版本是绑定的，此时可能需要升级 Unity 版本）
   - 第二种方法：可以把工程 Library/PackageCache 目录下的 unity.rendercom.-pipelines.universal@xxx 包拷贝到本地路径，通过 file 的方式引入 unity.rendercom.-pipelines.universal@xxx 包，然后找到 Shaders/Utils/CoreBlit.shader 并修改它，只保留第一个 Pass （注意：此方法需要确保项目中只使用第一个 Pass）
+
+#### 12. PC端输入框无法输入，移动端正常
+- https://developers.weixin.qq.com/minigame/dev/api/device/keyboard/wx.showKeyboard.html
+需要传一下maxLength参数

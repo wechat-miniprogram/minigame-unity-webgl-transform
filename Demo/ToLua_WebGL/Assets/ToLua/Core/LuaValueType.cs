@@ -83,7 +83,7 @@ namespace LuaInterface
             names[LuaValueType.RaycastHit] = "RaycastHit";
         }
 
-        static public string Get(int type)
+        public static string Get(int type)
         {
             if (type >= 0 && type < LuaValueType.Max)
             {

@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
-using System;
-using LuaInterface;
 using System.Collections.Generic;
-
+using LuaInterface;
+using UnityEngine;
 
 public class TestInt64 : MonoBehaviour
 {
@@ -50,24 +49,23 @@ public class TestInt64 : MonoBehaviour
             end
         ";
 
-
     void Start()
     {
-#if UNITY_5 || UNITY_2017 || UNITY_2018		
+#if UNITY_5 || UNITY_2017 || UNITY_2018
         Application.logMessageReceived += ShowTips;
 #else
         Application.RegisterLogCallback(ShowTips);
-#endif        
+#endif
         new LuaResLoader();
         LuaState lua = new LuaState();
         lua.Start();
-        lua.DoString(script, "TestInt64.cs");                
+        lua.DoString(script, "TestInt64.cs");
 
         LuaFunction func = lua.GetFunction("TestInt64");
         func.BeginPCall();
         func.Push(9223372036854775807 - 789);
         func.PCall();
-        long n64 = func.CheckLong();        
+        long n64 = func.CheckLong();
         Debugger.Log("int64 return from lua is: {0}", n64);
         func.EndPCall();
         func.Dispose();
@@ -75,7 +73,7 @@ public class TestInt64 : MonoBehaviour
 
         lua.CheckTop();
         lua.Dispose();
-        lua = null;              
+        lua = null;
     }
 
     void ShowTips(string msg, string stackTrace, LogType type)

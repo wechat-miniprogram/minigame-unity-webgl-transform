@@ -18,7 +18,7 @@
 
 <img src="../image/update-dialog.png" width="320"/>
 
-转换插件有提供配置来自动使用这项能力，通过勾选`MiniGameConfig.asset`中的`needCheckUpdate`。
+转换插件有提供配置来自动使用这项能力，通过勾选【导出面板-更多配置项-Project Conf】中的配置`needCheckUpdate`。
 
 > 缺点：由于重启后，可能涉及资源下载，可能导致用户流失。
 

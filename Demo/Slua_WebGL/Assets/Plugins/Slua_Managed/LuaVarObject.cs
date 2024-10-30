@@ -1,17 +1,17 @@
 ﻿// The MIT License (MIT)
 
 // Copyright 2015 Siney/Pangweiwei siney@yeah.net
-// 
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -23,9 +23,9 @@
 
 namespace SLua
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System;
     using System.Reflection;
     using System.Runtime.InteropServices;
 
@@ -33,16 +33,17 @@ namespace SLua
     // This class use reflection and not completed, you should write your code for your purpose.
     class LuaVarObject : LuaObject
     {
-
         /// <summary>
         /// A cache list of MemberInfo, for reflection optimize
         /// </summary>
-        static Dictionary<Type, Dictionary<string, List<MemberInfo>>> cachedMemberInfos = new Dictionary<Type, Dictionary<string, List<MemberInfo>>>();
+        static Dictionary<Type, Dictionary<string, List<MemberInfo>>> cachedMemberInfos =
+            new Dictionary<Type, Dictionary<string, List<MemberInfo>>>();
 
         class MethodWrapper
         {
             object self;
             IList<MemberInfo> mis;
+
             public MethodWrapper(object self, IList<MemberInfo> mi)
             {
                 this.self = self;
@@ -157,28 +158,30 @@ namespace SLua
             /// <param name="l"></param>
             /// <param name="m"></param>
             /// <returns></returns>
-			private int forceInvoke(IntPtr l, MethodInfo m)
-			{
-				object[] args;
-				checkArgs(l, 1, m, out args);
-				object ret = m.Invoke(m.IsStatic ? null : self, args);
-				var pis = m.GetParameters();
-				pushValue(l, true);
-				if (ret != null)
-				{
-					pushVar(l, ret);
-					int ct = 2;
-					for (int i = 0; i < pis.Length; ++i) {
-						var pi = pis[i];
-						if (pi.ParameterType.IsByRef || pi.IsOut) {
-							pushValue(l, args[i]);
-							++ct;
-						}
-					}
-					return ct;
-				}
-				return 1;
-			}
+            private int forceInvoke(IntPtr l, MethodInfo m)
+            {
+                object[] args;
+                checkArgs(l, 1, m, out args);
+                object ret = m.Invoke(m.IsStatic ? null : self, args);
+                var pis = m.GetParameters();
+                pushValue(l, true);
+                if (ret != null)
+                {
+                    pushVar(l, ret);
+                    int ct = 2;
+                    for (int i = 0; i < pis.Length; ++i)
+                    {
+                        var pi = pis[i];
+                        if (pi.ParameterType.IsByRef || pi.IsOut)
+                        {
+                            pushValue(l, args[i]);
+                            ++ct;
+                        }
+                    }
+                    return ct;
+                }
+                return 1;
+            }
 
             public void checkArgs(IntPtr l, int from, MethodInfo m, out object[] args)
             {
@@ -196,9 +199,8 @@ namespace SLua
             }
         }
 
-
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static public int luaIndex(IntPtr l)
+        public static int luaIndex(IntPtr l)
         {
             try
             {
@@ -224,18 +226,16 @@ namespace SLua
 
         static int indexObject(IntPtr l, object self, object key)
         {
-
             if (self is IDictionary)
             {
                 var dict = self as IDictionary;
-                
+
                 object v = dict[key];
                 pushValue(l, true);
                 pushVar(l, v);
                 return 2;
             }
             return 0;
-
         }
 
         static Type getType(object o)
@@ -296,7 +296,6 @@ namespace SLua
             }
 
             return 2;
-
         }
 
         /// <summary>
@@ -305,9 +304,18 @@ namespace SLua
         /// <param name="type"></param>
         /// <param name="key"></param>
         /// <param name="memberList"></param>
-        static void CollectTypeMembers(Type type, ref Dictionary<string, List<MemberInfo>> membersMap)
+        static void CollectTypeMembers(
+            Type type,
+            ref Dictionary<string, List<MemberInfo>> membersMap
+        )
         {
-            var mems = type.GetMembers(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly); // GetMembers can get basetType's members, but GetMember cannot
+            var mems = type.GetMembers(
+                BindingFlags.Static
+                    | BindingFlags.Instance
+                    | BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.DeclaredOnly
+            ); // GetMembers can get basetType's members, but GetMember cannot
             for (var i = 0; i < mems.Length; i++)
             {
                 var mem = mems[i];
@@ -322,8 +330,8 @@ namespace SLua
             {
                 CollectTypeMembers(type.BaseType, ref membersMap);
             }
-
         }
+
         /// <summary>
         /// Get Member from Type, use reflection, use cache Dictionary
         /// </summary>
@@ -368,29 +376,27 @@ namespace SLua
             switch (mi.MemberType)
             {
                 case MemberTypes.Property:
-                    {
-                        PropertyInfo p = (PropertyInfo)mi;
-                        MethodInfo set = p.GetSetMethod(true);
-                        var value = checkVar(l, 3, p.PropertyType);
-                        set.Invoke(self, new object[] { value });
-                        break;
-                    }
+                {
+                    PropertyInfo p = (PropertyInfo)mi;
+                    MethodInfo set = p.GetSetMethod(true);
+                    var value = checkVar(l, 3, p.PropertyType);
+                    set.Invoke(self, new object[] { value });
+                    break;
+                }
                 case MemberTypes.Field:
-                    {
-                        FieldInfo f = (FieldInfo)mi;
-                        var value = checkVar(l, 3, f.FieldType);
-                        f.SetValue(self, value);
-                        break;
-                    }
+                {
+                    FieldInfo f = (FieldInfo)mi;
+                    var value = checkVar(l, 3, f.FieldType);
+                    f.SetValue(self, value);
+                    break;
+                }
                 case MemberTypes.Method:
                     return error(l, "Method can't set");
                 case MemberTypes.Event:
                     return error(l, "Event can't set");
-
             }
             return ok(l);
         }
-
 
         static int indexInt(IntPtr l, object self, int index)
         {
@@ -403,7 +409,7 @@ namespace SLua
             }
             else if (self is IDictionary)
             {
-                var dict = (IDictionary)self;// as IDictionary;
+                var dict = (IDictionary)self; // as IDictionary;
                 //support enumerate key
                 object dictKey = index;
                 if (type.IsGenericType)
@@ -419,7 +425,7 @@ namespace SLua
 
                     dictKey = changeType(dictKey, keyType); // if key is not int but ushort/uint,  IDictionary will cannot find the key and return null!
                 }
-                
+
                 pushValue(l, true);
                 pushVar(l, dict[dictKey]);
                 return 2;
@@ -475,7 +481,7 @@ namespace SLua
         }
 
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static public int luaNewIndex(IntPtr l)
+        public static int luaNewIndex(IntPtr l)
         {
             try
             {
@@ -500,7 +506,7 @@ namespace SLua
         }
 
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static public int methodWrapper(IntPtr l)
+        public static int methodWrapper(IntPtr l)
         {
             try
             {
@@ -514,7 +520,7 @@ namespace SLua
             }
         }
 
-        static new public void init(IntPtr l)
+        public static new void init(IntPtr l)
         {
             LuaDLL.lua_createtable(l, 0, 3);
             pushValue(l, luaIndex);
@@ -530,7 +536,11 @@ namespace SLua
             LuaDLL.lua_setfield(l, -2, "__call");
             LuaDLL.lua_pushcfunction(l, lua_gc);
             LuaDLL.lua_setfield(l, -2, "__gc");
-            LuaDLL.lua_setfield(l, LuaIndexes.LUA_REGISTRYINDEX, ObjectCache.getAQName(typeof(LuaCSFunction)));
+            LuaDLL.lua_setfield(
+                l,
+                LuaIndexes.LUA_REGISTRYINDEX,
+                ObjectCache.getAQName(typeof(LuaCSFunction))
+            );
         }
     }
 

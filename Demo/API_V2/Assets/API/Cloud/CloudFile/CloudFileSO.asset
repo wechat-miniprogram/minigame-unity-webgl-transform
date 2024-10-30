@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: CloudFileSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: CloudFile
+  entryName: "\u4E91\u6587\u4EF6"
+  entryAPI: 'WX.cloud.UploadFile/WX.cloud.DownloadFile
+
+    WX.cloud.DeleteFile/WX.cloud.GetTempFileURL'
+  entryDescription: "<color=red>\u8BF7\u5C06\u53C2\u6570\u6309\u5B9E\u9645\u60C5\u51B5\u8FDB\u884C\u66FF\u6362</color>"
+  optionList: []
+  initialButtonText: "\u4E0A\u4F20\u6587\u4EF6\u81F3\u4E91\u5B58\u50A8\u7A7A\u95F4"
+  extraButtonList:
+  - buttonText: "\u4ECE\u4E91\u5B58\u50A8\u7A7A\u95F4\u4E0B\u8F7D\u6587\u4EF6"
+  - buttonText: "\u4ECE\u4E91\u5B58\u50A8\u7A7A\u95F4\u5220\u9664\u6587\u4EF6"
+  - buttonText: "\u7528\u4E91\u6587\u4EF6 ID \u6362\u53D6\u771F\u5B9E\u94FE\u63A5"
+  initialResultList: []

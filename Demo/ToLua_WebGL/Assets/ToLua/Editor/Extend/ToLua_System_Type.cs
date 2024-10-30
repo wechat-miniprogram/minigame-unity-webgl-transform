@@ -2,7 +2,7 @@
 using System.Reflection;
 using LuaInterface;
 
-public class ToLua_System_Type 
+public class ToLua_System_Type
 {
     [NoToLuaAttribute]
     public EventInfo GetEvent(string name)
@@ -53,13 +53,26 @@ public class ToLua_System_Type
     }
 
     [NoToLuaAttribute]
-    public MethodInfo GetMethod(string name, BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
+    public MethodInfo GetMethod(
+        string name,
+        BindingFlags bindingAttr,
+        Binder binder,
+        Type[] types,
+        ParameterModifier[] modifiers
+    )
     {
         return null;
     }
 
     [NoToLuaAttribute]
-    public MethodInfo GetMethod(string name, BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+    public MethodInfo GetMethod(
+        string name,
+        BindingFlags bindingAttr,
+        Binder binder,
+        CallingConventions callConvention,
+        Type[] types,
+        ParameterModifier[] modifiers
+    )
     {
         return null;
     }
@@ -119,13 +132,25 @@ public class ToLua_System_Type
     }
 
     [NoToLuaAttribute]
-    public PropertyInfo GetProperty(string name, Type returnType, Type[] types, ParameterModifier[] modifiers)
+    public PropertyInfo GetProperty(
+        string name,
+        Type returnType,
+        Type[] types,
+        ParameterModifier[] modifiers
+    )
     {
         return null;
     }
 
     [NoToLuaAttribute]
-    public PropertyInfo GetProperty(string name, BindingFlags bindingAttr, Binder binder, Type returnType, Type[] types, ParameterModifier[] modifiers)
+    public PropertyInfo GetProperty(
+        string name,
+        BindingFlags bindingAttr,
+        Binder binder,
+        Type returnType,
+        Type[] types,
+        ParameterModifier[] modifiers
+    )
     {
         return null;
     }
@@ -161,13 +186,24 @@ public class ToLua_System_Type
     }
 
     [NoToLuaAttribute]
-    public ConstructorInfo GetConstructor(BindingFlags bindingAttr, Binder binder, Type[] types, ParameterModifier[] modifiers)
+    public ConstructorInfo GetConstructor(
+        BindingFlags bindingAttr,
+        Binder binder,
+        Type[] types,
+        ParameterModifier[] modifiers
+    )
     {
         return null;
     }
 
     [NoToLuaAttribute]
-    public ConstructorInfo GetConstructor(BindingFlags bindingAttr, Binder binder, CallingConventions callConvention, Type[] types, ParameterModifier[] modifiers)
+    public ConstructorInfo GetConstructor(
+        BindingFlags bindingAttr,
+        Binder binder,
+        CallingConventions callConvention,
+        Type[] types,
+        ParameterModifier[] modifiers
+    )
     {
         return null;
     }

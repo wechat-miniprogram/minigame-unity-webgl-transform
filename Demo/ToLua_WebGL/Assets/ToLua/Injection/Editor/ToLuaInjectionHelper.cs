@@ -70,7 +70,12 @@ public static class ToLuaInjectionHelper
         }
     }
 
-    public static string[] GetGenericName(Mono.Collections.Generic.Collection<TypeReference> types, int offset, int count, bool bFull)
+    public static string[] GetGenericName(
+        Mono.Collections.Generic.Collection<TypeReference> types,
+        int offset,
+        int count,
+        bool bFull
+    )
     {
         string[] results = new string[count];
 
@@ -111,13 +116,16 @@ public static class ToLuaInjectionHelper
                 {
                     MethodReference baseMethodRef = baseType.Module.Import(baseMethodDef);
                     var baseTypeInstance = (GenericInstanceType)baseType;
-                    return baseMethodRef.MakeGenericMethod(baseTypeInstance.GenericArguments.ToArray());
+                    return baseMethodRef.MakeGenericMethod(
+                        baseTypeInstance.GenericArguments.ToArray()
+                    );
                 }
                 break;
             }
-            else baseMethodDef = null;
+            else
+                baseMethodDef = null;
 
-           baseType = baseTypeDef.BaseType;
+            baseType = baseTypeDef.BaseType;
         }
 
         return baseMethodDef;
@@ -163,7 +171,7 @@ public static class ToLuaInjectionHelper
 #if UNITY_5_2 || UNITY_5_3 || UNITY_5_3_OR_NEWER
             || md.ContainsGenericParameter
 #endif
-            )
+        )
         {
             return true;
         }
@@ -194,7 +202,10 @@ public static class ToLuaInjectionHelper
         return md.Parameters.Any(param => param.ParameterType.IsByReference);
     }
 
-    public static TypeReference MakeGenericType(this TypeReference self, params TypeReference[] arguments)
+    public static TypeReference MakeGenericType(
+        this TypeReference self,
+        params TypeReference[] arguments
+    )
     {
         if (self.GenericParameters.Count != arguments.Length)
         {
@@ -210,7 +221,10 @@ public static class ToLuaInjectionHelper
         return instance;
     }
 
-    public static MethodReference MakeGenericMethod(this MethodReference self, params TypeReference[] arguments)
+    public static MethodReference MakeGenericMethod(
+        this MethodReference self,
+        params TypeReference[] arguments
+    )
     {
         if (self.DeclaringType.IsGenericTypeDefinition())
         {
@@ -229,9 +243,16 @@ public static class ToLuaInjectionHelper
         }
     }
 
-    public static MethodReference CloneMethod(this MethodReference self, TypeReference declaringType = null)
+    public static MethodReference CloneMethod(
+        this MethodReference self,
+        TypeReference declaringType = null
+    )
     {
-        var reference = new MethodReference(self.Name, self.ReturnType, declaringType ?? self.DeclaringType)
+        var reference = new MethodReference(
+            self.Name,
+            self.ReturnType,
+            declaringType ?? self.DeclaringType
+        )
         {
             HasThis = self.HasThis,
             ExplicitThis = self.ExplicitThis,
@@ -240,7 +261,13 @@ public static class ToLuaInjectionHelper
 
         foreach (ParameterDefinition parameterDef in self.Parameters)
         {
-            reference.Parameters.Add(new ParameterDefinition(parameterDef.Name, parameterDef.Attributes, parameterDef.ParameterType));
+            reference.Parameters.Add(
+                new ParameterDefinition(
+                    parameterDef.Name,
+                    parameterDef.Attributes,
+                    parameterDef.ParameterType
+                )
+            );
         }
 
         foreach (GenericParameter genParamDef in self.GenericParameters)

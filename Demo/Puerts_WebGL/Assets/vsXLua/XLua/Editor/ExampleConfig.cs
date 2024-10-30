@@ -6,11 +6,11 @@
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
 */
 
-using System.Collections.Generic;
 using System;
-using XLua;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using XLua;
 
 //配置的详细介绍请看Doc下《XLua的配置.doc》
 public static class ExampleConfig
@@ -190,7 +190,7 @@ public static class ExampleConfig
     //            if (typeArg.IsGenericParameter) {
     //                //skip unsigned type parameter
     //                continue;
-    //            } 
+    //            }
     //            if (typeHasEditorRef(typeArg))
     //            {
     //                return true;
@@ -250,39 +250,78 @@ public static class ExampleConfig
 
     //黑名单
     [BlackList]
-    public static List<List<string>> BlackList = new List<List<string>>()  {
-                new List<string>(){"System.Xml.XmlNodeList", "ItemOf"},
-                new List<string>(){"UnityEngine.WWW", "movie"},
-    #if UNITY_WEBGL
-                new List<string>(){"UnityEngine.WWW", "threadPriority"},
-    #endif
-                new List<string>(){"UnityEngine.Texture2D", "alphaIsTransparency"},
-                new List<string>(){"UnityEngine.Security", "GetChainOfTrustValue"},
-                new List<string>(){"UnityEngine.CanvasRenderer", "onRequestRebuild"},
-                new List<string>(){"UnityEngine.Light", "areaSize"},
-                new List<string>(){"UnityEngine.Light", "lightmapBakeType"},
-                new List<string>(){"UnityEngine.WWW", "MovieTexture"},
-                new List<string>(){"UnityEngine.WWW", "GetMovieTexture"},
-                new List<string>(){"UnityEngine.AnimatorOverrideController", "PerformOverrideClipListCleanup"},
-    #if !UNITY_WEBPLAYER
-                new List<string>(){"UnityEngine.Application", "ExternalEval"},
-    #endif
-                new List<string>(){"UnityEngine.GameObject", "networkView"}, //4.6.2 not support
-                new List<string>(){"UnityEngine.Component", "networkView"},  //4.6.2 not support
-                new List<string>(){"System.IO.FileInfo", "GetAccessControl", "System.Security.AccessControl.AccessControlSections"},
-                new List<string>(){"System.IO.FileInfo", "SetAccessControl", "System.Security.AccessControl.FileSecurity"},
-                new List<string>(){"System.IO.DirectoryInfo", "GetAccessControl", "System.Security.AccessControl.AccessControlSections"},
-                new List<string>(){"System.IO.DirectoryInfo", "SetAccessControl", "System.Security.AccessControl.DirectorySecurity"},
-                new List<string>(){"System.IO.DirectoryInfo", "CreateSubdirectory", "System.String", "System.Security.AccessControl.DirectorySecurity"},
-                new List<string>(){"System.IO.DirectoryInfo", "Create", "System.Security.AccessControl.DirectorySecurity"},
-                new List<string>(){"UnityEngine.MonoBehaviour", "runInEditMode"},
-            };
+    public static List<List<string>> BlackList = new List<List<string>>()
+    {
+        new List<string>() { "System.Xml.XmlNodeList", "ItemOf" },
+        new List<string>() { "UnityEngine.WWW", "movie" },
+#if UNITY_WEBGL
+        new List<string>() { "UnityEngine.WWW", "threadPriority" },
+#endif
+        new List<string>() { "UnityEngine.Texture2D", "alphaIsTransparency" },
+        new List<string>() { "UnityEngine.Security", "GetChainOfTrustValue" },
+        new List<string>() { "UnityEngine.CanvasRenderer", "onRequestRebuild" },
+        new List<string>() { "UnityEngine.Light", "areaSize" },
+        new List<string>() { "UnityEngine.Light", "lightmapBakeType" },
+        new List<string>() { "UnityEngine.WWW", "MovieTexture" },
+        new List<string>() { "UnityEngine.WWW", "GetMovieTexture" },
+        new List<string>()
+        {
+            "UnityEngine.AnimatorOverrideController",
+            "PerformOverrideClipListCleanup"
+        },
+#if !UNITY_WEBPLAYER
+        new List<string>() { "UnityEngine.Application", "ExternalEval" },
+#endif
+        new List<string>() { "UnityEngine.GameObject", "networkView" }, //4.6.2 not support
+        new List<string>() { "UnityEngine.Component", "networkView" }, //4.6.2 not support
+        new List<string>()
+        {
+            "System.IO.FileInfo",
+            "GetAccessControl",
+            "System.Security.AccessControl.AccessControlSections"
+        },
+        new List<string>()
+        {
+            "System.IO.FileInfo",
+            "SetAccessControl",
+            "System.Security.AccessControl.FileSecurity"
+        },
+        new List<string>()
+        {
+            "System.IO.DirectoryInfo",
+            "GetAccessControl",
+            "System.Security.AccessControl.AccessControlSections"
+        },
+        new List<string>()
+        {
+            "System.IO.DirectoryInfo",
+            "SetAccessControl",
+            "System.Security.AccessControl.DirectorySecurity"
+        },
+        new List<string>()
+        {
+            "System.IO.DirectoryInfo",
+            "CreateSubdirectory",
+            "System.String",
+            "System.Security.AccessControl.DirectorySecurity"
+        },
+        new List<string>()
+        {
+            "System.IO.DirectoryInfo",
+            "Create",
+            "System.Security.AccessControl.DirectorySecurity"
+        },
+        new List<string>() { "UnityEngine.MonoBehaviour", "runInEditMode" },
+    };
 
 #if UNITY_2018_1_OR_NEWER
     [BlackList]
     public static Func<MemberInfo, bool> MethodFilter = (memberInfo) =>
     {
-        if (memberInfo.DeclaringType.IsGenericType && memberInfo.DeclaringType.GetGenericTypeDefinition() == typeof(Dictionary<,>))
+        if (
+            memberInfo.DeclaringType.IsGenericType
+            && memberInfo.DeclaringType.GetGenericTypeDefinition() == typeof(Dictionary<,>)
+        )
         {
             if (memberInfo.MemberType == MemberTypes.Constructor)
             {
@@ -290,7 +329,11 @@ public static class ExampleConfig
                 var parameterInfos = constructorInfo.GetParameters();
                 if (parameterInfos.Length > 0)
                 {
-                    if (typeof(System.Collections.IEnumerable).IsAssignableFrom(parameterInfos[0].ParameterType))
+                    if (
+                        typeof(System.Collections.IEnumerable).IsAssignableFrom(
+                            parameterInfos[0].ParameterType
+                        )
+                    )
                     {
                         return true;
                     }
@@ -299,7 +342,10 @@ public static class ExampleConfig
             else if (memberInfo.MemberType == MemberTypes.Method)
             {
                 var methodInfo = memberInfo as MethodInfo;
-                if (methodInfo.Name == "TryAdd" || methodInfo.Name == "Remove" && methodInfo.GetParameters().Length == 2)
+                if (
+                    methodInfo.Name == "TryAdd"
+                    || methodInfo.Name == "Remove" && methodInfo.GetParameters().Length == 2
+                )
                 {
                     return true;
                 }
