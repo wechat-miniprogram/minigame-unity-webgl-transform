@@ -24,8 +24,9 @@ public class Ranking : MonoBehaviour
     public Button ShowButton;
     public Button ShareButton;
     public Button ReportButton;
-    public Button TestBeforeButton;
-    public Button TestAfterButton;
+    public Button TestMainButton; // 测试只有MainCanvas
+    public Button TestMainWithSharedButton; // 测试MainCanvas和SharedCanvas一起
+    public Button TestSharedButton; // 测试只有SharedCanvas
     public RawImage RankBody;
     public GameObject RankMask;
     public GameObject RankingBox;
@@ -112,11 +113,44 @@ public class Ranking : MonoBehaviour
         WX.ShowOpenData(RankBody.texture, (int)p.x, Screen.height - (int)p.y, (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width), (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height));
     }
 
-    private void TestToTempFilePath()
+    // 测试MainCanvas导出图片
+    private void MainToTempFilePath()
     {
         var info = WX.GetSystemInfoSync();
-        // Test ToTempFilePath
+        Debug.Log("Test MainCanvas ToTempFilePath");
         WXCanvas.ToTempFilePath(new WXToTempFilePathParam()
+        {
+                success = (result) =>
+                {
+                    Debug.Log("ToTempFilePath success:" + JsonUtility.ToJson(result));
+                    // Test PreviewImage
+                    WX.PreviewImage(new PreviewImageOption
+                    {
+                        urls = new string[] {result.tempFilePath},
+                        showmenu = true,
+                        success = (res) => 
+                        {
+                            Debug.Log("PreviewImage success:" + JsonUtility.ToJson(result));
+                        },
+                        fail = (res) =>
+                        {
+                            Debug.Log("PreviewImage fail:" + JsonUtility.ToJson(result));
+                        }
+                    });
+                },
+                fail = (result) =>
+                {
+                    Debug.Log("ToTempFilePath fail:" + JsonUtility.ToJson(result));
+                }
+        });
+    }
+
+    // 测试SharedCanvas导出图片
+    private void SharedToTempFilePath()
+    {
+        var info = WX.GetSystemInfoSync();
+        Debug.Log("Test SharedCanvas ToTempFilePath");
+        WXSharedCanvas.ToTempFilePath(new WXToTempFilePathParam()
         {
                 success = (result) =>
                 {
@@ -194,7 +228,8 @@ public class Ranking : MonoBehaviour
         });
 
         InitButton.onClick.AddListener(InitOpenDataContext);
-        TestBeforeButton.onClick.AddListener(TestToTempFilePath);
-        TestAfterButton.onClick.AddListener(TestToTempFilePath);
+        TestMainButton.onClick.AddListener(MainToTempFilePath);
+        TestMainWithSharedButton.onClick.AddListener(MainToTempFilePath);
+        TestSharedButton.onClick.AddListener(SharedToTempFilePath);
     }
 }
