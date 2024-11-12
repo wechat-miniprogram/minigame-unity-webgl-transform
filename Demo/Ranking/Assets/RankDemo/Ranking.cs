@@ -122,7 +122,7 @@ public class Ranking : MonoBehaviour
         {
                 success = (result) =>
                 {
-                    Debug.Log("ToTempFilePath success:" + JsonUtility.ToJson(result));
+                    Debug.Log("MainCanvas ToTempFilePath success:" + JsonUtility.ToJson(result));
                     // Test PreviewImage
                     WX.PreviewImage(new PreviewImageOption
                     {
@@ -130,17 +130,17 @@ public class Ranking : MonoBehaviour
                         showmenu = true,
                         success = (res) => 
                         {
-                            Debug.Log("PreviewImage success:" + JsonUtility.ToJson(result));
+                            Debug.Log("MainCanvas PreviewImage success:" + JsonUtility.ToJson(result));
                         },
                         fail = (res) =>
                         {
-                            Debug.Log("PreviewImage fail:" + JsonUtility.ToJson(result));
+                            Debug.Log("MainCanvas PreviewImage fail:" + JsonUtility.ToJson(result));
                         }
                     });
                 },
                 fail = (result) =>
                 {
-                    Debug.Log("ToTempFilePath fail:" + JsonUtility.ToJson(result));
+                    Debug.Log("MainCanvas ToTempFilePath fail:" + JsonUtility.ToJson(result));
                 }
         });
     }
@@ -154,7 +154,7 @@ public class Ranking : MonoBehaviour
         {
                 success = (result) =>
                 {
-                    Debug.Log("Shared ToTempFilePath success:" + JsonUtility.ToJson(result));
+                    Debug.Log("SharedCanvas ToTempFilePath success:" + JsonUtility.ToJson(result));
                     // Test PreviewImage
                     WX.PreviewImage(new PreviewImageOption
                     {
@@ -162,17 +162,17 @@ public class Ranking : MonoBehaviour
                         showmenu = true,
                         success = (res) => 
                         {
-                            Debug.Log("Shared PreviewImage success:" + JsonUtility.ToJson(result));
+                            Debug.Log("SharedCanvas PreviewImage success:" + JsonUtility.ToJson(result));
                         },
                         fail = (res) =>
                         {
-                            Debug.Log("Shared PreviewImage fail:" + JsonUtility.ToJson(result));
+                            Debug.Log("SharedCanvas PreviewImage fail:" + JsonUtility.ToJson(result));
                         }
                     });
                 },
                 fail = (result) =>
                 {
-                    Debug.Log("Shared ToTempFilePath fail:" + JsonUtility.ToJson(result));
+                    Debug.Log("SharedCanvas ToTempFilePath fail:" + JsonUtility.ToJson(result));
                 }
         });
     }
