@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: FileSystemSO
   m_EditorClassIdentifier: 
-  categoryName: "\u6587\u4EF6\u7CFB\u7EDF"
+  categoryName: "\u6587\u4EF6"
   categorySprite: {fileID: 21300000, guid: aedb8ebe6c4a14a13b23dc2e9ab42dcf, type: 3}
   entryList:
   - {fileID: 11400000, guid: d6030df8579cc4ac2aa1319e31f2cdcd, type: 2}
@@ -28,3 +28,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 65a826f5f949544d8990e673231bb80f, type: 2}
   - {fileID: 11400000, guid: 3a901e80b59ad4aafbe373ee6a8df2d8, type: 2}
   - {fileID: 11400000, guid: e7ea0be62dc6543b0a8dc629489c5e7e, type: 2}
+  categoryOrder: 11

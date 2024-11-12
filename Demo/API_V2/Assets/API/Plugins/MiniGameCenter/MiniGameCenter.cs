@@ -1,7 +1,7 @@
 using UnityEngine;
 using WeChatWASM;
 
-public class ChatManager : Details
+public class MiniGameCenter : Details
 {
     private static WXChat WxChat = null;
 

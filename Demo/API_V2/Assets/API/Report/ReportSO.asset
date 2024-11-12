@@ -16,3 +16,4 @@ MonoBehaviour:
   categorySprite: {fileID: 0}
   entryList:
   - {fileID: 11400000, guid: 561537d53954943ce9a54e325b636fad, type: 2}
+  categoryOrder: 7
