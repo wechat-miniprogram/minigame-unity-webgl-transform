@@ -9,4 +9,7 @@ public class CategorySO : ScriptableObject
     public Sprite categorySprite;
 
     public List<EntrySO> entryList;
+
+    [Tooltip("从小到大排序")]
+    public int categoryOrder;
 }

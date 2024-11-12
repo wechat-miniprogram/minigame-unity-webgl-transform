@@ -20,3 +20,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ab9ad3727f48045839570ecbda60c455, type: 2}
   - {fileID: 11400000, guid: 11f09745641b4493b99b3ee8bd3e5334, type: 2}
   - {fileID: 11400000, guid: eff9a9f0744fa4169b70f7439868e5cb, type: 2}
+  categoryOrder: 19

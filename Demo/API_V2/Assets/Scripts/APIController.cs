@@ -63,6 +63,7 @@ public class APIController : MonoBehaviour
         ClearCategories();
         ClearAbilities();
 
+        apiSO.categoryList.Sort((x, y) => x.categoryOrder.CompareTo(y.categoryOrder));
         // 为每个分类实例化一个预制体并初始化
         foreach (var category in apiSO.categoryList)
         {
@@ -70,6 +71,7 @@ public class APIController : MonoBehaviour
             categoryObj.GetComponent<Category>().Init(category);
         }
 
+        apiSO.abilityList.Sort((x, y) => x.abilityOrder.CompareTo(y.abilityOrder));
         // 为每个能力实例化一个预制体并初始化
         foreach (var ability in apiSO.abilityList)
         {
