@@ -1,3 +1,4 @@
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 public class APIController : MonoBehaviour
@@ -77,6 +78,25 @@ public class APIController : MonoBehaviour
         {
             var abilityObj = Instantiate(abilityPrefab, abilitiesTransform);
             abilityObj.GetComponent<Ability>().Init(ability);
+        }
+
+        SaveCurrentScene();
+    }
+
+    public static void SaveCurrentScene()
+    {
+        // 获取当前场景
+        var currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+
+        // 保存场景
+        if (!string.IsNullOrEmpty(currentScene.path))
+        {
+            EditorSceneManager.SaveScene(currentScene);
+            Debug.Log("Scene saved: " + currentScene.name);
+        }
+        else
+        {
+            Debug.LogWarning("Current scene has not been saved yet.");
         }
     }
 }
