@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: PluginsSO
   m_EditorClassIdentifier: 
-  categoryName: "\u793E\u4EA4\u7EC4\u4EF6"
+  categoryName: "\u63D2\u4EF6"
   categorySprite: {fileID: 0}
   entryList:
   - {fileID: 11400000, guid: 26e13aeac49284f87b5aaba6366af379, type: 2}
