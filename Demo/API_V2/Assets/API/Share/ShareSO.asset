@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShareSO
   m_EditorClassIdentifier: 
   categoryName: "\u8F6C\u53D1"
-  categorySprite: {fileID: 0}
+  categorySprite: {fileID: 21300000, guid: fcb0815b78313407ba299719f527350d, type: 3}
   entryList:
   - {fileID: 11400000, guid: 102555321c0dd4bc3ae36bf3514c2052, type: 2}
   - {fileID: 11400000, guid: 805c0a637a7d34742adf65b16186a448, type: 2}

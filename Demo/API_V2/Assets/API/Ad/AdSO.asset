@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AdSO
   m_EditorClassIdentifier: 
   categoryName: "\u5E7F\u544A"
-  categorySprite: {fileID: 21300000, guid: 9865c656be3004b6f8d509f0134ccdda, type: 3}
+  categorySprite: {fileID: 21300000, guid: b5d6e0bbe46254870822db68c13fba3e, type: 3}
   entryList:
   - {fileID: 11400000, guid: 3ddfb0b7c42b34030a50164dbdb42595, type: 2}
   - {fileID: 11400000, guid: 46bca0e1609784a2f876ea58df90e8b8, type: 2}

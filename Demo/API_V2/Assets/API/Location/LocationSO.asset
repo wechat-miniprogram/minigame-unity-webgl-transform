@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LocationSO
   m_EditorClassIdentifier: 
   categoryName: "\u4F4D\u7F6E"
-  categorySprite: {fileID: 0}
+  categorySprite: {fileID: 21300000, guid: 31fefeeb40ee244d089503c5b85f7751, type: 3}
   entryList:
   - {fileID: 11400000, guid: 295e57f0dea5540cb8f8e6c491ed308f, type: 2}
   categoryOrder: 10

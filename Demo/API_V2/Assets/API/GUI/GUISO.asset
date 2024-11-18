@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GUISO
   m_EditorClassIdentifier: 
   categoryName: "\u754C\u9762"
-  categorySprite: {fileID: 21300000, guid: bd5165d5d0b9b4f55b39dce7f4638c81, type: 3}
+  categorySprite: {fileID: 21300000, guid: 27da6855613054d92b027e653249f5ef, type: 3}
   entryList:
   - {fileID: 11400000, guid: 546628e39e8c246c38eebcdfbfd35b47, type: 2}
   - {fileID: 11400000, guid: 6902bd974e09745c4a185485a99c165d, type: 2}
