@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: AudioSO
   m_EditorClassIdentifier: 
   abilityName: "\u97F3\u9891"
-  abilitySprite: {fileID: 21300000, guid: c4c7aeb61a11745019949aef4b46a324, type: 3}
-  abilitySceneName: AudioScene
+  abilitySprite: {fileID: 0}
+  abilityOrder: 0

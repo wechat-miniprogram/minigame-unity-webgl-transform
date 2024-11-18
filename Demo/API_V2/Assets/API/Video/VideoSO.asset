@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: VideoSO
   m_EditorClassIdentifier: 
   abilityName: "\u89C6\u9891"
-  abilitySprite: {fileID: 21300000, guid: 5914cbe47cb794caab37c4bae648c2f8, type: 3}
-  abilitySceneName: VideoScene
+  abilitySprite: {fileID: 0}
+  abilityOrder: 0
