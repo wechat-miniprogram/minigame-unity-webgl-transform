@@ -19,8 +19,8 @@ Unity 里面要实现 sharedCanvas 的绘制，核心在于 hook Unity 的渲染
 4. 在关闭排行榜的时候，停止步骤 3 的 hook；
 
 **重点更新：**
-**我们在基础库3.5.5版本支持了 screenCanvas 类型的开放数据域**
-* 区别：sharedCanvas 变成了在屏类型（screenCanvas），不再需要依赖游戏域循环刷新渲染
+**我们在基础库3.6.6版本支持了 ScreenCanvas 模式的开放数据域**
+* 区别：sharedCanvas 变成了在屏模式（ScreenCanvas），不再需要依赖游戏域循环刷新渲染
 * 好处：减少由于渲染离屏Canvas产生的干扰问题
 * 如何实现：
 ``` CSharp
@@ -228,14 +228,16 @@ WX.OnShow((OnShowCallbackResult res) =>
 ## 常见问题QA
 **Q1. 为什么第一次调用 WX.ShowOpenData 之后画面先黑一下再展示排行榜？**
 
-
-A1. `WX.ShowOpenData` 在 `openDataContext.postMessage` `WXRender` 的事件之后立马就会开始 hook Unity 的渲染，如果开放数据域在监听到 `WXRender` 事件之后没有任何渲染行为，那么 sharedCanvas 纹理就还没有准备好，Unity 侧就可能出现黑一下的情况，解决办法是保证监听到 `WXRender` 事件之后有个同步的渲染行为，比如绘制个文案”好友数据加载中..."。
+- `WX.ShowOpenData` 在 `openDataContext.postMessage` `WXRender` 的事件之后立马就会开始 hook Unity 的渲染，如果开放数据域在监听到 `WXRender` 事件之后没有任何渲染行为，那么 sharedCanvas 纹理就还没有准备好，Unity 侧就可能出现黑一下的情况，解决办法是保证监听到 `WXRender` 事件之后有个同步的渲染行为，比如绘制个文案”好友数据加载中..."。
 
 **Q2. 为什么我关闭排行榜之后界面上有些问题错乱了？**
 
-
-A2. 基本上只可能是没调用 `WX.HideOpenData`，建议 `WX.HideOpenData` 打些日志来辅佐排查。
+- 基本上只可能是没调用 `WX.HideOpenData`，建议 `WX.HideOpenData` 打些日志来辅佐排查。
 
 **Q3. 为什么开放数据域滚动事件不生效？**
 
-A4. `WX.ShowOpenData(rawImage.texture, x, y, width, height)`的后面四个参数，核心目的是告诉开放数据域 sharedCanvas 最终被绘制在了屏幕的位置和尺寸，开放数据域才能够正确处理事件监听，遇到事件不生效的问题，首先排查传进来的参数是否符合预期，比如 x / y 不应该是负数。
+- `WX.ShowOpenData(rawImage.texture, x, y, width, height)`的后面四个参数，核心目的是告诉开放数据域 sharedCanvas 最终被绘制在了屏幕的位置和尺寸，开放数据域才能够正确处理事件监听，遇到事件不生效的问题，首先排查传进来的参数是否符合预期，比如 x / y 不应该是负数。
+
+**Q4. 为什么使用ScreenCanvas模式之后，ToTempFilePath没有开放数据域的画面了？**
+
+- 因为ScreenCanvas模式的画布是浮在游戏主画布之上的，并不是同一个画布，如需保存开放数据域画面，需要使用`WXSharedCanvas.ToTempFilePath`，使用示例参考[示例](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/Ranking)
