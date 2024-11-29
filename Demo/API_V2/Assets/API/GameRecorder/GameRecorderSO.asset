@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GameRecorderSO
   m_EditorClassIdentifier: 
   categoryName: "\u6E38\u620F\u5BF9\u5C40\u56DE\u653E"
-  categorySprite: {fileID: 0}
+  categorySprite: {fileID: 21300000, guid: 83b66fc9d42c34f61b8030b32f90a4a7, type: 3}
   entryList:
   - {fileID: 11400000, guid: d11257c295c2046a2ba4a85e722426cf, type: 2}
   categoryOrder: 16

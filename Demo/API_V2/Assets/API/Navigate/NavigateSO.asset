@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NavigateSO
   m_EditorClassIdentifier: 
   categoryName: "\u8DF3\u8F6C"
-  categorySprite: {fileID: 0}
+  categorySprite: {fileID: 21300000, guid: 28238bea78eb34481998d9679ff9acc3, type: 3}
   entryList:
   - {fileID: 11400000, guid: ee0f2dd14aceb4a83a4c7c75f5c3b688, type: 2}
   categoryOrder: 1

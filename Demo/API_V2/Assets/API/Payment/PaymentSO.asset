@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PaymentSO
   m_EditorClassIdentifier: 
   categoryName: "\u865A\u62DF\u652F\u4ED8"
-  categorySprite: {fileID: 0}
+  categorySprite: {fileID: 21300000, guid: c1de01a55749249aba898c5e116772a7, type: 3}
   entryList:
   - {fileID: 11400000, guid: dd332abe9d9fb41af85b675e4c8ea9f5, type: 2}
   categoryOrder: 5

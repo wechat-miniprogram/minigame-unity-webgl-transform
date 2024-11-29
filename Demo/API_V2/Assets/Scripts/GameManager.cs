@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
     {
         mainCanvas.SetActive(true);
         detailsCanvas.SetActive(false);
+        detailsController.ClearDetails();
     }
 
     // 切换 MainCanvas 和 DetailsCanvas 的显示状态

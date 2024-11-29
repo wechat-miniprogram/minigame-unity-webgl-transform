@@ -1,5 +1,8 @@
-using UnityEditor.SceneManagement;
+using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor.SceneManagement;
+#endif
 
 public class APIController : MonoBehaviour
 {
@@ -80,9 +83,15 @@ public class APIController : MonoBehaviour
             abilityObj.GetComponent<Ability>().Init(ability);
         }
 
-        SaveCurrentScene();
+#if UNITY_EDITOR
+        if (!EditorApplication.isPlaying)
+        {
+            SaveCurrentScene();
+        }
+#endif
     }
 
+#if UNITY_EDITOR
     public static void SaveCurrentScene()
     {
         // 获取当前场景
@@ -99,4 +108,5 @@ public class APIController : MonoBehaviour
             Debug.LogWarning("Current scene has not been saved yet.");
         }
     }
+#endif
 }
