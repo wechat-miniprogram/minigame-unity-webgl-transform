@@ -52,6 +52,7 @@ public class Category : MonoBehaviour
         categoryText.text = categorySO.categoryName;
         categoryImage.sprite = categorySO.categorySprite;
 
+        so.entryList.Sort((x, y) => x.entryOrder.CompareTo(y.entryOrder));
         // 为每个条目实例化一个预制体并初始化
         foreach (var entry in categorySO.entryList)
         {
