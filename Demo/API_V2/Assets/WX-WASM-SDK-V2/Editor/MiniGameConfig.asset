@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: 
-    Appid: 
+    projectName: API_V2_Video_git
+    Appid: wxde2e78d03039f4ad
     CDN: http://127.0.0.1:8080
     assetLoadType: 0
     compressDataPackage: 0
     VideoUrl: 
-    DST: 
+    DST: D:/API_V2_Git_Video
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
@@ -46,7 +46,7 @@ MonoBehaviour:
     UseMiniGameChat: 0
     PreloadWXFont: 0
   CompileOptions:
-    DevelopBuild: 1
+    DevelopBuild: 0
     AutoProfile: 0
     ScriptOnly: 0
     Il2CppOptimizeSize: 1
@@ -57,13 +57,14 @@ MonoBehaviour:
     ProfilingMemory: 0
     CleanBuild: 0
     CustomNodePath: 
-    autoAdaptScreen: 0
-    showMonitorSuggestModal: 0
+    autoAdaptScreen: 1
+    showMonitorSuggestModal: 1
     enableProfileStats: 0
     enableRenderAnalysis: 0
+    enablePerfAnalysis: 0
     iOSAutoGCInterval: 10000
     enableIOSPerformancePlus: 0
-    brotliMT: 0
+    brotliMT: 1
   CompressTexture:
     halfSize: 0
     useDXT5: 0
