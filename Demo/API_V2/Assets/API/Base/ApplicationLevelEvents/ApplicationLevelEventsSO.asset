@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: ErrorSO
+  m_Name: ApplicationLevelEventsSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: Error
-  entryName: "\u5E94\u7528\u7EA7\u4E8B\u6545"
+  entryName: "\u5E94\u7528\u7EA7\u4E8B\u4EF6"
   entryAPI: "off/ onUnhandledRejection \uFF5C off/ onError\noff/ onAudioInterruptionEnd
     |  off/ onAudioInterruptionBegin"
   entryDescription: "\u6CA1\u6709\u53EF\u89C1\u6548\u679C\uFF0C\u4EC5\u4F5C\u4E3Ademo"
@@ -21,3 +21,4 @@ MonoBehaviour:
   initialButtonText: "\u5F00\u59CB\u76D1\u542C"
   extraButtonList: []
   initialResultList: []
+  entryOrder: 3

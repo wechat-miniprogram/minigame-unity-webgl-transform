@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: GetInfoSO
+  m_Name: GetSystemInfoSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: GetInfo
   entryName: "\u83B7\u53D6\u7CFB\u7EDF\u548C\u8BBE\u5907\u4FE1\u606F"
@@ -27,3 +27,4 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u5C0F\u6E38\u620F\u51B7\u542F\u52A8\u65F6\u7684\u53C2\u6570"
   - buttonText: "\u83B7\u53D6\u5C0F\u6E38\u620F\u6253\u5F00\u7684\u53C2\u6570"
   initialResultList: []
+  entryOrder: 1

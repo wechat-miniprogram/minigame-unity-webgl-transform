@@ -41,4 +41,7 @@ public class EntrySO : ScriptableObject
     public List<ButtonData> extraButtonList;
 
     public List<ResultData> initialResultList;
+
+    [Tooltip("从小到大排序")]
+    public int entryOrder;
 }

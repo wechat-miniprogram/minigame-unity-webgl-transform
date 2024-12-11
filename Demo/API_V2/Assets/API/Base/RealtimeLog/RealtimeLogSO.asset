@@ -22,3 +22,4 @@ MonoBehaviour:
   - buttonText: "\u4E0A\u4F20warn\u65E5\u5FD7"
   - buttonText: "\u4E0A\u4F20error\u65E5\u5FD7"
   initialResultList: []
+  entryOrder: 6
