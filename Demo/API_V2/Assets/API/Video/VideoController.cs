@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.Video;
 using WeChatWASM;
 
-public class VideoController2 : MonoBehaviour
+public class VideoController : MonoBehaviour
 {
     public VideoPlayer videoPlayer; // 关联 VideoPlayer 组件
     public Button playButton; // 关联播放按钮
