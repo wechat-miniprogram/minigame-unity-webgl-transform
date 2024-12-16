@@ -2156,7 +2156,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1159140099}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6643d012c4923944accb7c4c05a0f14, type: 3}
+  m_Script: {fileID: 11500000, guid: 87a82871965db4245b5622331b6c8f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   videoPlayer: {fileID: 2114722372}
@@ -3620,7 +3620,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2114722371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f8db200f07583419e353541eb664cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 2cb9d8eb67611c340a962f0756b0ef9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_player: {fileID: 2114722372}
