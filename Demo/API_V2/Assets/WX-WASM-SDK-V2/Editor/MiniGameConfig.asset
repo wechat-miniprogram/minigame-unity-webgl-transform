@@ -15,7 +15,7 @@ MonoBehaviour:
   ProjectConf:
     projectName: 
     Appid: 
-    CDN: 
+    CDN: http://127.0.0.1:8080
     assetLoadType: 0
     compressDataPackage: 0
     VideoUrl: 
