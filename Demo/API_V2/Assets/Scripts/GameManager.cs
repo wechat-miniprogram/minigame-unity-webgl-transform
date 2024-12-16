@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using WeChatWASM;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,12 @@ public class GameManager : MonoBehaviour
     [Header("Font")]
     public Font font;
     public Action<Font> OnFontLoaded;
+
+    //
+    [Header("Font")]
+    public TMP_FontAsset fonts;
+    public Action<TMP_FontAsset> OnTMPFontLoaded;
+    
 
     // 用于在 MainCanvas 和 DetailsCanvas 之间切换
     [Header("Canvas Switch")]
