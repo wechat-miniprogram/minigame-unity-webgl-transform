@@ -11,13 +11,17 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 1. UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
 2. PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 
-## 2024-11-15 【预发布】
-PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.23
+
+## 2024-11-19 【预发布】
+PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.24
+
+## 2024-12-18 【重要更新】
 ### Feature
 * 普通: 开放数据域支持screenCanvas
 * 普通: 完善screenCanvas.toTempFilePath
 * 普通: 低版本WindowInfo适配
 * 普通: 调整autoAdaptScreen默认false
+* 普通: 首资源包放小游戏分包时，总大小调整为30MB
 ### Fixed
 * 重要: 更改WebGLInput.mobileKeyboardSupport默认属性为 false，该属性导致Unity2022 以上版本 Touch 会多调用一次 MainLoop产生较大性能损耗。请使用微信键盘API或 WXTouchInputOverride支持文本输入框
 
