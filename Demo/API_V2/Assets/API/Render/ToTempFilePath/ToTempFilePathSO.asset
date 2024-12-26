@@ -10,13 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: ToTempFilePath
+  m_Name: ToTempFilePathSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: ToTempFilePath
   entryName: ToTempFilePath
   entryAPI: Canvas.toTempFilePath
-  entryDescription: Canvas.toTempFilePath
-  optionList: []
+  entryDescription: "\u5C06\u5F53\u524D Canvas \u4FDD\u5B58\u4E3A\u4E00\u4E2A\u4E34\u65F6\u6587\u4EF6\u3002"
+  optionList:
+  - optionName: x
+    availableOptions:
+    - "\u9ED8\u8BA4\u503C0"
+  - optionName: y
+    availableOptions:
+    - "\u9ED8\u8BA4\u503C0"
+  - optionName: width
+    availableOptions:
+    - "\u9ED8\u8BA4\u503Ccanvas \u7684\u5BBD\u5EA6"
+  - optionName: height
+    availableOptions:
+    - "\u9ED8\u8BA4\u503Ccanvas \u7684\u9AD8\u5EA6"
   initialButtonText: "\u8FD0\u884C\u622A\u56FE"
   extraButtonList: []
   initialResultList: []

@@ -12,40 +12,44 @@ public class ToTempFilePath : Details
 
     private void LoadCanvasToTempFilePath()
     {
-        var sys = WX.GetSystemInfoSync();
-        Debug.Log("screenWidth:" + sys.screenWidth);
-        Debug.Log("screenHeight:" + sys.screenHeight);
-        Debug.Log("windowWidth:" + sys.windowWidth);
-        Debug.Log("windowHeight:" + sys.windowHeight);
+var sys = WX.GetSystemInfoSync();
+        string sysInfo = string.Format(
+            "屏幕信息:\nscreenWidth:{0}\nscreenHeight:{1}\nwindowWidth:{2}\nwindowHeight:{3}\n",
+            sys.screenWidth, sys.screenHeight, sys.windowWidth, sys.windowHeight
+        );
 
-        Debug.Log("UnityEngine.Screen.width;" + UnityEngine.Screen.width);
-        Debug.Log("UnityEngine.Screen.height;" + UnityEngine.Screen.height);
-
-        int ShareHeight = UnityEngine.Screen.height / 3;
+        
         WXCanvas.ToTempFilePath(new WXToTempFilePathParam()
         {
-            x = (UnityEngine.Screen.width - ShareHeight) / 2,
-            y = ShareHeight,
-            width = ShareHeight,
-            height = ShareHeight,
-            destWidth = ShareHeight,
-            destHeight = ShareHeight,
             success = (result) =>
             {
-                Debug.Log("ToTempFilePath success" + JsonUtility.ToJson(result));
-                WX.ShareAppMessage(new ShareAppMessageOption()
+                WX.ShowModal(new ShowModalOption()
                 {
-                    title = "这是你的标题",
-                    imageUrl = result.tempFilePath,
+                    title = "截图成功",
+                    content = "临时文件路径：" + result.tempFilePath + "\n\n" + sysInfo,
+                    showCancel = false,
+                    success = (res) =>
+                    {
+                        WX.ShareAppMessage(new ShareAppMessageOption()
+                        {
+                            title = "这是你的标题",
+                            imageUrl = result.tempFilePath,
+                        });
+                    }
                 });
             },
             fail = (result) =>
             {
-                Debug.Log("ToTempFilePath fail" + JsonUtility.ToJson(result));
+                WX.ShowModal(new ShowModalOption()
+                {
+                    title = "截图失败",
+                    content = JsonUtility.ToJson(result),
+                    showCancel = false
+                });
             },
             complete = (result) =>
             {
-                Debug.Log("ToTempFilePath complete" + JsonUtility.ToJson(result));
+                //完成处理
             },
         });
     }
