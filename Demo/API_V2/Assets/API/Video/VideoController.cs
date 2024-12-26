@@ -44,8 +44,14 @@ public class VideoController : MonoBehaviour
     // 视频播放完成时调用的方法
     void OnVideoEnd(VideoPlayer vp)
     {
-        Debug.Log("视频播放完成");
-
+        WX.ShowModal(new ShowModalOption()
+        {
+            title = "提示",
+            content = "视频播放完成",
+            showCancel = false,
+            success = (res) => {
+            }
+        });
         // 增加当前视频索引
         currentVideoIndex++;
 
