@@ -15,7 +15,11 @@ MonoBehaviour:
   entryScriptTypeName: ShareEvent2
   entryName: "\u8F6C\u53D12"
   entryAPI: "\u8F6C\u53D1\u76F8\u5173api"
-  entryDescription: "\u8F6C\u53D1\u529F\u80FD\u53EF\u80FD\u9700\u8981\u76F8\u5173\u6743\u9650"
+  entryDescription: "\u8F6C\u53D1\u529F\u80FD\u53EF\u80FD\u9700\u8981\u76F8\u5173\u6743\u9650\n\u5F00\u59CB\u76D1\u542C\u5728\u7535\u8111\u4E0A\u6253\u5F00
+    | wx.onHandoff | wx.offHandoff\n\u5F00\u59CB\u76D1\u542C\u590D\u5236\u94FE\u63A5
+    | wx.onCopyUrl | wx.offCopyUrl\n\u5F00\u59CB\u76D1\u542C\u6536\u85CF | wx.onAddToFavorites
+    | wx.offAddToFavorites\n\u83B7\u53D6\u8F6C\u53D1\u8BE6\u7EC6\u4FE1\u606F | wx.getShareInfo\n\u9A8C\u8BC1\u79C1\u5BC6\u6D88\u606F
+    | wx.authPrivateMessage"
   optionList: []
   initialButtonText: "\u5F00\u59CB\u76D1\u542C\u5728\u7535\u8111\u4E0A\u6253\u5F00"
   extraButtonList:
@@ -24,3 +28,4 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u8F6C\u53D1\u8BE6\u7EC6\u4FE1\u606F"
   - buttonText: "\u9A8C\u8BC1\u79C1\u5BC6\u6D88\u606F"
   initialResultList: []
+  entryOrder: 0
