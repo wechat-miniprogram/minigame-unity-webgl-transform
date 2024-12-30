@@ -19,16 +19,20 @@ MonoBehaviour:
   optionList:
   - optionName: x
     availableOptions:
-    - "\u9ED8\u8BA4\u503C0"
+    - 0
+    - 500
   - optionName: y
     availableOptions:
-    - "\u9ED8\u8BA4\u503C0"
+    - 0
+    - 500
   - optionName: width
     availableOptions:
-    - "\u9ED8\u8BA4\u503Ccanvas \u7684\u5BBD\u5EA6"
+    - 0
+    - 400
   - optionName: height
     availableOptions:
-    - "\u9ED8\u8BA4\u503Ccanvas \u7684\u9AD8\u5EA6"
+    - 0
+    - 800
   initialButtonText: "\u8FD0\u884C\u622A\u56FE"
   extraButtonList: []
   initialResultList: []
