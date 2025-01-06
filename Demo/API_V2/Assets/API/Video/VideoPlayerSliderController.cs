@@ -17,8 +17,7 @@ public class VideoPlayerSliderController : MonoBehaviour
             }
         });
     }
-
-    // 如果启用 MonoBehaviour，则每个固定帧速率的帧都将调用此函数
+    
     private void FixedUpdate()
     {
         if (m_bMouseUp)
@@ -42,5 +41,28 @@ public class VideoPlayerSliderController : MonoBehaviour
     public void SliderEvent(float value)
     {
         m_player.frame = long.Parse((value * m_player.frameCount).ToString("0."));
+    }
+
+    public void PointerClick()
+    {
+        // 暂停视频
+        m_player.Pause();
+        
+        // 获取点击位置相对于滑动条的比例
+        RectTransform rt = m_slider.GetComponent<RectTransform>();
+        Vector2 localPoint;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rt, Input.mousePosition, null, out localPoint);
+
+        // 计算点击位置对应的值
+        float percentage = (localPoint.x - rt.rect.xMin) / rt.rect.width;
+        percentage = Mathf.Clamp01(percentage);
+
+        // 设置视频帧
+        m_player.frame = long.Parse((percentage * m_player.frameCount).ToString("0."));
+        // 更新滑动条值
+        m_slider.value = percentage;
+
+        // 继续播放视频
+        m_player.Play();
     }
 }

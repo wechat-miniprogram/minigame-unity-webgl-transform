@@ -1380,6 +1380,7 @@ GameObject:
   - component: {fileID: 811883141}
   - component: {fileID: 811883142}
   - component: {fileID: 811883143}
+  - component: {fileID: 811883144}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -1477,7 +1478,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2114722374}
+        - m_Target: {fileID: 811883144}
           m_TargetAssemblyTypeName: VideoPlayerSliderController, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 1
@@ -1493,7 +1494,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2114722374}
+        - m_Target: {fileID: 811883144}
           m_TargetAssemblyTypeName: VideoPlayerSliderController, Assembly-CSharp
           m_MethodName: PointerUp
           m_Mode: 1
@@ -1505,6 +1506,37 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 811883144}
+          m_TargetAssemblyTypeName: VideoPlayerSliderController, Assembly-CSharp
+          m_MethodName: PointerClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &811883144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811883140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f8db200f07583419e353541eb664cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_player: {fileID: 2114722372}
+  m_slider: {fileID: 811883142}
+  m_bMouseUp: 1
 --- !u!1 &852327707
 GameObject:
   m_ObjectHideFlags: 0
@@ -3552,7 +3584,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2114722373}
   - component: {fileID: 2114722372}
-  - component: {fileID: 2114722374}
   m_Layer: 0
   m_Name: Video Player 2D
   m_TagString: Untagged
@@ -3611,21 +3642,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2114722374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2114722371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f8db200f07583419e353541eb664cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_player: {fileID: 2114722372}
-  m_slider: {fileID: 811883142}
-  m_bMouseUp: 1
 --- !u!1 &2136465918
 GameObject:
   m_ObjectHideFlags: 0
