@@ -71,13 +71,12 @@ public class GameManager : MonoBehaviour
                 );
 
                 // 获取微信小游戏的系统信息
-#if UNITY_WEBGL && !UNITY_EDITOR
                 WindowInfo = WX.GetWindowInfo();
                 MenuButtonBoundingClientRect = WX.GetMenuButtonBoundingClientRect();
-#else
-                WindowInfo = new WindowInfo { safeArea = new SafeArea() };
-                MenuButtonBoundingClientRect = new ClientRect();
-#endif
+
+                // 非小游戏与预览环境下防止报错
+                WindowInfo ??= new WindowInfo { safeArea = new SafeArea() };
+                MenuButtonBoundingClientRect ??= new ClientRect();
             }
         );
     }
