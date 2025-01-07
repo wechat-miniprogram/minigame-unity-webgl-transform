@@ -42,6 +42,15 @@ public class ToTempFilePath : Details
         return defaultValue;
     }
 
+    private string GetOptionString(int optionIndex, string defaultValue = "")
+    {
+        if (options != null && optionIndex < options.Length)
+        {
+            return options[optionIndex];
+        }
+        return defaultValue;
+    }
+
     private void LoadCanvasToTempFilePath()
     {
         var sys = WX.GetSystemInfoSync();
@@ -55,8 +64,12 @@ public class ToTempFilePath : Details
         float y = GetOptionValue(1);
         float width = GetOptionValue(2);
         float height = GetOptionValue(3);
+        float destWidth = GetOptionValue(4);
+        float destHeight = GetOptionValue(5);
+        string fileType = GetOptionString(6, "png");
+        float quality = GetOptionValue(7);
 
-        Debug.Log($"Using values: x={x}, y={y}, width={width}, height={height}");
+        Debug.Log($"Using values: x={x}, y={y}, width={width}, height={height}, destWidth={destWidth}, destHeight={destHeight}, fileType={fileType}, quality={quality}");
 
         WXCanvas.ToTempFilePath(new WXToTempFilePathParam()
         {
@@ -64,6 +77,11 @@ public class ToTempFilePath : Details
             y = (int)y,
             width = (int)width,
             height = (int)height,
+            destWidth = (int)destWidth,
+            destHeight = (int)destHeight,
+            fileType = fileType,
+            quality = (int)quality,
+
             success = (result) =>
             {
                 WX.ShowModal(new ShowModalOption()
