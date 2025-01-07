@@ -1904,7 +1904,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "ios\u4E0B\u9AD8\u6027\u80FD+\u6A21\u5F0F\u65E0\u6CD5\u6B63\u5E38\u64AD\u653E\u89C6\u9891\n\u8FD9\u91CC\u4E3A\u4E24\u4E2A\u89C6\u9891\uFF0Cios\u53EA\u80FD\u540C\u65F6\u64AD\u653E\u4E00\u4E2A\u89C6\u9891"
+  m_Text: "ios\u4E0B\u9AD8\u6027\u80FD+\u6A21\u5F0F\u65E0\u6CD5\u6B63\u5E38\u64AD\u653E\u89C6\u9891\n\u8FD9\u91CC\u4E3A\u4E24\u4E2A\u89C6\u9891\uFF0Cios\u53EA\u80FD\u540C\u65F6\u64AD\u653E\u4E00\u4E2A\u89C6\u9891\n\n\u6309\u94AE\u548C\u8FDB\u5EA6\u6761\u4EC5\u63A7\u5236Video
+    Player 2D\u89C6\u9891\n\n\u8FDB\u5EA6\u6761\u62D6\u5230\u6700\u540E/\u89C6\u9891\u81EA\u7136\u64AD\u653E\u5230\u6700\u540E\u65F6\uFF0C\n\u89E6\u53D1\u201C\u89C6\u9891\u64AD\u653E\u5B8C\u6210\u201D\uFF0C\u64AD\u653E\u4E0B\u4E00\u4E2A\u89C6\u9891\u3002"
 --- !u!1 &1069909357
 GameObject:
   m_ObjectHideFlags: 0
@@ -2041,7 +2042,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
