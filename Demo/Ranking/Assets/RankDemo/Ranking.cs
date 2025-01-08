@@ -83,7 +83,7 @@ public class Ranking : MonoBehaviour
     {
         if (openDataContext == null)
         {
-            WXOpenDataContext openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
+            openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
             {
                 sharedCanvasMode = selectedCanvasType
             });
