@@ -1,7 +1,7 @@
-using UnityEngine; // 引入 Unity 引擎命名空间
-using WeChatWASM; // 引入 WeChat WASM 命名空间
-using TMPro; // 引入 TextMeshPro 命名空间
-using UnityEngine.EventSystems; // 引入事件系统命名空间
+using UnityEngine;
+using WeChatWASM;
+using TMPro;
+using UnityEngine.EventSystems;
 
 // 要求该组件必须附加 TMP_InputField 组件
 [RequireComponent(typeof(TMP_InputField))]
@@ -19,14 +19,12 @@ public class WXInputFieldTmpAdapter : MonoBehaviour, IPointerClickHandler, IPoin
     // 当指针点击该组件时调用
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("OnPointerClick"); // 输出点击事件日志
         ShowKeyboard(); // 显示键盘
     }
 
     // 当指针离开该组件时调用
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("OnPointerExit"); // 输出离开事件日志
         // 如果 TMP_InputField 没有被聚焦，则隐藏键盘
         if (!_inputField.isFocused)
         {
@@ -37,8 +35,6 @@ public class WXInputFieldTmpAdapter : MonoBehaviour, IPointerClickHandler, IPoin
     // 输入法输入回调
     private void OnInput(OnKeyboardInputListenerResult v)
     {
-        Debug.Log("onInput"); // 输出输入事件日志
-        Debug.Log(v.value); // 输出输入的值
         // 如果 TMP_InputField 被聚焦，则将输入值赋给 TMP_InputField
         if (_inputField.isFocused)
         {
@@ -49,16 +45,12 @@ public class WXInputFieldTmpAdapter : MonoBehaviour, IPointerClickHandler, IPoin
     // 输入法确认回调
     private void OnConfirm(OnKeyboardInputListenerResult v)
     {
-        Debug.Log("onConfirm"); // 输出确认事件日志
-        Debug.Log(v.value); // 输出确认的值
         HideKeyboard(); // 隐藏键盘
     }
 
     // 输入法完成回调
     private void OnComplete(OnKeyboardInputListenerResult v)
     {
-        Debug.Log("OnComplete"); // 输出完成事件日志
-        Debug.Log(v.value); // 输出完成的值
         HideKeyboard(); // 隐藏键盘
     }
 

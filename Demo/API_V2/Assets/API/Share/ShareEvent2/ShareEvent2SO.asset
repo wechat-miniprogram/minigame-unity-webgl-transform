@@ -24,3 +24,4 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u8F6C\u53D1\u8BE6\u7EC6\u4FE1\u606F"
   - buttonText: "\u9A8C\u8BC1\u79C1\u5BC6\u6D88\u606F"
   initialResultList: []
+  entryOrder: 0

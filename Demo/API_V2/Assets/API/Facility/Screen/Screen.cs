@@ -28,8 +28,6 @@ public class Screen : Details
             );
         };
 
-    public static float height { get; internal set; }
-
     private void Start()
     {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, setScreenBrightness);
