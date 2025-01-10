@@ -28,3 +28,4 @@ MonoBehaviour:
   initialButtonText: "\u4E8B\u4EF6\u4E0A\u62A5"
   extraButtonList: []
   initialResultList: []
+  entryOrder: 0

@@ -28,3 +28,4 @@ MonoBehaviour:
   - buttonText: "\u76D1\u542Csharetofriend"
   - buttonText: "\u76D1\u542C\u53F3\u4E0A\u89D2\u83DC\u5355\u7684\u8F6C\u53D1"
   initialResultList: []
+  entryOrder: 0
