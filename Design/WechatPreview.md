@@ -7,16 +7,16 @@
 ​    关于预览插件的问题可以前往[Issues](https://github.com/wechat-miniprogram/minigame-unity-wechat-preview/issues)与[小助手](https://wechat-miniprogram.github.io/minigame-unity-webgl-transform/Design/IssueAndContact.html#%E5%B0%8F%E6%B8%B8%E6%88%8F%E5%AE%A2%E6%9C%8D%E5%8A%A9%E6%89%8B)反馈。
 
 <figure style="text-align: center;">
-  <img src="../image/wechatpreview/wechatpreview1.png" alt="wechatpreview1" style="width: 200px;"/>
+  <img src="../image/wechatpreview/wechatpreview1.png" alt="wechatpreview1" style="width: 200px; display: block; margin: 0 auto;"/>
   <figcaption>预览工具入口</figcaption>
 </figure>
 
 <figure style="text-align: center;">
-  <img src="../image/wechatpreview/wechatpreview2.png" alt="wechatpreview2" style="width: 200px;" />
+  <img src="../image/wechatpreview/wechatpreview2.png" alt="wechatpreview2" style="width: 200px; display: block; margin: 0 auto;" />
   <figcaption>预览工具界面</figcaption>
 </figure>
 
 <figure style="text-align: center;">
-  <img src="../image/wechatpreview/wechatpreview3.jpg" alt="wechatpreview3" style="width: 200px;" />
+  <img src="../image/wechatpreview/wechatpreview3.jpg" alt="wechatpreview3" style="width: 200px; display: block; margin: 0 auto;" />
   <figcaption>真机预览示例</figcaption>
 </figure>
