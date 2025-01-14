@@ -1,5 +1,17 @@
 # **快适配小游戏预览插件**
 
-​	为了解决开发阶段频繁迭代时转换小游戏时间过长的问题，推出了基于`WebRTC`音视频传输与`Unity Editor`环境的小游戏实时预览插件。该插件无需转换即可预览小游戏效果，旨在显著提升开发效率，缩短开发者在迭代过程中等待预览效果的时间。
+​    为了解决开发阶段频繁迭代时转换小游戏时间过长的问题，推出了基于`WebRTC`音视频传输与`Unity Editor`环境的小游戏实时预览插件。该插件无需转换即可预览小游戏效果，旨在显著提升开发效率，缩短开发者在迭代过程中等待预览效果的时间。
 
-​	由于该插件环境较为受限并且依赖较多，故作为独立包发布。**详见[预览插件](https://github.com/wechat-miniprogram/minigame-unity-wechat-preview)。**
+<img src="../image/wechatpreview/wechatpreview1.png" alt="wechatpreview1" style="width: 200px;"/>
+
+<center>预览工具入口</center>
+
+<img src="../image/wechatpreview/wechatpreview2.png" alt="wechatpreview2" style="width: 200px;" />
+
+<center>预览工具界面</center>
+
+<img src="../image/wechatpreview/wechatpreview3.jpg" alt="wechatpreview3" style="width: 200px;" />
+
+<center>真机预览示例</center>
+
+​    由于该插件环境较为受限并且依赖较多，故作为独立包发布。**详见[预览插件](https://github.com/wechat-miniprogram/minigame-unity-wechat-preview)。**
