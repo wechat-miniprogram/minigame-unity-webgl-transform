@@ -34,4 +34,40 @@ public abstract class Details : MonoBehaviour
 
     // 抽象方法，由子类实现具体的测试 API 逻辑
     protected abstract void TestAPI(string[] args);
+
+    protected float GetOptionValue(int optionIndex, float defaultValue = 0f)
+    {
+        if (options != null && optionIndex < options.Length)
+        {
+            if (float.TryParse(options[optionIndex], out float value))
+            {
+                return value;
+            }
+        }
+        return defaultValue;
+    }
+    //获得选项String类型值
+    protected string GetOptionString(int optionIndex, string defaultValue = "")
+    {
+        if (options != null && optionIndex < options.Length)
+        {
+            return options[optionIndex];
+        }
+        return defaultValue;
+    }
+    // 打印当前选项的值
+    protected void LogCurrentOptions()
+    {
+        if (options != null)
+        {
+            for (int i = 0; i < options.Length; i++)
+            {
+                Debug.Log($"Option {i}: {options[i]}");
+            }
+        }
+        else
+        {
+            Debug.Log("Options array is null");
+        }
+    }
 }

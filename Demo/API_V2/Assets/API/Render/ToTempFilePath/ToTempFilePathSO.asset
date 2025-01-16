@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ToTempFilePathSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: ToTempFilePath
-  entryName: "\u753B\u5E03"
+  entryName: "\u622A\u5C4F"
   entryAPI: Canvas.toTempFilePath
   entryDescription: "\u5C06\u5F53\u524D Canvas \u4FDD\u5B58\u4E3A\u4E00\u4E2A\u4E34\u65F6\u6587\u4EF6\u3002"
   optionList:
