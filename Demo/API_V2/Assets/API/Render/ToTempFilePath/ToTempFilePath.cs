@@ -8,7 +8,7 @@ public class ToTempFilePath : Details
 {
     protected override void TestAPI(string[] args)
     {
-        if (args[8] == "同步执行")
+        if (args[0] == "同步执行")
         {
             LoadCanvasToTempFilePathSync();
         }
@@ -21,14 +21,14 @@ public class ToTempFilePath : Details
     // 异步
     private void LoadCanvasToTempFilePath()
     {// 根据options数组的索引获取值
-        float x = GetOptionValue(0);
-        float y = GetOptionValue(1);
-        float width = GetOptionValue(2);
-        float height = GetOptionValue(3);
-        float destWidth = GetOptionValue(4);
-        float destHeight = GetOptionValue(5);
-        string fileType = GetOptionString(6, "png");
-        float quality = GetOptionValue(7);
+        float x = GetOptionValue(1);
+        float y = GetOptionValue(2);
+        float width = GetOptionValue(3);
+        float height = GetOptionValue(4);
+        float destWidth = GetOptionValue(5);
+        float destHeight = GetOptionValue(6);
+        string fileType = GetOptionString(7, "png");
+        float quality = GetOptionValue(8);
 
         string optionsInfo = $"当前参数值:\nx={x}\ny={y}\nwidth={width}\nheight={height}\ndestWidth={destWidth}\ndestHeight={destHeight}\nfileType={fileType}\nquality={quality}";
 
@@ -48,8 +48,9 @@ public class ToTempFilePath : Details
                 WX.ShowModal(new ShowModalOption()
                 {
                     title = "截图成功（异步）",
-                    content = $"{optionsInfo}\n\n临时文件路径：{result.tempFilePath}",
+                    content = $"{optionsInfo}\n\n临时文件路径：\n{result.tempFilePath}",
                     showCancel = false,
+                    confirmText = "展示截图",
                     success = (res) =>
                     {
                         WX.PreviewMedia(new PreviewMediaOption()
@@ -89,14 +90,14 @@ public class ToTempFilePath : Details
     {
 
         // 根据options数组的索引获取值
-        float x = GetOptionValue(0);
-        float y = GetOptionValue(1);
-        float width = GetOptionValue(2);
-        float height = GetOptionValue(3);
-        float destWidth = GetOptionValue(4);
-        float destHeight = GetOptionValue(5);
-        string fileType = GetOptionString(6, "png");
-        float quality = GetOptionValue(7);
+        float x = GetOptionValue(1);
+        float y = GetOptionValue(2);
+        float width = GetOptionValue(3);
+        float height = GetOptionValue(4);
+        float destWidth = GetOptionValue(5);
+        float destHeight = GetOptionValue(6);
+        string fileType = GetOptionString(7, "png");
+        float quality = GetOptionValue(8);
 
         string optionsInfo = $"当前参数值:\nx={x}\ny={y}\nwidth={width}\nheight={height}\ndestWidth={destWidth}\ndestHeight={destHeight}\nfileType={fileType}\nquality={quality}";
 
@@ -115,8 +116,9 @@ public class ToTempFilePath : Details
         WX.ShowModal(new ShowModalOption()
         {
             title = "截图成功（同步）",
-            content = $"{optionsInfo}\n\n临时文件路径：{tempFilePath}",
+            content = $"{optionsInfo}\n\n临时文件路径：\n{tempFilePath}",
             showCancel = false,
+            confirmText = "展示截图",
             success = (res) =>
             {
                 WX.PreviewMedia(new PreviewMediaOption()
