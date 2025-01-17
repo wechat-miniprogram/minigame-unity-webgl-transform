@@ -48,6 +48,10 @@ MonoBehaviour:
   - optionName: quality
     availableOptions:
     - 1.0
+  - optionName: "\u6267\u884C\u65B9\u5F0F"
+    availableOptions:
+    - "\u540C\u6B65\u6267\u884C"
+    - "\u5F02\u6B65\u6267\u884C"
   initialButtonText: "\u8FD0\u884C\u622A\u56FE"
   extraButtonList: []
   initialResultList: []
