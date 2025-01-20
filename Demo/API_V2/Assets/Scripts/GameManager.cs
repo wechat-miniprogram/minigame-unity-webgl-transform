@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [Header("Font")]
     public TMP_FontAsset fonts;
     public Action<TMP_FontAsset> OnTMPFontLoaded;
-    
+
 
     // 用于在 MainCanvas 和 DetailsCanvas 之间切换
     [Header("Canvas Switch")]
@@ -74,6 +74,11 @@ public class GameManager : MonoBehaviour
 
                         this.font = wxFont;
                         OnFontLoaded?.Invoke(wxFont);
+
+                        // 将普通字体转换为 TMP 字体资源
+                        TMP_FontAsset tmpFontAsset = TMP_FontAsset.CreateFontAsset(wxFont);
+                        this.fonts = tmpFontAsset;
+                        OnTMPFontLoaded?.Invoke(tmpFontAsset);
                     }
                 );
 
