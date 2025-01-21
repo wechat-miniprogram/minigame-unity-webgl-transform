@@ -18,44 +18,44 @@ Unity 里面要实现 sharedCanvas 的绘制，核心在于 hook Unity 的渲染
 3. 在需要绘制排行榜的时候，将原本要绘制的 WebGLObject 替换成通过 sharedCanvas 创建而来的 WebGLObject；
 4. 在关闭排行榜的时候，停止步骤 3 的 hook；
 
+**重点更新：**
+**我们在基础库3.6.6版本支持了 ScreenCanvas 模式的开放数据域**
+* 区别：sharedCanvas 变成了在屏模式（ScreenCanvas），不再需要依赖游戏域循环刷新渲染
+* 好处：减少由于渲染离屏Canvas产生的干扰问题
+* 如何实现：
+``` CSharp
+WX.GetOpenDataContext(new OpenDataContextOption
+{
+  sharedCanvasMode = CanvasType.ScreenCanvas
+})
+```
+
 ## 详细步骤
 ### 1、设置占位纹理
 在游戏需要展示的地方创建一个 RawImage，其中 Texture 属性自己选择透明的图片即可，后续展示时会被动态替换。因为unity纹理与 Web 的绘制存在倒立的差异，请将先将 rotation的x 设置为180，即让 `UI控件延X轴旋转180度` 再调整到游戏中合适的位置,如下图
 
  ![avatar](../image/o2.png)
  
-### 2、调用SDK的API 
-#### 2.1 在需要展示的地方调用，`WX.ShowOpenData`
+### 2、调用SDK的API
+#### 2.1 先初始化开放数据域类型
+初始化后canvas类型无法修改，只初始化一次并保存即可
 ``` CSharp
-WX.ShowOpenData(rawImage.texture, x, y, width, height);
+void InitOpenDataContext()
+{
+  if (openDataContext == null)
+  {
+    WXOpenDataContext openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
+    {
+      sharedCanvasMode = selectedCanvasType
+    });
+  }
+}
 ```
-其中 :
-* x : 占位区域对应屏幕左上角横坐标
-* y : 占位区域对应屏幕左上角纵坐标，注意左上角为（0，0）
-* width : 占位区域对应的宽度
-* height : 占位区域对应的高度
+`CanvasType`有`OffScreenCanvas`和`ScreenCanvas`两种类型，`OffScreenCanvas`为旧版本，推荐使用`ScreenCanvas`
 
-WX.ShowOpenData 最终会调用 minigame/unity-sdk/open-data.js 内的 WXShowOpenData 方法，核心是三个作用：
-1. 调用 wx.getOpenDataContext，这会触发开放数据域的初始化，也就是 open-data 文件夹下的代码在开放数据域初始化之后才能够执行；
-2. 给开放数据域侧抛一个事件，告知开放域去执行数据拉取和渲染操作，对于 WXRender 的处理没有任何要求，开放数据域甚至可以忽略这个事件；
-``` js
-openDataContext.postMessage({
-    type: "WXRender",
-    x: x,
-    y: y,
-    width: width,
-    height: height,
-    devicePixelRatio: window.devicePixelRatio,
-});
-```
-3. 开始 hook Unity 的渲染，原本的 RawImage 就会被替换成 sharedCanvas 的纹理。
+#### 2.2 通过 PostMessage 向开放数据域传递消息
 
-#### 2.2 需要关闭时则调用，`WX.HideOpenData`
-这一步非常重要，如果仅仅在 Unity 侧隐藏了 RawImage 而没有调用 WX.HideOpenData，很可能导致排行榜关闭之后文理错乱，比如有些地方的纹理变成了排行榜对应的纹理。
-
-#### 2.3 通过 PostMessage 向开放数据域传递消息
-
-如果需要在 Unity 中向开放域页面传递数据，可以调用`WX.GetOpenDataContext`，如下代码：
+如果需要在 Unity 中向开放域页面传递数据，可以调用`openDataContext.PostMessage`，如下代码：
 ``` CSharp
 [System.Serializable]
 public class OpenDataMessage
@@ -67,9 +67,9 @@ public class OpenDataMessage
 OpenDataMessage msgData = new OpenDataMessage();
 msgData.type = "showFriendsRank";
 string msg = JsonUtility.ToJson(msgData);
-WX.GetOpenDataContext().PostMessage(msg);
+openDataContext.PostMessage(msg);
 ```
-开放域JS代码可以通过：
+开放数据域JS代码可以按照以下实现：
 ``` js
 wx.onMessage(data => {
   console.log("[WX OpenData] onMessage", data);
@@ -88,6 +88,34 @@ wx.onMessage(data => {
   }
 });
 ```
+#### 2.3 在需要展示的地方调用，`WX.ShowOpenData`
+``` CSharp
+WX.ShowOpenData(rawImage.texture, x, y, width, height);
+```
+其中 :
+* x : 占位区域对应屏幕左上角横坐标
+* y : 占位区域对应屏幕左上角纵坐标，注意左上角为（0，0）
+* width : 占位区域对应的宽度
+* height : 占位区域对应的高度
+
+WX.ShowOpenData 最终会调用 minigame/unity-sdk/open-data.js 内的 WXShowOpenData 方法，核心是三个作用：
+1. 调用 wx.getOpenDataContext，这会触发开放数据域的初始化，也就是 open-data 文件夹下的代码在开放数据域初始化之后才能够执行；
+2. 给开放数据域侧抛一个事件，告知开放域去执行数据拉取和渲染操作，对于 WXRender 的处理没有任何要求，开放数据域甚至可以忽略这个事件；
+``` js
+// 注意，该代码是Unity模板中的代码，无需开发者实现
+openDataContext.postMessage({
+    type: "WXRender",
+    x: x,
+    y: y,
+    width: width,
+    height: height,
+    devicePixelRatio: window.devicePixelRatio,
+});
+```
+3. 如果是`OffScreenCanvas`模式，则会开始 hook Unity 的渲染，原本的 RawImage 就会被替换成 sharedCanvas 的纹理。如果是`ScreenCanvas`模式，则会修改宽高并直接在屏渲染
+
+#### 2.4 需要关闭开放数据域时则调用，`WX.HideOpenData`
+如果是`OffScreenCanvas`模式，这一步非常重要，如果仅仅在 Unity 侧隐藏了 RawImage 而没有调用 WX.HideOpenData，很可能导致排行榜关闭之后纹理错乱，比如有些地方的纹理变成了排行榜对应的纹理。
 
 ### 3、导出选项勾选使用好友关系链
 这一步会做两个事情：
@@ -137,7 +165,7 @@ OpenDataMessage msgData = new OpenDataMessage();
 msgData.type = "showFriendsRank";
 
 string msg = JsonUtility.ToJson(msgData);
-WX.GetOpenDataContext().PostMessage(msg);
+openDataContext.PostMessage(msg);
 ```
 
 3. 开放数据域监听相应事件，展示群排行，详见 open-data。
@@ -146,6 +174,7 @@ WX.GetOpenDataContext().PostMessage(msg);
 
 
 <img src="../image/opendata/demo1.jpeg" width="30%"/> <img src="../image/opendata/demo2.jpeg" width="30%"/> <img src="../image/opendata/demo3.jpeg" width="30%"/> 
+
 #### 5.2 群好友排行榜
 1. 为了使用群排行榜，需要调用 WX.UpdateShareMenu 设置分享菜单
 ``` CSharp
@@ -179,14 +208,13 @@ WX.OnShow((OnShowCallbackResult res) =>
 
     if (!string.IsNullOrEmpty(shareTicket) && query != null && query["minigame_action"] == "show_group_list")
     {
+        InitOpenDataContext();
+        ShowOpenData();
         OpenDataMessage msgData = new OpenDataMessage();
         msgData.type = "showGroupFriendsRank";
         msgData.shareTicket = shareTicket;
-
         string msg = JsonUtility.ToJson(msgData);
-
-        ShowOpenData();
-        WX.GetOpenDataContext().PostMessage(msg);
+        openDataContext.PostMessage(msg);
     }
 });
 ```
@@ -195,22 +223,21 @@ WX.OnShow((OnShowCallbackResult res) =>
 
 整体流程示意：
 
-
 <img src="../image/opendata/demo6.jpeg" width="24%"/> <img src="../image/opendata/demo7.jpeg" width="24%"/> <img src="../image/opendata/demo4.jpeg" width="24%"/> <img src="../image/opendata/demo5.jpeg" width="24%"/>
-
 
 ## 常见问题QA
 **Q1. 为什么第一次调用 WX.ShowOpenData 之后画面先黑一下再展示排行榜？**
 
-
-A1. WX.ShowOpenData 在 openDataContext.postMessage WXRender 的事件之后立马就会开始 hook Unity 的渲染，如果开放数据域在监听到 WXRender 事件之后没有任何渲染行为，那么 sharedCanvas 纹理就还没有准备好，Unity 侧就可能出现黑一下的情况，解决办法是保证监听到 WXRender 事件之后有个同步的渲染行为，比如绘制个文案”好友数据加载中..."。
+- `WX.ShowOpenData` 在 `openDataContext.postMessage` `WXRender` 的事件之后立马就会开始 hook Unity 的渲染，如果开放数据域在监听到 `WXRender` 事件之后没有任何渲染行为，那么 sharedCanvas 纹理就还没有准备好，Unity 侧就可能出现黑一下的情况，解决办法是保证监听到 `WXRender` 事件之后有个同步的渲染行为，比如绘制个文案”好友数据加载中..."。
 
 **Q2. 为什么我关闭排行榜之后界面上有些问题错乱了？**
 
-
-A2. 基本上只可能是没调用 WX.HideOpenData，建议 WX.HideOpenData 打些日志来辅佐排查。
+- 基本上只可能是没调用 `WX.HideOpenData`，建议 `WX.HideOpenData` 打些日志来辅佐排查。
 
 **Q3. 为什么开放数据域滚动事件不生效？**
 
+- `WX.ShowOpenData(rawImage.texture, x, y, width, height)`的后面四个参数，核心目的是告诉开放数据域 sharedCanvas 最终被绘制在了屏幕的位置和尺寸，开放数据域才能够正确处理事件监听，遇到事件不生效的问题，首先排查传进来的参数是否符合预期，比如 x / y 不应该是负数。
 
-A4. `WX.ShowOpenData(rawImage.texture, x, y, width, height)`的后面四个参数，核心目的是告诉开放数据域 sharedCanvas 最终被绘制在了屏幕的位置和尺寸，开放数据域才能够正确处理事件监听，遇到事件不生效的问题，首先排查传进来的参数是否符合预期，比如 x / y 不应该是负数。
+**Q4. 为什么使用ScreenCanvas模式之后，ToTempFilePath没有开放数据域的画面了？**
+
+- 因为ScreenCanvas模式的画布是浮在游戏主画布之上的，并不是同一个画布，如需保存开放数据域画面，需要使用`WXSharedCanvas.ToTempFilePath`，使用示例参考[示例](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/tree/main/Demo/Ranking)

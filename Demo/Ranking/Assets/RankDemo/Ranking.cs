@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,30 +19,36 @@ public class OpenDataMessage
 
 public class Ranking : MonoBehaviour
 {
+    public Dropdown CanvasDropdown;
+    public Button InitButton;
     public Button ShowButton;
     public Button ShareButton;
     public Button ReportButton;
-
+    public Button TestMainButton; // 测试只有MainCanvas
+    public Button TestMainWithSharedButton; // 测试MainCanvas和SharedCanvas一起
+    public Button TestSharedButton; // 测试只有SharedCanvas
     public RawImage RankBody;
     public GameObject RankMask;
     public GameObject RankingBox;
+    private CanvasType selectedCanvasType;
+    private WXOpenDataContext openDataContext;
 
     void Start()
     {
-        WX.InitSDK(
-            (code) =>
-            {
-                Init();
-            }
-        );
+        WX.InitSDK((code) =>
+        {
+            Init();
+        });
 
         /**
          * 使用群排行功能需要特殊设置分享功能，详情可见链接
          * https://developers.weixin.qq.com/minigame/dev/guide/open-ability/share/share.html
          */
-        WX.UpdateShareMenu(
-            new UpdateShareMenuOption() { withShareTicket = true, isPrivateMessage = true, }
-        );
+        WX.UpdateShareMenu(new UpdateShareMenuOption()
+        {
+            withShareTicket = true,
+            isPrivateMessage = true,
+        });
 
         /**
          * 群排行榜功能需要配合 WX.OnShow 来使用，整体流程为：
@@ -52,36 +58,43 @@ public class Ranking : MonoBehaviour
          * 4. 开放数据域调用 wx.getGroupCloudStorage 接口拉取获取群同玩成员的游戏数据
          * 5. 将群同玩成员数据绘制到 sharedCanvas
          */
-        WX.OnShow(
-            (res) =>
+        WX.OnShow((res) =>
+        {
+            string shareTicket = res.shareTicket;
+            Dictionary<string, string> query = res.query;
+
+            if (!string.IsNullOrEmpty(shareTicket) && query != null && query["minigame_action"] == "show_group_list")
             {
-                string shareTicket = res.shareTicket;
-                Dictionary<string, string> query = res.query;
+                InitOpenDataContext();
+                ShowOpenData();
 
-                if (
-                    !string.IsNullOrEmpty(shareTicket)
-                    && query != null
-                    && query["minigame_action"] == "show_group_list"
-                )
-                {
-                    OpenDataMessage msgData = new OpenDataMessage();
-                    msgData.type = "showGroupFriendsRank";
-                    msgData.shareTicket = shareTicket;
+                OpenDataMessage msgData = new OpenDataMessage();
+                msgData.type = "showGroupFriendsRank";
+                msgData.shareTicket = shareTicket;
 
-                    string msg = JsonUtility.ToJson(msgData);
+                string msg = JsonUtility.ToJson(msgData);
 
-                    ShowOpenData();
-                    WX.GetOpenDataContext().PostMessage(msg);
-                }
+                openDataContext.PostMessage(msg);
             }
-        );
+        });
+    }
+
+    void InitOpenDataContext()
+    {
+        if (openDataContext == null)
+        {
+            openDataContext = WX.GetOpenDataContext(new OpenDataContextOption
+            {
+                sharedCanvasMode = selectedCanvasType
+            });
+        }
     }
 
     void ShowOpenData()
     {
         RankMask.SetActive(true);
         RankingBox.SetActive(true);
-        //
+        // 
         // 注意这里传x,y,width,height是为了点击区域能正确点击，x,y 是距离屏幕左上角的距离，宽度传 (int)RankBody.rectTransform.rect.width是在canvas的UI Scale Mode为 Constant Pixel Size的情况下设置的。
         /**
          * 如果父元素占满整个窗口的话，pivot 设置为（0，0），rotation设置为180，则左上角就是离屏幕的距离
@@ -97,48 +110,108 @@ public class Ranking : MonoBehaviour
         var referenceResolution = scaler.referenceResolution;
         var p = RankBody.transform.position;
 
-        WX.ShowOpenData(
-            RankBody.texture,
-            (int)p.x,
-            Screen.height - (int)p.y,
-            (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width),
-            (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height)
-        );
+        WX.ShowOpenData(RankBody.texture, (int)p.x, Screen.height - (int)p.y, (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.width), (int)((Screen.width / referenceResolution.x) * RankBody.rectTransform.rect.height));
+    }
+
+    // 测试MainCanvas导出图片
+    private void MainToTempFilePath()
+    {
+        var info = WX.GetSystemInfoSync();
+        Debug.Log("Test MainCanvas ToTempFilePath");
+        WXCanvas.ToTempFilePath(new WXToTempFilePathParam()
+        {
+                success = (result) =>
+                {
+                    Debug.Log("MainCanvas ToTempFilePath success:" + JsonUtility.ToJson(result));
+                    // Test PreviewImage
+                    WX.PreviewImage(new PreviewImageOption
+                    {
+                        urls = new string[] {result.tempFilePath},
+                        showmenu = true,
+                        success = (res) => 
+                        {
+                            Debug.Log("MainCanvas PreviewImage success:" + JsonUtility.ToJson(result));
+                        },
+                        fail = (res) =>
+                        {
+                            Debug.Log("MainCanvas PreviewImage fail:" + JsonUtility.ToJson(result));
+                        }
+                    });
+                },
+                fail = (result) =>
+                {
+                    Debug.Log("MainCanvas ToTempFilePath fail:" + JsonUtility.ToJson(result));
+                }
+        });
+    }
+
+    // 测试SharedCanvas导出图片
+    private void SharedToTempFilePath()
+    {
+        var info = WX.GetSystemInfoSync();
+        Debug.Log("Test SharedCanvas ToTempFilePath");
+        WXSharedCanvas.ToTempFilePath(new WXToTempFilePathParam()
+        {
+                success = (result) =>
+                {
+                    Debug.Log("SharedCanvas ToTempFilePath success:" + JsonUtility.ToJson(result));
+                    // Test PreviewImage
+                    WX.PreviewImage(new PreviewImageOption
+                    {
+                        urls = new string[] {result.tempFilePath},
+                        showmenu = true,
+                        success = (res) => 
+                        {
+                            Debug.Log("SharedCanvas PreviewImage success:" + JsonUtility.ToJson(result));
+                        },
+                        fail = (res) =>
+                        {
+                            Debug.Log("SharedCanvas PreviewImage fail:" + JsonUtility.ToJson(result));
+                        }
+                    });
+                },
+                fail = (result) =>
+                {
+                    Debug.Log("SharedCanvas ToTempFilePath fail:" + JsonUtility.ToJson(result));
+                }
+        });
     }
 
     void Init()
     {
+        CanvasDropdown.onValueChanged.AddListener((int selectedIndex) =>
+        {
+            selectedCanvasType = (CanvasType)selectedIndex;
+        });
+
         ShowButton.onClick.AddListener(() =>
         {
+            InitOpenDataContext();
             ShowOpenData();
 
             OpenDataMessage msgData = new OpenDataMessage();
             msgData.type = "showFriendsRank";
 
             string msg = JsonUtility.ToJson(msgData);
-            WX.GetOpenDataContext().PostMessage(msg);
+            openDataContext.PostMessage(msg);
         });
 
-        RankMask
-            .GetComponent<Button>()
-            .onClick.AddListener(() =>
-            {
-                RankMask.SetActive(false);
-                RankingBox.SetActive(false);
-                WX.HideOpenData();
-            });
+
+        RankMask.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            RankMask.SetActive(false);
+            RankingBox.SetActive(false);
+            WX.HideOpenData();
+        });
 
         ShareButton.onClick.AddListener(() =>
         {
-            WX.ShareAppMessage(
-                new ShareAppMessageOption()
-                {
-                    title = "最强战力排行榜！谁是第一？",
-                    query = "minigame_action=show_group_list",
-                    imageUrl =
-                        "https://mmgame.qpic.cn/image/5f9144af9f0e32d50fb878e5256d669fa1ae6fdec77550849bfee137be995d18/0",
-                }
-            );
+            WX.ShareAppMessage(new ShareAppMessageOption()
+            {
+                title = "最强战力排行榜！谁是第一？",
+                query = "minigame_action=show_group_list",
+                imageUrl = "https://mmgame.qpic.cn/image/5f9144af9f0e32d50fb878e5256d669fa1ae6fdec77550849bfee137be995d18/0",
+            });
         });
 
         ReportButton.onClick.AddListener(() =>
@@ -150,7 +223,13 @@ public class Ranking : MonoBehaviour
             string msg = JsonUtility.ToJson(msgData);
 
             Debug.Log(msg);
-            WX.GetOpenDataContext().PostMessage(msg);
+            InitOpenDataContext();
+            openDataContext.PostMessage(msg);
         });
+
+        InitButton.onClick.AddListener(InitOpenDataContext);
+        TestMainButton.onClick.AddListener(MainToTempFilePath);
+        TestMainWithSharedButton.onClick.AddListener(MainToTempFilePath);
+        TestSharedButton.onClick.AddListener(SharedToTempFilePath);
     }
 }
