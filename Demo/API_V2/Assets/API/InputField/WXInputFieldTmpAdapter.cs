@@ -63,7 +63,6 @@ public class WXInputFieldTmpAdapter : MonoBehaviour, IPointerClickHandler, IPoin
         // 调用 WeChat API 显示键盘
         WX.ShowKeyboard(new ShowKeyboardOption()
         {
-            defaultValue = "xxx", // 键盘默认值
             maxLength = 20, // 最大输入长度
             confirmType = "go" // 确认按钮类型
         });
