@@ -1,0 +1,33 @@
+import{_ as s,c as n,o as a,a4 as p}from"./chunks/framework.Br2U662V.js";const q=JSON.parse('{"title":"微信开发者工具域名列表","description":"","frontmatter":{},"headers":[],"relativePath":"Design/DevtoolsDomain.md","filePath":"Design/DevtoolsDomain.md"}'),e={name:"Design/DevtoolsDomain.md"},l=p(`<h1 id="微信开发者工具域名列表" tabindex="-1">微信开发者工具域名列表 <a class="header-anchor" href="#微信开发者工具域名列表" aria-label="Permalink to &quot;微信开发者工具域名列表&quot;">​</a></h1><p>内网使用微信开发者工具时需要放开这些域名的限制方可正常使用</p><blockquote><p>参考 <a href="https://developers.weixin.qq.com/community/develop/article/doc/000e426d34c788ac39ad82e1756813" target="_blank" rel="noreferrer">https://developers.weixin.qq.com/community/develop/article/doc/000e426d34c788ac39ad82e1756813</a></p></blockquote><div class="language- vp-adaptive-theme"><button title="Copy Code" class="copy"></button><span class="lang"></span><pre class="shiki shiki-themes github-light github-dark vp-code"><code><span class="line"><span>https://mp.weixin.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://open.weixin.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://long.open.weixin.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://lp.open.weixin.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://servicewechat.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://dldir1.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://res.wx.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://tcb.cloud.tencent.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://scf.tencentcloudapi.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://flexdb.tencentcloudapi.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://tcb.tencentcloudapi.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>wss://wxagame.weixin.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://long.wxagame.weixin.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://cube.weixinbridge.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://repot.url.cn</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://fuwu.weixin.qq.com</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>https://res.servicewechat.com</span></span></code></pre></div>`,4),c=[l];function t(i,o,r,d,m,h){return a(),n("div",null,c)}const u=s(e,[["render",t]]);export{q as __pageData,u as default};
