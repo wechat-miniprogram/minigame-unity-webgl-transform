@@ -2,8 +2,9 @@
 
 ### 自动适配
 
-​    支持2022和团结引擎的 Input Field 与 TextMeshPro - Input Field组件自动适配，低版本或者其他组件暂不支持自动适配。
-​    **自动适配在20241218版本后默认关闭，因为会导致 Touch 多调用一次 MainLoop 产生较大性能损耗。**若需开启，可以将`WXTouchInputOverride.cs`附加到`EventSystem`对象上，或在合适的位置加入
+- `Input Field`组件**自动适配**支持版本：Unity2022、团结引擎全部版本
+- `TextMeshPro - Input Field`组件**自动适配**支持版本：**团结引擎3.0.7及以上版本**
+- **自动适配在转换插件20241218版本后默认关闭，因为会导致 Touch 多调用一次 MainLoop 产生较大性能损耗。**若需开启，可以将`WXTouchInputOverride.cs`附加到`EventSystem`对象上，或在合适的位置加入以下代码：
 
 ```
 #if PLATFORM_WEIXINMINIGAME
