@@ -62,7 +62,7 @@ public class WXInputFieldAdapter : MonoBehaviour, IPointerClickHandler, IPointer
 
         WX.ShowKeyboard(new ShowKeyboardOption()
         {
-            defaultValue = "xxx",
+            defaultValue = _inputField.text,
             maxLength = 20,
             confirmType = "go"
         });
