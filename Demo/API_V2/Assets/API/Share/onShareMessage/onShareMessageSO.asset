@@ -10,14 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: ShareAppMessageSO
+  m_Name: onShareMessageSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: ShareAppMessage
-  entryName: "\u5206\u4EAB\u5E94\u7528\u4FE1\u606F"
-  entryAPI: shareAppMessage
-  entryDescription: "\u4E3B\u52A8\u62C9\u8D77\u8F6C\u53D1\uFF0C\u8FDB\u5165\u9009\u62E9\u901A\u8BAF\u5F55\u754C\u9762\u3002"
+  entryScriptTypeName: onShareMessage
+  entryName: "\u5206\u4EAB\u76D1\u542C\u8F6C\u53D1"
+  entryAPI: "\u8F6C\u53D1\u76F8\u5173api\t"
+  entryDescription: 'wx.onShareMessageToFriend
+
+    wx.onShareAppMessage'
   optionList: []
-  initialButtonText: "\u5206\u4EAB"
-  extraButtonList: []
+  initialButtonText: "\u76D1\u542C\u597D\u53CB\u5206\u4EAB"
+  extraButtonList:
+  - buttonText: "\u76D1\u542C\u53F3\u4E0A\u89D2\u83DC\u5355\u8F6C\u53D1"
   initialResultList: []
   entryOrder: 0

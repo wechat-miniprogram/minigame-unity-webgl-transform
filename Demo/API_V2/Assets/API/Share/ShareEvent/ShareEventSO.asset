@@ -15,13 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: ShareEvent
   entryName: "\u8F6C\u53D11"
   entryAPI: "\u8F6C\u53D1\u76F8\u5173api\n"
-  entryDescription: "\u8F6C\u53D1\u529F\u80FD\u53EF\u80FD\u9700\u8981\u76F8\u5173\u6743\u9650\n\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027
-    | wx.updateShareMenu\n\u663E\u793A\u5F53\u524D\u9875\u9762\u7684\u8F6C\u53D1\u6309\u94AE
-    | wx.showShareMenu\n\u9690\u85CF\u5F53\u524D\u9875\u9762\u7684\u8F6C\u53D1\u6309\u94AE
-    | wx.hideShareMenu\n\u6253\u5F00\u5206\u4EAB\u56FE\u7247\u5F39\u7A97 | wx.showShareImageMenu\n\u8BBE\u7F6Esharetofriend\u5B57\u6BB5
-    | wx.setMessageToFriendQuery\n\u8BBE\u7F6E\u63A5\u529B\u53C2\u6570 | wx.setHandoffQuery\n\u5F00\u59CB\u76D1\u542C\u5206\u4EAB\u5230\u670B\u53CB\u5708
-    | wx.onShareTimeline | wx.offShareTimeline\n\u76D1\u542Csharetofriend | wx.onShareMessageToFriend\n\u76D1\u542C\u53F3\u4E0A\u89D2\u83DC\u5355\u7684\u8F6C\u53D1
-    | wx.onShareAppMessage"
+  entryDescription: "\u8F6C\u53D1\u529F\u80FD\u53EF\u80FD\u9700\u8981\u76F8\u5173\u6743\u9650"
   optionList: []
   initialButtonText: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027"
   extraButtonList:
