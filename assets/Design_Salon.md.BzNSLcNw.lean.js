@@ -1,0 +1,1 @@
+import{_ as e,c as a,o as t,a4 as o}from"./chunks/framework.Br2U662V.js";const m=JSON.parse('{"title":"技术沙龙","description":"","frontmatter":{},"headers":[],"relativePath":"Design/Salon.md","filePath":"Design/Salon.md"}'),r={name:"Design/Salon.md"},n=o("",3),s=[n];function _(c,d,l,i,h,p){return t(),a("div",null,s)}const u=e(r,[["render",_]]);export{m as __pageData,u as default};
