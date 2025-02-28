@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: CameraAPISO
+  m_Name: PlayLocalFileAudioSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: CameraAPI
-  entryName: "\u76F8\u673A"
-  entryAPI: 'CreateCamera
-
-    Camera.OnAuthCancel/OnStop/OnCameraFrame/ListenFrameChange/CloseFrameChange/Destroy'
-  entryDescription: "\u82E5api\u4E0D\u53EF\u7528\uFF0C\u53EF\u80FD\u9700\u914D\u7F6E\u76F8\u5173\u7684\u9690\u79C1\u534F\u8BAE"
+  entryScriptTypeName: PlayLocalFileAudio
+  entryName: "\u64AD\u653E\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\u97F3\u9891"
+  entryAPI: 
+  entryDescription: "\u8BE5\u529F\u80FD\u9700\u8981\u4FEE\u6539UnityPlugin\u7248\u672C\u4E3A1.2.68\u624D\u80FD\u64AD\u653E"
   optionList: []
-  initialButtonText: "\u5F00\u59CB\u76D1\u542C\u5E27\u6570\u636E"
+  initialButtonText: "\u64AD\u653E\u672C\u5730\u8DEF\u5F84\u7684\u97F3\u9891"
   extraButtonList: []
   initialResultList: []
   entryOrder: 0
