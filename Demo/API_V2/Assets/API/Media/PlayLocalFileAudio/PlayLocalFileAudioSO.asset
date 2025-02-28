@@ -15,7 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: PlayLocalFileAudio
   entryName: "\u64AD\u653E\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\u97F3\u9891"
   entryAPI: 
-  entryDescription: "\u8BE5\u529F\u80FD\u9700\u8981\u4FEE\u6539UnityPlugin\u7248\u672C\u4E3A1.2.68\u624D\u80FD\u64AD\u653E"
+  entryDescription: "\u8BE5\u529F\u80FD\u9700\u8981\u4FEE\u6539UnityPlugin\u7248\u672C\u4E3A1.2.68\u4EE5\u4E0A"
   optionList: []
   initialButtonText: "\u64AD\u653E\u672C\u5730\u8DEF\u5F84\u7684\u97F3\u9891"
   extraButtonList: []
