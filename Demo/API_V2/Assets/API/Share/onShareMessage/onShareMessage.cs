@@ -20,7 +20,7 @@ public class onShareMessage : Details
         new WXShareAppMessageParam
         {
             title = "转发标题",
-            imageUrl = "xx",
+            imageUrl = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
             query = "key1=val1&key2=val2"
         }
     );
@@ -43,7 +43,7 @@ public class onShareMessage : Details
         var defaultParam = new WXShareAppMessageParam
         {
             title = "转发标题",
-            imageUrl = "xx",
+            imageUrl = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
             query = "key1=val1&key2=val2"
         };
         WX.OnShareAppMessage(defaultParam, _onShareAppMessageCallback);

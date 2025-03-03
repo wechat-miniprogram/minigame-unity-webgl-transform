@@ -12,7 +12,7 @@ public class ShowShareImageMenu : Details
         WX.DownloadFile(
             new DownloadFileOption
             {
-                url = "xxxxx",
+                url = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
                 success = (res) =>
                 {
                     WX.ShowShareImageMenu(
