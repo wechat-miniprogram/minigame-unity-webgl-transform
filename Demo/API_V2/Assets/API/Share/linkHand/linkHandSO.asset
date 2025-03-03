@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
-  m_Name: ShareAppMessageSO
+  m_Name: linkHandSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: ShareAppMessage
-  entryName: "\u5206\u4EAB\u5E94\u7528\u4FE1\u606F"
-  entryAPI: shareAppMessage
-  entryDescription: "\u4E3B\u52A8\u62C9\u8D77\u8F6C\u53D1\uFF0C\u8FDB\u5165\u9009\u62E9\u901A\u8BAF\u5F55\u754C\u9762\u3002"
+  entryScriptTypeName: linkHand
+  entryName: "\u94FE\u63A5\u76D1\u542C"
+  entryAPI: wx.onCopyUrl | wx.offCopyUrl
+  entryDescription: "\u76D1\u542C\u7528\u6237\u70B9\u51FB\u53F3\u4E0A\u89D2\u83DC\u5355\u7684\u300C\u590D\u5236\u94FE\u63A5\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6\u3002"
   optionList: []
-  initialButtonText: "\u5206\u4EAB"
+  initialButtonText: "\u5F00\u59CB\u76D1\u542C\u590D\u5236\u94FE\u63A5"
   extraButtonList: []
   initialResultList: []
   entryOrder: 0
