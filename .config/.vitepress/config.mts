@@ -119,6 +119,7 @@ export default defineConfig({
               { text: "定制微信小游戏的 URP 管线", link: "/Design/CustomURP" },
               { text: "WebGL2.0渲染支持说明", link: "/Design/WebGL2" },
               { text: "性能深度分析工具", link: "/Design/DeepProfileTool" },
+              { text: "高精度时间", link: "/Design/HighPreciseTime" },
             ],
           },
         ],
