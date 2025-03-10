@@ -15,12 +15,11 @@ MonoBehaviour:
   entryScriptTypeName: onShareMessage
   entryName: "\u5206\u4EAB\u76D1\u542C\u8F6C\u53D1"
   entryAPI: "\u8F6C\u53D1\u76F8\u5173api\t"
-  entryDescription: 'wx.onShareMessageToFriend
-
-    wx.onShareAppMessage'
+  entryDescription: "wx.onShareMessageToFriend\nwx.onShareAppMessage\n\u88AB\u52A8\u8F6C\u53D1\uFF0C\u53EF\u901A\u8FC7\u8FD4\u56DE\u81EA\u5B9A\u4E49\u8F6C\u53D1\u53C2\u6570\u6765\u4FEE\u6539\u8F6C\u53D1\u5361\u7247\u7684\u5185\u5BB9\uFF0C\u5426\u5219\u4F7F\u7528\u9ED8\u8BA4\u5185\u5BB9\u3002\nwx.ShareAppMessage\n\u4E3B\u52A8\u62C9\u8D77\u8F6C\u53D1\uFF0C\u8FDB\u5165\u9009\u62E9\u901A\u8BAF\u5F55\u754C\u9762\u3002"
   optionList: []
   initialButtonText: "\u76D1\u542C\u597D\u53CB\u5206\u4EAB"
   extraButtonList:
   - buttonText: "\u76D1\u542C\u53F3\u4E0A\u89D2\u83DC\u5355\u8F6C\u53D1"
+  - buttonText: "\u4E3B\u52A8\u8F6C\u53D1\u5206\u4EAB"
   initialResultList: []
   entryOrder: 0

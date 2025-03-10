@@ -41,4 +41,8 @@ public class Favorites : Details
             _isListeningAddToFavorites ? "取消监听收藏" : "开始监听收藏"
         );
     }
+    private void OnDestroy()
+    {
+        WX.OffAddToFavorites(_onAddToFavorites);
+    }
 }

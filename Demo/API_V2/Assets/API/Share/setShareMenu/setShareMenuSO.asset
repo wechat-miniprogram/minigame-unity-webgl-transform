@@ -15,11 +15,7 @@ MonoBehaviour:
   entryScriptTypeName: setShareMenu
   entryName: "\u8BBE\u7F6E\u5206\u4EAB\u5C5E\u6027"
   entryAPI: "\u8F6C\u53D1\u76F8\u5173api"
-  entryDescription: 'wx.updateShareMenu
-
-    wx.setMessageToFriendQuery
-
-    wx.setHandoffQuery'
+  entryDescription: "wx.updateShareMenu\n\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027\nwx.setMessageToFriendQuery\nwx.setHandoffQuery"
   optionList: []
   initialButtonText: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027"
   extraButtonList:

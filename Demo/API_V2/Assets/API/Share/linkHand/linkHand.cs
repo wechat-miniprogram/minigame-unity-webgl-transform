@@ -28,4 +28,8 @@ public class linkHand : Details
             _isListeningCopyUrl ? "取消监听复制链接" : "开始监听复制链接"
         );
     }
+    private void OnDestroy()
+    {
+        WX.OffCopyUrl(_onCopyUrl);
+    }
 }

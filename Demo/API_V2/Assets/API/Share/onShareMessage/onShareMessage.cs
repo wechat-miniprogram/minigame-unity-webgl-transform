@@ -32,7 +32,7 @@ public class onShareMessage : Details
     private void Start()
     {
         GameManager.Instance.detailsController.BindExtraButtonAction(0, onShareAppMessage);
-
+        GameManager.Instance.detailsController.BindExtraButtonAction(1, ShareAppMessage);
     }
     public void onShareMessageToFriend()
     {
@@ -47,5 +47,9 @@ public class onShareMessage : Details
             query = "key1=val1&key2=val2"
         };
         WX.OnShareAppMessage(defaultParam, _onShareAppMessageCallback);
+    }
+    private void ShareAppMessage()
+    {
+        WX.ShareAppMessage(new ShareAppMessageOption() { title = "小游戏分享" });
     }
 }

@@ -28,4 +28,8 @@ public class onPcHand : Details
             _isListeningHandoff ? "取消监听在电脑上打开" : "开始监听在电脑上打开"
         );
     }
+    private void OnDestroy()
+    {
+        WX.OffHandoff(_onHandoff);
+    }
 }

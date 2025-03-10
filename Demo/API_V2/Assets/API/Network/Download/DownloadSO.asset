@@ -20,3 +20,4 @@ MonoBehaviour:
   initialButtonText: "\u4E0B\u8F7D"
   extraButtonList: []
   initialResultList: []
+  entryOrder: 0

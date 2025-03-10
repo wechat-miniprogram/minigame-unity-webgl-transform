@@ -15,7 +15,8 @@ MonoBehaviour:
   entryScriptTypeName: PrivateMessage
   entryName: "\u9A8C\u8BC1\u79C1\u5BC6\u6D88\u606F"
   entryAPI: wx.authPrivateMessage
-  entryDescription: "\u9A8C\u8BC1\u79C1\u5BC6\u6D88\u606F\u3002"
+  entryDescription: "\u9A8C\u8BC1\u79C1\u5BC6\u6D88\u606F\u3002\u7528\u6CD5\u8BE6\u60C5\u89C1
+    \u5C0F\u7A0B\u5E8F\u79C1\u5BC6\u6D88\u606F\u4F7F\u7528\u6307\u5357"
   optionList: []
   initialButtonText: "\u79C1\u5BC6\u6D88\u606F\u9A8C\u8BC1"
   extraButtonList: []
