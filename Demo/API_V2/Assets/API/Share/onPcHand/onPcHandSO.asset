@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryScriptTypeName: onPcHand
   entryName: "\u7535\u8111\u76D1\u542C"
-  entryAPI: wx.onHandoff | wx.offHandoff
+  entryAPI: wx.onHandoff | wx.offHandoff |wx.setHandoffQuery
   entryDescription: "\u76D1\u542C\u7528\u6237\u70B9\u51FB\u83DC\u5355\u300C\u5728\u7535\u8111\u4E0A\u6253\u5F00\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6"
   optionList: []
   initialButtonText: "\u5F00\u59CB\u76D1\u542C\u5728\u7535\u8111\u4E0A\u6253\u5F00"
-  extraButtonList: []
+  extraButtonList:
+  - buttonText: "\u8BBE\u7F6E\u63A5\u529B\u53C2\u6570"
   initialResultList: []
   entryOrder: 0

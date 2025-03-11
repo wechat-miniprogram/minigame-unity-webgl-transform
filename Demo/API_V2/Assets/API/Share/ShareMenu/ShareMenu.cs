@@ -56,4 +56,8 @@ public class ShareMenu : Details
             }
         );
     }
+    private void OnDestroy()
+    {
+        showShareMenu();
+    }
 }
