@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: ShareAppMessageSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: ShareAppMessage
+  entryName: "\u5206\u4EAB\u8F6C\u53D1"
+  entryAPI: updateShareMenu | ShareAppMessage
+  entryDescription: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027\uFF0C\u6DFB\u52A0onShow\u83B7\u53D6Shareticket\u3002\n\u4E3B\u52A8\u62C9\u8D77\u8F6C\u53D1\uFF0C\u8FDB\u5165\u9009\u62E9\u901A\u8BAF\u5F55\u754C\u9762\u3002\n"
+  optionList: []
+  initialButtonText: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027"
+  extraButtonList:
+  - buttonText: "\u4E3B\u52A8\u8F6C\u53D1\u5206\u4EAB"
+  initialResultList: []
+  entryOrder: 0

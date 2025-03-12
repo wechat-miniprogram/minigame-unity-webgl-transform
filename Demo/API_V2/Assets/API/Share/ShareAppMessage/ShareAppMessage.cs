@@ -3,7 +3,7 @@ using System;
 using LitJson;
 using UnityEngine;
 
-public class onShareMessage : Details
+public class ShareAppMessage : Details
 {
     protected override void TestAPI(string[] args)
     {
@@ -11,8 +11,7 @@ public class onShareMessage : Details
     }
     private void Start()
     {
-        GameManager.Instance.detailsController.BindExtraButtonAction(0, onShareAppMessage);
-        GameManager.Instance.detailsController.BindExtraButtonAction(1, ShareAppMessage);
+        GameManager.Instance.detailsController.BindExtraButtonAction(0, ShareAppMessages);
     }
     public void updateShareMenu()
     {
@@ -52,34 +51,9 @@ public class onShareMessage : Details
                         Debug.Log("chatType:" + res.chatType);
                     });
     }
-    public void onShareAppMessage()
-    {
-        var defaultParam = new WXShareAppMessageParam
-        {
-            title = "转发标题",
-            imageUrl = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
-            query = "key1=val1&key2=val2"
-        };
-        WX.OnShareAppMessage(defaultParam);
-    }
 
-    public void offShareAppMessage()
-    {
-        var defaultParam = new WXShareAppMessageParam
-        {
-            title = default,
-            imageUrl = "xxx",
-            query = "key1=val1&key2=val2"
-        };
-        WX.OnShareAppMessage(defaultParam);
-    }
-
-    private void ShareAppMessage()
+    private void ShareAppMessages()
     {
         WX.ShareAppMessage(new ShareAppMessageOption() { title = "小游戏分享" });
-    }
-    private void OnDestroy()
-    {
-        offShareAppMessage();
     }
 }
