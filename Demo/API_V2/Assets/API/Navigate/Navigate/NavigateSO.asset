@@ -21,4 +21,6 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u6253\u5F00\u53E6\u4E00\u4E2A\u5C0F\u7A0B\u5E8F"
   - buttonText: "\u9000\u51FA\u5F53\u524D\u5C0F\u7A0B\u5E8F"
+  - buttonText: "\u8FD4\u56DE\u5230\u4E0A\u4E00\u4E2A\u5C0F\u7A0B\u5E8F"
   initialResultList: []
+  entryOrder: 0
