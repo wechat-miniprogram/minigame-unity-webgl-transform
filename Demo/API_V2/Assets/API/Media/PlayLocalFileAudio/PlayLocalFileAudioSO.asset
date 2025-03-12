@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Name: PlayLocalFileAudioSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: PlayLocalFileAudio
+  entryName: "\u64AD\u653E\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\u97F3\u9891"
+  entryAPI: 
+  entryDescription: "\u8BE5\u529F\u80FD\u9700\u8981\u4FEE\u6539UnityPlugin\u7248\u672C\u4E3A1.2.68\u4EE5\u4E0A"
+  optionList: []
+  initialButtonText: "\u64AD\u653E\u672C\u5730\u8DEF\u5F84\u7684\u97F3\u9891"
+  extraButtonList: []
+  initialResultList: []
+  entryOrder: 0

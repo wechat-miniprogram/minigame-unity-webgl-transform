@@ -118,6 +118,8 @@ export default defineConfig({
               { text: "优化Unity WebGL的渲染性能", link: "/Design/RenderOptimization" },
               { text: "定制微信小游戏的 URP 管线", link: "/Design/CustomURP" },
               { text: "WebGL2.0渲染支持说明", link: "/Design/WebGL2" },
+              { text: "性能深度分析工具", link: "/Design/DeepProfileTool" },
+              { text: "高精度时间", link: "/Design/HighPreciseTime" },
             ],
           },
         ],
@@ -141,7 +143,8 @@ export default defineConfig({
           { text: "后端服务指引", link: "/Design/BackendServiceStartup" },
           { text: "网络通信适配", link: "/Design/UsingNetworking" },
           { text: "使用水印保护代码包安全", link: "/Design/wasmWaterMark" },
-          { text: "配置构建模板", link: "/Design/BuildTemplate.md" }
+          { text: "配置构建模板", link: "/Design/BuildTemplate.md" },
+          { text: "实时预览工具", link: "/Design/WechatPreview.md" },
         ],
       },
       {
