@@ -45,6 +45,12 @@ public class onShareMessage : Details
                 }
             }
         );
+        WX.OnShow((res) =>
+                    {
+                        Debug.Log("Scene:" + res.scene);
+                        Debug.Log("shareTicket:" + res.shareTicket);
+                        Debug.Log("chatType:" + res.chatType);
+                    });
     }
     public void onShareAppMessage()
     {
