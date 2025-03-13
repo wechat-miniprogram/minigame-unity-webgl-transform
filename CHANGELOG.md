@@ -1026,7 +1026,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 
 独立域插件更新为(1.0.11)
 
-* `.untiy3d`拓展名文件视为bundle文件，可做缓存。
+* `.unity3d`拓展名文件视为bundle文件，可做缓存。
 * 根据是否调试模式控制日志输出，规则为: 若为开发版, enableDebugLog=false且为调试模式时输出详细日志；其他版本, 开启调试模式则输出详细日志
 
 ## 2021-06-10
