@@ -20,7 +20,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 普通: 修复鸿蒙includes报错
 * 普通: 适配插件版本升级到1.2.67
 
-## 2024-1-7 【重要更新】
+## 2025-1-7 【重要更新】
 ### Feature
 * 重要：支持Unity6，仅作为测试版本不建议上线使用
 * 普通: OffShareMessageToFriend支持
