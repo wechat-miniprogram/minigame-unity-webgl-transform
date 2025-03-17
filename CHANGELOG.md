@@ -14,7 +14,7 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 ## v0.1.26  【预发布】
 PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.26
 
-## v0.1.25 【普通更新】
+## 2025-3-17 v0.1.25 【普通更新】
 ### Feature
 * 普通：性能深入分析工具，支持Lua capture能力
 * 普通：性能深入分析工具，确保未勾选频繁截屏时，开始录制2s后自动截一次
