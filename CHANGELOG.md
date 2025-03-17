@@ -22,8 +22,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ### Fixed
 * 普通: 修正mac系统上针对AddressList的编译报错
 * 普通: 安卓开放数据域退后台需要重绘一次
-* 普通: 更新1.2.67修复鸿蒙includes报错
-* 普通: 适配插件版本升级到1.2.67
+* 普通: 修复鸿蒙includes报错
 
 ## 2025-1-7 【重要更新】
 ### Feature
