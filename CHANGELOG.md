@@ -11,13 +11,18 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 1. UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
 2. PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 
-## v0.1.25  【预发布】
-PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.25
+## v0.1.26  【预发布】
+PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.26
+
+## v0.1.25 【普通更新】
 ### Feature
 * 普通：性能深入分析工具，支持Lua capture能力
 * 普通：性能深入分析工具，确保未勾选频繁截屏时，开始录制2s后自动截一次
+* 普通：Unity视频组件支持传入本地文件路径，业务可提前下载本地+设置微信本地路径进行播放
 ### Fixed
-* 普通: 修复鸿蒙includes报错
+* 普通: 修正mac系统上针对AddressList的编译报错
+* 普通: 安卓开放数据域退后台需要重绘一次
+* 普通: 更新1.2.67修复鸿蒙includes报错
 * 普通: 适配插件版本升级到1.2.67
 
 ## 2024-1-7 【重要更新】
