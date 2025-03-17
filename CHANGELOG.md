@@ -25,7 +25,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 普通: 更新1.2.67修复鸿蒙includes报错
 * 普通: 适配插件版本升级到1.2.67
 
-## 2024-1-7 【重要更新】
+## 2025-1-7 【重要更新】
 ### Feature
 * 重要：支持Unity6，仅作为测试版本不建议上线使用
 * 普通: OffShareMessageToFriend支持
@@ -1031,7 +1031,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 
 独立域插件更新为(1.0.11)
 
-* `.untiy3d`拓展名文件视为bundle文件，可做缓存。
+* `.unity3d`拓展名文件视为bundle文件，可做缓存。
 * 根据是否调试模式控制日志输出，规则为: 若为开发版, enableDebugLog=false且为调试模式时输出详细日志；其他版本, 开启调试模式则输出详细日志
 
 ## 2021-06-10

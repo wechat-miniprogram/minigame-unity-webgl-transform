@@ -145,7 +145,7 @@ eg3: font_8d265a9dfd6cb7669cdb8b726f0afb1e.ttf
 
 同时，在清理时也支持忽略一些文件，永不被自动清理，只可通过fs接口主动删除。
 
-通过导出的小游戏`minigame/untiy-namespace.js`中`isErasableFile`javascript函数自行控制
+通过导出的小游戏`minigame/unity-namespace.js`中`isErasableFile`javascript函数自行控制
 
 ```js
 // 清理缓存时是否可被自动清理；返回true可自动清理；返回false不可自动清理
