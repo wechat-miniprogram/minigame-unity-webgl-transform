@@ -113,7 +113,7 @@
 - 下面是一个 [供参考的 URP 定制版本](#供参考的 URP 定制版本)
 
 >>#### 供参考的 URP 定制版本
-- 开发者请联系 [小游戏客服助手](https://work.weixin.qq.com/kfid/kfcca4feec277f91616) 获取微信定制版的 URP 源码
+- 开发者请填写 [微信小游戏定制 URP 管线申请表](https://doc.weixin.qq.com/forms/AJEAIQdfAAoACQA2gY2AD41M603Bw3QIf?page=1) ，等待通过后即可获取微信定制版的 URP 源码
 - 这是基于 Unity 2021.3.19 的 URP 12.1.10 版本定制的渲染管线，主要是用来参考如何定制 URP 管线，
 - 这个 URP 版本是基于大部分微信小游戏的渲染需要来定制的，主要修改有以下这些：
     - 不影响 GPU Instancing 和 SRP Batcher 
