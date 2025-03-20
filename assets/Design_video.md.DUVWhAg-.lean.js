@@ -1,0 +1,1 @@
+import{_ as a,c as s,o as n,a4 as p}from"./chunks/framework.Br2U662V.js";const m=JSON.parse('{"title":"视频设计规范","description":"","frontmatter":{},"headers":[],"relativePath":"Design/video.md","filePath":"Design/video.md"}'),e={name:"Design/video.md"},l=p("",4),i=[l];function o(t,c,r,d,_,h){return n(),s("div",null,i)}const u=a(e,[["render",o]]);export{m as __pageData,u as default};
