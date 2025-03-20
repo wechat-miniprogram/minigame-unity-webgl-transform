@@ -23,8 +23,9 @@ MonoBehaviour:
 '
   entryDescription: "\u4F7F\u7528setStatusBarStyle\uFF0C\u9700\u8981\u5728json\u91CC\u6DFB\u52A0showStatusBar"
   optionList: []
-  initialButtonText: "\u8BBE\u7F6E\u83DC\u5355\u6837\u5F0F"
+  initialButtonText: "\u8BBE\u7F6E\u83DC\u5355\u6837\u5F0F\u6DF1\u8272"
   extraButtonList:
   - buttonText: "\u83B7\u53D6\u83DC\u5355\u6309\u94AE\u5E03\u5C40\u4F4D\u7F6E\u4FE1\u606F"
-  - buttonText: "\u8BBE\u7F6E\u72B6\u6001\u680F\u6837\u5F0F"
+  - buttonText: "\u8BBE\u7F6E\u72B6\u6001\u680F\u767D\u8272"
   initialResultList: []
+  entryOrder: 0
