@@ -20,3 +20,4 @@ MonoBehaviour:
   initialButtonText: "\u5206\u4EAB"
   extraButtonList: []
   initialResultList: []
+  entryOrder: 0
