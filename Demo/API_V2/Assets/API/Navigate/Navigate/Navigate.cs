@@ -71,7 +71,7 @@ public class Navigate : Details
                     WX.ShowModal(
                     new ShowModalOption()
                     {
-                        content = "BannerAd OnLoad Result:" + JsonUtility.ToJson(res)
+                        content = "NavigateBackMiniProgram Fail Result:" + JsonUtility.ToJson(res)
                     }
                 );
                 },

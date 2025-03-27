@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryScriptTypeName: Navigate
   entryName: "\u8DF3\u8F6C"
-  entryAPI: "\u8DF3\u8F6C\u76F8\u5173API"
+  entryAPI: 'RestartMiniProgram | NavigateToMiniProgram
+
+    NavigateBackMiniProgram
+    | ExitMiniProgram'
   entryDescription: 
   optionList: []
   initialButtonText: "\u91CD\u542F\u5F53\u524D\u5C0F\u7A0B\u5E8F"
