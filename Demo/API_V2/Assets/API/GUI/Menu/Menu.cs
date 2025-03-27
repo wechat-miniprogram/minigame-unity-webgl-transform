@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
@@ -24,12 +21,12 @@ public class Menu : Details
     {
         setMenuStyle();
     }
-    
+
     public void setMenuStyle()
     {
         string style = isMenuStyleDark ? "light" : "dark";
         string toastMessage = $"设置{(isMenuStyleDark ? "浅色" : "深色")}菜单样式完成";
-        
+
         WX.SetMenuStyle(
             new SetMenuStyleOption
             {
@@ -61,7 +58,7 @@ public class Menu : Details
 
         // 访问成功，显示结果
         WX.ShowModal(
-            new ShowModalOption() { content = "GetMenuButtonBoundingClientRect, Result: " + JsonMapper.ToJson(res) }
+            new ShowModalOption() { content = "GetMenuButtonBoundingClientRect Success, Result: " + JsonMapper.ToJson(res) }
         );
     }
 
@@ -92,16 +89,6 @@ public class Menu : Details
         isStatusBarStyleBlack = !isStatusBarStyleBlack;
         GameManager.Instance.detailsController.ChangeExtraButtonText(1,
             !isStatusBarStyleBlack ? "设置状态栏深色" : "设置状态栏白色"  // 修改逻辑
-        );
-    }
-
-    private void OnDestroy()
-    {
-        WX.SetStatusBarStyle(
-            new SetStatusBarStyleOption
-            {
-                style = "white",
-            }
         );
     }
 }
