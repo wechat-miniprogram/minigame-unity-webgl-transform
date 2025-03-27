@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
 using LitJson;
 using UnityEngine;
 using WeChatWASM;
 
 public class Menu : Details
 {
+    private bool isMenuStyleDark = false;
+    private bool isStatusBarStyleBlack = false;
     private void Start()
     {
         // 绑定额外的按钮操作
@@ -24,13 +24,16 @@ public class Menu : Details
 
     public void setMenuStyle()
     {
+        string style = isMenuStyleDark ? "light" : "dark";
+        string toastMessage = $"设置{(isMenuStyleDark ? "浅色" : "深色")}菜单样式完成";
+
         WX.SetMenuStyle(
             new SetMenuStyleOption
             {
-                style = "light",
+                style = style,
                 success = (res) =>
                 {
-                    WX.ShowToast(new ShowToastOption { title = "设置成功" });
+                    WX.ShowToast(new ShowToastOption { title = toastMessage, icon = "none"});
                 },
                 fail = (res) =>
                 {
@@ -41,6 +44,11 @@ public class Menu : Details
                     Debug.Log("complete!");
                 }
             }
+        );
+
+        isMenuStyleDark = !isMenuStyleDark;
+        GameManager.Instance.detailsController.ChangeInitialButtonText(
+            isMenuStyleDark ? "设置菜单栏浅色" : "设置菜单栏深色"
         );
     }
 
@@ -50,19 +58,22 @@ public class Menu : Details
 
         // 访问成功，显示结果
         WX.ShowModal(
-            new ShowModalOption() { content = "Access Success, Result: " + JsonMapper.ToJson(res) }
+            new ShowModalOption() { content = "GetMenuButtonBoundingClientRect Success, Result: " + JsonMapper.ToJson(res) }
         );
     }
 
     public void setStatusBarStyle()
     {
+        string style = !isStatusBarStyleBlack ? "black" : "white";  // 修改逻辑
+        string toastMessage = $"设置状态栏{(!isStatusBarStyleBlack ? "深色" : "白色")}样式完成";  // 修改逻辑
+
         WX.SetStatusBarStyle(
             new SetStatusBarStyleOption
             {
-                style = "black",
+                style = style,
                 success = (res) =>
                 {
-                    WX.ShowToast(new ShowToastOption { title = "设置成功" });
+                    WX.ShowToast(new ShowToastOption { title = toastMessage, icon = "none"});
                 },
                 fail = (res) =>
                 {
@@ -73,6 +84,11 @@ public class Menu : Details
                     Debug.Log("complete!");
                 }
             }
+        );
+
+        isStatusBarStyleBlack = !isStatusBarStyleBlack;
+        GameManager.Instance.detailsController.ChangeExtraButtonText(1,
+            !isStatusBarStyleBlack ? "设置状态栏深色" : "设置状态栏白色"  // 修改逻辑
         );
     }
 }
