@@ -68,7 +68,12 @@ public class Navigate : Details
                 },
                 fail = (res) =>
                 {
-                    Debug.Log("fail: " + JsonUtility.ToJson(res));
+                    WX.ShowModal(
+                    new ShowModalOption()
+                    {
+                        content = "BannerAd OnLoad Result:" + JsonUtility.ToJson(res)
+                    }
+                );
                 },
                 complete = (res) =>
                 {
