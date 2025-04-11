@@ -11,6 +11,7 @@ public class Navigate : Details
         // 绑定额外的按钮操作
         GameManager.Instance.detailsController.BindExtraButtonAction(0, navigateToMiniProgram);
         GameManager.Instance.detailsController.BindExtraButtonAction(1, exitMiniProgram);
+        GameManager.Instance.detailsController.BindExtraButtonAction(2, backMiniProgram);
     }
 
     // 测试 API
@@ -55,5 +56,29 @@ public class Navigate : Details
     public void exitMiniProgram()
     {
         WX.ExitMiniProgram(new ExitMiniProgramOption { });
+    }
+
+    public void backMiniProgram()
+    {
+        Debug.Log("触发返回到上一个小程序");
+        WX.NavigateBackMiniProgram(new NavigateBackMiniProgramOption {
+                success = (res) =>
+                {
+                    Debug.Log("success: " + JsonUtility.ToJson(res));
+                },
+                fail = (res) =>
+                {
+                    WX.ShowModal(
+                    new ShowModalOption()
+                    {
+                        content = "NavigateBackMiniProgram Fail Result:" + JsonUtility.ToJson(res)
+                    }
+                );
+                },
+                complete = (res) =>
+                {
+                    Debug.Log("complete");
+                }
+        });
     }
 }
