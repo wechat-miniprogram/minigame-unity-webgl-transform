@@ -14,11 +14,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryScriptTypeName: ShareAppMessage
   entryName: "\u5206\u4EAB\u8F6C\u53D1"
-  entryAPI: updateShareMenu | ShareAppMessage
-  entryDescription: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027\uFF0C\u6DFB\u52A0onShow\u83B7\u53D6Shareticket\u3002\n\u4E3B\u52A8\u62C9\u8D77\u8F6C\u53D1\uFF0C\u8FDB\u5165\u9009\u62E9\u901A\u8BAF\u5F55\u754C\u9762\u3002\n"
-  optionList: []
-  initialButtonText: "\u66F4\u65B0\u8F6C\u53D1\u5C5E\u6027"
-  extraButtonList:
-  - buttonText: "\u4E3B\u52A8\u8F6C\u53D1\u5206\u4EAB"
+  entryAPI: ShareAppMessage
+  entryDescription: "title\uFF1A\u4E0D\u4F20\u5219\u9ED8\u8BA4\u4F7F\u7528\u5F53\u524D\u5C0F\u6E38\u620F\u7684\u6635\u79F0\u3002\n\u4E3B\u52A8\u62C9\u8D77\u8F6C\u53D1\uFF0C\u8FDB\u5165\u9009\u62E9\u901A\u8BAF\u5F55\u754C\u9762\u3002\n\u6CE8\u610F\uFF1A\u7A7A\u9009\u9879\u5219\u4F7F\u7528\u9ED8\u8BA4\u503C"
+  optionList:
+  - optionName: title
+    availableOptions:
+    - "\u5C0F\u6E38\u620F\u5206\u4EAB"
+    - 
+  - optionName: imageUrl
+    availableOptions:
+    - https://mmocgame.qpic.cn/wechatgame/QgsibLsZPBy1uwWJnNNPeRXjBMKm327We8xrXWxGMM4cFKUZaqy0SU8TcudBf72sE/0
+    - "\u672C\u5730\u56FE\u7247\u6587\u4EF6\u8DEF\u5F84"
+    - 
+  - optionName: imageUrlId
+    availableOptions:
+    - CoH3v3JtRc2ajuDvZyhHXQ==
+    - 
+  - optionName: toCurrentGroup
+    availableOptions:
+    - false
+    - true
+  initialButtonText: "\u4E3B\u52A8\u8F6C\u53D1\u5206\u4EAB"
+  extraButtonList: []
   initialResultList: []
   entryOrder: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: onPcHandSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: onPcHand
-  entryName: "\u7535\u8111\u76D1\u542C"
+  entryName: "\u76D1\u542C\u5728\u7535\u8111\u4E0A\u6253\u5F00"
   entryAPI: wx.onHandoff | wx.offHandoff |wx.setHandoffQuery
   entryDescription: "\u76D1\u542C\u7528\u6237\u70B9\u51FB\u83DC\u5355\u300C\u5728\u7535\u8111\u4E0A\u6253\u5F00\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6"
   optionList: []

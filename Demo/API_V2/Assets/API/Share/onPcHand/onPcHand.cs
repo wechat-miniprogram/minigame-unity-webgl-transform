@@ -1,12 +1,18 @@
 using WeChatWASM;
 using System;
+using UnityEngine;
 
 public class onPcHand : Details
 {
     private bool _isListeningHandoff = false;
     private readonly Action<Action<OnHandoffListenerResult>> _onHandoff = (callback) =>
 {
-    callback(new OnHandoffListenerResult { query = "xxxx" });
+    var result = new OnHandoffListenerResult
+        {
+            query = "key1=value2&key2=value2"
+        };
+        callback(result);
+        Debug.Log($"return query: {result.query}");
 };
 
     protected override void TestAPI(string[] args)

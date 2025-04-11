@@ -14,9 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryScriptTypeName: ShowShareImageMenu
   entryName: "\u5206\u4EAB\u56FE\u7247\u5F39\u7A97"
-  entryAPI: wx.showShareImageMenu
+  entryAPI: ShowShareImageMenu
   entryDescription: "\u6253\u5F00\u5206\u4EAB\u56FE\u7247\u5F39\u7A97"
-  optionList: []
+  optionList:
+  - optionName: path
+    availableOptions:
+    - "\u672C\u5730\u8DEF\u5F84"
+    - "\u4E34\u65F6\u8DEF\u5F84"
+  - optionName: needShowEntrance
+    availableOptions:
+    - false
+    - true
+  - optionName: entrancePath
+    availableOptions:
+    - ''''''
   initialButtonText: "\u6253\u5F00\u5206\u4EAB\u56FE\u7247\u5F39\u7A97"
   extraButtonList: []
   initialResultList: []

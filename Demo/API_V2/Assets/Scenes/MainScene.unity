@@ -28529,7 +28529,7 @@ GameObject:
   - component: {fileID: 1303035616}
   - component: {fileID: 1303035615}
   m_Layer: 5
-  m_Name: "\u7535\u8111\u76D1\u542C"
+  m_Name: "\u76D1\u542C\u5728\u7535\u8111\u4E0A\u6253\u5F00"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37861,7 +37861,7 @@ GameObject:
   - component: {fileID: 1639038152}
   - component: {fileID: 1639038151}
   m_Layer: 5
-  m_Name: "\u94FE\u63A5\u76D1\u542C"
+  m_Name: "\u76D1\u542C\u590D\u5236\u94FE\u63A5"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

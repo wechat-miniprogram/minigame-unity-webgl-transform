@@ -19,8 +19,7 @@ MonoBehaviour:
     wx.hideShareMenu'
   entryDescription: "\u8BBE\u7F6E\u53F3\u4E0A\u89D2\u70B9\u5F00\u7684\u8BE6\u60C5\u754C\u9762\u4E2D\u7684\u5206\u4EAB\u6309\u94AE\u662F\u5426\u53EF\u7528\n"
   optionList: []
-  initialButtonText: "\u663E\u793A\u5F53\u524D\u9875\u9762\u7684\u8F6C\u53D1\u6309\u94AE"
-  extraButtonList:
-  - buttonText: "\u9690\u85CF\u5F53\u524D\u9875\u9762\u7684\u8F6C\u53D1\u6309\u94AE"
+  initialButtonText: "\u663E\u793A\u8F6C\u53D1\u6309\u94AE"
+  extraButtonList: []
   initialResultList: []
   entryOrder: 0

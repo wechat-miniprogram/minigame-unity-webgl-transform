@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: linkHandSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: linkHand
-  entryName: "\u94FE\u63A5\u76D1\u542C"
+  entryName: "\u76D1\u542C\u590D\u5236\u94FE\u63A5"
   entryAPI: wx.onCopyUrl | wx.offCopyUrl
   entryDescription: "\u76D1\u542C\u7528\u6237\u70B9\u51FB\u53F3\u4E0A\u89D2\u83DC\u5355\u7684\u300C\u590D\u5236\u94FE\u63A5\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6\u3002\n\u672C\u63A5\u53E3\u4E3A
     Beta \u7248\u672C\uFF0C\u6682\u53EA\u5728 Android \u5E73\u53F0\u652F\u6301\u3002"
