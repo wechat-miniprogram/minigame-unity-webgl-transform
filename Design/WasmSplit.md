@@ -336,7 +336,7 @@ disable命令用于关闭代码分包，和插件的关闭代码分包作用相�
 wasmsplit-ci disable -p ./minigame-dir/
 ```
 ### 流水线示例流程
-![alt text](image.png)
+![alt text](WasmSplitCI.png)
 ### 注意事项
 - 此工具不能完成真机收集过程，真机收集仍需开发者单独执行
 - 分包工具CI不提供预览及上传功能，可以使用微信开发者工具CI进行预览
