@@ -40,3 +40,4 @@ MonoBehaviour:
   - isDisableInitially: 1
     initialTitleText: 
     initialContentText: /a/b
+  entryOrder: 0

@@ -27,3 +27,4 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: "\u5DF2\u5B58\u5728\u6587\u4EF6\uFF1A"
     initialContentText: /hello.txt
+  entryOrder: 0

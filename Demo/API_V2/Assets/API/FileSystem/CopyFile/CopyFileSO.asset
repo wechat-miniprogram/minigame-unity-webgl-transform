@@ -34,3 +34,4 @@ MonoBehaviour:
   - isDisableInitially: 1
     initialTitleText: 
     initialContentText: /copyFileAsync.txt
+  entryOrder: 0

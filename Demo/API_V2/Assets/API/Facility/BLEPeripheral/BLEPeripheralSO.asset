@@ -25,3 +25,4 @@ MonoBehaviour:
   - buttonText: "\u5F80\u6307\u5B9A\u7279\u5F81\u5199\u5165\u4E8C\u8FDB\u5236\u6570\u636E\u503C"
   - buttonText: "\u5F00\u59CB\u76D1\u542C"
   initialResultList: []
+  entryOrder: 0

@@ -38,3 +38,4 @@ MonoBehaviour:
   - isDisableInitially: 1
     initialTitleText: "\u6587\u4EF6\u5217\u8868\uFF1A"
     initialContentText: /dir/hello.txt
+  entryOrder: 0

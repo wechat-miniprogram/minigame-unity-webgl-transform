@@ -23,3 +23,4 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u6388\u6743\u9875"
   initialResultList: []
+  entryOrder: 0

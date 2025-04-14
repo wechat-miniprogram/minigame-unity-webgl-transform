@@ -28,3 +28,4 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u4FE1\u53F7\u5F3A\u5EA6 "
   - buttonText: "\u83B7\u53D6\u6240\u6709\u7279\u5F81 "
   initialResultList: []
+  entryOrder: 0

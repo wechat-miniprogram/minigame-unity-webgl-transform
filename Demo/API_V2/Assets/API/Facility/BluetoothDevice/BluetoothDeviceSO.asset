@@ -26,3 +26,4 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u641C\u7D22\u5230\u7684\u84DD\u7259\u8BBE\u5907"
   - buttonText: "\u83B7\u53D6\u672C\u673A\u84DD\u7259\u9002\u914D\u5668\u72B6\u6001"
   initialResultList: []
+  entryOrder: 0

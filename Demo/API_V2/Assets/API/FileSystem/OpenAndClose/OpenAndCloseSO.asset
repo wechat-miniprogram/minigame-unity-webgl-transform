@@ -60,3 +60,4 @@ MonoBehaviour:
   - isDisableInitially: 1
     initialTitleText: 
     initialContentText: /notExist.txt
+  entryOrder: 0

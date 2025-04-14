@@ -28,3 +28,4 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u81EA\u5B9A\u4E49\u767B\u5F55\u6001"
   - buttonText: "\u62C9\u53D6 backgroundFetch \u5BA2\u6237\u7AEF\u7F13\u5B58\u6570\u636E"
   initialResultList: []
+  entryOrder: 0

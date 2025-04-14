@@ -21,3 +21,4 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u64AD\u653E\u97F3\u4E50"
   initialResultList: []
+  entryOrder: 0

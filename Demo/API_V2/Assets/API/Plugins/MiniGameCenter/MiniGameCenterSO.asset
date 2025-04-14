@@ -25,3 +25,4 @@ MonoBehaviour:
   - buttonText: "\u6253\u5F00"
   - buttonText: "\u5173\u95ED"
   initialResultList: []
+  entryOrder: 0

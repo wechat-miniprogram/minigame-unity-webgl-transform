@@ -37,3 +37,4 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: 
     initialContentText: dir
+  entryOrder: 0

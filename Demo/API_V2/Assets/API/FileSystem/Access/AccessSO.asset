@@ -36,3 +36,4 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: 
     initialContentText: /exist/exist.txt
+  entryOrder: 0
