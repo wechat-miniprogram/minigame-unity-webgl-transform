@@ -20,16 +20,16 @@ public class RealtimeLog : Details
     // 测试 API
     protected override void TestAPI(string[] args)
     {
-        _log.Info("info msg");
+        _log.Info(new [] { "info msg" });
     }
 
     private void error()
     {
-        _log.Error("error msg");
+        _log.Error(new [] { "error msg" });
     }
 
     private void warn()
     {
-        _log.Warn("warn msg");
+        _log.Warn(new [] { "warn msg" });
     }
 }

@@ -4,26 +4,22 @@ using Newtonsoft.Json;
 using UnityEngine;
 using WeChatWASM;
 
-// 定义自定义数据类型，类型要跟自定义属性中定义的类型一致
-[System.Serializable]
-public class EventData
-{
-    public string data1;
-    public int data2;
-}
-
 public class ReportEvent : Details
 {
     // 测试 API
     protected override void TestAPI(string[] args)
     {
-        Report(args[0], args[1]);
+        Report(args[0], int.Parse(args[1]));
     }
 
     // 事件上报
-    private void Report(string stringdata, string intdata)
+    private void Report(string stringData, int intData)
     {
-        EventData eventData = new EventData { data1 = stringdata, data2 = int.Parse(intdata) };
+        var eventData = new Dictionary<string, string>
+        {
+            { "stringData", stringData },
+            { "intData", intData.ToString() }
+        };
 
         WX.ReportEvent("test", eventData);
 
