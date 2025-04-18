@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using WeChatWASM;
 
@@ -30,7 +31,7 @@ public class InterstitalAd : Details
                 WX.ShowModal(
                     new ShowModalOption()
                     {
-                        content = "RewardedVideoAd OnLoad Result:" + JsonUtility.ToJson(res)
+                        content = "InterstitialAd OnLoad Result:" + JsonUtility.ToJson(res)
                     }
                 );
             }
@@ -41,14 +42,14 @@ public class InterstitalAd : Details
                 WX.ShowModal(
                     new ShowModalOption()
                     {
-                        content = "RewardedVideoAd onError Result:" + JsonUtility.ToJson(res)
+                        content = "InterstitialAd onError Result:" + JsonUtility.ToJson(res)
                     }
                 );
             }
         );
         _interstitialAd.OnClose(() =>
         {
-            WX.ShowModal(new ShowModalOption() { content = "RewardedVideoAd onClose" });
+            WX.ShowModal(new ShowModalOption() { content = "InterstitialAd onClose" });
         });
         // 预加载广告
         _interstitialAd.Load();
@@ -59,9 +60,20 @@ public class InterstitalAd : Details
     // 展示广告
     private void ShowAd()
     {
-        _interstitialAd.Show();
-        WX.ShowToast(new ShowToastOption() { title = "已展示广告" });
+        _interstitialAd.Show(ShowSuccess, ShowFail);
     }
+
+    private Action<WXTextResponse> ShowSuccess = (res) =>
+    {
+         WX.ShowModal(new ShowModalOption() { content = "InterstitialAd Show Success:" + JsonUtility.ToJson(res) });
+    };
+
+    
+    private Action<WXTextResponse> ShowFail = (res) =>
+    {
+          WX.ShowModal(new ShowModalOption() { content = "InterstitialAd Show Fail:" + JsonUtility.ToJson(res) });
+    };
+    
 
     // 销毁广告
     private void DestroyAd()
