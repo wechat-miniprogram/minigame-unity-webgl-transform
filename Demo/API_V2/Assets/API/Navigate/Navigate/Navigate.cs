@@ -36,7 +36,6 @@ public class Navigate : Details
                 appId = "wx7a727ff7d940bb3f",
                 path = "?id=123",
                 extraData = myDictionary,
-                envVersion = "develop",
                 success = (res) =>
                 {
                     Debug.Log("success: " + JsonUtility.ToJson(res));
