@@ -14,14 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryScriptTypeName: LifeCycle
   entryName: "\u751F\u547D\u5468\u671F"
-  entryAPI: 'onHide | onShow
+  entryAPI: 'OnHide | OnShow
 
-    offHide | offShow'
-  entryDescription: "onHide\uFF1A\u76D1\u542C\u5C0F\u6E38\u620F\u9690\u85CF\u5230\u540E\u53F0\nonShow\uFF1A\u76D1\u542C\u5C0F\u6E38\u620F\u56DE\u5230\u524D\u53F0\u7684\u4E8B\u4EF6\noffHide
-    / offShow : \u79FB\u9664\u76D1\u542C"
+    OffHide | OffShow'
+  entryDescription: "OnHide\uFF1A\u76D1\u542C\u5C0F\u6E38\u620F\u9690\u85CF\u5230\u540E\u53F0\nOnShow\uFF1A\u76D1\u542C\u5C0F\u6E38\u620F\u56DE\u5230\u524D\u53F0\u7684\u4E8B\u4EF6\nOffHide
+    / OffShow : \u79FB\u9664\u76D1\u542C"
   optionList: []
-  initialButtonText: "\u5F00\u59CB\u76D1\u542C"
-  extraButtonList: []
+  initialButtonText: "\u5F00\u59CB\u76D1\u542Chide/show\u4E8B\u4EF6"
+  extraButtonList:
+  - buttonText: "\u83B7\u53D6\u5C0F\u6E38\u620F\u51B7\u542F\u52A8\u53C2\u6570"
+  - buttonText: "\u83B7\u53D6\u5C0F\u6E38\u620F\u6253\u5F00\u7684\u53C2\u6570"
   initialResultList:
   - isDisableInitially: 0
     initialTitleText: 
