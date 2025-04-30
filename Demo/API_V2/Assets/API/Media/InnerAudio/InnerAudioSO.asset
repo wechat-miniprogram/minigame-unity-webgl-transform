@@ -18,6 +18,9 @@ MonoBehaviour:
   entryDescription: 
   optionList: []
   initialButtonText: "\u64AD\u653E\u97F3\u9891"
-  extraButtonList: []
+  extraButtonList:
+  - buttonText: "\u6682\u505C"
+  - buttonText: "\u505C\u6B62"
+  - buttonText: "\u8DF3\u8F6C"
   initialResultList: []
   entryOrder: 0
