@@ -117,7 +117,7 @@ public class ShareInfo : Details
     // data
     private class CloudCallFunctionData
     {
-        public string WeRunData;
+        public string shareCloudData;
     }
 
     // 调用云函数
@@ -125,7 +125,7 @@ public class ShareInfo : Details
     {
         var data = new CloudCallFunctionData()
         {
-            WeRunData = WX.cloud.CloudID(CloudID), // 通过GetShareInfo接口获取的CloudID
+            shareCloudData = WX.cloud.CloudID(CloudID), // 通过GetShareInfo接口获取的CloudID
         };
 
         WX.cloud.CallFunction(new CallFunctionParam()
