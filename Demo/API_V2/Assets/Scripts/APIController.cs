@@ -1,5 +1,7 @@
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
+
 #if UNITY_EDITOR
 using UnityEditor.SceneManagement;
 #endif
@@ -26,6 +28,15 @@ public class APIController : MonoBehaviour
     [Header("Title Transform")]
     [SerializeField]
     private RectTransform title;
+
+    //...其他代码保持不变
+    [Header("Native Abilities")]
+    [SerializeField]
+    private GameObject nativeAbilityPrefab;
+    [SerializeField]
+    private Transform nativeAbilitiesTransform;
+    [SerializeField]
+    private List<NativeAbilitySO> nativeAbilityList;
 
     private void Start()
     {
@@ -81,6 +92,14 @@ public class APIController : MonoBehaviour
         {
             var abilityObj = Instantiate(abilityPrefab, abilitiesTransform);
             abilityObj.GetComponent<Ability>().Init(ability);
+        }
+
+        //...修改的初始化代码
+        nativeAbilityList.Sort((x,y) => x.abilityOrder.CompareTo(y.abilityOrder));
+        foreach (var nativeAbility in nativeAbilityList)
+        {
+            var nativeAbilityObj = Instantiate(nativeAbilityPrefab, nativeAbilitiesTransform);
+            nativeAbilityObj.GetComponent<NativeAbility>().Init(nativeAbility);
         }
 
 #if UNITY_EDITOR

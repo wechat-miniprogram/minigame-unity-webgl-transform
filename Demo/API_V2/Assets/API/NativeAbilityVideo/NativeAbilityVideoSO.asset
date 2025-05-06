@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96627089af2a2449abd83a8495148c2, type: 3}
+  m_Name: NativeAbilityVideoSO
+  m_EditorClassIdentifier: 
+  abilityName: "\u89C6\u9891"
+  abilitySprite: {fileID: 0}
+  entryList: []
+  abilityList:
+  - {fileID: 11400000, guid: 5073e277b29d95642abb3c49fe94eea0, type: 2}
+  - {fileID: 11400000, guid: 27654a238f98e4f7e8756e4caed418e1, type: 2}
+  - {fileID: 11400000, guid: ebd496025e81f434bb6b5b487cfbf2ed, type: 2}
+  abilityOrder: 0

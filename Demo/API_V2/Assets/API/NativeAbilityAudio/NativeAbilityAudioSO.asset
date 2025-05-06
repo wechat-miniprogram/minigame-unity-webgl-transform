@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e96627089af2a2449abd83a8495148c2, type: 3}
+  m_Name: NativeAbilityAudioSO
+  m_EditorClassIdentifier: 
+  abilityName: "\u97F3\u9891"
+  abilitySprite: {fileID: 0}
+  entryList:
+  - {fileID: 11400000, guid: 480646e3cd4d6a948a7538d483c1b043, type: 2}
+  abilityList:
+  - {fileID: 11400000, guid: 948907759756641618ba1b031955ec2b, type: 2}
+  abilityOrder: 0
