@@ -24,3 +24,4 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: "\u76D1\u542C\u7ED3\u679C\uFF1A"
     initialContentText: 
+  entryOrder: 0

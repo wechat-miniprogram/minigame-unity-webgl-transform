@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77d040911b51640ea8a6e857528c3a0d, type: 3}
-  m_Name: ChumoSO
+  m_Name: TouchSO
   m_EditorClassIdentifier: 
   abilityName: "\u591A\u70B9\u89E6\u63A7\u548C\u5355\u70B9\u89E6\u63A7"
   abilitySprite: {fileID: 0}
