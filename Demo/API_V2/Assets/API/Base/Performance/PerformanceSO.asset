@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: PerformanceSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Performance
   entryName: "\u6027\u80FD"
+  entryOrder: 4
+  entryScriptTypeName: Performance
   entryAPI: "triggerGC \uFF5C reportPerformance"
   entryDescription: "\u5C0F\u7A0B\u5E8F\u6D4B\u901F\u4E0A\u62A5\uFF0C\u4F7F\u7528\u524D\uFF0C\u9700\u8981\u5728\u5C0F\u7A0B\u5E8F\u7BA1\u7406\u540E\u53F0\u914D\u7F6E"
   optionList: []
@@ -21,4 +22,3 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u6D4B\u901F\u4E0A\u62A5"
   initialResultList: []
-  entryOrder: 4

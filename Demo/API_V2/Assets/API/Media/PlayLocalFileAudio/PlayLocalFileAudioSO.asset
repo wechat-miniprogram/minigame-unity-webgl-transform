@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: PlayLocalFileAudioSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: PlayLocalFileAudio
   entryName: "\u64AD\u653E\u672C\u5730\u6587\u4EF6\u8DEF\u5F84\u97F3\u9891"
+  entryOrder: 0
+  entryScriptTypeName: PlayLocalFileAudio
   entryAPI: 
   entryDescription: "\u8BE5\u529F\u80FD\u9700\u8981\u4FEE\u6539UnityPlugin\u7248\u672C\u4E3A1.2.68\u4EE5\u4E0A"
   optionList: []
   initialButtonText: "\u64AD\u653E\u672C\u5730\u8DEF\u5F84\u7684\u97F3\u9891"
   extraButtonList: []
   initialResultList: []
-  entryOrder: 0

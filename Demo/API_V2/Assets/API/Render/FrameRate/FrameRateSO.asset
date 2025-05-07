@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: FrameRateSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: FrameRate
   entryName: "\u5E27\u7387\u8BBE\u7F6E"
+  entryOrder: 0
+  entryScriptTypeName: FrameRate
   entryAPI: Application.targetFrameRate
   entryDescription: 
   optionList: []
@@ -24,4 +25,3 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: "\u5F53\u524D\u5E27\u7387\uFF1A"
     initialContentText: 
-  entryOrder: 0

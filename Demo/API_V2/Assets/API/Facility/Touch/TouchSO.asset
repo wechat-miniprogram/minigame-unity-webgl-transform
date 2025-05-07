@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: TouchSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Touch
   entryName: "\u89E6\u6478"
+  entryOrder: 0
+  entryScriptTypeName: Touch
   entryAPI: On/OffTouchStart/Move/End/Cancel
   entryDescription: "\u6CE8\uFF1A\u5EFA\u8BAE\u5C06\u63D2\u4EF6\u63D0\u4F9B\u7684WXTouchInputOverride.cs\u6302\u8F7D\u5728EventSystem\u4E0A\n\u6CE8\uFF1A\u63A5\u53E3\u8FD4\u56DE\u7684\u5750\u6807\u4E3A\u5C4F\u5E55\u5750\u6807"
   optionList: []
@@ -24,4 +25,3 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: "\u76D1\u542C\u7ED3\u679C\uFF1A"
     initialContentText: 
-  entryOrder: 0

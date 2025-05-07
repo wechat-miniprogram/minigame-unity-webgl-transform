@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: LifeCycleSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: LifeCycle
   entryName: "\u751F\u547D\u5468\u671F"
+  entryOrder: 2
+  entryScriptTypeName: LifeCycle
   entryAPI: 'onHide | onShow
 
     offHIde | offHide'
@@ -22,4 +23,3 @@ MonoBehaviour:
   initialButtonText: "\u5F00\u59CB\u76D1\u542C"
   extraButtonList: []
   initialResultList: []
-  entryOrder: 2

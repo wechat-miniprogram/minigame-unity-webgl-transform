@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: CloudFileSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: CloudFile
   entryName: "\u4E91\u6587\u4EF6"
+  entryOrder: 0
+  entryScriptTypeName: CloudFile
   entryAPI: 'WX.cloud.UploadFile/WX.cloud.DownloadFile
 
     WX.cloud.DeleteFile/WX.cloud.GetTempFileURL'
@@ -25,4 +26,3 @@ MonoBehaviour:
   - buttonText: "\u4ECE\u4E91\u5B58\u50A8\u7A7A\u95F4\u5220\u9664\u6587\u4EF6"
   - buttonText: "\u7528\u4E91\u6587\u4EF6 ID \u6362\u53D6\u771F\u5B9E\u94FE\u63A5"
   initialResultList: []
-  entryOrder: 0

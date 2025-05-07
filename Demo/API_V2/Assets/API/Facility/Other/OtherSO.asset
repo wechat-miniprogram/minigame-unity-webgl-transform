@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: OtherSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Other
   entryName: "\u5176\u5B83"
+  entryOrder: 0
+  entryScriptTypeName: Other
   entryAPI: "\u5185\u5B58\uFF0C\u626B\u7801\u548C\u632F\u52A8\u76F8\u5173API"
   entryDescription: 
   optionList: []
@@ -23,4 +24,3 @@ MonoBehaviour:
   - buttonText: "\u77ED\u632F\u52A8"
   - buttonText: "\u957F\u632F\u52A8"
   initialResultList: []
-  entryOrder: 0

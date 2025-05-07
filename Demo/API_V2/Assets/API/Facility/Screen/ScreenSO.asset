@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: ScreenSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Screen
   entryName: "\u5C4F\u5E55"
+  entryOrder: 0
+  entryScriptTypeName: Screen
   entryAPI: "\u5C4F\u5E55\u76F8\u5173API"
   entryDescription: "\u82E5api\u4E0D\u53EF\u7528\uFF0C\u53EF\u80FD\u9700\u914D\u7F6E\u76F8\u5173\u7684\u9690\u79C1\u534F\u8BAE\n\u5F55\u5C4F\u529F\u80FD\u5728\u5B89\u5353\u4E0B\u4E0D\u53EF\u7528"
   optionList: []
@@ -26,4 +27,3 @@ MonoBehaviour:
   - buttonText: "\u67E5\u8BE2\u7528\u6237\u662F\u5426\u5728\u5F55\u5C4F"
   - buttonText: "\u83B7\u53D6\u5C4F\u5E55\u4EAE\u5EA6"
   initialResultList: []
-  entryOrder: 0

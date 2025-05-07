@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: BeaconSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Beacon
   entryName: "\u84DD\u7259-\u4FE1\u6807"
+  entryOrder: 0
+  entryScriptTypeName: Beacon
   entryAPI: "\u84DD\u7259-\u4FE1\u6807\u76F8\u5173API"
   entryDescription: "\u84DD\u7259\u76F8\u5173\u529F\u80FD\u4F7F\u7528\u9700\u914D\u7F6E\u6B63\u786E\u53C2\u6570\u548C\u914D\u7F6E\u9690\u79C1\u534F\u8BAE"
   optionList: []
@@ -21,4 +22,3 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u83B7\u53D6\u6240\u6709\u5DF2\u641C\u7D22\u5230\u7684 Beacon \u8BBE\u5907"
   initialResultList: []
-  entryOrder: 0
