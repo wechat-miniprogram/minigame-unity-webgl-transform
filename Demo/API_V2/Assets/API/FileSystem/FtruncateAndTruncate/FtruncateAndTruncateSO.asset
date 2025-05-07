@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: FtruncateAndTruncateSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: FtruncateAndTruncate
   entryName: "\u5BF9\u6587\u4EF6\u5185\u5BB9\u8FDB\u884C\u622A\u65AD\u64CD\u4F5C"
+  entryOrder: 0
+  entryScriptTypeName: FtruncateAndTruncate
   entryAPI: Ftruncate(Sync)/Truncate(Sync)
   entryDescription: 
   optionList:
@@ -36,4 +37,3 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: "\u6587\u4EF6\u5185\u5BB9\uFF1A"
     initialContentText: 'Original Data '
-  entryOrder: 0

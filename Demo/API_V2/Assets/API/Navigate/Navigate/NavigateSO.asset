@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: NavigateSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Navigate
   entryName: "\u8DF3\u8F6C"
+  entryOrder: 0
+  entryScriptTypeName: Navigate
   entryAPI: 'RestartMiniProgram | NavigateToMiniProgram
 
     NavigateBackMiniProgram
@@ -26,4 +27,3 @@ MonoBehaviour:
   - buttonText: "\u9000\u51FA\u5F53\u524D\u5C0F\u7A0B\u5E8F"
   - buttonText: "\u8FD4\u56DE\u5230\u4E0A\u4E00\u4E2A\u5C0F\u7A0B\u5E8F"
   initialResultList: []
-  entryOrder: 0

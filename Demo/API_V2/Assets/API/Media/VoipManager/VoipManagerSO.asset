@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: VoipManagerSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: VoipManager
   entryName: "\u5B9E\u65F6\u8BED\u97F3"
+  entryOrder: 0
+  entryScriptTypeName: VoipManager
   entryAPI: "\u5B9E\u65F6\u8BED\u97F3\u76F8\u5173api"
   entryDescription: "\u9700\u914D\u7F6E\u6B63\u786E\u7684\u53C2\u6570\u624D\u80FD\u6B63\u5E38\u8FD0\u884C"
   optionList: []
@@ -21,4 +22,3 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u9000\u51FA\uFF08\u9500\u6BC1\uFF09\u5B9E\u65F6\u8BED\u97F3\u901A\u8BDD"
   initialResultList: []
-  entryOrder: 0

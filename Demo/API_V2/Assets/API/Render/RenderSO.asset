@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: RenderSO
   m_EditorClassIdentifier: 
+  isNative: 0
   categoryName: "\u6E32\u67D3"
   categorySprite: {fileID: 21300000, guid: b3989ff4c0ab64caa995e8ba004d63f7, type: 3}
   entryList:

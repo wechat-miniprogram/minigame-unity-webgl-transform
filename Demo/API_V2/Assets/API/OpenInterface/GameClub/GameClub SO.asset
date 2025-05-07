@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: GameClub SO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: GameClub
   entryName: "\u6E38\u620F\u5708"
+  entryOrder: 0
+  entryScriptTypeName: GameClub
   entryAPI: "getGameClubData\uFF0C createGameClubButton"
   entryDescription: 
   optionList: []
@@ -21,4 +22,3 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u8FDB\u5165\u6E38\u620F\u5708"
   initialResultList: []
-  entryOrder: 0

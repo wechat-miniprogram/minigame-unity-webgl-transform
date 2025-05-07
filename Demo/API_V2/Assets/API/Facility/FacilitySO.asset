@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: FacilitySO
   m_EditorClassIdentifier: 
+  isNative: 0
   categoryName: "\u8BBE\u5907"
   categorySprite: {fileID: 21300000, guid: 53dd2b1922e5142ec8a53037f362fc56, type: 3}
   entryList:

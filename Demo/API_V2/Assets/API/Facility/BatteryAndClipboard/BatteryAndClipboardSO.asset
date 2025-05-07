@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: BatteryAndClipboardSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: BatteryAndClipboard
   entryName: "\u7535\u91CF\u548C\u526A\u5207\u677F"
+  entryOrder: 0
+  entryScriptTypeName: BatteryAndClipboard
   entryAPI: "\u7535\u91CF\u548C\u526A\u5207\u677F\u76F8\u5173API"
   entryDescription: "\u526A\u5207\u7248\u9700\u8981\u76F8\u5173\u6743\u9650"
   optionList: []
@@ -23,4 +24,3 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u7CFB\u7EDF\u526A\u8D34\u677F\u7684\u5185\u5BB9"
   - buttonText: "\u8BBE\u7F6E\u7CFB\u7EDF\u526A\u8D34\u677F\u7684\u5185\u5BB9"
   initialResultList: []
-  entryOrder: 0

@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: DownloadSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Download
   entryName: "\u4E0B\u8F7D\u6587\u4EF6"
+  entryOrder: 0
+  entryScriptTypeName: Download
   entryAPI: downloadFile
   entryDescription: 
   optionList: []
   initialButtonText: "\u4E0B\u8F7D"
   extraButtonList: []
   initialResultList: []
-  entryOrder: 0

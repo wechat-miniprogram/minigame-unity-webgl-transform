@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: StorageSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Storage
   entryName: "\u6570\u636E\u7F13\u5B58"
+  entryOrder: 0
+  entryScriptTypeName: Storage
   entryAPI: "\u6570\u636E\u7F13\u5B58\u76F8\u5173API"
   entryDescription: "backgroundFetch \u4F7F\u7528\u524D\u8BF7\u67E5\u770B\u4EE5\u4E0B\u6587\u6863\uFF1A\nhttps://developers.weixin.qq.com/minigame/dev/guide/base-ability/background-fetch.html"
   optionList: []
@@ -28,4 +29,3 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u81EA\u5B9A\u4E49\u767B\u5F55\u6001"
   - buttonText: "\u62C9\u53D6 backgroundFetch \u5BA2\u6237\u7AEF\u7F13\u5B58\u6570\u636E"
   initialResultList: []
-  entryOrder: 0

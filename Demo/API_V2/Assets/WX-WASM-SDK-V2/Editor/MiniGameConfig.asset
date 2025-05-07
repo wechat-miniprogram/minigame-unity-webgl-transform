@@ -45,6 +45,7 @@ MonoBehaviour:
     UseCompressedTexture: 0
     UseMiniGameChat: 1
     PreloadWXFont: 1
+    disableMultiTouch: 0
   CompileOptions:
     DevelopBuild: 1
     AutoProfile: 0
@@ -65,6 +66,7 @@ MonoBehaviour:
     iOSAutoGCInterval: 10000
     enableIOSPerformancePlus: 0
     brotliMT: 0
+    enableWasm2023: 0
   CompressTexture:
     halfSize: 0
     useDXT5: 0

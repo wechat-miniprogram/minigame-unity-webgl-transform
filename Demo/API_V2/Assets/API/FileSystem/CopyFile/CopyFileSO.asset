@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: CopyFileSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: CopyFile
   entryName: "\u590D\u5236\u6587\u4EF6"
+  entryOrder: 0
+  entryScriptTypeName: CopyFile
   entryAPI: CopyFile(Sync)
   entryDescription: "<color=red>\u6CE8\u610F\uFF1ASDK CopyFileSync\u8FD4\u56DE\u503C\u4E0E\u6587\u6863\u63CF\u8FF0\u4E0D\u540C\u3002\n\u6210\u529F\u4F1A\u8FD4\u56DE\"copyFile:ok\"\uFF0C\u5931\u8D25\u4F1A\u8FD4\u56DE\u5177\u4F53\u7684\u9519\u8BEF\u4FE1\u606F\u6216\"fail\"\u3002\n\u4E0D\u4F1A\u629B\u51FA\u5F02\u5E38\u3002</color>"
   optionList:
@@ -34,4 +35,3 @@ MonoBehaviour:
   - isDisableInitially: 1
     initialTitleText: 
     initialContentText: /copyFileAsync.txt
-  entryOrder: 0

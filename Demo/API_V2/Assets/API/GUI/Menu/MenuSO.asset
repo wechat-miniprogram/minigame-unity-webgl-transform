@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: MenuSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Menu
   entryName: "\u83DC\u5355\u548C\u72B6\u6001\u680F"
+  entryOrder: 0
+  entryScriptTypeName: Menu
   entryAPI: 'SetMenuStyle
 
     GetMenuButtonBoundingClientRect
@@ -29,4 +30,3 @@ MonoBehaviour:
   - buttonText: "\u83B7\u53D6\u83DC\u5355\u6309\u94AE\u5E03\u5C40\u4F4D\u7F6E\u4FE1\u606F"
   - buttonText: "\u8BBE\u7F6E\u72B6\u6001\u680F\u6DF1\u8272"
   initialResultList: []
-  entryOrder: 0
