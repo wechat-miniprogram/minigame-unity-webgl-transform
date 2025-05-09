@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: onPcHandSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: onPcHand
   entryName: "\u76D1\u542C\u5728\u7535\u8111\u4E0A\u6253\u5F00"
+  entryOrder: 0
+  entryScriptTypeName: onPcHand
   entryAPI: wx.onHandoff | wx.offHandoff |wx.setHandoffQuery
   entryDescription: "\u76D1\u542C\u7528\u6237\u70B9\u51FB\u83DC\u5355\u300C\u5728\u7535\u8111\u4E0A\u6253\u5F00\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6"
   optionList: []
@@ -21,4 +22,3 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u8BBE\u7F6E\u63A5\u529B\u53C2\u6570"
   initialResultList: []
-  entryOrder: 0

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: ShareInfoSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: ShareInfo
@@ -21,4 +21,3 @@ MonoBehaviour:
   initialButtonText: "\u83B7\u53D6\u5206\u4EAB\u8BE6\u60C5"
   extraButtonList: []
   initialResultList: []
-  entryOrder: 0

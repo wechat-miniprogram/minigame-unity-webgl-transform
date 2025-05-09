@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: FavoritesSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Favorites
   entryName: "\u6536\u85CF\u76D1\u542C"
+  entryOrder: 0
+  entryScriptTypeName: Favorites
   entryAPI: wx.onAddToFavorites | wx.offAddToFavorites
   entryDescription: "\u76D1\u542C\u7528\u6237\u70B9\u51FB\u83DC\u5355\u300C\u6536\u85CF\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6\n\uFF08\u5B89\u53537.0.15\u8D77\u652F\u6301\uFF0CiOS
     \u6682\u4E0D\u652F\u6301\uFF09\n\u6CE8\u610F\uFF1A\u7A7A\u9009\u9879\u5219\u4F7F\u7528\u9ED8\u8BA4\u503C"
@@ -34,4 +35,3 @@ MonoBehaviour:
   initialButtonText: "\u5F00\u59CB\u76D1\u542C\u6536\u85CF"
   extraButtonList: []
   initialResultList: []
-  entryOrder: 0

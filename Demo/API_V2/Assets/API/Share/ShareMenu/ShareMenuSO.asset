@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: ShareMenuSO
   m_EditorClassIdentifier: 
   entryScriptTypeName: ShareMenu
@@ -22,4 +22,3 @@ MonoBehaviour:
   initialButtonText: "\u663E\u793A\u8F6C\u53D1\u6309\u94AE"
   extraButtonList: []
   initialResultList: []
-  entryOrder: 0
