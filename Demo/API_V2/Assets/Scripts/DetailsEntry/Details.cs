@@ -55,6 +55,13 @@ public abstract class Details : MonoBehaviour
         }
         return defaultValue;
     }
+    //获得选项Bool类型值
+    protected bool GetOptionBool(int optionIndex, bool defaultValue)
+    {
+        return options != null && optionIndex < options.Length && bool.TryParse(options[optionIndex], out bool value)
+            ? value
+            : defaultValue;
+    }
     // 打印当前选项的值
     protected void LogCurrentOptions()
     {
