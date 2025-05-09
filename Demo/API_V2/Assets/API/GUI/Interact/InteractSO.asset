@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: InteractSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Interact
   entryName: "\u4EA4\u4E92"
+  entryOrder: 0
+  entryScriptTypeName: Interact
   entryAPI: "showToast \uFF5C showModal\nshowLoading \uFF5C showActionSheet\nhideToast
     \uFF5ChideLoading"
   entryDescription: 

@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: CallFunctionSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: CallFunction
   entryName: "\u4E91\u51FD\u6570"
+  entryOrder: 0
+  entryScriptTypeName: CallFunction
   entryAPI: WX.cloud.CallFunction
   entryDescription: "<color=red>\u8BF7\u5C06\u53C2\u6570\u6309\u5B9E\u9645\u60C5\u51B5\u8FDB\u884C\u66FF\u6362</color>\n\u5982\u679C
     data \u4E2D\u5305\u542B\u5927\u6570\u636E\u5B57\u6BB5\uFF08\u5EFA\u8BAE\u4E34\u754C\u503C

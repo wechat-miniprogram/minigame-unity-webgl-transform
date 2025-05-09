@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: SystemButtonSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: SystemButton
   entryName: "\u7CFB\u7EDF\u6309\u94AE"
+  entryOrder: 0
+  entryScriptTypeName: SystemButton
   entryAPI: 
   entryDescription: "\u5FAE\u4FE1\u5BA2\u670D\u529F\u80FD\u9700\u8981\u8865\u5145url"
   optionList: []
