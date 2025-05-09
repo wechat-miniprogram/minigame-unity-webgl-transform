@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
+  m_Name: ToTempFilePathSO
+  m_EditorClassIdentifier: 
+  entryName: "\u622A\u5C4F"
+  entryOrder: 0
+  entryScriptTypeName: ToTempFilePath
+  entryAPI: Canvas.toTempFilePath
+  entryDescription: "\u5C06\u5F53\u524D Canvas \u4FDD\u5B58\u4E3A\u4E00\u4E2A\u4E34\u65F6\u6587\u4EF6\u3002"
+  optionList:
+  - optionName: "\u6267\u884C\u65B9\u5F0F"
+    availableOptions:
+    - "\u540C\u6B65\u6267\u884C"
+    - "\u5F02\u6B65\u6267\u884C"
+  - optionName: x
+    availableOptions:
+    - 0
+    - 500
+  - optionName: y
+    availableOptions:
+    - 0
+    - 500
+  - optionName: width
+    availableOptions:
+    - 0
+    - 400
+  - optionName: height
+    availableOptions:
+    - 0
+    - 800
+  - optionName: destWidth
+    availableOptions:
+    - 0
+    - 800
+  - optionName: destHeight
+    availableOptions:
+    - 0
+    - 800
+  - optionName: fileType
+    availableOptions:
+    - png
+    - jpg
+  - optionName: quality
+    availableOptions:
+    - 1.0
+  initialButtonText: "\u8FD0\u884C\u622A\u56FE"
+  extraButtonList: []
+  initialResultList: []

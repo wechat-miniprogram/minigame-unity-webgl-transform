@@ -327,16 +327,16 @@ video.setParams({
 });
 
 // 播放 1.5s 时触发新的关键动作帧
-video.setEvent({
+video.setEvents({
   event: 'onPlayTimeAt',
-  param: {
+  params: {
     sec: 1.5,
   },
   bind: [ xxxx ] // 新的关键动作帧/故事线
 });
 
 // 可以创建多个事件，互相独立
-video.setEvent({
+video.setEvents({
   event: 'onPlayTimeAt',
   ...
 });
@@ -433,16 +433,16 @@ audio.setParams({
 });
 
 // 播放 1.5s 时触发新的关键动作帧
-audio.setEvent({
+audio.setEvents({
   event: 'onPlayTimeAt',
-  param: {
+  params: {
     sec: 1.5,
   },
   bind: [ xxxx ] // 新的关键动作帧/故事线
 });
 
 // 可以创建多个事件，互相独立
-audio.setEvent({
+audio.setEvents({
   event: 'onPlayTimeAt',
   ...
 })
@@ -522,7 +522,7 @@ image.setParams({
 });
 
 // 点击事件
-image.setEvent({
+image.setEvents({
   event: 'onClick',
   bind: [ ... ],
   keep: true,   // 事件始终有效
@@ -567,7 +567,7 @@ rect.setParams({
 });
 
 // 点击事件
-rect.setEvent({
+rect.setEvents({
   event: 'onClick',
   bind: [ ... ],
 })
@@ -656,7 +656,7 @@ const delay1000 = operaData.createFrame(FrameType.setTimeout, {
   timeout: 1000,  // 1000ms
 });
 
-delay1000.setEvent({
+delay1000.setEvents({
   event: 'onEnded',
   bind: [ ... ] // 1000ms 后执行的关键动作帧/故事线
 });
@@ -730,12 +730,12 @@ const goonButtonAnimationFadeIn = operaData.createFrame(
 );
 
 // 需要两个 Animation 结束后互相调用，即 淡入->结束->淡出->结束->... 循环之
-goonButtonAnimationFadeOut.setEvent({
+goonButtonAnimationFadeOut.setEvents({
   event: 'onEnded',
   bind: goonButtonAnimationFadeIn,
   keep: true,    // keep = true 很关键，因为该事件将被反复执行
 });
-goonButtonAnimationFadeIn.setEvent({
+goonButtonAnimationFadeIn.setEvents({
   event: 'onEnded',
   bind: goonButtonAnimationFadeOut,
   keep: true,
@@ -856,7 +856,7 @@ const report_1002 = operaData.createFrame(FrameType.report, {
 });
 
 // 合理的位置进行上报
-video0.setEvent({
+video0.setEvents({
   event: 'onEnded',
   bind: [ report_1001 ],
 });
@@ -864,7 +864,7 @@ video0.setEvent({
 ...
 
 // 合理的位置进行上报
-video1.setEvent({
+video1.setEvents({
   event: 'onEnded',
   bind: [ report_1002 ],
 });

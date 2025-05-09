@@ -41,7 +41,21 @@
 
 ## CallMain Profile分析
 1.改造小游戏代码
-因为安卓采集Profile文件需要手动控制，而CallMain会在码包下载编译完成和首包资源下载完成后就执行，为了录制启动阶段完整的Profile，需要保证Profile的录制开始之后才真正执行游戏开始逻辑，找到项目的game.js文件，改造最后几行即可：
+因为安卓采集Profile文件需要手动控制，而CallMain会在码包下载编译完成和首包资源下载完成后就执行，为了录制启动阶段完整的Profile，需要保证Profile的录制开始之后才真正执行游戏开始逻辑，找到项目的game.js文件，做如下改造：
+
+- 搜索`loadingPageConfig`字段，添加`visible: false`字段，如下：
+
+```js
+hideAfterCallmain: true,
+        loadingPageConfig: {
+            visible: false, 
+            // 以下是默认值
+            totalLaunchTime: 7000,
+            animationDuration: 100,
+```
+
+- 搜索`gameManager.startGame()`字段，将其放入wx.onTouchStart事件中，如下：
+
 ```js
 // gameManager.startGame();
 

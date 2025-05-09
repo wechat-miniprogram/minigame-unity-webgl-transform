@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: ReadFileAndWriteFileSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: ReadFileAndWriteFile
   entryName: "\u8BFB/\u5199\u6587\u4EF6\uFF08\u6587\u4EF6\u8DEF\u5F84\uFF09"
+  entryOrder: 0
+  entryScriptTypeName: ReadFileAndWriteFile
   entryAPI: ReadFile(Sync)/WriteFile(Sync)
   entryDescription: "\u6CE8\uFF1A\u4F7F\u7528\u6587\u4EF6\u63CF\u8FF0\u7B26\u7684\u65B9\u5F0F\u8BFB\u5199\u6587\u4EF6\u6027\u80FD\u8F83\u597D\n\u6CE8\uFF1A\u4F7F\u7528UTF8\u7F16\u7801\u663E\u793A\u6587\u4EF6\u5185\u5BB9\n<color=red>\u6CE8\u610F\uFF1ASDK
     ReadFile\u7684\u6210\u529F\u56DE\u8C03\u4E2D\uFF0C\u82E5encoding\u4E3Anull\uFF0C\u5219\u6570\u636E\u4F4D\u4E8Eres.binData\uFF0C\u5426\u5219\u6570\u636E\u4F4D\u4E8Eres.stringData</color>"

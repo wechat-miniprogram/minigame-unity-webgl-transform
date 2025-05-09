@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: OpenAndCloseSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: OpenAndClose
   entryName: "\u6253\u5F00/\u5173\u95ED\u6587\u4EF6"
+  entryOrder: 0
+  entryScriptTypeName: OpenAndClose
   entryAPI: Open(Sync)/Close(Sync)
   entryDescription: "\u6CE8\u610F\uFF1A\u67D0\u4E9Bflag\u4F1A\u622A\u65AD\u5148\u524D\u7684\u6587\u4EF6"
   optionList:

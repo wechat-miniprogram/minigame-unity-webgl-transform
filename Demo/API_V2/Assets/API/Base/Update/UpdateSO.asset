@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: UpdateSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: Update
   entryName: "\u66F4\u65B0"
+  entryOrder: 1
+  entryScriptTypeName: Update
   entryAPI: 'updateWeChatApp
 
     getUpdateManager - updateManagerdemo'
@@ -23,4 +24,3 @@ MonoBehaviour:
   extraButtonList:
   - buttonText: "\u83B7\u53D6\u7248\u672C\u66F4\u65B0\u7BA1\u7406\u5668"
   initialResultList: []
-  entryOrder: 1
