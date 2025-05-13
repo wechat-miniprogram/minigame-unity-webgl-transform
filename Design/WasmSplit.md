@@ -346,6 +346,8 @@ wasmsplit-ci disable -p ./minigame-dir/
 
 ### 常见问题排查
 - 错误码:-10000401 密钥检验失败，请检查密钥是否正确 验签失败，请检查公钥私钥是否匹配
+- 出现"need retry task: retryInit"之类的日志后中断执行，如果不是私钥路径错误的话，一般是私钥格式不对，私钥和MP配置的公钥都需要是PEM格式的。
+- 使用CI分包后，miniprogram-ci上传时报错"main package source size 4369KB exceed max limit 4096KB"，需要更新miniprogram-ci到beta版2.1.14。
 ## FAQ
 
 ### 分包是否是必要的

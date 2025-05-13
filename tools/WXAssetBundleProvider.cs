@@ -652,7 +652,6 @@ namespace UnityEngine.ResourceManagement.ResourceProviders
             m_ProvideHandle.SetDownloadProgressCallbacks(GetDownloadStatus);
             m_ProvideHandle.SetWaitForCompletionCallback(WaitForCompletionHandler);
 #if UNLOAD_BUNDLE_ASYNC
-            Debug.LogError("UNLOAD_BUNDLE_ASYNC");
             m_UnloadOperation = unloadOp;
             if (m_UnloadOperation != null && !m_UnloadOperation.isDone)
                 m_UnloadOperation.completed += OnUnloadOperationComplete;
