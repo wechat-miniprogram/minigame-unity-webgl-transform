@@ -10,34 +10,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
-  m_Name: ShareAppMessageSO
+  m_Name: FavoritesSO
   m_EditorClassIdentifier: 
-  entryName: "\u5206\u4EAB\u8F6C\u53D1"
+  entryName: "\u6536\u85CF\u76D1\u542C"
   entryOrder: 0
-  entryScriptTypeName: ShareAppMessage
-  entryAPI: ShareAppMessage
-  entryDescription: "title\uFF1A\u4E0D\u4F20\u5219\u9ED8\u8BA4\u4F7F\u7528\u5F53\u524D\u5C0F\u6E38\u620F\u7684\u6635\u79F0\u3002\n\u4E3B\u52A8\u62C9\u8D77\u8F6C\u53D1\uFF0C\u8FDB\u5165\u9009\u62E9\u901A\u8BAF\u5F55\u754C\u9762\u3002\n\u6CE8\u610F\uFF1A\u7A7A\u9009\u9879\u5219\u4F7F\u7528\u9ED8\u8BA4\u503C"
+  entryScriptTypeName: Favorites
+  entryAPI: OnAddToFavorites | OffAddToFavorites
+  entryDescription: "\u76D1\u542C\u7528\u6237\u70B9\u51FB\u83DC\u5355\u300C\u6536\u85CF\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6\n\uFF08\u5B89\u53537.0.15\u8D77\u652F\u6301\uFF0CiOS
+    \u6682\u4E0D\u652F\u6301\uFF09\n\u6CE8\u610F\uFF1A\u7A7A\u9009\u9879\u5219\u4F7F\u7528\u9ED8\u8BA4\u503C"
   optionList:
   - optionName: title
     availableOptions:
-    - "\u5C0F\u6E38\u620F\u5206\u4EAB"
+    - "\u6536\u85CF\u6807\u9898"
     - 
   - optionName: imageUrl
     availableOptions:
     - https://mmocgame.qpic.cn/wechatgame/QgsibLsZPBy1uwWJnNNPeRXjBMKm327We8xrXWxGMM4cFKUZaqy0SU8TcudBf72sE/0
     - "\u672C\u5730\u56FE\u7247\u6587\u4EF6\u8DEF\u5F84"
     - 
-  - optionName: imageUrlId
-    availableOptions:
-    - CoH3v3JtRc2ajuDvZyhHXQ==
-    - 
-  - optionName: toCurrentGroup
+  - optionName: disableForward
     availableOptions:
     - false
     - true
   - optionName: query
     availableOptions:
     - key1=val1
-  initialButtonText: "\u4E3B\u52A8\u8F6C\u53D1\u5206\u4EAB"
+  initialButtonText: "\u5F00\u59CB\u76D1\u542C\u6536\u85CF"
   extraButtonList: []
   initialResultList: []
