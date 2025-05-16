@@ -28,6 +28,7 @@ public class ShareMenu : Details
                     },
                     fail = (res) =>
                     {
+                        ShowToast("显示转发失败");
                         Debug.Log("fail" + res.errMsg);
                     },
                     complete = (res) =>
@@ -50,6 +51,7 @@ public class ShareMenu : Details
                     },
                     fail = (res) =>
                     {
+                        ShowToast("隐藏转发失败");
                         Debug.Log("fail" + res.errMsg);
                     },
                     complete = (res) =>

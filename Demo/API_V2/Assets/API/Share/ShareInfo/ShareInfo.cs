@@ -13,7 +13,7 @@ public class ShareInfo : Details
     {
         if (!isSetupInitialized)
         {
-            GetShareInfoButton();
+            GetGroupEnterInfoButton();
             isSetupInitialized = true;
         }
         else
@@ -23,7 +23,7 @@ public class ShareInfo : Details
     }
 
     // 分享信息按钮
-    private void GetShareInfoButton()
+    private void GetGroupEnterInfoButton()
     {
         InitCloudFunction();//初始化云函数
         WX.UpdateShareMenu(new UpdateShareMenuOption
@@ -44,45 +44,13 @@ public class ShareInfo : Details
             Debug.Log("shareTicket:" + res.shareTicket);
             Debug.Log("chatType:" + res.chatType);
 
-            GetShareInfo(res.shareTicket);
+            getGroupEnterInfo();
         });
     }
 
     // 获取分享Shareticket信息
-    private void GetShareInfo(string shareTicket)
+    private void getGroupEnterInfo()
     {
-        if (string.IsNullOrEmpty(shareTicket))
-        {
-            Debug.LogError("shareTicket is empty!");
-            return;
-        }
-        
-        // 获取转发详细信息
-        WX.GetShareInfo(
-            new GetShareInfoOption
-            {
-                shareTicket = shareTicket,
-                timeout = 2000,
-                success = (res) =>
-                {
-                    Debug.Log("GetShareInfo success");
-                    Debug.Log("encryptedData:" + res.encryptedData);
-                    Debug.Log("iv:" + res.iv);
-                    Debug.Log("CloudID:" + res.cloudID);
-                    CloudID = res.cloudID;
-                    CloudCallFunction();// 传入CloudID调用
-                },
-                fail = (res) =>
-                {
-                    Debug.Log("GetShareInfo fail:" + res.errMsg);
-                },
-                complete = (res) =>
-                {
-                    Debug.Log("GetShareInfo complete");
-                }
-            }
-        );
-
         // 从基础库 v2.17.3 开始，推荐用 wx.getGroupEnterInfo 替代wx.getShareInfo接口
         WX.GetGroupEnterInfo(new GetGroupEnterInfoOption
         {
@@ -93,8 +61,8 @@ public class ShareInfo : Details
                 Debug.Log("encryptedData:" + res.encryptedData);
                 Debug.Log("iv:" + res.iv);
                 Debug.Log("CloudID:" + res.cloudID);
-                //CloudID = res.cloudID;
-                //CloudCallFunction();// 传入CloudID调用
+                CloudID = res.cloudID;
+                CloudCallFunction();// 传入CloudID调用
             },
             fail = (res) =>
             {

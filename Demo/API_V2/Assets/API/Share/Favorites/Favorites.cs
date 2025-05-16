@@ -48,7 +48,7 @@ public class Favorites : Details
         ShowLoading();
         WX.DownloadFile(new DownloadFileOption()
         {
-            url = "https://picsum.photos/400/400?random=1",
+            url = "https://mmgame.qpic.cn/image/b941692c4de1a46c180c84569cc24c20389bf176794048becdf2421e61483fd0/0",
             success = (res) =>
             {
                 Debug.Log("WX.DownloadFile success");
@@ -81,6 +81,7 @@ public class Favorites : Details
         string title = GetOptionString(0, "");
         string imageUrl = GetOptionString(1, "");
         bool disableForward = !GetOptionBool(2, false);
+        string query = GetOptionString(3, "");
 
         if (imageUrl == "本地图片文件路径")
         {
@@ -94,10 +95,11 @@ public class Favorites : Details
                 {
                     title = title,
                     imageUrl = imageUrl,
-                    disableForward = disableForward
+                    disableForward = disableForward,
+                    query = query
                 }
             );
-            Debug.Log($"收藏回调参数 - 标题: {title}, 图片URL: {imageUrl}, 禁止转发: {disableForward}");
+            Debug.Log($"收藏回调参数 - 标题: {title}, 图片URL: {imageUrl}, 禁止转发: {disableForward}, Query: {query}");
         };
     }
 

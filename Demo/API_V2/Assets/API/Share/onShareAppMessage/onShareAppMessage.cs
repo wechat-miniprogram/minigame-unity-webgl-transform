@@ -14,12 +14,27 @@ public class onShareAppMessage : Details
             {
                 title = "转发标题2",
                 imageUrl = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
-                query = "key1=val1&key2=val2"
+                query = "key1=val1"
             }
         );
-        Debug.Log("回调callback");
     };
     private bool _isListeningShare = false;
+
+    private readonly Action<OnShowListenerResult> _onShow = (res) =>
+    {
+        var result = "onShow\n" + JsonMapper.ToJson(res);
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
+    };
+
+    private readonly Action<GeneralCallbackResult> _onHide = (res) =>
+    {
+        var result = "onHide\n" + JsonMapper.ToJson(res);
+        GameManager.Instance.detailsController.AddResult(
+            new ResultData() { initialContentText = result }
+        );
+    };
     protected override void TestAPI(string[] args)
     {
         OnShareAppMessage();
@@ -32,10 +47,16 @@ public class onShareAppMessage : Details
             {
                 title = "转发标题1",
                 imageUrl = "https://res.wx.qq.com/wxdoc/dist/assets/img/demo.ef5c5bef.jpg",
-                query = "key1=val1&key2=val2"
+                query = "key1=val1"
             };
             WX.OnShareAppMessage(defaultParam, _onShareAppMessageCallback);
-            Debug.Log("触发监听转发");
+            WX.ShowToast(new ShowToastOption
+            {
+                title = "开始监听转发",
+                icon = "none"
+            });
+            WX.OnShow(_onShow);
+            WX.OnHide(_onHide);
         }
         else
         {
@@ -43,10 +64,16 @@ public class onShareAppMessage : Details
             {
                 title = default,
                 imageUrl = "xxx",
-                query = "key1=val1&key2=val2"
+                query = "key1=val1"
             };
             WX.OnShareAppMessage(defaultParam);
-            Debug.Log("取消监听转发");
+            WX.ShowToast(new ShowToastOption
+            {
+                title = "取消监听转发",
+                icon = "none"
+            });
+            WX.OffShow(_onShow);
+            WX.OffHide(_onHide);
         }
 
         _isListeningShare = !_isListeningShare;

@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: ShareInfoSO
   m_EditorClassIdentifier: 
+  entryName: "\u83B7\u53D6\u7FA4\u804A\u4FE1\u606F"
+  entryOrder: 0
   entryScriptTypeName: ShareInfo
-  entryName: "\u83B7\u53D6\u5206\u4EAB\u4FE1\u606F"
-  entryAPI: wx.getShareInfo
+  entryAPI: GetGroupEnterInfo
   entryDescription: "\u83B7\u53D6\u8F6C\u53D1\u8BE6\u7EC6\u4FE1\u606F\uFF08\u4E3B\u8981\u662F\u83B7\u53D6\u7FA4ID\uFF09\u3002\n\u4ECE\u7FA4\u804A\u5185\u7684\u5C0F\u7A0B\u5E8F\u6D88\u606F\u5361\u7247\u6253\u5F00\u5C0F\u7A0B\u5E8F\u65F6\uFF0C\u8C03\u7528\u6B64\u63A5\u53E3\u624D\u6709\u6548\u3002\n\u4ECE\u57FA\u7840\u5E93
     v2.17.3 \u5F00\u59CB\uFF0C\u63A8\u8350\u7528 wx.getGroupEnterInfo \u66FF\u4EE3\u6B64\u63A5\u53E3\u3002"
   optionList: []
-  initialButtonText: "\u83B7\u53D6\u5206\u4EAB\u8BE6\u60C5"
+  initialButtonText: "\u83B7\u53D6\u7FA4\u804A\u4FE1\u606F"
   extraButtonList: []
   initialResultList: []

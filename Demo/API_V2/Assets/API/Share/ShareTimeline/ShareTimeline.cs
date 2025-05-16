@@ -48,7 +48,7 @@ public class ShareTimeline : Details
         ShowLoading();
         WX.DownloadFile(new DownloadFileOption()
         {
-            url = "https://picsum.photos/400/400?random=1",
+            url = "https://mmgame.qpic.cn/image/b941692c4de1a46c180c84569cc24c20389bf176794048becdf2421e61483fd0/0",
             success = (res) =>
             {
                 Debug.Log("WX.DownloadFile success");
@@ -82,6 +82,7 @@ public class ShareTimeline : Details
         string imageUrlId = GetOptionString(2, "");
         string imagePreviewUrl = GetOptionString(3, "");
         string imagePreviewUrlId = GetOptionString(4, "");
+        string query = GetOptionString(5, "");
 
         // 如果使用本地图片，替换为本地路径
         if (imageUrl == "本地图片文件路径")
@@ -98,10 +99,11 @@ public class ShareTimeline : Details
                     imageUrl = imageUrl,
                     imageUrlId = imageUrlId,
                     imagePreviewUrl = imagePreviewUrl,
-                    imagePreviewUrlId = imagePreviewUrlId
+                    imagePreviewUrlId = imagePreviewUrlId,
+                    query = query
                 }
             );
-            Debug.Log($"朋友圈分享回调参数 - 标题: {title}, 图片URL: {imageUrl}, 图片ID: {imageUrlId}, 预览图URL: {imagePreviewUrl}, 预览图ID: {imagePreviewUrlId}");
+            Debug.Log($"朋友圈分享回调参数 - 标题: {title}, 图片URL: {imageUrl}, 图片ID: {imageUrlId}, 预览图URL: {imagePreviewUrl}, 预览图ID: {imagePreviewUrlId}, Query: {query}");
         };
     }
 
