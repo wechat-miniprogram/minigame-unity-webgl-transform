@@ -4,7 +4,7 @@
 
 调用`Unity SDK`前，需要在主入口进行SDK初始化，回调后再执行主逻辑。
 
-```
+```csharp
 WX.InitSDK((int code)=> {
 // 你的主逻辑
 });
@@ -18,7 +18,26 @@ WX.InitSDK((int code)=> {
 
 ### 更新机制
 
-新版`Unity SDK`会在[lib.wx.api.d.ts](https://github.com/wechat-miniprogram/minigame-api-typings/blob/master/types/wx/lib.wx.api.d.ts)更新后及时更新。若基础库更新后[lib.wx.api.d.ts](https://github.com/wechat-miniprogram/minigame-api-typings/blob/master/types/wx/lib.wx.api.d.ts)暂未更新，开发者可参考[自定义SDK调用](./CustomSDK.md)临时调用WXSDK。
+新版`Unity SDK`会在[lib.wx.api.d.ts](https://github.com/wechat-miniprogram/minigame-api-typings/blob/master/types/wx/lib.wx.api.d.ts)更新后及时更新。
+若基础库更新后[lib.wx.api.d.ts](https://github.com/wechat-miniprogram/minigame-api-typings/blob/master/types/wx/lib.wx.api.d.ts)暂未更新，开发者可参考[自定义SDK调用](./CustomSDK.md)临时调用WXSDK。
+以`wx.shareAppMessageToGroup`为例：
+
+```csharp
+using WeChatWASM;
+
+public class ShareAppMessageToGroupOption
+{
+    public string title;
+    public string path;
+    public string imageUrl;
+}
+
+// 合适位置调用
+WX.CallJSFunction("wx", "shareAppMessageToGroup", new ShareAppMessageToGroupOption
+{
+    title = "群任务",
+});
+```
 
 ### Unity SDK 特供API
 
