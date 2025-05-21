@@ -4,7 +4,7 @@
 
 开发者工具或者线上打印出来的堆栈，一般都是 wasm 函数 id，需要通过 symbol 映射到函数名，才能用于定位问题
 
-这里提供了一个小工具用来替换函数 id，用法如下：
+这里提供了一个[小工具](https://github.com/wechat-miniprogram/minigame-unity-webgl-transform/blob/main/tools/rewrite_exception_symbol.js)用来替换函数 id，用法如下：
 
 比如以下这段堆栈
 
