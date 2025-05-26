@@ -15,9 +15,10 @@ MonoBehaviour:
   entryName: "\u7A97\u53E3"
   entryOrder: 0
   entryScriptTypeName: Window
-  entryAPI: "onWindowResize \uFF5C offWindowResize"
+  entryAPI: "OnWindowResize \uFF5C OffWindowResize"
   entryDescription: 
   optionList: []
   initialButtonText: "\u5F00\u59CB\u76D1\u542C"
-  extraButtonList: []
+  extraButtonList:
+  - buttonText: "\u7A97\u53E3\u53D8\u6210\u6A2A\u5C4F(5s\u540E\u6062\u590D)"
   initialResultList: []
