@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: MediaSO
   m_EditorClassIdentifier: 
+  isNative: 0
   categoryName: "\u5A92\u4F53"
   categorySprite: {fileID: 21300000, guid: 10009e080ceca4d88b96fcdff0749dfc, type: 3}
   entryList:

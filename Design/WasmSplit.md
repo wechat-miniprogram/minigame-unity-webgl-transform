@@ -18,6 +18,7 @@
       - [重复收集与生成](#重复收集与生成)
     - [关闭分包](#关闭分包)
     - [注意事项](#注意事项)
+  - [CI工具](#CI工具)
   - [FAQ](#faq)
     - [分包是否是必要的](#分包是否是必要的)
     - [收集到什么时候可以结束](#收集到什么时候可以结束)
@@ -210,6 +211,143 @@ android和iOS收集完，基本就可以测试和发布了
 
 如果上线后，有玩家遇到新增函数个数，分包插件上也会更新（主要来源是iOS高性能），或者收到小游戏数据助手的相关告警，这个时候要继续生成分包，同时提审发布
 
+## CI工具
+wasm代码分包作为微信开发者工具的插件，需要开发者在微信开发者工具中手动操作，在高频发布场景下效率偏低
+
+因此我们提供wasmsplit-ci工具，可以不打开微信开发者工具，独立使用进行分包的各种操作（真机收集除外），供开发者集成到ci流水线上
+
+### 功能
+wasmsplit-ci目前提供以下能力：
+- 打开分包
+- 生成分包
+- 获取分包信息
+- 关闭分包
+
+建议使用场景:
+- 大版本开发阶段：按新增函数阈值定期生成profile包
+- 小版本（代码无修改或无新增函数）或者bugfix阶段：直接走增量分包生成release包
+
+### 准备工作
+#### 密钥配置
+wasmsplit-ci的使用需要传入密钥，需要在mp管理端-开发支持-研发工具箱-密钥管理-Wasm分包CI鉴权配置密钥
+### 命令行调用
+#### 安装
+通过npm获取
+```
+npm install -g wasmsplit-ci
+```
+#### 支持命令
+打开分包
+```
+Usage: wasmsplit-ci init [options]
+init miniprogram
+Options:
+  -p, --project-path <projectPath>                
+      project path, 小游戏项目的路径, 必填
+  -k, --private-key-path <privateKeyPath>         
+      private key path, 私钥文件的保存位置, 必填
+  -d, --version-description <versionDescription>  
+      version description, 版本描述
+  -r, --refer-md5 <originalMd5>                   
+      original code md5, 历史代码包md5
+  -h, --help                                      
+      display help for command
+```
+init命令会检查当前项目（appid+code_md5）的分包状态，完成必须的前置准备工作
+
+**流水线每次执行**都需调用init命令进行初始化操作
+
+**如果本次流水线需要增量更新**则需传入供增量参考的游戏包的md5
+
+增量更新必须在项目首次分包时使用
+
+示例
+```
+# 首次分包，需要增量分包
+wasmsplit-ci init -p ./minigame-dir/ -k ./ci-privatekey -d "v1.0.0" -r $REFER_MD5
+# 非首次分包，或者首次但不需要增量分包
+wasmsplit-ci init -p ./minigame-dir/ -k ./ci-privatekey -d "v1.0.0"
+```
+查看当前分包信息
+```
+Usage: wasmsplit-ci getinfo [options]
+get minigame function info
+Options:  -p, --project-path <projectPath>         
+      project path, 小游戏项目路径, 必填
+  -k, --private-key-path <privateKeyPath>  
+      private key path, 私钥文件路径, 必填
+  -h, --help                               
+      display help for command
+```
+getinfo获取信息，并以json格式保存在"$projectpath/.plugincache/codesplit/gameinfo.txt"中。
+
+getinfo的json字段说明
+
+| 键 | 说明 |
+| --- | --- |
+| isProfile | 当前分包版本(profile或release) |
+| appid | 当前项目AppId |
+| md5 | 当前代码md5 |
+| subVersion | 当前分包version |
+| apiVersion | 当前后台服务版本 |
+| sourceFuncNum | 原始包函数总个数 |
+| increaseNum | 新增收集函数个数 |
+| currentNum | 当前首包函数个数 |
+
+示例
+```
+wasmsplit-ci getinfo -p ./minigame-dir/ -k ./ci-privatekey
+```
+生成分包
+```
+Usage: wasmsplit-ci dosplit [options]
+split minigame package
+Options:  -p, --project-path <projectPath>         
+      project path, 小游戏项目路径, 必填
+  -k, --private-key-path <privateKeyPath>  
+      private key path, 私钥文件路径, 必填
+  --release                                
+      release, otherwise profile, 是否release分包
+  -h, --help                               
+      display help for command
+```
+有新增函数即可调用，命令执行成功后会**下载分包结果，应用到minigame-dir目录**，执行失败可重复执行
+
+生成分包后，可随时上传体验版
+
+示例
+```
+# profile
+wasmsplit-ci dosplit -p ./minigame-dir/ -k ./ci-privatekey
+#release
+wasmsplit-ci dosplit -p ./minigame-dir/ -k ./ci-privatekey --release
+```
+关闭代码分包
+```
+Usage: wasmsplit-ci disable [options]
+disable code split Options:
+  -p, --project-path <string>  project path, 小游戏项目路径, 必填 
+  -h, --help                    display help for command
+```
+disable命令用于关闭代码分包，和插件的关闭代码分包作用相同
+
+示例
+```
+wasmsplit-ci disable -p ./minigame-dir/
+```
+### 流水线示例流程
+![alt text](WasmSplitCI.png)
+### 注意事项
+- 此工具不能完成真机收集过程，真机收集仍需开发者单独执行
+- 分包工具CI不提供预览及上传功能，可以使用微信开发者工具CI进行预览
+- 请不要将密钥配置文件（id_rsa.conf）放在小游戏项目下，这会导致密钥文件一同被上传
+- 日志文件保存在$projectpath/.plugincache/codesplit/log目录下，使用两个文件滚动保存(latest.log和backup.log)，每个文件保存最大容量为5M
+- 如需更改appid,自行修改项目路径下project.config.json文件中的appid
+
+### 常见问题排查
+- 错误码:-10000401 密钥检验失败，请检查密钥是否正确 验签失败，请检查公钥私钥是否匹配
+- 出现"need retry task: retryInit"之类的日志后中断执行，如果不是私钥路径错误的话，一般是私钥格式不对，私钥和MP配置的公钥都需要是PEM格式的。
+- 使用CI分包后，miniprogram-ci上传时报错"main package source size 4369KB exceed max limit 4096KB"，需要更新miniprogram-ci到beta版2.1.14。
 ## FAQ
 
 ### 分包是否是必要的

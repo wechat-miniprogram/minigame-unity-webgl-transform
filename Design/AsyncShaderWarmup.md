@@ -12,8 +12,7 @@
 ## 异步 Shader Warmup 使用条件
 - 1、安装 8.0.54 或以上的微信客户端
 - 2、需要 3.7.4 或以上的基础库 （打开小游戏调试面板，查看第一条日志）
-- 3、请联系客服助手申请开通 Shader 异步 Warmup 功能
-    - <img src='../image/issueandcontact2.png' width="200"/>
+- 3、点击[申请开通 Shader 异步 Warmup 功能](https://doc.weixin.qq.com/forms/AJEAIQdfAAoACQA2gY2AD41GisQUxXTEf)，等待通过
 - 4、同时需要在小游戏的 `game.json` 文件配置`"enableParallelShaderCompile": true`
     - <img src="../image/shader_warmup_01.png" width="300" />
 

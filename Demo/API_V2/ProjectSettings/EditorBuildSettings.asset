@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WXVideoScene.unity
     guid: be998cba51d48449d8d0cdd7186b3e1a
+  - enabled: 1
+    path: Assets/Scenes/FileVideoScene.unity
+    guid: fab74273392d6a147b84e266de8196bd
   m_configObjects:
     com.unity.renderstreaming.settings: {fileID: 11400000, guid: eaaad242393318e4f85c45e69c8837f0,
       type: 2}

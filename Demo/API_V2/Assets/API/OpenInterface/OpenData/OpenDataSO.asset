@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: OpenDataSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: OpenData
   entryName: "\u767B\u5F55-\u9690\u79C1"
+  entryOrder: 0
+  entryScriptTypeName: OpenData
   entryAPI: "login \uFF5CcheckSession\nauthorize \uFF5C getGroupEnterInfo\nrequirePrivacyAuthorize
     \uFF5C openPrivacyContract\ngetPrivacySetting"
   entryDescription: "\u90E8\u5206\u63A5\u53E3\u9700\u8981\u914D\u7F6E\u9690\u79C1\u534F\u8BAE"

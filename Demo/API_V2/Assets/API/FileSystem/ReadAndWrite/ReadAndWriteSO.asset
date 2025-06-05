@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: ReadAndWriteSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: ReadAndWrite
   entryName: "\u8BFB/\u5199\u6587\u4EF6\uFF08\u6587\u4EF6\u63CF\u8FF0\u7B26\uFF09"
+  entryOrder: 0
+  entryScriptTypeName: ReadAndWrite
   entryAPI: Read(Sync)/Write(Sync)
   entryDescription: "\u6CE8\uFF1A\u4F7F\u7528\u6587\u4EF6\u63CF\u8FF0\u7B26\u7684\u65B9\u5F0F\u8BFB\u5199\u6587\u4EF6\u6027\u80FD\u8F83\u597D\n\u6CE8\uFF1A\u4F7F\u7528UTF8\u7F16\u7801\u663E\u793A\u8BFB\u53D6\u5185\u5BB9\u4E0E\u6587\u4EF6\u5185\u5BB9\n<color=red>\u6CE8\uFF1ARead/ReadSync\u4E0D\u4F20position\u53C2\u6570\u4F1A\u4ECE\u5F53\u524D\u6587\u4EF6\u6307\u9488\u7684\u4F4D\u7F6E\u8BFB\u53D6\u800C\u975E\u4ECE\u6587\u4EF6\u5934\u5F00\u59CB\u8BFB\u53D6</color>\n<color=red>\u6CE8\u610F\uFF1AReadSync\u63A5\u53E3\u6682\u65E0\u6CD5\u6B63\u5E38\u4F7F\u7528</color>"
   optionList:

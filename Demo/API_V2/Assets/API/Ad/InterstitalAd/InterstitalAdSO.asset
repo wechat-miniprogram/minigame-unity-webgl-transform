@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb48e4613a53bb941a20036d7c08fefb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
   m_Name: InterstitalAdSO
   m_EditorClassIdentifier: 
-  entryScriptTypeName: InterstitalAd
   entryName: "\u63D2\u5C4F\u5E7F\u544A"
+  entryOrder: 0
+  entryScriptTypeName: InterstitalAd
   entryAPI: 'CreateInterstitalAd
 
     InterstitalAd.Destroy/Load/Show

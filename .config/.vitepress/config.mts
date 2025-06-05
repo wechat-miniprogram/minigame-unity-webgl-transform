@@ -120,6 +120,7 @@ export default defineConfig({
               { text: "WebGL2.0渲染支持说明", link: "/Design/WebGL2" },
               { text: "性能深度分析工具", link: "/Design/DeepProfileTool" },
               { text: "高精度时间", link: "/Design/HighPreciseTime" },
+              { text: "优化实战: Particle Simulate Budget方案", link: "/Design/ParticleBudget" }, 
             ],
           },
         ],

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
   m_Name: NetworkSO
   m_EditorClassIdentifier: 
+  isNative: 0
   categoryName: "\u7F51\u7EDC"
   categorySprite: {fileID: 21300000, guid: 4e6324116a24b4af6a54839d51111aac, type: 3}
   entryList:
