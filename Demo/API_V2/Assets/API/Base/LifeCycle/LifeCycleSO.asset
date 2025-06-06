@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: LifeCycleSO
   m_EditorClassIdentifier: 
   entryName: "\u751F\u547D\u5468\u671F"
+  entryOrder: 2
+  entryScriptTypeName: LifeCycle
   entryAPI: 'OnHide | OnShow
 
     OffHide | OffShow'
@@ -27,4 +29,3 @@ MonoBehaviour:
   - isDisableInitially: 0
     initialTitleText: 
     initialContentText: 
-  entryOrder: 2
