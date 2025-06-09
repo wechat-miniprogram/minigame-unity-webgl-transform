@@ -64,14 +64,6 @@ public class RewardedVideoAd : Details
         WX.ShowToast(new ShowToastOption() { title = "已创建并加载广告" });
     }
 
-    // 展示广告
-    // private void ShowAd()
-    // {
-    //     _rewardedVideoAd.Show();
-    //     WX.ShowToast(new ShowToastOption() { title = "已展示广告" });
-    // }
-
-
      private void ShowAd()
     {
          _rewardedVideoAd.Show(ShowSuccess, ShowFail);
@@ -79,13 +71,13 @@ public class RewardedVideoAd : Details
 
     private Action<WXTextResponse> ShowSuccess = (res) =>
     {
-         WX.ShowModal(new ShowModalOption() { content = "RewardedVideoAd Show Success:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "RewardedVideoAd Show Success:" + JsonUtility.ToJson(res) });
     };
 
     
     private Action<WXTextResponse> ShowFail = (res) =>
     {
-          WX.ShowModal(new ShowModalOption() { content = "RewardedVideoAd Show Fail:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "RewardedVideoAd Show Fail:" + JsonUtility.ToJson(res) });
     };
 
     // 销毁广告

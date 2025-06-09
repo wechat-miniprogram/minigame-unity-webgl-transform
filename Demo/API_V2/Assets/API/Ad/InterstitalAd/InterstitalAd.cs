@@ -65,13 +65,13 @@ public class InterstitalAd : Details
 
     private Action<WXTextResponse> ShowSuccess = (res) =>
     {
-         WX.ShowModal(new ShowModalOption() { content = "InterstitialAd Show Success:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "InterstitialAd Show Success:" + JsonUtility.ToJson(res) });
     };
 
     
     private Action<WXTextResponse> ShowFail = (res) =>
     {
-          WX.ShowModal(new ShowModalOption() { content = "InterstitialAd Show Fail:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "InterstitialAd Show Fail:" + JsonUtility.ToJson(res) });
     };
     
 

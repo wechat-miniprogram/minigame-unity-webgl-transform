@@ -79,13 +79,13 @@ public class CustomAd : Details
 
     private Action<WXTextResponse> ShowSuccess = (res) =>
     {
-         WX.ShowModal(new ShowModalOption() { content = "CustomAd Show Success:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "CustomAd Show Success:" + JsonUtility.ToJson(res) });
     };
 
     
     private Action<WXTextResponse> ShowFail = (res) =>
     {
-          WX.ShowModal(new ShowModalOption() { content = "CustomAd Show Fail:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "CustomAd Show Fail:" + JsonUtility.ToJson(res) });
     };
     
     // 销毁广告
