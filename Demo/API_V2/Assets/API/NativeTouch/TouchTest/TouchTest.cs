@@ -14,14 +14,8 @@ public class TouchTest : MonoBehaviour,
     private Dictionary<int, List<GameObject>> touchCircles = new Dictionary<int, List<GameObject>>();
     // 移除currentPointerId字段，改为完全依赖touchCircles字典管理所有触点
 
-    private RectTransform title;
     void Start()
     {
-        // 根据系统安全区域调整标题的位置
-        title.anchoredPosition = new Vector2(
-            title.anchoredPosition.x,
-            -125f - (float)GameManager.Instance.WindowInfo.safeArea.top
-        );
         Debug.Log("TouchTest脚本初始化开始");
         
         // 确保Canvas设置正确

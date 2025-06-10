@@ -30,7 +30,7 @@ EditorBuildSettings:
     path: Assets/Scenes/FileVideoScene.unity
     guid: fab74273392d6a147b84e266de8196bd
   - enabled: 1
-    path: Assets/Scenes/TouchScene.unity
+    path: Assets/Scenes/TouchTestScene.unity
     guid: f85cdbdc8c45a6747ae974cde6b2045e
   m_configObjects:
     com.unity.renderstreaming.settings: {fileID: 11400000, guid: eaaad242393318e4f85c45e69c8837f0,

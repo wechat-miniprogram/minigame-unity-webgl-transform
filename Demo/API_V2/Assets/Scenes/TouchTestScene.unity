@@ -971,9 +971,9 @@ GameObject:
   - component: {fileID: 1334415353}
   - component: {fileID: 1334415357}
   - component: {fileID: 1334415356}
+  - component: {fileID: 1334415358}
   - component: {fileID: 1334415355}
   - component: {fileID: 1334415354}
-  - component: {fileID: 1334415358}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -1098,7 +1098,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1334415352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78de34f2c58d6134c9b023416a065fe4, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a259c3005001754e8674777bc6ebb11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1190588953}
