@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using WeChatWASM;
 
@@ -72,11 +73,21 @@ public class CustomAd : Details
         else
         {
             // 展示广告
-            _customAd.Show();
-            WX.ShowToast(new ShowToastOption() { title = "已展示广告" });
+            _customAd.Show(ShowSuccess, ShowFail);
         }
     }
 
+    private Action<WXTextResponse> ShowSuccess = (res) =>
+    {
+        WX.ShowModal(new ShowModalOption() { content = "CustomAd Show Success:" + JsonUtility.ToJson(res) });
+    };
+
+    
+    private Action<WXTextResponse> ShowFail = (res) =>
+    {
+        WX.ShowModal(new ShowModalOption() { content = "CustomAd Show Fail:" + JsonUtility.ToJson(res) });
+    };
+    
     // 销毁广告
     private void DestroyAd()
     {
