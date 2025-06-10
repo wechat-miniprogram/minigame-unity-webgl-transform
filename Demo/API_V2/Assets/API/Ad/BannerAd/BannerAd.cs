@@ -78,13 +78,13 @@ public class BannerAd : Details
 
     private Action<WXTextResponse> ShowSuccess = (res) =>
     {
-         WX.ShowModal(new ShowModalOption() { content = "BannerAd Show Success:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "BannerAd Show Success:" + JsonUtility.ToJson(res) });
     };
 
     
     private Action<WXTextResponse> ShowFail = (res) =>
     {
-          WX.ShowModal(new ShowModalOption() { content = "BannerAd Show Fail:" + JsonUtility.ToJson(res) });
+        WX.ShowModal(new ShowModalOption() { content = "BannerAd Show Fail:" + JsonUtility.ToJson(res) });
     };
 
     // 销毁广告

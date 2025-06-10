@@ -66,7 +66,7 @@ public class RewardedVideoAd : Details
 
      private void ShowAd()
     {
-         _rewardedVideoAd.Show(ShowSuccess, ShowFail);
+        _rewardedVideoAd.Show(ShowSuccess, ShowFail);
     }
 
     private Action<WXTextResponse> ShowSuccess = (res) =>
