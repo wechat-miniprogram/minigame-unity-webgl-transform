@@ -16,8 +16,10 @@ MonoBehaviour:
   entryOrder: 0
   entryScriptTypeName: PageManager
   entryAPI: CreatePageManager
-  entryDescription: 
+  entryDescription: "\u8BE6\u89C1\u5C0F\u6E38\u620F\u5B98\u65B9\u6587\u6863-\u6307\u5357-\u5F00\u653E\u80FD\u529B-\u6E38\u620F\u8FD0\u8425-\u8BC4\u4EF7\u4E0E\u63A8\u8350"
   optionList: []
-  initialButtonText: "\u663E\u793A\u63A8\u8350\u7EC4\u4EF6"
-  extraButtonList: []
+  initialButtonText: "\u52A0\u8F7D\u63A8\u8350\u7EC4\u4EF6"
+  extraButtonList:
+  - buttonText: "\u663E\u793A\u63A8\u8350\u7EC4\u4EF6"
+  - buttonText: "\u9500\u6BC1\u63A8\u8350\u7EC4\u4EF6"
   initialResultList: []
