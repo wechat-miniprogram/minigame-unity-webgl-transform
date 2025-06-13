@@ -155,7 +155,6 @@ public class ShareEvent : Details
                         new ShowShareImageMenuOption
                         {
                             path = res.tempFilePath,
-                            style = "default",
                             success = (res) =>
                             {
                                 Debug.Log("success");

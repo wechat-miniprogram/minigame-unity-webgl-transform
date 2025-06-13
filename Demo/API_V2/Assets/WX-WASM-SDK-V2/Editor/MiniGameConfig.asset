@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: "\u5FEB\u9002\u914D\u5C0F\u6E38\u620F\u793A\u4F8B"
-    Appid: wx7c792ca878775717
+    projectName: "\u5FEB\u9002\u914D\u5C0F\u6E38\u620F\u793A\u4F8B_\u63A8\u8350\u7EC4\u4EF6"
+    Appid: 
     CDN: 
     assetLoadType: 1
     compressDataPackage: 1
     VideoUrl: 
-    DST: 
+    DST: "D:/20250602/\u63A8\u8350\u7EC4\u4EF6"
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
