@@ -19,7 +19,7 @@ MonoBehaviour:
     assetLoadType: 1
     compressDataPackage: 1
     VideoUrl: 
-    DST: 
+    DST: D:/myUnity/00apiv2
     StreamCDN: 
     bundleHashLength: 32
     bundlePathIdentifier: StreamingAssets;
