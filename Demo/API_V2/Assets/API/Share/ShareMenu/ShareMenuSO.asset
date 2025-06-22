@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
-  m_Name: DownloadSO
+  m_Name: ShareMenuSO
   m_EditorClassIdentifier: 
-  entryName: "\u4E0B\u8F7D\u6587\u4EF6"
+  entryName: "\u663E\u793A\u8F6C\u53D1"
   entryOrder: 0
-  entryScriptTypeName: Download
-  entryAPI: downloadFile
-  entryDescription: 
+  entryScriptTypeName: ShareMenu
+  entryAPI: 'ShowShareMenu
+
+    HideShareMenu'
+  entryDescription: "\u8BBE\u7F6E\u53F3\u4E0A\u89D2\u70B9\u5F00\u7684\u8BE6\u60C5\u754C\u9762\u4E2D\u7684\u5206\u4EAB\u6309\u94AE\u662F\u5426\u53EF\u7528\n"
   optionList: []
-  initialButtonText: "\u4E0B\u8F7D"
+  initialButtonText: "\u663E\u793A\u8F6C\u53D1\u6309\u94AE"
   extraButtonList: []
   initialResultList: []
-  entryOrder: 0

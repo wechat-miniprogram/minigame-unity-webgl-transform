@@ -31,3 +31,4 @@ MonoBehaviour:
   - buttonText: Send
   - buttonText: "\u5173\u95ED"
   initialResultList: []
+  entryOrder: 0

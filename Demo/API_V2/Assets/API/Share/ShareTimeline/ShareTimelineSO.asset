@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
+  m_Name: ShareTimelineSO
+  m_EditorClassIdentifier: 
+  entryName: "\u76D1\u542C\u5206\u4EAB\u5230\u670B\u53CB\u5708"
+  entryOrder: 0
+  entryScriptTypeName: ShareTimeline
+  entryAPI: OnShareTimeline | OffShareTimeline
+  entryDescription: "\u8F6C\u53D1\u529F\u80FD\u53EF\u80FD\u9700\u8981\u76F8\u5173\u6743\u9650\n\u76D1\u542C\u7528\u6237\u70B9\u51FB\u53F3\u4E0A\u89D2\u83DC\u5355\u7684\u300C\u5206\u4EAB\u5230\u670B\u53CB\u5708\u300D\u6309\u94AE\u65F6\u89E6\u53D1\u7684\u4E8B\u4EF6\u3002\n\u672C\u63A5\u53E3\u4E3A
+    Beta \u7248\u672C\uFF0C\u6682\u53EA\u5728 Android \u5E73\u53F0\u652F\u6301\u3002\n\u6CE8\u610F\uFF1A\u7A7A\u9009\u9879\u5219\u4F7F\u7528\u9ED8\u8BA4\u503C"
+  optionList:
+  - optionName: title
+    availableOptions:
+    - "\u5206\u4EAB\u5230\u670B\u53CB\u5708"
+    - 
+  - optionName: imageUrl
+    availableOptions:
+    - https://mmocgame.qpic.cn/wechatgame/QgsibLsZPBy1uwWJnNNPeRXjBMKm327We8xrXWxGMM4cFKUZaqy0SU8TcudBf72sE/0
+    - "\u672C\u5730\u56FE\u7247\u6587\u4EF6\u8DEF\u5F84"
+    - 
+  - optionName: imageUrlId
+    availableOptions:
+    - CoH3v3JtRc2ajuDvZyhHXQ==
+    - 
+  - optionName: imagePreviewUrl
+    availableOptions:
+    - "\u670B\u53CB\u5708\u9884\u89C8\u56FE\u94FE\u63A5"
+    - https://mmocgame.qpic.cn/wechatgame/QgsibLsZPBy1uwWJnNNPeRXjBMKm327We8xrXWxGMM4cFKUZaqy0SU8TcudBf72sE/0
+  - optionName: imagePreviewUrlId
+    availableOptions:
+    - "\u670B\u53CB\u5708\u9884\u89C8\u56FE\u56FE\u7247\u7F16\u53F7"
+    - CoH3v3JtRc2ajuDvZyhHXQ==
+  - optionName: query
+    availableOptions:
+    - key1=val1
+  initialButtonText: "\u5F00\u59CB\u76D1\u542C\u5206\u4EAB\u5230\u670B\u53CB\u5708"
+  extraButtonList: []
+  initialResultList: []

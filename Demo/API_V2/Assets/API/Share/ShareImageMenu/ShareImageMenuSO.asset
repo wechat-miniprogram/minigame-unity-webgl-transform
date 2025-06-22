@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
+  m_Name: ShareImageMenuSO
+  m_EditorClassIdentifier: 
+  entryScriptTypeName: ShowShareImageMenu
+  entryName: "\u5206\u4EAB\u56FE\u7247\u5F39\u7A97"
+  entryAPI: ShowShareImageMenu
+  entryDescription: "\u6253\u5F00\u5206\u4EAB\u56FE\u7247\u5F39\u7A97"
+  optionList:
+  - optionName: path
+    availableOptions:
+    - "\u672C\u5730\u8DEF\u5F84"
+    - "\u4E34\u65F6\u8DEF\u5F84"
+  - optionName: needShowEntrance
+    availableOptions:
+    - false
+    - true
+  - optionName: entrancePath
+    availableOptions:
+    - ''''''
+  initialButtonText: "\u6253\u5F00\u5206\u4EAB\u56FE\u7247\u5F39\u7A97"
+  extraButtonList: []
+  initialResultList: []
