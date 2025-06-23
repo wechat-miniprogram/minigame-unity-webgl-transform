@@ -116,6 +116,7 @@ export default defineConfig({
               { text: "资源优化工具与建议", link: "/Design/AssetOptimization" },
               { text: "iOS高性能 与 高性能+ 模式", link: "/Design/iOSOptimization" },
               { text: "优化Unity WebGL的渲染性能", link: "/Design/RenderOptimization" },
+              { text: "EmscriptenGLX渲染模式", link: "/Design/EmscriptenGLX" },
               { text: "定制微信小游戏的 URP 管线", link: "/Design/CustomURP" },
               { text: "WebGL2.0渲染支持说明", link: "/Design/WebGL2" },
               { text: "性能深度分析工具", link: "/Design/DeepProfileTool" },
