@@ -22,7 +22,7 @@
 `打开游戏工程` -> `Editor 菜单栏` -> `Package Manager` -> `右上方 "+"` -> `Add package from git URL` -> `输入下方的URL地址`，即可完成 SDK 导入
 
 ```javascript
-https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk#feat-emscriptenglx
+https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#feat-emscriptenglx
 ```
 
 ### 2. 开启 EmscriptenGLX
