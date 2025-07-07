@@ -3447,22 +3447,38 @@ namespace BuildReportTool
 
         // has to be called in main thread
         static void ShowBuildReportWithLastValues()
+{
+    try
+    {
+        BRT_BuildReportWindow brtWindow = (BRT_BuildReportWindow)
+            EditorWindow.GetWindow(
+                typeof(BRT_BuildReportWindow),
+                false,
+                EDITOR_WINDOW_TITLE,
+                true
+            );
+        
+        if (brtWindow != null)
         {
-            //BRT_BuildReportWindow window = ScriptableObject.CreateInstance<BRT_BuildReportWindow>();
-            //window.ShowUtility();
-
-            //Debug.Log("showing build report window...");
-
-            //BRT_BuildReportWindow brtWindow = EditorWindow.GetWindow<BRT_BuildReportWindow>("Build Report", true, typeof(SceneView));
-            BRT_BuildReportWindow brtWindow = (BRT_BuildReportWindow)
-                EditorWindow.GetWindow(
-                    typeof(BRT_BuildReportWindow),
-                    false,
-                    EDITOR_WINDOW_TITLE,
-                    true
-                );
-            //BRT_BuildReportWindow brtWindow = EditorWindow.GetWindow(typeof(BRT_BuildReportWindow), false, "Build Report", true) as BRT_BuildReportWindow;
             brtWindow.Init(_lastKnownBuildInfo);
         }
+        else
+        {
+            Debug.LogError("Failed to create BRT_BuildReportWindow instance");
+        }
+    }
+    catch (System.Exception ex)
+    {
+        // 记录详细的错误信息
+        Debug.LogError($"Failed to show build report window: {ex.ToString()}");
+        
+        // 可选：显示用户友好的错误提示
+        EditorUtility.DisplayDialog(
+            "Error",
+            "Unable to display build report. Please check the console for details.",
+            "OK"
+        );
+    }
+}
     }
 } // namespace BuildReportTool

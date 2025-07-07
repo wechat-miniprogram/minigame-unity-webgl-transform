@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 
 namespace BuildReportTool
@@ -192,5 +192,5 @@ namespace BuildReportTool
 
             return savedFilePath;
         }
-    }
+  }
 }
