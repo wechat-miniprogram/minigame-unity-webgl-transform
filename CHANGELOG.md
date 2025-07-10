@@ -11,8 +11,14 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 1. UnityPackage：[下载地址](https://game.weixin.qq.com/cgi-bin/gamewxagwasmsplitwap/getunityplugininfo?download=1)
 2. PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git
 
-## v0.1.27  【预发布】
-PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.27
+## v0.1.28  【预发布】
+PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.28
+
+## 2025-7-10 v0.1.27 【普通更新】
+### Feature
+* 普通：新增 JS_Sound_GetPosition 方法用于获取音频播放位置
+* 普通：WebGL2变更为正式特性
+* 普通：支持小游戏试玩导出
 
 ## 2025-5-8  v0.1.26 【普通更新】
 ### Feature
