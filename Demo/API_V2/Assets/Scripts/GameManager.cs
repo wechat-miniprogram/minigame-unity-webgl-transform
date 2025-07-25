@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using WeChatWASM;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,9 +21,8 @@ public class GameManager : MonoBehaviour
     public Font font;
     public Action<Font> OnFontLoaded;
 
-    //
-    [Header("Font")]
-    public TMP_FontAsset fonts;
+    [Header("TMP_Font")]
+    public TMP_FontAsset TMP_font;
     public Action<TMP_FontAsset> OnTMPFontLoaded;
 
 
@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
 
                         // 将普通字体转换为 TMP 字体资源
                         TMP_FontAsset tmpFontAsset = TMP_FontAsset.CreateFontAsset(wxFont);
-                        this.fonts = tmpFontAsset;
+                        this.TMP_font = tmpFontAsset;
                         OnTMPFontLoaded?.Invoke(tmpFontAsset);
                     }
                 );

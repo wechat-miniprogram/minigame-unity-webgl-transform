@@ -19,7 +19,7 @@ public class TMPTextInit : MonoBehaviour
         // 如果 GameManager 的字体已经加载，直接设置 Text 的字体
         if (GameManager.Instance.font != null)
         {
-            _text.font = GameManager.Instance.fonts;
+            _text.font = GameManager.Instance.TMP_font;
         }
         else
         {

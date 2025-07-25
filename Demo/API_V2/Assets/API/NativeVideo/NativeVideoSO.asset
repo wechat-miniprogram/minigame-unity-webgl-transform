@@ -18,5 +18,4 @@ MonoBehaviour:
   entryList:
   - {fileID: 11400000, guid: 5073e277b29d95642abb3c49fe94eea0, type: 2}
   - {fileID: 11400000, guid: 27654a238f98e4f7e8756e4caed418e1, type: 2}
-  - {fileID: 11400000, guid: ebd496025e81f434bb6b5b487cfbf2ed, type: 2}
   categoryOrder: 0
