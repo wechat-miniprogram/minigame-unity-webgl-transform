@@ -21,14 +21,14 @@ public class ToTempFilePath : Details
     // 异步
     private void LoadCanvasToTempFilePath()
     {// 根据options数组的索引获取值
-        float x = GetOptionValue(1);
-        float y = GetOptionValue(2);
-        float width = GetOptionValue(3);
-        float height = GetOptionValue(4);
-        float destWidth = GetOptionValue(5);
-        float destHeight = GetOptionValue(6);
-        string fileType = GetOptionString(7, "png");
-        float quality = GetOptionValue(8);
+        var x = GetOptionValue<double>(1);
+        var y = GetOptionValue<double>(2);
+        var width = GetOptionValue<double>(3);
+        var height = GetOptionValue<double>(4);
+        var destWidth = GetOptionValue<double>(5);
+        var destHeight = GetOptionValue<double>(6);
+        string fileType = GetOptionString(7);
+        var quality = GetOptionValue<double>(8);
 
         string optionsInfo = $"当前参数值:\nx={x}\ny={y}\nwidth={width}\nheight={height}\ndestWidth={destWidth}\ndestHeight={destHeight}\nfileType={fileType}\nquality={quality}";
 
@@ -90,14 +90,14 @@ public class ToTempFilePath : Details
     {
 
         // 根据options数组的索引获取值
-        float x = GetOptionValue(1);
-        float y = GetOptionValue(2);
-        float width = GetOptionValue(3);
-        float height = GetOptionValue(4);
-        float destWidth = GetOptionValue(5);
-        float destHeight = GetOptionValue(6);
-        string fileType = GetOptionString(7, "png");
-        float quality = GetOptionValue(8);
+        var x = GetOptionValue<double>(1);
+        var y = GetOptionValue<double>(2);
+        var width = GetOptionValue<double>(3);
+        var height = GetOptionValue<double>(4);
+        var destWidth = GetOptionValue<double>(5);
+        var destHeight = GetOptionValue<double>(6);
+        var fileType = GetOptionString(7);
+        var quality = GetOptionValue<double>(8);
 
         string optionsInfo = $"当前参数值:\nx={x}\ny={y}\nwidth={width}\nheight={height}\ndestWidth={destWidth}\ndestHeight={destHeight}\nfileType={fileType}\nquality={quality}";
 

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Details : MonoBehaviour
@@ -35,25 +36,69 @@ public abstract class Details : MonoBehaviour
     // 抽象方法，由子类实现具体的测试 API 逻辑
     protected abstract void TestAPI(string[] args);
 
-    protected float GetOptionValue(int optionIndex, float defaultValue = 0f)
+    protected T? GetOptionValue<T>(int optionIndex) where T : struct
     {
         if (options != null && optionIndex < options.Length)
         {
-            if (float.TryParse(options[optionIndex], out float value))
+            // 如果选项是 "null"，则返回 null
+            if (options[optionIndex] == "null")
             {
-                return value;
+                return null;
+            }
+            
+            // 根据类型进行转换
+            if (typeof(T) == typeof(bool))
+            {
+                if (bool.TryParse(options[optionIndex], out var boolValue))
+                {
+                    return (T)(object)boolValue;
+                }
+            }
+            else if (typeof(T) == typeof(int))
+            {
+                if (int.TryParse(options[optionIndex], out var intValue))
+                {
+                    return (T)(object)intValue;
+                }
+            }
+            else if (typeof(T) == typeof(float))
+            {
+                if (float.TryParse(options[optionIndex], out var floatValue))
+                {
+                    return (T)(object)floatValue;
+                }
+            }
+            else if (typeof(T) == typeof(long))
+            {
+                if (long.TryParse(options[optionIndex], out var longValue))
+                {
+                    return (T)(object)longValue;
+                }
+            }
+            else if (typeof(T) == typeof(double))
+            {
+                if (double.TryParse(options[optionIndex], out var doubleValue))
+                {
+                    return (T)(object)doubleValue;
+                }
             }
         }
-        return defaultValue;
+        return null;
     }
+
     //获得选项String类型值
-    protected string GetOptionString(int optionIndex, string defaultValue = "")
+    protected string GetOptionString(int optionIndex)
     {
         if (options != null && optionIndex < options.Length)
         {
+            // 如果选项是 "null"，则返回 null
+            if (options[optionIndex] == "null")
+            {
+                return null;
+            }
             return options[optionIndex];
         }
-        return defaultValue;
+        return null;
     }
     // 打印当前选项的值
     protected void LogCurrentOptions()

@@ -24,9 +24,6 @@ EditorBuildSettings:
     path: Assets/Scenes/UnityWebSocketScene.unity
     guid: 65671216fb4e42d4f89ed6eeca36060d
   - enabled: 1
-    path: Assets/Scenes/WXVideoScene.unity
-    guid: be998cba51d48449d8d0cdd7186b3e1a
-  - enabled: 1
     path: Assets/Scenes/FileVideoScene.unity
     guid: fab74273392d6a147b84e266de8196bd
   m_configObjects:

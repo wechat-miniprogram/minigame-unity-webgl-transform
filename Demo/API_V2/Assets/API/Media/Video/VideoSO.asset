@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c8415214254e23a63d9bfb8c6bbf62, type: 3}
+  m_Name: VideoSO
+  m_EditorClassIdentifier: 
+  entryName: "\u89C6\u9891"
+  entryOrder: 0
+  entryScriptTypeName: Video
+  entryAPI: CreateVideo
+  entryDescription: "\u521B\u5EFA\u89C6\u9891"
+  optionList:
+  - optionName: x
+    availableOptions:
+    - null
+    - 0
+    - 100
+  - optionName: y
+    availableOptions:
+    - null
+    - 0
+    - 100
+  - optionName: width
+    availableOptions:
+    - null
+    - 0
+    - 100
+  - optionName: height
+    availableOptions:
+    - null
+    - 0
+    - 100
+  - optionName: src
+    availableOptions:
+    - "\u793A\u4F8B\u89C6\u9891"
+  - optionName: poster
+    availableOptions:
+    - null
+    - "\u793A\u4F8B\u5C01\u9762"
+  - optionName: initialTime
+    availableOptions:
+    - null
+    - 0
+    - 100
+  - optionName: playbackRate
+    availableOptions:
+    - null
+    - 0.5
+    - 0.8
+    - 1.0
+    - 1.25
+    - 1.5
+  - optionName: live
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: objectFit
+    availableOptions:
+    - null
+    - fill
+    - contain
+    - cover
+  - optionName: controls
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: showProgress
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: showProgressInControlMode
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: backgroundColor
+    availableOptions:
+    - null
+    - '#000000'
+    - '#FFFFFFF'
+    - '#07C160'
+  - optionName: autoplay
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: loop
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: muted
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: obeyMuteSwitch
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: enableProgressGesture
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: enablePlayGesture
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: showCenterPlayBtn
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: underGameView
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: autoPauseIfNavigate
+    availableOptions:
+    - null
+    - false
+    - true
+  - optionName: autoPauseIfOpenNative
+    availableOptions:
+    - null
+    - false
+    - true
+  initialButtonText: "\u521B\u5EFA\u89C6\u9891"
+  extraButtonList:
+  - buttonText: "\u9759\u97F3"
+  initialResultList: []

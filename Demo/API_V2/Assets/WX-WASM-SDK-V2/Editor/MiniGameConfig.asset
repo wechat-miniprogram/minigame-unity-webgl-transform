@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: MiniGameConfig
   m_EditorClassIdentifier: 
   ProjectConf:
-    projectName: "\u5FEB\u9002\u914D\u5C0F\u6E38\u620F\u793A\u4F8B"
-    Appid: wx7c792ca878775717
+    projectName: 
+    Appid: 
     CDN: 
-    assetLoadType: 1
-    compressDataPackage: 1
+    assetLoadType: 0
+    compressDataPackage: 0
     VideoUrl: 
     relativeDST: 
     DST: 
@@ -42,13 +42,13 @@ MonoBehaviour:
     disableHighPerformanceFallback: 0
     IOSDevicePixelRatio: 0
   SDKOptions:
-    UseFriendRelation: 1
+    UseFriendRelation: 0
     UseCompressedTexture: 0
-    UseMiniGameChat: 1
-    PreloadWXFont: 1
+    UseMiniGameChat: 0
+    PreloadWXFont: 0
     disableMultiTouch: 0
   CompileOptions:
-    DevelopBuild: 1
+    DevelopBuild: 0
     AutoProfile: 0
     ScriptOnly: 0
     Il2CppOptimizeSize: 1
@@ -60,14 +60,14 @@ MonoBehaviour:
     CleanBuild: 0
     CustomNodePath: 
     autoAdaptScreen: 0
-    showMonitorSuggestModal: 0
+    showMonitorSuggestModal: 1
     enableProfileStats: 0
     enableRenderAnalysis: 0
     enablePerfAnalysis: 0
     iOSAutoGCInterval: 10000
     enableIOSPerformancePlus: 0
     enableiOSMetal: 0
-    brotliMT: 0
+    brotliMT: 1
     enableWasm2023: 0
   CompressTexture:
     halfSize: 0
