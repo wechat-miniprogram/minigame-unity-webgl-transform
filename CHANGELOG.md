@@ -13,6 +13,11 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 
 ## v0.1.28  【预发布】
 PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.28
+### Feature
+* 普通：PageManager.Show支持Promise
+* 普通：性能工具实时数据流支持
+### Fixed
+* 严重：修复touch时进行IOS音频resume造成的卡顿问题
 
 ## 2025-7-10 v0.1.27 【普通更新】
 ### Feature
