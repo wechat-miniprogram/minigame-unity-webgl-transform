@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a9e19ed69c041c408533b50f5572d0f, type: 3}
-  m_Name: NativeVideoSO
+  m_Name: NativeTouchSO
   m_EditorClassIdentifier: 
   isNative: 1
-  categoryName: "\u89C6\u9891"
+  categoryName: "\u591A\u70B9\u89E6\u63A7\u548C\u5355\u70B9\u89E6\u63A7"
   categorySprite: {fileID: 0}
   entryList:
-  - {fileID: 11400000, guid: 5073e277b29d95642abb3c49fe94eea0, type: 2}
-  - {fileID: 11400000, guid: 27654a238f98e4f7e8756e4caed418e1, type: 2}
+  - {fileID: 11400000, guid: 95654b1008a78b34ca39e6208a5802bb, type: 2}
   categoryOrder: 0

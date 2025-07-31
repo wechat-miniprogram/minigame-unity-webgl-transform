@@ -144,7 +144,7 @@ public class Stat : Details
     }
 
     // 更新结果
-    private void UpdateResults(WXStatInfo stats)
+    private void UpdateResults(Stats stats)
     {
         ClearResults();
 

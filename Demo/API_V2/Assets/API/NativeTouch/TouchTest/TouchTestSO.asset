@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6ef9d849813747fd8e37fc4ceaad77f0, type: 3}
-  m_Name: WXVideoSO
+  m_Name: TouchTestSO
   m_EditorClassIdentifier: 
-  entryName: "WX\u89C6\u9891"
-  entryOrder: 2
+  entryName: "\u591A\u70B9\u89E6\u63A7\u548C\u5355\u70B9\u89E6\u63A7"
+  entryOrder: 0
