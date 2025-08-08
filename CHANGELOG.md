@@ -1,10 +1,10 @@
-<!-- 
+<!--
 Feature － 新增功能/接口
 Changed - 功能/接口变更
 Deprecated - 不建议使用的功能/接口
 Removed - 删除功能/接口
 Fixed - 修复问题
-Others - 其他 
+Others - 其他
 -->
 SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/SDKInstaller.md)
 ## 稳定版本
@@ -18,6 +18,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 普通：性能工具实时数据流支持
 ### Fixed
 * 严重：修复touch时进行IOS音频resume造成的卡顿问题
+* 重要：UnityWebRequest、AssetBundle、Addressables等加载已缓存资源时，读文件报错导致游戏异常
 
 ## 2025-7-10 v0.1.27 【普通更新】
 ### Feature
@@ -71,7 +72,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 普通: 增强JsonMapper报错信息
 * 普通: 适配插件版本升级到1.2.62
 ### Fixed
-* 普通: WX.Cloud.Init 自定义环境报错 
+* 普通: WX.Cloud.Init 自定义环境报错
 
 ## 2024-10-8 【重要更新】
 ### Feature
@@ -119,7 +120,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 普通：网络接口如UnityWebRequest支持通过添加特殊请求头`request.SetRequestHeader("wechatminigame-preload", "1")`做预下载，缓存到用户目录但不增加unity内存。当需要使用时不增加请求头重新请求即可从用户目录读取缓存使用。
 * 普通：网络接口如UnityWebRequest支持通过添加特殊请求头`request.SetRequestHeader("wechatminigame-skipclean", "1")`不做旧缓存淘汰。
 * 普通：适配插件版本升级到1.2.50
-  
+
 ## 2024-4-26 【普通更新】
 ### Fixed
 * 普通：修复Unity2018/2019的兼容
@@ -140,14 +141,14 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ### Fixed
 * 重要：修复UDP接口处理buffer
 * 重要：修复unity-namespace.js部分环境变量丢失问题
-  
+
 ## 2024-3-28 【普通更新】
 * 普通：优化对团结版的导出支持
 ### Fixed
 * 普通：兼容PlayDelayed播放
 * 普通：兼容FMOD2.02版本
 * 普通：修复FState偶现报错
-* 
+*
 ## 2024-3-5 【普通更新】
 * 普通：WXAssetBundle支持切换CDN
 * 普通：优化VideoPlayer组件
@@ -175,7 +176,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 普通：修复广告低版本微信ReportshareBehavior上报问题
 * 普通：修复2021.3.33 ContextMenu适配
 * 普通：修复开放域排行榜触控
-  
+
 ## 2024-1-2 【重要更新】
 包含重要bugfix、特性支持
 ### Feature
@@ -193,7 +194,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 普通：TouchStart/TouchEnd去json性能优化
 ### Fixed
 * 重要：修复TCP接口arraybuffer处理
-  
+
 ## 2023-12-12 【重要更新】
 包含重要bugfix、特性支持
 ### Feature
@@ -268,7 +269,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ## 2023-09-01
 ### Feature
 * 微信压缩纹理工具Unity全版本支持
-### Fixed 
+### Fixed
 * 修复WXAssetBundle WXUnload后再次Load同个AssetBundle可能出现的异常
 * 优化WXAssetBundle当UnityWebRequest异常时DownloadHandlerWXAssetBundle.assetBundle返回null，不再直接崩溃
 * 更新适配插件版本到1.2.26
@@ -277,7 +278,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ### Feature
 * 适配AudioClip.GetData
 * 更新适配插件版本到1.2.25
-### Fixed 
+### Fixed
 * 修复旧版本安卓使用系统字体报错'SC Font not found in TTC File'
 * 资源优化工具支持ASTC6*6格式
 
@@ -287,7 +288,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 重构fs.readFile和fs.readFileSync，支持position和length参数
 * 增加onMouseDown等PC点击事件
 * 支持通过 `minigame/unity-namespace.js` 中函数 `isReportableHttpError` 忽略非重要网络异常上报，如心跳、数据分析接口
-### Fixed 
+### Fixed
 * 修复使用 `WXAssetBundle` 且请求了不同版本的资源时报错'readFileSync:fail no such file or directory'
 * pc下载资源出现'still downloading xxx'弹框时用户可尝试重启小游戏
 * 修复最佳实践检测工具首资源包是否压缩判断
@@ -297,7 +298,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 增加隐私信息授权API（requirePrivacyAuthorize等）
 * 增加API-requestSubscribeLiveActivity
 * WXAssetBundle兼容WebGL浏览器环境(回退至UnityWebRequestAssetBundle模式运行)
- 
+
 ## 2023-08-3
 ### Feature
 更新内容：
@@ -307,7 +308,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * development模式下，增加渲染性能检测日志
 * 启动卡住时补充上报dependency
 * 更新适配插件为1.2.23
-### Fixed 
+### Fixed
 * 修复微信系统字体加载时报错'SC Font not found in TTC File'
 * 忽略unity分析的网络失败上报
 * 修正网络个数和HTTP2.0检测
@@ -401,13 +402,13 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * 修复Android首次退出小游戏后会继续播放的问题
 * DoExport增加返回值方便第三方工具集成
 * innerAudio onError增加回调信息
- 
+
 ## 2023-05-24
 ### Feature
 * 更新适配插件1.2.5
 * 优化开发版、体验版小游戏支持最佳实践检测工具
 ### Fixed
-* TextureEditor插件目录不参与编译 
+* TextureEditor插件目录不参与编译
 
 ## 2023-05-22
 ### Feature
@@ -513,7 +514,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ## 2022-11-30
 ### Feature
 * 微信压缩纹理支持WebGL2.0
-* 微信压缩纹理对.svn .git目录忽略 
+* 微信压缩纹理对.svn .git目录忽略
 
 ## 2022-11-23
 ### Feature
@@ -567,7 +568,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 * FileSystemManager增加stat接口
 ### Fixed
 * FileSystemManager异步读取文件，填写encoding时没有返回数据
-  
+
 ## 2022-9-13
 ### Feature
 * 微信压缩纹理工具支持bundle级别修改压缩纹理等级
@@ -591,7 +592,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ### Fixed
 * 调整WXTouchOverride更新逻辑为LateUpdate, 补充TouchCancel事件
 * 修复资源量较大时，压缩纹理工具替换过程的卡死问题
- 
+
 ## 2022-8-26
 ### Feature
 * HTTP下载时，文件缓存与规则判定效率优化
@@ -673,7 +674,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ## 2022-6-7
 ### Feature
 * 增加MemoryProfiler，开发阶段分析内存
- 
+
 ## 2022-6-1
 ### Feature
 * 使用worker做文件写入临时绕过安卓文件写入多时造成卡顿
@@ -686,7 +687,7 @@ PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-
 ## 2022-5-26
 ### Changed
 * 默认关闭纹理缓存，影响安卓帧率
-  
+
 ### Fixed
 * 修复21.3替换规则
 ## 2022-5-24
