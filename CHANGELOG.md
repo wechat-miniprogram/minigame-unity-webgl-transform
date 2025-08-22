@@ -13,6 +13,10 @@ SDK安装指引：[微信小游戏Unity、团结引擎转换插件WXSDK](Design/
 
 ## v0.1.29  【预发布】
 PackageManager(git URL): https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#pre-v0.1.29
+### Feature
+* 重要：Emscriptenglx相关能力支持，兼容unity2021/2022/tuanjie
+* 重要：新版本的Wasm分包能力支持：大幅度优化了iOS平台高性能（+）模式的分包性能表现，大幅度减少了开发者预处理操作耗时，优化了分包操作耗时
+* 普通：适配插件版本升至1.2.80
 
 ## 2025-8-12 v0.1.28 【重要更新】
 ### Feature
