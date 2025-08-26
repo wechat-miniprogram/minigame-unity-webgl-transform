@@ -28,7 +28,7 @@ public static void Build()
   ```c#
   UnityWebRequest request = UnityWebRequestAssetBundle.GetAssetBundle(uriPath);
   yield return request.SendWebRequest();
-  if (request.isHttpError)
+  if (request.isNetworkError || request.isHttpError)
   {
       Debug.LogError(GetType() + "/ERROR/" + request.error);
   }
@@ -46,7 +46,7 @@ public static void Build()
   DownloadHandlerAssetBundle handler = new DownloadHandlerAssetBundle(www.uri.ToString(), 0);
   www.downloadHandler = handler;
   yield return www.Send();
-  if (www.isHttpError)
+  if (www.isNetworkError || www.isHttpError)
   {
       Debug.LogError(GetType() + "/ERROR/" + www.error);
   } else
@@ -106,7 +106,7 @@ public static void Build()
   using WeChatWasm;
   UnityWebRequest bundleReq = WXAssetBundle.GetAssetBundle(url); // UnityWebRequestAssetBundle => WXAssetBundle
   yield return bundleReq.SendWebRequest();
-  if (bundleReq.isHttpError)
+  if (bundleReq.isNetworkError || bundleReq.isHttpError)
   {
       Debug.LogError(GetType() + "/ERROR/" + bundleReq.error);
   }
