@@ -123,6 +123,7 @@ export default defineConfig({
               { text: "高精度时间", link: "/Design/HighPreciseTime" },
               { text: "优化实战: Particle Simulate Budget方案", link: "/Design/ParticleBudget" }, 
               { text: "微信小游戏功耗分析指引 -- iOS 篇", link: "/Design/PowerPerf-iOS" }, 
+              { text: "Shader 异步 Warmup", link: "/Design/AsyncShaderWarmup" },
             ],
           },
         ],
