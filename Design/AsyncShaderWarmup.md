@@ -1,21 +1,22 @@
-# Shader 异步 Warmup 
+# Shader 异步 Warmup
 
-当游戏的 Shader 变体较多时，可以使用 ShaderVariantCollection（后面简称 SVC） 进行 Shader 预热，避免游戏运行过程 Shader 编译卡顿。
+当游戏中 Shader 变体数量较多时，可以通过 ShaderVariantCollection（以下简称 SVC）进行 Shader 预热，以避免游戏运行过程中因 Shader 编译导致的卡顿。
 
-但当 SVC 里的 Shader 变体数量较多时，SVC 同步 Warmup 可能会导致长时间的卡顿。因此，Unity 团结引擎推出了 Shader 异步 Warmup 的功能，微信小游戏平台已经支持了该项能力。
+然而，当 SVC 中的 Shader 变体数量过多时，SVC 的同步 Warmup 可能会引发较长时间的卡顿。为此，Unity 推出了 Shader 异步 Warmup 功能，微信小游戏平台现已支持该能力。
 
-## 平台支持情况说明
-- iOS 普通模式不支持
-- PC 和 iOS 高性能模式支持（系统自带的能力，不需要额外配置）
-- Android 和 iOS 高性能+ 模式 使用平台的能力，需要开发者进行配置才能使用。
+## 平台支持情况
+- iOS 普通模式暂不支持
+- PC 及 iOS 高性能模式支持（系统自带，无需额外配置）
+- Android 及 iOS 高性能+ 模式需使用平台能力，开发者需进行相关配置
 
 ## 异步 Shader Warmup 使用条件
-- 1、安装 8.0.54 或以上的微信客户端
-- 2、需要 3.7.4 或以上的基础库 （打开小游戏调试面板，查看第一条日志）
-- 3、点击[申请开通 Shader 异步 Warmup 功能](https://doc.weixin.qq.com/forms/AJEAIQdfAAoACQA2gY2AD41GisQUxXTEf)，等待通过
-- 4、同时需要在小游戏的 `game.json` 文件配置`"enableParallelShaderCompile": true`
+1. 微信客户端需为 8.0.54 或以上版本
+2. 基础库需为 3.7.4 或以上版本（可在小游戏调试面板第一条日志查看）
+3. 微信客户端 8.0.62 或以上版本默认开启 Shader 异步 Warmup 功能，可跳过 3.1 步骤
+    - 3.1：如未满足上述条件，请点击[申请开通 Shader 异步 Warmup 功能](https://doc.weixin.qq.com/forms/AJEAIQdfAAoACQA2gY2AD41GisQUxXTEf)，等待审核通过
+4. 在小游戏的 `game.json` 文件中配置 `"enableParallelShaderCompile": true`
     - <img src="../image/shader_warmup_01.png" width="300" />
 
-## Shader Warmup 参考
+## 参考资料
 - [Unity ShaderVariantCollection](https://docs.unity3d.com/2021.3/Documentation/ScriptReference/ShaderVariantCollection.html)
-- [Unity 团结引擎Shader 异步Warmup](https://docs.unity.cn/cn/tuanjiemanual/Manual/WeixinAsyncShaderWarmup.html)
+- [Unity Shader 异步 Warmup（微信小游戏）](https://docs.unity.cn/cn/tuanjiemanual/Manual/WeixinAsyncShaderWarmup.html)
