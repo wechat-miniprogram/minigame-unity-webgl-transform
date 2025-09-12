@@ -62,3 +62,8 @@ A4. 由于同时存在 Metal 和 WebGL 两套 Shader，Shader 资源体积大约
 ### Q5. 可以同时勾选 iOS Metal 和 EmscriptenGLX 进行小游戏打包吗？
 
 A5. 可以。如果同时勾选，iOS 设备满足 Metal 渲染条件时会优先采用 Metal 渲染，否则会回退到 EmscriptenGLX 渲染方案。
+
+### Q6. iOS Metal 是否支持开放数据域？
+
+A5. 支持 screenCanvas 模式， 目前 不支持 offscreenCanvas 模式。如遇到问题，[请联系我们](./IssueAndContact.md)协助排查。
+[开放数据域介绍](https://developers.weixin.qq.com/minigame/dev/guide/open-ability/opendata/basic.html)
