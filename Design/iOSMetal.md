@@ -32,7 +32,8 @@ https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#feat-me
 
 通过「微信小游戏工具面板」-「调试编译选项」-「iOS Metal」勾选并开启转换。
 
-![开启Metal渲染](../image/iosmetal_enable.png)
+<!-- ![开启Metal渲染](../image/iosmetal_enable.png) -->
+<img src="../image/iosmetal_enable.png" width="500" alt="开启Metal渲染">
 
 ## 常见问题
 
@@ -45,7 +46,8 @@ https://github.com/wechat-miniprogram/minigame-tuanjie-transform-sdk.git#feat-me
 
 -   vConsole 第一行，确认基础库版本 `>=3.10.0`。
 -   在渲染初始化阶段，查看是否包含“Metal 渲染已启用”等相关日志信息。
-    ![成功开启Metal渲染](../image/iosmetal_enable_log.png)
+    <!-- ![成功开启Metal渲染](../image/iosmetal_enable_log.png) -->
+    <img src="../image/iosmetal_enable_log.png" width="400" alt="成功开启Metal渲染">
 
 ### Q2. 为什么开启 Metal 渲染后，部分机型表现异常？
 
